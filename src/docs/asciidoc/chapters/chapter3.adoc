@@ -1,0 +1,11 @@
+=== Chapter 3
+
+  - AngularJS
+  - Bootstrap
+  - i18n
+  - Sass
+  - Grunt vs. Gulp.js
+  - WebSockets
+  - BrowserSync
+
+

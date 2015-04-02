@@ -1,0 +1,5 @@
+=== Chapter 1
+
+  - Project History
+  - Yeoman Workflow
+  - Make them want to read the rest! "YES, I want to kick-ass!"

@@ -1,0 +1,15 @@
+= The JHipster Mini-Book
+
+A book written in AsciiDoc that compiles to HTML, PDF, & epub3 using the Asciidoctor Gradle plugin.
+
+== Usage
+
+Convert the AsciiDoc to HTML, PDF, & epub3 by invoking the 'asciidoctor' goal:
+
+ $ ./gradlew asciidoctor
+
+Open the file _build/asciidoc/epub3/book.epub_  in your browser to see the generated epub file.
+
+Open the file _build/asciidoc/html5/book.html_ in your browser to see the generated HTML file.
+
+Open the file _build/asciidoc/pdf/book.pdf_ in your browser to see the generated PDF file.

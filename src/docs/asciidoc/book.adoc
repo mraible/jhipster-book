@@ -1,0 +1,50 @@
+= The JHipster Mini-Book
+:author: Matt Raible
+:email:  matt@raibledesigns.com
+:revnumber: 1.0
+:revdate:   June 26, 2015
+:doctype: book
+:toc:
+:icons:
+:data-uri:
+:lang: en
+:language: javadocript
+
+[preface]
+include::chapters/about.adoc[]
+include::chapters/preface.adoc[]
+
+== Introduction
+
+include::chapters/introduction.adoc[]
+
+== Building an App with JHipster
+
+include::chapters/chapter2.adoc[]
+
+== JHipster's UI Components
+
+include::chapters/chapter3.adoc[]
+
+== JHipster's API Building Blocks
+
+include::chapters/chapter4.adoc[]
+
+== JHipster in Production
+
+include::chapters/chapter5.adoc[]
+
+[colophon]
+include::chapters/colophon.adoc[]
+
+include::chapters/bibliography.adoc[]
+
+[appendix]
+include::chapters/appendix.adoc[]
+
+ifdef::backend-docbook[]
+[index]
+Index
+-----
+endif::backend-docbook[]
+
