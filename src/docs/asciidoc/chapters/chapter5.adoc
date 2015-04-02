@@ -1,4 +1,4 @@
-=== Chapter Title 5
+=== Chapter 5
 
   - Deploying to Production
     - The production profile
