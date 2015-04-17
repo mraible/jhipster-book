@@ -39,6 +39,21 @@ experience.
 include::{sourcedir}/../../../Gruntfile.js[]
 ----
 
+After you've created these files, you'll need to install https://nodejs.org/[Node] and its package manager (NPM). Then you
+should be able to run the following command to install BrowserSync and Grunt. You will only need to run this command when
+dependencies change in `package.json`.
+----
+npm install
+----
+You may have to install http://gruntjs.com/[Grunt] as well. Install the grunt command-line tool globally with:
+----
+npm install -g grunt-cli
+----
+Then run the following command to create a blissful development experience where your browser auto-refreshes when files change
+on your hard drive.
+----
+grunt serve
+----
 For a visual introduction to BrowserSync, check out the introduction video on its http://www.browsersync.io/[homepage].
 
 JHipster integrates BrowserSync for you, using JavaScript similar that looks very similar to what you see above. Integrating
