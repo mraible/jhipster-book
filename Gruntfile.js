@@ -27,15 +27,6 @@ module.exports = function (grunt) {
                     baseDir: "./src/main/webapp/"
                 }
             }
-        },
-        jshint: {
-            options: {
-                jshintrc: '.jshintrc'
-            },
-            all: [
-                'Gruntfile.js',
-                'src/main/webapp/js/**/*.js'
-            ]
         }
     });
 
