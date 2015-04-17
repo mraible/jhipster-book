@@ -1,8 +1,6 @@
-=== Chapter 4
-
-  - Spring Boot
-  - Maven vs. Gradle
-  - IDE Support: Running, Debugging and Profiling
-  - Security
-  - JPA vs. MongoDB vs. Cassandra
-  - Liquibase
+=== Spring Boot
+=== Maven vs. Gradle
+=== IDE Support: Running, Debugging and Profiling
+=== Security
+=== JPA vs. MongoDB vs. Cassandra
+=== Liquibase

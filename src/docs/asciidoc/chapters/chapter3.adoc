@@ -1,12 +1,11 @@
-=== Chapter 3
 
-==== AngularJS
-==== Bootstrap
-==== i18n
-==== Sass
-==== Grunt vs. Gulp.js
-==== WebSockets
-==== BrowserSync
+=== AngularJS
+=== Bootstrap
+=== i18n
+=== Sass
+=== Grunt vs. Gulp.js
+=== WebSockets
+=== BrowserSync
 
 http://www.browsersync.io/[BrowserSync] is one of those tools that make you wonder how you ever lived without them. It's a program that
 keeps your assets in sync with your browser. It's also capable of syncing browsers, so you can scroll in

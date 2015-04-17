@@ -1,9 +1,6 @@
-=== Chapter 2
-
-  - App Intro: Explain the why (VW Bus Showcase for the '66 Porsche Bus I built)
-  - Build it!
-    - Include jobs to fetch data (Camel vs. Spring Batch?)
-  - Load Testing with Gatling
-  - Deploy it! (Heroku, Cloud Foundry, someone else?)
-  - Monitor + Analytics
+=== App Intro: Explain the why (VW Bus Showcase for the '66 Porsche Bus I built)
+=== Build it! _Include jobs to fetch data (Camel vs. Spring Batch?)_
+=== Load Testing with Gatling
+=== Deploy it! (Heroku, Cloud Foundry, someone else?)
+=== Monitor + Analytics
 
