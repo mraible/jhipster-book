@@ -36,7 +36,7 @@ experience.
 
 [source,javascript,linenums]
 ----
-include::{sourcedir}/../../../Gruntfile.js[]
+include::{sourcedir}/../../../Gruntfile.browsersync.js[]
 ----
 
 After you've created these files, you'll need to install https://nodejs.org/[Node] and its package manager (NPM). Then you
@@ -54,7 +54,7 @@ on your hard drive.
 ----
 grunt serve
 ----
-For a visual introduction to BrowserSync, check out the introduction video on its http://www.browsersync.io/[homepage].
+For an audio visual introduction to BrowserSync, check out the introduction video on its http://www.browsersync.io/[homepage].
 
 JHipster integrates BrowserSync for you, using JavaScript similar that looks very similar to what you see above. Integrating
 BrowserSync into your project is highly recommended. It's also useful for determining if your web application can handle a

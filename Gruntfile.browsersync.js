@@ -6,22 +6,25 @@ module.exports = function (grunt) {
     grunt.initConfig({
         watch: {
             web: {
-                files: ['build/asciidoc/html5/chapters/**/*.html']
+                files: ['src/main/webapp/css/*.css', 'src/main/webapp/js/**/*.js']
             }
         },
         browserSync: {
             dev: {
                 bsFiles: {
                     src : [
-                        'build/asciidoc/html5/**/*.html',
-                        'build/asciidoc/html5/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
+                        'src/main/webapp/index.html',
+                        'src/main/webapp/tpl/**/*.html',
+                        'src/main/webapp/css/*.css',
+                        'src/main/webapp/js/**/*.js',
+                        'src/main/webapp/img/**/*.{png,jpg,jpeg,gif,webp,svg}'
                     ]
                 }
             },
             options: {
                 watchTask: true,
                 server: {
-                    baseDir: "./build/asciidoc/html5/"
+                    baseDir: "./src/main/webapp/"
                 }
             }
         }
