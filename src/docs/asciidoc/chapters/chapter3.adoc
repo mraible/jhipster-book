@@ -1,11 +1,47 @@
 === Chapter 3
 
-  - AngularJS
-  - Bootstrap
-  - i18n
-  - Sass
-  - Grunt vs. Gulp.js
-  - WebSockets
-  - BrowserSync
+==== AngularJS
+==== Bootstrap
+==== i18n
+==== Sass
+==== Grunt vs. Gulp.js
+==== WebSockets
+==== BrowserSync
 
+http://www.browsersync.io/[BrowserSync] is one of those tools that make you wonder how you ever lived without them. It's a program that
+keeps your assets in sync with your browser. It's also capable of syncing browsers, so you can scroll in
+Safari and watch a Chrome window scroll, along with a Safari window running in iOS Simulator. When you save
+files, it updates your browser windows, saving you an incredible amount of time. As its website says:
+"It's wicked-fast and totally free".
 
+BrowserSync is free to run and reuse, as guaranteed by its open source Apache 2.0 License. It contains a number of slick features:
+
+* Interaction sync: Your scroll, click, refresh and form actions are mirrored between browsers while you test.
+* File sync: Browsers are automatically updated as you change HTML, CSS, images and other project files.
+* URL history: Records your test URLs so you can push them back out to all devices with a single click.
+* Remote inspector: Remotely tweak and debug web pages that are running on connected devices.
+* Browser support: Instantly sync between your desktop, tablet and phone. Perfect for coding responsive designs.
+* Build-tool compatible: Easily integrated with task runners like Grunt and Gulp, or included in other Node projects.
+* Install and run anywhere: Built on Node.js to support Windows, MacOS and Linux. Setup in less than 5 minutes.
+
+To integrate BrowserSync in your project, you need a `package.json` and `Gruntfile.js`. Your `package.json` file only needs
+to contain a few things, weighing in at a slim 15 lines of JSON.
+
+[source,javascript,linenums]
+----
+include::{sourcedir}/../../../package.json[]
+----
+
+The `Gruntfile.js` utilizes the tools specified in `package.json` to enable BrowserSync and create a magical web development
+experience.
+
+[source,javascript,linenums]
+----
+include::{sourcedir}/../../../Gruntfile.js[]
+----
+
+For a visual introduction to BrowserSync, check out the introduction video on its http://www.browsersync.io/[homepage].
+
+JHipster integrates BrowserSync for you, using JavaScript similar that looks very similar to what you see above. Integrating
+BrowserSync into your project is highly recommended. It's also useful for determining if your web application can handle a
+page reload without losing the current user's state.

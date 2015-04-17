@@ -22,7 +22,7 @@ asciidoctorj {
 asciidoctor {
     backends 'html5', 'pdf', 'epub3'
     attributes 'sourcedir': project.sourceSets.main.java.srcDirs[0],
-            'endpoint-url': 'http://example.org',
+            'endpoint-url': 'http://www.jhipster-book.com/',
             'source-highlighter': 'coderay',
             'imagesdir': './images',
             'toc': 'left',
