@@ -1,6 +1,78 @@
 
 === AngularJS
 === Bootstrap
+
+Bootstrap is a CSS framework that simplifies the development of web applications. It provides a number of CSS classes
+and HTML structures that allow you to develop HTML user interfaces that look good by default. Not only that, but its
+latest version is responsive by default, which means it works better (or even best) on a mobile device.
+
+===== The Grid System
+
+Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's
+basic grid system is composed of containers, rows and columns. For example:
+
+[source,html,linenums]
+----
+include::{sourcedir}/../webapp/grid-basic.html[]
+----
+
+_[screenshot]_
+
+Bootstrap's grid can be used to align and position elements, widgets and features of your application. It's helpful
+to understand a few basics want to use it effectively.
+
+* It's based on 12 columns
+* Just use 'md' and fix as needed
+* It can be used to size input fields
+
+Bootstrap 3's grid system has four tiers of classes: xs (phones), sm (tablets), md (desktops), and lg (larger desktops).
+You can use nearly any combination of these classes to create more dynamic and flexible layouts. Below is an example of a
+grid that's a little more advanced.
+
+Each tier of classes scales up, meaning if you plan on setting the same widths for xs and sm, you only need to specify xs.
+
+[source,html,linenums]
+----
+include::{sourcedir}/../webapp/grid-advanced.html[]
+----
+
+_[screenshot]_
+
+You can use size indicators to specify breakpoints in the columns. Breakpoints specify where a column wraps onto the next
+row. In the HTML above, 'md' is the size indicator. Boostrap supports 'xs', 'sm', 'md', 'lg' and 'xl'.
+
+_todo: include breakpoints if it can be done in a paragraph or two_
+
+===== Forms
+When you add Bootstrap's CSS to your web application, chances are it'll start to look better quickly. Typography, margins,
+and padding will look better by default. However, your forms might look funny. This is because Bootstrap requires a few
+classes on your form elements to make them look good. Below is an example of a form element.
+
+[source,html,linenums]
+----
+include::{sourcedir}/../webapp/basicelement.html[]
+----
+
+_[screenshot]_
+
+If you'd like to indicate this form element is not valid, you'll need to modify the above HTML to display validation warnings.
+
+[source,html,linenums]
+----
+include::{sourcedir}/../webapp/basicelement-withvalidation.html[]
+----
+
+_[screenshot]_
+
+===== Components (alerts, dropdowns, navbars)
+
+_you might want to look at http://raibledesigns.com/repository/presentations/bootstrap3/#1, it's really quite good!_
+
+===== Icons
+
+
+====== Font Awesome
+
 === i18n
 === Sass
 === Grunt vs. Gulp.js
