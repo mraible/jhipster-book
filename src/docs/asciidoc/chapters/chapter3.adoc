@@ -4,22 +4,38 @@
 
 Bootstrap is a CSS framework that simplifies the development of web applications. It provides a number of CSS classes
 and HTML structures that allow you to develop HTML user interfaces that look good by default. Not only that, but its
-latest version is responsive by default, which means it works better (or even best) on a mobile device.
+3.0 version is responsive by default, which means it works better (or even best) on a mobile device.
 
-===== The Grid System
+==== The Grid System
 
 Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's
-basic grid system is composed of containers, rows and columns. For example:
+basic grid system is built with containers, rows and columns. It's 12 columns wide, comprised of 940 pixels (px). The grid
+adapts to be 724px and 1170px wide depending on your viewport. On viewports less than 767 pixels, the columns become
+fluid and stack vertically.
+
+A basic example of the grid:
 
 [source,html,linenums]
 ----
-include::{sourcedir}/../webapp/grid-basic.html[]
+include::{sourcedir}/../webapp/chapter3/bootstrap/grid-basic.html[]
 ----
 
-_[screenshot]_
+When rendered with Bootstrap's CSS, the above HTML looks as follows on a desktop. The min-width of the container element
+on the desktop is set to 1200px.
+
+[[img-bootstrap-basic-grid-desktop]]
+.Basic Grid on Desktop
+image::chapter3/bootstrap/basic-grid-desktop.png[Basic Grid on Desktop, 991, scaledwidth="100%"]
+
+If you squish your browser so it's less than 1200px wide, or render this same document on a smaller screen, the columns
+will stack.
+
+[[img-bootstrap-basic-grid-mobile]]
+.Basic Grid on a Mobile Device
+image::chapter3/bootstrap/basic-grid-mobile.png[Basic Grid on Mobile, 768, scaledwidth="75%"]
 
 Bootstrap's grid can be used to align and position elements, widgets and features of your application. It's helpful
-to understand a few basics want to use it effectively.
+to understand a few basics if want to use it effectively.
 
 * It's based on 12 columns
 * Just use 'md' and fix as needed
@@ -33,45 +49,125 @@ Each tier of classes scales up, meaning if you plan on setting the same widths f
 
 [source,html,linenums]
 ----
-include::{sourcedir}/../webapp/grid-advanced.html[]
+include::{sourcedir}/../webapp/chapter3/bootstrap/grid-advanced.html[]
 ----
 
-_[screenshot]_
+[[img-bootstrap-advanced-grid-desktop]]
+.Advanced Grid
+image::chapter3/bootstrap/advanced-grid-desktop.png[Advanced Grid, 983, scaledwidth="100%"]
 
 You can use size indicators to specify breakpoints in the columns. Breakpoints specify where a column wraps onto the next
 row. In the HTML above, 'md' is the size indicator. Boostrap supports 'xs', 'sm', 'md', 'lg' and 'xl'.
 
-_todo: include breakpoints if it can be done in a paragraph or two_
+==== Responsive Utility Classes
+Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size.
 
-===== Forms
+* `.visible-[xs|sm|md|lg]`
+* `.hidden-[xs|sm|md|lg]`
+
+==== Forms
 When you add Bootstrap's CSS to your web application, chances are it'll start to look better quickly. Typography, margins,
 and padding will look better by default. However, your forms might look funny. This is because Bootstrap requires a few
 classes on your form elements to make them look good. Below is an example of a form element.
 
 [source,html,linenums]
 ----
-include::{sourcedir}/../webapp/basicelement.html[]
+include::{sourcedir}/../webapp/chapter3/bootstrap/basicelement.html[]
 ----
 
-_[screenshot]_
+[[img-bootstrap-basic-element]]
+.Basic Form Element
+image::chapter3/bootstrap/basicelement.png[Basic Form Element, 829, scaledwidth="90%"]
 
 If you'd like to indicate this form element is not valid, you'll need to modify the above HTML to display validation warnings.
 
 [source,html,linenums]
 ----
-include::{sourcedir}/../webapp/basicelement-withvalidation.html[]
+include::{sourcedir}/../webapp/chapter3/bootstrap/basicelement-withvalidation.html[]
 ----
 
-_[screenshot]_
+[[img-bootstrap-basic-element-with-validation]]
+.Form Element with Validation
+image::chapter3/bootstrap/basicelement-validation.png[Invalid Form Element, 829, scaledwidth="90%"]
 
-===== Components (alerts, dropdowns, navbars)
+==== CSS
+When you add Bootstrap's CSS to an HTML page, the default settings for typography improves right away. Your `<h1>` and `<h2>`
+headings become semi-bold and are sized accordingly. Your paragraph margins, body text and blockquotes will look better.
+If you want to align text in your pages, `text-[left|center|right]` are useful classes. For tables, adding a `table` class
+gives them a better look-and-feel by default.
 
-_you might want to look at http://raibledesigns.com/repository/presentations/bootstrap3/#1, it's really quite good!_
+To make your buttons look better, Bootstrap provides `btn` and a number of `btn-*` classes.
 
-===== Icons
+[source,html,linenums]
+----
+include::{sourcedir}/../webapp/chapter3/bootstrap/buttons.html[]
+----
 
+[[img-bootstrap-buttons]]
+.Buttons
+image::chapter3/bootstrap/buttons.png[Buttons, 500, scaledwidth="55%"]
 
-====== Font Awesome
+==== Components
+Bootstrap ships with a number of components out-of-the-box. Some require JavaScript, some only require HTML5 markup and
+CSS classes to work. Its rich set of components have helped make it the most popular project on GitHub. Web developers
+have always liked components in their frameworks. A framework that offers easy-to-use components often requires developers
+to write less code. Less code to write means there's less code to maintain!
+
+Some popular Bootstrap components include: dropdowns, button groups, button dropdowns, navbar, breadcrumbs, pagination,
+alerts, progress bars and panels. Below is an example of a navbar with a dropdown.
+
+[[img-bootstrap-navbar]]
+.Navbar with Dropdown
+image::chapter3/bootstrap/navbar-with-dropdown.png[Navbar, 867, scaledwidth="100%"]
+
+When rendered on a mobile device, everything collapses into a hamburger menu that can be expanded downward.
+
+[[img-bootstrap-navbar-mobile]]
+.Navbar on Mobile
+image::chapter3/bootstrap/navbar-on-mobile.png[Navbar, 467, scaledwidth="50%"]
+
+This navbar requires quite a bit of HTML markup, so it's not shown here for the sake of brevity. You can view this source
+online in http://getbootstrap.com/components/#navbar-default[Bootstrap's documentation]. A simpler example is below that
+shows the basic structure.
+
+[source,html,linenums]
+----
+include::{sourcedir}/../webapp/chapter3/bootstrap/navbar.html[]
+----
+
+Alerts are useful for displaying feedback to the user. Different colors are made possibly with different classes. You'll need
+to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors.
+
+[source,html,linenums]
+----
+include::{sourcedir}/../webapp/chapter3/bootstrap/alerts.html[]
+----
+
+This renders alerts like the ones you see in below:
+
+[[img-bootstrap-alerts]]
+.Alerts
+image::chapter3/bootstrap/alerts.png[Alerts, 828, scaledwidth="100%"]
+
+To make an alert closeable, you need to add an `.alert-dismissible` class and a close button.
+
+[source,html,linenums]
+----
+<div class="alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Warning!</strong> Better check yourself, you're not looking too good.
+</div>
+----
+
+[[img-bootstrap-alert-dismissable]]
+.Closeable Alert
+image::chapter3/bootstrap/alert-dismissable.png[Dismissable Alert, 830, scaledwidth="100%"]
+
+TIP: To make links in your alerts match the colors of the alert, use `.alert-link`.
+
+==== Icons
+
+===== Font Awesome
 
 === i18n
 === Sass
