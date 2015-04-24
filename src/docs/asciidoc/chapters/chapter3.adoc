@@ -2,7 +2,7 @@
 === AngularJS
 === Bootstrap
 
-Bootstrap is a CSS framework that simplifies the development of web applications. It provides a number of CSS classes
+http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides a number of CSS classes
 and HTML structures that allow you to develop HTML user interfaces that look good by default. Not only that, but its
 3.0 version is responsive by default, which means it works better (or even best) on a mobile device.
 
@@ -166,8 +166,34 @@ image::chapter3/bootstrap/alert-dismissable.png[Dismissable Alert, 830, scaledwi
 TIP: To make links in your alerts match the colors of the alert, use `.alert-link`.
 
 ==== Icons
+Icons have always been a big part of essential part of web applications. Showing the user a small image is often sexier,
+and hipper, than plain text. Humans are visual beings and icons are a great way to _spice things up a bit_. In the last
+several years, font icons have become very popular for web development. Font icons are just fonts, but they contain
+symbols and glyphs instead of text. You can style, scale and load them quickly because of their small size.
 
-===== Font Awesome
+http://glyphicons.com/[GLYPHICONS] Halflings is a set of font icons included with Bootstrap. They're not normally free,
+but their creator has made them free for Bootstrap users. There are over 250 glyphs included in this set. They're often
+used to display eye candy on buttons.
+
+[source,html]
+----
+<button class="btn btn-info"><i class="glyphicon glyphicon-plus"></i> Add</button>
+<button class="btn btn-danger"><i class="glyphicon glyphicon-minus"></i> Delete</button>
+<button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i> Edit</button>
+----
+
+You can see how the icons change color based on the font color defined for the element they're inside.
+
+[[img-bootstrap-buttons-icons]]
+.Buttons with icons
+image::chapter3/bootstrap/buttons-with-icons.png[Buttons with icons, 241, scaledwidth="25%"]
+
+There are other font icons you can use with Bootstrap and JHipster, http://fortawesome.github.io/Font-Awesome/[Font Awesome]
+being one of the most popular. It's completely free for commercial use and contains over 500 icons. JHipster uses
+Font Awesome for its website, but not for generated projects. The
+https://github.com/jhipster/generator-jhipster/issues/978#issuecomment-69988321[reason] for not including it is because
+glyphicons are the default and it's easy to change your the font icons in your project. Simply add it as a dependency
+in your `bower.json` file.
 
 === i18n
 === Sass
@@ -187,9 +213,11 @@ BrowserSync is free to run and reuse, as guaranteed by its open source Apache 2.
 * File sync: Browsers are automatically updated as you change HTML, CSS, images and other project files.
 * URL history: Records your test URLs so you can push them back out to all devices with a single click.
 * Remote inspector: Remotely tweak and debug web pages that are running on connected devices.
+////
 * Browser support: Instantly sync between your desktop, tablet and phone. Perfect for coding responsive designs.
 * Build-tool compatible: Easily integrated with task runners like Grunt and Gulp, or included in other Node projects.
 * Install and run anywhere: Built on Node.js to support Windows, MacOS and Linux. Setup in less than 5 minutes.
+////
 
 To integrate BrowserSync in your project, you need a `package.json` and `Gruntfile.js`. Your `package.json` file only needs
 to contain a few things, weighing in at a slim 15 lines of JSON.

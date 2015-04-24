@@ -2,7 +2,9 @@ About the Author
 ----------------
 
 Matt Raible is a Java Hipster. He started writing HTML, CSS and JavaScript in the early 90s and got into Java in the
-2000s. He has a passion for skiing, mountain biking, VWs and good beer. Matt drives a '90 Syncro a '66 Deluxe Samba.
+late 90s. He has a passion for skiing, mountain biking, VWs and good beer. Matt drives a 1990 Vanagon Syncro a 1966
+Deluxe Samba.
 
-His Twitter account is at http://twitter.com/mraible[@mraible].
+His blog is at http://raibledesigns.com[http://raibledesigns.com]. You can also find him on Twitter at
+http://twitter.com/mraible[@mraible].
 

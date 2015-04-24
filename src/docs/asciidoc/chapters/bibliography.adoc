@@ -28,3 +28,5 @@ Bibliography
 - http://nodeguide.com/style.html[Node.js Style Guide]
 - http://www.nodebeginner.org/[Node.js Tutorial]
 
+Font Icons
+http://www.sitepoint.com/introduction-icon-fonts-font-awesome-icomoon/
