@@ -1,10 +1,101 @@
 
 === AngularJS
+AngularJS (Angular) is the MVC framework used by JHipster. It's written in JavaScript and makes you a hipster just by using it.
+I've been tracking statistics on jobs and skills for JavaScript MVC frameworks ever since I Compared JVM Web Frameworks
+at Devoxx France in 2013. At that time, Backbone was the dominant framework.
+
+[.clearfix]
+--
+[.left]
+[[img-angular-jobs-2013]]
+.Jobs on Dice.com, March 2013
+image::chapter3/angular/dice-jobs-march2013.png[Jobs on Dice in 2013, 450, scaledwidth="75%"]
+[.left]
+[[img-angular-skills-2013]]
+.Skills on LinkedIn, March 2013
+image::chapter3/angular/linkedin-skills-march2013.png[Skills on LinkedIn in 2013, 450, scaledwidth="75%"]
+--
+
+In February 2014, I updated those statistics for a presentation. Angular had a similar amount of jobs as Backbone and
+a lot of people added it to their LinkedIn profiles. I found that Ember had grown around 300%, Backbone 200% and Angular
+1000%!
+
+[.clearfix]
+--
+[.left]
+[[img-angular-jobs-2014]]
+.Jobs on Dice.com, February 2014
+image::chapter3/angular/dice-jobs-february2014.png[Jobs on Dice in 2014, 450, scaledwidth="75%"]
+[.left]
+[[img-angular-skills-2014]]
+.Skills on LinkedIn, February 2014
+image::chapter3/angular/linkedin-skills-february2014.png[Skills on LinkedIn in 2014, 450, scaledwidth="75%"]
+--
+
+In March 2015, I updated these statistics once again. I found the number of jobs for Angular has doubled in the last
+year, while jobs for Ember and Backbone have fallen slightly. As far as skills, developers learning Ember and Backbone has
+increased 200%, while skilled Angular folks has risen 400%.
+
+Angular rapidly became the most popular MVC web framework over the last few years. Like Struts in the early 2000s and
+Rails in the mid-2000s, it's changed the way developers write web applications. Today, data is exposed via REST APIs and UIs
+are written in JavaScript. As a Java developer, I was immediately attracted to Angular when I saw its seperation of concerns.
+It recommended organizing your application into several different components:
+
+* Controllers: JavaScript functions that retrieve data from services and expose it to templates using `$scope`.
+* Services: JavaScript functions that make HTTP calls to a JSON API.
+* Templates: HTML pages that display data. Uses Angular directives to iterate over collections and show/hide elements.
+* Filters: Data manipulation tools that can transform data (e.g. uppercase, lowercase, ordering and searching).
+* Directives: HTML processors that allow components to be written. Similar to JSP tags.
+
+==== History
+AngularJS was started by Miško Hevery in 2009. He was working on a project that was using GWT. Three developers had been
+developing the product for six months and Miško rewrote the whole thing in Angular in three weeks. At that time, Angular
+was a side project he'd created. It didn't require you to write much in JavaScript, most of the logic could be programmed
+in HTML. The GWT version of the product contained 17,000 lines of code. The Angular version was only 1000 lines of code!
+
+==== The Basics
+Creating Hello World with Angular is pretty simple.
+[source,html,linenums]
+----
+<!doctype html>
+<html ng-app>
+<head>
+    <title>Hello World</title>
+</head>
+<body>
+<div>
+    <label>Name:</label>
+    <input type="text" ng-model="name" placeholder="Enter a name here">
+    <hr>
+    <h1>Hello {{name}}!</h1>
+</div>
+<script src="http://code.angularjs.org/1.3.11/angular.min.js"></script>
+</body>
+</html>
+----
+
+In this example, `ng-model` maps to the value displayed in `{{name}}`. When using jQuery to do something similar, you
+have to add an event handler that listens for the value to change. With Angular, the two-way binding is done for you
+and it saves you from writing a lot of boilerplate code. The `{{ng-app}}` directive on line 2 makes this an Angular
+application.
+
+[[img-angular-mvc]]
+.MVC in Angular
+image::chapter3/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth="75%", role="related thumb right"]
+
+The Model-View-Controller pattern is common for web frameworks to implement. With Angular, the model is represented
+by a JavaScript object that you create or retrieve from a service. The view is an HTML template and the controller
+is a JavaScript function that watches for changes to the model from the user.
+
+$scope
+
+dependency injection
+
 === Bootstrap
 
-http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides a number of CSS classes
-and HTML structures that allow you to develop HTML user interfaces that look good by default. Not only that, but its
-3.0 version is responsive by default, which means it works better (or even best) on a mobile device.
+http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides a
+number of CSS classes and HTML structures that allow you to develop HTML user interfaces that look good by default. Not
+only that, but its 3.0 version is responsive by default, which means it works better (or even best) on a mobile device.
 
 ==== The Grid System
 
