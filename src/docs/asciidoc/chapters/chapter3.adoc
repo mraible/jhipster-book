@@ -32,7 +32,7 @@ image::chapter3/angular/dice-jobs-february2014.png[Jobs on Dice in 2014, 450, sc
 image::chapter3/angular/linkedin-skills-february2014.png[Skills on LinkedIn in 2014, 450, scaledwidth="75%"]
 --
 
-In March 2015, I updated these statistics once again. I found the number of jobs for Angular has doubled in the last
+In March 2015, I updated these statistics once again. I found the number of jobs for Angular had doubled in the last
 year, while jobs for Ember and Backbone have fallen slightly. As far as skills, developers learning Ember and Backbone has
 increased 200%, while skilled Angular folks has risen 400%.
 
@@ -79,17 +79,169 @@ have to add an event handler that listens for the value to change. With Angular,
 and it saves you from writing a lot of boilerplate code. The `{{ng-app}}` directive on line 2 makes this an Angular
 application.
 
-[[img-angular-mvc]]
-.MVC in Angular
-image::chapter3/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth="75%", role="related thumb right"]
-
 The Model-View-Controller pattern is common for web frameworks to implement. With Angular, the model is represented
 by a JavaScript object that you create or retrieve from a service. The view is an HTML template and the controller
 is a JavaScript function that watches for changes to the model from the user.
 
-$scope
+[[img-angular-mvc]]
+.MVC in Angular
+image::chapter3/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth="75%", align=center]
 
-dependency injection
+Below is a search controller and a service to fetch search results. It's expected that a JSON endpoint exists at
+`/api/search` on the same server.
+
+[source,javascript,linenums]
+----
+.controller('SearchController', function () {
+    console.log("In Search Controller...");
+})
+
+.factory('SearchService', function ($http) {
+    var service = {
+        query: function (term) {
+            return $http.get('/api/search/' + term);
+        }
+    };
+    return service;
+});
+----
+
+To make this controller available at a URL, you can use Angular's ngRoute.
+
+[source,javascript,linenums]
+----
+angular.module('myApp.search', ['ngRoute'])
+
+    .config(['$routeProvider', function ($routeProvider) {
+        $routeProvider
+            .when('/search', {
+                templateUrl: 'search/index.html',
+                controller: 'SearchController'
+            })
+    }])
+----
+
+The template at `search/index.html` can be as simple as a form with a button.
+
+[source,html,linenums]
+----
+<form ng-submit="search()">
+    <input type="search" name="search" ng-model="term">
+    <button>Search</button>
+</form>
+----
+
+To get the results from the SearchService in your controller, you can use Angular's dependency injection.
+
+[source,javascript,linenums]
+----
+.controller('SearchController', function ($scope, SearchService) { <1>
+    $scope.search = function () { <2>
+        console.log("Search term is: " + $scope.term); <3>
+        SearchService.query($scope.term).then(function (response) {
+            $scope.searchResults = response.data;
+        });
+    };
+})
+----
+<1> To inject SearchService into SearchController, simply add it as a parameter to the controller's argument list.
+<2> `$scope.search()` is a function that's called from HTML `<form>`, wired up using the `ng-submit` directive.
+<3> `$scope.term` is a variable that's wired to `<input>` using the `ng-model` directive.
+
+Another common way to write controllers is to name the arguments passed into the function. This helps if you plan
+to obfuscate your code.
+
+TIP: Angular allows you to bind data to its `$scope` object. It represents your application's model. There's also a `$rootScope`
+object that can be used to share data between components. Scopes are built in a hierarchical structure which mimics the
+DOM structure. Scopes can watch expressions and propagate events.
+
+[source,javascript,linenums]
+----
+.controller('SearchController', ['$scope', 'SearchService', function ($scope, SearchService) {
+    ...
+}]);
+----
+
+To make the aforementioned module work, you need an HTML page that includes Angular and ngRoute.
+
+[source,html,linenums]
+----
+<!DOCTYPE html>
+<html ng-app="myApp"> <1>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>My AngularJS App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<ul class="menu">
+    <li><a href="#/search">search</a></li>
+</ul>
+
+<div ng-view></div> <2>
+
+<script src="http://code.angularjs.org/1.3.11/angular.min.js"></script>
+<script src="http://code.angularjs.org/1.3.11/angular-route.min.js"></script>
+<script src="app.js"></script> <3>
+<script src="search/search.js"></script>
+</body>
+</html>
+----
+<1> The `ng-app` directive tells Angular the name of your app.
+<2> `ng-view` is there your rendered template is displayed.
+<3> `app.js` contains your application's definition.
+
+[source,javascript,linenums]
+.app.js
+----
+'use strict'; <1>
+
+// Declare app level module which depends on views, and components
+angular.module('myApp', ['ngRoute', 'myApp.search'])
+.config(['$routeProvider', function($routeProvider) {
+    // default URL to route to
+    $routeProvider.otherwise({redirectTo: '/search'});
+}]);
+----
+<1> ECMAScript 5's strict mode is a way to _opt in_ to a restricted variant of JavaScript. It causes your browser to
+have better error reporting and performance.
+
+If your API returned data like the following:
+
+[source,json,linenums]
+----
+include::{sourcedir}/chapter3/angular/search-results.json[]
+----
+
+You could display it in `search.html` with Angular's `ng-repeat` directive.
+
+[source,html,linenums]
+----
+<table ng-show="searchResults.length" class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="person in searchResults">
+        <td>{{person.name}}</td>
+        <td>{{person.phone}}</td>
+        <td>{{person.address.street}}<br/>
+            {{person.address.city}}, {{person.address.state}} {{person.address.zip}}
+        </td>
+    </tr>
+    </tbody>
+</table>
+----
+
+To read a more in-depth example (including source code) of building search and edit application with Angular, see
+http://raibledesigns.com/rd/entry/getting_started_with_angularjs[my article on Getting Started with AngularJS].
+
+==== UI-Router
+The UI-Router is an important piece.
 
 === Bootstrap
 
@@ -108,7 +260,7 @@ A basic example of the grid:
 
 [source,html,linenums]
 ----
-include::{sourcedir}/../webapp/chapter3/bootstrap/grid-basic.html[]
+include::{sourcedir}/chapter3/bootstrap/grid-basic.html[]
 ----
 
 When rendered with Bootstrap's CSS, the above HTML looks as follows on a desktop. The min-width of the container element
@@ -140,7 +292,7 @@ Each tier of classes scales up, meaning if you plan on setting the same widths f
 
 [source,html,linenums]
 ----
-include::{sourcedir}/../webapp/chapter3/bootstrap/grid-advanced.html[]
+include::{sourcedir}/chapter3/bootstrap/grid-advanced.html[]
 ----
 
 [[img-bootstrap-advanced-grid-desktop]]
@@ -163,7 +315,7 @@ classes on your form elements to make them look good. Below is an example of a f
 
 [source,html,linenums]
 ----
-include::{sourcedir}/../webapp/chapter3/bootstrap/basicelement.html[]
+include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
 ----
 
 [[img-bootstrap-basic-element]]
@@ -174,7 +326,7 @@ If you'd like to indicate this form element is not valid, you'll need to modify 
 
 [source,html,linenums]
 ----
-include::{sourcedir}/../webapp/chapter3/bootstrap/basicelement-withvalidation.html[]
+include::{sourcedir}/chapter3/bootstrap/basicelement-withvalidation.html[]
 ----
 
 [[img-bootstrap-basic-element-with-validation]]
@@ -191,7 +343,7 @@ To make your buttons look better, Bootstrap provides `btn` and a number of `btn-
 
 [source,html,linenums]
 ----
-include::{sourcedir}/../webapp/chapter3/bootstrap/buttons.html[]
+include::{sourcedir}/chapter3/bootstrap/buttons.html[]
 ----
 
 [[img-bootstrap-buttons]]
@@ -223,7 +375,7 @@ shows the basic structure.
 
 [source,html,linenums]
 ----
-include::{sourcedir}/../webapp/chapter3/bootstrap/navbar.html[]
+include::{sourcedir}/chapter3/bootstrap/navbar.html[]
 ----
 
 Alerts are useful for displaying feedback to the user. Different colors are made possibly with different classes. You'll need
@@ -231,7 +383,7 @@ to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate 
 
 [source,html,linenums]
 ----
-include::{sourcedir}/../webapp/chapter3/bootstrap/alerts.html[]
+include::{sourcedir}/chapter3/bootstrap/alerts.html[]
 ----
 
 This renders alerts like the ones you see in below:
