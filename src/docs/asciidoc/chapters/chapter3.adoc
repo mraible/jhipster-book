@@ -240,8 +240,55 @@ You could display it in `search.html` with Angular's `ng-repeat` directive.
 To read a more in-depth example (including source code) of building search and edit application with Angular, see
 http://raibledesigns.com/rd/entry/getting_started_with_angularjs[my article on Getting Started with AngularJS].
 
-==== UI-Router
-The UI-Router is an important piece.
+==== AngularUI Router
+https://github.com/angular-ui/ui-router[AngularUI Router] is a routing component for AngularJS. It's organized around
+_states_, which can have routes and other behavior attached to them. Some  of its best features include support for
+nested/named views, tab history support and loading data before rendering a view. You can see an example of its basic
+features at http://angular-ui.github.io/ui-router/sample/.
+
+JHipster includes AngularUI Router (often called ui-router) by default. It's a great framework that I've enjoyed
+using on a few projects. To use it, you'll need to reference its JavaScript file (`angular-ui-router.min.js`) in
+`index.html` instead of `angular-route.min.js`.
+
+Next, change your `app.js` to use `ui-router` instead of `ngRoute`. Then setup your application states with code like
+the following listing.
+
+[source,javascript,linenums]
+----
+include::{sourcedir}/chapter3/angular/ui-router.js[]
+----
+
+AngularUI Router allows you to look up data before displaying a page. It does this with its *resolve* property. For example,
+by enhancing the 'search.edit' state, we can look up the person from the SearchService before invoking the controller.
+
+[source,javascript,linenums]
+----
+.state('search.edit', {
+      url: '/edit/:id',
+      templateUrl: 'search/edit.html',
+      controller: 'EditController',
+      resolve: {
+          SearchService: 'SearchService', <1>
+          person: function($stateParams, SearchService) {
+              return SearchService.get({id: $stateParams}).$promise; <2>
+          }
+      }
+  })
+----
+<1> This is necessary so the line below it knows what the name of the service is.
+<2> This assumes your service has a `get(id)` method defined.
+
+Once you've done this, you can inject the `person` object into your controller directly.
+
+[source,javascript,linenums]
+----
+.controller('EditController', function ($scope, person) {
+    // make person available to template
+    $scope.person = person;
+})
+----
+
+Now that you've learned about the hottest web framework on the planet, let's take a look at Bootstrap.
 
 === Bootstrap
 
@@ -437,6 +484,16 @@ Font Awesome for its website, but not for generated projects. The
 https://github.com/jhipster/generator-jhipster/issues/978#issuecomment-69988321[reason] for not including it is because
 glyphicons are the default and it's easy to change your the font icons in your project. Simply add it as a dependency
 in your `bower.json` file.
+
+==== Angular and Bootstrap
+There's a number of other open source projects that can help to further enhance an application built with Angular and
+Bootstrap. These are not included in JHipster at the time of this writing.
+
+* https://angular-ui.github.io/bootstrap/[UI-Bootstrap]: Bootstrap components written in pure AngularJS by the AngularUI Team. No jQuery required.
+* http://ionicframework.com[Ionic Framework]: Offers a library of mobile-optimized HTML, CSS and JS components, gestures,
+and tools for building highly interactive apps. Built with Sass and optimized for AngularJS. Provides a native look and feel.
+* https://github.com/jirikavi/AngularJS-Toaster[AngularJS-Toaster]: An AngularJS port of the http://codeseven.github.io/toastr/[Toastr] non-blocking notification
+jQuery library.
 
 === i18n
 === Sass

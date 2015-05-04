@@ -2,9 +2,22 @@ About the Author
 ----------------
 
 Matt Raible is a Java Hipster. He started writing HTML, CSS and JavaScript in the early 90s and got into Java in the
-late 90s. He has a passion for skiing, mountain biking, VWs and good beer. Matt drives a 1990 Vanagon Syncro a 1966
-Deluxe Samba.
+late 90s. He has a passion for skiing, mountain biking, VWs and good beer. Matt is married to an amazing photographer,
+Trish McGinity. He loves skiing, rafting and camping with his kids, Abbie and Jack.
 
-His blog is at http://raibledesigns.com[http://raibledesigns.com]. You can also find him on Twitter at
+image::about/family.jpg[The Raible Family, 500, scaledwidth="50%", align=center]
+
+Matt drives a 1966 Deluxe Samba and a 1990 Vanagon Syncro.
+
+// todo: figure out how to make side-by-side images work in PDF
+[.clearfix]
+--
+[.left]
+image::about/porsche-bus.jpg[Porsche Bus, 450, scaledwidth="50%"]
+[.left]
+image::about/syncro.jpg[Syncro, 450, scaledwidth="50%"]
+--
+
+Matt Raible's blog is at http://raibledesigns.com[http://raibledesigns.com]. You can also find him on Twitter at
 http://twitter.com/mraible[@mraible].
 
