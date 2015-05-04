@@ -240,6 +240,7 @@ You could display it in `search.html` with Angular's `ng-repeat` directive.
 To read a more in-depth example (including source code) of building search and edit application with Angular, see
 http://raibledesigns.com/rd/entry/getting_started_with_angularjs[my article on Getting Started with AngularJS].
 
+
 ==== AngularUI Router
 https://github.com/angular-ui/ui-router[AngularUI Router] is a routing component for AngularJS. It's organized around
 _states_, which can have routes and other behavior attached to them. Some  of its best features include support for
@@ -258,8 +259,8 @@ the following listing.
 include::{sourcedir}/chapter3/angular/ui-router.js[]
 ----
 
-AngularUI Router allows you to look up data before displaying a page. It does this with its *resolve* property. For example,
-by enhancing the 'search.edit' state, we can look up the person from the SearchService before invoking the controller.
+AngularUI Router allows you to look up data before displaying a page. It does this with its `resolve` property. For example,
+by enhancing the 'search.edit' state, we can look up the person from the `SearchService` before instantiating the controller.
 
 [source,javascript,linenums]
 ----
@@ -288,7 +289,45 @@ Once you've done this, you can inject the `person` object into your controller d
 })
 ----
 
-Now that you've learned about the hottest web framework on the planet, let's take a look at Bootstrap.
+==== Angular's $resource
+Angular ships with a https://docs.angularjs.org/api/ngResource/service/$resource[$resource factory] that allows you to
+interact with a http://en.wikipedia.org/wiki/Representational_state_transfer[RESTful] API with only a few lines of code.
+If your API is implemented so that you can perform CRUD (Create, Read, Update, Delete) at a specific endpoint, you can use
+`$resource` to wrap that endpoint, and _voila!_, you have a service.
+
+[source,javascript,linenums]
+----
+.factory('Product', function($resource) {
+    return $resource(API_HOSTNAME + '/api/products/:id');
+});
+----
+
+This gives you a number of actions (or methods) by default. You can easily override these methods or add new ones.
+
+[source,javascript]
+----
+{
+    'get':    {method:'GET'},
+    'save':   {method:'POST'},
+    'query':  {method:'GET', isArray:true},
+    'remove': {method:'DELETE'},
+    'delete': {method:'DELETE'}
+};
+----
+
+You can can then use this service in a controller using `Product.get{id: '123'}`. If you're reading the id from the URL,
+you can use ui-router's `$stateParams` so it becomes `Product.get{id: $stateParams.id}`. To use this service in
+ui-router's `resolve` property, you'll need to tack on `$promise` to the end.
+
+A `$promise` is a promise of the original server interaction that created this instance or collection. It's a service
+that helps you run functions asynchronously, and use their return values (or exceptions) when they are done processing.
+On success, a promise is resolved with the same resource instance or collection object, updated with data from server.
+On failure, a promise is resolved with the http response object, but does not contain a `resource` property.
+A Resource instance also has a `$resolved` property that returns `true` after its first server interaction is completed
+(regardless of success or rejection).
+
+Now that you've learned a bit about the hottest web framework on the planet, let's take a look at the most
+popular CSS framework: Bootstrap.
 
 === Bootstrap
 
@@ -496,7 +535,98 @@ and tools for building highly interactive apps. Built with Sass and optimized fo
 jQuery library.
 
 === i18n
+Internationalization (also called _i18n_ because there's 18 letters between _i_ and _n_) is a first-class citizen in
+JHipster. Translating an application to another language is easiest if the system is put in place at the beginning of
+a project. https://angular-translate.github.io/[Angular Translate] provides directives that make it easy to translate
+your application into multiple languages.
+
+To use Angular Translate, you simply add a "translate" attribute with a key:
+
+[source,html]
+----
+<label translate="user.firstname">First Name</label>
+----
+
+The key references a JSON document, which will return the translated string. AngularJS will then replace the "First Name"
+string with the translated version.
+
+JHipster installs English and French language translations when you first create a project. It stores the JSON documents
+for these languages in `src/main/webapp/i18n`, in `en` and `fr` directories. You can install additional languages using
+`yo jhipster:languages`. At the time of this writing, 14 additional languages are supported. You can also add a new
+language. To set the default language, modify `src/main/webapp/scripts/app/app.js` and its preferred language line.
+
+[source,javascript]
+----
+$translateProvider.preferredLanguage('de');
+----
+
 === Sass
+Sass stands for Syntactically Awesome Style Sheets. It's a language for writing CSS with the goodies you're used to
+using in modern programming languages, such as variables, nesting, mixins and inheritance. Sass uses the `$` symbol
+to indicate a variable, which can then be referenced later in your document.
+
+[source,sass]
+----
+$font-stack:    Helvetica, sans-serif
+$primary-color: #333
+
+body
+  font: 100% $font-stack
+  color: $primary-color
+----
+
+Sass 3 introduces a new syntax known as SCSS which is fully compatible with the syntax of CSS3, while still supporting
+the full power of Sass. It looks more like CSS.
+
+[source,sass]
+----
+$font-stack:    Helvetica, sans-serif;
+$primary-color: #333;
+
+body {
+  font: 100% $font-stack;
+  color: $primary-color;
+}
+----
+
+This renders the following CSS:
+[source,css]
+----
+body {
+  font: 100% Helvetica, sans-serif;
+  color: #333;
+}
+----
+Another powerful feature of Sass is the ability to write nested CSS selectors. When writing HTML, you can often visualize
+the hierarchy of elements. Sass allows you to bring that hierarchy into your CSS.
+
+[source,sass]
+----
+nav {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li { display: inline-block; }
+
+  a {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+  }
+}
+----
+
+WARNING: Overly nested rules will result in over-qualified CSS that can be hard to maintain.
+
+Bootstrap is written with http://lesscss.org/[LESS], a CSS pre-processor with similar features to Sass. However, its
+founders have https://twitter.com/mdo/status/591364406816079873[publicly announced] they'll be using SCSS for the 4.0
+version.
+
+If you're looking to learn more about CSS, https://smacss.com/[Scalable and Modular Architecture for CSS] is a great book.
+
 === Grunt vs. Gulp.js
 === WebSockets
 === BrowserSync
