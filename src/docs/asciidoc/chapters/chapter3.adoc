@@ -248,8 +248,16 @@ nested/named views, tab history support and loading data before rendering a view
 features at http://angular-ui.github.io/ui-router/sample/.
 
 JHipster includes AngularUI Router (often called ui-router) by default. It's a great framework that I've enjoyed
-using on a few projects. To use it, you'll need to reference its JavaScript file (`angular-ui-router.min.js`) in
-`index.html` instead of `angular-route.min.js`.
+using on several projects. To use it, you'll need to reference its JavaScript file (`angular-ui-router.min.js`) in
+`index.html` instead of `angular-route.min.js`. You'll also need to change from using `ng-view` to `ui-view`.
+
+[source,javascript]
+----
+<div ui-view></div>
+
+<script src="http://code.angularjs.org/1.3.11/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.js"></script>
+----
 
 Next, change your `app.js` to use `ui-router` instead of `ngRoute`. Then setup your application states with code like
 the following listing.
@@ -325,6 +333,37 @@ On success, a promise is resolved with the same resource instance or collection 
 On failure, a promise is resolved with the http response object, but does not contain a `resource` property.
 A Resource instance also has a `$resolved` property that returns `true` after its first server interaction is completed
 (regardless of success or rejection).
+
+==== AngularJS 2.0
+In October 2014, the Angular team announced the http://www.infoq.com/news/2014/10/angular-2-atscript[details of Angular
+2.0]. When it was first announced, there was a bit of an upheaval in the AngularJS Developer Community. The API for writing
+Angular applications was going to change and it was to be based on a new language, AtScript. There would be no migration
+path and users would have to continue using 1.x or re-write their applications for 2.x.
+
+A new syntax was introduced that binds data to element properties, not attributes. The advantage of this syntax
+is it allows you to use _any_ web components in an Angular app, not just those retrofitted to work with Angular.
+
+[source,html]
+----
+<input type="text" [value]="firstName">
+<button (click)="addPerson()">Add</button>
+<input type="checkbox" [checked]="someProperty">
+----
+
+Angular 2.x also eliminates the following concepts introduced in 1.0.
+
+* Controllers
+* Directive Definition Object
+* `$scope`
+* `angular.module`
+* jqLite
+
+In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed concerns from
+the community]. They announced they would be using http://www.typescriptlang.org/[TypeScript] over AtScript and they
+would provide a migration path for Angular 1.x users. The Angular 2.0 project is hosted at https://angular.io/. The team
+plans to support Angular 1.x (at https://angularjs.org/) as long as its traffic exceeds the 2.0 site.
+
+JHipster will add support for Angular 2.0 once it's deemed mature enough for production use.
 
 Now that you've learned a bit about the hottest web framework on the planet, let's take a look at the most
 popular CSS framework: Bootstrap.
@@ -612,6 +651,7 @@ body {
 ----
 
 This renders the following CSS:
+
 [source,css]
 ----
 body {
@@ -619,6 +659,7 @@ body {
   color: #333;
 }
 ----
+
 Another powerful feature of Sass is the ability to write nested CSS selectors. When writing HTML, you can often visualize
 the hierarchy of elements. Sass allows you to bring that hierarchy into your CSS.
 
@@ -643,6 +684,35 @@ nav {
 
 WARNING: Overly nested rules will result in over-qualified CSS that can be hard to maintain.
 
+In addition to variables and nesting, Sass supports partials, imports, mixins and inheritence. Mixins can be particularly
+useful for handling vendor prefixes.
+
+[source,sass]
+----
+@mixin border-radius($radius) { <1>
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+.box { @include border-radius(10px); } <2>
+----
+<1> Create a mixin using `@mixin` and give it a name. This uses `$radius` as a variable to set the radius value.
+<2> Use `@include` followed by the name of the mixin.
+
+CSS generated from the above code looks as follows:
+
+[source,css]
+----
+.box {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  border-radius: 10px;
+}
+---
+
 Bootstrap is written with http://lesscss.org/[LESS], a CSS pre-processor with similar features to Sass. However, its
 founders have https://twitter.com/mdo/status/591364406816079873[publicly announced] they'll be using SCSS for the 4.0
 version.
@@ -651,10 +721,36 @@ JHipster allows you to use Sass by integrating http://compass-style.org/[Compass
 CSS, and naming classes, https://smacss.com/[Scalable and Modular Architecture for CSS] is a great book.
 
 === Grunt vs. Gulp.js
-http://gruntjs.com/[Grunt] is _The JavaScript Task Runner_.
-Why use a task runner?
-In one word: automation. The less work you have to do when performing repetitive tasks like minification, compilation, unit testing, linting, etc, the easier your job becomes.
-Grunt and Grunt plugins are installed and managed via npm, the Node.js package manager.
+JHipster prompts you to choose between http://gruntjs.com/[Grunt] and http://gulpjs.com/[Gulp] for building the client.
+Both of these tools allow you to perform tasks like minification, concatenation, compilation (e.g. from TypeScript/
+CoffeeScript to JavaScript), unit testing and more.
+
+Grunt describes itself as _The JavaScript Task Runner_. It's the incumbent in this field and has over 4,000
+http://gruntjs.com/plugins[plugins]. Grunt and Grunt plugins are installed and managed via [https://www.npmjs.com/]npm,
+the Node.js package manager. If its specified as a dependency in your project's `package.json`, you can install it
+using `npm install`. To install it globally (so you can use it anywhere), run `npm install -g grunt-cli`.
+
+The following steps show you how you might use Grunt to optimize your JS, CSS and HTML for production.
+
+[source,json]
+----
+import package.json
+----
+
+[source,javascript]
+----
+import Gruntfile.js
+----
+
+[source,html]
+----
+import dev.html
+----
+
+[source,html]
+----
+import prod.html
+----
 
 http://gruntjs.com/plugins: 4,631
 
