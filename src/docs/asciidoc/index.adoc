@@ -10,6 +10,7 @@
 :data-uri:
 :lang: en
 :language: javadocript
+:experimental: true
 
 [preface]
 include::chapters/about.adoc[]
