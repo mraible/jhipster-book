@@ -5,3 +5,8 @@
 === JPA vs. MongoDB vs. Cassandra
 === Liquibase
 === Elasticsearch
+[[chapter4.websockets]]
+=== Spring WebSockets
+
+// Include simple Spring Security config and example
+

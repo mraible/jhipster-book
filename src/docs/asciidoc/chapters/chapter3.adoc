@@ -817,17 +817,37 @@ too much new technology in your JHipster project if you're trying to meet a dead
 about a bunch of new technologies, then Gulp seems to be the hipper option.
 
 === WebSockets
-WebSockets is an advanced technology that makes it possible to open an interactive communication session between the
+WebSockets is an advanced technology that makes it possible to open an interactive communication channel between the
 user's browser and a server. With this API, you can send messages to a server and receive event-driven responses
-without having to poll the server for a reply.
+without having to poll the server for a reply. WebSockets have been called "TCP for the Web".
 
-https://developer.mozilla.org/en-US/docs/WebSockets
+If you choose to use WebSockets in a JHipster project, you'll get two JavaScript libraries added to your project.
 
-http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html
+* http://jmesnil.net/stomp-websocket/doc/[STOMP WebSocket]: STOMP stands for Simple Text-Orientated Messaging Protocol.
+* https://github.com/sockjs/sockjs-client[SockJS]: SockJS provides a WebSocket-like object. If native WebSockets are
+not available, it falls back to other browser techniques.
 
-Security: http://spring.io/blog/2014/08/21/preview-spring-security-websocket-support
+To see how WebSockets work, take a look at the `TrackerController` in a websockets-enabled project. This displays real-time
+activity information that's been posted to the `/websocket/tracker` endpoint.
 
-Recommend only learning one or two new things.
+[source,javascript,linenums]
+.tracker.controller.js
+----
+include::{sourcedir}/chapter3/websockets/tracker.controller.js[]
+----
+
+The `Tracker` service allows you to send tracking information, for example, to track when someone has authenticated.
+
+[source,javascript,linenums]
+.tracker.service.js
+----
+include::{sourcedir}/chapter3/websockets/tracker.service.js[]
+----
+
+WebSockets on the server-side of a JHipster project are implemented with
+http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support].
+This is covered in <<chapter4.websockets>>. The next section shows how a developer productivity tool that uses WebSockets
+implements something very cool.
 
 === BrowserSync
 
@@ -843,11 +863,6 @@ BrowserSync is free to run and reuse, as guaranteed by its open source Apache 2.
 * File sync: Browsers are automatically updated as you change HTML, CSS, images and other project files.
 * URL history: Records your test URLs so you can push them back out to all devices with a single click.
 * Remote inspector: Remotely tweak and debug web pages that are running on connected devices.
-////
-* Browser support: Instantly sync between your desktop, tablet and phone. Perfect for coding responsive designs.
-* Build-tool compatible: Easily integrated with task runners like Grunt and Gulp, or included in other Node projects.
-* Install and run anywhere: Built on Node.js to support Windows, MacOS and Linux. Setup in less than 5 minutes.
-////
 
 To integrate BrowserSync in your project, you need a `package.json` and `Gruntfile.js`. Your `package.json` file only needs
 to contain a few things, weighing in at a slim 15 lines of JSON.
@@ -871,17 +886,17 @@ dependencies change in `package.json`.
 ----
 npm install
 ----
-You may have to install http://gruntjs.com/[Grunt] as well. Install the grunt command-line tool globally with:
-----
-npm install -g grunt-cli
-----
+
 Then run the following command to create a blissful development experience where your browser auto-refreshes when files change
 on your hard drive.
 ----
 grunt serve
 ----
+
 For an audio visual introduction to BrowserSync, check out the introduction video on its http://www.browsersync.io/[homepage].
 
 JHipster integrates BrowserSync for you, using JavaScript similar that looks very similar to what you see above. Integrating
 BrowserSync into your project is highly recommended. It's also useful for determining if your web application can handle a
 page reload without losing the current user's state.
+
+Now that you've learned about many of the UI components in a JHipster project, let's learn about the API side of things.
