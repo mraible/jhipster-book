@@ -238,9 +238,8 @@ You could display it in `search.html` with Angular's `ng-repeat` directive.
 </table>
 ----
 
-To read a more in-depth example (including source code) of building search and edit application with Angular, see
+To read a more in-depth example (including source code) of building a search and edit application with Angular, see
 http://raibledesigns.com/rd/entry/getting_started_with_angularjs[my article on Getting Started with AngularJS].
-
 
 ==== AngularUI Router
 https://github.com/angular-ui/ui-router[AngularUI Router] is a routing component for AngularJS. It's organized around
@@ -561,7 +560,7 @@ There are other font icons you can use with Bootstrap and JHipster, http://forta
 being one of the most popular. It's completely free for commercial use and contains over 500 icons. JHipster uses
 Font Awesome for its website, but not for generated projects. The
 https://github.com/jhipster/generator-jhipster/issues/978#issuecomment-69988321[reason] for not including it is because
-glyphicons are the default and it's easy to change your the font icons in your project. Simply add it as a dependency
+glyphicons are the default and it's easy to change the font icons in your project. Simply add it as a dependency
 in your `bower.json` file.
 
 ==== Customizing CSS
@@ -727,7 +726,7 @@ CoffeeScript to JavaScript), unit testing and more.
 ==== Grunt
 Grunt describes itself as _The JavaScript Task Runner_. It's the incumbent in the field of JavaScript build tools and has
 over 4,000 http://gruntjs.com/plugins[plugins]. Grunt and Grunt plugins are installed and managed via https://www.npmjs.com/[npm],
-a package manager for https://nodejs.org/[Node.js] and https://iojs.org/[io.js]. If its specified as a dependency in
+a package manager for https://nodejs.org/[Node.js] and https://iojs.org/[io.js]. If it's specified as a dependency in
 your project's `package.json`, you can install it using `npm install`. To install it globally (so you can use it
 anywhere), run `npm install -g grunt-cli`.
 
@@ -895,7 +894,7 @@ grunt serve
 
 For an audio visual introduction to BrowserSync, check out the introduction video on its http://www.browsersync.io/[homepage].
 
-JHipster integrates BrowserSync for you, using JavaScript similar that looks very similar to what you see above. Integrating
+JHipster integrates BrowserSync for you, using JavaScript that looks very similar to what you see above. Integrating
 BrowserSync into your project is highly recommended. It's also useful for determining if your web application can handle a
 page reload without losing the current user's state.
 
