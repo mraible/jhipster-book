@@ -1,6 +1,93 @@
-=== App Intro: Explain the why (VW Bus Showcase for the '66 Porsche Bus I built)
-=== Build it! _Include jobs to fetch data (Camel vs. Spring Batch?)_
-=== Load Testing with Gatling
-=== Deploy it! (Heroku, Cloud Foundry, someone else?)
-=== Monitor + Analytics
+When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating
+a photo gallery to showcase the 1996 VW Bus I've been working on for over 10 years. The project is almost finished and
+I wanted a website to show how things have progressed through the years. I also thought about creating a blog application.
+As part of http://raibledesigns.com/rd/entry/getting_hip_with_jhipster_at[my first presentation on JHipster] (at Denver's
+Java User Group), I created a blog application that I live-coded to the audience. After that presentation, I spent
+several hours polishing the application and started http://www.jhipster-book.com[www.jhipster-book.com] with it.
+
+After thinking about the VW Bus Gallery and developing the blog application, I thought to myself "is this hip enough?"
+Shouldn't a book about becoming a Java Hipster show how to build a hip application?
+
+I wrote to Julien Dubois, founder of JHipster, and Dennis Sharpe, the technical editor for this book and asked them
+their thoughts. We went back and forth on a few ideas: a gitter.im clone, a job board for Java hipsters, a shopping cart
+app. Then it hit me, there was an I'd been wanting to develop for a while.
+
+It's basically an app that you can use to monitor their health. In late September through mid-October 2014, I'd done a
+"sugar detox" where I stopped eating sugar, started exercising regularly and stopped drinking alcohol. I'd had high blood
+pressure for over 10 years and was on blood pressure medication at the time. During the first week of the detox, I ran
+out of blood pressure medication. Since getting a new prescription required a doctors visit, I decided I'd wait until
+after the detox to do so. After three weeks, not only did I lose 15 pounds, but my blood pressure was at normal levels!
+
+Before I started the detox, I came up with a 21-point system to see how healthy I was being each week. Its rules were
+simple: you can earn up to three points per day, for the following reasons:
+
+1. If you eat healthy, you get a point. Otherwise, zero.
+2. If you exercise, you get a point.
+3. If you don't drink alcohol, you get a point.
+
+I was surprised to find I got eight points the first week I used this system. During the detox, I got 16 points the
+first week, 20 the second and 21 the third. Before the detox, I thought eating healthy meant eating anything but
+fast food. After the detox, I realized that _eating healthy_ meant eating no sugar for me. I'm also a big craft
+beer lover, so I've modified the alcohol rule to allow two healthier alcohol drinks per day (like a greyhound or
+red wine).
+
+My point goal per week is 15. I find that if I get above it, I'll likely lose weight and have good blood pressure. If I
+get below 15, I risk getting sick. I've been tracking my health like this since September 2014. I've lost 30 pounds and
+my blood pressure has returned to normal levels. I haven't had good blood pressure since my early 20s, so this has been
+a life-changer for me.
+
+I thought writing a "21-Point Health" application this would be hip because tracking your health is becoming more
+important. With wearables that can track it for you, I might be able to create some APIs or hooks that can auto-record
+points for a day. Imagine hooking into dailymile.com (where I track my exercise) or Untappd (where I sometimes checkin
+my drinks). Or even displaying other activities for a day (e.g. showing your blood pressure score that you keep on
+bettir.com).
+
+I thought it'd fit nicely with JHipster and Spring Boot from a monitoring standpoint. Spring Boot has lots of health
+monitors for your app, now you can use this JHipster app to monitor your health!
+
+This chapter has five different sections:
+
+1. Creating the application.
+2. Building the UI and business logic.
+3. Load Testing.
+4. Deployment.
+5. Monitoring and Analytics.
+
+////
+#3-5 are covered in Chapter 5 as well, not sure if they should be covered here.
+////
+
+=== Creating the application
+
+I started using the http://jhipster.github.io/installation.html[Installing JHipster] instructions. I'm a Java Developer,
+so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[nodejs.org], then
+ran the following commands to install http://yeoman.io/[Yeoman] and http://bower.io/[Bower].
+
+[source]
+----
+npm install -g yo
+npm install -g bower
+----
+
+I also installed Grunt and JHipster.
+
+[source]
+----
+npm install -g grunt-cli
+npm install -g generator-jhipster
+----
+
+Then I proceeded to build my application. Unlike many application generators in Javaland, Yeoman expects you to be
+in the directory you want to create your project in, rather than creating the directory for you. So I created a `21-points`
+directory and typed in the following command to invoke JHipster.
+
+[source]
+----
+yo jhipster
+----
+
+=== Building the UI and business logic
+=== Load Testing.
+=== Deploy it!
+=== Monitoring and Analytics
 
