@@ -39,7 +39,7 @@ a life-changer for me.
 I thought writing a "21-Point Health" application this would be hip because tracking your health is becoming more
 important. With wearables that can track it for you, I might be able to create some APIs or hooks that can auto-record
 points for a day. Imagine hooking into dailymile.com (where I track my exercise) or Untappd (where I sometimes checkin
-my drinks). Or even displaying other activities for a day (e.g. showing your blood pressure score that you keep on
+the beers I drink). Or even displaying other activities for a day (e.g. showing your blood pressure score that you keep on
 bettir.com).
 
 I thought it'd fit nicely with JHipster and Spring Boot from a monitoring standpoint. Spring Boot has lots of health
@@ -86,8 +86,234 @@ directory and typed in the following command to invoke JHipster.
 yo jhipster
 ----
 
+After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can
+see the choices I made in <<img-generating-21points>>.
+
+[[img-generating-21points]]
+.Generating the application
+image::chapter2/generating-21points.png[Generating the application, 1416, scaledwidth="100%"]
+
+You can see that I chose PostgreSQL as my development and production database. The reason I did this is because using a
+non-embedded database (like H2) offers some important benefits.
+
+* Your data is retained when restarting the application.
+* Your application starts a bit faster.
+* You can use Liquibase to generate a database changelog.
+
+http://www.liquibase.org/[Liquibase] is described as source control for your database. It will help create new fields as
+you add them to your entities. It will also refactoring your database, for example creating tables and dropping columns.
+It also has the ability to undo changes to your database, either automatically or with custom SQL.
+
+After answering all the questions, JHipster created a whole bunch of files (272 in this case), then ran `npm install`
+followed by `bower install`. To prove everything was good-to-go, I ran the unit tests using `grunt test`.
+
+Next, I installed http://postgresapp.com/[Postgres.app] and tried creating a local PostgreSQL database. You can see in
+<<img-create-local-db>> that PostgreSQL didn't like the numbers that started my database name.
+
+[[img-create-local-db]]
+.Creating local database
+image::chapter2/creating-local-db.png[Creating local database, 1686, scaledwidth="100%"]
+
+// MR: Would this be better as a code listing? Then people could copy and paste.
+
+I chose the name _health_ instead and updated `src/main/resources/config/application-dev.yml` to use this name and the
+specified credentials.
+
+[source,diff]
+----
+     datasource:
+         dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
+-        url:
+-        databaseName: 21points
+-        serverName: localhost
+-        username: 21points
+-        password:
++        url: jdbc:postgresql://localhost/health
++        username: health
++        password: health
+----
+
+==== Adding Source Control
+
+One of the first things I like to do when creating a new project is to add it to a Version Control System (VCS). In this
+particular case, I chose Git and Bitbucket. The following commands show how I initialized Git, committed the project,
+added a reference to the remote Bitbucket repository, then pushed everything.
+
+[source]
+----
+[mraible:~/dev/21-points] 128 $ git init
+Initialized empty Git repository in /Users/mraible/dev/21-points/.git/
+
+[mraible:~/dev/21-points] $ git add -A
+
+[mraible:~/dev/21-points] $ git commit -m "Initial checkin of 21-points application"
+[master (root-commit) c20f856] Initial checkin of 21-points application
+ 274 files changed, 13179 insertions(+)
+ ...
+
+[mraible:~/dev/21-points] $ git push origin master
+Counting objects: 382, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (353/353), done.
+Writing objects: 100% (382/382), 242.01 KiB | 0 bytes/s, done.
+Total 382 (delta 55), reused 0 (delta 0)
+To git@bitbucket.org:mraible/21-points.git
+ * [new branch]      master -> master
+----
+
+This section showed you how I created a new application with JHipster and checked it into source control. If you're
+creating an application following similar steps, I believe there's two common approaches for continuing. The first
+involves developing the application, then testing and deploying. The second option is to setup continuous integration,
+deploy, then begin development and testing. In a team development environment, I recommend following the second option.
+However, since you're likely reading this as an individual, I'll follow the first approach and get right to coding.
+If you're interested in setting up continuous integration with Jenkins, please see
+http://www.jhipster-book.com/#!/news/entry/building-and-deploying-a-jhipster-app-with-jenkins[Building and Deploying a JHipster App with Jenkins].
+
 === Building the UI and business logic
-=== Load Testing.
+I wanted 21 Points to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a couple years ago,
+but now Google's https://www.google.com/design/[Material Design] is growing in popularity. I searched and found a
+https://fezvrasta.github.io/bootstrap-material-design/[Material Design for Bootstrap] theme. To install it, I executed
+the following command:
+
+[source]
+----
+bower install bootstrap-material-design --save
+----
+
+After this completed, I opened up `src/main/webapp/index.html` and added links to the necessary CSS, just after bootstrap.css.
+
+//TODO: Confirm all these needed to be added.
+
+[source,html]
+----
+<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+<link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/material.css" />
+<link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css" />
+<!-- endbower -->
+----
+
+I also added the new JavaScript files (required by the theme) to the list of imported JavaScript files.
+
+[source,html]
+----
+<script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+<script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
+<script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
+<!-- endbower -->
+----
+
+Then I followed the theme's Getting Started guide and added the following initialization code to the bottom of the page.
+
+[source,html]
+----
+<script>
+    $.material.init()
+</script>
+----
+
+Finally, I ran `./gradlew bootRun` and confirmed the new theme was being used.
+
+[[img-material-design-theme]]
+.Material Design for Bootstrap Theme
+image::chapter2/material-design-theme.png[Material Design for Bootstrap, 2492, scaledwidth="100%"]
+
+=== Load Testing
 === Deploy it!
+
+[mraible:~/dev/21-points] 2s $ heroku login
+Enter your Heroku credentials.
+Email: matt@raibledesigns.com
+Password (typing will be hidden):
+Authentication successful.
+⌁23% [mraible:~/dev/21-points] 18s $ yo jhipster:heroku
+Heroku configuration is starting
+? Name to deploy as: 21points
+? On which region do you want to deploy ? us
+
+Using existing Git repository
+
+Installing Heroku CLI deployment plugin
+Installing https://github.com/heroku/heroku-deploy...
+done
+
+
+Creating Heroku application and setting up node environment
+heroku create 21points --addons heroku-postgresql:hobby-dev
+✖ { [Error: Command failed: /bin/sh -c heroku create 21points --addons heroku-postgresql:hobby-dev
+ !    Name must start with a letter and can only contain lowercase letters, numbers, and dashes.
+]
+  killed: false,
+  code: 1,
+  signal: null,
+  cmd: '/bin/sh -c heroku create 21points --addons heroku-postgresql:hobby-dev' }
+⌁22% [mraible:~/dev/21-points] 13s $ yo jhipster:heroku
+Heroku configuration is starting
+? Name to deploy as: health
+? On which region do you want to deploy ? us
+
+Using existing Git repository
+
+Installing Heroku CLI deployment plugin
+Installing https://github.com/heroku/heroku-deploy...
+done
+
+
+Creating Heroku application and setting up node environment
+heroku create health --addons heroku-postgresql:hobby-dev
+
+? The Heroku app "health" already exists! Use it anyways?
+❯ Yes, I have access to it
+  No, generate a random name
+
+⌁22% [mraible:~/dev/21-points] 32s $ yo jhipster:heroku
+Heroku configuration is starting
+? Name to deploy as: 21-point-health
+? On which region do you want to deploy ? us
+
+Using existing Git repository
+
+Installing Heroku CLI deployment plugin
+Installing https://github.com/heroku/heroku-deploy...
+^C
+⌁22% [mraible:~/dev/21-points] 26s 130 $ yo jhipster:heroku
+Heroku configuration is starting
+? Name to deploy as: health-by-points
+? On which region do you want to deploy ? us
+
+Using existing Git repository
+
+Installing Heroku CLI deployment plugin
+Installing https://github.com/heroku/heroku-deploy...
+done
+
+
+Creating Heroku application and setting up node environment
+heroku create health-by-points --addons heroku-postgresql:hobby-dev
+Creating health-by-points... done, stack is cedar-14
+
+Adding heroku-postgresql:hobby-dev to health-by-points...
+done
+
+https://health-by-points.herokuapp.com/ | https://git.heroku.com/health-by-points.git
+
+Git remote heroku added
+
+
+Creating Heroku deployment files
+
+Building application
+:generateMainMapperClasses
+
+Download https://oss.sonatype.org/content/repositories/releases/io/dropwizard/metrics/metrics-healthchecks/3.1.2/metrics-healthchecks-3.1.2.pom
+...
+
+BUILD SUCCESSFUL
+
+Total time: 2 mins 58.204 secs
+
+Uploading your application code.
+ This may take several minutes depending on your connection speed...
+Uploading build/libs/21points-0.1-SNAPSHOT.war....
+
 === Monitoring and Analytics
 
