@@ -570,6 +570,8 @@ After restarting everything, I was pleased to see the "user" dropdown contained 
 .Create Goal with User Login
 image::chapter2/create-goal-user-login.png[Create Goal with User Login, 800, scaledwidth="66%", align="center"]
 
+At this point, I added all the generated files to Git; noticing that 54 files had been generated.
+
 === UI Improvements
 
 ==== Testing
