@@ -570,6 +570,21 @@ After restarting everything, I was pleased to see the "user" dropdown contained 
 .Create Goal with User Login
 image::chapter2/create-goal-user-login.png[Create Goal with User Login, 800, scaledwidth="66%", align="center"]
 
+After making this change and regenerating everything, I realized there was an easier way. In `goal-dialog.html`, the
+following code existed to display the dropdown of users.
+
+[source,html]
+----
+ng-model="goal.user.id" ng-options="user.id as user.id for user in users"
+----
+
+To modify it to display `user.login` instead, I simply needed to change the _as_ expression to the following.
+
+[source,html]
+----
+ng-model="goal.user.id" ng-options="user.id as user.login for user in users"
+----
+
 At this point, I added all the generated files to Git; noticing that 54 files had been generated.
 
 === UI Improvements
