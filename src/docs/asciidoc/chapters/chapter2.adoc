@@ -575,17 +575,18 @@ following code existed to display the dropdown of users.
 
 [source,html]
 ----
-ng-model="goal.user.id" ng-options="user.id as user.id for user in users"
+<select class="form-control" id="field_user" name="user" ng-model="goal.user.id" ng-options="user.id as user.id for user in users">
 ----
 
-To modify it to display `user.login` instead, I simply needed to change the _as_ expression to the following.
+To modify it to display `user.login` instead, I simply needed to change `ng-options` and its _as_ expression to the following.
 
 [source,html]
 ----
-ng-model="goal.user.id" ng-options="user.id as user.login for user in users"
+<select class="form-control" id="field_user" name="user" ng-model="goal.user.id" ng-options="user.id as user.login for user in users">
 ----
 
-At this point, I added all the generated files to Git; noticing that 54 files had been generated.
+At this point, I added all the generated files to Git, committed and pushed. I noticed that 54 files had been generated
+by JHipster. What a time saver!
 
 === UI Improvements
 
