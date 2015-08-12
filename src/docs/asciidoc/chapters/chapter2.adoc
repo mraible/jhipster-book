@@ -289,7 +289,7 @@ alcohol, but it's important to start somewhere, not get it right the first time.
 
 [[img-entity-diagram]]
 .21-Point Health Entity Diagram
-image::chapter2/entity-diagram.png[21-Point Health Entity Diagram, 406, scaledwidth="50%", align="center"]
+image::chapter2/entity-diagram.png[21-Point Health Entity Diagram, 684, scaledwidth="75%", align="center"]
 
 The most important thing to remember when generating entities with JHipster is you must generate the entity that
 owns the relationship first. In this application, the `Metric` entity is owned by `Goal` and `Entry`, so we'll generate
@@ -300,7 +300,7 @@ https://jhipster.github.io/managing_relationships.html[Managing Relationships wi
 
 [[img-entity-diagram-simple]]
 .Simple Entity Diagram
-image::chapter2/entity-diagram-simple.png[Simple Entity Diagram, 406, scaledwidth="50%", align="center"]
+image::chapter2/entity-diagram-simple.png[Simple Entity Diagram, 684, scaledwidth="75%", align="center"]
 
 I started by generating a `Goal` entity, with a many-to-one relationship with `User`. Below are the questions and
 answers I used to generate this entity.
@@ -355,7 +355,7 @@ user - user (many-to-one)
 NOTE: I didn't add any pagination because I've been tracking my goals quarterly. I may add it at a later
 date after I've been using this app for a while.
 
-After answering the last question, the appropriate files were generated.
+After answering the last question, the files to create/read/update/delete this entity were generated.
 
 ----
 Everything is configured, generating the entity...
@@ -528,10 +528,47 @@ BUILD SUCCESSFUL
 Total time: 51.422 secs
 ----
 
-I ran `grunt test` to ensure my UI tests were good to go, then fired up the app and tried everything out.
+I ran `grunt test` to ensure my UI tests were good to go, then fired up the app and tried everything out. The biggest
+issue I noticed was that when you created a `Goal`, it showed the ids of the users instead of their name.
 
-* Noticed when creating a goal, user was referenced, rather than name/login. Change Goal.json, regenerate.
+[[img-create-goal-user-id]]
+.Create Goal with User Id
+image::chapter2/create-goal-user-id.png[Create Goal with User Id, 800, scaledwidth="66%", align="center"]
 
+Since the id doesn't provide much information, I changed this to display the user's username instead. In JHipster's
+`User.java`, this field is called `login`. To make this change, I modified `.jhipster/Goal.json` and changed its
+`otherEntityField` from having a value of `id` to `login`.
+
+[source,json]
+----
+"relationships": [
+    {
+        "relationshipId": 1,
+        "relationshipName": "user",
+        "relationshipNameCapitalized": "User",
+        "relationshipFieldName": "user",
+        "otherEntityName": "user",
+        "relationshipType": "many-to-one",
+        "otherEntityNameCapitalized": "User",
+        "otherEntityField": "login"
+    }
+]
+----
+
+After making this change, I ran `yo jhipster:entity goal` to regenerate `Goal.java` and its associated UI. Since I'd
+modified `Goal.java`, when prompted to overwrite this file, I answered "No".
+
+----
+ conflict src/main/java/org/jhipster/health/domain/Goal.java
+? Overwrite src/main/java/org/jhipster/health/domain/Goal.java? do not overwrite
+     skip src/main/java/org/jhipster/health/domain/Goal.java
+----
+
+After restarting everything, I was pleased to see the "user" dropdown contained the `login` field instead of id.
+
+[[img-create-goal-user-login]]
+.Create Goal with User Login
+image::chapter2/create-goal-user-login.png[Create Goal with User Login, 800, scaledwidth="66%", align="center"]
 
 === UI Improvements
 
