@@ -53,9 +53,7 @@ This chapter has five different sections:
 4. Deployment.
 5. Monitoring and Analytics.
 
-////
-#3-5 are covered in Chapter 5 as well, not sure if they should be covered here.
-////
+[red]#3-5 are covered in Chapter 5 as well, not sure if they should be covered here.#
 
 === Creating the application
 
@@ -110,11 +108,11 @@ followed by `bower install`. To prove everything was good-to-go, I ran the unit 
 Next, I installed http://postgresapp.com/[Postgres.app] and tried creating a local PostgreSQL database. You can see in
 <<img-create-local-db>> that PostgreSQL didn't like the numbers that started my database name.
 
+*[red]#Question: Would this be better as a code listing? Then people could copy and paste.#*
+
 [[img-create-local-db]]
 .Creating local database
 image::chapter2/creating-local-db.png[Creating local database, 1686, scaledwidth="100%"]
-
-// MR: Would this be better as a code listing? Then people could copy and paste.
 
 I chose the name _health_ instead and updated `src/main/resources/config/application-dev.yml` to use this name and the
 specified credentials.
@@ -588,7 +586,179 @@ To modify it to display `user.login` instead, I simply needed to change `ng-opti
 At this point, I added all the generated files to Git, committed and pushed. I noticed that 54 files had been generated
 by JHipster. What a time saver!
 
+*[red]#Question: I like how this section shows the evolution of designing/architecting an application. Would it be
+better for the reader if there were no mistakes and the design was correct at the beginning? I could turn the first
+part of this section into a blog post if you think so.#*
+
+Next, I started to play around with my newly created app to see if it had the functionality I wanted. I was hoping to
+easily enter daily entries about whether I'd exercised, ate healthy meals or consumed beer. I also wanted to record
+my weight and blood pressure metrics when I measured them. When I started using the UI I'd just created, it seemed
+like it _might_ be able to accomplish these goals, but also seemed somewhat cumbersome. That's when I decided to create
+a UI mockup with the main screen and its ancillary screens for data entry. I used
+https://www.omnigroup.com/omnigraffle[OmniGraffle] and a
+https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstrap stencil] to create a
+<<img-ui-mockup>>.
+
+[[img-ui-mockup]]
+.UI Mockup
+image::chapter2/ui-mockup.png[Simple Entity Diagram, 846, scaledwidth="50%", align="center"]
+
+==== Starting over with a Straightfoward Design
+After figuring out how I wanted the UI to look, I realized my data model could be simplified. Before, it was quite generic
+and could handle a number of metrics. In my new design, I realized I didn't need to track high-level goals (e.g. lose
+five pounds in Q4 2015). I was more concerned with tracking weekly goals and _21 points_ is all about how many points you
+get in a week. I was grateful that JHipster allowed me to quickly see the flaws in my design, then simplify. I created
+<<img-entity-diagram-simpler>> as my new data model.
+
+[[img-entity-diagram-simpler]]
+.21-Point Health Entity Diagram - Simplified
+image::chapter2/entity-diagram-simpler.png[21-Point Health Entity Diagram - Simplified, 684, scaledwidth="75%", align="center"]
+
+JHipster created 54 files when generating the previous data model, REST controllers and UI. Rather than hunting down all
+these files and deleting them, I reverted to the last commit before them in Git. This is the beauty of using a version
+control system.
+
+----
+$ git reset --hard 8ad48eb
+HEAD is now at 8ad48eb Upgraded to JHipster 2.19.0.
+----
+
+I also dropped and re-created my local PostgreSQL database.
+
+----
+mraible=# drop database health;
+DROP DATABASE
+mraible=# create database health;
+CREATE DATABASE
+mraible=# grant all privileges on database health to health;
+GRANT
+----
+
+Then I ran `yo jhipster:entity points`. I added the appropriate fields, their validation rules and specified a many-to-one
+relationship with `User`. Below is the final output from my answers.
+
+----
+===========Points==============
+date (LocalDate)
+exercise (Integer)
+meals (Integer)
+alcohol (Integer)
+notes (String)
+-------------------
+user - user (many-to-one)
+? Do you want to use a Data Transfer Object (DTO)? No, use the entity directly
+? Do you want pagination on your entity? Yes, with infinite scroll
+Everything is configured, generating the entity...
+   create .jhipster/Points.json
+   create src/main/java/org/jhipster/health/domain/Points.java
+   create src/main/java/org/jhipster/health/repository/PointsRepository.java
+   create src/main/java/org/jhipster/health/repository/search/PointsSearchRepository.java
+   create src/main/java/org/jhipster/health/web/rest/PointsResource.java
+   create src/main/resources/config/liquibase/changelog/20150818154309_added_entity_Points.xml
+   create src/main/webapp/scripts/app/entities/points/pointss.html
+   create src/main/webapp/scripts/app/entities/points/points-detail.html
+   create src/main/webapp/scripts/app/entities/points/points-dialog.html
+   create src/main/webapp/scripts/app/entities/points/points.js
+   create src/main/webapp/scripts/app/entities/points/points.controller.js
+   create src/main/webapp/scripts/app/entities/points/points-dialog.controller.js
+   create src/main/webapp/scripts/app/entities/points/points-detail.controller.js
+   create src/main/webapp/scripts/components/entities/points/points.service.js
+   create src/main/webapp/scripts/components/entities/points/points.search.service.js
+   create src/test/java/org/jhipster/health/web/rest/PointsResourceTest.java
+   create src/test/gatling/simulations/PointsGatlingTest.scala
+   create src/main/webapp/i18n/en/points.json
+   create src/main/webapp/i18n/fr/points.json
+----
+
+I had similar answers for the `Weight` and `BloodPressure` entities. For `Settings`, I created a one-to-one relationship
+with `User`. I learned that _settings_ is a reserved keywork, so used _preferences_ instead.
+
+----
+$ yo jhipster:entity settings
+The entity name cannot contain a JHipster reserved keyword
+----
+
+To ensure people used 21 Point Health effectively, I made the minimum weekly goal 10 points and set a max of 21. I also
+made the `weightUnits` property an enum.
+
+----
+=================Preferences=================
+weekly_goal (Integer) required min='10' max='21'
+Generating field #2
+? Do you want to add a field to your entity? Yes
+? What is the name of your field? weight_units
+? What is the type of your field? Enumeration (Java enum type)
+? What is the class name of your enumeration? Units
+? What are the values of your enumeration (separated by comma)? kg,lb
+? Do you want to add validation rules to your field? Yes
+? Which validation rules do you want to add? Required
+=================Preferences=================
+weekly_goal (Integer) required min='10' max='21'
+weight_units (Units) required
+----
+
+:icons: font
+NOTE: After generating the `Weight` and `BloodPressure` entities with a `date` property for their date/time field, I
+decided that `timestamp` was a better property name. To fix this, I modified their respective JSON files in the `.jhipster`
+directory and ran `yo jhipster:entity` for each entity again. This seemed easier than refactoring with IntelliJ and hoping
+it caught all the name instances.
+
+When I ran `./gradlew test`, I received an error about `User` not containing the `preferences` property.
+
+----
+Caused by: org.hibernate.AnnotationException: Unknown mappedBy in: org.jhipster.health.domain.Preferences.user,
+referenced property unknown: org.jhipster.health.domain.User.preferences
+----
+
+I fixed this by adding a `@OneToOne` mapping to `User.java`:
+
+[source,java]
+----
+@OneToOne
+@JsonIgnore
+private Preferences preferences;
+
+public Preferences getPreferences() {
+    return preferences;
+}
+
+public void setPreferences(Preferences preferences) {
+    this.preferences = preferences;
+}
+----
+
+I then ran `./gradlew liquibaseDiffChangelog` to generate the changelog and added the XML in the generated file to
+`*_added_entity_Preferences.xml`.
+
+[source,xml]
+----
+<!-- Added the preferences field to User -->
+<changeSet author="mraible (generated)" id="1439916664921-1">
+    <addColumn tableName="JHI_USER">
+        <column name="preferences_id" type="int8"/>
+    </addColumn>
+</changeSet>
+<changeSet author="mraible (generated)" id="1439916664921-2">
+    <addForeignKeyConstraint baseColumnNames="preferences_id" baseTableName="JHI_USER"
+                             constraintName="FK_1r5e40mq4hwtlyd9lemghc8su" deferrable="false"
+                             initiallyDeferred="false" referencedColumnNames="id"
+                             referencedTableName="PREFERENCES"/>
+</changeSet>
+----
+
+:icons: font
+NOTE: I did have to modify the datasource settings in `liquibase.gradle` again since `git reset` reverted that change.
+
+When I ran `./gradlew test`, I saw some failures, but these were for old tests that I'd already deleted. I
+https://github.com/jhipster/generator-jhipster/issues/1886[opened a ticket] with the JHipster project to track this
+issue.
+
 === UI Improvements
+
+Add Changelog here
+
+- Changed Pointss to Points
+- Etc.
 
 ==== Testing
 
