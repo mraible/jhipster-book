@@ -606,7 +606,7 @@ image::chapter2/ui-mockup.png[Simple Entity Diagram, 846, scaledwidth="75%", ali
 ==== Starting over with a Straightfoward Design
 After figuring out how I wanted the UI to look, I realized my data model could be simplified. Before, it was quite generic
 and could handle a number of metrics. In my new design, I realized I didn't need to track high-level goals (e.g. lose
-five pounds in Q4 2015). I was more concerned with tracking weekly goals and _21 points_ is all about how many points you
+five pounds in Q4 2015). I was more concerned with tracking weekly goals and _21 Points_ is all about how many points you
 get in a week. I was grateful that JHipster allowed me to quickly see the flaws in my design, then simplify. I created
 <<img-entity-diagram-simpler>> as my new data model.
 
@@ -615,8 +615,9 @@ get in a week. I was grateful that JHipster allowed me to quickly see the flaws 
 image::chapter2/entity-diagram-simpler.png[21-Point Health Entity Diagram - Simplified, 684, scaledwidth="100%", align="center"]
 
 JHipster created 54 files when generating the previous data model, REST controllers and UI. Rather than hunting down all
-these files and deleting them, I reverted to the last commit before them in Git. This is the beauty of using a version
-control system.
+these files and deleting them, I reverted to the last commit before them in Git.footnote:[If this doesn't work for you,
+see http://stackoverflow.com/a/28921195/65681[this Stack Overflow answer] for a list of what files to delete.]
+This is the beauty of using a version control system.
 
 ----
 $ git reset --hard 8ad48eb
