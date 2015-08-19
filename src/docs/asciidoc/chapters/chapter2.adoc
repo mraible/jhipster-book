@@ -865,5 +865,44 @@ Uploading your application code.
  This may take several minutes depending on your connection speed...
 Uploading build/libs/21points-0.1-SNAPSHOT.war....
 
+
+
+----
+
+
+$ ./gradlew -Pprod bootRepackage -x test
+
+$ heroku deploy:jar --jar build/libs/*war --app health-by-points
+Uploading build/libs/21points-0.1-SNAPSHOT.war....
+-----> Packaging application...
+       - app: health-by-points
+       - including: build/libs/21points-0.1-SNAPSHOT.war
+-----> Creating build...
+       - file: slug.tgz
+       - size: 63MB
+-----> Uploading build...
+       - success
+-----> Deploying...
+remote:
+remote: -----> Fetching custom tar buildpack... done
+remote: -----> JVM Common app detected
+remote: -----> Installing OpenJDK 1.8... done
+remote: -----> Discovering process types
+remote:        Procfile declares types -> web
+remote:
+remote: -----> Compressing... done, 112.5MB
+remote: -----> Launching... done, v14
+remote:        https://health-by-points.herokuapp.com/ deployed to Heroku
+remote:
+-----> Done
+
+----
+
+api.heroku.com > app > Add-Ons > Heroku Postgres :: Gray > Reset Database
+
+2015-08-19T09:02:09.975017+00:00 heroku[web.1]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 60 seconds of launch
+
+Submitted ticket to Heroku Support: Please increase timeout to 120 seconds
+
 === Monitoring and Analytics
 
