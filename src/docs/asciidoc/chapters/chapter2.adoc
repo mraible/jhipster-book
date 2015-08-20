@@ -904,5 +904,6 @@ api.heroku.com > app > Add-Ons > Heroku Postgres :: Gray > Reset Database
 
 Submitted ticket to Heroku Support: Please increase timeout to 120 seconds
 
+http://stackoverflow.com/questions/5129598/how-to-link-a-folder-with-an-existing-heroku-app
 === Monitoring and Analytics
 
