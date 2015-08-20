@@ -905,5 +905,27 @@ api.heroku.com > app > Add-Ons > Heroku Postgres :: Gray > Reset Database
 Submitted ticket to Heroku Support: Please increase timeout to 120 seconds
 
 http://stackoverflow.com/questions/5129598/how-to-link-a-folder-with-an-existing-heroku-app
+
+2015-08-20T14:37:54.660329+00:00 app[web.1]: Caused by: org.elasticsearch.client.transport.NoNodeAvailableException:
+None of the configured nodes are available: []
+
+ElasticSearch on Heroku:
+
+https://devcenter.heroku.com/articles/bonsai
+
+2015-08-20T15:11:36.809174+00:00 heroku[web.1]: Process running mem=561M(109.6%)
+2015-08-20T15:11:36.809174+00:00 heroku[web.1]: Error R14 (Memory quota exceeded)
+2015-08-20T15:11:41.395945+00:00 heroku[router]: at=info method=POST path="/api/register?cacheBuster=1440083497301" host=www.21-points.com request_id=500b6ed7-4359-4270-a38a-2ec6979facd4 fwd="50.170.188.22" dyno=web.1 connect=1ms service=3999ms status=201 bytes=339
+2015-08-20T15:11:43.106106+00:00 app[web.1]: [WARN] org.jhipster.health.service.MailService - E-mail could not be sent to
+user 'matt@raibledesigns.com', exception is: Mail server connection failed; nested exception is javax.mail.MessagingException:
+Connection error (java.net.ConnectException: Connection refused). Failed messages: javax.mail.MessagingException:
+Connection error (java.net.ConnectException: Connection refused)
+
+$ heroku addons:create sendgrid
+Creating giving-softly-5465... done, (free)
+Adding giving-softly-5465 to health-by-points... done
+Setting SENDGRID_PASSWORD, SENDGRID_USERNAME and restarting health-by-points... done, v17
+Use `heroku addons:docs sendgrid` to view documentation.
+
 === Monitoring and Analytics
 
