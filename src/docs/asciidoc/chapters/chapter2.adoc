@@ -54,7 +54,7 @@ This chapter has six different sections:
 . Deployment
 . Monitoring and Analytics
 
-=== Creating the application
+=== Creating the Application
 
 I started using the http://jhipster.github.io/installation.html[Installing JHipster] instructions. I'm a Java Developer,
 so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[nodejs.org], then
@@ -138,17 +138,17 @@ added a reference to the remote Bitbucket repository, then pushed everything.
 
 [source]
 ----
-[mraible:~/dev/21-points] 128 $ git init
+$ git init
 Initialized empty Git repository in /Users/mraible/dev/21-points/.git/
 
-[mraible:~/dev/21-points] $ git add -A
+$ git add -A
 
-[mraible:~/dev/21-points] $ git commit -m "Initial checkin of 21-points application"
+$ git commit -m "Initial checkin of 21-points application"
 [master (root-commit) c20f856] Initial checkin of 21-points application
  274 files changed, 13179 insertions(+)
  ...
 
-[mraible:~/dev/21-points] $ git push origin master
+$ git push origin master
 Counting objects: 382, done.
 Delta compression using up to 8 threads.
 Compressing objects: 100% (353/353), done.
@@ -166,7 +166,8 @@ However, since you're likely reading this as an individual, I'll follow the firs
 If you're interested in setting up continuous integration with Jenkins, please see
 http://www.jhipster-book.com/#!/news/entry/building-and-deploying-a-jhipster-app-with-jenkins[Building and Deploying a JHipster App with Jenkins].
 
-=== Building the UI and business logic
+=== Building the UI and Business Logic
+
 I wanted 21 Points to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a couple years ago,
 but now Google's https://www.google.com/design/[Material Design] is growing in popularity. I searched and found a
 https://fezvrasta.github.io/bootstrap-material-design/[Material Design for Bootstrap] theme. To install it, I executed
@@ -252,11 +253,7 @@ I still needed to manually restore the call to initialize the Material Design th
 I ran `grunt serve` to verify everything looked good, then committed my updated project to Git.
 
 NOTE: After integrating the Material Design theme, I deployed to Heroku for the first time. This is covered in the
-<<Deploy It!>> section of this chapter.
-
-*[red]#Question: As noted above, I did my first deployment to Heroku at this time, rather than at the end. However, I think
-readers are more interested in setting how the application was implemented. Would it be better to leave the deployment
-section at the end of this chapter, or move it to here?#*
+<<Continuous Integration and Deployment>> section of this chapter.
 
 ==== Generating Entities
 
@@ -309,7 +306,7 @@ image::chapter2/entity-diagram-simple.png[Simple Entity Diagram, 684, scaledwidt
 I started by generating a `Goal` entity, with a many-to-one relationship with `User`. Below are the questions and
 answers I used to generate this entity.
 
-----
+....
 $ yo jhipster:entity Goal
 The entity Goal is being created.
 Generating field #1
@@ -353,7 +350,7 @@ description (String)
 -------------------
 user - user (many-to-one)
 ? Do you want pagination on your entity? No
-----
+....
 
 :icons: font
 NOTE: I didn't add any pagination because I've been tracking my goals quarterly. I may add it at a later
@@ -387,7 +384,7 @@ Next, I proceeded to generate the `Metric` entity, with a many-to-many relations
 :icons: font
 NOTE: When trying to use `value`, JHipster warned me this was a reserved word in PostgreSQL, so I used `amount` instead.
 
-----
+....
 $ yo jhipster:entity Metric
 The entity Metric is being created.
 Generating field #1
@@ -445,14 +442,14 @@ amount (String)
 entry - entry (many-to-many)
 goal - goal (many-to-many)
 ? Do you want pagination on your entity? Yes, with pagination links
-----
+....
 
 Finally, I created the `Entry`, with a many-to-one relationship to `Goal` and `Metric`. Rather than showing you all
 the questions and answers, I'll explain it in simple terms. I made the `date` a `LocalDate` that's required, the individual
 point fields as Integers, and `notes` a String that's not required. JHipster showed me the following output before generating
 everything.
 
-----
+....
 ===========Entry==============
 date (LocalDate)
 exercise (Integer)
@@ -463,7 +460,7 @@ notes (String)
 goal - goal (many-to-one)
 metric - metric (many-to-many)
 ? Do you want pagination on your entity? Yes, with infinite scroll
-----
+....
 
 To ensure that everything was generated correctly, I ran `./gradlew test`. I received numerous failures, many of them looking
 similar to the following.
@@ -609,7 +606,8 @@ https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstr
 .UI Mockup
 image::chapter2/ui-mockup.png[Simple Entity Diagram, 846, scaledwidth="75%", align="center"]
 
-==== Starting over with a Straightfoward Design
+==== Starting over with a Straightforward Design
+
 After figuring out how I wanted the UI to look, I realized my data model could be simplified. Before, it was quite generic
 and could handle a number of metrics. In my new design, I realized I didn't need to track high-level goals (e.g. lose
 five pounds in Q4 2015). I was more concerned with tracking weekly goals and _21 Points_ is all about how many points you
@@ -780,6 +778,9 @@ To make my new JHipster application into something I could be proud of, I made a
 . Improved HTML layout and i18n messages.
 . Added logic so non-admin uses only see their data.
 . Implemented UI Mockup as homepage.
+
+NOTE: At this point, I setup continuous testing of this project using https://jenkins-ci.org/[Jenkins]. This is covered
+in the <<Deploy It!>> section of this chapter.
 
 ==== Fixed issues with entity and variable names.
 
@@ -967,7 +968,9 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 To add Spring Security Test to the 21 Points project, I added `spring-security-test` to my `build.gradle`.
 
 [source,groovy]
+----
 testCompile group: 'org.springframework.security', name: 'spring-security-test', version: spring_security_version
+----
 
 I then proceeded to modify `PointsResourceTest.java`, creating a new `MockMvc` instance that was security aware and
 specifying `with(user("user"))` so Spring Security's `SecurityContext` is populated with an authenticated user.
@@ -1059,12 +1062,15 @@ Page<Points> findAllForCurrentUser(Pageable pageable);
 .Ordering By Date
 --
 Later on, I changed the above query to order by date, so the first records in the list would be the most recent.
+
 [source,java]
 ----
 @Query("select points from Points points where points.user.login = ?#{principal.username} order by points.date desc")
 ----
+
 In addition, I changed `findAll` to `findAllByOrderByDateDesc` to make the admin user's query order by date. The query for this
 is generated dynamically by Spring Data, simply by adding the method to your repository.
+
 [source,java]
 ----
 Page<Points> findAllByOrderByDateDesc(Pageable pageable);
@@ -1903,7 +1909,7 @@ heroku deploy:jar --jar target/*.war
 
 I ran the deployment command after generating all my entities and it looked like everything worked just fine.
 
-----
+....
 $ heroku deploy:jar --jar build/libs/*war --app health-by-points
 Uploading build/libs/21points-0.1-SNAPSHOT.war....
 -----> Packaging application...
@@ -1927,9 +1933,9 @@ remote: -----> Launching... done, v14
 remote:        https://health-by-points.herokuapp.com/ deployed to Heroku
 remote:
 -----> Done
-----
+....
 
-I tailed my log files with `heroku logs --tail` to make sure everything started up OK. I was quickly disappointed when
+I tailed my log files with `heroku logs --tail` to make sure everything started up OK. I was soon disappointed when
 the application didn't startup in 60 seconds.
 
 ----
@@ -1976,7 +1982,9 @@ data:
               data: /tmp/elasticsearch/data
 ----
 
-After making this change, I repacked and redployed. This time, when I tried to register, I recived an error when JHipster's
+==== Mail on Heroku
+
+After making this change, I repacked and redeployed. This time, when I tried to register, I recieved an error when my
 `MailService` tried to send me an activation email.
 
 ----
@@ -1987,7 +1995,11 @@ After making this change, I repacked and redployed. This time, when I tried to r
 user 'matt@raibledesigns.com', exception is: Mail server connection failed; nested exception is javax.mail.MessagingException:
 Connection error (java.net.ConnectException: Connection refused). Failed messages: javax.mail.MessagingException:
 Connection error (java.net.ConnectException: Connection refused)
----
+----
+
+NOTE: You might notice the "Memory quota exceeded" message in the logs. I receive this often when running JHipster applications
+under Heroku's https://www.heroku.com/pricing[free and hobby dynos]. My application stays running though, so I've learned
+to ignore it.
 
 I'd used Heroku's https://addons.heroku.com/sendgrid[SendGrid Add-On] in the past, so I installed added it to my project.
 
@@ -2057,6 +2069,119 @@ That will include the JAR in the slug. Then you'll need to modify your Procfile 
 
 === Continuous Integration and Deployment
 
-- Jenkins Configuration
+After generating entities for this project, I wanted to configure a continuous integration (CI) server to build/test/deploy
+whenever I checked in changes to Git. I chose https://jenkins-ci.org/[Jenkins] for my CI server and used the simplest
+configuration possible: I downloaded `jenkins.war` to `/opt/tools/jenkins` on my MacBook Pro. I started it using
+the following command.
+
+----
+java -jar jenkins.war --httpPort=9000
+----
+
+JHipster has good documentation on http://jhipster.github.io/setting_up_ci.html[setting up continuous integration] and
+http://jhipster.github.io/heroku.html[deploying to Heroku]. Their continuous integration documentation also shows
+how to setup Jenkins on http://jhipster.github.io/setting_up_ci_linux.html[Linux] and
+http://jhipster.github.io/setting_up_ci_windows.html[Windows]. However, it doesn't have any documentation on how
+to configure a job to build, test and deploy. This section aims to fix that.
+
+I added `jasmine-reporters` and `karma-junit-reporter` to my project so I could read JavaScript test results with Jenkins.
+
+----
+npm install jasmine-reporters --save-dev
+npm install karma-junit-reporter --save-dev
+----
+
+Then I updated `src/test/javascript/karma.conf.js` to override the default plugins, specify reporters and configure
+the JUnit Reporter.
+
+[source,javascript]
+----
+singleRun: false,
+
+plugins: [
+    'karma-chrome-launcher',
+    'karma-phantomjs-launcher',
+    'karma-jasmine',
+    'karma-junit-reporter'
+],
+
+reporters: ['dots', 'junit'],
+
+junitReporter: {
+    outputFile: '../build/test-results/TEST-javascript-results.xml',
+    suite: 'unit'
+}
+----
+
+[TIP]
+====
+I created a new Karma configuration in `Gruntfile.js` to allow continuous testing while you're _in the zone_. When running
+`grunt karma:zone`, tests will automatically be re-executed when you save changes.
+
+[source,javascript]
+----
+karma: {
+    unit: {
+        configFile: 'src/test/javascript/karma.conf.js',
+        singleRun: true
+    },
+    zone: {
+        configFile: 'src/test/javascript/karma.conf.js',
+        singleRun: false,
+        autoWatch: true
+    }
+}
+----
+
+To make this work, I also had to update the 'test' task to run `karma:unit` instead of `karma`.
+====
+
+I setup a new Freestyle project in Jenkins. Below is the configuration I used.
+
+* Project name: `21-points`
+* Source Code Management
+** Git Repository: `git@bitbucket.org:mraible/21-points.git`
+** Branches to build: `*/master`
+** Additional Behaviours: `Wipe out repository & force clone`
+* Build Triggers
+** Poll SCM / Schedule: `H/5 * * * *`
+* Build
+** Invoke Gradle script / Use Gradle Wrapper / Tasks: `-Pprod clean test bootRepackage`
+* Post-build Actions
+** Build other projects: `21-points-deploy`
+** Publish JUnit test result report / Test Report XMLs: `build/test-results/*.xml`
+
+I then created another job to deploy to Heroku.
+
+* Project name: `21-points-deploy`
+* Source Code Management
+** Git Repository: `git@bitbucket.org:mraible/21-points.git`
+** Branches to build: `*/master`
+* Build
+** Invoke Gradle script / Use Gradle Wrapper / Tasks: `-Pprod bootRepackage -x test`
+** Execute Shell / Command: `heroku deploy:jar --jar build/libs/*.war --app health-by-points`
+
+When working on this project, I'd start Jenkins and have it running while I checked code in. I did not install it on a
+server and leave it running continuously. My reason was simple: I was only coding in bursts and didn't need to waste
+computing cycles or want to pay for a cloud instance to run it.
+
+=== Summary
+
+This section showed you how I created a health tracking web application with JHipster. It walked you through upgrading to the
+latest release of JHipster and how to perform code-generation with `yo jhipster:entity`. It showed you how to you can
+modify relationships between entities after-the-fact and use Liquibase to generate changelogs to update your database.
+You learned how to do test-first development when writing new APIs and how Spring Data JPA makes it easy to add custom
+queries. You also saw how to re-use existing dialogs on different pages, add new methods to client services and how to
+manipulate data to display pretty charts.
+
+After modifying the application to look like the UI mockups I created, you saw how to deploy to Heroku and some
+common issues I encountered along the way. Finally, you learned how to use Jenkins to build, test and deploy a
+Gradle-based JHipster project. I highly recommend doing something similar shortly after you've created your project
+and verified all tests pass.
+
+In the next chapter, I'll explain JHipster's UI components in more details. AngularJS, Bootstrap, JavaScript build tools,
+Sass, WebSockets and BrowserSync. These are all technologies packed in a JHipster application, so it's useful to dive
+in and learn a bit more about them.
+
 
 
