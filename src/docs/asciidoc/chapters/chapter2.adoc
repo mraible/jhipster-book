@@ -637,7 +637,7 @@ GRANT
 Then I ran `yo jhipster:entity points`. I added the appropriate fields, their validation rules and specified a many-to-one
 relationship with `User`. Below is the final output from my answers.
 
-----
+....
 ===========Points==============
 date (LocalDate)
 exercise (Integer)
@@ -668,7 +668,7 @@ Everything is configured, generating the entity...
    create src/test/gatling/simulations/PointsGatlingTest.scala
    create src/main/webapp/i18n/en/points.json
    create src/main/webapp/i18n/fr/points.json
-----
+....
 
 I had similar answers for the `Weight` and `BloodPressure` entities. For `Settings`, I created a one-to-one relationship
 with `User`. I learned that _settings_ is a reserved keywork, so used _preferences_ instead.
@@ -816,7 +816,7 @@ image::chapter2/points-list-after.png[Points List After UI Improvements, 1319, s
 I refactored the HTML at the top of `points.html` to put the title, search and add button on the same row. I also removed
 the button text in favor of a using https://angular-ui.github.io/bootstrap/#/tooltip[UI Bootstrap's tooltip directive].
 The `translate` filter you see in the button titles is provided by https://angular-translate.github.io/[Angular Translate].
-Both are included in JHipster by default.
+Both UI Bootstrap and Angular Translate are included in JHipster by default.
 
 [source,html]
 ----
@@ -1085,67 +1085,595 @@ To make tests pass, I had to update `PointsResourceTest#getAllPoints` to use Spr
              .andExpect(status().isOk())
 ----
 
-==== Implemented UI Mockup as homepage
+==== Implementing the UI Mockup
+Making the homepage into something resembling my UI mockup required several steps:
+
+. Adding buttons to facilitate adding new data from the homepage.
+. Adding an API to get points achieved in the current week.
+. Adding an API to get blood pressure readings in the last 30 days.
+. Adding an API to get weigh-ins in the last 30 days.
+. Adding charts to display points per week, and blood pressure/weight for last 30 days.
+
+I started by re-using the dialogs that JHipster created for me for entering data. I found that adding new
+routes to `main.js` was the easiest way to do this. Instead of routing back to the list screen after a save
+succeeded, I routed the user back to the `main` state. I copied the generated `points.new` state from `points.js`
+and pasted it into `main.js`.
+
+[source,javascript]
+----
+.state('points.add', { <1>
+    parent: 'home', <2>
+    url: 'add/points', <3>
+    data: {
+        roles: ['ROLE_USER']
+    },
+    onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+        $modal.open({
+            templateUrl: 'scripts/app/entities/points/points-dialog.html',
+            controller: 'PointsDialogController',
+            size: 'lg',
+            resolve: {
+                entity: function () {
+                    return {date: null, exercise: null, meals: null, alcohol: null, notes: null, id: null};
+                }
+            }
+        }).result.then(function(result) { <4>
+                $state.go('home', null, { reload: true });
+            }, function() {
+                $state.go('home');
+            })
+    }]
+})
+----
+<1> I changed from 'points.new' to 'points.add'.
+<2> I changed the parent to be 'home'.
+<3> I changed the url from '/new' to 'add/points'.
+<4> I changed both result states to be 'home' instead of 'points'.
+
+After configuring the state to add new points from the homepage, I added a button to display the dialog.
+
+[source,html]
+----
+<div class="col-md-4 text-right">
+    <a ui-sref="points.add" class="btn btn-primary btn-raised">Add Points</a>
+</div>
+----
+
+===== Points This Week
+
+To get points achieved in the current week, I started by adding a unit test to `PointsResourceTest.java` that
+would allow me to prove my API was working.
 
 [source,java]
 ----
-@Query(value = "select * from points where date > current_date - interval '7 days'", nativeQuery = true)
-List<Points> findAllThisWeek();
+private void createPointsByWeek(LocalDate thisMonday, LocalDate lastMonday) {
+    User user = userRepository.findOneByLogin("user").get();
+    // Create points in two separate weeks
+    points = new Points(thisMonday.plusDays(2), 1, 1, 1, user); <1>
+    pointsRepository.saveAndFlush(points);
+
+    points = new Points(thisMonday.plusDays(3), 1, 1, 0, user);
+    pointsRepository.saveAndFlush(points);
+
+    points = new Points(lastMonday.plusDays(3), 0, 0, 1, user);
+    pointsRepository.saveAndFlush(points);
+
+    points = new Points(lastMonday.plusDays(4), 1, 1, 0, user);
+    pointsRepository.saveAndFlush(points);
+}
+
+@Test
+@Transactional
+public void getPointsThisWeek() throws Exception {
+    LocalDate today = new LocalDate();
+    LocalDate thisMonday = today.withDayOfWeek(DateTimeConstants.MONDAY);
+    LocalDate lastMonday = thisMonday.minusWeeks(1);
+    createPointsByWeek(thisMonday, lastMonday);
+
+    // create security-aware mockMvc
+    restPointsMockMvc = MockMvcBuilders
+        .webAppContextSetup(context)
+        .apply(springSecurity())
+        .build();
+
+    // Get all the points
+    restPointsMockMvc.perform(get("/api/points")
+        .with(user("user").roles("USER")))
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$", hasSize(4)));
+
+    // Get the points for this week only
+    restPointsMockMvc.perform(get("/api/points-this-week")
+        .with(user("user").roles("USER")))
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.week").value(thisMonday.toString()))
+        .andExpect(jsonPath("$.points").value(5));
+}
 ----
+<1> To simplify testing, I added a new constructor to `Points.java` that contained the arguments I wanted to set. I
+    continued this pattern for most tests I created.
+
+Of course, this test failed when I first ran it since "/api/points-this-week" didn't exist in `PointsResource.java`.
+You might notice the points-this-week API expects two return values: a date in the `week` field and the total number
+of points in the `points` field. I created `PointsPerWeek.java` in my project's `rest.dto` package to hold this
+information.
+
+[source,java]
+----
+public class PointsPerWeek {
+    private LocalDate week;
+    private Integer points;
+
+    public PointsPerWeek(LocalDate week, Integer points) {
+        this.week = week;
+        this.points = points;
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+
+    @JsonSerialize(using = CustomLocalDateSerializer.class)
+    @JsonDeserialize(using = ISO8601LocalDateDeserializer.class)
+    public LocalDate getWeek() {
+        return week;
+    }
+
+    public void setWeek(LocalDate week) {
+        this.week = week;
+    }
+
+    @Override
+    public String toString() {
+        return "PointsThisWeek{" +
+            "points=" + points +
+            ", week=" + week +
+            '}';
+    }
+}
+----
+
+To find all point entries in a particular week, Spring Data JPA made it easy once again. I added a new method
+to my `PointsRepository.java` that allowed me to query between two dates.
+
+[source,java]
+----
+List<Points> findAllByDateBetween(LocalDate firstDate, LocalDate secondDate);
+----
+
+From there, it was just a matter of calculating the beginning and end of the current week and processing the data
+in `PointsResource.java`.
 
 [source,java]
 ----
 /**
- * GET  /points -> get all the points.
+ * GET  /points -> get all the points for the current week.
  */
-@RequestMapping(value = "/points-this-week",
-    method = RequestMethod.GET,
-    produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/points-this-week")
 @Timed
-public ResponseEntity<PointsThisWeek> getPointsThisWeek() throws URISyntaxException {
-    List<Points> points = pointsRepository.findAllThisWeek();
+public ResponseEntity<PointsPerWeek> getPointsThisWeek() {
+    // Get current date
+    LocalDate now = new LocalDate(); <1>
+    // Get first day of week
+    LocalDate startOfWeek = now.withDayOfWeek(DateTimeConstants.MONDAY); <2>
+    // Get last day of week
+    LocalDate endOfWeek = now.withDayOfWeek(DateTimeConstants.SUNDAY);
+    log.debug("Looking for points between: {} and {}", startOfWeek, endOfWeek);
 
-    Integer numPoints = 0;
-    // todo: use Java 8 streams/filters
-    String currentLogin = SecurityUtils.getCurrentLogin();
-    for (Points p : points) {
-        // only count if points belongs to the current user
-        if (p.getUser() != null && p.getUser().getLogin().equals(currentLogin)) {
-            numPoints += p.getExercise() + p.getMeals() + p.getAlcohol();
-        }
-    }
+    List<Points> points = pointsRepository.findAllByDateBetween(startOfWeek, endOfWeek);
+    // filter by current user and sum the points
+    Integer numPoints = points.stream()
+        .filter(p -> p.getUser().getLogin().equals(SecurityUtils.getCurrentLogin()))
+        .mapToInt(p -> p.getExercise() + p.getMeals() + p.getAlcohol())
+        .sum();
 
-    LocalDate now = LocalDate.now();
-    LocalDate weekStart = now.withDayOfWeek(DateTimeConstants.MONDAY);
-    PointsThisWeek count = new PointsThisWeek(weekStart, numPoints);
-
+    PointsPerWeek count = new PointsPerWeek(startOfWeek, numPoints);
     return new ResponseEntity<>(count, HttpStatus.OK);
 }
 ----
+<1> I later discovered that creating a new `LocalDate` uses the server's timezone by default. When I deployed on a server
+    using UTC, I discovered this logic didn't work too well. I decided I'd make it a user preference or look into using a
+    JavaScript library like http://pellepim.bitbucket.org/jstz/[jsTimezoneDetect] to detect client timezone and pass it
+    to the server.
+<2> Since I live in the United States, I'm used to the week beginning on Sunday. However, since Joda Time uses Monday
+    as the first day of the week, I decided this would be my application's logic as well.
+
+To support this new method on the client, I added a new method to my `Points` service.
+
+[source,javascript]
+.src/main/webapp/scripts/components/entities/points/points.service.js
+----
+.factory('Points', function ($resource, DateUtils) {
+    return $resource('api/points/:id', {}, {
+        'query': { method: 'GET', isArray: true},
+        'thisWeek': { method: 'GET', isArray: false, url: 'api/points-this-week'},
+        ...
+    });
+});
+----
+
+Then I added the service to `main.controller.js` and calculated the data I wanted to display.
+
+[source,javascript]
+.src/main/webapp/scripts/app/main/main.controller.js
+----
+.controller('MainController', function ($scope, Principal, Points) {
+    Principal.identity().then(function(account) {
+        $scope.account = account;
+        $scope.isAuthenticated = Principal.isAuthenticated;
+    });
+
+    Points.thisWeek(function(data) {
+        $scope.pointsThisWeek = data;
+        $scope.pointsPercentage = (data.points / 21) * 100;
+    });
+});
+----
+
+I added a Bootstrap progress bar to `main.html` to show points-this-week progress.
+
+[source,html]
+----
+<div class="row">
+    <div class="col-md-10">
+        <div class="progress progress-lg" ng-show="pointsThisWeek.points"> <1>
+            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                 aria-valuenow="{{pointsThisWeek.points}}"
+                 aria-valuemin="0" aria-valuemax="21" style="width: {{pointsPercentage}}%">
+                 {{pointsThisWeek.points}} / Goal: 10
+            </div>
+        </div>
+        <alert type="info" ng-hide="pointsThisWeek.points">
+            No points yet this week, better get moving!
+        </alert>
+    </div>
+</div>
+----
+<1> I later realized this could be replaced with UI Bootstrap's
+    https://angular-ui.github.io/bootstrap/#/progressbar[progressbar], but why fix something if it isn't broke?! ;)
+
+Below is a screenshot of what this progress bar looked like after entering some data for the current user.
+
+[[img-homepage-progress-bar]]
+.Points this week progress bar
+image::chapter2/homepage-points-this-week.png[Points this week progress bar, 1381, scaledwidth="100%", align="center"]
+
+You might notice the Goal is hardcoded to "10" in the progress bar's HTML. To fix this, I needed to add the ability
+to fetch the user's preferences. I created a new method in `PreferencesResource.java` to return the user's preferences
+(or a default weekly goal of 10 points if no preferences are defined).
 
 [source,java]
 ----
 /**
  * GET  /my-preferences -> get the current user's preferences.
  */
-@RequestMapping(value = "/my-preferences",
-    method = RequestMethod.GET,
-    produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/my-preferences")
 @Timed
 public ResponseEntity<Preferences> getUserPreferences() {
     String username = SecurityUtils.getCurrentLogin();
     log.debug("REST request to get Preferences : {}", username);
-    Optional<User> userPreferences = userRepository.findOneByLogin(username);
-    Preferences defaultPreferences = new Preferences();
-    defaultPreferences.setWeeklyGoal(10); // default
+    User user = userRepository.findOneByLogin(username).get();
 
-    return Optional.ofNullable(userPreferences.get())
-        .map(user -> new ResponseEntity<>(
-            user.getPreferences(),
-            HttpStatus.OK))
-        .orElse(new ResponseEntity<>(defaultPreferences, HttpStatus.OK));
+    if (user.getPreferences() != null) {
+        return new ResponseEntity<>(user.getPreferences(), HttpStatus.OK);
+    } else {
+        Preferences defaultPreferences = new Preferences();
+        defaultPreferences.setWeeklyGoal(10); // default
+        return new ResponseEntity<>(defaultPreferences, HttpStatus.OK);
+    }
 }
 ----
+
+To facilitate calling this endpoint, I added a new `user` method to the `Preferences` client service.
+
+[source,javascript]
+.src/main/webapp/scripts/components/entities/preferences/preferences.service.js
+----
+.factory('Preferences', function ($resource) {
+    return $resource('api/preferences/:id', {}, {
+        'query': { method: 'GET', isArray: true},
+        'user': { method: 'GET', isArray: false, url: '/api/my-preferences'},
+        ...
+    });
+});
+----
+
+In `main.controller.js`, I added the `Preferences` service as a dependency and set the preferences on `$scope`
+so the HTML template could read it.
+
+[source,javascript]
+----
+.controller('MainController', function ($scope, Principal, Points, Preferences) {
+    ...
+
+    Preferences.user(function(data) {
+        $scope.preferences = data;
+    })
+});
+----
+
+Now that a user's preferences were available, I modified `main.html` to display the user's weekly goal, as well
+as to color the progress bar appropriately with `ng-class`.
+
+[source,html]
+----
+<div class="progress-bar progress-bar-striped" role="progressbar"
+     ng-class="{'progress-bar-success': pointsThisWeek.points >= preferences.weeklyGoal,
+                'progress-bar-danger': pointsThisWeek.points < 10,
+                'progress-bar-warning': pointsThisWeek.points > 10 && pointsThisWeek.points < preferences.weeklyGoal}"
+     aria-valuenow="{{pointsThisWeek.points}}"
+     aria-valuemin="0" aria-valuemax="21" style="width: {{pointsPercentage}}%">
+    <span ng-show="pointsThisWeek.points">
+        {{pointsThisWeek.points}} / Goal: {{preferences.weeklyGoal}}
+    </span>
+    <span class="sr-only">{{pointsPercentage}} points this week</span>
+</div>
+----
+
+To finish things off for user preferences, I added a link to edit them and an appropriate state to allow it in `main.js`.
+
+===== Blood Pressure and Weight for Last 30 Days
+
+To populate the remaining two charts on the homepage, I needed to fetch the user's blood pressure readings and weigh-ins
+for the last 30 days. I added a method to `BloodPressureResourceTest.java` to setup my expectations.
+
+[source,java]
+----
+private void createBloodPressureByMonth(DateTime firstOfMonth, DateTime firstDayOfLastMonth) {
+    User user = userRepository.findOneByLogin("user").get();
+    // this month
+    bloodPressureRepository.saveAndFlush(new BloodPressure(firstOfMonth, 120, 80, user));
+    bloodPressureRepository.saveAndFlush(new BloodPressure(firstOfMonth.plusDays(10), 125, 75, user));
+    bloodPressureRepository.saveAndFlush(new BloodPressure(firstOfMonth.plusDays(20), 100, 69, user));
+
+    // last month
+    bloodPressureRepository.saveAndFlush(new BloodPressure(firstDayOfLastMonth, 130, 90, user));
+    bloodPressureRepository.saveAndFlush(new BloodPressure(firstDayOfLastMonth.plusDays(11), 135, 85, user));
+    bloodPressureRepository.saveAndFlush(new BloodPressure(firstDayOfLastMonth.plusDays(23), 130, 75, user));
+}
+
+@Test
+@Transactional
+public void getBloodPressureForLast30Days() throws Exception {
+    DateTime now = new DateTime();
+    DateTime firstOfMonth = now.withDayOfMonth(1);
+    DateTime firstDayOfLastMonth = firstOfMonth.minusMonths(1);
+    createBloodPressureByMonth(firstOfMonth, firstDayOfLastMonth);
+
+    // create security-aware mockMvc
+    restBloodPressureMockMvc = MockMvcBuilders
+        .webAppContextSetup(context)
+        .apply(springSecurity())
+        .build();
+
+    // Get all the blood pressure readings
+    restBloodPressureMockMvc.perform(get("/api/bloodPressures")
+        .with(user("user").roles("USER")))
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$", hasSize(6)));
+
+    // Get the blood pressure readings for the last 30 days
+    restBloodPressureMockMvc.perform(get("/api/bp-by-days/{days}", 30)
+        .with(user("user").roles("USER")))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.period").value("Last 30 Days"))
+        .andExpect(jsonPath("$.readings.[*].systolic").value(hasItem(120)))
+        .andExpect(jsonPath("$.readings.[*].diastolic").value(hasItem(69)));
+}
+----
+
+I created a `BloodPressureByPeriod.java` class to return the results from the API.
+
+[source,java]
+.BloodPressureByPeriod.java
+----
+public class BloodPressureByPeriod {
+    private String period;
+    private List<BloodPressure> readings;
+
+    public BloodPressureByPeriod(String period, List<BloodPressure> readings) {
+        this.period = period;
+        this.readings = readings;
+    }
+    ...
+}
+----
+
+Using similar logic that I used for points-this-week, I created a new method in `BloodPressureRepository.java` that
+allowed me to query between two different dates. I also added orderBy logic so the records would be sorted by date
+entered.
+
+[source,java]
+----
+List<BloodPressure> findAllByTimestampBetweenOrderByTimestampDesc(DateTime firstDate, DateTime secondDate);
+----
+
+Next, I created a new method in `BloodPressureResource.java` that calculated the first and last days of the current
+month, executed the query, filtered by the current user and constructed the data to return.
+
+[source,java]
+----
+/**
+ * GET  /bp-by-days -> get all the blood pressure readings by last x days.
+ */
+@RequestMapping(value = "/bp-by-days/{days}")
+@Timed
+public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
+    LocalDate today = new LocalDate();
+    LocalDate previousDate = today.minusDays(days);
+    DateTime daysAgo = previousDate.toDateTimeAtCurrentTime();
+    DateTime rightNow = today.toDateTimeAtCurrentTime();
+
+    List<BloodPressure> readings = bloodPressureRepository.findAllByTimestampBetweenOrderByTimestampDesc(daysAgo, rightNow);
+    BloodPressureByPeriod response = new BloodPressureByPeriod("Last " + days + " Days", filterByUser(readings));
+    return new ResponseEntity<>(response, HttpStatus.OK);
+}
+
+private List<BloodPressure> filterByUser(List<BloodPressure> readings) {
+    Stream<BloodPressure> userReadings = readings.stream()
+        .filter(bp -> bp.getUser().getLogin().equals(SecurityUtils.getCurrentLogin()));
+    return userReadings.collect(Collectors.toList());
+}
+----
+
+I added a new method to support this API in `bloodPressure.service.js`.
+
+[source,javascript]
+----
+.factory('BloodPressure', function ($resource, DateUtils) {
+    return $resource('api/bloodPressures/:id', {}, {
+        'query': { method: 'GET', isArray: true},
+        'last30Days': { method: 'GET', isArray: false, url: 'api/bp-by-days/30'},
+        ...
+    });
+});
+----
+
+While gathering this data seemed easy enough, the hard part was figuring out what charting library to use to display it.
+
+===== Last 30 Days Charts
+
+I did a https://twitter.com/mraible/status/633738800879898624[bit of research] and decided to use
+http://krispo.github.io/angular-nvd3[Angular-nvD3]. I'd heard good things about http://d3js.org/[D3.js] and Angular-nvD3
+is built on top of it. To install Angular-nvD3, I used Bower's install command.
+
+----
+bower install angular-nvd3 --save
+----
+
+Then I ran `grunt wiredep` to update `index.html` and `karma.conf.js` with references to the new files. I also updated
+`app.js` to add `nvd3` as a dependency.
+
+[source,javascript]
+----
+angular.module('21pointsApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate',
+    'ui.bootstrap', // for modal dialogs
+    'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll', 'nvd3'])
+----
+
+I modified `main.controller.js` to have the `BloodPressure` service as a dependency and went to work building the
+data so Angular-nvD3 could render it. I found that charts required a bit of JSON to configure them, so I created
+a service to contain this configuration.
+
+[source,javascript]
+.src/main/webapp/scripts/component/chart/chart.service.js
+----
+'use strict';
+
+angular.module('21pointsApp').factory('Chart', function Chart() {
+    return {
+        getBpChartConfig: function() {
+            return bpChartConfig;
+        }
+    }
+});
+
+var today = new Date();
+var priorDate = new Date().setDate(today.getDate()-30);
+
+var bpChartConfig = {
+    chart: {
+        type: "lineChart",
+        height: 200,
+        margin: {
+            top: 20,
+            right: 20,
+            bottom: 40,
+            left: 55
+        },
+        x: function(d){ return d.x; },
+        y: function(d){ return d.y; },
+        useInteractiveGuideline: true,
+        dispatch: {},
+        xAxis: {
+            axisLabel: "Dates",
+            showMaxMin: false,
+            tickFormat: function(d){
+                return d3.time.format("%b %d")(new Date(d));
+            }
+        },
+        xDomain: [priorDate, today],
+        yAxis: {
+            axisLabel: "",
+            axisLabelDistance: 30
+        },
+        transitionDuration: 250
+    },
+    title: {
+        enable: true
+    }
+};
+----
+
+In `main.controller.js`, I grabbed the blood pressure readings from the API and morphed them into data that Angular-nvD3
+could understand.
+
+[source,javascript]
+----
+BloodPressure.last30Days(function(bpReadings) {
+    $scope.bpReadings = bpReadings;
+    if (bpReadings.readings.length) {
+        $scope.bpOptions = angular.copy(Chart.getBpChartConfig());
+        $scope.bpOptions.title.text = bpReadings.period;
+        $scope.bpOptions.chart.yAxis.axisLabel = "Blood Pressure";
+        var systolics, diastolics;
+        systolics = [];
+        diastolics = [];
+        bpReadings.readings.forEach(function (item) {
+            systolics.push({
+                x: new Date(item.timestamp),
+                y: item.systolic
+            });
+            diastolics.push({
+                x: new Date(item.timestamp),
+                y: item.diastolic
+            });
+        });
+        $scope.bpData = [{
+            values: systolics,
+            key: 'Systolic',
+            color: '#673ab7'
+        }, {
+            values: diastolics,
+            key: 'Diastolic',
+            color: '#03a9f4'
+        }];
+    }
+});
+----
+
+Finally, I used the _nvd3_ directive in `main.html` to read `$scope.bpOptions` and `$scope.bpData` and display a chart.
+
+[source,html]
+----
+<div class="row">
+    <div class="col-md-10">
+        <span ng-if="bpReadings.readings.length">
+            <nvd3 options="bpOptions" data="bpData" class="with-3d-shadow with-transitions"></nvd3>
+        </span>
+        <span ng-if="!bpReadings.readings.length">
+            <alert type="info">No blood pressure readings found.</alert>
+        </span>
+    </div>
+</div>
+----
+
+After entering some test data, I was quite pleased with the results.
+
+[[img-homepage-bp-last-30-days]]
+.Blood Pressure Last 30 Days Chart
+image::chapter2/homepage-bp-last-30-days.png[Blood Pressure Last 30 Days Chart, 1338, scaledwidth="100%", align="center"]
+
+I made similar changes to get weigh-ins for the last 30 days and display them as a chart.
 
 === Testing
 
