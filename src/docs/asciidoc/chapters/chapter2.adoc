@@ -1428,14 +1428,20 @@ for the last 30 days. I added a method to `BloodPressureResourceTest.java` to se
 private void createBloodPressureByMonth(DateTime firstOfMonth, DateTime firstDayOfLastMonth) {
     User user = userRepository.findOneByLogin("user").get();
     // this month
-    bloodPressureRepository.saveAndFlush(new BloodPressure(firstOfMonth, 120, 80, user));
-    bloodPressureRepository.saveAndFlush(new BloodPressure(firstOfMonth.plusDays(10), 125, 75, user));
-    bloodPressureRepository.saveAndFlush(new BloodPressure(firstOfMonth.plusDays(20), 100, 69, user));
+    bloodPressure = new BloodPressure(firstOfMonth, 120, 80, user);
+    bloodPressureRepository.saveAndFlush(bloodPressure);
+    bloodPressure = new BloodPressure(firstOfMonth.plusDays(10), 125, 75, user);
+    bloodPressureRepository.saveAndFlush(bloodPressure);
+    bloodPressure = new BloodPressure(firstOfMonth.plusDays(20), 100, 69, user);
+    bloodPressureRepository.saveAndFlush(bloodPressure);
 
     // last month
-    bloodPressureRepository.saveAndFlush(new BloodPressure(firstDayOfLastMonth, 130, 90, user));
-    bloodPressureRepository.saveAndFlush(new BloodPressure(firstDayOfLastMonth.plusDays(11), 135, 85, user));
-    bloodPressureRepository.saveAndFlush(new BloodPressure(firstDayOfLastMonth.plusDays(23), 130, 75, user));
+    bloodPressure = new BloodPressure(firstDayOfLastMonth, 130, 90, user);
+    bloodPressureRepository.saveAndFlush(bloodPressure);
+    bloodPressure = new BloodPressure(firstDayOfLastMonth.plusDays(11), 135, 85, user);
+    bloodPressureRepository.saveAndFlush(bloodPressure);
+    bloodPressure = new BloodPressure(firstDayOfLastMonth.plusDays(23), 130, 75, user);
+    bloodPressureRepository.saveAndFlush(bloodPressure);
 }
 
 @Test
@@ -1675,15 +1681,50 @@ image::chapter2/homepage-bp-last-30-days.png[Blood Pressure Last 30 Days Chart, 
 
 I made similar changes to get weigh-ins for the last 30 days and display them as a chart.
 
-=== Testing
+==== Lines of Code
 
-* karma:zone
-* unit test for main
-* integration test to create user, add points
-* Setup a build and deploy job on Jenkins.
-* Show load testing with Gatling
+After finishing the MVP (Minimum Viable Product) of 21 Point Health, I did some quick calculations to see how
+many lines of code were produced by JHipster. You can see from the graph below that I only had to write 1,152
+lines of code, JHipster did the rest for me. In other words, I was able to generate 91.7% of the code in my project!
 
-=== Deploy it!
+[[img-21-points-loc]]
+.Project Lines of Code
+image::chapter2/21-points-loc.png[Project Lines of Code, 700, scaledwidth="100%", align="center"]
+
+To drill down further, I made a graph of the top three languages in the project: Java, JavaScript and HTML.
+
+[[img-21-points-loc-by-language]]
+.Project Lines of Code by Language
+image::chapter2/21-points-loc-by-language.png[Project Lines of Code by Language, 900, scaledwidth="100%", align="center"]
+
+Amount of each code I had to write in each language:
+
+* Java: 582 lines
+* JavaScript: 268
+* HTML: 109
+
+Wahoo! Thanks JHipster!
+
+.Testing
+****
+You probably noticed that a lot of the Java code I wrote was in the tests. I felt these tests were essential to prove
+the business logic I implemented was correct. It's never easy to work with dates, but Joda Time greatly simplified
+it and Spring Data JPA made it easy to write _between date_ queries.
+
+I believe TDD (Test-Driven Development) is a great way to write code. However, when developing UIs, I tend to make them
+work before writing tests. It's usually a very visual activity and with the aid of BrowserSync, there's rarely a delay in
+seeing your changes. I do like to write unit tests for my Angular controllers and directives using
+http://jasmine.github.io/2.3/introduction.html[Jasmine]. I also like to write integration tests with
+https://angular.github.io/protractor/#/[Protractor].
+
+I did not write any JavaScript tests for this project because I was in a time crunch and I was able to visually verify
+things worked as I wanted. I do plan to write unit and integration tests when I find the time, but didn't think they
+were necessary for the MVP.
+****
+
+=== Deploy It!
+
+// logs from below
 
 * Setup on Heroku, configured ElasticSearch and SendGrid for email.
 
@@ -1845,4 +1886,12 @@ Setting SENDGRID_PASSWORD, SENDGRID_USERNAME and restarting health-by-points... 
 Use `heroku addons:docs sendgrid` to view documentation.
 
 === Monitoring and Analytics
+
+- Google Analytics
+- New Relic
+
+=== Continuous Integration and Deployment
+
+- Jenkins Configuration
+
 
