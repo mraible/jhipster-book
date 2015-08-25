@@ -251,6 +251,13 @@ I still needed to manually restore the call to initialize the Material Design th
 
 I ran `grunt serve` to verify everything looked good, then committed my updated project to Git.
 
+NOTE: After integrating the Material Design theme, I deployed to Heroku for the first time. This is covered in the
+<<Deploy It!>> section of this chapter.
+
+*[red]#Question: As noted above, I did my first deployment to Heroku at this time, rather than at the end. However, I think
+readers are more interested in setting how the application was implemented. Would it be better to leave the deployment
+section at the end of this chapter, or move it to here?#*
+
 ==== Generating Entities
 
 For each entity you want to create, you will need:
@@ -788,8 +795,8 @@ the column names intact and manually renamed everything in Java, JavaScript and 
 ==== Improved HTML layout and i18n messages
 
 Of all the code I write, writing UI code (HTML, JavaScript, and CSS) is my favorite. I like that you can see changes
-immediately and make progress quickly - especially when you're using dual monitors with <<BrowserSync>>. Below is a consolidated list of changes
-I made to the HTML to make things look better.
+immediately and make progress quickly - especially when you're using dual monitors with <<BrowserSync>>. Below is a
+consolidated list of changes I made to the HTML to make things look better.
 
 . Improved layout of tables and buttons.
 . Improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`.
@@ -849,16 +856,19 @@ Changing the numbers to icons was pretty easy thanks to Angular's `ng-class` dir
 [source,html]
 ----
 <td class="text-center">
-    <i class="glyphicon" ng-class="{'glyphicon-ok text-success': points.exercise,
-                                    'glyphicon-remove text-danger': !points.exercise}"></i>
+    <i class="glyphicon"
+       ng-class="{'glyphicon-ok text-success': points.exercise,
+                  'glyphicon-remove text-danger': !points.exercise}"></i>
 </td>
 <td class="text-center">
-    <i class="glyphicon" ng-class="{'glyphicon-ok text-success': points.meals,
-                                    'glyphicon-remove text-danger': !points.meals}"></i>
+    <i class="glyphicon"
+       ng-class="{'glyphicon-ok text-success': points.meals,
+                  'glyphicon-remove text-danger': !points.meals}"></i>
 </td>
 <td class="text-center">
-    <i class="glyphicon" ng-class="{'glyphicon-ok text-success': points.alcohol,
-                                    'glyphicon-remove text-danger': !points.alcohol}"></i>
+    <i class="glyphicon"
+       ng-class="{'glyphicon-ok text-success': points.alcohol,
+                 'glyphicon-remove text-danger': !points.alcohol}"></i>
 </td>
 ----
 
@@ -1724,15 +1734,48 @@ were necessary for the MVP.
 
 === Deploy It!
 
-// logs from below
+*[red]#Question: I think "Deploy It!" is a good title if this section changes to active vs. passive voice. However,
+if I keep things as passive, "Deployment to Heroku" or "Cloud Deployment" is probably better.#*
 
-* Setup on Heroku, configured ElasticSearch and SendGrid for email.
+JHipster ships with support for deploying to Cloud Foundry, Heroku, Openshift and AWS. I chose to use Heroku to
+deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for
+production, it's recommended you use the pre-configured "production" profile. With Gradle, you can package your
+application by specify this profile when building.
 
-[mraible:~/dev/21-points] 2s $ heroku login
+----
+gradlew -Pprod bootRepackage
+----
+
+The command looks similar when using Maven.
+
+----
+mvn -Pprod package
+----
+
+When built with the production profile, an optimized JavaScript client is built. You can invoke this using Grunt or
+Gulp by running `grunt build` or `gulp build`, depending on which tool your project uses. The production profile also
+configures gzip compression with a servlet filter, cache headers and monitoring via Metrics[https://github.com/dropwizard/metrics].
+If you have a http://graphite.wikidot.com/[Graphite] server configured in your `application-prod.yaml` file, your application
+will automatically send metrics data to it.
+
+To setup 21 Point Health on Heroku, I started by logging in. I already had the https://toolbelt.heroku.com/[Heroku Toolbelt]
+installed and a Heroku account created.
+
+NOTE: I first deployed to Heroku after integrating the Material Design theme. This means that no entities were created
+and it was basically a default JHipster application.
+
+----
+[mraible:~/dev/21-points] $ heroku login
 Enter your Heroku credentials.
 Email: matt@raibledesigns.com
 Password (typing will be hidden):
 Authentication successful.
+----
+
+Next, I ran `yo jhipster:heroku` as recommended in the http://jhipster.github.io/heroku.html[Deploying to Heroku
+documentation]. I tried using the name "21points" for my application when prompted.
+
+----
 ⌁23% [mraible:~/dev/21-points] 18s $ yo jhipster:heroku
 Heroku configuration is starting
 ? Name to deploy as: 21points
@@ -1744,7 +1787,6 @@ Installing Heroku CLI deployment plugin
 Installing https://github.com/heroku/heroku-deploy...
 done
 
-
 Creating Heroku application and setting up node environment
 heroku create 21points --addons heroku-postgresql:hobby-dev
 ✖ { [Error: Command failed: /bin/sh -c heroku create 21points --addons heroku-postgresql:hobby-dev
@@ -1754,36 +1796,15 @@ heroku create 21points --addons heroku-postgresql:hobby-dev
   code: 1,
   signal: null,
   cmd: '/bin/sh -c heroku create 21points --addons heroku-postgresql:hobby-dev' }
-⌁22% [mraible:~/dev/21-points] 13s $ yo jhipster:heroku
-Heroku configuration is starting
-? Name to deploy as: health
-? On which region do you want to deploy ? us
+----
 
-Using existing Git repository
+You can see my first attempt failed for the same reason that creating a local PostgreSQL database failed. It didn't
+like that the database name started with numbers. I tried again with "health", but that failed too since a Heroku app
+with this name already existed. Finally, I settled on using "health-by-points" as the application name and everything
+succeeded.
 
-Installing Heroku CLI deployment plugin
-Installing https://github.com/heroku/heroku-deploy...
-done
-
-
-Creating Heroku application and setting up node environment
-heroku create health --addons heroku-postgresql:hobby-dev
-
-? The Heroku app "health" already exists! Use it anyways?
-❯ Yes, I have access to it
-  No, generate a random name
-
-⌁22% [mraible:~/dev/21-points] 32s $ yo jhipster:heroku
-Heroku configuration is starting
-? Name to deploy as: 21-point-health
-? On which region do you want to deploy ? us
-
-Using existing Git repository
-
-Installing Heroku CLI deployment plugin
-Installing https://github.com/heroku/heroku-deploy...
-^C
-⌁22% [mraible:~/dev/21-points] 26s 130 $ yo jhipster:heroku
+----
+$ yo jhipster:heroku
 Heroku configuration is starting
 ? Name to deploy as: health-by-points
 ? On which region do you want to deploy ? us
@@ -1793,7 +1814,6 @@ Using existing Git repository
 Installing Heroku CLI deployment plugin
 Installing https://github.com/heroku/heroku-deploy...
 done
-
 
 Creating Heroku application and setting up node environment
 heroku create health-by-points --addons heroku-postgresql:hobby-dev
@@ -1805,7 +1825,6 @@ done
 https://health-by-points.herokuapp.com/ | https://git.heroku.com/health-by-points.git
 
 Git remote heroku added
-
 
 Creating Heroku deployment files
 
@@ -1822,14 +1841,69 @@ Total time: 2 mins 58.204 secs
 Uploading your application code.
  This may take several minutes depending on your connection speed...
 Uploading build/libs/21points-0.1-SNAPSHOT.war....
-
-
-
 ----
 
+I was pumped to see that this process worked and my application was available at http://healthy-by-points.herokuapp.com.
+I quickly changed the default passwords for *admin* and *user* to make things more secure.
 
-$ ./gradlew -Pprod bootRepackage -x test
+[[img-deployed-to-heroku]]
+.First Deployment to Heroku
+image::chapter2/deployed-to-Heroku.png[First Deployment to Heroku, 1144, scaledwidth="100%", align="center"]
 
+Next, I bought the _21-points.com_ from https://domains.google.com[Google Domains]. To configure this domain for
+Heroku, I ran `heroku domains:add`.
+
+----
+$ heroku domains:add www.21-points.com
+Adding www.21-points.com to health-by-points... done
+!    Configure your app's DNS provider to point to the DNS Target www.21-points.com
+!    For help, see https://devcenter.heroku.com/articles/custom-domains
+----
+
+I read the https://devcenter.heroku.com/articles/custom-domains[documentation], then went to work configuring
+DNS settings on Google Domains. I configured a Subdomain forward:
+
+----
+21-points.com → http://www.21-points.com
+----
+
+I also configured a custom resource record with a CNAME to point to health-by-points.herokuapp.com.
+
+.Custom resource record on Google Domains
+|===
+|Name |Type |TTL |Data
+
+|*
+|CNAME
+|1h
+|health-by-points.herokuapp.com
+|===
+
+This was all I needed to get my JHipster application running on Heroku. However, after generating entities and adding
+more code to the project, I found some issues. First of all, I learned that after the initial setup, you can redeploy
+your application using https://github.com/heroku/heroku-deploy[heroku-deploy]. Use the following command to install
+this plugin:
+
+----
+heroku plugins:install https://github.com/heroku/heroku-deploy
+----
+
+Then you package your JHipster project for production and deploy it. Using Gradle, this looks as follows:
+
+----
+gradlew -Pprod bootRepackage -x test
+heroku deploy:jar --jar build/libs/*war --app health-by-points
+----
+
+With Maven, the commands look slightly different:
+----
+mvn install -Pprod -DskipTests
+heroku deploy:jar --jar target/*.war
+----
+
+I ran the deployment command after generating all my entities and it looked like everything worked just fine.
+
+----
 $ heroku deploy:jar --jar build/libs/*war --app health-by-points
 Uploading build/libs/21points-0.1-SNAPSHOT.war....
 -----> Packaging application...
@@ -1853,42 +1927,133 @@ remote: -----> Launching... done, v14
 remote:        https://health-by-points.herokuapp.com/ deployed to Heroku
 remote:
 -----> Done
-
 ----
 
-api.heroku.com > app > Add-Ons > Heroku Postgres :: Gray > Reset Database
+I tailed my log files with `heroku logs --tail` to make sure everything started up OK. I was quickly disappointed when
+the application didn't startup in 60 seconds.
 
-2015-08-19T09:02:09.975017+00:00 heroku[web.1]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 60 seconds of launch
+----
+Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 60 seconds of launch
+----
 
-Submitted ticket to Heroku Support: Please increase timeout to 120 seconds
+This is an expected problem with JHipster and Heroku. I created a support ticket at https://help.heroku.com/ and asked
+for my application's timeout to be increased to 120 seconds. Heroku's Support team was quick to respond and my timeout
+was increased within minutes.
 
-http://stackoverflow.com/questions/5129598/how-to-link-a-folder-with-an-existing-heroku-app
+TIP: If you need to reset your Postgres database on Heroku, you can do so my logging into http://api.heroku.com. Then
+click on your application name > Add-Ons > Heroku Postgres :: Gray and select _Reset Database_ from the gear icon
+in the top right corner.
 
+==== ElasticSearch on Heroku
+
+Once my application's timeout was increased, it seemed like everything was working. I tried to register a new user,
+and saw the following error message in my logs.
+
+*[red]#Question: Should I keep the timestamp in the error below, or remove it?#*
+
+----
 2015-08-20T14:37:54.660329+00:00 app[web.1]: Caused by: org.elasticsearch.client.transport.NoNodeAvailableException:
 None of the configured nodes are available: []
+----
 
-ElasticSearch on Heroku:
+I searched for an Elasticsearch add-on for Heroku and found https://devcenter.heroku.com/articles/bonsai[Bonsai
+Elasticsearch]. It's cheapest plan was $10/month. Since I didn't want to pay for anything right away, I decided
+to configure Elasticsearch to use an in-memory store like it did in development.footnote[I later discovered that
+https://addons.heroku.com/searchbox[Searchbox Elasticsearch] offers a free plan]. I updated my `application-prod.yml`
+file to use Heroku's ephemeral filesystem.
 
-https://devcenter.heroku.com/articles/bonsai
+[source,yaml]
+---
+# Configure prod to use ElasticSearch in-memory.
+# http://stackoverflow.com/questions/12416738/how-to-use-herokus-ephemeral-filesystem
+data:
+    elasticsearch:
+        cluster-name:
+        cluster-nodes:
+        properties:
+            path:
+              logs: /tmp/elasticsearch/log
+              data: /tmp/elasticsearch/data
+----
 
+After making this change, I repacked and redployed. This time, when I tried to register, I recived an error when JHipster's
+`MailService` tried to send me an activation email.
+
+----
 2015-08-20T15:11:36.809174+00:00 heroku[web.1]: Process running mem=561M(109.6%)
 2015-08-20T15:11:36.809174+00:00 heroku[web.1]: Error R14 (Memory quota exceeded)
-2015-08-20T15:11:41.395945+00:00 heroku[router]: at=info method=POST path="/api/register?cacheBuster=1440083497301" host=www.21-points.com request_id=500b6ed7-4359-4270-a38a-2ec6979facd4 fwd="50.170.188.22" dyno=web.1 connect=1ms service=3999ms status=201 bytes=339
+2015-08-20T15:11:41.395945+00:00 heroku[router]: at=info method=POST path="/api/register?cacheBuster=1440083497301" host=www.21-points.com ...
 2015-08-20T15:11:43.106106+00:00 app[web.1]: [WARN] org.jhipster.health.service.MailService - E-mail could not be sent to
 user 'matt@raibledesigns.com', exception is: Mail server connection failed; nested exception is javax.mail.MessagingException:
 Connection error (java.net.ConnectException: Connection refused). Failed messages: javax.mail.MessagingException:
 Connection error (java.net.ConnectException: Connection refused)
+---
 
+I'd used Heroku's https://addons.heroku.com/sendgrid[SendGrid Add-On] in the past, so I installed added it to my project.
+
+----
 $ heroku addons:create sendgrid
 Creating giving-softly-5465... done, (free)
 Adding giving-softly-5465 to health-by-points... done
 Setting SENDGRID_PASSWORD, SENDGRID_USERNAME and restarting health-by-points... done, v17
 Use `heroku addons:docs sendgrid` to view documentation.
+----
+
+Then I updated `application-prod.yml` to use the configured `SENDGRID_PASSWORD` and `SENDGRID_USERNAME` environment
+variables for mail, as well as to turn authentication on.
+
+----
+mail:
+    host: smtp.sendgrid.net
+    port: 587
+    username: ${SENDGRID_USERNAME}
+    password: ${SENDGRID_PASSWORD}
+    protocol: smtp
+    tls: false
+    auth: true
+    from: app@21-points.com
+----
+
+After repackaging and redeploying, I used the built-in Health checks feature of my application to verify that everything
+was configured correctly.
 
 === Monitoring and Analytics
 
-- Google Analytics
-- New Relic
+JHipster generates the code necessary for Google Analytics in every application's `src/main/webapp/index.html` file.
+I chose not to enable this just yet, but I hope to eventually. I already have a http://www.google.com/analytics/
+[Google Analytics] account, so it's just a matter of creating a new account for www.21-points.com, copying the
+account number and modifying the following section of `index.html`:
+
+[source,html]
+----
+<!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
+<script>
+    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+    function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+    e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+    e.src='//www.google-analytics.com/analytics.js';
+    r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    ga('create','UA-XXXXX-X');ga('send','pageview');
+</script>-->
+----
+
+I've used http://newrelic.com/[New Relic] to monitor my production applications in the past. There is a free
+https://addons.heroku.com/newrelic[New Relic Add-On] for Heroku. Heroku's https://devcenter.heroku.com/articles/newrelic
+[New Relic APM] describes how to set things up if you're letting Heroku do the build for you (meaning, you deploy with
+`git push heroku master`). However, if you're using the heroku-deploy plugin, it's a bit different.
+
+You'll first need to download the New Relic Agent JAR manually and put it in a location relative to the root directory
+of your project. Then you can run a command like:
+
+----
+heroku deploy:jar --jar build/libs/*war --includes newrelic-agent.jar
+----
+
+That will include the JAR in the slug. Then you'll need to modify your Procfile to include the option:
+
+----
+-javaagent:newrelic-agent.jar
+----
 
 === Continuous Integration and Deployment
 
