@@ -1,6 +1,6 @@
 === Spring Boot
 
-image::../images/chapter4/spring-boot-logo.png[Spring Boot Logo, 150, 150, float="right"]
+//image::../images/chapter4/spring-boot-logo.png[Spring Boot Logo, 150, 150, float="right"]
 
 In August 2013, the Phil Webb and Dave Syer, Engineers at Pivotal,
 https://spring.io/blog/2013/08/06/spring-boot-simplifying-spring-for-everyone[announced the first milestone release] of Spring
@@ -119,10 +119,10 @@ public class DemoApplication {
 ----
 
 For this application, you'll create an entity, a JPA repository and a REST endpoint to show data in the browser. To
-create an entity, add the following code to the same `DemoApplication.java` file, outside of the `DemoApplication`
-class.
+create an entity, add the following code to the `DemoApplication.java` file, outside of the `DemoApplication` class.
 
 [source,java]
+.src/main/java/demo/DemoApplication.java
 ----
 @Entity
 class Blog {
@@ -158,10 +158,21 @@ class Blog {
 }
 ----
 
+In the same file, add a `BlogRepository` interface that extends `JpaRepository`. Spring Data JPA makes it really easy to
+create a CRUD repository for an entity. The implementation that talks to the underlying datastore is created automatically for you.
+
+[source,java]
+.src/main/java/demo/DemoApplication.java
 ----
 interface BlogRepository extends JpaRepository<Blog, Long> {}
 ----
 
+Define a `CommandLineRunner` that injects this repository and prints out all the data that's found by calling its `findAll()` method.
+`CommandLineRunner` is an interface that's used to indicate that a bean should run when it is contained within a
+http://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html[`SpringApplication`].
+
+[source,java]
+.src/main/java/demo/DemoApplication.java
 ----
 @Component
 class BlogCommandLineRunner implements CommandLineRunner {
@@ -176,6 +187,8 @@ class BlogCommandLineRunner implements CommandLineRunner {
 }
 ----
 
+To provide default data, create `src/main/resources/data.sql` and add a couple SQL statements to insert data.
+
 [source,sql]
 .src/main/resources/data.sql
 ----
@@ -183,7 +196,19 @@ insert into blog (name) values ('First');
 insert into blog (name) values ('Second');
 ----
 
+Start your application with `mvn spring-boot:run` (or right-click -> run in your IDE) and you should see this default
+data show up in your logs.
+
+----
+2015-09-21 06:00:07.056  INFO 6140 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+[Blog{id=1, name='First'}, Blog{id=2, name='Second'}]
+2015-09-21 06:00:07.210  INFO 6140 --- [           main] demo.DemoApplication                     : Started DemoApplication in 4.794 seconds (JVM running for 5.238)
+----
+
+To publish this data as a REST API, create a `BlogController` class and add a `/blogs` endpoint that returns a list of blogs.
+
 [source,java]
+.src/main/java/demo/DemoApplication.java
 ----
 @RestController
 class BlogController {
@@ -198,36 +223,104 @@ class BlogController {
 }
 ----
 
-----
-mvn spring-boot:run
-----
-
-Or right-click and run from your IDE.
-
-----
-2015-09-21 06:00:07.056  INFO 6140 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
-[Blog{id=1, name='First'}, Blog{id=2, name='Second'}]
-2015-09-21 06:00:07.210  INFO 6140 --- [           main] demo.DemoApplication                     : Started DemoApplication in 4.794 seconds (JVM running for 5.238)
-----
+After adding this code and restarting the application, you can curl [http://localhost:8080/blogs] or open it in your
+favorite browser.
 
 ----
 $ curl localhost:8080/blogs
 [{"id":1,"name":"First"},{"id":2,"name":"Second"}]
 ----
 
-Spring has one of the best track records for hipness in JavaLand.
+Spring has one of the best track records for hipness in JavaLand. It is an essential cornerstone of the solid API foundation
+that makes JHipster awesome. Spring Boot allows you to create stand-alone Spring applications that embed Tomcat, Jetty or
+Undertow directly. It provides opinionated _starter_ dependencies that simplify your build configuration, regardless of
+whether you're using Maven or Gradle.
 
-Create stand-alone Spring applications
-Embeds Tomcat, Jetty or Undertow directly
-Provides opinionated 'starter' POMs to simplify your Maven configuration
-Also supports/promotes using Gradle
+Spring Boot is unique in that it automatically configures Spring whenever possible. It does this by peaking into JAR
+files to see if they're hip. If they are, they contain a `META-INF/spring.factories` that defines configuration classes
+under the `EnableAutoConfiguration` key. For example:
 
-Automatically configures Spring whenever possible
-Provides production-ready features such as metrics, health checks and externalized configuration
-Absolutely no code generation and no requirement for XML configuration
-Grails 3.0 is based on Spring Boot
+----
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.jhipster.beer.autoconfigure.PBRAutoConfiguration,\
+org.jhipster.beer.autoconfigure.PRRDrinkingAutoConfiguration
+----
 
-... so that's pretty cool.
+These configuration classes will usually contain `@Conditional` annotations to help configure themselves. Using
+`@ConditionalOnMissingBean` is used commonly to allow developers to override the auto-configured defaults. There are several
+conditional-related annotations you can use when developing Spring Boot plugins:
+
+* `@ConditionalOnClass` and `@ConditionalOnMissingClass`
+* `@ConditionalOnMissingClass` and `@ConditionalOnMissingBean`
+* `@ConditionalOnProperty`
+* `@ConditionalOnResource`
+* `@ConditionalOnWebApplication` and `@ConditionalOnNotWebApplication`
+* `@ConditionalOnExpression`
+
+These annotations are what gives Spring Boot its immense power and makes it easy to use, configure and override.
+
+==== Actuator
+Spring Boot's Actuator sub-project adds several production-grade services to your application with little effort.
+You can add the actuator to a Maven-based project by adding the `spring-boot-starter-actuator` dependency.
+
+----
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+</dependencies>
+----
+
+If you're using Gradle, you'll save a few lines:
+
+----
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+}
+----
+
+Actuator's main features are *endpoints*, *metrics*, *auditing*, and *process monitoring*. Actuator auto-creates a
+number of REST endpoints. By default Spring Boot will also expose management endpoints as JMX MBeans under the
+`org.springframework.boot` domain. Actuator REST endpoints include:
+
+* `/autoconfig` - Returns an auto-configuration report showing all auto-configuration candidates.
+* `/beans` - Returns a complete list of all the Spring beans in your application.
+* `/configprops` - Returns a list of all @ConfigurationProperties.
+* `/dump` - Performs a thread dump.
+* `/env` - Returns properties from Spring's ConfigurableEnvironment.
+* `/health` - Returns application health information.
+* `/info` - Returns basic application info.
+* `/metrics` - Returns performance information for the current application.
+* `/mappings` - Returns a  list of all `@RequestMapping` paths.
+* `/shutdown` - Shuts the application down gracefully (not enabled by default).
+* `/trace` - Returns trace information (by default the last several HTTP requests).
+
+JHipster includes a plethora of Spring Boot starter dependencies by default. This allows developers right less code and worry
+less about dependencies and classpaths. The _boot starter_ dependencies in the 21 Points Health application are as follows:
+
+----
+spring-boot-actuator
+spring-boot-autoconfigure
+spring-boot-loader-tools
+spring-boot-starter-logging
+spring-boot-starter-aopspring-boot-starter-data-jpa
+spring-boot-starter-data-elasticsearch
+spring-boot-starter-security
+spring-boot-starter-web
+spring-boot-starter-websocket
+spring-boot-starter-thymeleaf
+spring-cloud-cloudfoundry-connector
+spring-cloud-spring-service-connector
+spring-cloud-localconfig-connector
+spring-security-config
+spring-security-data
+spring-security-web
+spring-security-messaging
+----
+
+JHipster is hooking you up with a number of options to make your life easier!
+
 
 === Maven vs. Gradle
 === IDE Support: Running, Debugging and Profiling
@@ -238,11 +331,25 @@ https://blogs.oracle.com/geertjan/entry/new_spring_boot_integration_for
 https://www.jetbrains.com/idea/help/creating-spring-boot-projects.html
 
 === Security
-=== JPA vs. MongoDB vs. Cassandra
-=== Liquibase
-=== Elasticsearch
-[[chapter4.websockets]]
-=== Spring WebSockets
+
+Spring Security is fucking bad ass
 
 // Include simple Spring Security config and example
+
+=== JPA vs. MongoDB vs. Cassandra
+
+RDMS vs NoSQL
+
+=== Liquibase
+
+Database diffs rock!
+
+=== Elasticsearch
+
+What is is? Why is it awesome?
+
+==== Deployment
+
+https://spring.io/blog/2014/03/07/deploying-spring-boot-applications
+
 
