@@ -1,6 +1,6 @@
 === Spring Boot
 
-//image::../images/chapter4/spring-boot-logo.png[Spring Boot Logo, 150, 150, float="right"]
+//image::images/chapter4/spring-boot-logo.png[Spring Boot Logo, 150, 150, float="right"]
 
 In August 2013, the Phil Webb and Dave Syer, Engineers at Pivotal,
 https://spring.io/blog/2013/08/06/spring-boot-simplifying-spring-for-everyone[announced the first milestone release] of Spring
@@ -10,7 +10,7 @@ the power of Spring. The diagram below shows how Spring Boot is the gateway to t
 
 [[img-spring-boot-pyramid]]
 .Spring Boot
-image::../images/chapter4/spring-boot-pyramid.png[Spring Boot, 379, scaledwidth="100%", align=center]
+image::images/chapter4/spring-boot-pyramid.png[Spring Boot, 379, scaledwidth="50%", align=center]
 
 The primary goals of Spring Boot are:
 
@@ -25,11 +25,11 @@ You can visit it in your browser at https://start.spring.io or you can call it v
 
 [[img-spring-initializr-web]]
 .Spring Initializr in a browser
-image::../images/chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1248, scaledwidth="100%"]
+image::images/chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1248, scaledwidth="100%"]
 
 [[img-spring-initializr-curl]]
 .Spring Initializr via curl
-image::../images/chapter4/spring-initializr-curl.png[Spring Initializr via curl, 1082, scaledwidth="100%"]
+image::images/chapter4/spring-initializr-curl.png[Spring Initializr via curl, 1082, scaledwidth="100%"]
 
 Spring Initializr is an Apache 2.0-licensed open source project that install and customize for generating Spring
 projects for your company or team. You can find it on GitHub at https://github.com/spring-io/initializr.
@@ -296,7 +296,7 @@ number of REST endpoints. By default Spring Boot will also expose management end
 * `/shutdown` - Shuts the application down gracefully (not enabled by default).
 * `/trace` - Returns trace information (by default the last several HTTP requests).
 
-JHipster includes a plethora of Spring Boot starter dependencies by default. This allows developers right less code and worry
+JHipster includes a plethora of Spring Boot starter dependencies by default. This allows developers write less code and worry
 less about dependencies and classpaths. The _boot starter_ dependencies in the 21 Points Health application are as follows:
 
 ----
@@ -319,10 +319,13 @@ spring-security-web
 spring-security-messaging
 ----
 
-JHipster is hooking you up with a number of options to make your life easier!
-
+Spring Boot does a great job at auto-configuring libraries and simplifying Spring. JHipster complements that by
+integrating the wonderful world of Spring Boot with a modern UI and developer experience.
 
 === Maven vs. Gradle
+
+Look at Gradle's list of what G does better than M.
+
 === IDE Support: Running, Debugging and Profiling
 
 https://books.google.com/books?id=Pu53CgAAQBAJ&pg=PA258&lpg=PA258&dq=spring+initializr+netbeans&source=bl&ots=Bj-0d1AyZy&sig=D2A-eg7Gh6ssNiAD5LMQhDMsPqg&hl=en&sa=X&ved=0CCkQ6AEwAmoVChMIwIiZpISIyAIViU6SCh2GMA5C#v=onepage&q=spring%20initializr%20netbeans&f=false

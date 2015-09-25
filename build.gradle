@@ -28,7 +28,7 @@ asciidoctor {
     attributes 'sourcedir': '../../../main/webapp',
             'endpoint-url': 'http://www.jhipster-book.com/',
             'source-highlighter': 'coderay',
-            'imagesdir': './images',
+            'imagesdir': './',
              toc: 'left',
              icons: 'font',
              linkattrs: true,
