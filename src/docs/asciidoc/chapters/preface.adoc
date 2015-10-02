@@ -1,21 +1,7 @@
-Preface
+Dedication
 -------
 
-Writing a book these days means, inexorably, offering an electronic
-version to your readers.
+I dedicate this book to my parents: Joe and Barbara Raible. They raised my sister and I in the backwoods of Montana, with fun-loving game nights, lots of walking, plenty of farm animals, an excellent garden and a very unique perspective on live. Growing up at our cabin in Montana is the most unique thing that will ever happen to me and I'm pretty pumped I got to experience it with my awesome Mom (Barb), Father (Joe) and sister (Kalin). My sister doesn't get capitalization on her title, but I did love her http://raibledesigns.com/rd/entry/my_sister_s_fabulous_wedding[wedding in 2008].
 
-Over the past few years, I've been trying most typesettings systems out
-there, from LaTeX to Pandoc and, finally, Asciidoc, which is the one
-I've finally chosen to standardize my documents. It turns out I'm not
-the only one, as many large book publishers use Asciidoc these days to
-produce their titles.
-
-This template provides a simple starting point for companies and
-individuals to create an eBook. Please follow the instructions in the
-README.md file to install the required software.
-
-I look forward to read your next bestseller in as many platforms as
-possible!
-
-Yolo, July 2015.
+Yolo, October 2, 4:38 AM 2015.
 
