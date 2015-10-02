@@ -223,7 +223,7 @@ class BlogController {
 }
 ----
 
-After adding this code and restarting the application, you can curl [http://localhost:8080/blogs] or open it in your
+After adding this code and restarting the application, you can `curl` the endpoint or open it in your
 favorite browser.
 
 ----
@@ -324,7 +324,30 @@ integrating the wonderful world of Spring Boot with a modern UI and developer ex
 
 === Maven vs. Gradle
 
-Look at Gradle's list of what G does better than M.
+Maven and Gradle are the two main build tools used in Java projects today.
+
+http://maven.apache.org/[Apache Maven] calls itself a software project management and comprehension tool. Based on the
+concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a
+central piece of information. Most of Maven's functionality is in plugins. There are Maven plugins for building,
+testing, source control management, running a web server, generating IDE project files, and much more.
+
+https://gradle.org/[Gradle] is a general-purpose build tool. It can build pretty much anything you care to implement
+in your build script. Out-of-the-box, however, it doesn't build anything unless you add code to your build script to
+do so. Gradle has a Groovy-based domain-specific language (DSL) instead of the more traditional XML form of declaring
+the project configuration. Like Maven, Gradle has _plugins_ that allow you to configure tasks for your project. Most
+plugins add some pre-configured tasks which together do something useful. For example, Gradle's Java plugin
+adds some tasks to your project which will compile and unit test your Java source code, and bundle it into a JAR file.
+
+http://zeroturnaround.com/rebellabs/java-build-tools-part-2-a-decision-makers-comparison-of-maven-gradle-and-ant-ivy/
+
+https://gradle.org/maven_vs_gradle/
+
+http://technologyconversations.com/2014/06/18/build-tools/
+
+http://www.drdobbs.com/jvm/why-build-your-java-projects-with-gradle/240168608
+
+http://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html
+http://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html
 
 === IDE Support: Running, Debugging and Profiling
 
