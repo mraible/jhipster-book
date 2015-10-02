@@ -252,7 +252,7 @@ I still needed to manually restore the call to initialize the Material Design th
 
 I ran `grunt serve` to verify everything looked good, then committed my updated project to Git.
 
-NOTE: After integrating the Material Design theme, I deployed to Heroku for the first time. This is covered in the
+TIP: After integrating the Material Design theme, I deployed to Heroku for the first time. This is covered in the
 <<Continuous Integration and Deployment>> section of this chapter.
 
 ==== Generating Entities
@@ -352,8 +352,7 @@ user - user (many-to-one)
 ? Do you want pagination on your entity? No
 ....
 
-:icons: font
-NOTE: I didn't add any pagination because I've been tracking my goals quarterly. I may add it at a later
+TIP: I didn't add any pagination because I've been tracking my goals quarterly. I may add it at a later
 date after I've been using this app for a while.
 
 After answering the last question, the files to create/read/update/delete this entity were generated.
@@ -381,8 +380,7 @@ Everything is configured, generating the entity...
 
 Next, I proceeded to generate the `Metric` entity, with a many-to-many relationship to `Entry`.
 
-:icons: font
-NOTE: When trying to use `value`, JHipster warned me this was a reserved word in PostgreSQL, so I used `amount` instead.
+TIP: When trying to use `value`, JHipster warned me this was a reserved word in PostgreSQL, so I used `amount` instead.
 
 ....
 $ yo jhipster:entity Metric
@@ -702,8 +700,7 @@ weekly_goal (Integer) required min='10' max='21'
 weight_units (Units) required
 ----
 
-:icons: font
-NOTE: After generating the `Weight` and `BloodPressure` entities with a `date` property for their date/time field, I
+TIP: After generating the `Weight` and `BloodPressure` entities with a `date` property for their date/time field, I
 decided that `timestamp` was a better property name. To fix this, I modified their respective JSON files in the `.jhipster`
 directory and ran `yo jhipster:entity` for each entity again. This seemed easier than refactoring with IntelliJ and hoping
 it caught all the name instances.
@@ -761,8 +758,7 @@ I then ran `./gradlew liquibaseDiffChangelog` to generate the changelog and adde
 </changeSet>
 ----
 
-:icons: font
-NOTE: I did have to modify the datasource settings in `liquibase.gradle` again since `git reset` reverted that change.
+TIP: I did have to modify the datasource settings in `liquibase.gradle` again since `git reset` reverted that change.
 
 When I ran `./gradlew test`, I saw some failures, but these were for old tests that I'd already deleted. I
 https://github.com/jhipster/generator-jhipster/issues/1886[opened a ticket] with the JHipster project to track this
@@ -779,7 +775,7 @@ To make my new JHipster application into something I could be proud of, I made a
 . Added logic so non-admin uses only see their data.
 . Implemented UI Mockup as homepage.
 
-NOTE: At this point, I setup continuous testing of this project using https://jenkins-ci.org/[Jenkins]. This is covered
+TIP: At this point, I setup continuous testing of this project using https://jenkins-ci.org/[Jenkins]. This is covered
 in the <<Deploy It!>> section of this chapter.
 
 ==== Fixed issues with entity and variable names.
@@ -1767,7 +1763,7 @@ will automatically send metrics data to it.
 To setup 21 Point Health on Heroku, I started by logging in. I already had the https://toolbelt.heroku.com/[Heroku Toolbelt]
 installed and a Heroku account created.
 
-NOTE: I first deployed to Heroku after integrating the Material Design theme. This means that no entities were created
+TIP: I first deployed to Heroku after integrating the Material Design theme. This means that no entities were created
 and it was basically a default JHipster application.
 
 ----
@@ -1997,7 +1993,7 @@ Connection error (java.net.ConnectException: Connection refused). Failed message
 Connection error (java.net.ConnectException: Connection refused)
 ----
 
-NOTE: You might notice the "Memory quota exceeded" message in the logs. I receive this often when running JHipster applications
+TIP: You might notice the "Memory quota exceeded" message in the logs. I receive this often when running JHipster applications
 under Heroku's https://www.heroku.com/pricing[free and hobby dynos]. My application stays running though, so I've learned
 to ignore it.
 

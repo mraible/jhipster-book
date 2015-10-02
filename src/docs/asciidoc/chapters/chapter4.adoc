@@ -99,7 +99,7 @@ This project has only a few files in it, as you can see by running the `tree` co
 ----
 
 `DemoApplication.java` is the heart of this application, the file and class name are not relevant. What is relevant
-is the `@SpringBootApplication` annotation and the classes `public static void main`.
+is the `@SpringBootApplication` annotation and the class's `public static void main` method.
 
 [source,java]
 .src/main/java/demo/DemoApplication.java
@@ -238,12 +238,25 @@ whether you're using Maven or Gradle.
 
 Spring Boot is unique in that it automatically configures Spring whenever possible. It does this by peaking into JAR
 files to see if they're hip. If they are, they contain a `META-INF/spring.factories` that defines configuration classes
-under the `EnableAutoConfiguration` key. For example:
+under the `EnableAutoConfiguration` key. For example, below is what's contained in `spring-boot-actuator`:
 
+.spring-boot-actuator.jar!/META-INF/spring.factories
 ----
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.jhipster.beer.autoconfigure.PBRAutoConfiguration,\
-org.jhipster.beer.autoconfigure.PRRDrinkingAutoConfiguration
+org.springframework.boot.actuate.autoconfigure.AuditAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.CrshAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.EndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.EndpointMBeanExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.EndpointWebMvcAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.HealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.JolokiaAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.ManagementSecurityAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.ManagementServerPropertiesAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.PublicMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.TraceRepositoryAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.TraceWebFilterAutoConfiguration
 ----
 
 These configuration classes will usually contain `@Conditional` annotations to help configure themselves. Using
