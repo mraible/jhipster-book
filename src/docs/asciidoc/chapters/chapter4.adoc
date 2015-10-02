@@ -463,24 +463,151 @@ JHipster takes the excellence of Spring Security and used it to provide the real
 * *OAuth2 Authentication*: A stateless security mechanism; you might prefer it if you want to scale your application across several machines.
 * *Token-based authentication*: Like OAuth2, a stateless security mechanism. Specific to JHipster, not provided by Spring Security.
 
-Below are examples of what each authentication mechanism looks like in a bare-bones JHipster application.
+In addition to authentication choices, JHipster offers security improvements: improved remember me (unique tokens stored in database), cookie theft protection and CSRF protection.
 
+By default, JHipster comes with 4 different users:
 
+* *system*: used by audit logs, when something is done automatically
+* *anonymousUser*: anonymous users when they do an action
+* *user*: a normal user with "ROLE_USER" authorization; default password is "user"
+* *admin* , an admin user with "ROLE_USER" and "ROLE_ADMIN" authorizations; default password is "admin"
+
+For security reasons, you should change the default passwords in `src/main/resources/config/liquibase/users.csv` or through the _User Management_ feature when deployed.
 
 === JPA vs. MongoDB vs. Cassandra
 
-RDMS vs NoSQL
+Traditional Relational Database Management Systems (RDMS) provide a number of properties that guarantee its transactions are processed reliably. ACID: Atomicity, Consistency, Isolation and Durability. Databases like MySQL and PostgreSQL provide RDMS support and have done wonders to reduce the costs of databases. Vendors like Oracle and Microsoft are supported by JHipster as well, you just can't generate a project without an open source database driver. If you'd like to use a traditional database, select *SQL* when creating your JHipster project.
+
+TIP: The https://jhipster.github.io/using_oracle.html[Using Oracle] guide shows you how to modify a project to support Oracle.
+
+NoSQL databases have helped many web scale companies achieve high scalability through their https://en.wikipedia.org/wiki/Eventual_consistency[Eventual consistency] model. Because they are often distributed across several machines, with some latency, they guarantee all instances will _eventually_ be consistent. Eventually consistent services are often classified as providing BASE (Basically Available, Soft state, Eventual consistency) semantics, in contrast to traditional ACID properties.
+
+When you create a new JHipster project, you'll be prompted with the following question:
+
+----
+? (5/15) Which *type* of database would you like to use? (Use arrow keys)
+❯ SQL (H2, MySQL, PostgreSQL, Oracle)
+  MongoDB
+  Cassandra
+----
+
+If you're familiar with RDMS databases, I'd recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku. You can also use H2 for development, but then you'll lose out on Liquibase's _diff_ feature.
+
+If your idea is the next Facebook, you might want to consider a NoSQL database that's more concerned with performance than third normal form.
+
+[,https://mongodb.com/nosql-explained]
+""
+NoSQL encompasses a wide variety of different database technologies that were developed in response to a rise in the volume of data stored about users, objects and products, the frequency in which this data is accessed, and performance and processing needs. Relational databases, on the other hand, were not designed to cope with the scale and agility challenges that face modern applications, nor were they built to take advantage of the cheap storage and processing power available today.
+""
+
+MongoDB was founded in 2007 by the folks behind DoubleClick, ShopWiki and Gilt Groupe. It is Apache and GNU-APGL licensed project on https://github.com/mongodb/mongo[GitHub]. It claims large customers like Foursquare, MTV, Forbes, GE Capital, Adobe, LinkedIn, eBay and eHarmony.
+
+http://cassandra.apache.org/[Cassandra] is an Apache Software Foundation project that claims some web-scale users too: Constant Contact, CERN, Comcast, eBay, GitHub, GoDaddy, Hulu, Instagram, Intuit, Netflix, Reddit and The Weather Channel. They have some impressive numbers about scalability on their homepage.
+
+
+[,http://cassandra.apache.org]
+""
+One of the largest production deployments is Apple's, with over 75,000 nodes storing over 10 PB of data. Other large Cassandra installations include Netflix (2,500 nodes, 420 TB, over 1 trillion requests per day), Chinese search engine Easou (270 nodes, 300 TB, over 800 million reqests per day), and eBay (over 100 nodes, 250 TB).
+""
+
+JHipster's data support allows you to dream big!
+
+.NoSQL with JHipster
+****
+When MongoDB is selected:
+
+* Spring Data MongoDB will be used. Similar to Spring Data JPA.
+* https://github.com/secondmarket/mongeez[Mongeez] is used instead of Liquibase to manage database migrations.
+* The entity sub-generator will not ask you about relationships. You can't have relationships with a NoSQL database.
+
+Cassandra has http://jhipster.github.io/using_cassandra.html[more limitations and doesn't have a Liquibase-equivalent]. For example:
+
+* It only works with Java 8
+* It does not support OAuth2 authentication
+
+****
 
 === Liquibase
 
-Database diffs rock!
+http://www.liquibase.org/[Liquibase] is _source control for your database_. It's an open source (Apache 2.0) project that allows you to manipulate your database as part of a build or runtime process. It allows you to _diff_ your entities against your database tables and create migration scripts. It even allows you to provide comma-delimited default data! For example, default users are loaded from `src/main/resources/config/liquibase/users.csv`:
+
+This file is loaded by Liquibase when it creates the database schema.
+
+.src/main/resources/config/liquibase/changelog/00000000000000_initial_schema.xml
+----
+<loadData encoding="UTF-8"
+          file="config/liquibase/users.csv"
+          separator=";"
+          tableName="JHI_USER">
+    <column name="activated" type="boolean"/>
+    <column name="created_date" type="timestamp"/>
+</loadData>
+<dropDefaultValue tableName="JHI_USER" columnName="created_date" columnDataType="datetime"/>
+----
+
+Liquibase supports http://www.liquibase.org/databases.html[most major databases]. If you use MySQL or PostgreSQL, you can use `mvn liquibase:diff` (or `./gradlew liquibaseDiffChangelog`) to automatically generate a changelog.
+
+http://jhipster.github.io/development.html[JHipster's Development Guide] recommends the following workflow:
+
+* Modify your JPA entity (add a field, a relationship, etc.)
+* Run `mvn compile liquibase:diff`
+* A new "change log" is created in your `src/main/resources/config/liquibase/changelog` directory
+* Review this change log and add it to your `src/main/resources/config/liquibase/master.xml` file, so it is applied the next time you run your application
+
+If you use Gradle, you can use the same workflow by confirming database settings in `liquibase.gradle` and running `./gradlew liquibaseDiffChangelog`.
 
 === Elasticsearch
 
-What is is? Why is it awesome?
+Elasticsearch is an option that adds searchability to your entities. JHipster's Elasticsearch support requires choosing Java 8+ and a SQL database. http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch] is used and auto-configured by Spring Boot. When using JHipster's http://jhipster.github.io/creating_an_entity.html[entity sub-generator], the entity is automatically indexed and an endpoint is created to support searching its properties. Search super powers are also added to the AngularJS UI, so you can search in your entity's list screen.
+
+When using the (default) _dev_ profile, the in-memory Elasticsearch instance will store files in the `target` folder.
+
+[TIP]
+====
+When I deployed 21 Points to Heroku, my app failed to start because it expected to find Elasticsearch nodes listening on `localhost:9200`. To fix this, I changed my production configuration.
+
+.src/main/resources/config/application-prod.yml
+----
+data:
+    elasticsearch:
+        cluster-name:
+        cluster-nodes:
+        properties:
+            path:
+              logs: /tmp/elasticsearch/log
+              data: /tmp/elasticsearch/data
+----
+
+You could also use https://addons.heroku.com/searchbox#starter[Searchbox]. It's an add-on for Heroku that provides hosted, managed and scalable search with Elasticsearch. They offer a free plan for development and many others to allow scaling up.
+====
+
+Elasticsearch is used by a number of well known companies: Goldman Sachs, Facebook, The New York Times, GitHub, Uber, Cisco, Netflix, eBay and Stack Overflow. The project is backed by https://www.elastic.co/[Elastic], which provides an ecosystem of projects around Elasticsearch. Some examples:
+
+* https://www.elastic.co/found[Elasticsearch as a Service] - "Hosted and managed Elasticsearch"
+* https://www.elastic.co/products/logstash[Logstash] - "Process Any Data, From Any Source"
+* https://www.elastic.co/products/kibana[Kibana] - "Explore & Visualize Your Data"
+
+The ELK stack (Elasticsearch, Logstash, and Kibana) are all open source projects sponsored by Elastic. It's a very powerful solution for monitoring and seeing how your applications are being used.
 
 === Deployment
 
-https://spring.io/blog/2014/03/07/deploying-spring-boot-applications
+A JHipster application can be deployed wherever a Spring Boot JAR can be deployed. Spring Boot uses a `public static void main` entry-point that launches an embedded web server for you. Spring Boot applications are embedded in a _fat jar_. This jar includes all dependencies necessary, e.g. the web server and start/stop scripts. You can give anybody this `.jar` and they can run your app easily: no build tool required, no setup, no web server configuration, etc: just `java -jar killerapp.jar`.
 
+TIP: Josh Long's https://spring.io/blog/2014/03/07/deploying-spring-boot-applications[Deploying Spring Boot Applications] is an excellent resource for learning how to customize your application archive. It shows how you can change your application to a traditional war: extend `SpringBootServletInitializer`, change packaging to `war` and set `spring-boot-starter-tomcat` as a provided dependency.
+
+To build your app with the _production_ profile, use the pre-configured _prod_ Maven profile:
+----
+mvn -Pprod spring-boot:run
+----
+
+With Gradle:
+----
+gradlew -Pprod bootRun
+----
+
+The _prod_ profile will trigger a `grunt build`, which optimizes your static resources. It will combine your JavaScript and CSS files, minify them and them production ready. It also updates your HTML (in your `dist` directory) to have references to your versioned, combined and minified files.
+
+A JHipster application can be deployed to your own JVM, http://jhipster.github.io/cloudfoundry.html[Cloud Foundry], http://jhipster.github.io/heroku.html[Heroku], http://jhipster.github.io/openshift.html[Openshift] and http://jhipster.github.io/aws.html[AWS].
+
+I've deployed JHipster applications to both Heroku and Cloud Foundry. With Heroku, you might have to ask for a 2x timeout (120 seconds) to get your application started. They're usually really quick to respond and can make it happen in a matter of minutes. Recently, the JHipster Team created a non-blocking Liquibase bean and https://twitter.com/java_hipster/status/649504634080468992[cut startup time by 40%].
 
