@@ -337,43 +337,135 @@ integrating the wonderful world of Spring Boot with a modern UI and developer ex
 
 === Maven vs. Gradle
 
-Maven and Gradle are the two main build tools used in Java projects today.
+Maven and Gradle are the two main build tools used in Java projects today. JHipster allows you to use either one.
+With Maven, you have one `pom.xml` file that's around 800 lines of XML. With Gradle, you end up with nine *.gradle files.
+However, their Groovy code adds up to 344 lines.
 
 http://maven.apache.org/[Apache Maven] calls itself a software project management and comprehension tool. Based on the
 concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a
 central piece of information. Most of Maven's functionality is in plugins. There are Maven plugins for building,
 testing, source control management, running a web server, generating IDE project files, and much more.
 
-https://gradle.org/[Gradle] is a general-purpose build tool. It can build pretty much anything you care to implement
-in your build script. Out-of-the-box, however, it doesn't build anything unless you add code to your build script to
-do so. Gradle has a Groovy-based domain-specific language (DSL) instead of the more traditional XML form of declaring
-the project configuration. Like Maven, Gradle has _plugins_ that allow you to configure tasks for your project. Most
-plugins add some pre-configured tasks which together do something useful. For example, Gradle's Java plugin
-adds some tasks to your project which will compile and unit test your Java source code, and bundle it into a JAR file.
+https://gradle.org/[Gradle] is a general-purpose build tool. It can build pretty much anything you care to implement in your build script. Out-of-the-box, however, it doesn't build anything unless you add code to your build script to do so. Gradle has a Groovy-based domain-specific language (DSL) instead of the more traditional XML form of declaring the project configuration. Like Maven, Gradle has _plugins_ that allow you to configure tasks for your project. Most plugins add some pre-configured tasks which together do something useful. For example, Gradle's Java plugin adds some tasks to your project which will compile and unit test your Java source code, as well as bundle it into a JAR file.
 
-http://zeroturnaround.com/rebellabs/java-build-tools-part-2-a-decision-makers-comparison-of-maven-gradle-and-ant-ivy/
+In January 2014, ZeroTurnaround's RebelLabs published a report titled http://zeroturnaround.com/rebellabs/java-build-tools-part-2-a-decision-makers-comparison-of-maven-gradle-and-ant-ivy/[Java Build Tools – Part 2: A Decision Maker’s Comparison of Maven, Gradle and Ant + Ivy]. In the report, they provided a timeline of build tools from 1977 through 2013.
 
-https://gradle.org/maven_vs_gradle/
+[[img-evolution-of-build-tools-timeline]]
+.The Evolution of Build Tools, 1977 - 2013
+image::images/chapter4/evolution-of-build-tools-timeline.jpg[The Evolution of Build Tools, 600, scaledwidth="100%", align=center]
 
-http://technologyconversations.com/2014/06/18/build-tools/
+The report concludes that you should experiment with Gradle for your next project.
 
-http://www.drdobbs.com/jvm/why-build-your-java-projects-with-gradle/240168608
+[, 'RebelLabs Comparison of Maven, Gradle and Ant + Ivy']
+""
+If we were forced to conclude with any general recommendation, it would be to *go with Gradle if you are starting a new project*.
+""
 
-http://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html
-http://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html
+I've used both tools for building projects and they've both worked quite well. Maven has worked quite well for me, but I've also used it for over 10 years and recognize that my history and experience with it might contribute to my bias towards it. If it's Maven's XML that you hate, you can use https://github.com/takari/polyglot-maven[Polyglot for Maven] to change your perspective. It supports Atom, Groovy, Clojure, Ruby, Scala and YAML languages. Ironically, you need to include an XML file to use it. To add support for non-XML languages, create a `${project}/.mvn/extensions.xml` file and add the following XML to it.
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<extensions>
+  <extension>
+    <groupId>io.takari.polyglot</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>0.1.10</version>
+  </extension>
+</extensions>
+----
+
+In this example, `${artifactId}` should be `polyglot-_language_`, where _language_ is one of the aforementioned languages.
+
+To convert an existing `pom.xml` file to another format, you can use the following command:
+
+----
+mvn io.takari.polyglot:polyglot-translate-plugin:translate \
+  -Dinput=pom.xml -Doutput=pom.${format}
+----
+
+Supported formats are `rb`, `groovy`, `scala`, `yaml`, `atom` and of course `xml`. You can even convert back to xml or cross-convert between all supported formats. To learn more about alternate languages with Maven, see https://github.com/takari/polyglot-maven[polyglot-maven on GitHub].
+
+If you're still not convinced, there's a lot of internet resources that support the use of Gradle. First, there's Gradle Inc.'s https://gradle.org/maven_vs_gradle/[Gradle vs Maven Feature Comparison].
+There's also a "http://www.drdobbs.com/jvm/why-build-your-java-projects-with-gradle/240168608[Why Build Your Java Projects with Gradle]" by Benjamin Muschko, on Dr. Dobb's. Benjamin is a Principal Engineer at Gradle Inc. and the author of https://www.manning.com/books/gradle-in-action[Gradle in Action].
+
+Gradle is the default built tool for the Android development. Android Studio uses a Gradle wrapper to fully integrate the Android plugin for Gradle.
+
+TIP: Both Maven and Gradle provide wrappers that allow you to embed the build tool within your project and source control system. This allows developers to build/run the project by only installing Java. Since the build tool is embedded, they can type `gradlew` or `mvnw` to use the embedded built tool.
+
+Regardless of which build tool you prefer, Spring Boot provides support for both Maven and Gradle. You can learn more by visiting their respective documentation pages:
+
+* http://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html[Spring Boot Maven plugin]
+* http://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html[Spring Boot Gradle plugin]
+
+I'd recommend starting with whatever tool is most familiar to you. If you're using JHipster for the first time, you'll want to reduce the number of new technologies you're learning. You can always add additional ones in your next application. JHipster is a great learning tools, so you can also re-generate your project with the alternate build tool to see what that looks like.
 
 === IDE Support: Running, Debugging and Profiling
 
-https://books.google.com/books?id=Pu53CgAAQBAJ&pg=PA258&lpg=PA258&dq=spring+initializr+netbeans&source=bl&ots=Bj-0d1AyZy&sig=D2A-eg7Gh6ssNiAD5LMQhDMsPqg&hl=en&sa=X&ved=0CCkQ6AEwAmoVChMIwIiZpISIyAIViU6SCh2GMA5C#v=onepage&q=spring%20initializr%20netbeans&f=false
-https://blogs.oracle.com/geertjan/entry/new_spring_boot_integration_for
+IDE stands for Integrated Development Environment. It is the lifeblood of a programmer that likes keyboard shortcuts and typing fast. The good ones have code completion that allows you to type a few characters, press tab, and have your code written for you. Furthermore, they provide quick formatting, easy access to documentation, debugging and code generation. With statically typed languages like Java, you can generate a lot of code with your IDE. For example, getters and setters on POJOs, and methods in interfaces and classes. You can also find references to methods easily.
 
-https://www.jetbrains.com/idea/help/creating-spring-boot-projects.html
+https://www.jetbrains.com/idea/[IntelliJ IDEA] brings this same features to Java development and is a truly amazing IDE. If you're only writing JavaScript, their https://www.jetbrains.com/webstorm/[WebStorm IDE] will likely become your best friend. Both IntelliJ products have excellent CSS support and there's plugins for many web languages/frameworks.
+
+The Java IDE from Eclipse is a free alternative to IntelliJ IDEA. It's Java and refactoring support is excellent. When I started using it back in 2002, it blew the competition away. It was the first Java IDE that was fast and efficient to use. Unfortunately, it hasn't caught up in the JavaScript MVC era and does not have good support for JavaScript or CSS.
+
+NetBeans has a https://blogs.oracle.com/geertjan/entry/new_spring_boot_integration_for[Spring Boot plugin]. The NetBeans Team has been doing a lot of work recently on web tools support; they have good JavaScript/AngularJS support and there's a https://chrome.google.com/webstore/detail/netbeans-connector/hafdlehgocfcodbgjnpecfajgkeejnaa?hl=en[NetBeans Connector] plugin for Chrome that allows two-way
+editing in NetBeans and Chrome.
+
+The JHipster documentation includes https://jhipster.github.io/configuring_ide.html[guides] for configuring https://jhipster.github.io/configuring_ide_eclipse.html[Eclipse] and https://jhipster.github.io/configuring_ide_idea.html[IntelliJ IDEA].
+
+The beauty of Spring Boot is you can run it as a simple Java process. This means you can right click on your `*Application.java` class and run it (or debug it) from your IDE. When debugging, you'll be able to set breakpoints in your Java classes and see what variables are being set to before a process executes.
+
+To learn about profile a Java application, I recommend you watch http://www.meetup.com/virtualJUG/events/225557121/[Nitsan Wakart's Java Profiling from the Ground Up!] To learn more about memory and JavaScript applications, I recommend http://addyosmani.com/blog/video-javascript-memory-management-masterclass/[Addy Somani's JavaScript Memory Management Masterclass].
+// MR: The Java Profiling URL will likely change once the video is published
 
 === Security
 
-Spring Security is fucking bad ass
+Spring Boot has excellent security features thanks to its integration with Spring Security. When you create a Spring Boot application with a `spring-boot-starter-security` dependency, you get HTTP Basic authentication out-of-the-box. By default, a user is created with username `user` and the password is printed in the logs when the application starts. To override the generated password, you can define a `security.user.password`. Additional security features of Spring Boot can be found in the http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-security.html[Spring Boot Security Guide].
 
-// Include simple Spring Security config and example
+The most basic Spring Security Java configuration creates a Servlet Filter, which is responsible for all the security (protecting URLs, validating credentials, redirecting to login, etc.). This involves several lines of code, but half of them are class imports.
+
+[source,java]
+----
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.*;
+import org.springframework.security.config.annotation.authentication.builders.*;
+import org.springframework.security.config.annotation.web.configuration.*;
+
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+            .withUser("user").password("password").roles("USER");
+    }
+}
+----
+
+There's not much code, but it provides many features:
+
+* Requires authentication to every URL in your application
+* Generates a login form for you
+* Allows _user:password_ to authenticate with form based authentication
+* Allows the user to logout
+* CSRF attack prevention
+* Session Fixation protection
+* Security Header integration
+** HTTP Strict Transport Security for secure requests
+** X-Content-Type-Options integration
+** Cache Control
+** X-XSS-Protection integration
+** X-Frame-Options integration to help prevent Clickjacking
+* Integrates with HttpServletRequest API methods: `getRemoteUser()`, `getUserPrinciple()`, `isUserInRole(role)`, `login(username, password)` and `logout()`
+
+JHipster takes the excellence of Spring Security and used it to provide the real-world authentication mechanism that applications need. When you create a new JHipster project, it provides you with three authentication options:
+
+* *HTTP Session Authentication*: Uses the HTTP Session, so it is a stateful mechanism. Recommended for small applications.
+* *OAuth2 Authentication*: A stateless security mechanism; you might prefer it if you want to scale your application across several machines.
+* *Token-based authentication*: Like OAuth2, a stateless security mechanism. Specific to JHipster, not provided by Spring Security.
+
+Below are examples of what each authentication mechanism looks like in a bare-bones JHipster application.
+
+
 
 === JPA vs. MongoDB vs. Cassandra
 
@@ -387,7 +479,7 @@ Database diffs rock!
 
 What is is? Why is it awesome?
 
-==== Deployment
+=== Deployment
 
 https://spring.io/blog/2014/03/07/deploying-spring-boot-applications
 
