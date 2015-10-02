@@ -7,7 +7,7 @@ He started writing HTML, CSS and JavaScript in the early 90s and got into Java i
 
 image::images/about/family.jpg[The Raible Family, 400, scaledwidth="50%", align=center]
 
-Matt pays a lot to fantasize about driving a 1966 Deluxe Samba. In the meantime, he's extremely happy with Trish's 1990 Vanagon Syncro.
+Matt drives a 1966 Deluxe Samba and a 1990 Vanagon Syncro.
 
 // todo: figure out how to make side-by-side images work in PDF
 [.clearfix]
