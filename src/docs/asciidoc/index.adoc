@@ -30,8 +30,7 @@ include::chapters/chapter3.adoc[]
 
 == JHipster's API Building Blocks
 
-JHipster is composed of two main components, its UI an is API. APIs are awesome, that's how you make a lot of money.
-Creating great UIs is how you make people smile (or get mad).
+JHipster is composed of two main components, a modern MVC framework and an API. APIs are the modern data-retrieval mechanisms. Creating great UIs is how you make people smile.
 
 include::chapters/chapter4.adoc[]
 
@@ -44,10 +43,14 @@ include::chapters/chapter5.adoc[]
 [colophon]
 include::chapters/colophon.adoc[]
 
+////
 include::chapters/bibliography.adoc[]
+////
 
+////
 [appendix]
 include::chapters/appendix.adoc[]
+////
 
 ifdef::backend-docbook[]
 [index]
