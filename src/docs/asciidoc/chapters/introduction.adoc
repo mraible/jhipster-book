@@ -1,3 +1,7 @@
+JHipster is one of those open source projects you stumble upon and immediately think "of course!". It combines three very successful frameworks in web development: Bootstrap, AngularJS and Spring Boot. Bootstrap was one of the first dominant web component frameworks. It's largest appeal was that it only required a bit of HTML and it worked! All the efforts we made in the Java Community to developer web components were shown a better path by Bootstrap. It set the playing field in HTML/CSS development to a level playing field, much like Apple's Human Interface Guidelines for iOS Apps.
+
+JHipster was started by Julien Dubois.
+
   - Project History
   - Yeoman Workflow
   - Make them want to read the rest! "YES, I want to kick-ass!"
