@@ -12,9 +12,13 @@
 :language: javadocript
 :experimental: true
 
+[dedication]
+include::chapters/dedication.adoc[]
+
 [preface]
-include::chapters/about.adoc[]
 include::chapters/preface.adoc[]
+
+include::chapters/about.adoc[]
 
 == Introduction
 

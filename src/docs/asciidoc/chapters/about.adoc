@@ -1,5 +1,4 @@
-About the Author
-----------------
+== About the Author
 
 Matt Raible is a Java Hipster. He grew up in the backwoods of Montana with no electricty or running water. He walked a mile and half to the bus stop on school days. His mom and sister were often leading the early morning hikes, but his BMX skills overcame this handicap later in life.
 
@@ -21,3 +20,10 @@ image::images/about/syncro.jpg[Syncro, 330, scaledwidth="50%"]
 Matt Raible's blog is at http://raibledesigns.com[http://raibledesigns.com]. You can also find him on Twitter at
 http://twitter.com/mraible[@mraible].
 
+=== Acknowledgements
+
+I'm extremely grateful to my family, for putting up with my late nights and extended screen time while I worked on this book.
+
+I'd also like to thank this book's tech editors: Dennis Sharpe and Kile Niklawski. Their real-world experience with JHipster made the code sections a lot more bulletbroof.
+
+Finally, kudos to Julien Dubois for creating JHipster and turning it into a widely-used, successful open source project.
