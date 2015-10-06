@@ -1097,7 +1097,7 @@ Making the homepage into something resembling my UI mockup required several step
 . Adding an API to get weights for the last 30 days.
 . Adding charts to display points per week, and blood pressure/weight for last 30 days.
 
-I started by re-using the dialogs for entering data that JHipster had created for me. I found that adding new
+I started by reusing the dialogs for entering data that JHipster had created for me. I found that adding new
 routes to `main.js` was the easiest way to do this. Instead of routing back to the list screen after a save
 succeeded, I routed the user back to the `main` state. I copied the generated `points.new` state from `points.js`
 and pasted it into `main.js`.
