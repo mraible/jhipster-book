@@ -1,6 +1,6 @@
 When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating
 a photo gallery to showcase the 1996 VW Bus I've been working on for over 10 years. The project is almost finished and
-I wanted a website to show how things have progressed through the years. 
+I wanted a website to show how things have progressed through the years.
 
 I also thought about creating a blog application.
 As part of http://raibledesigns.com/rd/entry/getting_hip_with_jhipster_at[my first presentation on JHipster] (at Denver's
@@ -12,7 +12,7 @@ Shouldn't a book about becoming what the JHipster homepage calls a "Java Hipster
 
 I wrote to Julien Dubois, founder of JHipster, and Dennis Sharpe, the technical editor for this book, and asked them
 what they thought. We went back and forth on a few ideas: a https://gitter.im[Gitter] clone, a job board for JHipster coders, a shopping-cart
-app. Then it hit me: there was an I'd been wanting to develop for a while.
+app. Then it hit me: there was an idea I'd been wanting to develop for a while.
 
 It's basically an app that you can use to monitor your health. In late September through mid-October 2014, I'd done a
 sugar detox during which I stopped eating sugar, started exercising regularly, and stopped drinking alcohol. I'd had high blood
@@ -33,16 +33,16 @@ fast food. After the detox, I realized that eating healthy for me meant eating n
 beer, so I modified the alcohol rule to allow two healthier alcohol drinks (like a greyhound or
 red wine) per day.
 
-My goal is to earn is 15 points per week. I find that if I get more, I'll likely lose weight and have good blood pressure. If I
+My goal is to earn 15 points per week. I find that if I get more, I'll likely lose weight and have good blood pressure. If I
 get fewer than 15, I risk getting sick. I've been tracking my health like this since September 2014. I've lost 30 pounds and
 my blood pressure has returned to and maintained normal levels. I haven't had good blood pressure since my early 20s, so this has been
 a life changer for me.
 
 I thought writing a "21-Point Health" application would work because tracking your health is always
 important. Wearables that can track your health stats might be able to use the APIs or hooks I create to record
-points for a day. Imagine hooking into http://dailymile.com[Dailymile] (where I track my exercise) or https://untappd.com[Untappd] (where I sometimes list
-the beers I drink). Or even displaying other activities for a day.[line-through]## (e.g. showing your blood pressure score that you keep on
-bettir.com).##  *[green]#LN: Bettir is dead. Have another example?#*
+points for a day. Imagine hooking into http://dailymile.com[dailymile] (where I track my exercise) or https://untappd.com[Untappd] (where I sometimes list
+the beers I drink). Or even displaying other activities for a day (e.g. showing your blood-pressure score that you keep on
+http://www.apple.com/ios/health/[iOS Health]).
 
 I thought my idea would fit nicely with JHipster and Spring Boot from a monitoring standpoint. Spring Boot has lots of health
 monitors for apps, and now you can use this JHipster app to monitor your health!
@@ -97,14 +97,26 @@ It also has the ability to undo changes to your database, either automatically o
 After answering all the questions, JHipster created a whole bunch of files (272 in this case), then ran `npm install`
 followed by `bower install`. To prove everything was good to go, I ran the unit tests using `grunt test`.
 
-Next, I installed http://postgresapp.com/[Postgres.app] and tried creating a local PostgreSQL database. You can see in
-<<img-create-local-db>> that PostgreSQL didn't like that my database name started with a number.
+Next, I installed http://postgresapp.com/[Postgres.app] and tried creating a local PostgreSQL database. You can see that
+PostgreSQL didn't like that my database name started with a number.
 
-*[red]#Question: Would this be better as a code listing? Then people could copy and paste.#*
+----
+'/Applications/Postgres.app/Contents/Versions/9.4/bin'/psql -p5432
+[mraible:~] $ '/Applications/Postgres.app/Contents/Versions/9.4/bin'/psql -p5432psql (9.4.0)
+Type "help" for help.
 
-[[img-create-local-db]]
-.Creating a local database
-image::images/chapter2/creating-local-db.png[Creating a local database, 1686, scaledwidth="100%"]
+mraible=# create user 21points with password '21points';
+ERROR:  syntax error at or near "21"
+LINE 1: create user 21points with password '21points';
+                    ^
+mraible=# create user health with password 'health';
+CREATE ROLE
+mraible=# create database health;
+CREATE DATABASE
+mraible=# grant all privileges on database health to health;
+GRANT
+mraible=#
+----
 
 I chose the name "health" instead and updated `src/main/resources/config/application-dev.yml` to use this name and the
 specified credentials.
@@ -191,7 +203,7 @@ Finally, I ran `./gradlew bootRun` and confirmed that the new theme was being us
 image::images/chapter2/material-design-theme.png[Material Design for Bootstrap theme, 2492, scaledwidth="100%"]
 
 Before creating the entities and associated database tables for this application, I decided to upgrade JHipster to
-the latest release. You can see that I created this application with JHipster 2.16.0. The latest release as of writing is 
+the latest release. You can see that I created this application with JHipster 2.16.0. The latest release as of writing is
 2.19.0, so I updated my version with the following command.
 
 ----
@@ -207,8 +219,8 @@ yo jhipster
 
 This notified me that it was deleting a number of files, and there were some conflicts in my files.
 
-TIP: If you
-don't see conflicts when upgrading, it's possible that you didn't install JHipster on the machine you're using. This happened to me when I switched machines. Check `package.json` to ensure it has the new version number. If it does not, run \
+TIP: If you don't see conflicts when upgrading, it's possible that you didn't install JHipster on the machine you're using.
+This happened to me when I switched machines. Check `package.json` to ensure it has the new version number. If it does not, run
 `npm install -g generator-jhipster`.
 
 ----
@@ -256,12 +268,12 @@ For each entity you want to create, you will need:
 * a database table;
 * a Liquibase change set;
 * a JPA entity class;
-* a Spring Data JPA respository interface;
-* a Spring MVC Rest Controller *[green]#LN: RestController or REST controller?#*
+* a Spring Data `JpaRespository` interface;
+* a Spring MVC `RestController` class;
 * an AngularJS router, controller and service; and
 * an HTML page.
 
-In addition, you should have integration tests to verify that everything works and performance tests to verify that it works fast. In
+In addition, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In
 an ideal world, you'd also have unit tests and integration tests for your Angular code.
 
 The good news is JHipster can generate all of this code for you, including integration tests and performance tests. At the
@@ -291,7 +303,7 @@ owns the relationship first. In this application, the `Metric` entity is owned b
 that one first. The relationships could be simplified to only track metrics for the entry, but then it'd be difficult
 to relate that back to the goal and display progress. <<img-entity-diagram-simple>> is a simplified version, without
 a relationship of metrics to goals. For more information, see
-https://jhipster.github.io/managing_relationships.html["Managing relationships"] at the JHipster site.
+https://jhipster.github.io/managing_relationships.html["Managing relationships"] on the JHipster site.
 
 [[img-entity-diagram-simple]]
 .Simple entity diagram
@@ -492,7 +504,7 @@ public void setMetrics(Set<Metric> metrics) {
 }
 ----
 
-I had to update `liquibase.gradle` to use the same data-source settings I had in `application-dev.yaml` before this
+I had to update `liquibase.gradle` to use the same datasource settings I had in `application-dev.yaml` before this
 command worked. After Liquibase completed successfully, I added the generated file to
 `src/main/resources/config/liquibase/master.xml`.
 
@@ -521,13 +533,13 @@ Total time: 51.422 secs
 ----
 
 I ran `grunt test` to ensure my UI tests were good to go, then fired up the app and tried everything out. The biggest
-issue I noticed was that when you created a `Goal`, it showed the IDs of the users instead of their names.
+issue I noticed was that when you created a `Goal`, it showed the `id` of the users instead of their names.
 
 [[img-create-goal-user-id]]
 .Create a goal with user ID
 image::images/chapter2/create-goal-user-id.png[Create a goal with user ID, 800, scaledwidth="66%", align="center"]
 
-Since the ID doesn't provide much information, I changed this to display the user's username instead. In JHipster's
+Since the `id` doesn't provide much information, I changed this to display the user's username instead. In JHipster's
 `User.java`, this field is called `login`. To make this change, I modified `.jhipster/Goal.json` and changed its
 `otherEntityField` from having a value of `id` to `login`.
 
@@ -556,14 +568,14 @@ modified `Goal.java`, when prompted to overwrite this file, I answered no.
      skip src/main/java/org/jhipster/health/domain/Goal.java
 ----
 
-After restarting everything, I was pleased to see the "user" dropdown menu contained the `login` field instead of ID.
+After restarting everything, I was pleased to see the "user" dropdown list contained the `login` field instead of `id`.
 
 [[img-create-goal-user-login]]
 .Create a goal with user login
 image::images/chapter2/create-goal-user-login.png[Create a goal with user login, 800, scaledwidth="66%", align="center"]
 
 After making this change and regenerating everything, I realized there was an easier way. In `goal-dialog.html`, the
-following code existed to display the users dropdown menu.
+following code existed to display the users dropdown list.
 
 [source,html]
 ----
@@ -578,10 +590,6 @@ To modify it to display `user.login` instead, I simply needed to change `ng-opti
 ----
 
 At this point, I added all the generated files to Git, committed and pushed. I noticed that JHipster had generated 54 files. What a time saver!
-
-*[red]#Question: I like how this section shows the evolution of designing/architecting an application. Would it be
-better for the reader if there were no mistakes and the design was correct at the beginning? I could turn the first
-part of this section into a blog post if you think so.#* *[green]#LN: I like leaving the mistakes. It helps readers who would make the same mistakes.#*
 
 I started to play with my newly created app to see if it had the functionality I wanted. I was hoping to
 easily add daily entries about whether I'd exercised, ate healthy meals, or consumed alcohol. I also wanted to record
@@ -716,7 +724,7 @@ I fixed this by removing the reference to `User` in `Preferences`, as well as it
 private User user;
 ----
 
-I fixed the relationship by adding a `@OneToOne` mapping in `User.java` on the user side:
+I fixed the relationship by adding a `@OneToOne` mapping in `User.java`:
 
 [source,java]
 ----
@@ -753,7 +761,7 @@ I then ran `./gradlew liquibaseDiffChangelog` to generate the changelog and adde
 </changeSet>
 ----
 
-TIP: I had to modify the data-source settings in `liquibase.gradle` again since `git reset` reverted that change.
+TIP: I had to modify the datasource settings in `liquibase.gradle` again since `git reset` reverted that change.
 
 When I ran `./gradlew test`, I saw some failures, but these were for old tests that I'd already deleted. I
 https://github.com/jhipster/generator-jhipster/issues/1886[opened a ticket] with the JHipster project to track this
@@ -766,7 +774,7 @@ I checked in six changed files and 78 new files generated by the JHipster before
 To make my new JHipster application into something I could be proud of, I made a number of improvements, described below.
 
 TIP: At this point, I set up continuous testing of this project using https://jenkins-ci.org/[Jenkins]. This is covered
-in the <<Deploying it!>> section of this chapter.
+in the <<Deploying to Heroku>> section of this chapter.
 
 ==== Fixed issues with entity and variable names
 
@@ -787,7 +795,7 @@ consolidated list of changes I made to the HTML to make things look better:
 
 . Improved layout of tables and buttons.
 . Improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`.
-. Formatted dates using https://docs.angularjs.org/api/ng/filter/date[AngularJS's date filter] 
+. Formatted dates using https://docs.angularjs.org/api/ng/filter/date[AngularJS's date filter]
   (for example: `{{bloodPressure.timestamp | date: 'short'}}`).
 . Improved dialogs to hide ID when creating a new entity.
 . Defaulted to current date on new entries.
@@ -800,14 +808,14 @@ and moved add/search buttons to the top right corner. For the points-list screen
 to icons. Before and after screenshots of the points list illustrate the improved, compact layout.
 
 [[img-points-list-before]]
-.Default points list
-image::images/chapter2/points-list-before.png[Default points list, 1319, scaledwidth="100%", align="center"]
+.Default Daily Points list
+image::images/chapter2/points-list-before.png[Default Daily Points list, 1319, scaledwidth="100%", align="center"]
 
 [[img-points-list-after]]
-.Points list after UI improvements
-image::images/chapter2/points-list-after.png[Points list after UI improvements, 1319, scaledwidth="100%", align="center"]
+.Default Daily Points list after UI improvements
+image::images/chapter2/points-list-after.png[Default Daily Points list after UI improvements, 1319, scaledwidth="100%", align="center"]
 
-I refactored the HTML at the top of `points.html` to put the title and search and add buttons on the same row. I also removed
+I refactored the HTML at the top of `points.html` to put the title, search, and add buttons on the same row. I also removed
 the button text in favor of a using https://angular-ui.github.io/bootstrap/#/tooltip[UI Bootstrap's tooltip directive].
 The `translate` filter you see in the button titles is provided by https://angular-translate.github.io/[Angular Translate].
 Both UI Bootstrap and Angular Translate are included in JHipster by default.
@@ -1094,7 +1102,7 @@ Making the homepage into something resembling my UI mockup required several step
 . Adding buttons to facilitate adding new data from the homepage.
 . Adding an API to get points achieved during the current week.
 . Adding an API to get blood-pressure readings for the last 30 days.
-. Adding an API to get weights for the last 30 days.
+. Adding an API to get body weights for the last 30 days.
 . Adding charts to display points per week, and blood pressure/weight for last 30 days.
 
 I started by reusing the dialogs for entering data that JHipster had created for me. I found that adding new
@@ -1130,10 +1138,10 @@ and pasted it into `main.js`.
 ----
 <1> I changed from 'points.new' to 'points.add'.
 <2> I changed the parent to be 'home'.
-<3> I changed the URL from '/new' to 'add/points'.
+<3> I changed the `url` from '/new' to 'add/points'.
 <4> I changed both result states to be 'home' instead of 'points'.
 
-After configuring the state to add new points from the homepage, I added a button to toggle the dialog.
+After configuring the state to add new points from the homepage, I added a button to activate the dialog.
 
 [source,html]
 ----
@@ -1419,7 +1427,7 @@ as to color the progress bar appropriately with `ng-class`.
 </div>
 ----
 
-To finish things off for user preferences, I added a link to use to edit them and an appropriate state to allow editing in `main.js`.
+To finish things off, I added a link to use to a dialog where users could edit their preferences. I also added an appropriate state to allow editing in `main.js`.
 
 ===== Blood pressure and weight for the last 30 days
 
@@ -1688,7 +1696,7 @@ I made similar changes to display weights for the last 30 days as a chart.
 
 After finishing the MVP (minimum viable product) of 21-Point Health, I did some quick calculations to see how
 many lines of code JHipster had produced. You can see from the graph below that I only had to write 1,152
-lines of code. JHipster did the rest for me. In other words, I was able to automatically generate 91.7% of the code in my project!
+lines of code. JHipster did the rest for me, generating 91.7% of the code in my project!
 
 [[img-21-points-loc]]
 .Project lines of code
@@ -1721,10 +1729,7 @@ things worked as I wanted. I plan to write unit and integration tests when I fin
 were necessary for the MVP.
 ****
 
-=== Deploying it!
-
-*[red]#Question: I think "Deploy It!" is a good title if this section changes to active vs. passive voice. However,
-if I keep things as passive, "Deployment to Heroku" or "Cloud Deployment" is probably better.#*  *[green]#LN: I like this :P#*
+=== Deploying to Heroku
 
 JHipster ships with support for deploying to Cloud Foundry, Heroku, OpenShift, and AWS. I used Heroku to
 deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for
@@ -1760,7 +1765,7 @@ Password (typing will be hidden):
 Authentication successful.
 ----
 
-I ran `yo jhipster:heroku` as recommended in the http://jhipster.github.io/heroku.html[Deploying to Heroku] 
+I ran `yo jhipster:heroku` as recommended in the http://jhipster.github.io/heroku.html[Deploying to Heroku]
 documentation. I tried using the name "21points" for my application when prompted.
 
 ----
@@ -1787,7 +1792,7 @@ heroku create 21points --addons heroku-postgresql:hobby-dev
 ----
 
 You can see my first attempt failed for the same reason that creating a local PostgreSQL database failed: it didn't
-like that the database name started with a  number. I tried again with "health", but that failed, too, since a Heroku app
+like that the database name started with a number. I tried again with "health", but that failed, too, since a Heroku app
 with this name already existed. Finally, I settled on "health-by-points" as the application name and everything
 succeeded.
 
@@ -1831,7 +1836,7 @@ Uploading your application code.
 Uploading build/libs/21points-0.1-SNAPSHOT.war....
 ----
 
-I was pumped to see that this process worked and that my application was available at http://healthy-by-points.herokuapp.com.
+I was pumped to see that this process worked and that my application was available at http://health-by-points.herokuapp.com.
 I quickly changed the default passwords for *admin* and *user* to make things more secure.
 
 [[img-deployed-to-heroku]]
@@ -1927,7 +1932,7 @@ Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 60 second
 This is an expected problem with JHipster and Heroku. I created a support ticket at https://help.heroku.com/ and asked
 to increase my application's allowed timeout to 120 seconds. Heroku's support team was quick to respond and boosted my timeout within minutes.
 
-TIP: If you need to reset your Postgres database on Heroku, you can do so my logging into http://api.heroku.com. 
+TIP: If you need to reset your Postgres database on Heroku, you can do so my logging into http://api.heroku.com.
 Click on your application name > Add-Ons > Heroku Postgres :: Gray and select "Reset Database" from the gear icon
 in the top right corner.  *[green]#LN: Something may be awry here. What's that ":: Gray"?#*
 
@@ -1935,8 +1940,6 @@ in the top right corner.  *[green]#LN: Something may be awry here. What's that "
 
 Once my application's timeout was increased, it seemed like everything was working. I tried to register a new user,
 and saw the following error message in my logs.
-
-*[red]#Question: Should I keep the timestamp in the error below, or remove it?#* *[green]#LN: I'd keep it but correcting it is equally acceptable. I don't see an error (looks like Aug. 20, 2015, 2:37 p.m. UTC), but I'm not the audience.#*
 
 ----
 2015-08-20T14:37:54.660329+00:00 app[web.1]: Caused by: org.elasticsearch.client.transport.NoNodeAvailableException:
@@ -1965,7 +1968,7 @@ data:
 
 ==== Mail on Heroku
 
-After making this change, I repacked and redeployed. This time, when I tried to register, I received an error when my
+After making this change, I repackaged and redeployed. This time, when I tried to register, I received an error when my
 `MailService` tried to send me an activation e-mail.
 
 ----
@@ -2094,9 +2097,8 @@ junitReporter: {
 }
 ----
 
-[TIP]  
-====
-*[green]#LN:Should this be a tip or a sidebar?#*
+.Testing in the Zone
+****
 I created a new Karma configuration in `Gruntfile.js` to allow continuous testing while "in the zone". Running
 `grunt karma:zone` will automatically re-execute tests when you save changes.
 
@@ -2115,8 +2117,8 @@ karma: {
 }
 ----
 
-To make this work, I also had to update the "test" *[green]#LN:Should this be `test`?#* task to run `karma:unit` instead of `karma`.
-====
+To make this work, I also had to update the `test` task to run `karma:unit` instead of `karma`.
+****
 
 I set up a new freestyle project in Jenkins using this configuration.
 
@@ -2132,8 +2134,6 @@ I set up a new freestyle project in Jenkins using this configuration.
 * Post-build Actions
 ** Build other projects: `21-points-deploy`
 ** Publish JUnit test result report / Test Report XMLs: `build/test-results/*.xml`
-
-*[green]#LN:Assuming that these categories came from Jenkins as is, I did not modify them to be consistent or American.#*
 
 I then created another job to deploy to Heroku.
 
