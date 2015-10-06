@@ -84,7 +84,7 @@ see the choices I made in <<img-generating-21points>>.
 image::images/chapter2/generating-21points.png[Generating the application, 1416, scaledwidth="100%"]
 
 You can see that I chose PostgreSQL as my development and production database. I did this because using a
-non-embedded database (like H2) offers some important benefits.
+non-embedded database (like H2) offers some important benefits:
 
 * Your data is retained when restarting the application.
 * Your application starts a bit faster.
