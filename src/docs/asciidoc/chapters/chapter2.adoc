@@ -1427,7 +1427,7 @@ as to color the progress bar appropriately with `ng-class`.
 </div>
 ----
 
-To finish things off, I added a link to use to a dialog where users could edit their preferences. I also added an appropriate state to allow editing in `main.js`.
+To finish things off, I added a link to a dialog where users could edit their preferences. I also added an appropriate state to allow editing in `main.js`.
 
 ===== Blood pressure and weight for the last 30 days
 
