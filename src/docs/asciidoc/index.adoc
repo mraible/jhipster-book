@@ -24,15 +24,15 @@ include::chapters/about.adoc[]
 
 include::chapters/introduction.adoc[]
 
-== Building an App with JHipster
+== Building an app with JHipster
 
 include::chapters/chapter2.adoc[]
 
-== JHipster's UI Components
+== JHipster's UI components
 
 include::chapters/chapter3.adoc[]
 
-== JHipster's API Building Blocks
+== JHipster's API building blocks
 
 JHipster is composed of two main components, a modern MVC framework and an API. APIs are the modern data-retrieval mechanisms. Creating great UIs is how you make people smile.
 
