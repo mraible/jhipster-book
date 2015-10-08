@@ -28,6 +28,6 @@ To try code samples in this book, you will need a computer running an up-to-date
 
 We always welcome feedback from our readers. Let us know what you think about this book — what you liked or disliked. Reader feedback helps us develop titles that you get the most out of.
 
-To send us feedback email us at feedback@infoq.com or send a tweet to https://twitter.com/jhipster_book[@jhipster_book].
+To send us feedback email us at feedback@infoq.com, send a tweet to https://twitter.com/jhipster_book[@jhipster_book] or post a question on Stack Overflow with the http://stackoverflow.com/tags/jhipster-book/info[jhipster-mini-book] tag.
 
 If you have a topic that you have expertise in and you are interested in either writing or contributing to a book, please take a look at our minibook guidelines on http://www.infoq.com/minibook-guidelines.
