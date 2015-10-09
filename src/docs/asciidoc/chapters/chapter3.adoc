@@ -1,3 +1,5 @@
+A modern web application has many UI components. It likely has some sort of MVC framework, as well as a CSS framework and tooling to simplify the use of these. With a web application, you can have users all over the globe, so translating your application into other languages might be important. If you're developing large amounts of CSS, you'll likely use a CSS pre-processor like Less or Sass. Then you'll need a build tool to refresh your browser, run your pre-processor, run your tests, minify your web assets, and prepare your application for production. This section shows how JHipster includes all of these UI components for you and makes your developer experience a joyous one.
+
 === AngularJS
 AngularJS (Angular) is the MVC framework used by JHipster. It's written in JavaScript and makes you a hipster just by using it.
 I've been tracking statistics on jobs and skills for JavaScript MVC frameworks ever since I Compared JVM Web Frameworks
@@ -897,5 +899,9 @@ For an audio visual introduction to BrowserSync, check out the introduction vide
 JHipster integrates BrowserSync for you, using JavaScript that looks very similar to what you see above. Integrating
 BrowserSync into your project is highly recommended. It's also useful for determining if your web application can handle a
 page reload without losing the current user's state.
+
+=== Summary
+
+This section describes the UI components in a typical JHipster project. It taught you about the extremely popular JavaScript MVC framework called AngularJS. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application and it showed you how you can use Grunt and Gulp. Finally, it showed you how WebSockets work and described the beauty of BrowserSync.
 
 Now that you've learned about many of the UI components in a JHipster project, let's learn about the API side of things.
