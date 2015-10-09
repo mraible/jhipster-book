@@ -4,7 +4,7 @@
 :revnumber: 1.0
 :revdate:   October 19, 2015
 :doctype: book
-:front-cover-image: image:images/cover.png[Front Cover,1050,1600]
+:front-cover-image: image:cover.png[Front Cover,1050,1600]
 :toc:
 :icons: font
 :data-uri:
@@ -19,8 +19,6 @@ include::chapters/dedication.adoc[]
 include::chapters/preface.adoc[]
 
 include::chapters/about.adoc[]
-
-== Introduction
 
 include::chapters/introduction.adoc[]
 

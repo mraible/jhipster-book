@@ -4,18 +4,11 @@ Matt Raible is a Java Hipster. He grew up in the backwoods of Montana with no el
 
 He started writing HTML, CSS and JavaScript in the early 90s and got into Java in the late 90s. He loves the Volkswagen Bus, like no one should love anything. It's wierd. He has a passion for skiing, mountain biking, VWs and good beer. Matt is married to an awesome woman and amazing photographer, http://www.mcginityphoto.com/[Trish McGinity]. They love skiing, rafting and camping with their awesome kids, Abbie and Jack.
 
-image::images/about/family.jpg[The Raible Family, 400, scaledwidth="50%", align=center]
+image::about/family.jpg[The Raible Family, 400, scaledwidth="50%", align=center]
 
 Matt drives a 1966 Deluxe Samba and a 1990 Vanagon Syncro.
 
-// todo: figure out how to make side-by-side images work in PDF
-[.clearfix]
---
-[.left]
-image::images/about/porsche-bus.jpg[Porsche Bus, 330, scaledwidth="50%"]
-[.left]
-image::images/about/syncro.jpg[Syncro, 330, scaledwidth="50%"]
---
+image::about/bus-and-van.jpg[The Bus and The Syncro, 800, scaledwidth="75%", align=center]
 
 Matt Raible's blog is at http://raibledesigns.com[http://raibledesigns.com]. You can also find him on Twitter at
 http://twitter.com/mraible[@mraible].
