@@ -18,10 +18,10 @@ include::chapters/colophon.adoc[]
 [dedication]
 include::chapters/dedication.adoc[]
 
+include::chapters/acknowledgements.adoc[]
+
 [preface]
 include::chapters/preface.adoc[]
-
-include::chapters/about.adoc[]
 
 == Introduction
 
@@ -39,9 +39,11 @@ include::chapters/chapter3.adoc[]
 
 include::chapters/chapter4.adoc[]
 
-== Summary
+== Action!
 
-include::chapters/summary.adoc[]
+include::chapters/action.adoc[]
+
+include::chapters/about.adoc[]
 
 ////
 == JHipster in Production
@@ -63,4 +65,3 @@ ifdef::backend-docbook[]
 Index
 -----
 endif::backend-docbook[]
-
