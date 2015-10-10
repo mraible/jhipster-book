@@ -730,7 +730,7 @@ a package manager for https://nodejs.org/[Node.js]. You can install anything spe
 your project's `package.json` using `npm install`. To install Grunt globally (so you can use it
 anywhere), run `npm install -g grunt-cli`.
 
-Grunt was created by Ben Alman, who http://bocoup.com/weblog/introducing-grunt/[released it March 29, 2012].
+Grunt was created by Ben Alman, who http://bocoup.com/weblog/introducing-grunt/[first released it March 29, 2012].
 
 // http://gruntjs.com/plugins: 4,631
 // http://gulpjs.com/plugins/: 1547
