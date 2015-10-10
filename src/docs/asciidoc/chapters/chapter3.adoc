@@ -400,7 +400,7 @@ will stack.
 .Basic grid on a mobile device
 image::images/chapter3/bootstrap/basic-grid-mobile.png[Basic grid on a mobile device, 768, scaledwidth="75%"]
 
-Bootstrap's grid can be used to align and position your your application's elements, widgets, and features. It's helpful
+Bootstrap's grid can be used to align and position your application's elements, widgets, and features. It's helpful
 to understand a few basics if want to use it effectively.
 
 * It's based on 12 columns.
