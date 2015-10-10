@@ -668,7 +668,8 @@ nav {
         list-style: none;
     }
 
-    li { display: inline-block;
+    li {
+        display: inline-block;
     }
 
     a {
