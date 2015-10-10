@@ -586,7 +586,7 @@ There's a number of other open-source components that can help to further enhanc
 Bootstrap that are not included in JHipster at the time of this writing:
 
 * https://angular-ui.github.io/bootstrap/[UI-Bootstrap]: Bootstrap components written in pure AngularJS by the AngularUI Team. No jQuery required.
-* http://ionicframework.com[Ionic framework]: Offers a library of mobile-optimized HTML, CSS, and JavaScript components, gestures,
+* http://ionicframework.com[Ionic]: Offers a library of mobile-optimized HTML, CSS, and JavaScript components, gestures,
 and tools for building highly interactive apps. Built with Sass and optimized for AngularJS. Provides a native look and feel.
 * https://github.com/jirikavi/AngularJS-Toaster[AngularJS-Toaster]: An AngularJS port of the http://codeseven.github.io/toastr/[Toastr] non-blocking notification
 jQuery library.
