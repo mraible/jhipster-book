@@ -682,7 +682,7 @@ nav {
 
 WARNING: Overly nested rules will result in over-qualified CSS that can be hard to maintain.
 
-As mentioned, Sass also supports partials, imports, mixins, and inheritence. Mixins can be particularly
+As mentioned, Sass also supports partials, imports, mixins, and inheritance. Mixins can be particularly
 useful for handling vendor prefixes.
 
 [source,sass]
