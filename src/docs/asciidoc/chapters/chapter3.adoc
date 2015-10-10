@@ -618,7 +618,7 @@ $translateProvider.preferredLanguage('de');
 ----
 
 === Sass
-Sass stands for "syntactically awesome style sheets". It's a language for writing CSS with the goodies you're used to
+Sass stands for "Syntactically Awesome StyleSheets". It's a language for writing CSS with the goodies you're used to
 using in modern programming languages, such as variables, nesting, mixins, and inheritance. Sass uses the `$` symbol
 to indicate a variable, which can then be referenced later in your document.
 
