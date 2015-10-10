@@ -146,7 +146,7 @@ To get the results from the SearchService in your controller, you can use Angula
 })
 ----
 <1> To inject SearchService into SearchController, simply add it as a parameter to the controller's argument list.
-<2> `$scope.search()` is a function that's called from the HTML `<form>`, wired up using the `ng-submit` directive.
+<2> `$scope.search()` is a function that's called from the HTML's `<form>`, wired up using the `ng-submit` directive.
 <3> `$scope.term` is a variable that's wired to `<input>` using the `ng-model` directive.
 
 Another common way to write controllers is to name the arguments passed into the function. This helps if you plan
@@ -267,7 +267,7 @@ include::{sourcedir}/chapter3/angular/ui-router.js[]
 ----
 
 AngularUI Router allows you to look up data before displaying a page. It does this with its `resolve` property. For example,
-by enhancing the 'search.edit' state, we can look up the person from the `SearchService` before instantiating the controller.  *[green]#LN: Is "from" the correct preposition here?#*
+by enhancing the 'search.edit' state, we can look up the person from the `SearchService` before instantiating the controller.
 
 [source,javascript,linenums]
 ----
@@ -379,7 +379,7 @@ basic grid system is built with containers, rows, and columns. It's 940 pixels (
 adapts to widths of 724 and 1170 px, according to your viewport. On viewports narrower than 767 px, the columns become
 fluid and stack vertically.
 
-A basic example of the grid:  *[green]#LN: Something's missing below.#*
+A basic example of the grid:
 
 [source,html,linenums]
 ----
@@ -411,7 +411,7 @@ Bootstrap 3's grid system has four tiers of classes: xs (phones), sm (tablets), 
 You can use nearly any combination of these classes to create more dynamic and flexible layouts. Below is an example of a
 grid that's a little more advanced.
 
-Each tier of classes scales up, meaning that if you plan to set the same widths for xs and sm, you only need to specify xs. *[green]#LN: Something's missing below.#*
+Each tier of classes scales up, meaning that if you plan to set the same widths for xs and sm, you only need to specify xs.
 
 [source,html,linenums]
 ----
@@ -434,7 +434,7 @@ Bootstrap also includes a number of utility classes that can be used to show and
 ==== Forms
 When you add Bootstrap's CSS to your web application, chances are it'll quickly start to look better. Typography, margins,
 and padding will look better by default. However, your forms might look funny, because Bootstrap requires a few
-classes on your form elements to make them look good. Below is an example of a form element. *[green]#LN: Something's missing below.#*
+classes on your form elements to make them look good. Below is an example of a form element.
 
 [source,html,linenums]
 ----
@@ -445,7 +445,7 @@ include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
 .Basic form element
 image::images/chapter3/bootstrap/basicelement.png[Basic form element, 829, scaledwidth="90%"]
 
-If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings. *[green]#LN: Something's missing below.#*
+If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
 
 [source,html,linenums]
 ----
@@ -462,7 +462,7 @@ headings become semi-bold and are sized accordingly. Your paragraph margins, bod
 If you want to align text in your pages, `text-[left|center|right]` are useful classes. For tables, a `table` class
 gives them a better look and feel by default.
 
-To make your buttons look better, Bootstrap provides `btn` and a number of `btn-*` classes. *[green]#LN: Something's missing below.#*
+To make your buttons look better, Bootstrap provides `btn` and a number of `btn-*` classes.
 
 [source,html,linenums]
 ----
@@ -486,7 +486,7 @@ alerts, progress bars, and panels. Below is an example of a navbar with a dropdo
 .Navbar with dropdown
 image::images/chapter3/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 867, scaledwidth="100%"]
 
-When rendered on a mobile device, everything collapses into a hamburger menu that can expand downward. *[green]#LN: Why is this image half the width of the one above?#*
+When rendered on a mobile device, everything collapses into a hamburger menu that can expand downward.
 
 [[img-bootstrap-navbar-mobile]]
 .Navbar on mobile
@@ -494,7 +494,7 @@ image::images/chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 467, sca
 
 This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source
 online in link:http://getbootstrap.com/components/\#navbar-default[Bootstrap's documentation]. The simpler example below
-shows the basic structure. *[green]#LN: The hash in the URL above is misleading the layout. And the HTML is missing below.#*
+shows the basic structure.
 
 [source,html,linenums]
 ----
@@ -502,7 +502,7 @@ include::{sourcedir}/chapter3/bootstrap/navbar.html[]
 ----
 
 Alerts are useful for displaying feedback to the user. You can invoke differently colored alerts with different classes. You'll need
-to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors. *[green]#LN: Something's missing.#*
+to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors.
 
 [source,html,linenums]
 ----
@@ -772,7 +772,7 @@ include::{sourcedir}/chapter3/grunt/index-prod.html[]
 
 ==== Gulp
 Gulp calls itself "the streaming build system". Gulp is all about streams and building complex pipelines with ease.
-It uses Node.js's streams, and executes faster *[green]#LN:Faster than what?#*, since it does not open/close files or create intermediary copies. Gulp
+It uses Node.js's streams, and executes faster than Grunt, since it does not open/close files or create intermediary copies. Gulp
 was released a couple of years after Grunt, and has received a lot of praise from the JavaScript community. In accordance
 with the UNIX philosophy, Gulp plugins each try to do one thing well.
 
@@ -810,7 +810,7 @@ https://medium.com/seek-ui-engineering/block-element-modifying-your-javascript-c
 Modifying Your JavaScript Components"] article. Since webpack is not an option for JHipster, I will not cover it in this book.
 
 (Keith Cirkel
-recommends you use http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/[neither Grunt nor Gulp but use npm instead].)
+recommends you use http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/[neither Grunt nor Gulp but use npm].)
 
 If you're new to JavaScript build tools, I recommend Grunt. You don't want to be overwhelmed with
 too much new technology in your JHipster project if you're trying to meet a deadline. If you're using JHipster to learn
@@ -844,10 +844,7 @@ The `Tracker` service allows you to send tracking information, for example, to t
 include::{sourcedir}/chapter3/websockets/tracker.service.js[]
 ----
 
-WebSockets on the server side of a JHipster project are implemented with
-http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support].
-This is covered in <<chapter4.websockets>>. *[green]#LN: Is this link going to be properly formatted on production?#* The next section shows how a developer productivity tool that uses WebSockets
-implements something very cool.
+WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
 
 === Browsersync
 
