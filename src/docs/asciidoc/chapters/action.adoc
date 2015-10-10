@@ -14,9 +14,11 @@ Now that you've learned how to use AngularJS, Bootstrap and Spring Boot with JHi
 
 If you want to learn more, here are some suggestions.
 
-A definitive book about Spring's JDBC, JPA and NoSQL support _Spring Data: Modern Data Access for Enterprise Java_ by Mark Pollack, Oliver Gierke, Thomas Risberg, Jon Brisbin, and Michael Hunger. (O'Reilly Media, October 2012):
+The definitive book about Spring's JDBC, JPA and NoSQL support _Spring Data: Modern Data Access for Enterprise Java_ by Mark Pollack, Oliver Gierke, Thomas Risberg, Jon Brisbin, and Michael Hunger. (O'Reilly Media, October 2012):
 http://shop.oreilly.com/product/0636920024767.do
 
 Learn how to use Spring Boot to build apps faster than ever before with _Learning Spring Boot_ by Greg L. Turnquist. (Packt Publishing Limited, November 2014): https://www.packtpub.com/application-development/learning-spring-boot
 
 The in-depth, complete and up-to-date book on Angular, _ng-book_ by Ari Lerner. Lerner has also written _ng-book 2_ for Angular 2. https://www.ng-book.com/
+
+Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with _Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_ by Josh Long and Kenny Bastani. (O'Reilly Media, January 2016 (est.)): http://shop.oreilly.com/product/0636920038252.do
