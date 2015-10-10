@@ -361,7 +361,7 @@ In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-conc
 would provide a migration path for Angular 1.x users. The Angular 2.0 project is hosted at https://angular.io/. The team
 plans to support Angular 1.x (at https://angularjs.org/) as long as its web traffic exceeds the 2.0 site.
 
-JHipster will add support for Angular 2.0 once it's deemed mature enough for production use.
+JHipster will add support for Angular 2 once it's deemed mature enough for production use. In the meantime, I recommend you read and follow https://github.com/johnpapa/angular-styleguide[John Papa's Angular Style Guide] to prepare for Angular 2.
 
 Now that you've learned a bit about the hottest web framework on the planet, let's take a look at the most
 popular CSS framework: Bootstrap.
