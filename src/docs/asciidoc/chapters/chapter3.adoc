@@ -35,8 +35,8 @@ In March 2015, I updated these statistics once again. I found the number of jobs
 year, while jobs for Ember and Backbone had fallen slightly. The number of developers who mentioned skills in Ember and Backbone had
 increased 200%, while the number of skilled Angular folks had risen 400%.
 
-Angular has rapidly become the most-popular MVC Web framework. Like Struts in the early 2000s and
-Rails in the mid-2000s, it's changed the way developers write Web applications. Today, data is exposed via REST APIs and UIs
+Angular has rapidly become the most-popular MVC web framework. Like Struts in the early 2000s and
+Rails in the mid-2000s, it's changed the way developers write web applications. Today, data is exposed via REST APIs and UIs
 are written in JavaScript. As a Java developer, I was immediately attracted to Angular when I saw its seperation of concerns.
 It recommended organizing your application into several different components:
 
@@ -78,7 +78,7 @@ have to add an event handler that listens for a change of value. With Angular, t
 and it saves you from writing a lot of boilerplate code. The `{{ng-app}}` directive on line 2 makes this an Angular
 application.
 
-The MVC pattern is a common one for Web frameworks to implement. With Angular, the model is represented
+The MVC pattern is a common one for web frameworks to implement. With Angular, the model is represented
 by a JavaScript object that you create or retrieve from a service. The view is an HTML template and the controller
 is a JavaScript function that watches for changes to the model from the user.
 
@@ -340,7 +340,7 @@ Angular applications was going to change and it was to be based on a new languag
 path and users would have to continue using 1.x or rewrite their applications for 2.x.
 
 A new syntax was introduced that binds data to element properties, not attributes. The advantage of this syntax
-is it allows you to use all Web components in an Angular app, not just those retrofitted to work with Angular.
+is it allows you to use all web components in an Angular app, not just those retrofitted to work with Angular.
 
 [source,html]
 ----
@@ -359,16 +359,16 @@ Angular 2.x also eliminates the following concepts introduced in 1.0.
 
 In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announcing that they would be using http://www.typescriptlang.org/[TypeScript] over AtScript and that they
 would provide a migration path for Angular 1.x users. The Angular 2.0 project is hosted at https://angular.io/. The team
-plans to support Angular 1.x (at https://angularjs.org/) as long as its Web traffic exceeds the 2.0 site.
+plans to support Angular 1.x (at https://angularjs.org/) as long as its web traffic exceeds the 2.0 site.
 
 JHipster will add support for Angular 2.0 once it's deemed mature enough for production use.
 
-Now that you've learned a bit about the hottest Web framework on the planet, let's take a look at the most
+Now that you've learned a bit about the hottest web framework on the planet, let's take a look at the most
 popular CSS framework: Bootstrap.
 
 === Bootstrap
 
-http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of Web applications. It provides a
+http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides a
 number of CSS classes and HTML structures that allow you to develop HTML user interfaces that look good by default. Not
 only that, but its 3.0 version is responsive by default, which means it works better (or even best) on a mobile device.
 
@@ -432,7 +432,7 @@ Bootstrap also includes a number of utility classes that can be used to show and
 * `.hidden-[xs|sm|md|lg]`
 
 ==== Forms
-When you add Bootstrap's CSS to your Web application, chances are it'll quickly start to look better. Typography, margins,
+When you add Bootstrap's CSS to your web application, chances are it'll quickly start to look better. Typography, margins,
 and padding will look better by default. However, your forms might look funny, because Bootstrap requires a few
 classes on your form elements to make them look good. Below is an example of a form element. *[green]#LN: Something's missing below.#*
 
@@ -493,7 +493,7 @@ When rendered on a mobile device, everything collapses into a hamburger menu tha
 image::images/chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 467, scaledwidth="50%"]
 
 This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source
-online in link:http://getbootstrap.com/components/\#navbar-default[Bootstrap's documentation]. The simpler example below 
+online in link:http://getbootstrap.com/components/\#navbar-default[Bootstrap's documentation]. The simpler example below
 shows the basic structure. *[green]#LN: The hash in the URL above is misleading the layout. And the HTML is missing below.#*
 
 [source,html,linenums]
@@ -532,9 +532,9 @@ image::images/chapter3/bootstrap/alert-dismissable.png[Closeable alert, 830, sca
 TIP: To make the links in your alerts match the colors of the alerts, use `.alert-link`.
 
 ==== Icons
-Icons have always been a big part of Web applications. Showing the user a small image is often sexier
+Icons have always been a big part of web applications. Showing the user a small image is often sexier
 and hipper than plain text. Humans are visual beings and icons are a great way to spice things up. In the last
-several years, font icons have become popular for Web development. Font icons are just fonts, but they contain
+several years, font icons have become popular for web development. Font icons are just fonts, but they contain
 symbols and glyphs instead of text. You can style, scale, and load them quickly because of their small size.
 
 The http://glyphicons.com/[Glyphicons] Halflings set of font icons is included with Bootstrap. They're not normally free,
@@ -737,7 +737,7 @@ Grunt was created by Ben Alman, who http://bocoup.com/weblog/introducing-grunt/[
 The following steps show how to integrate Grunt into https://github.com/angular/angular-seed[angular-seed]. This particular
 build file optimizes your JavaScript, CSS, and HTML for production. It concatenates your JavaScript and CSS
 files, minifies them, then replaces the references in the HTML to point to the optimized files. First, you have
-to configure `package.json` to include Grunt and its plugins for Web optimization.
+to configure `package.json` to include Grunt and its plugins for web optimization.
 
 [source,json,linenums]
 .package.json
@@ -872,7 +872,7 @@ to contain a few things, weighing in at a slim 15 lines of JSON.
 include::{sourcedir}/../../../package.json[]
 ----
 1
-The `Gruntfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical Web-development
+The `Gruntfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development
 experience.
 
 [source,javascript,linenums]
@@ -896,7 +896,7 @@ grunt serve
 For an audiovisual introduction to Browsersync, check out the introduction video on its http://www.browsersync.io/[homepage].
 
 JHipster integrates Browsersync for you, using JavaScript that looks very similar to what you see above. I highly recommend
-Browsersync for your project. It's useful for determining if your Web application can handle a
+Browsersync for your project. It's useful for determining if your web application can handle a
 page reload without losing the current user's state.
 
 Now that you've learned about many of the UI components in a JHipster project, let's learn about the API side of things.
