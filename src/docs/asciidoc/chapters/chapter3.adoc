@@ -726,7 +726,7 @@ CoffeeScript to JavaScript), unit testing, and more.
 ==== Grunt
 Grunt calls itself "the JavaScript task runner". It's the incumbent in the field of JavaScript build tools and has
 over 4,000 http://gruntjs.com/plugins[plugins]. You install and manage Grunt and Grunt plugins via https://www.npmjs.com/[npm],
-a package manager for https://nodejs.org/[Node.js] and https://iojs.org/[io.js]. You can install anything specified as a dependency in
+a package manager for https://nodejs.org/[Node.js]. You can install anything specified as a dependency in
 your project's `package.json` using `npm install`. To install Grunt globally (so you can use it
 anywhere), run `npm install -g grunt-cli`.
 
