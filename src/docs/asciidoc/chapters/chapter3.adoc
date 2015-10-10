@@ -376,7 +376,7 @@ only that, but its 3.0 version is responsive by default, which means it works be
 
 Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's
 basic grid system is built with containers, rows, and columns. It's 940 pixels (px) wide, divided into 12 columns. The grid
-adapts to widths of 724 and 1170 px, according to your viewport. On viewports narrower than 767 px, the columns become
+adapts to widths of 724 and 1170 pixels, according to your viewport. On viewports narrower than 767 pixels, the columns become
 fluid and stack vertically.
 
 A basic example of the grid:
@@ -387,13 +387,13 @@ include::{sourcedir}/chapter3/bootstrap/grid-basic.html[]
 ----
 
 When rendered with Bootstrap's CSS, the above HTML looks as follows on a desktop. The minimum width of the container element
-on the desktop is set to 1200 px.
+on the desktop is set to 1200 pixels.
 
 [[img-bootstrap-basic-grid-desktop]]
 .Basic grid on desktop
 image::images/chapter3/bootstrap/basic-grid-desktop.png[Basic grid on desktop, 991, scaledwidth="100%"]
 
-If you squish your browser to less than 1200 px wide or render this same document on a smaller screen, the columns
+If you squish your browser to less than 1200 pixels wide or render this same document on a smaller screen, the columns
 will stack.
 
 [[img-bootstrap-basic-grid-mobile]]
