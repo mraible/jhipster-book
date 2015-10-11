@@ -1955,7 +1955,7 @@ https://addons.heroku.com/searchbox[Searchbox Elasticsearch] offers a free plan.
 file to use Heroku's ephemeral filesystem.
 
 [source,yaml]
----
+----
 # Configure prod to use ElasticSearch in-memory.
 # http://stackoverflow.com/questions/12416738/how-to-use-herokus-ephemeral-filesystem
 data:
@@ -2018,8 +2018,7 @@ was configured correctly.
 === Monitoring and analytics
 
 JHipster generates the code necessary for Google Analytics in every application's `src/main/webapp/index.html` file.
-I chose not to enable this just yet, but I hope to eventually. I already have a http://www.google.com/analytics/
-[Google Analytics] account, so it's just a matter of creating a new account for www.21-points.com, copying the
+I chose not to enable this just yet, but I hope to eventually. I already have a http://www.google.com/analytics/[Google Analytics] account, so it's just a matter of creating a new account for www.21-points.com, copying the
 account number, and modifying the following section of `index.html`:
 
 [source,html]
