@@ -24,11 +24,11 @@ a lot of people had added Angular to their LinkedIn profiles. I found that Ember
 [.left]
 [[img-angular-jobs-2014]]
 .Jobs on Dice, February 2014
-image::images/chapter3/angular/dice-jobs-february2014.png[Jobs on Dice in 2014, 450, scaledwidth="75%"]
+image::chapter3/angular/dice-jobs-february2014.png[Jobs on Dice in 2014, 450, scaledwidth="75%"]
 [.left]
 [[img-angular-skills-2014]]
 .Skills on LinkedIn, February 2014
-image::images/chapter3/angular/linkedin-skills-february2014.png[Skills on LinkedIn in 2014, 450, scaledwidth="75%"]
+image::chapter3/angular/linkedin-skills-february2014.png[Skills on LinkedIn in 2014, 450, scaledwidth="75%"]
 --
 
 In March 2015, I updated these statistics once again. I found the number of jobs for Angular had doubled over the last
