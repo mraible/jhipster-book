@@ -388,8 +388,8 @@ mvn io.takari.polyglot:polyglot-translate-plugin:translate \
 
 Supported formats are `rb`, `groovy`, `scala`, `yaml`, `atom` and of course `xml`. You can even convert back to xml or cross-convert between all supported formats. To learn more about alternate languages with Maven, see https://github.com/takari/polyglot-maven[polyglot-maven on GitHub].
 
-If you're still not convinced, there's a lot of internet resources that support the use of Gradle. First, there's Gradle Inc.'s https://gradle.org/maven_vs_gradle/[Gradle vs Maven Feature Comparison].
-There's also a "http://www.drdobbs.com/jvm/why-build-your-java-projects-with-gradle/240168608[Why Build Your Java Projects with Gradle]" by Benjamin Muschko, on Dr. Dobb's. Benjamin is a Principal Engineer at Gradle Inc. and the author of https://www.manning.com/books/gradle-in-action[Gradle in Action].
+If you're still not convinced, there's a lot of internet resources that support the use of Gradle. First, there's Gradle Inc.'s https://gradle.org/maven_vs_gradle/[_Gradle vs Maven Feature Comparison_].
+There's also a Dr. Dobb's article titled http://www.drdobbs.com/jvm/why-build-your-java-projects-with-gradle/240168608[_Why Build Your Java Projects with Gradle_] by Benjamin Muschko. Benjamin is a Principal Engineer at Gradle Inc. and the author of https://www.manning.com/books/gradle-in-action[Gradle in Action].
 
 Gradle is the default built tool for the Android development. Android Studio uses a Gradle wrapper to fully integrate the Android plugin for Gradle.
 
@@ -417,14 +417,13 @@ The JHipster documentation includes https://jhipster.github.io/configuring_ide.h
 
 The beauty of Spring Boot is you can run it as a simple Java process. This means you can right click on your `*Application.java` class and run it (or debug it) from your IDE. When debugging, you'll be able to set breakpoints in your Java classes and see what variables are being set to before a process executes.
 
-To learn about profile a Java application, I recommend you watch http://www.meetup.com/virtualJUG/events/225557121/[Nitsan Wakart's Java Profiling from the Ground Up!] To learn more about memory and JavaScript applications, I recommend http://addyosmani.com/blog/video-javascript-memory-management-masterclass/[Addy Somani's JavaScript Memory Management Masterclass].
-// MR: The Java Profiling URL will likely change once the video is published
+To learn about profile a Java application, I recommend you watch https://www.youtube.com/watch?v=_6vJyciXkwo[Nitsan Wakart's Java Profiling from the Ground Up!] To learn more about memory and JavaScript applications, I recommend http://addyosmani.com/blog/video-javascript-memory-management-masterclass/[Addy Somani's JavaScript Memory Management Masterclass].
 
 === Security
 
 Spring Boot has excellent security features thanks to its integration with Spring Security. When you create a Spring Boot application with a `spring-boot-starter-security` dependency, you get HTTP Basic authentication out-of-the-box. By default, a user is created with username `user` and the password is printed in the logs when the application starts. To override the generated password, you can define a `security.user.password`. Additional security features of Spring Boot can be found in the http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-security.html[Spring Boot Security Guide].
 
-The most basic Spring Security Java configuration creates a Servlet Filter, which is responsible for all the security (protecting URLs, validating credentials, redirecting to login, etc.). This involves several lines of code, but half of them are class imports.
+The most basic Spring Security Java configuration creates a servlet `Filter`, which is responsible for all the security (protecting URLs, validating credentials, redirecting to login, etc.). This involves several lines of code, but half of them are class imports.
 
 [source,java]
 ----
@@ -531,7 +530,7 @@ Cassandra has http://jhipster.github.io/using_cassandra.html[more limitations an
 
 === Liquibase
 
-http://www.liquibase.org/[Liquibase] is _source control for your database_. It's an open source (Apache 2.0) project that allows you to manipulate your database as part of a build or runtime process. It allows you to _diff_ your entities against your database tables and create migration scripts. It even allows you to provide comma-delimited default data! For example, default users are loaded from `src/main/resources/config/liquibase/users.csv`:
+http://www.liquibase.org/[Liquibase] is "source control for your database". It's an open source (Apache 2.0) project that allows you to manipulate your database as part of a build or runtime process. It allows you to _diff_ your entities against your database tables and create migration scripts. It even allows you to provide comma-delimited default data! For example, default users are loaded from `src/main/resources/config/liquibase/users.csv`:
 
 This file is loaded by Liquibase when it creates the database schema.
 

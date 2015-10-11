@@ -2035,8 +2035,8 @@ account number, and modifying the following section of `index.html`:
 ----
 
 I've used http://newrelic.com/[New Relic] to monitor my production applications in the past. There is a free
-https://addons.heroku.com/newrelic[New Relic add-on] for Heroku. Heroku's https://devcenter.heroku.com/articles/newrelic
-[New Relic APM] describes how to set things up if you're letting Heroku do the build for you (meaning, you deploy with
+https://addons.heroku.com/newrelic[New Relic add-on] for Heroku. Heroku's https://devcenter.heroku.com/articles/newrelic[New Relic APM]
+describes how to set things up if you're letting Heroku do the build for you (meaning, you deploy with
 `git push heroku master`). However, if you're using the heroku-deploy plugin, it's a bit different.
 
 For that, you'll first need to manually download the New Relic Agent JAR and put it in a location relative to the root directory
