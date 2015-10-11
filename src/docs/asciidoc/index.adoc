@@ -12,6 +12,9 @@
 :language: javadocript
 :experimental: true
 
+[colophon]
+include::chapters/colophon.adoc[]
+
 [dedication]
 include::chapters/dedication.adoc[]
 
@@ -41,9 +44,6 @@ include::chapters/chapter4.adoc[]
 
 include::chapters/chapter5.adoc[]
 ////
-
-[colophon]
-include::chapters/colophon.adoc[]
 
 ////
 include::chapters/bibliography.adoc[]

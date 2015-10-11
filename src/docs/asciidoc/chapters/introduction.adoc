@@ -2,8 +2,16 @@
 
 JHipster is one of those open source projects you stumble upon and immediately think "of course!". It combines three very successful frameworks in web development: Bootstrap, AngularJS and Spring Boot. Bootstrap was one of the first dominant web component frameworks. It's largest appeal was that it only required a bit of HTML and it worked! All the efforts we made in the Java Community to developer web components were shown a better path by Bootstrap. It set the playing field in HTML/CSS development to a level playing field, much like Apple's Human Interface Guidelines for iOS Apps.
 
-JHipster was started by Julien Dubois.
+JHipster was started by Julien Dubois in October 2013 footnote:[Julien's first commit was on https://github.com/jhipster/generator-jhipster/commit/c8630ab7af7b6a99db880b3b0e2403806b7d2436[October 21, 2013].]. It's first public release (version 0.3.1) was on December 7, 2013. Since then, the project has had over 85 releases! It is an open source, Apache 2.0 licensed, project on GitHub. It has a core team of nine developers and over 150 contributors. You can find its homepage at http://jhipster.github.io/. Its https://www.openhub.net/p/generator-jhipster[Open HUB profile] shows it's mostly written in JavaScript and Java.
 
-  - Project History
-  - Yeoman Workflow
-  - Make them want to read the rest! "YES, I want to kick-ass!"
+image::images/introduction/jhipster-openhub.png[Project Summary on Open HUB, 963, scaledwidth="90%", align=center]
+
+At its core, JHipster is a http://yeoman.io/[Yeoman] generator. Yoeman is a code generator that can be run with a `yo` command to generate complete applications or useful pieces of an application. Yoeman generators promote the "Yeoman Workflow". This is an opinionated client-side stack, comprised of tools that can help developers quickly build beautiful web applications. It takes care of providing everything needed to get started without the normal pains associated with a manual setup.
+
+The Yeoman workflow is made up of three types of tools to enhance your productivity and satisfaction when building a webapp:
+
+* The scaffolding tool (yo)
+* The build tool (Grunt, Gulp, etc)
+* The package manager (Bower, npm, etc)
+
+This book shows you how to build an app with JHipster, and guides you through the plethora of tools, techniques and options you can use. Furthermore, it explains the UI components and API building blocks so you can understand the underpinnings of a JHipster application.
