@@ -12,11 +12,3 @@ image::about/bus-and-van.jpg[The Bus and The Syncro, 800, scaledwidth="75%", ali
 
 Matt Raible's blog is at http://raibledesigns.com[http://raibledesigns.com]. You can also find him on Twitter at
 http://twitter.com/mraible[@mraible].
-
-=== Acknowledgements
-
-I'm extremely grateful to my family, for putting up with my late nights and extended screen time while I worked on this book.
-
-I'd also like to thank this book's tech editors: Dennis Sharpe and Kile Niklawski. Their real-world experience with JHipster made the code sections a lot more bulletbroof.
-
-Finally, kudos to Julien Dubois for creating JHipster and turning it into a widely-used, successful open source project.

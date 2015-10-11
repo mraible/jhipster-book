@@ -1,6 +1,6 @@
-=== Spring Boot
+JHipster is composed of two main components, a modern MVC framework and an API. APIs are the modern data-retrieval mechanisms. Creating great UIs is how you make people smile.
 
-//image::chapter4/spring-boot-logo.png[Spring Boot Logo, 150, 150, float="right"]
+=== Spring Boot
 
 In August 2013, the Phil Webb and Dave Syer, Engineers at Pivotal,
 https://spring.io/blog/2013/08/06/spring-boot-simplifying-spring-for-everyone[announced the first milestone release] of Spring
@@ -10,7 +10,7 @@ the power of Spring. The diagram below shows how Spring Boot is the gateway to t
 
 [[img-spring-boot-pyramid]]
 .Spring Boot
-image::chapter4/spring-boot-pyramid.png[Spring Boot, 379, scaledwidth="50%", align=center]
+image::images/chapter4/spring-boot-pyramid.png[Spring Boot, 379, scaledwidth="50%", align=center]
 
 The primary goals of Spring Boot are:
 
@@ -25,11 +25,11 @@ You can visit it in your browser at https://start.spring.io or you can call it v
 
 [[img-spring-initializr-web]]
 .Spring Initializr in a browser
-image::chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1248, scaledwidth="100%"]
+image::images/chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1248, scaledwidth="100%"]
 
 [[img-spring-initializr-curl]]
 .Spring Initializr via curl
-image::chapter4/spring-initializr-curl.png[Spring Initializr via curl, 1082, scaledwidth="100%"]
+image::images/chapter4/spring-initializr-curl.png[Spring Initializr via curl, 1082, scaledwidth="100%"]
 
 Spring Initializr is an Apache 2.0-licensed open source project that install and customize for generating Spring
 projects for your company or team. You can find it on GitHub at https://github.com/spring-io/initializr.
@@ -352,7 +352,7 @@ In January 2014, ZeroTurnaround's RebelLabs published a report titled http://zer
 
 [[img-evolution-of-build-tools-timeline]]
 .The Evolution of Build Tools, 1977 - 2013
-image::chapter4/evolution-of-build-tools-timeline.jpg[The Evolution of Build Tools, 600, scaledwidth="100%", align=center]
+image::images/chapter4/evolution-of-build-tools-timeline.jpg[The Evolution of Build Tools, 600, scaledwidth="100%", align=center]
 
 The report concludes that you should experiment with Gradle for your next project.
 
@@ -611,3 +611,14 @@ A JHipster application can be deployed to your own JVM, http://jhipster.github.i
 
 I've deployed JHipster applications to both Heroku and Cloud Foundry. With Heroku, you might have to ask for a 2x timeout (120 seconds) to get your application started. They're usually really quick to respond and can make it happen in a matter of minutes. Recently, the JHipster Team created a non-blocking Liquibase bean and https://twitter.com/java_hipster/status/649504634080468992[cut startup time by 40%].
 
+=== Summary
+
+The Spring Framework has had one of the best track records for hipness in JavaLand. It's remained backwards compatible between many releases and has lived as an open source project for more than 10 years. Spring Boot has provided a breath of fresh air for people using Spring with its starter dependencies, auto-configuration and monitoring tools. Its made it very easy to build microservices in Java (and Groovy) and deploy them to the cloud.
+
+This section showed you some of the cool features of Spring Boot and described the build tools you can use to package and run a JHipster application. It described the power of Spring Security and showed you its many features, enabled by only a few lines of code. JHipster supports both relational databases and NoSQL databases, which allows you to choose how you want your data stored. You can choose JPA, MongoDB or Cassandra when creating a new application.
+
+Liquibase is a tool that will create your database schema for you. It will also help you perform updates to your database when the need arises. It provides an easy-to-use workflow to adding new properties to your JHipster-generated entities using its _diff_ feature.
+
+You can add rich search capabilities to your JHipster app with Elasticsearch. This is one of the most popular Java projects on GitHub and there's a reason for that - it works _really_ well.
+
+JHipster applications are Spring Boot applications, so they can be deployed wherever Java can be run. You can deploy them in a traditional Java EE (or Servlet) container, or you can deploy them in the cloud. The sky is the limit!

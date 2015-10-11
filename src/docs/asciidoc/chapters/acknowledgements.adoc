@@ -1,0 +1,9 @@
+== Acknowledgements
+
+I'm extremely grateful to my family, for putting up with my late nights and extended screen time while I worked on this book.
+
+To Rod Johnson and Juergen Hoeller, thanks for inventing Spring and changing the lives of Java developers forever. To Phil Webb and Dave Syer, thanks for creating Spring Boot and breathing a breath of fresh air into the Spring Framework. Last, but not least, thanks to Josh Long for first showing me Spring Boot and for being one of the most enthusiastic Spring developers I've ever met. 
+
+I'd like to thank this book's tech editors: Dennis Sharpe and Kile Niklawski. Their real-world experience with JHipster made the code sections a lot more bulletbroof.
+
+Finally, kudos to Julien Dubois for creating JHipster and turning it into a widely-used, successful open source project.

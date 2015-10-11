@@ -18,10 +18,12 @@ include::chapters/colophon.adoc[]
 [dedication]
 include::chapters/dedication.adoc[]
 
+include::chapters/acknowledgements.adoc[]
+
 [preface]
 include::chapters/preface.adoc[]
 
-include::chapters/about.adoc[]
+== Introduction
 
 include::chapters/introduction.adoc[]
 
@@ -35,9 +37,13 @@ include::chapters/chapter3.adoc[]
 
 == JHipster's API building blocks
 
-JHipster is composed of two main components, a modern MVC framework and an API. APIs are the modern data-retrieval mechanisms. Creating great UIs is how you make people smile.
-
 include::chapters/chapter4.adoc[]
+
+== Action!
+
+include::chapters/action.adoc[]
+
+include::chapters/about.adoc[]
 
 ////
 == JHipster in Production
@@ -59,4 +65,3 @@ ifdef::backend-docbook[]
 Index
 -----
 endif::backend-docbook[]
-
