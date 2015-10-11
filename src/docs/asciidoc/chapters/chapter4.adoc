@@ -1,6 +1,6 @@
 === Spring Boot
 
-//image::images/chapter4/spring-boot-logo.png[Spring Boot Logo, 150, 150, float="right"]
+//image::chapter4/spring-boot-logo.png[Spring Boot Logo, 150, 150, float="right"]
 
 In August 2013, the Phil Webb and Dave Syer, Engineers at Pivotal,
 https://spring.io/blog/2013/08/06/spring-boot-simplifying-spring-for-everyone[announced the first milestone release] of Spring
@@ -10,7 +10,7 @@ the power of Spring. The diagram below shows how Spring Boot is the gateway to t
 
 [[img-spring-boot-pyramid]]
 .Spring Boot
-image::images/chapter4/spring-boot-pyramid.png[Spring Boot, 379, scaledwidth="50%", align=center]
+image::chapter4/spring-boot-pyramid.png[Spring Boot, 379, scaledwidth="50%", align=center]
 
 The primary goals of Spring Boot are:
 
@@ -25,11 +25,11 @@ You can visit it in your browser at https://start.spring.io or you can call it v
 
 [[img-spring-initializr-web]]
 .Spring Initializr in a browser
-image::images/chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1248, scaledwidth="100%"]
+image::chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1248, scaledwidth="100%"]
 
 [[img-spring-initializr-curl]]
 .Spring Initializr via curl
-image::images/chapter4/spring-initializr-curl.png[Spring Initializr via curl, 1082, scaledwidth="100%"]
+image::chapter4/spring-initializr-curl.png[Spring Initializr via curl, 1082, scaledwidth="100%"]
 
 Spring Initializr is an Apache 2.0-licensed open source project that install and customize for generating Spring
 projects for your company or team. You can find it on GitHub at https://github.com/spring-io/initializr.
@@ -352,7 +352,7 @@ In January 2014, ZeroTurnaround's RebelLabs published a report titled http://zer
 
 [[img-evolution-of-build-tools-timeline]]
 .The Evolution of Build Tools, 1977 - 2013
-image::images/chapter4/evolution-of-build-tools-timeline.jpg[The Evolution of Build Tools, 600, scaledwidth="100%", align=center]
+image::chapter4/evolution-of-build-tools-timeline.jpg[The Evolution of Build Tools, 600, scaledwidth="100%", align=center]
 
 The report concludes that you should experiment with Gradle for your next project.
 

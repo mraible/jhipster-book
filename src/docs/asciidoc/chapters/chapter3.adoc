@@ -8,11 +8,11 @@ at Devoxx France in 2013. At that time, Backbone was the dominant framework.
 [.left]
 [[img-angular-jobs-2013]]
 .Jobs on Dice, March 2013
-image::images/chapter3/angular/dice-jobs-march2013.png[Jobs on Dice in 2013, 450, scaledwidth="75%"]
+image::chapter3/angular/dice-jobs-march2013.png[Jobs on Dice in 2013, 450, scaledwidth="75%"]
 [.left]
 [[img-angular-skills-2013]]
 .Skills on LinkedIn, March 2013
-image::images/chapter3/angular/linkedin-skills-march2013.png[Skills on LinkedIn in 2013, 450, scaledwidth="75%"]
+image::chapter3/angular/linkedin-skills-march2013.png[Skills on LinkedIn in 2013, 450, scaledwidth="75%"]
 --
 
 In February 2014, I updated those statistics for a presentation. The number of Dice jobs that mentioned Angular had grown to roughly equal the number that mentioned Backbone, and
@@ -84,7 +84,7 @@ is a JavaScript function that watches for changes to the model from the user.
 
 [[img-angular-mvc]]
 .MVC in Angular
-image::images/chapter3/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth="75%", align=center]
+image::chapter3/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth="75%", align=center]
 
 Below is a search controller and a service to fetch search results. It's expected that a JSON endpoint exists at
 `/api/search` on the same server.
@@ -391,14 +391,14 @@ on the desktop is set to 1200 pixels.
 
 [[img-bootstrap-basic-grid-desktop]]
 .Basic grid on desktop
-image::images/chapter3/bootstrap/basic-grid-desktop.png[Basic grid on desktop, 991, scaledwidth="100%"]
+image::chapter3/bootstrap/basic-grid-desktop.png[Basic grid on desktop, 991, scaledwidth="100%"]
 
 If you squish your browser to less than 1200 pixels wide or render this same document on a smaller screen, the columns
 will stack.
 
 [[img-bootstrap-basic-grid-mobile]]
 .Basic grid on a mobile device
-image::images/chapter3/bootstrap/basic-grid-mobile.png[Basic grid on a mobile device, 768, scaledwidth="75%"]
+image::chapter3/bootstrap/basic-grid-mobile.png[Basic grid on a mobile device, 768, scaledwidth="75%"]
 
 Bootstrap's grid can be used to align and position your application's elements, widgets, and features. It's helpful
 to understand a few basics if want to use it effectively.
@@ -420,7 +420,7 @@ include::{sourcedir}/chapter3/bootstrap/grid-advanced.html[]
 
 [[img-bootstrap-advanced-grid-desktop]]
 .Advanced grid
-image::images/chapter3/bootstrap/advanced-grid-desktop.png[Advanced grid, 983, scaledwidth="100%"]
+image::chapter3/bootstrap/advanced-grid-desktop.png[Advanced grid, 983, scaledwidth="100%"]
 
 You can use size indicators to specify breakpoints in the columns. Breakpoints indicate where a column wraps onto the next
 row. In the HTML above, "md" is the size indicator. Boostrap supports "xs", "sm", "md", "lg", and "xl".
@@ -443,7 +443,7 @@ include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
 
 [[img-bootstrap-basic-element]]
 .Basic form element
-image::images/chapter3/bootstrap/basicelement.png[Basic form element, 829, scaledwidth="90%"]
+image::chapter3/bootstrap/basicelement.png[Basic form element, 829, scaledwidth="90%"]
 
 If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
 
@@ -454,7 +454,7 @@ include::{sourcedir}/chapter3/bootstrap/basicelement-withvalidation.html[]
 
 [[img-bootstrap-basic-element-with-validation]]
 .Form element with validation
-image::images/chapter3/bootstrap/basicelement-validation.png[Form element with validation, 829, scaledwidth="90%"]
+image::chapter3/bootstrap/basicelement-validation.png[Form element with validation, 829, scaledwidth="90%"]
 
 ==== CSS
 When you add Bootstrap's CSS to an HTML page, the default settings immediately improve the typography. Your `<h1>` and `<h2>`
@@ -471,7 +471,7 @@ include::{sourcedir}/chapter3/bootstrap/buttons.html[]
 
 [[img-bootstrap-buttons]]
 .Buttons
-image::images/chapter3/bootstrap/buttons.png[Buttons, 500, scaledwidth="55%"]
+image::chapter3/bootstrap/buttons.png[Buttons, 500, scaledwidth="55%"]
 
 ==== Components
 Bootstrap ships with a number of components included. Some require JavaScript; some only require HTML5 markup and
@@ -484,13 +484,13 @@ alerts, progress bars, and panels. Below is an example of a navbar with a dropdo
 
 [[img-bootstrap-navbar]]
 .Navbar with dropdown
-image::images/chapter3/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 867, scaledwidth="100%"]
+image::chapter3/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 867, scaledwidth="100%"]
 
 When rendered on a mobile device, everything collapses into a hamburger menu that can expand downward.
 
 [[img-bootstrap-navbar-mobile]]
 .Navbar on mobile
-image::images/chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 467, scaledwidth="50%"]
+image::chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 467, scaledwidth="50%"]
 
 This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source
 online in link:http://getbootstrap.com/components/\#navbar-default[Bootstrap's documentation]. The simpler example below
@@ -513,7 +513,7 @@ This renders alerts like the following.
 
 [[img-bootstrap-alerts]]
 .Alerts
-image::images/chapter3/bootstrap/alerts.png[Alerts, 828, scaledwidth="100%"]
+image::chapter3/bootstrap/alerts.png[Alerts, 828, scaledwidth="100%"]
 
 To make an alert closeable, you need to add an `.alert-dismissible` class and a close button.
 
@@ -527,7 +527,7 @@ To make an alert closeable, you need to add an `.alert-dismissible` class and a 
 
 [[img-bootstrap-alert-dismissable]]
 .Closeable alert
-image::images/chapter3/bootstrap/alert-dismissable.png[Closeable alert, 830, scaledwidth="100%"]
+image::chapter3/bootstrap/alert-dismissable.png[Closeable alert, 830, scaledwidth="100%"]
 
 TIP: To make the links in your alerts match the colors of the alerts, use `.alert-link`.
 
@@ -552,7 +552,7 @@ You can see how the icons change color based on the font color defined for the e
 
 [[img-bootstrap-buttons-icons]]
 .Buttons with icons
-image::images/chapter3/bootstrap/buttons-with-icons.png[Buttons with icons, 241, scaledwidth="25%"]
+image::chapter3/bootstrap/buttons-with-icons.png[Buttons with icons, 241, scaledwidth="25%"]
 
 You can use other icon fonts with Bootstrap and JHipster, http://fortawesome.github.io/Font-Awesome/[Font Awesome]
 being one of the most popular. It's completely free for commercial use and contains over 500 icons. JHipster uses
@@ -800,7 +800,7 @@ margin.
 
 [[img-bootstrap-advanced-grid-desktop]]
 .Google Trends: Grunt vs. Gulp
-image::images/chapter3/grunt+gulp/google-trends-grunt-vs-gulp.png[.Google Trends: Grunt vs. Gulp, 864, scaledwidth="100%"]
+image::chapter3/grunt+gulp/google-trends-grunt-vs-gulp.png[.Google Trends: Grunt vs. Gulp, 864, scaledwidth="100%"]
 
 // https://www.google.com/trends/explore#q=Grunt%2C%20Gulp
 
@@ -869,7 +869,7 @@ to contain a few things, weighing in at a slim 15 lines of JSON.
 ----
 include::{sourcedir}/../../../package.json[]
 ----
-1
+
 The `Gruntfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development
 experience.
 

@@ -4,13 +4,16 @@
 :revnumber: 1.0
 :revdate:   October 19, 2015
 :doctype: book
-:front-cover-image: image:images/cover.png[Front Cover,1050,1600]
+:front-cover-image: image:cover.png[Front Cover,1050,1600]
 :toc:
 :icons: font
 :data-uri:
 :lang: en
 :language: javadocript
 :experimental: true
+
+[colophon]
+include::chapters/colophon.adoc[]
 
 [dedication]
 include::chapters/dedication.adoc[]
@@ -20,19 +23,17 @@ include::chapters/preface.adoc[]
 
 include::chapters/about.adoc[]
 
-== Introduction
-
 include::chapters/introduction.adoc[]
 
-== Building an App with JHipster
+== Building an app with JHipster
 
 include::chapters/chapter2.adoc[]
 
-== JHipster's UI Components
+== JHipster's UI components
 
 include::chapters/chapter3.adoc[]
 
-== JHipster's API Building Blocks
+== JHipster's API building blocks
 
 JHipster is composed of two main components, a modern MVC framework and an API. APIs are the modern data-retrieval mechanisms. Creating great UIs is how you make people smile.
 
@@ -43,9 +44,6 @@ include::chapters/chapter4.adoc[]
 
 include::chapters/chapter5.adoc[]
 ////
-
-[colophon]
-include::chapters/colophon.adoc[]
 
 ////
 include::chapters/bibliography.adoc[]
