@@ -340,7 +340,7 @@ Angular applications was going to change and it was to be based on a new languag
 path and users would have to continue using 1.x or rewrite their applications for 2.x.
 
 A new syntax was introduced that binds data to element properties, not attributes. The advantage of this syntax
-is it allows you to use all web components in an Angular app, not just those retrofitted to work with Angular.
+is it allows you to use any web component in an Angular app, not just those retrofitted to work with Angular.
 
 [source,html]
 ----
