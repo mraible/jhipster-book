@@ -81,7 +81,7 @@ see the choices I made in <<img-generating-21points>>.
 
 [[img-generating-21points]]
 .Generating the application
-image::images/chapter2/generating-21points.png[Generating the application, 1416, scaledwidth="100%"]
+image::chapter2/generating-21points.png[Generating the application, 1416, scaledwidth="100%"]
 
 You can see that I chose PostgreSQL as my development and production database. I did this because using a
 non-embedded database (like H2) offers some important benefits:
@@ -200,7 +200,7 @@ Finally, I ran `./gradlew bootRun` and confirmed that the new theme was being us
 
 [[img-material-design-theme]]
 .Material Design for Bootstrap theme
-image::images/chapter2/material-design-theme.png[Material Design for Bootstrap theme, 2492, scaledwidth="100%"]
+image::chapter2/material-design-theme.png[Material Design for Bootstrap theme, 2492, scaledwidth="100%"]
 
 Before creating the entities and associated database tables for this application, I decided to upgrade JHipster to
 the latest release. You can see that I created this application with JHipster 2.16.0. The latest release as of writing is
@@ -296,7 +296,7 @@ alcohol, but it's important to start, not to get it right the first time.
 
 [[img-entity-diagram]]
 .21-Point Health entity diagram
-image::images/chapter2/entity-diagram.png[21-Point Health entity diagram, 684, scaledwidth="75%", align="center"]
+image::chapter2/entity-diagram.png[21-Point Health entity diagram, 684, scaledwidth="75%", align="center"]
 
 The most important thing to remember when generating entities with JHipster is that you must generate the entity that
 owns the relationship first. In this application, the `Metric` entity is owned by `Goal` and `Entry`, so we'll generate
@@ -307,7 +307,7 @@ https://jhipster.github.io/managing_relationships.html["Managing relationships"]
 
 [[img-entity-diagram-simple]]
 .Simple entity diagram
-image::images/chapter2/entity-diagram-simple.png[Simple entity diagram, 684, scaledwidth="75%", align="center"]
+image::chapter2/entity-diagram-simple.png[Simple entity diagram, 684, scaledwidth="75%", align="center"]
 
 I started by generating a `Goal` entity, with a many-to-one relationship to `User`. Below are the questions and
 answers I used to generate this entity.
@@ -537,7 +537,7 @@ issue I noticed was that when you created a `Goal`, it showed the `id` of the us
 
 [[img-create-goal-user-id]]
 .Create a goal with user ID
-image::images/chapter2/create-goal-user-id.png[Create a goal with user ID, 800, scaledwidth="66%", align="center"]
+image::chapter2/create-goal-user-id.png[Create a goal with user ID, 800, scaledwidth="66%", align="center"]
 
 Since the `id` doesn't provide much information, I changed this to display the user's username instead. In JHipster's
 `User.java`, this field is called `login`. To make this change, I modified `.jhipster/Goal.json` and changed its
@@ -572,7 +572,7 @@ After restarting everything, I was pleased to see the "user" dropdown list conta
 
 [[img-create-goal-user-login]]
 .Create a goal with user login
-image::images/chapter2/create-goal-user-login.png[Create a goal with user login, 800, scaledwidth="66%", align="center"]
+image::chapter2/create-goal-user-login.png[Create a goal with user login, 800, scaledwidth="66%", align="center"]
 
 After making this change and regenerating everything, I realized there was an easier way. In `goal-dialog.html`, the
 following code existed to display the users dropdown list.
@@ -602,7 +602,7 @@ https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstr
 
 [[img-ui-mockup]]
 .UI mockup
-image::images/chapter2/ui-mockup.png[UI mockup, 846, scaledwidth="75%", align="center"]
+image::chapter2/ui-mockup.png[UI mockup, 846, scaledwidth="75%", align="center"]
 
 ==== Starting over with a straightforward design
 
@@ -614,7 +614,7 @@ get in a week. I was grateful that JHipster allowed me to quickly see the flaws 
 
 [[img-entity-diagram-simpler]]
 .21-Point Health entity diagram - simplified
-image::images/chapter2/entity-diagram-simpler.png[21-Point Health entity diagram - simplified, 684, scaledwidth="100%", align="center"]
+image::chapter2/entity-diagram-simpler.png[21-Point Health entity diagram - simplified, 684, scaledwidth="100%", align="center"]
 
 JHipster created 54 files when generating the previous data model, REST controllers, and UI. Rather than hunt down all
 these files and delete them, I reverted to the last commit before them in Git.
@@ -809,11 +809,11 @@ to icons. Before and after screenshots of the points list illustrate the improve
 
 [[img-points-list-before]]
 .Default Daily Points list
-image::images/chapter2/points-list-before.png[Default Daily Points list, 1319, scaledwidth="100%", align="center"]
+image::chapter2/points-list-before.png[Default Daily Points list, 1319, scaledwidth="100%", align="center"]
 
 [[img-points-list-after]]
 .Default Daily Points list after UI improvements
-image::images/chapter2/points-list-after.png[Default Daily Points list after UI improvements, 1319, scaledwidth="100%", align="center"]
+image::chapter2/points-list-after.png[Default Daily Points list after UI improvements, 1319, scaledwidth="100%", align="center"]
 
 I refactored the HTML at the top of `points.html` to put the title, search, and add buttons on the same row. I also removed
 the button text in favor of a using https://angular-ui.github.io/bootstrap/#/tooltip[UI Bootstrap's tooltip directive].
@@ -891,7 +891,7 @@ I created.
 
 [[img-add-points-dialog]]
 .Add Points dialog
-image::images/chapter2/add-points-dialog.png[Add Points dialog, 593, scaledwidth="80%", align="center"]
+image::chapter2/add-points-dialog.png[Add Points dialog, 593, scaledwidth="80%", align="center"]
 
 Improving the UI was the most fun, but also the most time consuming as it involved lots of little tweaks to
 multiple screens. The next task was more straighforward: implementing business logic.
@@ -1353,7 +1353,7 @@ Below is a screenshot of what this progress bar looked like after entering some 
 
 [[img-homepage-progress-bar]]
 .Progress bar for points this week
-image::images/chapter2/homepage-points-this-week.png[Progress bar for points this week, 1381, scaledwidth="100%", align="center"]
+image::chapter2/homepage-points-this-week.png[Progress bar for points this week, 1381, scaledwidth="100%", align="center"]
 
 You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix this, I needed to add the ability
 to fetch the user's preferences. I created a new method in `PreferencesResource.java` to return the user's preferences
@@ -1688,7 +1688,7 @@ After entering some test data, I was quite pleased with the results.
 
 [[img-homepage-bp-last-30-days]]
 .Chart of blood pressure during the last 30 days
-image::images/chapter2/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1338, scaledwidth="100%", align="center"]
+image::chapter2/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1338, scaledwidth="100%", align="center"]
 
 I made similar changes to display weights for the last 30 days as a chart.
 
@@ -1700,13 +1700,13 @@ lines of code. JHipster did the rest for me, generating 91.7% of the code in my 
 
 [[img-21-points-loc]]
 .Project lines of code
-image::images/chapter2/21-points-loc.png[Project lines of code, 700, scaledwidth="100%", align="center"]
+image::chapter2/21-points-loc.png[Project lines of code, 700, scaledwidth="100%", align="center"]
 
 To drill down further, I made a graph of the top three languages in the project: Java, JavaScript, and HTML.
 
 [[img-21-points-loc-by-language]]
 .Project lines of code by language
-image::images/chapter2/21-points-loc-by-language.png[Project lines of code by language, 900, scaledwidth="100%", align="center"]
+image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 900, scaledwidth="100%", align="center"]
 
 The amount of code I had to write in each language was 582 lines of Java, 268 lines of JavaScript, and 109 lines of HTML.
 
@@ -1841,7 +1841,7 @@ I quickly changed the default passwords for *admin* and *user* to make things mo
 
 [[img-deployed-to-heroku]]
 .First deployment to Heroku
-image::images/chapter2/deployed-to-Heroku.png[First deployment to Heroku, 1144, scaledwidth="100%", align="center"]
+image::chapter2/deployed-to-Heroku.png[First deployment to Heroku, 1144, scaledwidth="100%", align="center"]
 
 Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for
 Heroku, I ran `heroku domains:add`.
