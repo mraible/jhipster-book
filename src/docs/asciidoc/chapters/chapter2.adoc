@@ -1,3 +1,5 @@
+== Building an app with JHipster
+
 When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating
 a photo gallery to showcase the 1996 VW Bus I've been working on for over 10 years. The project is almost finished and
 I wanted a website to show how things have progressed through the years.

@@ -1,3 +1,5 @@
+== JHipster's UI components
+
 A modern web application has many UI components. It likely has some sort of MVC framework, as well as a CSS framework and tooling to simplify the use of these. With a web application, you can have users all over the globe, so translating your application into other languages might be important. If you're developing large amounts of CSS, you'll likely use a CSS pre-processor like Less or Sass. Then you'll need a build tool to refresh your browser, run your pre-processor, run your tests, minify your web assets, and prepare your application for production. This section shows how JHipster includes all of these UI components for you and makes your developer experience a joyous one.
 
 === AngularJS

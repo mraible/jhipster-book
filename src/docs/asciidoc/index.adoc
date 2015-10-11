@@ -23,23 +23,13 @@ include::chapters/acknowledgements.adoc[]
 [preface]
 include::chapters/preface.adoc[]
 
-== Introduction
-
 include::chapters/introduction.adoc[]
-
-== Building an app with JHipster
 
 include::chapters/chapter2.adoc[]
 
-== JHipster's UI components
-
 include::chapters/chapter3.adoc[]
 
-== JHipster's API building blocks
-
 include::chapters/chapter4.adoc[]
-
-== Action!
 
 include::chapters/action.adoc[]
 
