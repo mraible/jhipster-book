@@ -1,4 +1,4 @@
-*The JHipster Mini-Book*
+== The JHipster Mini-Book
 
 (C) 2015 Matt Raible. All rights reserved.
 
