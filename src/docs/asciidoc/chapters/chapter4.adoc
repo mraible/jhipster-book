@@ -513,6 +513,13 @@ JHipster takes the excellence of Spring Security and used it to provide the real
 * *OAuth2 Authentication*: A stateless security mechanism; you might prefer it if you want to scale your application across several machines.
 * *Token-based authentication*: Like OAuth2, a stateless security mechanism. Specific to JHipster, not provided by Spring Security.
 
+TIP: It's possible that JHipster will soon support four authentication options. JHipster Team member, Thibaut Mottet, has been working on integrating http://projects.spring.io/spring-social/[Spring Social] and has published a https://github.com/moifort/jhipster-app-social[sample application with Google and Facebook authentication].
+
+.OAuth 2.0
+****
+http://oauth.net/2/[OAuth 2.0] is the next version of the OAuth protocol (originally created in 2006). OAuth 2.0 focuses on simplifying client development while supporting web applications, desktop applications, mobile phones, and living room devices.
+****
+
 In addition to authentication choices, JHipster offers security improvements: improved remember me (unique tokens stored in database), cookie theft protection and CSRF protection.
 
 By default, JHipster comes with 4 different users:
