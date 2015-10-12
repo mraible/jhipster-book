@@ -41,9 +41,7 @@ include::chapters/about.adoc[]
 include::chapters/chapter5.adoc[]
 ////
 
-////
 include::chapters/bibliography.adoc[]
-////
 
 ////
 [appendix]

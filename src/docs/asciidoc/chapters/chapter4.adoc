@@ -2,6 +2,12 @@
 
 JHipster is composed of two main components, a modern MVC framework and an API. APIs are the modern data-retrieval mechanisms. Creating great UIs is how you make people smile.
 
+*[red]#Question: This section borrows a bit from Wikipedia (https://en.wikipedia.org/wiki/Representational_state_transfer). I've included a link below; is there a better way to provide attribution?.#*
+
+Many APIs today are RESTful APIs. In fact, Representational State Transfer (REST) is the software architectural style of the World Wide Web. RESTful systems typically communicate over HTTP (Hypertext Transfer Protocol) using verbs (GET, POST, PUT, DELETE, etc.). This is the same way web browsers retrieve web pages and send data to remote servers. According to https://en.wikipedia.org/wiki/Representational_state_transfer[Wikipedia], REST was initially proposed by Roy Fielding in his 2000 PhD dissertation "Architectural Styles and the Design of Network-based Software Architectures" <<fielding>>.
+
+JHipster leverages Spring MVC and its `@RestController` annotation to create a REST API. Its endpoints publish and consume JSON from clients. By separating the business logic and data persistence from the client, you can provide data to many different clients (HTML5, iOS, Android, TVs, watches, IoT devices, etc.). This also allows third party and partner integration capabilities in your application. Spring Boot further compliments Spring MVC by making microservices easier and allowing you to create standalone JAR (Java Archive) files.
+
 === Spring Boot
 
 In August 2013, the Phil Webb and Dave Syer, Engineers at Pivotal,
@@ -406,7 +412,7 @@ The report concludes that you should experiment with Gradle for your next projec
 If we were forced to conclude with any general recommendation, it would be to *go with Gradle if you are starting a new project*.
 ""
 
-I've used both tools for building projects and they've both worked quite well. Maven has worked quite well for me, but I've also used it for over 10 years and recognize that my history and experience with it might contribute to my bias towards it. If it's Maven's XML that you hate, you can use https://github.com/takari/polyglot-maven[Polyglot for Maven] to change your perspective. It supports Atom, Groovy, Clojure, Ruby, Scala and YAML languages. Ironically, you need to include an XML file to use it. To add support for non-XML languages, create a `${project}/.mvn/extensions.xml` file and add the following XML to it.
+I've used both tools for building projects and they've both worked quite well. Maven has worked quite well for me, but I've also used it for over 10 years and recognize that my history and experience with it might contribute to my bias towards it. If you prefer Gradle simply because you are trying to avoid XML, https://github.com/takari/polyglot-maven[Polyglot for Maven] may change your perspective. It supports Atom, Groovy, Clojure, Ruby, Scala and YAML languages. Ironically, you need to include an XML file to use it. To add support for non-XML languages, create a `${project}/.mvn/extensions.xml` file and add the following XML to it.
 
 [source,xml]
 ----
@@ -635,7 +641,7 @@ The ELK stack (Elasticsearch, Logstash, and Kibana) are all open source projects
 
 === Deployment
 
-A JHipster application can be deployed wherever a Spring Boot JAR can be deployed. Spring Boot uses a `public static void main` entry-point that launches an embedded web server for you. Spring Boot applications are embedded in a _fat jar_. This jar includes all dependencies necessary, e.g. the web server and start/stop scripts. You can give anybody this `.jar` and they can run your app easily: no build tool required, no setup, no web server configuration, etc: just `java -jar killerapp.jar`.
+A JHipster application can be deployed wherever a Java program can be run. Spring Boot uses a `public static void main` entry-point that launches an embedded web server for you. Spring Boot applications are embedded in a _fat jar_. This jar includes all dependencies necessary, e.g. the web server and start/stop scripts. You can give anybody this `.jar` and they can run your app easily: no build tool required, no setup, no web server configuration, etc: just `java -jar killerapp.jar`.
 
 TIP: Josh Long's https://spring.io/blog/2014/03/07/deploying-spring-boot-applications[Deploying Spring Boot Applications] is an excellent resource for learning how to customize your application archive. It shows how you can change your application to a traditional war: extend `SpringBootServletInitializer`, change packaging to `war` and set `spring-boot-starter-tomcat` as a provided dependency.
 
