@@ -526,7 +526,7 @@ For security reasons, you should change the default passwords in `src/main/resou
 
 === JPA vs. MongoDB vs. Cassandra
 
-Traditional Relational Database Management Systems (RDMS) provide a number of properties that guarantee its transactions are processed reliably. ACID: Atomicity, Consistency, Isolation and Durability. Databases like MySQL and PostgreSQL provide RDMS support and have done wonders to reduce the costs of databases. Vendors like Oracle and Microsoft are supported by JHipster as well, you just can't generate a project without an open source database driver. If you'd like to use a traditional database, select *SQL* when creating your JHipster project.
+Traditional Relational Database Management Systems (RDBMS) provide a number of properties that guarantee its transactions are processed reliably. ACID: Atomicity, Consistency, Isolation and Durability. Databases like MySQL and PostgreSQL provide RDBMS support and have done wonders to reduce the costs of databases. Vendors like Oracle and Microsoft are supported by JHipster as well, you just can't generate a project without an open source database driver. If you'd like to use a traditional database, select *SQL* when creating your JHipster project.
 
 TIP: The https://jhipster.github.io/using_oracle.html[Using Oracle] guide shows you how to modify a project to support Oracle.
 
@@ -541,7 +541,7 @@ When you create a new JHipster project, you'll be prompted with the following qu
   Cassandra
 ----
 
-If you're familiar with RDMS databases, I'd recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku. You can also use H2 for development, but then you'll lose out on Liquibase's _diff_ feature.
+If you're familiar with RDBMS databases, I'd recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku. You can also use H2 for development, but then you'll lose out on Liquibase's _diff_ feature.
 
 If your idea is the next Facebook, you might want to consider a NoSQL database that's more concerned with performance than third normal form.
 
@@ -552,8 +552,7 @@ NoSQL encompasses a wide variety of different database technologies that were de
 
 MongoDB was founded in 2007 by the folks behind DoubleClick, ShopWiki and Gilt Groupe. It is Apache and GNU-APGL licensed project on https://github.com/mongodb/mongo[GitHub]. It claims large customers like Foursquare, MTV, Forbes, GE Capital, Adobe, LinkedIn, eBay and eHarmony.
 
-http://cassandra.apache.org/[Cassandra] is an Apache Software Foundation project that claims some web-scale users too: Constant Contact, CERN, Comcast, eBay, GitHub, GoDaddy, Hulu, Instagram, Intuit, Netflix, Reddit and The Weather Channel. They have some impressive numbers about scalability on their homepage.
-
+http://cassandra.apache.org/[Cassandra] is "a distributed storage system for managing structured data that is designed to scale to a very large size across many commodity servers, with no single point of failure" :footnote[From "https://www.facebook.com/notes/facebook-engineering/cassandra-a-structured-storage-system-on-a-p2p-network/24413138919[Cassandra – A structured storage system on a P2P Network]". It was initially developed at Facebook to power its Inbox Search feature. Its founders, Avinash Lakshman (one of the authors of Amazon's Dynamo) and Prashant Malik, released it as an open source project in July 2008. In March 2009, it became an Apache Incubator project and graduated to a top-level project in February 2010. In addition to Facebook, it helps a number of companies achieve web-scale: Constant Contact, CERN, Comcast, eBay, GitHub, GoDaddy, Hulu, Instagram, Intuit, Netflix, Reddit and The Weather Channel. They have some impressive numbers about scalability on their homepage.
 
 [,http://cassandra.apache.org]
 ""
