@@ -240,6 +240,8 @@ whether you're using Maven or Gradle.
 
 ==== External Configuration
 
+*[red]#Question: This section borrows heavily from Spring Boot's documentation (http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html). Should that be mentioned?.#*
+
 Spring Boot can be configured externally, so you can work with the same application code in different environments. You can use properties files, YAML files, environment variables and command-line arguments to externalize your configuration.
 
 1. Command line arguments.
