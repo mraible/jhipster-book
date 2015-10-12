@@ -4,7 +4,7 @@ JHipster is composed of two main components, a modern MVC framework and an API. 
 
 Many APIs today are RESTful APIs. In fact, Representational State Transfer (REST) is the software architectural style of the World Wide Web. RESTful systems typically communicate over HTTP (Hypertext Transfer Protocol) using verbs (GET, POST, PUT, DELETE, etc.). This is the same way web browsers retrieve web pages and send data to remote servers. REST was initially proposed by Roy Fielding in his 2000 PhD dissertation "Architectural Styles and the Design of Network-based Software Architectures" <<fielding>>.
 
-JHipster leverages Spring Boot to create it's REST API. Its endpoints publish and consume JSON from clients. By separating the business logic and data persistence from the client, you can provide data to many different clients (HTML5, iOS, Android, TVs, watches, IoT devices, etc.). This also allows third party and partner integration capabilities in your application.
+JHipster leverages Spring MVC and its `@RestController` annotation to create a REST API. Its endpoints publish and consume JSON from clients. By separating the business logic and data persistence from the client, you can provide data to many different clients (HTML5, iOS, Android, TVs, watches, IoT devices, etc.). This also allows third party and partner integration capabilities in your application. Spring Boot further compliments Spring MVC by making microservices easier and allowing you to create standalone JAR (Java Archive) files.
 
 === Spring Boot
 
