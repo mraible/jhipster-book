@@ -268,6 +268,15 @@ TIP: You can also use YAML ('.yml') files as an alternative to '.properties'. JH
 
 More information about Spring Boot's external configuration feature can be found in Spring Boot's http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html[externalized configuration reference documentation].
 
+[WARNING]
+====
+If you're using 3rd party libraries that require external configuration files, you may have issues loading them. These files might be loaded with:
+
+`XXX.class.getResource().toURI().getPath()`
+
+This code does not work when using a Spring Boot executable jar because the classpath is relative to the jar itself and not the filesystem. One workaround is to run your application as a WAR in a servlet container. You might also try contacting the maintainer of the 3rd party library to find a solution.
+====
+
 ==== Auto configuration
 
 Spring Boot is unique in that it automatically configures Spring whenever possible. It does this by peaking into JAR
