@@ -238,6 +238,38 @@ that makes JHipster awesome. Spring Boot allows you to create stand-alone Spring
 Undertow directly. It provides opinionated _starter_ dependencies that simplify your build configuration, regardless of
 whether you're using Maven or Gradle.
 
+==== External Configuration
+
+Spring Boot can be configured externally, so you can work with the same application code in different environments. You can use properties files, YAML files, environment variables and command-line arguments to externalize your configuration.
+
+1. Command line arguments.
+2. JNDI attributes from `java:comp/env`.
+3. Java System properties (`System.getProperties()`).
+4. OS environment variables.
+5. A `RandomValuePropertySource` that only has properties in `random.*`.
+6. Profile-specific application properties outside of your packaged jar (`application-{profile}.properties` and YAML variants)
+7. Profile-specific application properties packaged inside your jar (`application-{profile}.properties` and YAML variants)
+8. Application properties outside of your packaged jar (`application.properties` and YAML variants).
+9. Application properties packaged inside your jar (`application.properties` and YAML variants).
+10. `@PropertySource` annotations on your `@Configuration` classes.
+11. Default properties (specified using `SpringApplication.setDefaultProperties`).
+
+===== Application property files
+
+By default, `SpringApplication` will load properties from `application.properties` files in the following locations and add
+them to the Spring `Environment`:
+
+1. A `/config` subdir of the current directory.
+2. The current directory
+3. A classpath `/config` package
+4. The classpath root
+
+TIP: You can also use YAML ('.yml') files as an alternative to '.properties'. JHipster uses YAML files for its configuration.
+
+More information about Spring Boot's external configuration feature can be found in Spring Boot's http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html[externalized configuration reference documentation].
+
+==== Auto configuration
+
 Spring Boot is unique in that it automatically configures Spring whenever possible. It does this by peaking into JAR
 files to see if they're hip. If they are, they contain a `META-INF/spring.factories` that defines configuration classes
 under the `EnableAutoConfiguration` key. For example, below is what's contained in `spring-boot-actuator`:
