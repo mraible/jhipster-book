@@ -3,8 +3,6 @@
 
 JHipster is composed of two main components, a modern MVC framework and an API. APIs are the modern data-retrieval mechanisms. Creating great UIs is how you make people smile.
 
-*[red]#Question: This section borrows a bit from Wikipedia (https://en.wikipedia.org/wiki/Representational_state_transfer). I've included a link below; is there a better way to provide attribution?.#*  *[green]#LN: It's a fact that you can attribute to Fielding. You do not have to mention Wikipedia at all.#*
-
 Many APIs today are RESTful APIs. In fact, Representational State Transfer (REST) is the software architectural style of the World Wide Web. RESTful systems typically communicate over HTTP (Hypertext Transfer Protocol) using verbs (GET, POST, PUT, DELETE, etc.). This is the same way browsers retrieve webpages and send data to remote servers. REST was initially proposed by Roy Fielding in his 2000 Ph.D. dissertation, http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm["Architectural Styles and the Design of Network-based Software Architectures"].
 
 JHipster leverages Spring MVC and its `@RestController` annotation to create a REST API. Its endpoints publish JSON to and consume JSON from clients. By separating the business logic and data persistence from the client, you can provide data to many different clients (HTML5, iOS, Android, TVs, watches, IoT devices, etc.). This also allows third-party and partner integration capabilities in your application. Spring Boot further compliments Spring MVC by simplifying microservices and allowing you to create stand-alone JAR (Java Archive) files.
@@ -240,16 +238,16 @@ $ curl localhost:8080/blogs
 [{"id":1,"name":"First"},{"id":2,"name":"Second"}]
 ----
 
-Spring has one of the best track records for hipness in Javaland.  *[green]#LN: It's written this way in Chapter 2#* It is an essential cornerstone of the solid API foundation
+Spring has one of the best track records for hipness in Javaland. It is an essential cornerstone of the solid API foundation
 that makes JHipster awesome. Spring Boot allows you to create stand-alone Spring applications that directly embed Tomcat, Jetty, or
 Undertow. It provides opinionated starter dependencies that simplify your build configuration, regardless of
 whether you're using Maven or Gradle.
 
 ==== External configuration
 
-*[red]#Question: This section borrows heavily from Spring Boot's documentation (http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html). Should that be mentioned?.#*  *[green]#LN: It's not necessary but you could if you want.#*
+You can configure Spring Boot externally, so you can work with the same application code in different environments. You can use properties files, YAML files, environment variables, and command-line arguments to externalize your configuration.
 
-You can configure Spring Boot externally, so you can work with the same application code in different environments. You can use properties files, YAML files, environment variables, and command-line arguments to externalize your configuration:
+Spring Boot runs through this specific sequence for `PropertySource` to ensure that it overrides values sensibly:
 
 1. Command-line arguments.
 2. JNDI attributes from `java:comp/env`.
@@ -311,7 +309,7 @@ org.springframework.boot.actuate.autoconfigure.TraceRepositoryAutoConfiguration,
 org.springframework.boot.actuate.autoconfigure.TraceWebFilterAutoConfiguration
 ----
 
-These configuration classes will usually contain `@Conditional` annotations to help configure themselves. Developers commonly use 
+These configuration classes will usually contain `@Conditional` annotations to help configure themselves. Developers can use
 `@ConditionalOnMissingBean` to override the auto-configured defaults. There are several
 conditional-related annotations you can use when developing Spring Boot plugins:
 
@@ -353,7 +351,7 @@ number of REST endpoints. By default, Spring Boot will also expose management en
 * `/beans` - Returns a complete list of all the Spring beans in your application.
 * `/configprops` - Returns a list of all `@ConfigurationProperties`.
 * `/dump` - Performs a thread dump.
-* `/env` - Returns properties from Spring's ConfigurableEnvironment.  *[green]#LN: Should this be gray-boxed?#*
+* `/env` - Returns properties from Spring's `ConfigurableEnvironment`.
 * `/health` - Returns information about application health.
 * `/info` - Returns basic application info.
 * `/metrics` - Returns performance information for the current application.
@@ -390,7 +388,7 @@ integrating the wonderful world of Spring Boot with a modern UI and developer ex
 === Maven versus Gradle
 
 Maven and Gradle are the two main build tools used in Java projects today. JHipster allows you to use either one.
-With Maven, you have one `pom.xml` file that's around 800 lines of XML. With Gradle, you end up with nine *.gradle files.
+With Maven, you have one `pom.xml` file that's around 800 lines of XML. With Gradle, you end up with nine `*.gradle` files.
 However, their Groovy code adds up to only 344 lines.
 
 http://maven.apache.org/[Apache Maven] calls itself a "software project-management and comprehension tool". Based on the
@@ -427,7 +425,7 @@ I've used both tools for building projects and they've both worked quite well. M
 </extensions>
 ----
 
-In this example, `${artifactId}` should be `polyglot-_language_`, where "_language_" is one of the aforementioned languages.  *[green]#LN: How do you un-italicize _language_, i.e. to make the underscores show up?#*
+In this example, `${artifactId}` should be `polyglot-_language_`, where `_language_` is one of the aforementioned languages.
 
 To convert an existing `pom.xml` file to another format, you can use the following command.
 
@@ -606,7 +604,7 @@ If you use Gradle, you can use the same workflow by confirming database settings
 
 === Elasticsearch
 
-Elasticsearch adds searchability to your entities. JHipster's Elasticsearch support requires choosing Java 8+ and an SQL database. Spring Boot uses and configures http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch]. When using JHipster's http://jhipster.github.io/creating_an_entity.html[entity sub-generator],  it automatically indexes the entity and creates an endpoint to support searching its properties. Search superpowers are also added to the AngularJS UI, so you can search in your entity's list screen.
+Elasticsearch adds searchability to your entities. JHipster's Elasticsearch support requires choosing Java 8+ and a SQL database. Spring Boot uses and configures http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch]. When using JHipster's http://jhipster.github.io/creating_an_entity.html[entity sub-generator],  it automatically indexes the entity and creates an endpoint to support searching its properties. Search superpowers are also added to the AngularJS UI, so you can search in your entity's list screen.
 
 When using the (default) "dev" profile, the in-memory Elasticsearch instance will store files in the `target` folder.
 
@@ -653,7 +651,7 @@ With Gradle, it's:
 gradlew -Pprod bootRun
 ----
 
-The prod profile will trigger a `grunt build`, which optimizes your static resources. It will combine your JavaScript and CSS files, minify them, and get them production ready. It also updates your HTML (in your `dist` directory) to have references to your versioned, combined, and minified files.
+The "prod" profile will trigger a `grunt build`, which optimizes your static resources. It will combine your JavaScript and CSS files, minify them, and get them production ready. It also updates your HTML (in your `dist` directory) to have references to your versioned, combined, and minified files.
 
 A JHipster application can be deployed to your own JVM, http://jhipster.github.io/cloudfoundry.html[Cloud Foundry], http://jhipster.github.io/heroku.html[Heroku], http://jhipster.github.io/openshift.html[OpenShift], and http://jhipster.github.io/aws.html[AWS].
 
