@@ -251,10 +251,10 @@ whether you're using Maven or Gradle.
 
 You can configure Spring Boot externally, so you can work with the same application code in different environments. You can use properties files, YAML files, environment variables, and command-line arguments to externalize your configuration:
 
-1. Command line arguments.
+1. Command-line arguments.
 2. JNDI attributes from `java:comp/env`.
-3. Java System properties (`System.getProperties()`).
-4. OS environment variables.
+3. Java system properties (`System.getProperties()`).
+4. OS-environment variables.
 5. A `RandomValuePropertySource` that only has properties in `random.*`.
 6. Profile-specific application properties outside of your packaged JAR (`application-{profile}.properties` and YAML variants).
 7. Profile-specific application properties packaged inside your JAR (`application-{profile}.properties` and YAML variants).
