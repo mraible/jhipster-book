@@ -57,7 +57,7 @@ class BlogController {
 
 When we want to draw your attention to a particular part of the code it's called out with numbers.
 
-[source,javascript,linenums]
+[source,javascript]
 ----
 .controller('SearchController', function ($scope, SearchService) { <1>
     $scope.search = function () { <2>

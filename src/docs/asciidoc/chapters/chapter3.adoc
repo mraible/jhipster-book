@@ -1,3 +1,4 @@
+:imagesdir: images
 == JHipster's UI components
 
 A modern web application has many UI components. It likely has some sort of model-view-controller (MVC) framework as well as a CSS framework, and tooling to simplify the use of these. With a web application, you can have users all over the globe, so translating your application into other languages might be important. If you're developing large amounts of CSS, you'll likely use a CSS pre-processor like Less or Sass. Then you'll need a build tool to refresh your browser, run your pre-processor, run your tests, minify your web assets, and prepare your application for production. This section shows how JHipster includes all of these UI components for you and makes your developer experience a joyous one.
@@ -58,7 +59,8 @@ in HTML. The GWT version of the product contained 17,000 lines of code. The Angu
 
 ==== Basics
 Creating Hello World with Angular is pretty simple.
-[source,html,linenums]
+
+[source,html]
 ----
 <!doctype html>
 <html ng-app>
@@ -113,7 +115,7 @@ TIP: To see the JavaScript console in Chrome, use kbd:[Command+Option+J] in Mac 
 
 To make this controller available at a URL, you can use Angular's ngRoute.
 
-[source,javascript,linenums]
+[source,javascript]
 ----
 angular.module('myApp.search', ['ngRoute'])
 
@@ -126,9 +128,9 @@ angular.module('myApp.search', ['ngRoute'])
     }])
 ----
 
-The template at `search/index.html` can be as simple as a form with a button.
+The template to call this controller can be as simple as a form with a button.
 
-[source,html,linenums]
+[source,html]
 ----
 <form ng-submit="search()">
     <input type="search" name="search" ng-model="term">
@@ -138,7 +140,7 @@ The template at `search/index.html` can be as simple as a form with a button.
 
 To get the results from the SearchService in your controller, you can use Angular's dependency injection.
 
-[source,javascript,linenums]
+[source,javascript]
 ----
 .controller('SearchController', function ($scope, SearchService) { <1>
     $scope.search = function () { <2>
@@ -160,7 +162,7 @@ TIP: Angular allows you to bind data to its `$scope` object. It represents your 
 object that can be used to share data between components. Scopes occupy a hierarchical structure that mimics the
 DOM structure. Scopes can watch expressions and propagate events.
 
-[source,javascript,linenums]
+[source,javascript]
 ----
 .controller('SearchController', ['$scope', 'SearchService', function ($scope, SearchService) {
     ...
@@ -169,7 +171,8 @@ DOM structure. Scopes can watch expressions and propagate events.
 
 To make the aforementioned module work, you need an HTML page that includes Angular and ngRoute.
 
-[source,html,linenums]
+[source,html]
+.index.html
 ----
 <!DOCTYPE html>
 <html ng-app="myApp"> <1>
@@ -196,7 +199,7 @@ To make the aforementioned module work, you need an HTML page that includes Angu
 <2> `ng-view` is where your rendered template is displayed.
 <3> `app.js` contains your application's definition.
 
-[source,javascript,linenums]
+[source,javascript]
 .app.js
 ----
 'use strict'; <1>
@@ -212,14 +215,14 @@ angular.module('myApp', ['ngRoute', 'myApp.search'])
 
 Does your API return data like the following?
 
-[source,json,linenums]
+[source,json]
 ----
 include::{sourcedir}/chapter3/angular/search-results.json[]
 ----
 
-If so, you could display it in `search.html` with Angular's `ng-repeat` directive.
+If so, you could display it in a template with Angular's `ng-repeat` directive.
 
-[source,html,linenums]
+[source,html]
 ----
 <table ng-show="searchResults.length" class="table">
     <thead>
@@ -255,6 +258,7 @@ using on several projects. To use it, you'll need to reference its JavaScript fi
 `index.html`. You'll also need to change from using `ng-view` to using `ui-view`.
 
 [source,javascript]
+.index.html
 ----
 <div ui-view></div>
 
@@ -265,7 +269,8 @@ using on several projects. To use it, you'll need to reference its JavaScript fi
 Next, change your `app.js` to use `ui-router` instead of `ngRoute`. Then set up your application states with code like
 the following listing.
 
-[source,javascript,linenums]
+[source,javascript]
+.app.js
 ----
 include::{sourcedir}/chapter3/angular/ui-router.js[]
 ----
@@ -273,7 +278,7 @@ include::{sourcedir}/chapter3/angular/ui-router.js[]
 AngularUI Router allows you to look up data before displaying a page. It does this with its `resolve` property. For example,
 by enhancing the 'search.edit' state, we can look up the person from the `SearchService` before instantiating the controller.
 
-[source,javascript,linenums]
+[source,javascript]
 ----
 .state('search.edit', {
       url: '/edit/:id',
@@ -292,7 +297,7 @@ by enhancing the 'search.edit' state, we can look up the person from the `Search
 
 Once you've done this, you can inject the `person` object into your controller directly.
 
-[source,javascript,linenums]
+[source,javascript]
 ----
 .controller('EditController', function ($scope, person) {
     // make person available to template
@@ -306,7 +311,7 @@ interact with a http://en.wikipedia.org/wiki/Representational_state_transfer[RES
 If your API is implemented so that you can perform CRUD (create, read, update, delete) at a specific endpoint, you can use
 `$resource` to wrap that endpoint, and _voila_, you have a service!
 
-[source,javascript,linenums]
+[source,javascript]
 ----
 .factory('Product', function($resource) {
     return $resource(API_HOSTNAME + '/api/products/:id');
@@ -385,7 +390,7 @@ fluid and stack vertically.
 
 A basic example of the grid:
 
-[source,html,linenums]
+[source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/grid-basic.html[]
 ----
@@ -417,7 +422,7 @@ grid that's a little more advanced.
 
 Each tier of classes scales up, meaning that if you plan to set the same widths for xs and sm, you only need to specify xs.
 
-[source,html,linenums]
+[source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/grid-advanced.html[]
 ----
@@ -440,7 +445,7 @@ When you add Bootstrap's CSS to your web application, chances are it'll quickly 
 and padding will look better by default. However, your forms might look funny, because Bootstrap requires a few
 classes on your form elements to make them look good. Below is an example of a form element.
 
-[source,html,linenums]
+[source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
 ----
@@ -451,7 +456,7 @@ image::chapter3/bootstrap/basicelement.png[Basic form element, 829, scaledwidth=
 
 If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
 
-[source,html,linenums]
+[source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/basicelement-withvalidation.html[]
 ----
@@ -468,7 +473,7 @@ gives them a better look and feel by default.
 
 To make your buttons look better, Bootstrap provides `btn` and a number of `btn-*` classes.
 
-[source,html,linenums]
+[source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/buttons.html[]
 ----
@@ -500,7 +505,7 @@ This navbar requires quite a bit of HTML markup, not shown here for the sake of 
 online in link:http://getbootstrap.com/components/\#navbar-default[Bootstrap's documentation]. The simpler example below
 shows the basic structure.
 
-[source,html,linenums]
+[source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/navbar.html[]
 ----
@@ -508,7 +513,7 @@ include::{sourcedir}/chapter3/bootstrap/navbar.html[]
 Alerts are useful for displaying feedback to the user. You can invoke differently colored alerts with different classes. You'll need
 to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors.
 
-[source,html,linenums]
+[source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/alerts.html[]
 ----
@@ -521,7 +526,7 @@ image::chapter3/bootstrap/alerts.png[Alerts, 828, scaledwidth="100%"]
 
 To make an alert closeable, you need to add an `.alert-dismissible` class and a close button.
 
-[source,html,linenums]
+[source,html]
 ----
 <div class="alert alert-warning alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -572,7 +577,7 @@ using Compass to compile `*.scss` files, you can modify `src/main/scss/main.scss
 more concise authoring environment. Below is the default `main.scss` file that Yeoman generates. You can see that
 it overrides the font location variable, imports Bootstrap, then overrides some of its default `body` rules.
 
-[source,sass,linenums]
+[source,sass]
 ----
 $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 
@@ -744,14 +749,15 @@ build file optimizes your JavaScript, CSS, and HTML for production. It concatena
 files, minifies them, then replaces the references in the HTML to point to the optimized files. First, you have
 to configure `package.json` to include Grunt and its plugins for web optimization.
 
-[source,json,linenums]
+[source,json]
 .package.json
 ----
 include::{sourcedir}/chapter3/grunt/package.json[]
 ----
 
 Then, you have to write a `Gruntfile.js` that configures each of the different tasks for the project.
-[source,javascript,linenums]
+
+[source,javascript]
 .Gruntfile.js
 ----
 include::{sourcedir}/chapter3/grunt/Gruntfile.js[]
@@ -759,13 +765,17 @@ include::{sourcedir}/chapter3/grunt/Gruntfile.js[]
 
 Before the tasks run, the `index.html` file points to individual CSS and JavaScript files. The `<!-- build:* -\->`
 and `<!-- endbuild -\->` are used by the `useminPrepare` task  to build the list of files for optimization.
-[source,html,linenums]
+
+[source,html]
+.index.html
 ----
 include::{sourcedir}/chapter3/grunt/index-dev.html[]
 ----
 
 After the build runs, the `dist/index.html` file points to the revved, combined, and minified CSS and JavaScript files.
-[source,html,linenums]
+
+[source,html]
+.dist/index.html
 ----
 include::{sourcedir}/chapter3/grunt/index-prod.html[]
 ----
@@ -784,13 +794,13 @@ with the UNIX philosophy, Gulp plugins each try to do one thing well.
 To compare Gulp versus Grunt, I integrated it into the angular-seed project. Below are the `package.json` and `gulpfile.js`
 that optimize everything for production. The input and resulting HTML are the same as they were for the Grunt example.
 
-[source,json,linenums]
+[source,json]
 .package.json
 ----
 include::{sourcedir}/chapter3/gulp/package.json[]
 ----
 
-[source,javascript,linenums]
+[source,javascript]
 .gulpfile.js
 ----
 include::{sourcedir}/chapter3/gulp/gulpfile.js[]
@@ -835,16 +845,16 @@ not available, it falls back to other browser techniques.
 To see how WebSockets work, take a look at the `TrackerController` in a WebSockets-enabled project. This displays real-time
 activity information that's been posted to the `/websocket/tracker` endpoint.
 
-[source,javascript,linenums]
-.tracker.controller.js
+[source,javascript]
+.src/main/webapp/scripts/app/admin/tracker/tracker.controller.js
 ----
 include::{sourcedir}/chapter3/websockets/tracker.controller.js[]
 ----
 
 The `Tracker` service allows you to send tracking information, for example, to track when someone has authenticated.
 
-[source,javascript,linenums]
-.tracker.service.js
+[source,javascript]
+.src/main/webapp/scripts/components/tracker/tracker.service.js
 ----
 include::{sourcedir}/chapter3/websockets/tracker.service.js[]
 ----
@@ -869,7 +879,7 @@ Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.
 To integrate Browsersync in your project, you need a `package.json` and `Gruntfile.js`. Your `package.json` file only needs
 to contain a few things, weighing in at a slim 15 lines of JSON.
 
-[source,javascript,linenums]
+[source,javascript]
 ----
 include::{sourcedir}/../../../package.json[]
 ----
@@ -877,7 +887,7 @@ include::{sourcedir}/../../../package.json[]
 The `Gruntfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development
 experience.
 
-[source,javascript,linenums]
+[source,javascript]
 ----
 include::{sourcedir}/../../../Gruntfile.browsersync.js[]
 ----
