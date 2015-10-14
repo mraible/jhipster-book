@@ -326,6 +326,7 @@ These annotations are what give Spring Boot its immense power and make it easy t
 Spring Boot's Actuator sub-project adds several production-grade services to your application with little effort.
 You can add the actuator to a Maven-based project by adding the `spring-boot-starter-actuator` dependency.
 
+[source,xml]
 ----
 <dependencies>
     <dependency>
@@ -337,6 +338,7 @@ You can add the actuator to a Maven-based project by adding the `spring-boot-sta
 
 If you're using Gradle, you'll save a few lines:
 
+[source,groovy]
 ----
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
@@ -579,6 +581,7 @@ http://www.liquibase.org/[Liquibase] is "source control for your database". It's
 
 This file is loaded by Liquibase when it creates the database schema.
 
+[source,xml]
 .src/main/resources/config/liquibase/changelog/00000000000000_initial_schema.xml
 ----
 <loadData encoding="UTF-8"
@@ -612,6 +615,7 @@ When using the (default) "dev" profile, the in-memory Elasticsearch instance wil
 ====
 When I deployed 21-Points to Heroku, my app failed to start because it expected to find Elasticsearch nodes listening on `localhost:9200`. To fix this, I changed my production configuration.
 
+[source,yaml]
 .src/main/resources/config/application-prod.yml
 ----
 data:
@@ -642,11 +646,13 @@ A JHipster application can be deployed wherever a Java program can be run. Sprin
 TIP: Josh Long's https://spring.io/blog/2014/03/07/deploying-spring-boot-applications["Deploying Spring Boot Applications"] is an excellent resource for learning how to customize your application archive. It shows how to change your application to a traditional WAR: extend `SpringBootServletInitializer`, change packaging to `war`, and set `spring-boot-starter-tomcat` as a provided dependency.
 
 To build your app with the production profile, use the pre-configured "prod" Maven profile:
+
 ----
 mvn -Pprod spring-boot:run
 ----
 
 With Gradle, it's:
+
 ----
 gradlew -Pprod bootRun
 ----
