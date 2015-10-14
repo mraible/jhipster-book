@@ -1,3 +1,5 @@
+:imagesdir: images
+
 == Building an app with JHipster
 
 When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating
@@ -120,10 +122,11 @@ GRANT
 mraible=#
 ----
 
-I chose the name "health" instead and updated `src/main/resources/config/application-dev.yml` to use this name and the
+I chose the name "health" instead and updated `application-dev.yml` to use this name and the
 specified credentials.
 
 [source,diff]
+.src/main/resources/config/application-dev.yml
 ----
      datasource:
          dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
@@ -192,6 +195,7 @@ The https://github.com/taptapship/wiredep[wiredep] task updates files that refer
 I followed the theme's Getting Started guide and added the following initialization code to the bottom of the page.
 
 [source,html]
+.src/main/webapp/index.html
 ----
 <script>
     $.material.init()
@@ -244,7 +248,8 @@ I answered "Y" to all the conflict questions. Because I had the files in source 
 after they were made and decide if I wanted them or not. Most changes were welcome but I wanted to keep my theme changes
 so I had to add the following back into `bower.json` and run `bower install` again.
 
-[source,javascript]
+[source,json]
+.bower.json
 ----
 "bootstrap-material-design": "~0.3.0"
 ----
@@ -252,6 +257,7 @@ so I had to add the following back into `bower.json` and run `bower install` aga
 I still needed to manually restore the call to initialize the Material Design theme at the bottom of `index.html`.
 
 [source,html]
+.src/main/webapp/index.html
 ----
 <script>
     $.material.init()
@@ -489,6 +495,7 @@ I determined this was caused by generating the `Goal` entity without the relatio
 the following Java code to `Goal.java` and ran `./gradlew liquibaseDiffChangelog`.
 
 [source,java]
+.src/main/java/org/jhipster/health/domain/Goal.java
 ----
 @ManyToMany
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -511,6 +518,7 @@ command worked. After Liquibase completed successfully, I added the generated fi
 `src/main/resources/config/liquibase/master.xml`.
 
 [source,xml]
+.src/main/resources/config/liquibase/master.xml
 ----
 <include file="classpath:config/liquibase/changelog/20150811124815_changelog.xml" relativeToChangelogFile="false"/>
 ----
@@ -546,6 +554,7 @@ Since the `id` doesn't provide much information, I changed this to display the u
 `otherEntityField` from having a value of `id` to `login`.
 
 [source,json]
+// MR: I can't figure out how to caption this with a filename that starts with a period.
 ----
 "relationships": [
     {
@@ -580,6 +589,7 @@ After making this change and regenerating everything, I realized there was an ea
 following code existed to display the users dropdown list.
 
 [source,html]
+.src/main/webapp/scripts/app/entities/goal/goal-dialog.html
 ----
 <select class="form-control" id="field_user" name="user" ng-model="goal.user.id" ng-options="user.id as user.id for user in users">
 ----
@@ -587,6 +597,7 @@ following code existed to display the users dropdown list.
 To modify it to display `user.login` instead, I simply needed to change `ng-options` and its _as_ expression to the following.
 
 [source,html]
+.src/main/webapp/scripts/app/entities/goal/goal-dialog.html
 ----
 <select class="form-control" id="field_user" name="user" ng-model="goal.user.id" ng-options="user.id as user.login for user in users">
 ----
@@ -717,9 +728,10 @@ Caused by: org.hibernate.AnnotationException: Unknown mappedBy in: org.jhipster.
 referenced property unknown: org.jhipster.health.domain.User.preferences
 ----
 
-I fixed this by removing the reference to `User` in `Preferences`, as well as its `getUser()` and `setUser()` methods.
+I fixed this by removing the reference to `User` in `Preferences.java`, as well as its `getUser()` and `setUser()` methods.
 
 [source,java]
+.src/main/java/org/jhipster/health/domain/Preferences.java
 ----
 @OneToOne(mappedBy = "preferences")
 @JsonIgnore
@@ -729,6 +741,7 @@ private User user;
 I fixed the relationship by adding a `@OneToOne` mapping in `User.java`:
 
 [source,java]
+.src/main/java/org/jhipster/health/domain/User.java
 ----
 @OneToOne
 @JsonIgnore
@@ -747,6 +760,7 @@ I then ran `./gradlew liquibaseDiffChangelog` to generate the changelog and adde
 `*_added_entity_Preferences.xml`.
 
 [source,xml]
+.src/main/resources/config/liquibase/changelog/20150818155956_added_entity_Preferences.xml
 ----
 <!-- Added the preferences field to User -->
 <changeSet author="mraible (generated)" id="1439916664921-1">
@@ -823,6 +837,7 @@ The `translate` filter you see in the button titles is provided by https://angul
 Both UI Bootstrap and Angular Translate are included in JHipster by default.
 
 [source,html]
+.src/main/webapp/scripts/app/entities/points/points.html
 ----
 <div class="row">
     <div class="col-sm-7">
@@ -851,6 +866,7 @@ Both UI Bootstrap and Angular Translate are included in JHipster by default.
 Changing the numbers to icons was pretty easy thanks to Angular's `ng-class` directive.
 
 [source,html]
+.src/main/webapp/scripts/app/entities/points/points.html
 ----
 <td class="text-center">
     <i class="glyphicon"
@@ -873,6 +889,7 @@ Similarly, I changed the input fields to checkboxes in `points-dialog.html`. Ang
 and `ng-false-value` made it easy to continue receiving/sending integers to the API.
 
 [source,html]
+.src/main/webapp/scripts/app/entities/points/points-dialog.html
 ----
 <div class="form-group">
     <div class="checkbox">
@@ -912,6 +929,7 @@ directive is included with JHipster, in `src/main/webapp/scripts/components/auth
 a `has-any-role` directive that allows you to pass in a comma-delimited list of roles.
 
 [source,html]
+.src/main/webapp/scripts/app/entities/points/points-dialog.html
 ----
 <div class="form-group" has-role="ROLE_ADMIN">
     <label translate="21pointsApp.weight.user" for="field_user">user</label>
@@ -925,6 +943,7 @@ Since the dropdown is hidden from non-admins, I had to modify each Resource clas
 creating a new record. Below is a diff that shows the changes that I needed to make to `PointsResource.java`.
 
 [source,diff]
+.src/main/java/org/jhipster/health/web/rest/PointsResource.java
 ----
      @Inject
      private PointsSearchRepository pointsSearchRepository;
@@ -972,6 +991,7 @@ I then modified `PointsResourceTest.java`, creating a new `MockMvc` instance tha
 specified `with(user("user"))` to populate Spring Security's `SecurityContext` with an authenticated user.
 
 [source,diff]
+.src/test/java/org/jhipster/health/web/rest/PointsResourceTest.java
 ----
 +import org.jhipster.health.repository.UserRepository;
 +import org.springframework.beans.factory.annotation.Autowired;
@@ -1030,6 +1050,7 @@ The next business-logic improvement I wanted was to modify list screens so they'
 users should see all users' data. To facilitate this feature, I modified `PointsResource#getAll` to have a switch based on the user's role.
 
 [source,java]
+.src/main/java/org/jhipster/health/web/rest/PointsResource.java
 ----
 public ResponseEntity<List<Points>> getAll(@RequestParam(value = "page", required = false) Integer offset,
                                            @RequestParam(value = "per_page", required = false) Integer limit)
@@ -1049,6 +1070,7 @@ The `PointsRepository#findAllForCurrentUser()` method that JHipster generated co
 to grab the user's information from Spring Security.
 
 [source,java]
+.src/main/java/org/jhipster/health/repository/PointsRepository.java
 ----
 @Query("select points from Points points where points.user.login = ?#{principal.username}")
 Page<Points> findAllForCurrentUser(Pageable pageable);
@@ -1060,6 +1082,7 @@ Page<Points> findAllForCurrentUser(Pageable pageable);
 Later on, I changed the above query to order by date, so the first records in the list would be the most recent.
 
 [source,java]
+.src/main/java/org/jhipster/health/repository/PointsRepository.java
 ----
 @Query("select points from Points points where points.user.login = ?#{principal.username} order by points.date desc")
 ----
@@ -1076,6 +1099,7 @@ Page<Points> findAllByOrderByDateDesc(Pageable pageable);
 To make tests pass, I had to update `PointsResourceTest#getAllPoints` to use Spring Security Test's `user` post processor.
 
 [source,diff]
+.src/test/java/org/jhipster/health/web/rest/PointsResourceTest.java
 ----
  @Test
  @Transactional
@@ -1113,6 +1137,7 @@ succeeded, I routed the user back to the `main` state. I copied the generated `p
 and pasted it into `main.js`.
 
 [source,javascript]
+.src/main/webapp/scripts/app/main/main.js
 ----
 .state('points.add', { <1>
     parent: 'home', <2>
@@ -1146,6 +1171,7 @@ and pasted it into `main.js`.
 After configuring the state to add new points from the homepage, I added a button to activate the dialog.
 
 [source,html]
+.src/main/webapp/scripts/app/main/main.html
 ----
 <div class="col-md-4 text-right">
     <a ui-sref="points.add" class="btn btn-primary btn-raised">Add Points</a>
@@ -1158,6 +1184,7 @@ To get points achieved in the current week, I started by adding a unit test to `
 would allow me to prove my API was working.
 
 [source,java]
+.src/test/java/org/jhipster/health/web/rest/PointsResourceTest.java
 ----
 private void createPointsByWeek(LocalDate thisMonday, LocalDate lastMonday) {
     User user = userRepository.findOneByLogin("user").get();
@@ -1214,6 +1241,7 @@ of points in the `points` field. I created `PointsPerWeek.java` in my project's 
 information.
 
 [source,java]
+.src/main/java/org/jhipster/health/web/rest/dto/PointsPerWeek.java
 ----
 public class PointsPerWeek {
     private LocalDate week;
@@ -1256,6 +1284,7 @@ Spring Data JPA made it easy to find all point entries in a particular week. I a
 to my `PointsRepository.java` that allowed me to query between two dates.
 
 [source,java]
+.src/main/java/org/jhipster/health/repository/PointsRepository.java
 ----
 List<Points> findAllByDateBetween(LocalDate firstDate, LocalDate secondDate);
 ----
@@ -1264,6 +1293,7 @@ From there, it was just a matter of calculating the beginning and end of the cur
 in `PointsResource.java`.
 
 [source,java]
+.src/main/java/org/jhipster/health/web/rest/PointsResource.java
 ----
 /**
  * GET  /points -> get all the points for the current week.
@@ -1332,6 +1362,7 @@ Then I added the service to `main.controller.js` and calculated the data I wante
 I added a Bootstrap progress bar to `main.html` to show points-this-week progress.
 
 [source,html]
+.src/main/webapp/scripts/app/main/main.html
 ----
 <div class="row">
     <div class="col-md-10">
@@ -1362,6 +1393,7 @@ to fetch the user's preferences. I created a new method in `PreferencesResource.
 (or a default weekly goal of 10 points if no preferences are defined).
 
 [source,java]
+.src/main/java/org/jhipster/health/web/rest/PreferencesResource.java
 ----
 /**
  * GET  /my-preferences -> get the current user's preferences.
@@ -1401,6 +1433,7 @@ In `main.controller.js`, I added the `Preferences` service as a dependency and s
 so the HTML template could read it.
 
 [source,javascript]
+.src/main/webapp/scripts/app/main/main.controller.js
 ----
 .controller('MainController', function ($scope, Principal, Points, Preferences) {
     ...
@@ -1415,6 +1448,7 @@ Now that a user's preferences were available, I modified `main.html` to display 
 as to color the progress bar appropriately with `ng-class`.
 
 [source,html]
+.src/main/webapp/scripts/app/main/main.html
 ----
 <div class="progress-bar progress-bar-striped" role="progressbar"
      ng-class="{'progress-bar-success': pointsThisWeek.points >= preferences.weeklyGoal,
@@ -1437,6 +1471,7 @@ To populate the two remaining charts on the homepage, I needed to fetch the user
 for the last 30 days. I added a method to `BloodPressureResourceTest.java` to set up my expectations.
 
 [source,java]
+.src/test/java/org/jhipster/health/web/rest/BloodPressureResourceTest.java
 ----
 private void createBloodPressureByMonth(DateTime firstOfMonth, DateTime firstDayOfLastMonth) {
     User user = userRepository.findOneByLogin("user").get();
@@ -1493,7 +1528,7 @@ public void getBloodPressureForLast30Days() throws Exception {
 I created a `BloodPressureByPeriod.java` class to return the results from the API.
 
 [source,java]
-.BloodPressureByPeriod.java
+.src/main/java/org/jhipster/health/web/rest/dto/BloodPressureByPeriod.java
 ----
 public class BloodPressureByPeriod {
     private String period;
@@ -1512,6 +1547,7 @@ allowed me to query between two different dates. I also added "orderBy" logic so
 entered.
 
 [source,java]
+.src/main/java/org/jhipster/health/repository/BloodPressureRepository.java
 ----
 List<BloodPressure> findAllByTimestampBetweenOrderByTimestampDesc(DateTime firstDate, DateTime secondDate);
 ----
@@ -1520,6 +1556,7 @@ Next, I created a new method in `BloodPressureResource.java` that calculated the
 month, executed the query for the current user, and constructed the data to return.
 
 [source,java]
+.src/main/java/org/jhipster/health/web/rest/BloodPressureResource.java
 ----
 /**
  * GET  /bp-by-days -> get all the blood pressure readings by last x days.
@@ -1547,6 +1584,7 @@ private List<BloodPressure> filterByUser(List<BloodPressure> readings) {
 I added a new method to support this API in `bloodPressure.service.js`.
 
 [source,javascript]
+.src/main/webapp/scripts/components/entities/bloodPressure/bloodPressure.service.js
 ----
 .factory('BloodPressure', function ($resource, DateUtils) {
     return $resource('api/bloodPressures/:id', {}, {
@@ -1573,6 +1611,7 @@ Then I ran `grunt wiredep` to update `index.html` and `karma.conf.js` with refer
 `app.js` to add `nvd3` as a dependency.
 
 [source,javascript]
+.src/main/webapp/scripts/app/app.js
 ----
 angular.module('21pointsApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate',
     'ui.bootstrap', // for modal dialogs
@@ -1637,6 +1676,7 @@ In `main.controller.js`, I grabbed the blood-pressure readings from the API and 
 could understand.
 
 [source,javascript]
+.src/main/webapp/scripts/app/main/main.controller.js
 ----
 BloodPressure.last30Days(function(bpReadings) {
     $scope.bpReadings = bpReadings;
@@ -1673,6 +1713,7 @@ BloodPressure.last30Days(function(bpReadings) {
 Finally, I used the "nvd3" directive in `main.html` to read `$scope.bpOptions` and `$scope.bpData`, then display a chart.
 
 [source,html]
+.src/main/webapp/scripts/app/main/main.html
 ----
 <div class="row">
     <div class="col-md-10">
@@ -1760,7 +1801,7 @@ installed.
 TIP: I first deployed to Heroku after integrating the Material Design theme, meaning that I had a basically default JHipster application with no entities.
 
 ----
-[mraible:~/dev/21-points] $ heroku login
+$ heroku login
 Enter your Heroku credentials.
 Email: matt@raibledesigns.com
 Password (typing will be hidden):
@@ -1771,7 +1812,7 @@ I ran `yo jhipster:heroku` as recommended in the http://jhipster.github.io/herok
 documentation. I tried using the name "21points" for my application when prompted.
 
 ----
-⌁23% [mraible:~/dev/21-points] 18s $ yo jhipster:heroku
+$ yo jhipster:heroku
 Heroku configuration is starting
 ? Name to deploy as: 21points
 ? On which region do you want to deploy ? us
@@ -1891,6 +1932,7 @@ heroku deploy:jar --jar build/libs/*war --app health-by-points
 ----
 
 With Maven, the commands look slightly different:
+
 ----
 mvn install -Pprod -DskipTests
 heroku deploy:jar --jar target/*.war
@@ -1936,7 +1978,7 @@ to increase my application's allowed timeout to 120 seconds. Heroku's support te
 
 TIP: If you need to reset your Postgres database on Heroku, you can do so my logging into http://api.heroku.com.
 Click on your application name > Add-Ons > Heroku Postgres :: Gray and select "Reset Database" from the gear icon
-in the top right corner.  *[green]#LN: Something may be awry here. What's that ":: Gray"?#*
+in the top right corner.
 
 ==== Elasticsearch on Heroku
 
@@ -1955,6 +1997,7 @@ https://addons.heroku.com/searchbox[Searchbox Elasticsearch] offers a free plan.
 file to use Heroku's ephemeral filesystem.
 
 [source,yaml]
+.src/main/resources/config/application-prod.yml
 ----
 # Configure prod to use ElasticSearch in-memory.
 # http://stackoverflow.com/questions/12416738/how-to-use-herokus-ephemeral-filesystem
@@ -2000,6 +2043,8 @@ Use `heroku addons:docs sendgrid` to view documentation.
 Then I updated `application-prod.yml` to use the configured `SENDGRID_PASSWORD` and `SENDGRID_USERNAME` environment
 variables for mail, as well as to turn on authentication.
 
+[source,yaml]
+.src/main/resources/config/application-prod.yml
 ----
 mail:
     host: smtp.sendgrid.net
@@ -2022,6 +2067,7 @@ I chose not to enable this just yet, but I hope to eventually. I already have a 
 account number, and modifying the following section of `index.html`:
 
 [source,html]
+.src/main/webapp/index.html
 ----
 <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
 <script>
@@ -2080,6 +2126,7 @@ Then I updated `src/test/javascript/karma.conf.js` to override the default plugi
 the JUnit reporter.
 
 [source,javascript]
+.src/test/javascript/karma.conf.js
 ----
 singleRun: false,
 
@@ -2104,6 +2151,7 @@ I created a new Karma configuration in `Gruntfile.js` to allow continuous testin
 `grunt karma:zone` will automatically re-execute tests when you save changes.
 
 [source,javascript]
+.Gruntfile.js
 ----
 karma: {
     unit: {
