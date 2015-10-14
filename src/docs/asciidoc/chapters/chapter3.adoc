@@ -1,9 +1,9 @@
 == JHipster's UI components
 
-A modern web application has many UI components. It likely has some sort of MVC framework, as well as a CSS framework and tooling to simplify the use of these. With a web application, you can have users all over the globe, so translating your application into other languages might be important. If you're developing large amounts of CSS, you'll likely use a CSS pre-processor like Less or Sass. Then you'll need a build tool to refresh your browser, run your pre-processor, run your tests, minify your web assets, and prepare your application for production. This section shows how JHipster includes all of these UI components for you and makes your developer experience a joyous one.
+A modern web application has many UI components. It likely has some sort of model-view-controller (MVC) framework as well as a CSS framework, and tooling to simplify the use of these. With a web application, you can have users all over the globe, so translating your application into other languages might be important. If you're developing large amounts of CSS, you'll likely use a CSS pre-processor like Less or Sass. Then you'll need a build tool to refresh your browser, run your pre-processor, run your tests, minify your web assets, and prepare your application for production. This section shows how JHipster includes all of these UI components for you and makes your developer experience a joyous one.
 
 === AngularJS
-AngularJS (Angular) is the model-view-controller (MVC) framework used by JHipster. It's written in JavaScript and just using it makes you a hipster.
+AngularJS (Angular) is the MVC framework used by JHipster. It's written in JavaScript and just using it makes you a hipster.
 I've been tracking statistics on jobs and skills for JavaScript MVC frameworks ever since I compared JVM Web frameworks
 at Devoxx France in 2013. At that time, Backbone was the dominant framework.
 
