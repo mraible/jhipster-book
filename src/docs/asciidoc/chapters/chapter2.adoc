@@ -52,7 +52,7 @@ monitors for apps, and now you can use this JHipster app to monitor your health!
 === Creating the application
 
 I started using the http://jhipster.github.io/installation.html[Installing JHipster] instructions. I'm a Java developer,
-so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Node.js], then
+so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[nodejs.org], then
 ran the following commands to install http://yeoman.io/[Yeoman] and http://bower.io/[Bower].
 
 [source]
@@ -68,6 +68,8 @@ I also installed Grunt and JHipster.
 npm install -g grunt-cli
 npm install -g generator-jhipster
 ----
+
+TIP: If you need to install Java, Maven or Git, please see http://jhipster.github.io/installation.html[JHipster's local installation documentation].
 
 Then I proceeded to build my application. Unlike many application generators in Javaland, Yeoman expects you to be
 in the directory you want to create your project in, rather than creating the directory for you. So I created a `21-points`
