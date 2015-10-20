@@ -1,5 +1,7 @@
 == Bibliography
 
+ *[green]#LN: I'm assuming this is to be omitted as you hinted at.#*
+
 .Books
 
 [bibliography]

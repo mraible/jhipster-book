@@ -1,26 +1,25 @@
 == Action!
 
-I hope you've enjoyed learning how JHipster can help you develop hip web applications! It's a nifty project, with an easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows five simple http://jhipster.github.io/policies.html[policies]:
+I hope you've enjoyed learning how JHipster can help you develop hip web applications! It's a nifty project, with an easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows five simple http://jhipster.github.io/policies.html[policies], paraphrased here:
 
-1. Policies are voted on by the development team.
-2. Technologies used by JHipster has use their default configuration as much as possible.
-3. Only add options when there is sufficient added-value in the generated code.
+1. The development team votes on policies.
+2. JHipster uses technologies with their default configurations as much as possible.
+3. Only add options when there is sufficient added value in the generated code.
 4. For the Java code, follow the default IntelliJ IDEA formatting and coding guidelines.
 5. Use strict versions for third-party libraries.
 
-These policies help the project maintain it's sharp edge and streamline its development process. If you have features you'd like to add, or if you'd like to refine existing features, please follow the project and help with its development and support. We're always looking for help!
+These policies help the project maintain its sharp edge and streamline its development process. If you have features you'd like to add or if you'd like to refine existing features, please follow the project and help with its development and support. We're always looking for help!
 
-Now that you've learned how to use AngularJS, Bootstrap and Spring Boot with JHipster - go forth and develop great applications!
+Now that you've learned how to use AngularJS, Bootstrap, and Spring Boot with JHipster, go forth and develop great applications!
 
-=== Additional Reading
+=== Additional reading
 
 If you want to learn more, here are some suggestions.
 
-The definitive book about Spring's JDBC, JPA and NoSQL support _Spring Data: Modern Data Access for Enterprise Java_ by Mark Pollack, Oliver Gierke, Thomas Risberg, Jon Brisbin, and Michael Hunger. (O'Reilly Media, October 2012):
-http://shop.oreilly.com/product/0636920024767.do
+The definitive book about Spring's JDBC, JPA, and NoSQL support is http://shop.oreilly.com/product/0636920024767.do[_Spring Data: Modern Data Access for Enterprise Java_] by Mark Pollack _et al._ (O'Reilly Media, October 2012).
 
-Learn how to use Spring Boot to build apps faster than ever before with _Learning Spring Boot_ by Greg L. Turnquist. (Packt Publishing Limited, November 2014): https://www.packtpub.com/application-development/learning-spring-boot
+Learn how to use Spring Boot to build apps faster than ever before with https://www.packtpub.com/application-development/learning-spring-boot[_Learning Spring Boot_] by Greg L. Turnquist (Packt Publishing, November 2014). 
 
-The in-depth, complete and up-to-date book on Angular, _ng-book_ by Ari Lerner. Lerner has also written _ng-book 2_ for Angular 2. https://www.ng-book.com/
+An in-depth and up-to-date book on Angular is https://www.ng-book.com/[_ng-book: The Complete Book on AngularJS_] by Ari Lerner (Fullstack.io, December 2013). Lerner has also written _ng-book 2_ for Angular 2. 
 
-Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with _Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_ by Josh Long and Kenny Bastani. (O'Reilly Media, January 2016 (est.)): http://shop.oreilly.com/product/0636920038252.do
+Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with http://shop.oreilly.com/product/0636920038252.do[_Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_] by Josh Long and Kenny Bastani (O'Reilly Media, expected January 2016). 
