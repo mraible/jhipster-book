@@ -85,7 +85,7 @@ and it saves you from writing a lot of boilerplate code. The `{{ng-app}}` direct
 application.
 
 The MVC pattern is a common one for web frameworks to implement. With Angular, the model is represented
-by a JavaScript object that you create or retrieve from a service. The view is an HTML template and the controller
+by a JavaScript object that you create or retrieve from a service. The view is a HTML template and the controller
 is a JavaScript function that watches for changes to the model from the user.
 
 [[img-angular-mvc]]
@@ -169,7 +169,7 @@ DOM structure. Scopes can watch expressions and propagate events.
 }]);
 ----
 
-To make the aforementioned module work, you need an HTML page that includes Angular and ngRoute.
+To make the aforementioned module work, you need a HTML page that includes Angular and ngRoute.
 
 [source,html]
 .index.html
@@ -466,7 +466,7 @@ include::{sourcedir}/chapter3/bootstrap/basicelement-withvalidation.html[]
 image::chapter3/bootstrap/basicelement-validation.png[Form element with validation, 829, scaledwidth="90%"]
 
 ==== CSS
-When you add Bootstrap's CSS to an HTML page, the default settings immediately improve the typography. Your `<h1>` and `<h2>`
+When you add Bootstrap's CSS to a HTML page, the default settings immediately improve the typography. Your `<h1>` and `<h2>`
 headings become semi-bold and are sized accordingly. Your paragraph margins, body text, and block quotes will look better.
 If you want to align text in your pages, `text-[left|center|right]` are useful classes. For tables, a `table` class
 gives them a better look and feel by default.

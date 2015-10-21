@@ -1,11 +1,11 @@
-=== Deploying to Production
+=== Deploying to production
 ==== The production profile
 ==== Deploying as normal WAR
 ==== Deploying as an executable JAR
-==== Deploying to the Cloud (CF, Heroku and OpenShift)
+==== Deploying to the cloud (CF, Heroku, and OpenShift)
 === Metrics
 === Caching
 === Logging
 === Analytics
-=== Resource Optimization (+ HTTP/2)
-=== Load Testing with Gatling
+=== Resource optimization (+ HTTP/2)
+=== Load-testing with Gatling
