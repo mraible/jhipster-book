@@ -138,7 +138,7 @@ The template to call this controller can be as simple as a form with a button.
 </form>
 ----
 
-To get the results from the SearchService in your controller, you can use Angular's dependency injection.
+To get the results from the `SearchService` in your controller, you can use Angular's dependency injection.
 
 [source,javascript]
 ----
@@ -151,7 +151,7 @@ To get the results from the SearchService in your controller, you can use Angula
     };
 })
 ----
-<1> To inject SearchService into SearchController, simply add it as a parameter to the controller's argument list.
+<1> To inject `SearchService` into `SearchController`, simply add it as a parameter to the controller's argument list.
 <2> `$scope.search()` is a function that's called from the HTML's `<form>`, wired up using the `ng-submit` directive.
 <3> `$scope.term` is a variable that's wired to `<input>` using the `ng-model` directive.
 

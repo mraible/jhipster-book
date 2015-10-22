@@ -24,7 +24,7 @@ To try code samples in this book, you will need a computer running an up-to-date
 
 We use a number of typographical conventions within this book that distinguish between different kinds of information.
 
-Code in the text, including commands, variables, file names, CSS class names, and property names are shown as follows: 
+Code in the text, including commands, variables, file names, CSS class names, and property names are shown as follows:
 "Spring Boot uses a `public static void main` entry-point that launches an embedded web server for you."
 
 A block of code is set out as follows. It may be colored, depending on the format in which you're reading this book.
@@ -68,7 +68,7 @@ When we want to draw your attention to a particular part of the code, it's calle
 })
 ----
 <1> To inject `SearchService` into `SearchController`, simply add it as a parameter to the controller's argument list.
-<2> `$scope.search()` is a function that's called from HTML `<form>`, wired up using the `ng-submit` directive.
+<2> `$scope.search()` is a function that's called from the HTML's `<form>`, wired up using the `ng-submit` directive.
 <3> `$scope.term` is a variable that's wired to `<input>` using the `ng-model` directive.
 
 TIP: Tips are shown using callouts like this.
