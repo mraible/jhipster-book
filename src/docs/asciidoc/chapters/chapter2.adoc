@@ -1,5 +1,4 @@
 :imagesdir: images
-
 == Building an app with JHipster
 
 When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating
