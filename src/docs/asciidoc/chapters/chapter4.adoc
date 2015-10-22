@@ -413,7 +413,7 @@ RebelLabs advises that you should experiment with Gradle in your next project.
 If we were forced to conclude with any general recommendation, it would be to go with Gradle if you are starting a new project.
 ""
 
-I've used both tools for building projects and they've both worked quite well. Maven works for me, but I've used it for over 10 years and recognize that my history and experience with it might contribute to my bias towards it. If you prefer Gradle simply because you are trying to avoid XML, https://github.com/takari/polyglot-maven[Polyglot for Maven] may change your perspective. It supports Atom, Groovy, Clojure, Ruby, Scala, and YAML languages. Ironically, you need to include an XML file to use it. To add support for non-XML languages, create a `${project}/.mvn/extensions.xml` file and add the following XML to it.
+I've used both tools for building projects and they've both worked quite well. Maven works for me, but I've used it for over 10 years and recognize that my history and experience with it might contribute to my bias towards it. If you prefer Gradle simply because you are trying to avoid XML, https://github.com/takari/polyglot-maven[Polyglot for Maven] may change your perspective. It supports Atom, Groovy, Clojure, Ruby, Scala, and YAML languages. Ironically, you need to include a XML file to use it. To add support for non-XML languages, create a `${project}/.mvn/extensions.xml` file and add the following XML to it.
 
 [source,xml]
 ----
@@ -560,9 +560,9 @@ NoSQL encompasses a wide variety of different database technologies that were de
 
 MongoDB was founded in 2007 by the folks behind DoubleClick, ShopWiki, and Gilt Groupe. It uses the Apache and GNU-APGL licenses on https://github.com/mongodb/mongo[GitHub]. Its many large customers include Adobe, eBay, and eHarmony.
 
-http://cassandra.apache.org/[Cassandra] is "a distributed storage system for managing structured data that is designed to scale to a very large size across many commodity servers, with no single point of failure".footnote:[From https://www.facebook.com/notes/facebook-engineering/cassandra-a-structured-storage-system-on-a-p2p-network/24413138919[Cassandra – A structured storage system on a P2P Network] on the Facebook Engineering blog.] It was initially developed at Facebook to power its Inbox Search feature. Its founders, Avinash Lakshman (one of the authors of Amazon's Dynamo) and Prashant Malik, released it as an open source project in July 2008. In March 2009, it became an Apache Incubator project and graduated to a top-level project in February 2010.
+http://cassandra.apache.org/[Cassandra] is "a distributed storage system for managing structured data that is designed to scale to a very large size across many commodity servers, with no single point of failure" (from https://www.facebook.com/notes/facebook-engineering/cassandra-a-structured-storage-system-on-a-p2p-network/24413138919[Cassandra – A structured storage system on a P2P Network] on the Facebook Engineering blog). It was initially developed at Facebook to power its Inbox Search feature. Its creators, Avinash Lakshman (one of the creators of Amazon Dynamo Database) and Prashant Malik, released it as an open-source project in July 2008. In March 2009, it became an Apache Incubator project, and graduated to a top-level project in February 2010.
 
-In addition to Facebook, Cassandra helps a number of companies achieve web-scale: CERN, Comcast, eBay, GitHub, GoDaddy, Hulu, Instagram, Intuit, Netflix, Reddit and The Weather Channel. They have some impressive numbers about scalability on their homepage.
+In addition to Facebook, Cassandra helps a number of other companies achieve web scale. It has some impressive numbers about scalability on its homepage.
 
 [, 'http://cassandra.apache.org[Cassandra homepage]']
 ""

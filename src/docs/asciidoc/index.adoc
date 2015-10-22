@@ -35,18 +35,6 @@ include::chapters/action.adoc[]
 
 include::chapters/about.adoc[]
 
-////
-== JHipster in Production
-
-include::chapters/chapter5.adoc[]
-////
-
-include::chapters/bibliography.adoc[]
-
-////
-[appendix]
-include::chapters/appendix.adoc[]
-////
 
 ifdef::backend-docbook[]
 [index]
