@@ -9,6 +9,7 @@ buildscript {
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.2'
         classpath 'org.asciidoctor:asciidoctorj-epub3:1.5.0-alpha.4'
         classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.8'
+        classpath 'org.jruby:jruby-complete:9.0.3.0'
     }
 }
 
@@ -37,6 +38,7 @@ asciidoctor {
             'idprefix': '',
             'idseparator': '-',
             'docinfo1': 'true'
+    requires file('src/main/ruby/asciidoctor-pdf-extensions.rb')
 }
 
 watch {
