@@ -8,11 +8,9 @@ module AsciidoctorPdfExtensions
 
   def layout_chapter_title node, title
     if node.id == "dedication" || node.id == "acknowledgements"
-      # todo: Add underline of forward-slashes under title
       layout_heading_custom title, align: :center
     elsif node.id.include? "mini-book" # colophon
-      # todo: make title font-size same as text, align with bottom of page
-      move_down 440
+      move_down 470
       layout_heading title, size: @theme.base_font_size
     elsif node.id.include? "jhipster" #chapters
       puts 'Processing ' + node.id + '...'
@@ -30,7 +28,6 @@ module AsciidoctorPdfExtensions
       end
 
       layout_heading part_number, align: :right, size: 120, color: [42, 1, 83, 1], style: :bold
-      # todo: Make font name and color match InfoQ
       layout_heading title, align: :right, color: [42, 1, 83, 1], style: :normal, size: 30
       move_up 30
       start_new_page
