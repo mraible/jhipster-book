@@ -29,7 +29,7 @@ font:
 page:
   background_color: ffffff
   layout: portrait
-  margin: [0.75in, 0.76in, 0.75in, 0.67in] #[0.5in, 0.67in, 0.67in, 0.67in]
+  margin: [0.5in, 0.67in, 0.67in, 0.67in] # [0.75in, 0.76in, 0.75in, 0.67in]
   size: LETTER
 base:
   align: justify
@@ -215,19 +215,19 @@ toc:
   #dot_leader_content: '. '
   indent: $horizontal_rhythm
   line_height: 1.4
-header:
-  font_color: A6A6A6
-  height: 0.75in
-  line_height: 1
-  recto_content:
-    center: '{chapter-title}'
-  verso_content:
-    center: '{document-title}'
-footer:
-  font_color: [61, 51, 45, 5]
-  height: 0.75in
-  line_height: 1
-  recto_content:
-    right: 'v{revnumber}, {docdate} | *{page-number}*'
-  verso_content:
-    left: '*{page-number}* | {chapter-title}'
+#header:
+#  font_color: A6A6A6
+#  height: 0.75in
+#  line_height: 1
+#  recto_content:
+#    center: '{chapter-title}'
+#  verso_content:
+#    center: '{document-title}'
+#footer:
+#  font_color: [61, 51, 45, 5]
+#  height: 0.75in
+#  line_height: 1
+#  recto_content:
+#    right: 'v{revnumber}, {docdate} | *{page-number}*'
+#  verso_content:
+#    left: '*{page-number}* | {chapter-title}'
