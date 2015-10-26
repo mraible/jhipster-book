@@ -14,7 +14,7 @@ module AsciidoctorPdfExtensions
       layout_heading title, size: @theme.base_font_size
     elsif node.id.include? "jhipster" #chapters
       puts 'Processing ' + node.id + '...'
-      move_down 60
+      move_down 120
       # set Akkurat font for all custom headings
       font 'Akkurat'
       layout_heading 'PART', align: :right, size: 120, color: [91, 54, 8, 13], style: :normal
