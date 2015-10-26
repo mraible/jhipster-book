@@ -1,6 +1,7 @@
 require 'asciidoctor-pdf' unless defined? ::Asciidoctor::Pdf
 
 module AsciidoctorPdfExtensions
+
   def layout_title_page doc
       # no title page
   end
@@ -11,15 +12,27 @@ module AsciidoctorPdfExtensions
       layout_heading_custom title, align: :center
     elsif node.id.include? "mini-book" # colophon
       # todo: make title font-size same as text, align with bottom of page
-      move_down 450
+      move_down 440
       layout_heading title, size: @theme.base_font_size
     elsif node.id.include? "jhipster" #chapters
-      puts node.id
-      move_down 200
-      layout_heading 'Part', align: :right, size: 100, color: 'blue', font_family: 'Helvetica', bottom_margin: 0
-      layout_heading 'One', align: :right, size: 100, color: 'green', font_family: 'Helvetica', margin_bottom: 0
-      # todo: add 'Part One|Two|Three' to title and make font name, size and colors match InfoQ
-      layout_heading title, align: :right, color: 'green'
+      puts 'Processing ' + node.id + '...'
+      move_down 60
+      # set Akkurat font for all custom headings
+      font 'Akkurat'
+      layout_heading 'PART', align: :right, size: 120, color: [91, 54, 8, 13], style: :normal
+      move_up 40
+
+      part_number = "ONE"
+      if node.id.include? "ui-components"
+        part_number = "TWO"
+      elsif node.id.include? "api"
+        part_number = "THREE"
+      end
+
+      layout_heading part_number, align: :right, size: 120, color: [42, 1, 83, 1], style: :bold
+      # todo: Make font name and color match InfoQ
+      layout_heading title, align: :right, color: [42, 1, 83, 1], style: :normal, size: 30
+      move_up 30
       start_new_page
     else
        # delegate to default implementation
@@ -28,17 +41,30 @@ module AsciidoctorPdfExtensions
   end
 
   def layout_heading_custom string, opts = {}
-      if (transform = (opts.delete :text_transform) || @text_transform)
-          puts 'transforming'
-          string = transform_text string, transform
-      end
       move_down 100
-      puts 'length of title ' + string.length.to_s
       typeset_text string, calc_line_metrics((opts.delete :line_height) || @theme.heading_line_height), {
           inline_format: true
       }.merge(opts)
+      move_up 5
+      $i = 0
+      underline = ''
+      while $i < string.length do
+          if string == 'Dedication'
+            underline += '/////'
+          else
+            underline += '//////'
+          end
+          $i += 1
+      end
+      if string == 'Dedication'
+          underline += '////'
+      end
+      typeset_text underline, calc_line_metrics((opts.delete :line_height) || @theme.heading_line_height), {
+            inline_format: true, color: 'B0B0B0', size: 8, style: :italic
+      }.merge(opts)
       move_down 20
   end
+
 end
 
 Asciidoctor::Pdf::Converter.prepend AsciidoctorPdfExtensions
