@@ -218,12 +218,11 @@ toc:
 header:
   font_color: A6A6A6
   height: 0.75in
-  text_transform: uppercase
   line_height: 1
   recto_content:
     center: '{chapter-title}'
   verso_content:
-    center: 'THE JHIPSTER MINI-BOOK'
+    center: '{document-title}'
 footer:
   font_color: [61, 51, 45, 5]
   height: 0.75in
