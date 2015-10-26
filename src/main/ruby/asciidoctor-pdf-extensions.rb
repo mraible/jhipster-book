@@ -12,7 +12,8 @@ module AsciidoctorPdfExtensions
         layout_heading_custom title, align: :center
     elsif node.id.include? "mini-book" # colophon
       # todo: make title font-size same as text, align with bottom of page
-      layout_heading title, margin: 5
+      move_down 500
+      layout_heading title, size: @theme.base_font_size
     elsif node.id.include? "jhipster" #chapters
       puts node.id
       # todo: add 'Part One|Two|Three' to title and make font name, size and colors match InfoQ
@@ -25,22 +26,16 @@ module AsciidoctorPdfExtensions
   end
 
   def layout_heading_custom string, opts = {}
-      top_margin = (margin = (opts.delete :margin)) || (opts.delete :margin_top) || @theme.heading_margin_top
-      bot_margin = margin || (opts.delete :margin_bottom) || @theme.heading_margin_bottom
-      puts 'top margin: ' + top_margin.to_s
-
-      move_down (@theme.title_page_title_margin_top || 0)
-
       if (transform = (opts.delete :text_transform) || @text_transform)
+          puts 'transforming'
           string = transform_text string, transform
       end
-      margin_top top_margin
+      move_down 100
+      puts 'length of title ' + string.length.to_s
       typeset_text string, calc_line_metrics((opts.delete :line_height) || @theme.heading_line_height), {
-          color: '002EB8', size: 40,
-          inline_format: true,
-          align: :left
+          inline_format: true
       }.merge(opts)
-      margin_bottom bot_margin
+      move_down 20
   end
 end
 
