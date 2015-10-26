@@ -2,7 +2,7 @@
 :author: Matt Raible
 :email:  matt@raibledesigns.com
 :revnumber: 1.0
-:revdate:   October 26, 2015
+:revdate:   {docdate}
 :doctype: book
 :front-cover-image: image:cover.png[Front Cover,1050,1600]
 :toc:
@@ -11,6 +11,10 @@
 :lang: en
 :language: javadocript
 :experimental: true
+:pagenums:
+:pdf-fontsdir: ./styles/pdf/fonts
+:pdf-stylesdir: ./styles/pdf
+:pdf-style: infoq
 
 [colophon]
 include::chapters/colophon.adoc[]
