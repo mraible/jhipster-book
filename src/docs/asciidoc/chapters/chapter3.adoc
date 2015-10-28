@@ -502,7 +502,7 @@ When rendered on a mobile device, everything collapses into a hamburger menu tha
 image::chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 467, scaledwidth="50%"]
 
 This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source
-online in link:http://getbootstrap.com/components/\#navbar-default[Bootstrap's documentation]. The simpler example below
+online in link:http://getbootstrap.com/components/#navbar-default[Bootstrap's documentation]. The simpler example below
 shows the basic structure.
 
 [source,html]

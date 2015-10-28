@@ -82,7 +82,7 @@ yo jhipster
 ----
 
 After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can
-see the choices I made in <<img-generating-21points>>.
+see the choices I made in the screenshot below.
 
 [[img-generating-21points]]
 .Generating the application
@@ -299,7 +299,7 @@ http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyMode
 http://www.visual-paradigm.com/[Visual Paradigm]. Because I believe the entity sub-generator is simpler to use, I chose
 that for this project.
 
-The <<img-entity-diagram>> shows the data model for this project. A user has a goal, which is tied to metrics
+The diagram below shows the data model for this project. A user has a goal, which is tied to metrics
 and a daily log of activities. The activities could be further abstracted so they're not explicitly exercise, meals, and
 alcohol, but it's important to start, not to get it right the first time.
 
@@ -310,7 +310,7 @@ image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledw
 The most important thing to remember when generating entities with JHipster is that you must generate the entity that
 owns the relationship first. In this application, the `Metric` entity is owned by `Goal` and `Entry`, so we'll generate
 that one first. The relationships could be simplified to only track metrics for the entry, but then it'd be difficult
-to relate that back to the goal and display progress. <<img-entity-diagram-simple>> is a simplified version, without
+to relate that back to the goal and display progress. The following diagram is a simplified version, without
 a relationship of metrics to goals. For more information, see
 https://jhipster.github.io/managing_relationships.html["Managing relationships"] on the JHipster site.
 
@@ -611,8 +611,7 @@ my weight and blood-pressure metrics when I measured them. When I started using 
 like it might be able to accomplish these goals, but it also seemed somewhat cumbersome. That's when I decided to create
 a UI mockup with the main screen and its ancillary screens for data entry. I used
 https://www.omnigroup.com/omnigraffle[OmniGraffle] and a
-https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstrap stencil] to create a
-<<img-ui-mockup>>.
+https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstrap stencil] to create the following UI mockup.
 
 [[img-ui-mockup]]
 .UI mockup
@@ -624,7 +623,7 @@ After figuring out how I wanted the UI to look, I realized my data model could b
 and could handle a number of metrics. In my new design, I realized I didn't need to track high-level goals (e.g. lose
 five pounds in Q4 2015). I was more concerned with tracking weekly goals and 21-Points Health is all about how many points you
 get in a week. I was grateful that JHipster allowed me to quickly see the flaws in my design, then simplify. I created
-<<img-entity-diagram-simpler>> as my new data model.
+the diagram below as my new data model.
 
 [[img-entity-diagram-simpler]]
 .21-Points Health entity diagram - simplified
@@ -807,7 +806,7 @@ the column names intact and manually renamed everything in Java, JavaScript, and
 ==== Improved HTML layout and I18N messages
 
 Of all the code I write, UI code (HTML, JavaScript, and CSS) is my favorite. I like that you can see changes
-immediately and make progress quickly - especially when you're using dual monitors with <<BrowserSync>>. Below is a
+immediately and make progress quickly - especially when you're using dual monitors with <<Browsersync>>. Below is a
 consolidated list of changes I made to the HTML to make things look better:
 
 . Improved layout of tables and buttons.
@@ -1763,7 +1762,7 @@ the business logic I implemented was correct. It's never easy to work with dates
 it and Spring Data JPA made it easy to write "between date" queries.
 
 I believe TDD (test-driven development) is a great way to write code. However, when developing UIs, I tend to make them
-work before writing tests. It's usually a very visual activity and, with the aid of BrowserSync, there's rarely a delay before
+work before writing tests. It's usually a very visual activity and, with the aid of Browsersync, there's rarely a delay before
 you see your changes. I like to write unit tests for my Angular controllers and directives using
 http://jasmine.github.io/2.3/introduction.html[Jasmine] and I like to write integration tests with
 https://angular.github.io/protractor/#/[Protractor].
@@ -2214,5 +2213,5 @@ Gradle-based JHipster project. I highly recommend doing something similar shortl
 and verified that it passes all tests.
 
 In the next chapter, I'll explain JHipster's UI components in more detail. AngularJS, Bootstrap, JavaScript build tools,
-Sass, WebSockets, and BrowserSync are all packed in a JHipster application, so it's useful to dive
+Sass, WebSockets, and Browsersync are all packed in a JHipster application, so it's useful to dive
 in and learn a bit more about these technologies.
