@@ -215,14 +215,14 @@ toc:
   #dot_leader_content: '. '
   indent: $horizontal_rhythm
   line_height: 1.4
-#header:
-#  font_color: A6A6A6
-#  height: 0.75in
-#  line_height: 1
-#  recto_content:
-#    center: '{chapter-title}'
-#  verso_content:
-#    center: '{document-title}'
+header:
+  font_color: A6A6A6
+  height: 0.5in
+  line_height: 1
+  recto_content:
+    center: '{chapter-title}'
+  verso_content:
+    center: '{document-title}'
 footer:
   font_color: [61, 51, 45, 5]
   height: 0.5in
@@ -230,4 +230,4 @@ footer:
   recto_content:
     right: '*{page-number}*'
   verso_content:
-    left: '*{page-number}* | {chapter-title}'
+    left: '*{page-number}*'
