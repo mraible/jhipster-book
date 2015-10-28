@@ -82,7 +82,7 @@ yo jhipster
 ----
 
 After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can
-see the choices I made in the screenshot below.
+see the choices I made in the following screenshot.
 
 [[img-generating-21points]]
 .Generating the application
@@ -623,7 +623,7 @@ After figuring out how I wanted the UI to look, I realized my data model could b
 and could handle a number of metrics. In my new design, I realized I didn't need to track high-level goals (e.g. lose
 five pounds in Q4 2015). I was more concerned with tracking weekly goals and 21-Points Health is all about how many points you
 get in a week. I was grateful that JHipster allowed me to quickly see the flaws in my design, then simplify. I created
-the diagram below as my new data model.
+the following diagram as my new data model.
 
 [[img-entity-diagram-simpler]]
 .21-Points Health entity diagram - simplified
