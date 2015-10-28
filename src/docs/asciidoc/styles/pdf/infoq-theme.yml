@@ -223,11 +223,11 @@ toc:
 #    center: '{chapter-title}'
 #  verso_content:
 #    center: '{document-title}'
-#footer:
-#  font_color: [61, 51, 45, 5]
-#  height: 0.75in
-#  line_height: 1
-#  recto_content:
-#    right: 'v{revnumber}, {docdate} | *{page-number}*'
-#  verso_content:
-#    left: '*{page-number}* | {chapter-title}'
+footer:
+  font_color: [61, 51, 45, 5]
+  height: 0.5in
+  line_height: 1
+  recto_content:
+    right: '*{page-number}*'
+  verso_content:
+    left: '*{page-number}* | {chapter-title}'
