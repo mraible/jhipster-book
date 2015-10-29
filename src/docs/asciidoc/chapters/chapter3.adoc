@@ -913,6 +913,6 @@ page reload without losing the current user's state.
 
 === Summary
 
-This section describes the UI components in a typical JHipster project. It taught you about the extremely popular JavaScript MVC framework called AngularJS. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application and it showed you how you can use Grunt and Gulp. Finally, it showed you how WebSockets work and described the beauty of BrowserSync.
+This section describes the UI components in a typical JHipster project. It taught you about the extremely popular JavaScript MVC framework called AngularJS. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application and it showed you how you can use Grunt and Gulp. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
 
 Now that you've learned about many of the UI components in a JHipster project, let's learn about the API side of things.

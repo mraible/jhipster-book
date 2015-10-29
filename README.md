@@ -25,7 +25,7 @@ programs on your machine:
   good source of information.
 * [Node.js](https://nodejs.org/): Node allows you to run JavaScript programs that simplify web development.
 
-After installing Node, you can run the following command to install development tools (like [BrowserSync](http://www.browsersync.io/)). 
+After installing Node, you can run the following command to install development tools (like [Browsersync](http://www.browsersync.io/)). 
 You will only need to run this command when dependencies change in package.json.
 ```
 #!shell
