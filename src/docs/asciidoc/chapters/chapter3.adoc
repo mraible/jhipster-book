@@ -814,7 +814,7 @@ margin.
 
 [[img-bootstrap-advanced-grid-desktop]]
 .Google Trends: Grunt vs. Gulp
-image::chapter3/grunt+gulp/google-trends-grunt-vs-gulp.png[.Google Trends: Grunt vs. Gulp, 864, scaledwidth="100%"]
+image::chapter3/grunt-gulp/google-trends-grunt-vs-gulp.png[.Google Trends: Grunt vs. Gulp, 864, scaledwidth="100%"]
 
 // https://www.google.com/trends/explore#q=Grunt%2C%20Gulp
 
