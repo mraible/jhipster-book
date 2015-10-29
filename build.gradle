@@ -28,6 +28,7 @@ asciidoctor {
     backends 'html5', 'pdf', 'epub3'
     attributes 'sourcedir': '../../../main/webapp',
             'source-highlighter': 'coderay',
+            'epub3-stylesdir': './styles/epub',
             'imagesdir': './images',
              toc: 'left',
              icons: 'font',
