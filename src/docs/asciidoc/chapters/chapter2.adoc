@@ -2085,17 +2085,17 @@ https://addons.heroku.com/newrelic[New Relic add-on] for Heroku. Heroku's https:
 describes how to set things up if you're letting Heroku do the build for you (meaning, you deploy with
 `git push heroku master`). However, if you're using the heroku-deploy plugin, it's a bit different.
 
-For that, you'll first need to manually download the New Relic Agent JAR and put it in a location relative to the root directory
+For that, you'll first need to manually download the New Relic Agent, a `newrelic.yml` license file and put them in the root directory
 of your project. Then you can run a command like:
 
 ----
-heroku deploy:jar --jar build/libs/*war --includes newrelic-agent.jar
+heroku deploy:jar --jar build/libs/*war --includes newrelic.jar:newrelic.yml
 ----
 
-That will include the JAR in the slug. Then you'll need to modify your Procfile to include the option:
+That will include the JAR in the slug. Then you'll need to modify your Procfile to include the `javaagent` argument:
 
 ----
--javaagent:newrelic-agent.jar
+web: java -javaagent:newrelic.jar -jar build/libs/*.war
 ----
 
 === Continuous integration and deployment
