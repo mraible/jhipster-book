@@ -101,7 +101,7 @@ image::chapter3/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth="75%", 
 Below is a search controller and a service to fetch search results. It's expected that a JSON endpoint exists at
 `/api/search` on the same server.
 
-[source,javascript,linenums]
+[source,javascript]
 ----
 .controller('SearchController', function () {
     console.log("In Search Controller...");
@@ -583,7 +583,8 @@ using Compass to compile `*.scss` files, you can modify `src/main/scss/main.scss
 more concise authoring environment. Below is the default `main.scss` file that Yeoman generates. You can see that
 it overrides the font location variable, imports Bootstrap, then overrides some of its default `body` rules.
 
-[source,sass]
+[source,css]
+.src/main/scss/main.scss
 ----
 $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 
@@ -628,6 +629,7 @@ for these languages in `src/main/webapp/i18n`, in `en` and `fr` directories. You
 language. To set the default language, modify `src/main/webapp/scripts/app/app.js` and its preferred language line.
 
 [source,javascript]
+.src/main/webapp/scripts/app/app.js
 ----
 $translateProvider.preferredLanguage('de');
 ----

@@ -225,6 +225,7 @@ header:
     center: '{document-title}'
 footer:
   font_color: [61, 51, 45, 5]
+  font_size: $base_font_size_small
   height: 0.5in
   line_height: 1
   recto_content:
