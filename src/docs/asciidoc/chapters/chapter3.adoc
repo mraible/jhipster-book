@@ -1,9 +1,15 @@
-:imagesdir: images
-== JHipster's UI components
+[[jhipsters-ui-components]]
+= JHipster\'s UI components
 
-A modern web application has many UI components. It likely has some sort of model-view-controller (MVC) framework as well as a CSS framework, and tooling to simplify the use of these. With a web application, you can have users all over the globe, so translating your application into other languages might be important. If you're developing large amounts of CSS, you'll likely use a CSS pre-processor like Less or Sass. Then you'll need a build tool to refresh your browser, run your pre-processor, run your tests, minify your web assets, and prepare your application for production. This section shows how JHipster includes all of these UI components for you and makes your developer experience a joyous one.
+A modern web application has many UI components. It likely has some sort of model-view-controller (MVC) framework as well as a
+CSS framework, and tooling to simplify the use of these. With a web application, you can have users all over the globe,
+so translating your application into other languages might be important. If you're developing large amounts of CSS,
+you'll likely use a CSS pre-processor like Less or Sass. Then you'll need a build tool to refresh your browser,
+run your pre-processor, run your tests, minify your web assets, and prepare your application for production.
 
-=== AngularJS
+This section shows how JHipster includes all of these UI components for you and makes your developer experience a joyous one.
+
+== AngularJS
 AngularJS (Angular) is the MVC framework used by JHipster. It's written in JavaScript and just using it makes you a hipster.
 I've been tracking statistics on jobs and skills for JavaScript MVC frameworks ever since I compared JVM Web frameworks
 at Devoxx France in 2013. At that time, Backbone was the dominant framework.
@@ -51,13 +57,13 @@ It recommended organizing your application into several different components:
 * Filters: Data-manipulation tools that can transform data (e.g. uppercase, lowercase, ordering, and searching).
 * Directives: HTML processors that allow components to be written. Similar to JSP tags.
 
-==== History
+=== History
 AngularJS was started by Miško Hevery in 2009. He was working on a project that was using GWT. Three developers had been
 developing the product for six months, and Miško rewrote the whole thing in Angular in three weeks. At that time, Angular
 was a side project he'd created. It didn't require you to write much in JavaScript as you could program most of the logic
 in HTML. The GWT version of the product contained 17,000 lines of code. The Angular version was only 1,000 lines of code!
 
-==== Basics
+=== Basics
 Creating Hello World with Angular is pretty simple.
 
 [source,html]
@@ -247,7 +253,7 @@ If so, you could display it in a template with Angular's `ng-repeat` directive.
 To read a more in-depth example (including source code) of building a search and edit application with Angular, see
 my article http://raibledesigns.com/rd/entry/getting_started_with_angularjs["Getting Started with AngularJS"].
 
-==== AngularUI Router
+=== AngularUI Router
 https://github.com/angular-ui/ui-router[AngularUI Router] is a routing component for AngularJS. It's organized around
 states, to which you can attach routes and other behaviors. Some of its best features include support for
 nested/named views, tab history, and loading data before rendering a view. You can see an example of its basic
@@ -305,7 +311,7 @@ Once you've done this, you can inject the `person` object into your controller d
 })
 ----
 
-==== Angular's $resource
+=== Angular's $resource
 Angular ships with a https://docs.angularjs.org/api/ngResource/service/$resource[$resource factory] that allows you to
 interact with a http://en.wikipedia.org/wiki/Representational_state_transfer[RESTful] API with only a few lines of code.
 If your API is implemented so that you can perform CRUD (create, read, update, delete) at a specific endpoint, you can use
@@ -342,7 +348,7 @@ On failure, a promise resolves with the HTTP response object, but does not conta
 A resource instance also has a `$resolved` property that returns `true` after its first server interaction completes
 (regardless of success or rejection).
 
-==== AngularJS 2.0
+=== AngularJS 2.0
 In October 2014, the Angular team announced the http://www.infoq.com/news/2014/10/angular-2-atscript[details of Angular
 2.0]. The announcement led to a bit of upheaval in the AngularJS developer community. The API for writing
 Angular applications was going to change and it was to be based on a new language, AtScript. There would be no migration
@@ -375,13 +381,13 @@ JHipster will add support for Angular 2 once it's deemed mature enough for produ
 Now that you've learned a bit about the hottest web framework on the planet, let's take a look at the most
 popular CSS framework: Bootstrap.
 
-=== Bootstrap
+== Bootstrap
 
 http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides a
 number of CSS classes and HTML structures that allow you to develop HTML user interfaces that look good by default. Not
 only that, but its 3.0 version is responsive by default, which means it works better (or even best) on a mobile device.
 
-==== Bootstrap's grid system
+=== Bootstrap's grid system
 
 Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's
 basic grid system is built with containers, rows, and columns. It's 940 pixels (px) wide, divided into 12 columns. The grid
@@ -434,13 +440,13 @@ image::chapter3/bootstrap/advanced-grid-desktop.png[Advanced grid, 983, scaledwi
 You can use size indicators to specify breakpoints in the columns. Breakpoints indicate where a column wraps onto the next
 row. In the HTML above, "md" is the size indicator. Boostrap supports "xs", "sm", "md", "lg", and "xl".
 
-==== Responsive utility classes
+=== Responsive utility classes
 Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size.
 
 * `.visible-[xs|sm|md|lg]`
 * `.hidden-[xs|sm|md|lg]`
 
-==== Forms
+=== Forms
 When you add Bootstrap's CSS to your web application, chances are it'll quickly start to look better. Typography, margins,
 and padding will look better by default. However, your forms might look funny, because Bootstrap requires a few
 classes on your form elements to make them look good. Below is an example of a form element.
@@ -465,7 +471,7 @@ include::{sourcedir}/chapter3/bootstrap/basicelement-withvalidation.html[]
 .Form element with validation
 image::chapter3/bootstrap/basicelement-validation.png[Form element with validation, 829, scaledwidth="90%"]
 
-==== CSS
+=== CSS
 When you add Bootstrap's CSS to a HTML page, the default settings immediately improve the typography. Your `<h1>` and `<h2>`
 headings become semi-bold and are sized accordingly. Your paragraph margins, body text, and block quotes will look better.
 If you want to align text in your pages, `text-[left|center|right]` are useful classes. For tables, a `table` class
@@ -482,7 +488,7 @@ include::{sourcedir}/chapter3/bootstrap/buttons.html[]
 .Buttons
 image::chapter3/bootstrap/buttons.png[Buttons, 500, scaledwidth="55%"]
 
-==== Components
+=== Components
 Bootstrap ships with a number of components included. Some require JavaScript; some only require HTML5 markup and
 CSS classes to work. Its rich set of components have helped make it the most popular project on GitHub. Web developers
 have always liked components in their frameworks. A framework that offers easy-to-use components often allows developers
@@ -540,7 +546,7 @@ image::chapter3/bootstrap/alert-dismissable.png[Closeable alert, 830, scaledwidt
 
 TIP: To make the links in your alerts match the colors of the alerts, use `.alert-link`.
 
-==== Icons
+=== Icons
 Icons have always been a big part of web applications. Showing the user a small image is often sexier
 and hipper than plain text. Humans are visual beings and icons are a great way to spice things up. In the last
 several years, font icons have become popular for web development. Font icons are just fonts, but they contain
@@ -570,7 +576,7 @@ https://github.com/jhipster/generator-jhipster/issues/978#issuecomment-69988321[
 Glyphicons is the default and it's easy to change the font in your project. Simply add it as a dependency
 in your `bower.json` file.
 
-==== Customizing CSS
+=== Customizing CSS
 If you'd like to override Bootstrap classes in your project, the easiest thing to do is to put the override rule in a CSS
 file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/assets/styles/main.css` directly. If you're
 using Compass to compile `*.scss` files, you can modify `src/main/scss/main.scss` instead. Using Compass results in a much
@@ -590,7 +596,7 @@ body {
 }
 ----
 
-==== Angular and Bootstrap
+=== Angular and Bootstrap
 There's a number of other open-source components that can help to further enhance an application built with Angular and
 Bootstrap that are not included in JHipster at the time of this writing:
 
@@ -600,7 +606,7 @@ and tools for building highly interactive apps. Built with Sass and optimized fo
 * https://github.com/jirikavi/AngularJS-Toaster[AngularJS-Toaster]: An AngularJS port of the http://codeseven.github.io/toastr/[Toastr] non-blocking notification
 jQuery library.
 
-=== Internationalization (i18n)
+== Internationalization (i18n)
 Internationalization (also called i18n because the word has 18 letters between "i" and "n") is a first-class citizen in
 JHipster. Translating an application to another language is easiest if you put the i18n system in place at the beginning of
 a project. https://angular-translate.github.io/[Angular Translate] provides directives that make it easy to translate
@@ -626,7 +632,7 @@ language. To set the default language, modify `src/main/webapp/scripts/app/app.j
 $translateProvider.preferredLanguage('de');
 ----
 
-=== Sass
+== Sass
 Sass stands for "Syntactically Awesome StyleSheets". It's a language for writing CSS with the goodies you're used to
 using in modern programming languages, such as variables, nesting, mixins, and inheritance. Sass uses the `$` symbol
 to indicate a variable, which can then be referenced later in your document.
@@ -727,12 +733,12 @@ version.
 JHipster allows you to use Sass by integrating http://compass-style.org/[Compass]. To learn more about structuring your
 CSS and naming classes, read the great https://smacss.com/[__Scalable and Modular Architecture for CSS__].
 
-=== Grunt versus Gulp
+== Grunt versus Gulp
 JHipster prompts you to choose between http://gruntjs.com/[Grunt] and http://gulpjs.com/[Gulp] for building the client.
 Both tools allow you to perform tasks like minification, concatenation, compilation (e.g. from TypeScript/
 CoffeeScript to JavaScript), unit testing, and more.
 
-==== Grunt
+=== Grunt
 Grunt calls itself "the JavaScript task runner". It's the incumbent in the field of JavaScript build tools and has
 over 4,000 http://gruntjs.com/plugins[plugins]. You install and manage Grunt and Grunt plugins via https://www.npmjs.com/[npm],
 a package manager for https://nodejs.org/[Node.js]. You can install anything specified as a dependency in
@@ -785,7 +791,7 @@ include::{sourcedir}/chapter3/grunt/index-prod.html[]
 // https://blog.engineyard.com/2014/frontend-dependencies-management-part-2
 // https://medium.com/@preslavrachev/gulp-vs-grunt-why-one-why-the-other-f5d3b398edc4
 
-==== Gulp
+=== Gulp
 Gulp calls itself "the streaming build system". Gulp is all about streams and building complex pipelines with ease.
 It uses Node.js's streams, and executes faster than Grunt, since it does not open/close files or create intermediary copies. Gulp
 was released a couple of years after Grunt, and has received a lot of praise from the JavaScript community. In accordance
@@ -831,7 +837,7 @@ If you're new to JavaScript build tools, I recommend Grunt. You don't want to be
 too much new technology in your JHipster project if you're trying to meet a deadline. If you're using JHipster to learn
 about a bunch of new technologies, try Gulp, which seems to be the hipper option.
 
-=== WebSockets
+== WebSockets
 WebSockets is an advanced technology that makes it possible to open an interactive communication channel between the
 user's browser and a server. With this API, you can send messages to a server and receive event-driven responses
 without having to poll the server for a reply. WebSockets have been called "TCP for the Web".
@@ -861,7 +867,7 @@ include::{sourcedir}/chapter3/websockets/tracker.service.js[]
 
 WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
 
-=== Browsersync
+== Browsersync
 
 http://www.browsersync.io/[Browsersync] is one of those tools that makes you wonder how you ever lived without it. It
 keeps your assets in sync with your browser. It's also capable of syncing browsers, so you can, for example, scroll in
@@ -911,7 +917,7 @@ JHipster integrates Browsersync for you, using JavaScript that looks very simila
 Browsersync for your project. It's useful for determining if your web application can handle a
 page reload without losing the current user's state.
 
-=== Summary
+== Summary
 
 This section describes the UI components in a typical JHipster project. It taught you about the extremely popular JavaScript MVC framework called AngularJS. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application and it showed you how you can use Grunt and Gulp. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
 
