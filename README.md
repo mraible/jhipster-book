@@ -1,22 +1,23 @@
 # The JHipster Mini-Book
 
-This is an awesome book. It's written in AsciiDoc that compiles to HTML, PDF, & epub3 using the Asciidoctor Gradle plugin.
+This is an awesome book. It's written in AsciiDoc that compiles to HTML, PDF, EPUB, and MOBI using the Asciidoctor Gradle plugin.
 
 ## Building
 
-To convert the AsciiDoc to HTML, PDF, & epub3, invoke the 'asciidoctor' goal with the following command:
+To convert the AsciiDoc to HTML, PDF, EPUB, and MOBI, run the following command:
 ```
-$ ./gradlew asciidoctor
+$ build.sh
 ```
 
-* Open _build/asciidoc/epub3/book.epub_  in your browser to see the generated epub file.
-* Open _build/asciidoc/html5/book.html_ in your browser to see the generated HTML file.
-* Open _build/asciidoc/pdf/book.pdf_ in your browser to see the generated PDF file.
+* Open _build/asciidoc/html5/index.html_ in your browser to see the generated HTML file.
+* Open _build/asciidoc/pdf/index.pdf_ in a PDF Reader to see the generated PDF file.
+* Open _build/asciidoc/epub3/index.epub_ in iBooks to see the generated EPUB file.
+* Open _build/asciidoc/epub3/index.mobi_ in [Calibre](http://calibre-ebook.com/) to see the generated MOBI file.
 
 ## Sweet Authoring Experience
 If you'd like a very pleasant authoring experience, the project provides build files that make it possible. First of all,
-you'll need to run the above `gradlew` command once. After running it once, you can run `./gradlew watch` to watch for 
-any changes and recompile files as you save them. 
+you'll need to run `gradlew` once. After running it once, you can run `./gradlew watch` to watch for any changes and 
+recompile files as you save them. 
 
 To have a similar awesome experience (watch and auto-reload) in your browser, install and configure the following 
 programs on your machine:
