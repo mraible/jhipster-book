@@ -2084,7 +2084,7 @@ https://addons.heroku.com/newrelic[New Relic add-on] for Heroku. Heroku's https:
 describes how to set things up if you're letting Heroku do the build for you (meaning, you deploy with
 `git push heroku master`). However, if you're using the heroku-deploy plugin, it's a bit different.
 
-For that, you'll first need to manually download the New Relic Agent, a `newrelic.yml` license file and put them in the root directory
+For that, you'll first need to manually download the New Relic Agent, as well as a `newrelic.yml` license file, and put them in the root directory
 of your project. Then you can run a command like:
 
 ----
