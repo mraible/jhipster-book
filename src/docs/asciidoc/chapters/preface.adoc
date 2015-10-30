@@ -1,4 +1,4 @@
-== Preface
+= Preface
 
 Over the last few years, I've consulted at several companies that used Spring and Java to develop their back-end systems. On those projects, I introduced Spring Boot to simplify development. DevOps teams often admired its external configuration and its starter dependencies made it easy to develop SOAP and REST APIs.
 
@@ -8,19 +8,19 @@ When I heard about JHipster, I was motivated to use it right away. It combined m
 
 I wanted to write this book because I knew all the tools in JHipster really well. I wanted to further the knowledge of this wonderful project. I wanted Java developers to see that they can be hip again by leveraging Angular and Bootstrap. I wanted to show them how JavaScript web development isn't scary, it's just another powerful platform that can improve your web-development skills.
 
-=== What is in an InfoQ mini-book?
+== What is in an InfoQ mini-book?
 
 InfoQ mini-books are designed to be concise, intending to serve technical architects looking to get a firm conceptual understanding of a new technology or technique in a quick yet in-depth fashion. You can think of these books as covering a topic strategically or essentially. After reading a mini-book, the reader should have a fundamental understanding of a technology, including when and where to apply it, how it relates to other technologies, and an overall feeling that they have assimilated the combined knowledge of other professionals who have already figured out what this technology is about. The reader will then be able to make intelligent decisions about the technology once their projects require it, and can delve into sources of more detailed information (such as larger books or tutorials) at that time.
 
-=== Who this book is for
+== Who this book is for
 
 This book is aimed specifically at web developers who want a rapid introduction to AngularJS, Bootstrap, and Spring Boot by learning JHipster.
 
-=== What you need for this book
+== What you need for this book
 
 To try code samples in this book, you will need a computer running an up-to-date operating system (Windows, Linux, or Mac OS X). You will need Node.js and Java installed. The book code was tested against Node.js v0.12 and JDK 8, but newer versions should also work.
 
-=== Conventions
+== Conventions
 
 We use a number of typographical conventions within this book that distinguish between different kinds of information.
 
@@ -85,10 +85,10 @@ Finally, this text shows what a quote looks like.
 "In the end, it's not the years in your life that count. It's the life in your years."
 -- Abraham Lincoln
 
-=== Reader feedback
+== Reader feedback
 
 We always welcome feedback from our readers. Let us know what you think about this book — what you liked or disliked. Reader feedback helps us develop titles that you get the most out of.
 
-To send us feedback, e-mail us at feedback@infoq.com, send a tweet to https://twitter.com/jhipster_book[@jhipster_book], or post a question on Stack Overflow with the http://stackoverflow.com/tags/jhipster-book/info[jhipster-mini-book] tag.
+To send us feedback, e-mail us at feedback@infoq.com, send a tweet to https://twitter.com/jhipster_book[@jhipster_book], or post a question on Stack Overflow with the "jhipster-mini-book" tag.
 
 If you have a topic that you have expertise in and you are interested in either writing or contributing to a book, please take a look at our mini-book guidelines at http://www.infoq.com/minibook-guidelines.

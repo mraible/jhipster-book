@@ -9,7 +9,8 @@ module AsciidoctorPdfExtensions
   def layout_chapter_title node, title
     if node.id == "dedication" || node.id == "acknowledgements"
       layout_heading_custom title, align: :center
-    elsif node.id.include? "mini-book" # colophon
+    elsif node.sectname == "colophon"
+      puts 'Processing ' + node.sectname + '...'
       move_down 470
       layout_heading title, size: @theme.base_font_size
     elsif node.id.include? "jhipster" #chapters

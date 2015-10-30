@@ -1,4 +1,4 @@
-== Action!
+= Action!
 
 I hope you've enjoyed learning how JHipster can help you develop hip web applications! It's a nifty project, with an easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows five simple http://jhipster.github.io/policies.html[policies], paraphrased here:
 
@@ -12,14 +12,14 @@ These policies help the project maintain its sharp edge and streamline its devel
 
 Now that you've learned how to use AngularJS, Bootstrap, and Spring Boot with JHipster, go forth and develop great applications!
 
-=== Additional reading
+== Additional reading
 
 If you want to learn more, here are some suggestions.
 
 The definitive book about Spring's JDBC, JPA, and NoSQL support is http://shop.oreilly.com/product/0636920024767.do[_Spring Data: Modern Data Access for Enterprise Java_] by Mark Pollack _et al._ (O'Reilly Media, October 2012).
 
-Learn how to use Spring Boot to build apps faster than ever before with https://www.packtpub.com/application-development/learning-spring-boot[_Learning Spring Boot_] by Greg L. Turnquist (Packt Publishing, November 2014). 
+Learn how to use Spring Boot to build apps faster than ever before with https://www.packtpub.com/application-development/learning-spring-boot[_Learning Spring Boot_] by Greg L. Turnquist (Packt Publishing, November 2014).
 
-An in-depth and up-to-date book on Angular is https://www.ng-book.com/[_ng-book: The Complete Book on AngularJS_] by Ari Lerner (Fullstack.io, December 2013). Lerner has also written _ng-book 2_ for Angular 2. 
+An in-depth and up-to-date book on Angular is https://www.ng-book.com/[_ng-book: The Complete Book on AngularJS_] by Ari Lerner (Fullstack.io, December 2013). Lerner has also written _ng-book 2_ for Angular 2.
 
-Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with http://shop.oreilly.com/product/0636920038252.do[_Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_] by Josh Long and Kenny Bastani (O'Reilly Media, expected January 2016). 
+Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with http://shop.oreilly.com/product/0636920038252.do[_Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_] by Josh Long and Kenny Bastani (O'Reilly Media, expected January 2016).
