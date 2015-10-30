@@ -3,6 +3,8 @@
 :email:  matt@raibledesigns.com
 :revnumber: 1.0
 :revdate:   {docdate}
+:subject: JHipster
+:keywords: AngularJS, Bootstrap, Spring Boot
 :doctype: book
 :front-cover-image: image:cover.png[Front Cover,1050,1600]
 :toc:
