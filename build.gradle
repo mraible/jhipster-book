@@ -41,6 +41,9 @@ def attrs = ['sourcedir'         : '../../../main/webapp',
 
 tasks.withType(AsciidoctorTask) { task ->
     attributes attrs
+    sources {
+        include 'index.adoc'
+    }
 }
 
 task html(type: AsciidoctorTask, description: 'Generates single page HTML') {
