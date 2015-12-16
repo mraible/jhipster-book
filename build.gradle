@@ -29,7 +29,8 @@ import org.asciidoctor.gradle.AsciidoctorTask
 def attrs = ['sourcedir'         : '../../../main/webapp',
              'source-highlighter': 'coderay',
              'epub3-stylesdir'   : './styles/epub',
-             'imagesdir'         : './images',
+             // NOTE don't include leading ./ because it messes up paths in the epub files
+             'imagesdir'         : 'images',
              toc                 : 'left',
              icons               : 'font',
              linkattrs           : true,

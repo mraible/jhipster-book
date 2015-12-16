@@ -805,8 +805,10 @@ the column names intact and manually renamed everything in Java, JavaScript, and
 === Improved HTML layout and I18N messages
 
 Of all the code I write, UI code (HTML, JavaScript, and CSS) is my favorite. I like that you can see changes
-immediately and make progress quickly - especially when you're using dual monitors with <<Browsersync>>. Below is a
-consolidated list of changes I made to the HTML to make things look better:
+immediately and make progress quickly - especially when you're using dual monitors with
+ifdef::backend-epub3[link:jhipsters-ui-components.xhtml#Browsersync[Browsersync].]
+ifndef::backend-epub3[<<BrowserSync>>.]
+Below is a consolidated list of changes I made to the HTML to make things look better:
 
 . Improved layout of tables and buttons.
 . Improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`.
@@ -1883,7 +1885,7 @@ I quickly changed the default passwords for *admin* and *user* to make things mo
 
 [[img-deployed-to-heroku]]
 .First deployment to Heroku
-image::chapter2/deployed-to-Heroku.png[First deployment to Heroku, 1144, scaledwidth="100%", align="center"]
+image::chapter2/deployed-to-heroku.png[First deployment to Heroku, 1144, scaledwidth="100%", align="center"]
 
 Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for
 Heroku, I ran `heroku domains:add`.
