@@ -29,7 +29,10 @@ font:
 page:
   background_color: ffffff
   layout: portrait
-  margin: [0.5in, 0.67in, 0.67in, 0.67in] # [0.75in, 0.76in, 0.75in, 0.67in]
+  # NOTE margin is used for calculation on dry run pages, so must have same inner width as recto/verso pages
+  margin: [0.5in, 30mm, 0.67in, 30mm]
+  margin_recto: [0.5in, 25mm, 0.67in, 35mm]
+  margin_verso: [0.5in, 35mm, 0.67in, 25mm]
   size: LETTER
 base:
   align: justify
@@ -57,7 +60,7 @@ base:
   line_height: $base_line_height_length / $base_font_size
   font_size_large: round($base_font_size * 1.25)
   font_size_small: round($base_font_size * 0.85)
-  font_size_min: $base_font_size * 0.75
+  font_size_min: 7
   font_style: normal
   border_color: eeeeee
   border_radius: 4
