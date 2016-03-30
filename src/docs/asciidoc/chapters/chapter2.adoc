@@ -10,7 +10,7 @@ Java User Group), I created a blog application that I live-coded in front of the
 several hours polishing the application and started http://www.jhipster-book.com[The JHipster Mini-Book site] with it.
 
 After thinking about the VW Bus Gallery and developing the blog application, I thought to myself, is this hip enough?
-Shouldn't a book about becoming what the JHipster homepage calls a "Java Hipster" show how to build a hip application?
+Shouldn't a book about becoming what the JHipster homepage calls a "`Java Hipster`" show how to build a hip application?
 
 I wrote to Julien Dubois, founder of JHipster, and Dennis Sharpe, the technical editor for this book, and asked them
 what they thought. We went back and forth on a few ideas: a https://gitter.im[Gitter] clone, a job board for JHipster coders, a shopping-cart
@@ -40,7 +40,7 @@ get fewer than 15, I risk getting sick. I've been tracking my health like this s
 my blood pressure has returned to and maintained normal levels. I haven't had good blood pressure since my early 20s, so this has been
 a life changer for me.
 
-I thought writing a "21-Point Health" application would work because tracking your health is always
+I thought writing a "`21-Point Health`" application would work because tracking your health is always
 important. Wearables that can track your health stats might be able to use the APIs or hooks I create to record
 points for a day. Imagine hooking into http://dailymile.com[dailymile] (where I track my exercise) or https://untappd.com[Untappd] (where I sometimes list
 the beers I drink). Or even displaying other activities for a day (e.g. showing your blood-pressure score that you keep on
@@ -85,7 +85,7 @@ see the choices I made in the following screenshot.
 
 [[img-generating-21points]]
 .Generating the application
-image::chapter2/generating-21points.png[Generating the application, 1416, scaledwidth="100%"]
+image::chapter2/generating-21points.png[Generating the application, 1416, scaledwidth=100%]
 
 You can see that I chose PostgreSQL as my development and production database. I did this because using a
 non-embedded database (like H2) offers some important benefits:
@@ -122,7 +122,7 @@ GRANT
 mraible=#
 ----
 
-I chose the name "health" instead and updated `application-dev.yml` to use this name and the
+I chose the name "`health`" instead and updated `application-dev.yml` to use this name and the
 specified credentials.
 
 [source,diff]
@@ -174,7 +174,7 @@ involves developing the application, then testing and deploying. The second opti
 deploy, then begin development and testing. In a team development environment, I recommend the second option.
 However, since you're likely reading this as an individual, I'll follow the first approach and get right to coding.
 If you're interested in setting up continuous integration with Jenkins, please see
-http://www.jhipster-book.com/#!/news/entry/building-and-deploying-a-jhipster-app-with-jenkins["Building and Deploying a JHipster App with Jenkins"].
+http://www.jhipster-book.com/#!/news/entry/building-and-deploying-a-jhipster-app-with-jenkins[Building and Deploying a JHipster App with Jenkins].
 
 == Building the UI and business logic
 
@@ -206,7 +206,7 @@ Finally, I ran `./gradlew bootRun` and confirmed that the new theme was being us
 
 [[img-material-design-theme]]
 .Material Design for Bootstrap theme
-image::chapter2/material-design-theme.png[Material Design for Bootstrap theme, 2492, scaledwidth="100%"]
+image::chapter2/material-design-theme.png[Material Design for Bootstrap theme, 2492, scaledwidth=100%]
 
 Before creating the entities and associated database tables for this application, I decided to upgrade JHipster to
 the latest release. You can see that I created this application with JHipster 2.16.0. The latest release as of writing is
@@ -244,7 +244,7 @@ Remove the file - src/test/javascript/spec/components/auth/authServicesSpec.js
 ? Overwrite bower.json? (Ynaxdh)
 ----
 
-I answered "Y" to all the conflict questions. Because I had the files in source control, I was able to diff the changes
+I answered "`Y`" to all the conflict questions. Because I had the files in source control, I was able to diff the changes
 after they were made and decide if I wanted them or not. Most changes were welcome but I wanted to keep my theme changes
 so I had to add the following back into `bower.json` and run `bower install` again.
 
@@ -304,18 +304,18 @@ alcohol, but it's important to start, not to get it right the first time.
 
 [[img-entity-diagram]]
 .21-Points Health entity diagram
-image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth="75%", align="center"]
+image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=75%, align=center]
 
 The most important thing to remember when generating entities with JHipster is that you must generate the entity that
 owns the relationship first. In this application, the `Metric` entity is owned by `Goal` and `Entry`, so we'll generate
 that one first. The relationships could be simplified to only track metrics for the entry, but then it'd be difficult
 to relate that back to the goal and display progress. The following diagram is a simplified version, without
 a relationship of metrics to goals. For more information, see
-https://jhipster.github.io/managing_relationships.html["Managing relationships"] on the JHipster site.
+https://jhipster.github.io/managing_relationships.html[Managing relationships] on the JHipster site.
 
 [[img-entity-diagram-simple]]
 .Simple entity diagram
-image::chapter2/entity-diagram-simple.png[Simple entity diagram, 684, scaledwidth="75%", align="center"]
+image::chapter2/entity-diagram-simple.png[Simple entity diagram, 684, scaledwidth=75%, align=center]
 
 I started by generating a `Goal` entity, with a many-to-one relationship to `User`. Below are the questions and
 answers I used to generate this entity.
@@ -529,10 +529,10 @@ I then ran `./gradlew test` again. This time, they failed with the following rea
 liquibase.exception.DatabaseException: org.h2.jdbc.JdbcSQLException: Table "ENTRY" already exists
 ----
 
-At this moment, I realized that Liquibase was diffing against my "dev" database, while my tests were hitting my "test" (H2)
-database. When I ran Liquibase's diff command, it was looking at my "dev" database, where no tables had yet been created.
+At this moment, I realized that Liquibase was diffing against my "`dev`" database, while my tests were hitting my "`test`" (H2)
+database. When I ran Liquibase's diff command, it was looking at my "`dev`" database, where no tables had yet been created.
 To solve this, I removed the changelog reference in `master.xml`, commented out the newly added code in `Goal.java`, and
-ran `./gradlew bootRun` to generate the initial tables in my "dev" database. Of course, this failed with the same
+ran `./gradlew bootRun` to generate the initial tables in my "`dev`" database. Of course, this failed with the same
 `mappedBy reference` error, but my schema did get created and I ran `./gradlew liquibaseDiffChangelog` again. After adding
 the generated file to `master.xml`, I was pleased to see my tests passed.
 
@@ -547,7 +547,7 @@ issue I noticed was that when you created a `Goal`, it showed the `id` of the us
 
 [[img-create-goal-user-id]]
 .Create a goal with user ID
-image::chapter2/create-goal-user-id.png[Create a goal with user ID, 800, scaledwidth="66%", align="center"]
+image::chapter2/create-goal-user-id.png[Create a goal with user ID, 800, scaledwidth=66%, align=center]
 
 Since the `id` doesn't provide much information, I changed this to display the user's username instead. In JHipster's
 `User.java`, this field is called `login`. To make this change, I modified `.jhipster/Goal.json` and changed its
@@ -579,11 +579,11 @@ modified `Goal.java`, when prompted to overwrite this file, I answered no.
      skip src/main/java/org/jhipster/health/domain/Goal.java
 ----
 
-After restarting everything, I was pleased to see the "user" dropdown list contained the `login` field instead of `id`.
+After restarting everything, I was pleased to see the "`user`" dropdown list contained the `login` field instead of `id`.
 
 [[img-create-goal-user-login]]
 .Create a goal with user login
-image::chapter2/create-goal-user-login.png[Create a goal with user login, 800, scaledwidth="66%", align="center"]
+image::chapter2/create-goal-user-login.png[Create a goal with user login, 800, scaledwidth=66%, align=center]
 
 After making this change and regenerating everything, I realized there was an easier way. In `goal-dialog.html`, the
 following code existed to display the users dropdown list.
@@ -614,7 +614,7 @@ https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstr
 
 [[img-ui-mockup]]
 .UI mockup
-image::chapter2/ui-mockup.png[UI mockup, 846, scaledwidth="75%", align="center"]
+image::chapter2/ui-mockup.png[UI mockup, 846, scaledwidth=75%, align=center]
 
 === Starting over with a straightforward design
 
@@ -626,7 +626,7 @@ the following diagram as my new data model.
 
 [[img-entity-diagram-simpler]]
 .21-Points Health entity diagram - simplified
-image::chapter2/entity-diagram-simpler.png[21-Points Health entity diagram - simplified, 684, scaledwidth="100%", align="center"]
+image::chapter2/entity-diagram-simpler.png[21-Points Health entity diagram - simplified, 684, scaledwidth=100%, align=center]
 
 JHipster created 54 files when generating the previous data model, REST controllers, and UI. Rather than hunt down all
 these files and delete them, I reverted to the last commit before them in Git.
@@ -689,7 +689,7 @@ Everything is configured, generating the entity...
 ....
 
 I had similar answers for the `Weight` and `BloodPressure` entities. For `Settings`, I created a one-to-one relationship
-with `User`. I learned that "settings" is a reserved keywork, so used "preferences" instead.
+with `User`. I learned that "`settings`" is a reserved keywork, so used "`preferences`" instead.
 
 ----
 $ yo jhipster:entity settings
@@ -794,7 +794,7 @@ in the <<Deploying to Heroku>> section of this chapter.
 === Fixed issues with entity and variable names
 
 Shortly after generating all the UI code, I discovered that using plural entity names (e.g. `Points` and `Preferences`)
-causes you to end up with files, URLs, and variable names that end in two "s" characters. For example, the URL to
+causes you to end up with files, URLs, and variable names that end in two "`s`" characters. For example, the URL to
 the points list was `pointss` instead of the more approriate `points`. I fixed this manually in my project and
 https://github.com/jhipster/generator-jhipster/issues/1895[created a bug for JHipster on GitHub].
 
@@ -826,11 +826,11 @@ to icons. Before and after screenshots of the points list illustrate the improve
 
 [[img-points-list-before]]
 .Default Daily Points list
-image::chapter2/points-list-before.png[Default Daily Points list, 1319, scaledwidth="100%", align="center"]
+image::chapter2/points-list-before.png[Default Daily Points list, 1319, scaledwidth=100%, align=center]
 
 [[img-points-list-after]]
 .Default Daily Points list after UI improvements
-image::chapter2/points-list-after.png[Default Daily Points list after UI improvements, 1319, scaledwidth="100%", align="center"]
+image::chapter2/points-list-after.png[Default Daily Points list after UI improvements, 1319, scaledwidth=100%, align=center]
 
 I refactored the HTML at the top of `points.html` to put the title, search, and add buttons on the same row. I also removed
 the button text in favor of a using https://angular-ui.github.io/bootstrap/#/tooltip[UI Bootstrap's tooltip directive].
@@ -906,12 +906,12 @@ and `ng-false-value` made it easy to continue receiving/sending integers to the 
 </div>
 ----
 
-After making this change, you can see that the "Add Points" screen is starting to look like the UI mockup
+After making this change, you can see that the "`Add Points`" screen is starting to look like the UI mockup
 I created.
 
 [[img-add-points-dialog]]
 .Add Points dialog
-image::chapter2/add-points-dialog.png[Add Points dialog, 593, scaledwidth="80%", align="center"]
+image::chapter2/add-points-dialog.png[Add Points dialog, 593, scaledwidth=80%, align=center]
 
 Improving the UI was the most fun, but also the most time consuming as it involved lots of little tweaks to
 multiple screens. The next task was more straighforward: implementing business logic.
@@ -1236,7 +1236,7 @@ public void getPointsThisWeek() throws Exception {
 <1> To simplify testing, I added a new constructor to `Points.java` that contained the arguments I wanted to set. I
     continued this pattern for most tests I created.
 
-Of course, this test failed when I first ran it since "/api/points-this-week" didn't exist in `PointsResource.java`.
+Of course, this test failed when I first ran it since "`/api/points-this-week`" didn't exist in `PointsResource.java`.
 You might notice the points-this-week API expects two return values: a date in the `week` field and the number
 of points in the `points` field. I created `PointsPerWeek.java` in my project's `rest.dto` package to hold this
 information.
@@ -1387,7 +1387,7 @@ Below is a screenshot of what this progress bar looked like after entering some 
 
 [[img-homepage-progress-bar]]
 .Progress bar for points this week
-image::chapter2/homepage-points-this-week.png[Progress bar for points this week, 1381, scaledwidth="100%", align="center"]
+image::chapter2/homepage-points-this-week.png[Progress bar for points this week, 1381, scaledwidth=100%, align=center]
 
 You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix this, I needed to add the ability
 to fetch the user's preferences. I created a new method in `PreferencesResource.java` to return the user's preferences
@@ -1471,7 +1471,7 @@ To finish things off, I added a link to a dialog where users could edit their pr
 To populate the two remaining charts on the homepage, I needed to fetch the user's blood-pressure readings and weights
 for the last 30 days. I added a method to `BloodPressureResourceTest.java` to set up my expectations.
 
-[source,java]
+[source%autofit,java]
 .src/test/java/org/jhipster/health/web/rest/BloodPressureResourceTest.java
 ----
 private void createBloodPressureByMonth(DateTime firstOfMonth, DateTime firstDayOfLastMonth) {
@@ -1544,7 +1544,7 @@ public class BloodPressureByPeriod {
 ----
 
 Using similar logic that I used for points-this-week, I created a new method in `BloodPressureRepository.java` that
-allowed me to query between two different dates. I also added "orderBy" logic so the records would be sorted by date
+allowed me to query between two different dates. I also added "`orderBy`" logic so the records would be sorted by date
 entered.
 
 [source,java]
@@ -1711,7 +1711,7 @@ BloodPressure.last30Days(function(bpReadings) {
 });
 ----
 
-Finally, I used the "nvd3" directive in `main.html` to read `$scope.bpOptions` and `$scope.bpData`, then display a chart.
+Finally, I used the "`nvd3`" directive in `main.html` to read `$scope.bpOptions` and `$scope.bpData`, then display a chart.
 
 [source,html]
 .src/main/webapp/scripts/app/main/main.html
@@ -1732,7 +1732,7 @@ After entering some test data, I was quite pleased with the results.
 
 [[img-homepage-bp-last-30-days]]
 .Chart of blood pressure during the last 30 days
-image::chapter2/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1338, scaledwidth="100%", align="center"]
+image::chapter2/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1338, scaledwidth=100%, align=center]
 
 I made similar changes to display weights for the last 30 days as a chart.
 
@@ -1744,13 +1744,13 @@ lines of code. JHipster did the rest for me, generating 91.7% of the code in my 
 
 [[img-21-points-loc]]
 .Project lines of code
-image::chapter2/21-points-loc.png[Project lines of code, 700, scaledwidth="100%", align="center"]
+image::chapter2/21-points-loc.png[Project lines of code, 700, scaledwidth=100%, align=center]
 
 To drill down further, I made a graph of the top three languages in the project: Java, JavaScript, and HTML.
 
 [[img-21-points-loc-by-language]]
 .Project lines of code by language
-image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 900, scaledwidth="100%", align="center"]
+image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 900, scaledwidth=100%, align=center]
 
 The amount of code I had to write in each language was 582 lines of Java, 268 lines of JavaScript, and 109 lines of HTML.
 
@@ -1760,7 +1760,7 @@ Wahoo! Thanks, JHipster!
 ****
 You probably noticed that a lot of the Java code I wrote was for the tests. I felt that these tests were essential to prove that
 the business logic I implemented was correct. It's never easy to work with dates but Joda-Time greatly simplified
-it and Spring Data JPA made it easy to write "between date" queries.
+it and Spring Data JPA made it easy to write "`between date`" queries.
 
 I believe TDD (test-driven development) is a great way to write code. However, when developing UIs, I tend to make them
 work before writing tests. It's usually a very visual activity and, with the aid of Browsersync, there's rarely a delay before
@@ -1777,7 +1777,7 @@ were necessary for the MVP.
 
 JHipster ships with support for deploying to Cloud Foundry, Heroku, OpenShift, and AWS. I used Heroku to
 deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for
-production, it's recommended to use the pre-configured "production" profile. With Gradle, you can package your
+production, it's recommended to use the pre-configured "`production`" profile. With Gradle, you can package your
 application by specifying this profile when building.
 
 ----
@@ -1810,7 +1810,7 @@ Authentication successful.
 ----
 
 I ran `yo jhipster:heroku` as recommended in the http://jhipster.github.io/heroku.html[Deploying to Heroku]
-documentation. I tried using the name "21points" for my application when prompted.
+documentation. I tried using the name "`21points`" for my application when prompted.
 
 ----
 $ yo jhipster:heroku
@@ -1836,8 +1836,8 @@ heroku create 21points --addons heroku-postgresql:hobby-dev
 ----
 
 You can see my first attempt failed for the same reason that creating a local PostgreSQL database failed: it didn't
-like that the database name started with a number. I tried again with "health", but that failed, too, since a Heroku app
-with this name already existed. Finally, I settled on "health-by-points" as the application name and everything
+like that the database name started with a number. I tried again with "`health`", but that failed, too, since a Heroku app
+with this name already existed. Finally, I settled on "`health-by-points`" as the application name and everything
 succeeded.
 
 ----
@@ -1885,7 +1885,7 @@ I quickly changed the default passwords for *admin* and *user* to make things mo
 
 [[img-deployed-to-heroku]]
 .First deployment to Heroku
-image::chapter2/deployed-to-heroku.png[First deployment to Heroku, 1144, scaledwidth="100%", align="center"]
+image::chapter2/deployed-to-heroku.png[First deployment to Heroku, 1144, scaledwidth=100%, align=center]
 
 Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for
 Heroku, I ran `heroku domains:add`.
@@ -1978,7 +1978,7 @@ This is an expected problem with JHipster and Heroku. I created a support ticket
 to increase my application's allowed timeout to 120 seconds. Heroku's support team was quick to respond and boosted my timeout within minutes.
 
 TIP: If you need to reset your Postgres database on Heroku, you can do so my logging into http://api.heroku.com.
-Click on your application name > Add-Ons > Heroku Postgres :: Gray and select "Reset Database" from the gear icon
+Click on your application name > Add-Ons > Heroku Postgres :: Gray and select "`Reset Database`" from the gear icon
 in the top right corner.
 
 === Elasticsearch on Heroku
@@ -2027,7 +2027,7 @@ Connection error (java.net.ConnectException: Connection refused). Failed message
 Connection error (java.net.ConnectException: Connection refused)
 ----
 
-TIP: You might notice the "Memory quota exceeded" message in the logs. I receive this often when running JHipster applications
+TIP: You might notice the "`Memory quota exceeded`" message in the logs. I receive this often when running JHipster applications
 under Heroku's https://www.heroku.com/pricing[free and hobby dynos]. My application stays running, though, so I've learned
 to ignore it.
 
@@ -2148,7 +2148,7 @@ junitReporter: {
 
 .Testing in the Zone
 ****
-I created a new Karma configuration in `Gruntfile.js` to allow continuous testing while "in the zone". Running
+I created a new Karma configuration in `Gruntfile.js` to allow continuous testing while "`in the zone`". Running
 `grunt karma:zone` will automatically re-execute tests when you save changes.
 
 [source,javascript]

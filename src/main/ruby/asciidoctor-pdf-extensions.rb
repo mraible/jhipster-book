@@ -2,19 +2,15 @@ require 'asciidoctor-pdf' unless defined? ::Asciidoctor::Pdf
 
 module AsciidoctorPdfExtensions
 
-  def layout_title_page doc
-      # no title page
-  end
-
   def layout_chapter_title node, title
     if node.id == "dedication" || node.id == "acknowledgements"
       layout_heading_custom title, align: :center
     elsif node.sectname == "colophon"
-      puts 'Processing ' + node.sectname + '...'
+      #puts 'Processing ' + node.sectname + '...'
       move_down 470
       layout_heading title, size: @theme.base_font_size
     elsif node.id.include? "jhipster" #chapters
-      puts 'Processing ' + node.id + '...'
+      #puts 'Processing ' + node.id + '...'
       move_down 120
       # set Akkurat font for all custom headings
       font 'Akkurat'
