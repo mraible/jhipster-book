@@ -99,6 +99,7 @@ Desktop.ini
 ######################
 # Directories
 ######################
+/asciidoctor-pdf/
 /build/**
 /bin/**
 /spring_loaded/**
