@@ -3,6 +3,7 @@
 :email: matt@raibledesigns.com
 :revnumber: 1.0
 :revdate: {docdate}
+:revyear: 2015
 :subject: JHipster
 :keywords: AngularJS, Bootstrap, Spring Boot
 :doctype: book
@@ -14,7 +15,7 @@ endif::[]
 :icons: font
 :lang: en
 :language: javadocript
-:experimental: true
+:experimental:
 :pagenums:
 :pdf-fontsdir: ./styles/pdf/fonts
 :pdf-stylesdir: ./styles/pdf

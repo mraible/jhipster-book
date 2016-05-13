@@ -21,7 +21,7 @@ apply plugin: 'com.bluepapa32.watch'
 version = '1.0.1-SNAPSHOT'
 
 asciidoctorj {
-    version = '1.5.2'
+    version = '1.5.4'
 }
 
 import org.asciidoctor.gradle.AsciidoctorTask
@@ -48,8 +48,16 @@ task html(type: AsciidoctorTask, description: 'Generates single page HTML') {
     backends 'html5'
 }
 
+// NOTE please use ./generate-print-pdf.sh instead of this task for now
+task print(type: AsciidoctorTask, description: 'Generates PDF for printing') {
+    attributes attrs + ['media' : 'print', 'pdfmarks': '', 'pdf-theme': 'infoq-print']
+    requires file('src/main/ruby/asciidoctor-pdf-extensions.rb')
+    backends 'pdf'
+    outputDir "$buildDir/asciidoc/print"
+    separateOutputDirs false
+}
+
 task pdf(type: AsciidoctorTask, description: 'Generates PDF') {
-    attributes attrs + ['media' : 'print', 'notitle' : '']
     requires file('src/main/ruby/asciidoctor-pdf-extensions.rb')
     backends 'pdf'
 }

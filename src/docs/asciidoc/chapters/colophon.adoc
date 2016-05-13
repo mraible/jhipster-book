@@ -1,6 +1,6 @@
-= The JHipster Mini-Book
+= {doctitle}
 
-(C) 2015 Matt Raible. All rights reserved. Version {revnumber}.
+(C) {revyear} Matt Raible. All rights reserved. Version {revnumber}.
 
 Published by C4Media, publisher of InfoQ.com.
 
