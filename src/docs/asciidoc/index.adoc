@@ -1,17 +1,21 @@
 = The JHipster Mini-Book
 :author: Matt Raible
-:email:  matt@raibledesigns.com
+:email: matt@raibledesigns.com
 :revnumber: 1.0
-:revdate:   {docdate}
+:revdate: {docdate}
+:revyear: 2015
 :subject: JHipster
 :keywords: AngularJS, Bootstrap, Spring Boot
 :doctype: book
+:media: screen
+ifeval::["{media}" != "print"]
 :front-cover-image: image:cover.png[Front Cover,1050,1600]
+endif::[]
 :toc:
 :icons: font
 :lang: en
 :language: javadocript
-:experimental: true
+:experimental:
 :pagenums:
 :pdf-fontsdir: ./styles/pdf/fonts
 :pdf-stylesdir: ./styles/pdf
