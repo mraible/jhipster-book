@@ -32,7 +32,7 @@ module AsciidoctorPdfExtensions
     elsif node.sectname == "colophon"
       #puts 'Processing ' + node.sectname + '...'
       if node.document.attr 'media', 'print'
-        move_down 423
+        move_down 400
       else
         move_down 470
       end

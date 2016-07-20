@@ -30,9 +30,9 @@ page:
   background_color: ffffff
   layout: portrait
   # NOTE margin is used for calculation on dry run pages, so must have same inner width as recto/verso pages
-  margin: [0.35in, 0.69in, 0.35in, 0.69in]
-  margin_recto: [0.35in, 0.5in, 0.35in, 0.88in]
-  margin_verso: [0.35in, 0.88in, 0.35in, 0.5in]
+  margin: [0.6in, 0.6in, 0.5in, 0.5in]
+  margin_recto: [0.6in, 0.8in, 0.5in, 0.5in]
+  margin_verso: [0.6in, 0.5in, 0.6in, 0.8in]
   size: [6in, 9in]
 base:
   align: justify
