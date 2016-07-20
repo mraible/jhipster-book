@@ -1,9 +1,9 @@
 = The JHipster Mini-Book
 :author: Matt Raible
 :email: matt@raibledesigns.com
-:revnumber: 1.0
+:revnumber: 2.0
 :revdate: {docdate}
-:revyear: 2015
+:revyear: 2016
 :subject: JHipster
 :keywords: AngularJS, Bootstrap, Spring Boot
 :doctype: book
