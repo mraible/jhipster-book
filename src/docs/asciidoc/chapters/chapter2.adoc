@@ -1,13 +1,14 @@
 = Building an app with JHipster
 
 When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating
-a photo gallery to showcase the 1996 VW Bus I've been working on for over 10 years. The project is almost finished and
+a photo gallery to showcase the 1996 VW Bus I've been working on for over 10 years. The project was recently finished and
 I wanted a website to show how things have progressed through the years.
 
 I also thought about creating a blog application.
-As part of http://raibledesigns.com/rd/entry/getting_hip_with_jhipster_at[my first presentation on JHipster] (at Denver's
-Java User Group), I created a blog application that I live-coded in front of the audience. After that presentation, I spent
-several hours polishing the application and started http://www.jhipster-book.com[The JHipster Mini-Book site] with it.
+As part of http://raibledesigns.com/rd/entry/getting_hip_with_jhipster_at[my first presentation on JHipster]
+(at http://www.denverjug.org/[Denver's Java User Group]), I created a blog application that I live-coded in front of
+the audience. After that presentation, I spent several hours polishing the application and started
+http://www.jhipster-book.com[The JHipster Mini-Book site] with it.
 
 After thinking about the VW Bus Gallery and developing the blog application, I thought to myself, is this hip enough?
 Shouldn't a book about becoming what the JHipster homepage calls a "`Java Hipster`" show how to build a hip application?
@@ -65,11 +66,11 @@ I also installed Grunt and JHipster.
 
 [source]
 ----
-npm install -g grunt-cli
+npm install -g gulp
 npm install -g generator-jhipster
 ----
 
-TIP: If you need to install Java, Maven or Git, please see http://jhipster.github.io/installation.html[JHipster's local installation documentation].
+TIP: If you need to install Java, Maven or Git, please see http://jhipster.github.io/installation/[JHipster's local installation documentation].
 
 Then I proceeded to build my application. Unlike many application generators in Javaland, Yeoman expects you to be
 in the directory you want to create your project in, rather than creating the directory for you. So I created a `21-points`
@@ -85,10 +86,10 @@ see the choices I made in the following screenshot.
 
 [[img-generating-21points]]
 .Generating the application
-image::chapter2/generating-21points.png[Generating the application, 1416, scaledwidth=100%]
+image::chapter2/generating-21points.png[Generating the application, 1082, scaledwidth=100%]
 
-You can see that I chose PostgreSQL as my development and production database. I did this because using a
-non-embedded database (like H2) offers some important benefits:
+You can see that I chose H2 with disk-based persistence for development and PostgreSQL for my production database. I did
+this because using a non-embedded database offers some important benefits:
 
 * Your data is retained when restarting the application.
 * Your application starts a bit faster.
@@ -98,46 +99,95 @@ The http://www.liquibase.org/[Liquibase] homepage describes it as source control
 you add them to your entities. It will also refactor your database, for example creating tables and dropping columns.
 It also has the ability to undo changes to your database, either automatically or with custom SQL.
 
-After answering all the questions, JHipster created a whole bunch of files (272 in this case), then ran `npm install`
-followed by `bower install`. To prove everything was good to go, I ran the unit tests using `grunt test`.
+After answering all the questions, JHipster created a whole bunch of files, then ran `npm install` followed by `bower install`.
+To prove everything was good to go, I ran the Java unit tests using `./gradlew test`. I received a compilation error:
 
-Next, I installed http://postgresapp.com/[Postgres.app] and tried creating a local PostgreSQL database. You can see that
-PostgreSQL didn't like that my database name started with a number.
-
+[source,java]
 ----
-'/Applications/Postgres.app/Contents/Versions/9.4/bin'/psql -p5432
-[mraible:~] $ '/Applications/Postgres.app/Contents/Versions/9.4/bin'/psql -p5432psql (9.4.0)
-Type "help" for help.
-
-mraible=# create user 21points with password '21points';
-ERROR:  syntax error at or near "21"
-LINE 1: create user 21points with password '21points';
-                    ^
-mraible=# create user health with password 'health';
-CREATE ROLE
-mraible=# create database health;
-CREATE DATABASE
-mraible=# grant all privileges on database health to health;
-GRANT
-mraible=#
+:compileJava
+/Users/mraible/dev/21-points/src/main/java/org/jhipster/health/21PointsApp.java:27: error: <identifier> expected
+public class 21PointsApp {
+            ^
 ----
 
-I chose the name "`health`" instead and updated `application-dev.yml` to use this name and the
-specified credentials.
+I refactored the name of this class from `21PointsApp.java` to `Application.java`. This fixed the compilation error and all
+tests passed when running `./gradlew test`. To prove the UI tests worked, I ran `gulp test`.
+
+I started the application with `./gradlew` and found I needed to update the class name in `build.gradle`.
+
+----
+:bootRun
+Error: Could not find or load main class org.jhipster.health.21PointsApp
+----
+
+I its UI integration tests with `gulp itest`. I was surprised to have Firefox crash when Protractor started, so I updated
+Firefox to the latest version (47.0.1). This helped, but the tests still failed to run. I figured it'd be good to
+make sure Protractor was up-to-date, as well as other dependencies. I installed https://github.com/tjunnone/npm-check-updates[npm-check-updates]
+using `npm install -g npm-check-updates`, then ran `ncu`.
+
+----
+$ ncu
+⸨░░░░░░░░░░░░░░░░░░⸩ ⠇ :
+ browser-sync                             2.12.10  →  2.13.0
+ del                                        2.2.0  →   2.2.1
+ eslint-plugin-angular                      1.0.1  →   1.3.0
+ event-stream                               3.3.2  →   3.3.4
+ gulp-angular-templatecache                 1.9.0  →   2.0.0
+ gulp-eslint                                2.0.0  →   3.0.1
+ gulp-flatten                               0.2.0  →   0.3.0
+ gulp-imagemin                              3.0.1  →   3.0.2
+ gulp-rev                                   7.0.0  →   7.1.0
+ gulp-sass                                  2.3.1  →   2.3.2
+ gulp-uglify                                1.5.3  →   1.5.4
+ jasmine-reporters                          2.1.1  →   2.2.0
+ karma                                    0.13.22  →   1.1.1
+ karma-coverage                             1.0.0  →   1.1.0
+ karma-junit-reporter                       1.0.0  →   1.1.0
+ karma-phantomjs-launcher                   1.0.0  →   1.0.1
+ protractor                                 3.3.0  →   4.0.0
+ protractor-jasmine2-screenshot-reporter    0.3.1  →   0.3.2
+ run-sequence                               1.2.1  →   1.2.2
+ yargs                                      4.7.1  →   4.8.1
+
+Run ncu with -u to upgrade package.json
+----
+
+Everything looked OK, so I ran `ncu -u`, followed by `npm install` and `gulp itest`. Firefox exhibited the same
+behavior as before (opened, but didn't connect to the application). To get Protractor working, I had to change a
+couple lines in `protractor.conf.js`.
 
 [source,diff]
-.src/main/resources/config/application-dev.yml
+.src/test/javascript/protractor.conf.js
 ----
-     datasource:
-         dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
--        url:
--        databaseName: 21points
--        serverName: localhost
--        username: 21points
--        password:
-+        url: jdbc:postgresql://localhost/health
-+        username: health
-+        password: health
+-    seleniumServerJar: prefix + 'node_modules/protractor/selenium/selenium-server-standalone-2.52.0.jar',
++    seleniumServerJar: prefix + 'node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar',
+
+-    directConnect: true,
++    directConnect: false,
+----
+
+Finally, `gulp itest` passed with flying colors.
+
+----
+$ gulp itest
+[08:18:35] Using gulpfile ~/dev/21-points/gulpfile.js
+[08:18:35] Starting 'protractor'...
+[08:18:35] W/configParser - pattern ./e2e/entities/*.js did not match any files.
+[08:18:35] I/local - Starting selenium standalone server...
+[08:18:35] I/launcher - Running 1 instances of WebDriver
+[08:18:36] I/local - Selenium standalone server started at http://192.168.1.80:50537/wd/hub
+Started
+..........
+
+
+10 specs, 0 failures
+Finished in 29.031 seconds
+[08:19:07] I/local - Shutting down selenium standalone server.
+[08:19:07] I/launcher - 0 instance(s) of WebDriver still running
+[08:19:07] I/launcher - firefox #01 passed
+[08:19:07] Finished 'protractor' after 32 s
+[08:19:07] Starting 'itest'...
+[08:19:07] Finished 'itest' after 14 μs
 ----
 
 === Adding source control
@@ -151,19 +201,21 @@ added a reference to the remote Bitbucket repository, then pushed everything.
 $ git init
 Initialized empty Git repository in /Users/mraible/dev/21-points/.git/
 
+$ git remote add origin git@bitbucket.org:mraible/21-points.git
+
 $ git add -A
 
 $ git commit -m "Initial checkin of 21-points application"
-[master (root-commit) c20f856] Initial checkin of 21-points application
- 274 files changed, 13179 insertions(+)
+[master (root-commit) e9880d7] Initial checkin of 21-points application
+ 362 files changed, 24654 insertions(+)
  ...
 
 $ git push origin master
-Counting objects: 382, done.
+Counting objects: 488, done.
 Delta compression using up to 8 threads.
-Compressing objects: 100% (353/353), done.
-Writing objects: 100% (382/382), 242.01 KiB | 0 bytes/s, done.
-Total 382 (delta 55), reused 0 (delta 0)
+Compressing objects: 100% (461/461), done.
+Writing objects: 100% (488/488), 468.25 KiB | 0 bytes/s, done.
+Total 488 (delta 64), reused 0 (delta 0)
 To git@bitbucket.org:mraible/21-points.git
  * [new branch]      master -> master
 ----
@@ -174,7 +226,9 @@ involves developing the application, then testing and deploying. The second opti
 deploy, then begin development and testing. In a team development environment, I recommend the second option.
 However, since you're likely reading this as an individual, I'll follow the first approach and get right to coding.
 If you're interested in setting up continuous integration with Jenkins, please see
-http://www.jhipster-book.com/#!/news/entry/building-and-deploying-a-jhipster-app-with-jenkins[Building and Deploying a JHipster App with Jenkins].
+https://jhipster.github.io/setting-up-ci-jenkins2/[Setting up Continuous Integration on Jenkins 2].
+
+** END ***
 
 == Building the UI and business logic
 
