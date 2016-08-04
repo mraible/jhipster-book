@@ -52,9 +52,9 @@ monitors for apps, and now you can use this JHipster app to monitor your health!
 
 == Creating the application
 
-I started using the http://jhipster.github.io/installation.html[Installing JHipster] instructions. I'm a Java developer,
+I started using the http://jhipster.github.io/installation/[Installing JHipster] instructions. I'm a Java developer,
 so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[nodejs.org], then
-ran the following commands to install http://yeoman.io/[Yeoman] and http://bower.io/[Bower].
+ran the following commands to install http://yeoman.io/[Yeoman] and https://bower.io/[Bower].
 
 [source]
 ----
@@ -100,101 +100,101 @@ you add them to your entities. It will also refactor your database, for example 
 It also has the ability to undo changes to your database, either automatically or with custom SQL.
 
 After answering all the questions, JHipster created a whole bunch of files, then ran `npm install` followed by `bower install`.
-To prove everything was good to go, I ran the Java unit tests using `./gradlew test`. I received a compilation error:
+To prove everything was good to go, I ran the Java unit tests using `./gradlew test`.
 
-[source,java]
+[source]
 ----
-:compileJava
-/Users/mraible/dev/21-points/src/main/java/org/jhipster/health/21PointsApp.java:27: error: <identifier> expected
-public class 21PointsApp {
-            ^
-----
+BUILD SUCCESSFUL
 
-I refactored the name of this class from `21PointsApp.java` to `Application.java`. This fixed the compilation error and all
-tests passed when running `./gradlew test`. To prove the UI tests worked, I ran `gulp test`.
-
-I started the application with `./gradlew` and found I needed to update the class name in `build.gradle`.
-
-----
-:bootRun
-Error: Could not find or load main class org.jhipster.health.21PointsApp
+Total time: 36.91 secs
 ----
 
-I its UI integration tests with `gulp itest`. I was surprised to have Firefox crash when Protractor started, so I updated
-Firefox to the latest version (47.0.1). This helped, but the tests still failed to run. I figured it'd be good to
-make sure Protractor was up-to-date, as well as other dependencies. I installed https://github.com/tjunnone/npm-check-updates[npm-check-updates]
-using `npm install -g npm-check-updates`, then ran `ncu`.
-
-----
-$ ncu
-⸨░░░░░░░░░░░░░░░░░░⸩ ⠇ :
- browser-sync                             2.12.10  →  2.13.0
- del                                        2.2.0  →   2.2.1
- eslint-plugin-angular                      1.0.1  →   1.3.0
- event-stream                               3.3.2  →   3.3.4
- gulp-angular-templatecache                 1.9.0  →   2.0.0
- gulp-eslint                                2.0.0  →   3.0.1
- gulp-flatten                               0.2.0  →   0.3.0
- gulp-imagemin                              3.0.1  →   3.0.2
- gulp-rev                                   7.0.0  →   7.1.0
- gulp-sass                                  2.3.1  →   2.3.2
- gulp-uglify                                1.5.3  →   1.5.4
- jasmine-reporters                          2.1.1  →   2.2.0
- karma                                    0.13.22  →   1.1.1
- karma-coverage                             1.0.0  →   1.1.0
- karma-junit-reporter                       1.0.0  →   1.1.0
- karma-phantomjs-launcher                   1.0.0  →   1.0.1
- protractor                                 3.3.0  →   4.0.0
- protractor-jasmine2-screenshot-reporter    0.3.1  →   0.3.2
- run-sequence                               1.2.1  →   1.2.2
- yargs                                      4.7.1  →   4.8.1
-
-Run ncu with -u to upgrade package.json
-----
-
-Everything looked OK, so I ran `ncu -u`, followed by `npm install` and `gulp itest`. Firefox exhibited the same
-behavior as before (opened, but didn't connect to the application). To get Protractor working, I had to change a
-couple lines in `protractor.conf.js`.
-
-[source,diff]
-.src/test/javascript/protractor.conf.js
-----
--    seleniumServerJar: prefix + 'node_modules/protractor/selenium/selenium-server-standalone-2.52.0.jar',
-+    seleniumServerJar: prefix + 'node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar',
-
--    directConnect: true,
-+    directConnect: false,
-----
-
-Finally, `gulp itest` passed with flying colors.
+Next, I started the app using `./gradlew` and then ran the UI integration tests with `gulp itest`. All tests passed with flying colors.
 
 ----
 $ gulp itest
-[08:18:35] Using gulpfile ~/dev/21-points/gulpfile.js
-[08:18:35] Starting 'protractor'...
-[08:18:35] W/configParser - pattern ./e2e/entities/*.js did not match any files.
-[08:18:35] I/local - Starting selenium standalone server...
-[08:18:35] I/launcher - Running 1 instances of WebDriver
-[08:18:36] I/local - Selenium standalone server started at http://192.168.1.80:50537/wd/hub
+[12:31:23] Using gulpfile ~/dev/21-points/gulpfile.js
+[12:31:23] Starting 'protractor'...
+[12:31:24] W/configParser - pattern ./e2e/entities/*.js did not match any files.
+[12:31:24] I/direct - Using FirefoxDriver directly...
+[12:31:24] I/launcher - Running 1 instances of WebDriver
 Started
 ..........
 
 
 10 specs, 0 failures
-Finished in 29.031 seconds
-[08:19:07] I/local - Shutting down selenium standalone server.
-[08:19:07] I/launcher - 0 instance(s) of WebDriver still running
-[08:19:07] I/launcher - firefox #01 passed
-[08:19:07] Finished 'protractor' after 32 s
-[08:19:07] Starting 'itest'...
-[08:19:07] Finished 'itest' after 14 μs
+Finished in 29.433 seconds
+[12:31:56] I/launcher - 0 instance(s) of WebDriver still running
+[12:31:56] I/launcher - firefox #01 passed
+[12:31:56] Finished 'protractor' after 33 s
+[12:31:56] Starting 'itest'...
+[12:31:56] Finished 'itest' after 15 μs
+----
+
+To prove the `prod` profile worked and I could talk to PostgreSQL, I installed http://postgresapp.com/[Postgres.app] and tried
+creating a local PostgreSQL database with settings from `src/main/resources/config/application-prod.yml1. You can see that
+PostgreSQL didn't like that my database name started with a number.
+
+----
+'/Applications/Postgres.app/Contents/Versions/9.5/bin'/psql -p5432
+[mraible:~] $ '/Applications/Postgres.app/Contents/Versions/9.5/bin'/psql -p5432
+psql (9.5.3)
+Type "help" for help.
+
+mraible=# create user 21points with password '21points';
+ERROR:  syntax error at or near "21"
+LINE 1: create user 21points with password '';
+                    ^
+mraible=# create user health with password 'health';
+CREATE ROLE
+mraible=# create database health;
+CREATE DATABASE
+mraible=# grant all privileges on database health to health;
+GRANT
+mraible=#
+----
+
+I chose the name "`health`" instead and updated `application-prod.yml` to use this name and the
+specified credentials.
+
+[source,diff]
+.src/main/resources/config/application-prod.yml
+----
+     datasource:
+-         url: jdbc:postgresql://localhost:5432/21points
+-         name:
+-         username: 21points
+-         password:
++         url: jdbc:postgresql://localhost:5432/health
++         name:
++         username: health
++         password: health
+----
+
+I confirmed I could talk to a PostgreSQL database when running with the `prod` profile.
+
+----
+$ ./gradlew -Pprod
+...
+----------------------------------------------------------
+        Application '21points' is running! Access URLs:
+        Local:          http://127.0.0.1:8080
+        External:       http://172.20.10.2:8080
+----------------------------------------------------------
 ----
 
 === Adding source control
 
 One of the first things I like to do when creating a new project is to add it to a version-control system (VCS). In this
-particular case, I chose Git and Bitbucket. The following commands show how I initialized Git, committed the project,
-added a reference to the remote Bitbucket repository, then pushed everything.
+particular case, I chose Git and https://bitbucket.org[Bitbucket]. Because I don't like my Bower dependencies stored with my source code, I
+excluded them by adding the following to `.gitignore`.
+
+----
+/src/main/webapp/bower_components/**
+----
+
+The following commands show how I initialized Git, committed the project, added a reference to the remote Bitbucket
+repository, then pushed everything. I created the repository on Bitbucket before executing these commands.
 
 [source]
 ----
@@ -207,15 +207,15 @@ $ git add -A
 
 $ git commit -m "Initial checkin of 21-points application"
 [master (root-commit) e9880d7] Initial checkin of 21-points application
- 362 files changed, 24654 insertions(+)
+ 364 files changed, 24719 insertions(+)
  ...
 
 $ git push origin master
-Counting objects: 488, done.
+Counting objects: 494, done.
 Delta compression using up to 8 threads.
-Compressing objects: 100% (461/461), done.
-Writing objects: 100% (488/488), 468.25 KiB | 0 bytes/s, done.
-Total 488 (delta 64), reused 0 (delta 0)
+Compressing objects: 100% (463/463), done.
+Writing objects: 100% (494/494), 470.33 KiB | 0 bytes/s, done.
+Total 494 (delta 64), reused 0 (delta 0)
 To git@bitbucket.org:mraible/21-points.git
  * [new branch]      master -> master
 ----
@@ -227,8 +227,6 @@ deploy, then begin development and testing. In a team development environment, I
 However, since you're likely reading this as an individual, I'll follow the first approach and get right to coding.
 If you're interested in setting up continuous integration with Jenkins, please see
 https://jhipster.github.io/setting-up-ci-jenkins2/[Setting up Continuous Integration on Jenkins 2].
-
-** END ***
 
 == Building the UI and business logic
 
