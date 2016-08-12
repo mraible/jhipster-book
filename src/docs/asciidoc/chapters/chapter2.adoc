@@ -231,34 +231,83 @@ https://jhipster.github.io/setting-up-ci-jenkins2/[Setting up Continuous Integra
 == Building the UI and business logic
 
 I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a couple of years ago,
-but now Google's https://www.google.com/design/[Material Design] is growing in popularity. I searched and found a
-https://fezvrasta.github.io/bootstrap-material-design/[Material Design theme for Bootstrap]. To install it, I executed
-the following command.
+but now Google's https://www.google.com/design/[Material Design] is growing in popularity. I searched for "material" in the
+https://jhipster.github.io/modules/marketplace/[JHipster Marketplace] the
+https://jhipster.github.io/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design]
+module. To install it, I executed the following commands.
 
 [source]
 ----
-bower install bootstrap-material-design --save
+npm install -g generator-jhipster-bootstrap-material-design
+yo jhipster-bootstrap-material-design
 ----
 
-After this completed, I ran `grunt wiredep` to add the new CSS and JavaScript dependencies to `src/main/webapp/index.html`.
-The https://github.com/taptapship/wiredep[wiredep] task updates files that refer to Bower dependencies for you. In this case,
-`src/main/webapp/index.html` and `src/test/javascript/karma.conf.js`.
+The second command yielded a number of questions about overwriting files and I agreed.
 
-I followed the theme's Getting Started guide and added the following initialization code to the bottom of the page.
+----
+$ yo jhipster-bootstrap-material-design
+
+     _-----_
+    |       |    .--------------------------.
+    |--(o)--|    |  Welcome to the JHipster |
+   `---------´   |    Bootstrap Material    |
+    ( _´U`_ )    | design generator! v3.5.1 |
+    /___A___\    '--------------------------'
+     |  ~  |     '--------------------------'
+   __'.___.'__
+ ´   `  |° ´ Y `
+
+? Do you want to install Bootstrap Material design? Yes
+Composing JHipster configuration with module bootstrap-material-design
+Reading the JHipster project configuration for your module
+ conflict bower.json
+? Overwrite bower.json? overwrite
+    force bower.json
+   create src/main/webapp/app/blocks/config/bootstrap-material.config.js
+ conflict src/main/webapp/scss/main.scss
+? Overwrite src/main/webapp/scss/main.scss? overwrite
+    force src/main/webapp/scss/main.scss
+ conflict src/main/webapp/content/css/main.css
+? Overwrite src/main/webapp/content/css/main.css? overwrite
+    force src/main/webapp/content/css/main.css
+----
+
+In the terminal log, I noticed a message:
+
+----
+You are using SASS! Please make sure to check the documentation on using SASS:
+https://github.com/moifort/generator-jhipster-bootstrap-material-design
+----
+
+I visited the https://github.com/moifort/generator-jhipster-bootstrap-material-design[module's documentation] and learned
+about the changes I needed to make in `index.html`.
+
+.Using SASS
+****
+When you use sass you need to modify your index.html a little bit to make sure material design styles are not overwritten by default bootstrap styles again:
 
 [source,html]
-.src/main/webapp/index.html
 ----
-<script>
-    $.material.init()
-</script>
+<!-- build:css content/css/vendor.css -->
+<link rel="stylesheet" href="content/css/vendor.css">
+<!-- bower:css -->
+<link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
+<link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.css">
+<link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css">
+<!-- endinject -->
+<!-- endbuild -->
 ----
 
-Finally, I ran `./gradlew bootRun` and confirmed that the new theme was being used.
+You should make sure that the `vendor.css` is before all material design stylesheets in your index.html!
+****
+
+After making these changes, I observed the changes made by installing this module using `git diff`.
+
+Finally, I ran `./gradlew` and confirmed that the new theme was being used.
 
 [[img-material-design-theme]]
 .Material Design for Bootstrap theme
-image::chapter2/material-design-theme.png[Material Design for Bootstrap theme, 2492, scaledwidth=100%]
+image::chapter2/material-design-theme.png[Material Design for Bootstrap theme, 1307, scaledwidth=100%]
 
 Before creating the entities and associated database tables for this application, I decided to upgrade JHipster to
 the latest release. You can see that I created this application with JHipster 2.16.0. The latest release as of writing is
