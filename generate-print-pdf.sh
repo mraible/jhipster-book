@@ -19,7 +19,7 @@ BASE_DIR="$ROOT_DIR/src/docs/asciidoc"
 OUT_DIR="$ROOT_DIR/build/asciidoc/print"
 PRINT=print
 
-$ASCIIDOCTOR_PDF --trace -B "$BASE_DIR" \
+$ASCIIDOCTOR_PDF --trace -v -B "$BASE_DIR" \
   -D "$OUT_DIR" \
   -S unsafe \
   -r "$ROOT_DIR/src/main/ruby/asciidoctor-pdf-extensions.rb" \

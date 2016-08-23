@@ -310,8 +310,8 @@ Finally, I ran `./gradlew` and confirmed that the new theme was being used.
 image::chapter2/material-design-theme.png[Material Design for Bootstrap theme, 1307, scaledwidth=100%]
 
 Before creating the entities and associated database tables for this application, I decided to upgrade JHipster to
-the latest release. You can see that I created this application with JHipster 2.16.0. The latest release as of writing is
-2.19.0, so I updated my version with the following command.
+the latest release. You can see that I created this application with JHipster 3.5.1. The latest release as of writing is
+3.6.0, so I updated my version with the following command.
 
 ----
 npm update -g generator-jhipster
@@ -377,7 +377,7 @@ For each entity you want to create, you will need:
 * a database table;
 * a Liquibase change set;
 * a JPA entity class;
-* a Spring Data `JpaRespository` interface;
+* a Spring Data `JpaRepository` interface;
 * a Spring MVC `RestController` class;
 * an AngularJS router, controller and service; and
 * a HTML page.
@@ -385,18 +385,17 @@ For each entity you want to create, you will need:
 In addition, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In
 an ideal world, you'd also have unit tests and integration tests for your Angular code.
 
-The good news is JHipster can generate all of this code for you, including integration tests and performance tests. At the
-time of writing, it does not support generating UI tests. (See https://github.com/jhipster/generator-jhipster/issues/897[issue #897]
-for why it does not support UI testing.)
-In addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys),
-and the JavaScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
+The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In addition,
+if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the
+JavaScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
 
-JHipster supports two methods of code generation. The first uses its
+JHipster supports several methods of code generation. The first uses its
 https://jhipster.github.io/creating_an_entity.html[entity sub-generator]. The entity sub-generator is a command-line tool
-that prompts you with questions which you answer. https://jhipster.github.io/jhipster_uml.html[JHipster UML]
-is an alternative for those that like visual tools. The supported UML editors include https://www.modeliosoft.com/[Modelio],
+that prompts you with questions which you answer. https://jhipster.github.io/jdl-studio/[JDL-Studio] is a browser-based
+tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://jhipster.github.io/jhipster_uml.html[JHipster UML]
+is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio],
 http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and
-http://www.visual-paradigm.com/[Visual Paradigm]. Because I believe the entity sub-generator is simpler to use, I chose
+http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose
 that for this project.
 
 The diagram below shows the data model for this project. A user has a goal, which is tied to metrics

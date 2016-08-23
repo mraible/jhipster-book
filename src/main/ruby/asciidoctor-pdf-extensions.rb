@@ -26,13 +26,23 @@ module AsciidoctorPdfExtensions
     ((toc_page_numbers.begin - offset)..toc_page_numbers.end)
   end
 
+  # force chapters to start on the right page
+  def convert_section sect, opts = {}
+      if sect.chapter? && !(['dedication', 'acknowledgements', 'colophon'].include? sect.id)
+          start_new_page unless at_page_top?
+          start_new_page if page_number % 2 == 0
+      end
+      # delegate to default implementation
+      super
+  end
+
   def layout_chapter_title node, title
     if node.id == "dedication" || node.id == "acknowledgements"
       layout_heading_custom title, align: :center
     elsif node.sectname == "colophon"
       #puts 'Processing ' + node.sectname + '...'
       if node.document.attr 'media', 'print'
-        move_down 400
+        move_down 325
       else
         move_down 470
       end
@@ -40,9 +50,10 @@ module AsciidoctorPdfExtensions
     elsif node.id.include? "jhipster" #chapters
       #puts 'Processing ' + node.id + '...'
       move_down 120
+
       # set Akkurat font for all custom headings
       font 'Akkurat'
-      layout_heading 'PART', align: :right, size: 120, color: [91, 54, 8, 13], style: :normal
+      layout_heading 'PART', align: :right, size: 100, color: [91, 54, 8, 13], style: :normal
       move_up 40
 
       part_number = "ONE"
@@ -52,7 +63,7 @@ module AsciidoctorPdfExtensions
         part_number = "THREE"
       end
 
-      layout_heading part_number, align: :right, size: 120, color: [42, 1, 83, 1], style: :bold
+      layout_heading part_number, align: :right, size: 100, color: [42, 1, 83, 1], style: :bold
       layout_heading title, align: :right, color: [42, 1, 83, 1], style: :normal, size: 30
       move_up 30
       start_new_page
