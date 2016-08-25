@@ -387,7 +387,23 @@ I was able to fix this by adding the following CSS to `src/main/webapp/scss/main
 }
 ----
 
-After making these changes, I committed my updated project to Git.
+After making these changes, I committed my updated project to Git. Then I ran `./gradlew test` to make sure all unit
+tests passed. I followed this up with `./gradlew` in one terminal window and `gulp itest` (in the same directory)
+in another.
+
+----
+10 specs, 0 failures
+Finished in 33.065 seconds
+[00:35:55] I/launcher - 0 instance(s) of WebDriver still running
+[00:35:55] I/launcher - firefox #01 passed
+[00:35:55] Finished 'protractor' after 37 s
+[00:35:55] Starting 'itest'...
+[00:35:55] Finished 'itest' after 28 μs
+[mraible:~/dev/21-points] master(+321/-400) 40s $
+----
+
+I was quite pleased with the results, even thought I did notice some rounded corners in my theme. Material
+design is a _flat_ style with square corners, so I was surprised to see this.
 
 TIP: After integrating the Material Design theme, I deployed to Heroku for the first time. This is covered in the
 <<Continuous integration and deployment>> section of this chapter.
