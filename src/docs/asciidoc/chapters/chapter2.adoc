@@ -310,11 +310,11 @@ Finally, I ran `./gradlew` and confirmed that the new theme was being used.
 image::chapter2/material-design-theme.png[Material Design for Bootstrap theme, 1307, scaledwidth=100%]
 
 Before creating the entities and associated database tables for this application, I decided to upgrade JHipster to
-the latest release. You can see that I created this application with JHipster 2.16.0. The latest release as of writing is
-2.19.0, so I updated my version with the following command.
+the latest release. You can see that I created this application with JHipster 3.5.1. The latest release as of writing is
+3.6.1, so I updated my version with the following command.
 
 ----
-npm update -g generator-jhipster
+npm install -g generator-jhipster@latest
 ----
 
 This installs the latest version of JHipster, but does nothing to upgrade my project. I had to run the following
@@ -328,44 +328,66 @@ This notified me that it was deleting a number of files, and there were some con
 
 TIP: If you don't see conflicts when upgrading, it's possible that you didn't install JHipster on the machine you're using.
 This happened to me when I switched machines. Check `package.json` to ensure it has the new version number. If it does not, run
-`npm install -g generator-jhipster`.
+`npm install generator-jhipster@latest --save`.
 
 ----
 This is an existing project, using the configuration from your .yo-rc.json file
 to re-generate the project...
 
-Remove the file - src/test/javascript/spec/app/account/health/healthControllerSpec.js
-Remove the file - src/test/javascript/spec/app/account/login/loginControllerSpec.js
-Remove the file - src/test/javascript/spec/app/account/password/passwordControllerSpec.js
-Remove the file - src/test/javascript/spec/app/account/password/passwordDirectiveSpec.js
-Remove the file - src/test/javascript/spec/app/account/sessions/sessionsControllerSpec.js
-Remove the file - src/test/javascript/spec/app/account/settings/settingsControllerSpec.js
-Remove the file - src/test/javascript/spec/components/auth/authServicesSpec.js
+
+Installing languages: en, fr
  conflict bower.json
 ? Overwrite bower.json? (Ynaxdh)
 ----
 
 I answered "`Y`" to all the conflict questions. Because I had the files in source control, I was able to diff the changes
-after they were made and decide if I wanted them or not. Most changes were welcome but I wanted to keep my theme changes
-so I had to add the following back into `bower.json` and run `bower install` again.
+after they were made and decide if I wanted them or not. When I tried to start the app, I did experience a `ConflictingBeanDefinitionException`
+exception for `userMapperImpl`. I was able to solve this by deleting `org/jhipster/health/web/rest/mapper/UserMapper.java`.
 
-[source,json]
-.bower.json
-----
-"bootstrap-material-design": "~0.3.0"
-----
+I ran `gulp` to verify that everything looked good, and saw the following error in my console:
 
-I still needed to manually restore the call to initialize the Material Design theme at the bottom of `index.html`.
-
-[source,html]
-.src/main/webapp/index.html
 ----
-<script>
-    $.material.init()
-</script>
+bootstrap-material.config.js:8 Uncaught ReferenceError: compileServiceConfig is not defined
 ----
 
-I ran `grunt serve` to verify that everything looked good, then committed my updated project to Git.
+I opened `bootstrap-material.config.js` to look for the problem.
+
+----
+    angular
+        .module('21PointsApp')
+        .config(bootstrapMaterialDesignConfig);
+
+    compileServiceConfig.$inject = [];
+
+    function bootstrapMaterialDesignConfig() {
+        $.material.init();
+    }
+----
+
+I changed `compileServiceConfig.$inject = [];` to `bootstrapMaterialDesignConfig.$inject = []` and it cleaned up
+my console.
+
+The next thing I noticed was the links in the header were gray, making them hard to read.
+
+[[img-top-bar-gray]]
+.Menu items hard to read
+image::chapter2/top-bar-gray.png[Menu items hard to read, 1182, scaledwidth=75%, align=center]
+
+I was able to fix this by adding the following CSS to `src/main/webapp/scss/main.scss`, just before `.navbar-version`:
+
+[source,css]
+.src/main/webapp/scss/main.scss
+----
+.navbar-default .navbar-brand,
+.navbar-default .navbar-nav > li > a,
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > .active > a {
+    color: white;
+    background: none;
+}
+----
+
+After making these changes, I committed my updated project to Git.
 
 TIP: After integrating the Material Design theme, I deployed to Heroku for the first time. This is covered in the
 <<Continuous integration and deployment>> section of this chapter.
@@ -377,7 +399,7 @@ For each entity you want to create, you will need:
 * a database table;
 * a Liquibase change set;
 * a JPA entity class;
-* a Spring Data `JpaRespository` interface;
+* a Spring Data `JpaRepository` interface;
 * a Spring MVC `RestController` class;
 * an AngularJS router, controller and service; and
 * a HTML page.
@@ -385,18 +407,17 @@ For each entity you want to create, you will need:
 In addition, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In
 an ideal world, you'd also have unit tests and integration tests for your Angular code.
 
-The good news is JHipster can generate all of this code for you, including integration tests and performance tests. At the
-time of writing, it does not support generating UI tests. (See https://github.com/jhipster/generator-jhipster/issues/897[issue #897]
-for why it does not support UI testing.)
-In addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys),
-and the JavaScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
+The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In addition,
+if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the
+JavaScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
 
-JHipster supports two methods of code generation. The first uses its
+JHipster supports several methods of code generation. The first uses its
 https://jhipster.github.io/creating_an_entity.html[entity sub-generator]. The entity sub-generator is a command-line tool
-that prompts you with questions which you answer. https://jhipster.github.io/jhipster_uml.html[JHipster UML]
-is an alternative for those that like visual tools. The supported UML editors include https://www.modeliosoft.com/[Modelio],
+that prompts you with questions which you answer. https://jhipster.github.io/jdl-studio/[JDL-Studio] is a browser-based
+tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://jhipster.github.io/jhipster_uml.html[JHipster UML]
+is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio],
 http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and
-http://www.visual-paradigm.com/[Visual Paradigm]. Because I believe the entity sub-generator is simpler to use, I chose
+http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose
 that for this project.
 
 The diagram below shows the data model for this project. A user has a goal, which is tied to metrics
