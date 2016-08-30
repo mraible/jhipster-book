@@ -62,7 +62,7 @@ npm install -g yo
 npm install -g bower
 ----
 
-I also installed Grunt and JHipster.
+I also installed Gulp and JHipster.
 
 [source]
 ----
@@ -402,9 +402,6 @@ Finished in 33.065 seconds
 [mraible:~/dev/21-points] master(+321/-400) 40s $
 ----
 
-I was quite pleased with the results, even thought I did notice some rounded corners in my theme. Material
-design is a _flat_ style with square corners, so I was surprised to see this.
-
 TIP: After integrating the Material Design theme, I deployed to Heroku for the first time. This is covered in the
 <<Continuous integration and deployment>> section of this chapter.
 
@@ -428,369 +425,37 @@ if you have entities with relationships, it will generate the necessary schema t
 JavaScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
 
 JHipster supports several methods of code generation. The first uses its
-https://jhipster.github.io/creating_an_entity.html[entity sub-generator]. The entity sub-generator is a command-line tool
+https://jhipster.github.io/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool
 that prompts you with questions which you answer. https://jhipster.github.io/jdl-studio/[JDL-Studio] is a browser-based
-tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://jhipster.github.io/jhipster_uml.html[JHipster UML]
+tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://jhipster.github.io/jhipster-uml/[JHipster UML]
 is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio],
 http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and
 http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose
 that for this project.
 
-The diagram below shows the data model for this project. A user has a goal, which is tied to metrics
-and a daily log of activities. The activities could be further abstracted so they're not explicitly exercise, meals, and
-alcohol, but it's important to start, not to get it right the first time.
+TIP: If you want to see how how easy it is to use JDL-Studio, please see https://youtu.be/kkHN2G_nXV0?t=1460[this YouTube demo].
 
-[[img-entity-diagram]]
-.21-Points Health entity diagram
-image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=75%, align=center]
-
-The most important thing to remember when generating entities with JHipster is that you must generate the entity that
-owns the relationship first. In this application, the `Metric` entity is owned by `Goal` and `Entry`, so we'll generate
-that one first. The relationships could be simplified to only track metrics for the entry, but then it'd be difficult
-to relate that back to the goal and display progress. The following diagram is a simplified version, without
-a relationship of metrics to goals. For more information, see
-https://jhipster.github.io/managing_relationships.html[Managing relationships] on the JHipster site.
-
-[[img-entity-diagram-simple]]
-.Simple entity diagram
-image::chapter2/entity-diagram-simple.png[Simple entity diagram, 684, scaledwidth=75%, align=center]
-
-I started by generating a `Goal` entity, with a many-to-one relationship to `User`. Below are the questions and
-answers I used to generate this entity.
-
-....
-$ yo jhipster:entity Goal
-The entity Goal is being created.
-Generating field #1
-? Do you want to add a field to your entity? Yes
-? What is the name of your field? name
-? What is the type of your field? String
-? Do you want to add validation rules to your field? Yes
-? Which validation rules do you want to add? Required, Minimum length
-? What is the minimum length of your field? 10
-=================Goal=================
-name (String) required minlength='10'
-Generating field #2
-? Do you want to add a field to your entity? Yes
-? What is the name of your field? description
-? What is the type of your field? String
-? Do you want to add validation rules to your field? No
-=================Goal=================
-name (String) required minlength='10'
-description (String)
-Generating field #3
-? Do you want to add a field to your entity? No
-=================Goal=================
-name (String) required minlength='10'
-description (String)
-Generating relationships with other entities
-? Do you want to add a relationship to another entity? Yes
-? What is the name of the other entity? user
-? What is the name of the relationship? user
-? What is the type of the relationship? many-to-one
-? When you display this relationship with AngularJS, which field from 'user' do you want to use? id
-===========Goal==============
-name (String)
-description (String)
--------------------
-user - user (many-to-one)
-Generating relationships with other entities
-? Do you want to add a relationship to another entity? No
-===========Goal==============
-name (String)
-description (String)
--------------------
-user - user (many-to-one)
-? Do you want pagination on your entity? No
-....
-
-TIP: I didn't add any pagination because I've been tracking my goals quarterly. I may add it after I've been using this app for a while.
-
-After I answered the last question, JHipster generated the files to create/read/update/delete this entity.
-
-----
-Everything is configured, generating the entity...
-   create .jhipster/Goal.json
-   create src/main/java/org/jhipster/health/domain/Goal.java
-   create src/main/java/org/jhipster/health/repository/GoalRepository.java
-   create src/main/java/org/jhipster/health/repository/search/GoalSearchRepository.java
-   create src/main/java/org/jhipster/health/web/rest/GoalResource.java
-   create src/main/resources/config/liquibase/changelog/20150811180009_added_entity_Goal.xml
-   create src/main/webapp/scripts/app/entities/goal/goals.html
-   create src/main/webapp/scripts/app/entities/goal/goal-detail.html
-   create src/main/webapp/scripts/app/entities/goal/goal.js
-   create src/main/webapp/scripts/app/entities/goal/goal.controller.js
-   create src/main/webapp/scripts/app/entities/goal/goal-detail.controller.js
-   create src/main/webapp/scripts/components/entities/goal/goal.service.js
-   create src/main/webapp/scripts/components/entities/goal/goal.search.service.js
-   create src/test/java/org/jhipster/health/web/rest/GoalResourceTest.java
-   create src/test/gatling/simulations/GoalGatlingTest.scala
-   create src/main/webapp/i18n/en/goal.json
-   create src/main/webapp/i18n/fr/goal.json
-----
-
-I proceeded to generate the `Metric` entity, with a many-to-many relationship to `Entry`.
-
-TIP: When I tried to use `value`, JHipster warned me this was a reserved word in PostgreSQL, so I used `amount` instead.
-
-....
-$ yo jhipster:entity Metric
-The entity Metric is being created.
-Generating field #1
-? Do you want to add a field to your entity? Yes
-? What is the name of your field? name
-? What is the type of your field? String
-? Do you want to add validation rules to your field? Yes
-? Which validation rules do you want to add? Required, Minimum length
-? What is the minimum length of your field? 2
-=================Metric=================
-name (String) required minlength='2'
-Generating field #2
-? Do you want to add a field to your entity? Yes
-? What is the name of your field? amount
-? What is the type of your field? String
-? Do you want to add validation rules to your field? Yes
-? Which validation rules do you want to add? Required
-=================Metric=================
-name (String) required minlength='2'
-amount (String) required
-Generating field #3
-? Do you want to add a field to your entity? No
-=================Metric=================
-name (String) required minlength='2'
-amount (String) required
-Generating relationships with other entities
-? Do you want to add a relationship to another entity? Yes
-? What is the name of the other entity? entry
-? What is the name of the relationship? entry
-? What is the type of the relationship? many-to-many
-? Is this entity the owner of the relationship? No
-===========Metric==============
-name (String)
-amount (String)
--------------------
-entry - entry (many-to-many)
-Generating relationships with other entities
-? Do you want to add a relationship to another entity? Yes
-? What is the name of the other entity? goal
-? What is the name of the relationship? goal
-? What is the type of the relationship? many-to-many
-? Is this entity the owner of the relationship? No
-===========Metric==============
-name (String)
-amount (String)
--------------------
-entry - entry (many-to-many)
-goal - goal (many-to-many)
-Generating relationships with other entities
-? Do you want to add a relationship to another entity? No
-===========Metric==============
-name (String)
-amount (String)
--------------------
-entry - entry (many-to-many)
-goal - goal (many-to-many)
-? Do you want pagination on your entity? Yes, with pagination links
-....
-
-Finally, I created `Entry`, with a many-to-one relationship to `Goal` and `Metric`. Rather than showing you all
-the questions and answers, I'll explain it in simple terms. I made the `date` a `LocalDate` that's required, the individual
-set point fields as Integers, and made `notes` a String that's not required. JHipster showed me the following output before generating
-everything.
-
-....
-===========Entry==============
-date (LocalDate)
-exercise (Integer)
-meals (Integer)
-alcohol (Integer)
-notes (String)
--------------------
-goal - goal (many-to-one)
-metric - metric (many-to-many)
-? Do you want pagination on your entity? Yes, with infinite scroll
-....
-
-To ensure that everything generated correctly, I ran `./gradlew test`. I received numerous failures, many of them looking
-similar to the following.
-
-----
-org.jhipster.health.web.rest.UserResourceTest > testGetExistingUser FAILED
-    java.lang.IllegalStateException
-        Caused by: org.springframework.beans.factory.BeanCreationException
-            Caused by: javax.persistence.PersistenceException
-                Caused by: org.hibernate.AnnotationException
-----
-
-I opened `build/reports/tests/index.html` to investigate further and found the following error:
-
-----
-Caused by: org.hibernate.AnnotationException: mappedBy reference an unknown target entity property:
-  org.jhipster.health.domain.Goal.metrics in org.jhipster.health.domain.Metric.goals
-----
-
-I determined this was caused by generating the `Goal` entity without the relationship to `Metric`, so I added
-the following Java code to `Goal.java` and ran `./gradlew liquibaseDiffChangelog`.
-
-[source,java]
-.src/main/java/org/jhipster/health/domain/Goal.java
-----
-@ManyToMany
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@JoinTable(name = "GOAL_METRIC",
-    joinColumns = @JoinColumn(name="goals_id", referencedColumnName="ID"),
-    inverseJoinColumns = @JoinColumn(name="metrics_id", referencedColumnName="ID"))
-private Set<Metric> metrics = new HashSet<>();
-
-public Set<Metric> getMetrics() {
-    return metrics;
-}
-
-public void setMetrics(Set<Metric> metrics) {
-    this.metrics = metrics;
-}
-----
-
-I had to update `liquibase.gradle` to use the same datasource settings I had in `application-dev.yaml` before this
-command worked. After Liquibase completed successfully, I added the generated file to
-`src/main/resources/config/liquibase/master.xml`.
-
-[source,xml]
-.src/main/resources/config/liquibase/master.xml
-----
-<include file="classpath:config/liquibase/changelog/20150811124815_changelog.xml" relativeToChangelogFile="false"/>
-----
-
-I then ran `./gradlew test` again. This time, they failed with the following reason:
-
-----
-liquibase.exception.DatabaseException: org.h2.jdbc.JdbcSQLException: Table "ENTRY" already exists
-----
-
-At this moment, I realized that Liquibase was diffing against my "`dev`" database, while my tests were hitting my "`test`" (H2)
-database. When I ran Liquibase's diff command, it was looking at my "`dev`" database, where no tables had yet been created.
-To solve this, I removed the changelog reference in `master.xml`, commented out the newly added code in `Goal.java`, and
-ran `./gradlew bootRun` to generate the initial tables in my "`dev`" database. Of course, this failed with the same
-`mappedBy reference` error, but my schema did get created and I ran `./gradlew liquibaseDiffChangelog` again. After adding
-the generated file to `master.xml`, I was pleased to see my tests passed.
-
-----
-BUILD SUCCESSFUL
-
-Total time: 51.422 secs
-----
-
-I ran `grunt test` to ensure my UI tests were good to go, then fired up the app and tried everything out. The biggest
-issue I noticed was that when you created a `Goal`, it showed the `id` of the users instead of their names.
-
-[[img-create-goal-user-id]]
-.Create a goal with user ID
-image::chapter2/create-goal-user-id.png[Create a goal with user ID, 800, scaledwidth=66%, align=center]
-
-Since the `id` doesn't provide much information, I changed this to display the user's username instead. In JHipster's
-`User.java`, this field is called `login`. To make this change, I modified `.jhipster/Goal.json` and changed its
-`otherEntityField` from having a value of `id` to `login`.
-
-[source,json]
-// MR: I can't figure out how to caption this with a filename that starts with a period.
-----
-"relationships": [
-    {
-        "relationshipId": 1,
-        "relationshipName": "user",
-        "relationshipNameCapitalized": "User",
-        "relationshipFieldName": "user",
-        "otherEntityName": "user",
-        "relationshipType": "many-to-one",
-        "otherEntityNameCapitalized": "User",
-        "otherEntityField": "login"
-    }
-]
-----
-
-After making this change, I ran `yo jhipster:entity goal` to regenerate `Goal.java` and its associated UI. Since I'd
-modified `Goal.java`, when prompted to overwrite this file, I answered no.
-
-----
- conflict src/main/java/org/jhipster/health/domain/Goal.java
-? Overwrite src/main/java/org/jhipster/health/domain/Goal.java? do not overwrite
-     skip src/main/java/org/jhipster/health/domain/Goal.java
-----
-
-After restarting everything, I was pleased to see the "`user`" dropdown list contained the `login` field instead of `id`.
-
-[[img-create-goal-user-login]]
-.Create a goal with user login
-image::chapter2/create-goal-user-login.png[Create a goal with user login, 800, scaledwidth=66%, align=center]
-
-After making this change and regenerating everything, I realized there was an easier way. In `goal-dialog.html`, the
-following code existed to display the users dropdown list.
-
-[source,html]
-.src/main/webapp/scripts/app/entities/goal/goal-dialog.html
-----
-<select class="form-control" id="field_user" name="user" ng-model="goal.user.id" ng-options="user.id as user.id for user in users">
-----
-
-To modify it to display `user.login` instead, I simply needed to change `ng-options` and its _as_ expression to the following.
-
-[source,html]
-.src/main/webapp/scripts/app/entities/goal/goal-dialog.html
-----
-<select class="form-control" id="field_user" name="user" ng-model="goal.user.id" ng-options="user.id as user.login for user in users">
-----
-
-At this point, I added all the generated files to Git, committed and pushed. I noticed that JHipster had generated 54 files. What a time saver!
-
-I started to play with my newly created app to see if it had the functionality I wanted. I was hoping to
-easily add daily entries about whether I'd exercised, ate healthy meals, or consumed alcohol. I also wanted to record
-my weight and blood-pressure metrics when I measured them. When I started using the UI I'd just created, it seemed
-like it might be able to accomplish these goals, but it also seemed somewhat cumbersome. That's when I decided to create
-a UI mockup with the main screen and its ancillary screens for data entry. I used
-https://www.omnigroup.com/omnigraffle[OmniGraffle] and a
-https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstrap stencil] to create the following UI mockup.
+At this point, I did some trail-and-error designs with the data model. I generated entities with JHipster, tried the app, and
+changed to start with a UI-first approach. As a user, I was hoping to easily add daily entries about whether I'd exercised,
+ate healthy meals, or consumed alcohol. I also wanted to record my weight and blood-pressure metrics when I measured them.
+When I started using the UI I'd just created, it seemed like it might be able to accomplish these goals, but it also seemed
+somewhat cumbersome. That's when I decided to create a UI mockup with the main screen and its ancillary screens for data entry. I used
+https://www.omnigroup.com/omnigraffle[OmniGraffle] and a https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle
+[Bootstrap stencil] to create the following UI mockup.
 
 [[img-ui-mockup]]
 .UI mockup
 image::chapter2/ui-mockup.png[UI mockup, 846, scaledwidth=75%, align=center]
 
-=== Starting over with a straightforward design
-
-After figuring out how I wanted the UI to look, I realized my data model could be simplified. Before, it was quite generic
-and could handle a number of metrics. In my new design, I realized I didn't need to track high-level goals (e.g. lose
-five pounds in Q4 2015). I was more concerned with tracking weekly goals and 21-Points Health is all about how many points you
-get in a week. I was grateful that JHipster allowed me to quickly see the flaws in my design, then simplify. I created
-the following diagram as my new data model.
+After figuring out how I wanted the UI to look, I started to think about the data model. I quickly decided I didn't need to
+track high-level goals (e.g. lose five pounds in Q4 2015). I was more concerned with tracking weekly goals and 21-Points
+Health is all about how many points you get in a week. I created the following diagram as my data model.
 
 [[img-entity-diagram-simpler]]
 .21-Points Health entity diagram - simplified
 image::chapter2/entity-diagram-simpler.png[21-Points Health entity diagram - simplified, 684, scaledwidth=100%, align=center]
 
-JHipster created 54 files when generating the previous data model, REST controllers, and UI. Rather than hunt down all
-these files and delete them, I reverted to the last commit before them in Git.
-
-TIP: If this doesn't work for you,
-see http://stackoverflow.com/a/28921195/65681[this Stack Overflow answer] for a list of what files to delete.
-
-This is the beauty of a version-control system.
-
-----
-$ git reset --hard 8ad48eb
-HEAD is now at 8ad48eb Upgraded to JHipster 2.19.0.
-----
-
-I also dropped and recreated my local PostgreSQL database.
-
-----
-mraible=# drop database health;
-DROP DATABASE
-mraible=# create database health;
-CREATE DATABASE
-mraible=# grant all privileges on database health to health;
-GRANT
-----
-
-Then I ran `yo jhipster:entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one
+I ran `yo jhipster:entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one
 relationship with `User`. Below is the final output from my answers.
 
 ....
