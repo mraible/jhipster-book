@@ -448,7 +448,7 @@ https://www.omnigroup.com/omnigraffle[OmniGraffle] and a https://viget.com/inspi
 image::chapter2/ui-mockup.png[UI mockup, 846, scaledwidth=75%, align=center]
 
 After figuring out how I wanted the UI to look, I started to think about the data model. I quickly decided I didn't need to
-track high-level goals (e.g. lose five pounds in Q4 2015). I was more concerned with tracking weekly goals and 21-Points
+track high-level goals (e.g. lose five pounds in Q4 2016). I was more concerned with tracking weekly goals and 21-Points
 Health is all about how many points you get in a week. I created the following diagram as my data model.
 
 [[img-entity-diagram-simpler]]
@@ -459,52 +459,72 @@ I ran `yo jhipster:entity points`. I added the appropriate fields and their vali
 relationship with `User`. Below is the final output from my answers.
 
 ....
-===========Points==============
-date (LocalDate)
+================= Points =================
+================= Points =================
+Fields
+date (LocalDate) required
 exercise (Integer)
 meals (Integer)
 alcohol (Integer)
-notes (String)
--------------------
-user - user (many-to-one)
+notes (String) maxlength='140'
+
+Relationships
+user (User) many-to-one
+
+
+
 ? Do you want to use a Data Transfer Object (DTO)? No, use the entity directly
+? Do you want to use separate service class for your business logic? No, the REST controller should use the repository d
+irectly
 ? Do you want pagination on your entity? Yes, with infinite scroll
+
 Everything is configured, generating the entity...
+
    create .jhipster/Points.json
    create src/main/java/org/jhipster/health/domain/Points.java
    create src/main/java/org/jhipster/health/repository/PointsRepository.java
    create src/main/java/org/jhipster/health/repository/search/PointsSearchRepository.java
    create src/main/java/org/jhipster/health/web/rest/PointsResource.java
-   create src/main/resources/config/liquibase/changelog/20150818154309_added_entity_Points.xml
-   create src/main/webapp/scripts/app/entities/points/pointss.html
-   create src/main/webapp/scripts/app/entities/points/points-detail.html
-   create src/main/webapp/scripts/app/entities/points/points-dialog.html
-   create src/main/webapp/scripts/app/entities/points/points.js
-   create src/main/webapp/scripts/app/entities/points/points.controller.js
-   create src/main/webapp/scripts/app/entities/points/points-dialog.controller.js
-   create src/main/webapp/scripts/app/entities/points/points-detail.controller.js
-   create src/main/webapp/scripts/components/entities/points/points.service.js
-   create src/main/webapp/scripts/components/entities/points/points.search.service.js
-   create src/test/java/org/jhipster/health/web/rest/PointsResourceTest.java
-   create src/test/gatling/simulations/PointsGatlingTest.scala
+   create src/main/resources/config/liquibase/changelog/20160831020048_added_entity_Points.xml
+   create src/main/resources/config/liquibase/changelog/20160831020048_added_entity_constraints_Points.xml
+ conflict src/main/resources/config/liquibase/master.xml
+? Overwrite src/main/resources/config/liquibase/master.xml? overwrite this and all others
+    force src/main/resources/config/liquibase/master.xml
+   create src/main/webapp/app/entities/points/points.html
+   create src/main/webapp/app/entities/points/points-detail.html
+   create src/main/webapp/app/entities/points/points-dialog.html
+   create src/main/webapp/app/entities/points/points-delete-dialog.html
+    force src/main/webapp/app/layouts/navbar/navbar.html
+   create src/main/webapp/app/entities/points/points.state.js
+   create src/main/webapp/app/entities/points/points.controller.js
+   create src/main/webapp/app/entities/points/points-dialog.controller.js
+   create src/main/webapp/app/entities/points/points-delete-dialog.controller.js
+   create src/main/webapp/app/entities/points/points-detail.controller.js
+   create src/main/webapp/app/entities/points/points.service.js
+   create src/main/webapp/app/entities/points/points.search.service.js
    create src/main/webapp/i18n/en/points.json
+    force src/main/webapp/i18n/en/global.json
    create src/main/webapp/i18n/fr/points.json
+    force src/main/webapp/i18n/fr/global.json
+   create src/test/javascript/spec/app/entities/points/points-detail.controller.spec.js
+   create src/test/javascript/e2e/entities/points.js
+   create src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
+   create src/test/gatling/simulations/PointsGatlingTest.scala
+
+Running gulp Inject to add javascript to index
 ....
 
-I had similar answers for the `Weight` and `BloodPressure` entities. For `Settings`, I created a one-to-one relationship
-with `User`. I learned that "`settings`" is a reserved keywork, so used "`preferences`" instead.
-
-----
-$ yo jhipster:entity settings
-The entity name cannot contain a JHipster reserved keyword
-----
+I had similar answers for the `Weight` and `BloodPressure` entities. For `Preferences`, I created a one-to-one relationship
+with `User`.
 
 To ensure that people use 21-Points Health effectively, I set the weekly goal to a minimum of 10 points and a max of 21. I also
 made the `weightUnits` property an enum.
 
 ----
-=================Preferences=================
+================= Preferences =================
+Fields
 weekly_goal (Integer) required min='10' max='21'
+
 Generating field #2
 ? Do you want to add a field to your entity? Yes
 ? What is the name of your field? weight_units
@@ -513,7 +533,9 @@ Generating field #2
 ? What are the values of your enumeration (separated by comma)? kg,lb
 ? Do you want to add validation rules to your field? Yes
 ? Which validation rules do you want to add? Required
-=================Preferences=================
+
+================= Preferences =================
+Fields
 weekly_goal (Integer) required min='10' max='21'
 weight_units (Units) required
 ----
