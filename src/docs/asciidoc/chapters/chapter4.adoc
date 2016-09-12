@@ -642,7 +642,7 @@ You could also use https://addons.heroku.com/searchbox#starter[SearchBox Elastic
 
 Elasticsearch is used by a number of well-known companies: Facebook, GitHub, and Uber among others. The project is backed by https://www.elastic.co/[Elastic], which provides an ecosystem of projects around Elasticsearch. Some examples are:
 
-* https://www.elastic.co/found[Elasticsearch as a Service] — "`Hosted and managed Elasticsearch`".
+* https://www.elastic.co/cloud[Elasticsearch as a Service] — "`Hosted and managed Elasticsearch`".
 * https://www.elastic.co/products/logstash[Logstash] — "`Process any data, from any source`".
 * https://www.elastic.co/products/kibana[Kibana] — "`Explore and visualize your data`".
 

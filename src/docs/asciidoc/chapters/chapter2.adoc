@@ -282,6 +282,7 @@ https://github.com/moifort/generator-jhipster-bootstrap-material-design
 I visited the https://github.com/moifort/generator-jhipster-bootstrap-material-design[module's documentation] and learned
 about the changes I needed to make in `index.html`.
 
+[[using-sass]]
 .Using SASS
 ****
 When you use sass you need to modify your index.html a little bit to make sure material design styles are not overwritten by default bootstrap styles again:
@@ -367,27 +368,7 @@ I opened `bootstrap-material.config.js` to look for the problem.
 I changed `compileServiceConfig.$inject = [];` to `bootstrapMaterialDesignConfig.$inject = []` and it cleaned up
 my console.
 
-The next thing I noticed was the links in the header were gray, making them hard to read.
-
-[[img-top-bar-gray]]
-.Menu items hard to read
-image::chapter2/top-bar-gray.png[Menu items hard to read, 1182, scaledwidth=75%, align=center]
-
-I was able to fix this by adding the following CSS to `src/main/webapp/scss/main.scss`, just before `.navbar-version`:
-
-[source,css]
-.src/main/webapp/scss/main.scss
-----
-.navbar-default .navbar-brand,
-.navbar-default .navbar-nav > li > a,
-.navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > .active > a {
-    color: white;
-    background: none;
-}
-----
-
-After making these changes, I committed my updated project to Git. Then I ran `./gradlew test` to make sure all unit
+After making this change, I committed my updated project to Git. Then I ran `./gradlew test` to make sure all unit
 tests passed. I followed this up with `./gradlew` in one terminal window and `gulp itest` (in the same directory)
 in another.
 
@@ -401,6 +382,9 @@ Finished in 33.065 seconds
 [00:35:55] Finished 'itest' after 28 μs
 [mraible:~/dev/21-points] master(+321/-400) 40s $
 ----
+
+I opened the application in a browser and noticed there were some rounded corners and the primary buttons looked funny.
+This happened because the upgrade overwrite `index.html` and I had to re-apply the <<using sass>> fix.
 
 TIP: After integrating the Material Design theme, I deployed to Heroku for the first time. This is covered in the
 <<Continuous integration and deployment>> section of this chapter.
@@ -458,8 +442,7 @@ image::chapter2/entity-diagram-simpler.png[21-Points Health entity diagram - sim
 I ran `yo jhipster:entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one
 relationship with `User`. Below is the final output from my answers.
 
-....
-================= Points =================
+----
 ================= Points =================
 Fields
 date (LocalDate) required
@@ -470,8 +453,6 @@ notes (String) maxlength='140'
 
 Relationships
 user (User) many-to-one
-
-
 
 ? Do you want to use a Data Transfer Object (DTO)? No, use the entity directly
 ? Do you want to use separate service class for your business logic? No, the REST controller should use the repository d
@@ -512,7 +493,7 @@ Everything is configured, generating the entity...
    create src/test/gatling/simulations/PointsGatlingTest.scala
 
 Running gulp Inject to add javascript to index
-....
+----
 
 I had similar answers for the `Weight` and `BloodPressure` entities. For `Preferences`, I created a one-to-one relationship
 with `User`.
@@ -545,69 +526,15 @@ decided that `timestamp` was a better property name. To fix this, I modified the
 directory and ran `yo jhipster:entity` for each entity again. This seemed easier than refactoring with IntelliJ and hoping
 it caught all the name instances.
 
-When I ran `./gradlew test`, I received an error about `User` not containing the `preferences` property.
+When I ran `./gradlew test`, I was pleased to see that all tests passed.
 
 ----
-Caused by: org.hibernate.AnnotationException: Unknown mappedBy in: org.jhipster.health.domain.Preferences.user,
-referenced property unknown: org.jhipster.health.domain.User.preferences
+BUILD SUCCESSFUL
+
+Total time: 17.64 secs
 ----
 
-I fixed this by removing the reference to `User` in `Preferences.java`, as well as its `getUser()` and `setUser()` methods.
-
-[source,java]
-.src/main/java/org/jhipster/health/domain/Preferences.java
-----
-@OneToOne(mappedBy = "preferences")
-@JsonIgnore
-private User user;
-----
-
-I fixed the relationship by adding a `@OneToOne` mapping in `User.java`:
-
-[source,java]
-.src/main/java/org/jhipster/health/domain/User.java
-----
-@OneToOne
-@JsonIgnore
-private Preferences preferences;
-
-public Preferences getPreferences() {
-    return preferences;
-}
-
-public void setPreferences(Preferences preferences) {
-    this.preferences = preferences;
-}
-----
-
-I then ran `./gradlew liquibaseDiffChangelog` to generate the changelog and added the XML in the generated file to
-`*_added_entity_Preferences.xml`.
-
-[source,xml]
-.src/main/resources/config/liquibase/changelog/20150818155956_added_entity_Preferences.xml
-----
-<!-- Added the preferences field to User -->
-<changeSet author="mraible (generated)" id="1439916664921-1">
-    <addColumn tableName="JHI_USER">
-        <column name="preferences_id" type="int8"/>
-    </addColumn>
-</changeSet>
-<changeSet author="mraible (generated)" id="1439916664921-2">
-    <addForeignKeyConstraint baseColumnNames="preferences_id" baseTableName="JHI_USER"
-                             constraintName="FK_1r5e40mq4hwtlyd9lemghc8su"
-                             deferrable="false" initiallyDeferred="false"
-                             referencedColumnNames="id"
-                             referencedTableName="PREFERENCES"/>
-</changeSet>
-----
-
-TIP: I had to modify the datasource settings in `liquibase.gradle` again since `git reset` reverted that change.
-
-When I ran `./gradlew test`, I saw some failures, but these were for old tests that I'd already deleted. I
-https://github.com/jhipster/generator-jhipster/issues/1886[opened a ticket] with the JHipster project to track this
-issue.
-
-I checked in six changed files and 78 new files generated by the JHipster before continuing to implement my UI mockups.
+I checked in four changed files and 99 new files generated by the JHipster before continuing to implement my UI mockups.
 
 == Application improvements
 
@@ -616,16 +543,11 @@ To make my new JHipster application into something I could be proud of, I made a
 TIP: At this point, I set up continuous testing of this project using https://jenkins-ci.org/[Jenkins]. This is covered
 in the <<Deploying to Heroku>> section of this chapter.
 
-=== Fixed issues with entity and variable names
-
-Shortly after generating all the UI code, I discovered that using plural entity names (e.g. `Points` and `Preferences`)
-causes you to end up with files, URLs, and variable names that end in two "`s`" characters. For example, the URL to
-the points list was `pointss` instead of the more approriate `points`. I fixed this manually in my project and
-https://github.com/jhipster/generator-jhipster/issues/1895[created a bug for JHipster on GitHub].
+=== Fixed issues with variable names
 
 For the `Preferences` entity, I specified `weekly_goals` and `weight_unit` as field names. I was thinking in terms
 of names for database columns when I chose these names. I later learned that these names were used throughout my code. I left
-the column names intact and manually renamed everything in Java, JavaScript, and HTML to `weeklyGoals` and `weightUnit`.
+the column names intact and manually renamed everything in Java, JavaScript, JSON, and HTML to `weeklyGoals` and `weightUnit`.
 
 === Improved HTML layout and I18N messages
 
@@ -1621,7 +1543,7 @@ configures gzip compression with a servlet filter, cache headers and monitoring 
 If you have a http://graphite.wikidot.com/[Graphite] server configured in your `application-prod.yaml` file, your application
 will automatically send metrics data to it.
 
-To upload 21-Points Health, I logged in to my Heroku account. I already had the https://toolbelt.heroku.com/[Heroku Toolbelt]
+To upload 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-command-line[Heroku CLI]
 installed.
 
 TIP: I first deployed to Heroku after integrating the Material Design theme, meaning that I had a basically default JHipster application with no entities.
@@ -1646,18 +1568,18 @@ Heroku configuration is starting
 Using existing Git repository
 
 Installing Heroku CLI deployment plugin
-Installing https://github.com/heroku/heroku-deploy...
-done
 
 Creating Heroku application and setting up node environment
-heroku create 21points --addons heroku-postgresql:hobby-dev
-✖ { [Error: Command failed: /bin/sh -c heroku create 21points --addons heroku-postgresql:hobby-dev
- !    Name must start with a letter and can only contain lowercase letters, numbers, and dashes.
+heroku create 21-points --addons heroku-postgresql
+✖ { [Error: Command failed: /bin/sh -c heroku create 21-points --addons heroku-postgresql
+Creating 21-points... !
+▸    Name must start with a letter and can only contain lowercase letters,
+▸    numbers, and dashes.
 ]
-  killed: false,
-  code: 1,
-  signal: null,
-  cmd: '/bin/sh -c heroku create 21points --addons heroku-postgresql:hobby-dev' }
+killed: false,
+code: 1,
+signal: null,
+cmd: '/bin/sh -c heroku create 21-points --addons heroku-postgresql' }
 ----
 
 You can see my first attempt failed for the same reason that creating a local PostgreSQL database failed: it didn't
@@ -1674,35 +1596,28 @@ Heroku configuration is starting
 Using existing Git repository
 
 Installing Heroku CLI deployment plugin
-Installing https://github.com/heroku/heroku-deploy...
-done
 
 Creating Heroku application and setting up node environment
-heroku create health-by-points --addons heroku-postgresql:hobby-dev
-Creating health-by-points... done, stack is cedar-14
-
-Adding heroku-postgresql:hobby-dev to health-by-points...
-done
-
+heroku create health-by-points --addons heroku-postgresql
 https://health-by-points.herokuapp.com/ | https://git.heroku.com/health-by-points.git
 
-Git remote heroku added
-
 Creating Heroku deployment files
+   create src/main/resources/config/bootstrap-heroku.yml
+   create src/main/resources/config/application-heroku.yml
+   create Procfile
 
 Building application
-:generateMainMapperClasses
-
-Download https://oss.sonatype.org/content/repositories/releases/io/dropwizard/metrics/metrics-healthchecks/3.1.2/metrics-healthchecks-3.1.2.pom
 ...
 
 BUILD SUCCESSFUL
 
-Total time: 2 mins 58.204 secs
+Total time: 50.636 secs
+
+Deploying application
 
 Uploading your application code.
  This may take several minutes depending on your connection speed...
-Uploading build/libs/21points-0.1-SNAPSHOT.war....
+Uploading 21-points-0.0.1-SNAPSHOT.war
 ----
 
 I was pumped to see that this process worked and that my application was available at http://health-by-points.herokuapp.com.
@@ -1927,7 +1842,7 @@ web: java -javaagent:newrelic.jar -jar build/libs/*.war
 == Continuous integration and deployment
 
 After generating entities for this project, I wanted to configure a continuous-integration (CI) server to build/test/deploy
-whenever I checked in changes to Git. I chose https://jenkins-ci.org/[Jenkins] for my CI server and used the simplest
+whenever I checked in changes to Git. I chose https://jenkins.io/[Jenkins] for my CI server and used the simplest
 configuration possible: I downloaded `jenkins.war` to `/opt/tools/jenkins` on my MacBook Pro. I started it with
 the following command.
 
@@ -1935,90 +1850,182 @@ the following command.
 java -jar jenkins.war --httpPort=9000
 ----
 
-JHipster has good documentation on http://jhipster.github.io/setting_up_ci.html[setting up CI] and
-http://jhipster.github.io/heroku.html[deploying to Heroku]. The CI documentation also shows
-how to set up Jenkins on http://jhipster.github.io/setting_up_ci_linux.html[Linux] and
-http://jhipster.github.io/setting_up_ci_windows.html[Windows]. However, it doesn't have any documentation on how
-to configure a job to build, test, and deploy. This section aims to supply that.
+JHipster has good documentation on https://jhipster.github.io/setting-up-ci-jenkins2/[setting up Continuous Integration on Jenkins 2] and
+http://jhipster.github.io/heroku/[deploying to Heroku]. I followed JHipster's Jenkins 2 documentation and opted for the global
+NodeJS installation.
 
-I added `jasmine-reporters` and `karma-junit-reporter` to my project so I could read JavaScript test results with Jenkins.
-
-----
-npm install jasmine-reporters --save-dev
-npm install karma-junit-reporter --save-dev
-----
-
-Then I updated `src/test/javascript/karma.conf.js` to override the default plugins, specify reporters, and configure
-the JUnit reporter.
-
-[source,javascript]
-.src/test/javascript/karma.conf.js
-----
-singleRun: false,
-
-plugins: [
-    'karma-chrome-launcher',
-    'karma-phantomjs-launcher',
-    'karma-jasmine',
-    'karma-junit-reporter'
-],
-
-reporters: ['dots', 'junit'],
-
-junitReporter: {
-    outputFile: '../build/test-results/TEST-javascript-results.xml',
-    suite: 'unit'
-}
-----
-
-.Testing in the Zone
 ****
-I created a new Karma configuration in `Gruntfile.js` to allow continuous testing while "`in the zone`". Running
-`grunt karma:zone` will automatically re-execute tests when you save changes.
+.Travis CI
+JHipster ships with a `.travis.yml` file that allows you to run your application's tests on https://travis-ci.org[Travis CI].
+You can modify it to run Protractor tests using something like the following:
 
-[source,javascript]
-.Gruntfile.js
+```
+os:
+  - linux
+services:
+  - docker
+language: java
+node_js:
+  - "4.2.1"
+jdk:
+  - oraclejdk8
+before_install:
+  - sudo /etc/init.d/postgresql stop
+install:
+  - java -version
+  - ./gradlew --version
+  - npm install -g bower
+  - npm install -g grunt-cli
+  - npm install
+  - ./gradlew assemble
+script:
+  - ./gradlew check
+  - docker-compose up -d
+  - sleep 20s
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - ./gradlew bootRun &
+  - bootPid=$!
+  - sleep 120s
+  - grunt itest
+```
+****
+
+I created a new job called "21-points" with a Pipeline script from SCM. By default, a JHipster-generated project
+contains a `Jenkinsfile`. I configured a "Poll SCM" build trigger with a schedule of `H/5 * * * *`. After saving the job,
+I confirmed it ran successfully.
+
+[[jenkins-job1]]
+.Jenkins build #1
+image::chapter2/jenkins-job1.png[First run of 21-points pipeline, 1124, scaledwidth=100%, align=center]
+
+I modified this file to add running Protractor tests and deploying to Heroku. I checked in my changes to trigger
+another build.
+
+[source]
+.Jenkinsfile
 ----
-karma: {
-    unit: {
-        configFile: 'src/test/javascript/karma.conf.js',
-        singleRun: true
-    },
-    zone: {
-        configFile: 'src/test/javascript/karma.conf.js',
-        singleRun: false,
-        autoWatch: true
+node {
+    // uncomment these 2 lines and edit the name 'node-4.4.7' according to what you choose in configuration
+    // def nodeHome = tool name: 'node-4.4.7', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+    // env.PATH = "${nodeHome}/bin:${env.PATH}"
+
+    stage('check tools') {
+        sh "node -v"
+        sh "npm -v"
+        sh "bower -v"
+        sh "gulp -v"
+    }
+
+    stage('checkout') {
+        checkout scm
+    }
+
+    stage('npm install') {
+        sh "npm install"
+    }
+
+    stage('clean') {
+        sh "./gradlew clean"
+    }
+
+    stage('backend tests') {
+        sh "./gradlew test"
+    }
+
+    stage('frontend tests') {
+        sh "gulp test"
+    }
+
+    stage('protractor tests') {
+        sh '''./gradlew &
+        bootPid=$!
+        sleep 45s
+        gulp itest
+        kill $bootPid
+        '''
+    }
+
+    stage('packaging') {
+        sh "./gradlew bootRepackage -Pprod -x test"
+    }
+
+    stage('deploying') {
+        sh "heroku deploy:jar --jar build/libs/*.war --app health-by-points"
     }
 }
 ----
 
-To make this work, I also had to update the `test` task to run `karma:unit` instead of `karma`.
-****
+After making these changes, I found out that my Protractor tests were failing. I tried running them using `gulp itest` and
+found that Firefox was not loading the application. Since I'd recently experienced Firefox and Protractor issues on another
+project, I changed to use Chrome. To to this, I modified `protractor.conf.js` and fixed the path to the Chrome driver.
 
-I set up a new freestyle project in Jenkins using this configuration.
+[source,diff]
+.src/test/javascript/protractor.conf.js
+----
+@@ -5,7 +5,7 @@ var prefix = 'src/test/javascript/'.replace(/[^/]+/g,'..');
 
-* Project name: `21-points`
-* Source Code Management
-** Git Repository: `git@bitbucket.org:mraible/21-points.git`
-** Branches to build: `*/master`
-** Additional Behaviours: `Wipe out repository & force clone`
-* Build Triggers
-** Poll SCM / Schedule: `H/5 * * * *`
-* Build
-** Invoke Gradle script / Use Gradle Wrapper / Tasks: `-Pprod clean test bootRepackage`
-* Post-build Actions
-** Build other projects: `21-points-deploy`
-** Publish JUnit test result report / Test Report XMLs: `build/test-results/*.xml`
+ exports.config = {
+     seleniumServerJar: prefix + 'node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar',
+-    chromeDriver: prefix + 'node_modules/protractor/selenium/chromedriver',
++    chromeDriver: prefix + 'node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.22',
+     allScriptsTimeout: 20000,
 
-I then created another job to deploy to Heroku.
+     suites: {
+@@ -15,7 +15,7 @@ exports.config = {
+     },
 
-* Project name: `21-points-deploy`
-* Source Code Management
-** Git Repository: `git@bitbucket.org:mraible/21-points.git`
-** Branches to build: `*/master`
-* Build
-** Invoke Gradle script / Use Gradle Wrapper / Tasks: `-Pprod bootRepackage -x test`
-** Execute Shell / Command: `heroku deploy:jar --jar build/libs/*.war --app health-by-points`
+     capabilities: {
+-        'browserName': 'firefox',
++        'browserName': 'chrome',
+         'phantomjs.binary.path': require('phantomjs-prebuilt').path,
+         'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
+     },
+----
+
+This got me a bit further, but tests still failed. I banged my head against the wall for a few hours before I figured out
+the problem: `translate` is a reserved attribute name in HTML5 and Chrome (and Safari) return a boolean for this value if
+its present. Not only that, but Protractor's `element.getAttribute()` returns a promise rather than a value.
+
+As part of this debugging exercise, I also discovered that Firefox 48 does not work with Protractor. The most recent
+version I found that works is Firefox 46. Also, Firefox 46 (and below) don't require you to resolve the promise
+returned from Protractor's `element.getAttribute()`. However, since both Safari and Chrome require this change (and
+it works in Firefox), I made the following changes:
+
+1. Changed all `translate` attributes in the project's `*.html` files to `data-translate`.
+2. Changed all Protractor tests (in `src/test/javascript/e2e`) to process the promise and validate the value afterward.
+
+[source,javascript]
+----
+element.all(by.css('h1')).first().getAttribute('data-translate').then(function (value) {
+    expect(value).toMatch(/home.title/);
+});
+----
+
+After making these changes, https://github.com/jhipster/generator-jhipster/pull/4076[created a pull request] to
+fix this in JHipster's main generator. Then I spent hours trying to get all the Protractor tests passing. I discovered
+that logout wasn't happening consistently for Chrome and Safari, causing some tests to fail. Finally, I switched back to Firefox
+and was able to get consistent results.
+
+[source,diff]
+.src/test/javascript/protractor.conf.js
+----
+@@ -15,7 +15,7 @@ exports.config = {
+     },
+
+     capabilities: {
++        'browserName': 'firefox',
+-        'browserName': 'chrome',
+         'phantomjs.binary.path': require('phantomjs-prebuilt').path,
+         'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
+     },
+----
+
+I checked in my changes, restarting Jenkins, and verified that all stages in my pipeline passed.
+
+[[jenkins-job-success]]
+.Jenkins success!
+image::chapter2/jenkins-job-success.png[Jenkins success!, 1461, scaledwidth=100%, align=center]
 
 When working on this project, I'd start Jenkins and have it running while I checked in code. I did not install it on a
 server and leave it running continuously. My reason was simple: I was only coding in bursts and didn't need to waste
