@@ -29,10 +29,10 @@ font:
 page:
   background_color: ffffff
   layout: portrait
-  # NOTE margin is used for calculation on dry run pages, so must have same inner width as recto/verso pages
+  # NOTE margin_inner and margin_outer replace side margins when media=prepress
   margin: [0.6in, 0.75in, 0.5in, 0.75in]
-  margin_recto: [0.6in, 0.5in, 0.6in, 1in]
-  margin_verso: [0.6in, 1in, 0.6in, 0.5in]
+  margin_inner: 1in
+  margin_outer: 0.5in
   size: [6in, 9in]
 base:
   align: justify
@@ -103,13 +103,13 @@ title_page:
   font_family: Akkurat
   font_style: bold
   title:
-    top: 10%
-    font_size: $heading_h1_font_size * 2
+    top: 4%
+    font_size: $heading_h1_font_size * 1.75
     font_color: 181818
     text_transform: uppercase
     line_height: 1.25
   authors:
-    margin_top: 395.0
+    margin_top: 390.0
     font_size: $heading_h1_font_size
     font_color: 181818
   revision:

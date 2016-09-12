@@ -8,7 +8,7 @@
 :keywords: AngularJS, Bootstrap, Spring Boot
 :doctype: book
 :media: screen
-ifeval::["{media}" != "print"]
+ifeval::["{media}" != "prepress"]
 :front-cover-image: image:cover.png[Front Cover,1050,1600]
 endif::[]
 :toc:
@@ -16,13 +16,12 @@ endif::[]
 :lang: en
 :language: javadocript
 :experimental:
-:pagenums:
 :pdf-fontsdir: ./styles/pdf/fonts
 :pdf-stylesdir: ./styles/pdf
 :pdf-style: infoq
 ifndef::ebook-format[:leveloffset: 1]
 
-[colophon]
+[colophon#colophon]
 include::chapters/colophon.adoc[]
 
 [dedication]
@@ -45,9 +44,7 @@ include::chapters/action.adoc[]
 
 include::chapters/about.adoc[]
 
-
 ifdef::backend-docbook[]
 [index]
-Index
------
-endif::backend-docbook[]
+== Index
+endif::[]
