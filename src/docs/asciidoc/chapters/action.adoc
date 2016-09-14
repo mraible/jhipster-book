@@ -23,4 +23,4 @@ Learn how to use Spring Boot to build apps faster than ever before with https://
 
 An in-depth and up-to-date book on Angular is https://www.ng-book.com/[_ng-book: The Complete Book on AngularJS_] by Ari Lerner (Fullstack.io, December 2013). Lerner has also written _ng-book 2_ for Angular 2.
 
-Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with http://shop.oreilly.com/product/0636920038252.do[_Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_] by Josh Long and Kenny Bastani (O'Reilly Media, expected January 2016).
+Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with http://shop.oreilly.com/product/0636920038252.do[_Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_] by Josh Long and Kenny Bastani (O'Reilly Media, expected late 2016).

@@ -1,13 +1,14 @@
 = Building an app with JHipster
 
 When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating
-a photo gallery to showcase the 1996 VW Bus I've been working on for over 10 years. The project is almost finished and
+a photo gallery to showcase the 1996 VW Bus I've been working on for over 10 years. The project was recently finished and
 I wanted a website to show how things have progressed through the years.
 
 I also thought about creating a blog application.
-As part of http://raibledesigns.com/rd/entry/getting_hip_with_jhipster_at[my first presentation on JHipster] (at Denver's
-Java User Group), I created a blog application that I live-coded in front of the audience. After that presentation, I spent
-several hours polishing the application and started http://www.jhipster-book.com[The JHipster Mini-Book site] with it.
+As part of http://raibledesigns.com/rd/entry/getting_hip_with_jhipster_at[my first presentation on JHipster]
+(at http://www.denverjug.org/[Denver's Java User Group]), I created a blog application that I live-coded in front of
+the audience. After that presentation, I spent several hours polishing the application and started
+http://www.jhipster-book.com[The JHipster Mini-Book site] with it.
 
 After thinking about the VW Bus Gallery and developing the blog application, I thought to myself, is this hip enough?
 Shouldn't a book about becoming what the JHipster homepage calls a "`Java Hipster`" show how to build a hip application?
@@ -51,9 +52,9 @@ monitors for apps, and now you can use this JHipster app to monitor your health!
 
 == Creating the application
 
-I started using the http://jhipster.github.io/installation.html[Installing JHipster] instructions. I'm a Java developer,
+I started using the http://jhipster.github.io/installation/[Installing JHipster] instructions. I'm a Java developer,
 so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[nodejs.org], then
-ran the following commands to install http://yeoman.io/[Yeoman] and http://bower.io/[Bower].
+ran the following commands to install http://yeoman.io/[Yeoman] and https://bower.io/[Bower].
 
 [source]
 ----
@@ -65,11 +66,11 @@ I also installed Grunt and JHipster.
 
 [source]
 ----
-npm install -g grunt-cli
+npm install -g gulp
 npm install -g generator-jhipster
 ----
 
-TIP: If you need to install Java, Maven or Git, please see http://jhipster.github.io/installation.html[JHipster's local installation documentation].
+TIP: If you need to install Java, Maven or Git, please see http://jhipster.github.io/installation/[JHipster's local installation documentation].
 
 Then I proceeded to build my application. Unlike many application generators in Javaland, Yeoman expects you to be
 in the directory you want to create your project in, rather than creating the directory for you. So I created a `21-points`
@@ -85,10 +86,10 @@ see the choices I made in the following screenshot.
 
 [[img-generating-21points]]
 .Generating the application
-image::chapter2/generating-21points.png[Generating the application, 1416, scaledwidth=100%]
+image::chapter2/generating-21points.png[Generating the application, 1082, scaledwidth=100%]
 
-You can see that I chose PostgreSQL as my development and production database. I did this because using a
-non-embedded database (like H2) offers some important benefits:
+You can see that I chose H2 with disk-based persistence for development and PostgreSQL for my production database. I did
+this because using a non-embedded database offers some important benefits:
 
 * Your data is retained when restarting the application.
 * Your application starts a bit faster.
@@ -98,20 +99,51 @@ The http://www.liquibase.org/[Liquibase] homepage describes it as source control
 you add them to your entities. It will also refactor your database, for example creating tables and dropping columns.
 It also has the ability to undo changes to your database, either automatically or with custom SQL.
 
-After answering all the questions, JHipster created a whole bunch of files (272 in this case), then ran `npm install`
-followed by `bower install`. To prove everything was good to go, I ran the unit tests using `grunt test`.
+After answering all the questions, JHipster created a whole bunch of files, then ran `npm install` followed by `bower install`.
+To prove everything was good to go, I ran the Java unit tests using `./gradlew test`.
 
-Next, I installed http://postgresapp.com/[Postgres.app] and tried creating a local PostgreSQL database. You can see that
+[source]
+----
+BUILD SUCCESSFUL
+
+Total time: 36.91 secs
+----
+
+Next, I started the app using `./gradlew` and then ran the UI integration tests with `gulp itest`. All tests passed with flying colors.
+
+----
+$ gulp itest
+[12:31:23] Using gulpfile ~/dev/21-points/gulpfile.js
+[12:31:23] Starting 'protractor'...
+[12:31:24] W/configParser - pattern ./e2e/entities/*.js did not match any files.
+[12:31:24] I/direct - Using FirefoxDriver directly...
+[12:31:24] I/launcher - Running 1 instances of WebDriver
+Started
+..........
+
+
+10 specs, 0 failures
+Finished in 29.433 seconds
+[12:31:56] I/launcher - 0 instance(s) of WebDriver still running
+[12:31:56] I/launcher - firefox #01 passed
+[12:31:56] Finished 'protractor' after 33 s
+[12:31:56] Starting 'itest'...
+[12:31:56] Finished 'itest' after 15 μs
+----
+
+To prove the `prod` profile worked and I could talk to PostgreSQL, I installed http://postgresapp.com/[Postgres.app] and tried
+creating a local PostgreSQL database with settings from `src/main/resources/config/application-prod.yml1. You can see that
 PostgreSQL didn't like that my database name started with a number.
 
 ----
-'/Applications/Postgres.app/Contents/Versions/9.4/bin'/psql -p5432
-[mraible:~] $ '/Applications/Postgres.app/Contents/Versions/9.4/bin'/psql -p5432psql (9.4.0)
+'/Applications/Postgres.app/Contents/Versions/9.5/bin'/psql -p5432
+[mraible:~] $ '/Applications/Postgres.app/Contents/Versions/9.5/bin'/psql -p5432
+psql (9.5.3)
 Type "help" for help.
 
 mraible=# create user 21points with password '21points';
 ERROR:  syntax error at or near "21"
-LINE 1: create user 21points with password '21points';
+LINE 1: create user 21points with password '';
                     ^
 mraible=# create user health with password 'health';
 CREATE ROLE
@@ -122,48 +154,68 @@ GRANT
 mraible=#
 ----
 
-I chose the name "`health`" instead and updated `application-dev.yml` to use this name and the
+I chose the name "`health`" instead and updated `application-prod.yml` to use this name and the
 specified credentials.
 
 [source,diff]
-.src/main/resources/config/application-dev.yml
+.src/main/resources/config/application-prod.yml
 ----
      datasource:
-         dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
--        url:
--        databaseName: 21points
--        serverName: localhost
--        username: 21points
--        password:
-+        url: jdbc:postgresql://localhost/health
-+        username: health
-+        password: health
+-         url: jdbc:postgresql://localhost:5432/21points
+-         name:
+-         username: 21points
+-         password:
++         url: jdbc:postgresql://localhost:5432/health
++         name:
++         username: health
++         password: health
+----
+
+I confirmed I could talk to a PostgreSQL database when running with the `prod` profile.
+
+----
+$ ./gradlew -Pprod
+...
+----------------------------------------------------------
+        Application '21points' is running! Access URLs:
+        Local:          http://127.0.0.1:8080
+        External:       http://172.20.10.2:8080
+----------------------------------------------------------
 ----
 
 === Adding source control
 
 One of the first things I like to do when creating a new project is to add it to a version-control system (VCS). In this
-particular case, I chose Git and Bitbucket. The following commands show how I initialized Git, committed the project,
-added a reference to the remote Bitbucket repository, then pushed everything.
+particular case, I chose Git and https://bitbucket.org[Bitbucket]. Because I don't like my Bower dependencies stored with my source code, I
+excluded them by adding the following to `.gitignore`.
+
+----
+/src/main/webapp/bower_components/**
+----
+
+The following commands show how I initialized Git, committed the project, added a reference to the remote Bitbucket
+repository, then pushed everything. I created the repository on Bitbucket before executing these commands.
 
 [source]
 ----
 $ git init
 Initialized empty Git repository in /Users/mraible/dev/21-points/.git/
 
+$ git remote add origin git@bitbucket.org:mraible/21-points.git
+
 $ git add -A
 
 $ git commit -m "Initial checkin of 21-points application"
-[master (root-commit) c20f856] Initial checkin of 21-points application
- 274 files changed, 13179 insertions(+)
+[master (root-commit) e9880d7] Initial checkin of 21-points application
+ 364 files changed, 24719 insertions(+)
  ...
 
 $ git push origin master
-Counting objects: 382, done.
+Counting objects: 494, done.
 Delta compression using up to 8 threads.
-Compressing objects: 100% (353/353), done.
-Writing objects: 100% (382/382), 242.01 KiB | 0 bytes/s, done.
-Total 382 (delta 55), reused 0 (delta 0)
+Compressing objects: 100% (463/463), done.
+Writing objects: 100% (494/494), 470.33 KiB | 0 bytes/s, done.
+Total 494 (delta 64), reused 0 (delta 0)
 To git@bitbucket.org:mraible/21-points.git
  * [new branch]      master -> master
 ----
@@ -174,43 +226,92 @@ involves developing the application, then testing and deploying. The second opti
 deploy, then begin development and testing. In a team development environment, I recommend the second option.
 However, since you're likely reading this as an individual, I'll follow the first approach and get right to coding.
 If you're interested in setting up continuous integration with Jenkins, please see
-http://www.jhipster-book.com/#!/news/entry/building-and-deploying-a-jhipster-app-with-jenkins[Building and Deploying a JHipster App with Jenkins].
+https://jhipster.github.io/setting-up-ci-jenkins2/[Setting up Continuous Integration on Jenkins 2].
 
 == Building the UI and business logic
 
 I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a couple of years ago,
-but now Google's https://www.google.com/design/[Material Design] is growing in popularity. I searched and found a
-https://fezvrasta.github.io/bootstrap-material-design/[Material Design theme for Bootstrap]. To install it, I executed
-the following command.
+but now Google's https://www.google.com/design/[Material Design] is growing in popularity. I searched for "material" in the
+https://jhipster.github.io/modules/marketplace/[JHipster Marketplace] the
+https://jhipster.github.io/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design]
+module. To install it, I executed the following commands.
 
 [source]
 ----
-bower install bootstrap-material-design --save
+npm install -g generator-jhipster-bootstrap-material-design
+yo jhipster-bootstrap-material-design
 ----
 
-After this completed, I ran `grunt wiredep` to add the new CSS and JavaScript dependencies to `src/main/webapp/index.html`.
-The https://github.com/taptapship/wiredep[wiredep] task updates files that refer to Bower dependencies for you. In this case,
-`src/main/webapp/index.html` and `src/test/javascript/karma.conf.js`.
+The second command yielded a number of questions about overwriting files and I agreed.
 
-I followed the theme's Getting Started guide and added the following initialization code to the bottom of the page.
+----
+$ yo jhipster-bootstrap-material-design
+
+     _-----_
+    |       |    .--------------------------.
+    |--(o)--|    |  Welcome to the JHipster |
+   `---------´   |    Bootstrap Material    |
+    ( _´U`_ )    | design generator! v3.5.1 |
+    /___A___\    '--------------------------'
+     |  ~  |     '--------------------------'
+   __'.___.'__
+ ´   `  |° ´ Y `
+
+? Do you want to install Bootstrap Material design? Yes
+Composing JHipster configuration with module bootstrap-material-design
+Reading the JHipster project configuration for your module
+ conflict bower.json
+? Overwrite bower.json? overwrite
+    force bower.json
+   create src/main/webapp/app/blocks/config/bootstrap-material.config.js
+ conflict src/main/webapp/scss/main.scss
+? Overwrite src/main/webapp/scss/main.scss? overwrite
+    force src/main/webapp/scss/main.scss
+ conflict src/main/webapp/content/css/main.css
+? Overwrite src/main/webapp/content/css/main.css? overwrite
+    force src/main/webapp/content/css/main.css
+----
+
+In the terminal log, I noticed a message:
+
+----
+You are using SASS! Please make sure to check the documentation on using SASS:
+https://github.com/moifort/generator-jhipster-bootstrap-material-design
+----
+
+I visited the https://github.com/moifort/generator-jhipster-bootstrap-material-design[module's documentation] and learned
+about the changes I needed to make in `index.html`.
+
+.Using SASS
+****
+When you use sass you need to modify your index.html a little bit to make sure material design styles are not overwritten by default bootstrap styles again:
 
 [source,html]
-.src/main/webapp/index.html
 ----
-<script>
-    $.material.init()
-</script>
+<!-- build:css content/css/vendor.css -->
+<link rel="stylesheet" href="content/css/vendor.css">
+<!-- bower:css -->
+<link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
+<link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.css">
+<link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css">
+<!-- endinject -->
+<!-- endbuild -->
 ----
 
-Finally, I ran `./gradlew bootRun` and confirmed that the new theme was being used.
+You should make sure that the `vendor.css` is before all material design stylesheets in your index.html!
+****
+
+After making these changes, I observed the changes made by installing this module using `git diff`.
+
+Finally, I ran `./gradlew` and confirmed that the new theme was being used.
 
 [[img-material-design-theme]]
 .Material Design for Bootstrap theme
-image::chapter2/material-design-theme.png[Material Design for Bootstrap theme, 2492, scaledwidth=100%]
+image::chapter2/material-design-theme.png[Material Design for Bootstrap theme, 1307, scaledwidth=100%]
 
 Before creating the entities and associated database tables for this application, I decided to upgrade JHipster to
-the latest release. You can see that I created this application with JHipster 2.16.0. The latest release as of writing is
-2.19.0, so I updated my version with the following command.
+the latest release. You can see that I created this application with JHipster 3.5.1. The latest release as of writing is
+3.6.0, so I updated my version with the following command.
 
 ----
 npm update -g generator-jhipster
@@ -276,7 +377,7 @@ For each entity you want to create, you will need:
 * a database table;
 * a Liquibase change set;
 * a JPA entity class;
-* a Spring Data `JpaRespository` interface;
+* a Spring Data `JpaRepository` interface;
 * a Spring MVC `RestController` class;
 * an AngularJS router, controller and service; and
 * a HTML page.
@@ -284,18 +385,17 @@ For each entity you want to create, you will need:
 In addition, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In
 an ideal world, you'd also have unit tests and integration tests for your Angular code.
 
-The good news is JHipster can generate all of this code for you, including integration tests and performance tests. At the
-time of writing, it does not support generating UI tests. (See https://github.com/jhipster/generator-jhipster/issues/897[issue #897]
-for why it does not support UI testing.)
-In addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys),
-and the JavaScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
+The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In addition,
+if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the
+JavaScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
 
-JHipster supports two methods of code generation. The first uses its
+JHipster supports several methods of code generation. The first uses its
 https://jhipster.github.io/creating_an_entity.html[entity sub-generator]. The entity sub-generator is a command-line tool
-that prompts you with questions which you answer. https://jhipster.github.io/jhipster_uml.html[JHipster UML]
-is an alternative for those that like visual tools. The supported UML editors include https://www.modeliosoft.com/[Modelio],
+that prompts you with questions which you answer. https://jhipster.github.io/jdl-studio/[JDL-Studio] is a browser-based
+tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://jhipster.github.io/jhipster_uml.html[JHipster UML]
+is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio],
 http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and
-http://www.visual-paradigm.com/[Visual Paradigm]. Because I believe the entity sub-generator is simpler to use, I chose
+http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose
 that for this project.
 
 The diagram below shows the data model for this project. A user has a goal, which is tied to metrics

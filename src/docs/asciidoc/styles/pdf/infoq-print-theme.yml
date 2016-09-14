@@ -29,10 +29,10 @@ font:
 page:
   background_color: ffffff
   layout: portrait
-  # NOTE margin is used for calculation on dry run pages, so must have same inner width as recto/verso pages
-  margin: [0.6in, 0.6in, 0.5in, 0.5in]
-  margin_recto: [0.6in, 0.8in, 0.5in, 0.5in]
-  margin_verso: [0.6in, 0.5in, 0.6in, 0.8in]
+  # NOTE margin_inner and margin_outer replace side margins when media=prepress
+  margin: [0.6in, 0.75in, 0.5in, 0.75in]
+  margin_inner: 1in
+  margin_outer: 0.5in
   size: [6in, 9in]
 base:
   align: justify
@@ -51,10 +51,10 @@ base:
   #line_height_length: 18
   #font_size: 11.2
   #line_height_length: 16
-  font_size: 7
+  font_size: 9
   #line_height_length: 15
   # correct line height for Noto Serif metrics
-  line_height_length: 8
+  line_height_length: 10.25
   #font_size: 11.25
   #line_height_length: 18
   line_height: $base_line_height_length / $base_font_size
@@ -103,13 +103,13 @@ title_page:
   font_family: Akkurat
   font_style: bold
   title:
-    top: 10%
-    font_size: $heading_h1_font_size * 2
+    top: 4%
+    font_size: $heading_h1_font_size * 1.75
     font_color: 181818
     text_transform: uppercase
     line_height: 1.25
   authors:
-    margin_top: 395.0
+    margin_top: 390.0
     font_size: $heading_h1_font_size
     font_color: 181818
   revision:
@@ -148,7 +148,7 @@ blockquote:
 code:
   font_color: $base_font_color
   font_family: $literal_font_family
-  font_size: ceil($base_font_size)
+  font_size: 8
   padding: $code_font_size
   line_height: 1.25
   background_color: f5f5f5
