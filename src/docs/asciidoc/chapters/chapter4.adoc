@@ -32,7 +32,7 @@ You can visit it in your browser at https://start.spring.io or you can call it v
 
 [[img-spring-initializr-web]]
 .Spring Initializr in a browser
-image::chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1248, scaledwidth=100%]
+image::chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1175, scaledwidth=100%]
 
 [[img-spring-initializr-curl]]
 .Spring Initializr via curl
@@ -87,22 +87,26 @@ This project has only a few files in it, as you can see by running the `tree` co
 
 ----
 .
+├── mvnw
+├── mvnw.cmd
 ├── pom.xml
 └── src
     ├── main
     │   ├── java
-    │   │   └── demo
-    │   │       └── DemoApplication.java
+    │   │   └── com
+    │   │       └── example
+    │   │           └── DemoApplication.java
     │   └── resources
     │       ├── application.properties
     │       ├── static
     │       └── templates
     └── test
         └── java
-            └── demo
-                └── DemoApplicationTests.java
+            └── com
+                └── example
+                    └── DemoApplicationTests.java
 
-10 directories, 4 files
+12 directories, 6 files
 ----
 
 `DemoApplication.java` is the heart of this application; the file and class name are not relevant. What is relevant
@@ -209,9 +213,10 @@ data show up in your logs.
 TODO: Update with output from today
 
 ----
-2015-09-21 06:00:07.056  INFO 6140 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2016-10-05 12:02:51.280  INFO 66181 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2016-10-05 12:02:51.325  INFO 66181 --- [           main] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
 [Blog{id=1, name='First'}, Blog{id=2, name='Second'}]
-2015-09-21 06:00:07.210  INFO 6140 --- [           main] demo.DemoApplication                     : Started DemoApplication in 4.794 seconds (JVM running for 5.238)
+2016-10-05 12:02:51.468  INFO 66181 --- [           main] com.example.DemoApplication              : Started DemoApplication in 9.452 seconds (JVM running for 9.884)
 ----
 
 To publish this data as a REST API, create a `BlogController` class and add a `/blogs` endpoint that returns a list of blogs.
@@ -297,19 +302,29 @@ under the `EnableAutoConfiguration` key. For example, below is what's contained 
 ----
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.springframework.boot.actuate.autoconfigure.AuditAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.CacheStatisticsAutoConfiguration,\
 org.springframework.boot.actuate.autoconfigure.CrshAutoConfiguration,\
 org.springframework.boot.actuate.autoconfigure.EndpointAutoConfiguration,\
 org.springframework.boot.actuate.autoconfigure.EndpointMBeanExportAutoConfiguration,\
 org.springframework.boot.actuate.autoconfigure.EndpointWebMvcAutoConfiguration,\
 org.springframework.boot.actuate.autoconfigure.HealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.InfoContributorAutoConfiguration,\
 org.springframework.boot.actuate.autoconfigure.JolokiaAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.ManagementSecurityAutoConfiguration,\
 org.springframework.boot.actuate.autoconfigure.ManagementServerPropertiesAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration,\
 org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration,\
 org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.MetricsDropwizardAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.MetricsChannelAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.MetricExportAutoConfiguration,\
 org.springframework.boot.actuate.autoconfigure.PublicMetricsAutoConfiguration,\
 org.springframework.boot.actuate.autoconfigure.TraceRepositoryAutoConfiguration,\
 org.springframework.boot.actuate.autoconfigure.TraceWebFilterAutoConfiguration
+
+org.springframework.boot.actuate.autoconfigure.ManagementContextConfiguration=\
+org.springframework.boot.actuate.autoconfigure.EndpointWebMvcManagementContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.EndpointWebMvcHypermediaManagementContextConfiguration
+
 ----
 
 These configuration classes will usually contain `@Conditional` annotations to help configure themselves. Developers can use
@@ -367,26 +382,20 @@ TODO: Confirm same endpoints still exist
 * `/trace` - Returns trace information (by default, the last several HTTP requests).
 
 JHipster includes a plethora of Spring Boot starter dependencies by default. This allows developers to write less code and worry
-less about dependencies and classpaths. The boot-starter dependencies in the 21-Points Health application are as follows:
+less about dependencies and configuration. The boot-starter dependencies in the 21-Points Health application are as follows:
 
+// cat build.gradle | grep boot-starter
 ----
-spring-boot-actuator
-spring-boot-autoconfigure
-spring-boot-loader-tools
 spring-boot-starter-logging
-spring-boot-starter-aopspring-boot-starter-data-jpa
+spring-boot-starter-aop
+spring-boot-starter-data-jpa
 spring-boot-starter-data-elasticsearch
 spring-boot-starter-security
 spring-boot-starter-web
+spring-boot-starter-undertow
 spring-boot-starter-websocket
 spring-boot-starter-thymeleaf
-spring-cloud-cloudfoundry-connector
-spring-cloud-spring-service-connector
-spring-cloud-localconfig-connector
-spring-security-config
-spring-security-data
-spring-security-web
-spring-security-messaging
+spring-boot-starter-test
 ----
 
 Spring Boot does a great job at auto-configuring libraries and simplifying Spring. JHipster complements that by
@@ -395,8 +404,23 @@ integrating the wonderful world of Spring Boot with a modern UI and developer ex
 == Maven versus Gradle
 
 Maven and Gradle are the two main build tools used in Java projects today. JHipster allows you to use either one.
-With Maven, you have one `pom.xml` file that's around 800 lines of XML. With Gradle, you end up with nine `*.gradle` files.
-However, their Groovy code adds up to only 344 lines.
+With Maven, you have one `pom.xml` file that's 885 lines of XML. With Gradle, you end up with several `*.gradle` files.
+In the 21-Points project, their Groovy code adds up to only 441 lines.
+
+////
+build.gradle (217)
+settings.gradle (1)
+gradle/docker.gradle (21)
+gradle/gatling.gradle (46)
+gradle/liquibase.gradle (30)
+gradle/mapstruct.gradle (5)
+gradle/profile_dev.gradle (42)
+gradle/profile_prod.gradle (54)
+gradle/sonar.gradle (12)
+gradle/yeoman.gradle (13)
+
+217 + 1 + 21 + 46 + 30 + 5 + 42 + 54 + 12 + 13 = 441
+////
 
 http://maven.apache.org/[Apache Maven] calls itself a "`software project-management and comprehension tool`". Based on the
 concept of a project object model (POM), Maven can manage a project's build, reporting, and documentation from a
@@ -429,7 +453,7 @@ TODO: Is this the latest version?
   <extension>
     <groupId>io.takari.polyglot</groupId>
     <artifactId>${artifactId}</artifactId>
-    <version>0.1.10</version>
+    <version>0.1.19</version>
   </extension>
 </extensions>
 ----
@@ -463,14 +487,15 @@ I'd recommend starting with the tool that's most familiar to you. If you're usin
 
 IDE stands for integrated development environment. It is the lifeblood of a programmer that likes keyboard shortcuts and typing fast. The good IDEs have code completion that allows you to type a few characters, press tab, and have your code written for you. Furthermore, they provide quick formatting, easy access to documentation, and debugging. You can generate a lot of code with your IDE in statically typed languages like Java, like getters and setters on POJOs, and methods in interfaces and classes. You can also easily find references to methods.
 
-https://www.jetbrains.com/idea/[IntelliJ IDEA], which brings these same features to Java development, is a truly amazing IDE. If you're only writing JavaScript, their https://www.jetbrains.com/webstorm/[WebStorm IDE] will likely become your best friend. Both IntelliJ products have excellent CSS support and accept plugins for many web languages/frameworks.
+The JHipster documentation includes https://jhipster.github.io/configuring-ide/[guides] for configuring Eclipse, IntelliJ IDEA, Visual Studio Code and Netbeans. Not only that, but Spring Boot has a https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html[devtools plugin] that's configured by default in a generated JHipster application. This plugin allows hot-reloading of your application when you re-compile classes.
 
-The http://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/mars1[Eclipse IDE for Java Developers] is a free alternative to IntelliJ IDEA. Its error highlighting (via auto-compile), code assist, and refactoring support is excellent. When I started using it back in 2002, it blew away the competition. It was the first Java IDE that was fast and efficient to use. Unfortunately, it fell behind in the JavaScript MVC era and lacks good support for JavaScript or CSS.
+https://www.jetbrains.com/idea/[IntelliJ IDEA], which brings these same features to Java development, is a truly amazing IDE. If you're only writing JavaScript, their https://www.jetbrains.com/webstorm/[WebStorm IDE] will likely become your best friend. Both IntelliJ products have excellent CSS support and accept plugins for many web languages/frameworks. See https://github.com/jhipster/generator-jhipster/issues/4258[this tip] to learn how to make IDEA auto-compile on save, like Eclipse does.
 
-NetBeans has a https://blogs.oracle.com/geertjan/entry/new_spring_boot_integration_for[Spring Boot plugin]. The NetBeans team has been doing a lot of work on web-tools support; they have good JavaScript/AngularJS support and there's a https://chrome.google.com/webstore/detail/netbeans-connector/hafdlehgocfcodbgjnpecfajgkeejnaa?hl=en[NetBeans Connector] plugin for Chrome that allows two-way
-editing in NetBeans and Chrome.
+The http://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/neon1[Eclipse IDE for Java Developers] is a free alternative to IntelliJ IDEA. Its error highlighting (via auto-compile), code assist, and refactoring support is excellent. When I started using it back in 2002, it blew away the competition. It was the first Java IDE that was fast and efficient to use. Unfortunately, it fell behind in the JavaScript MVC era and lacks good support for JavaScript or CSS.
 
-The JHipster documentation includes https://jhipster.github.io/configuring_ide.html[guides] for configuring https://jhipster.github.io/configuring_ide_eclipse.html[Eclipse] and https://jhipster.github.io/configuring_ide_idea.html[IntelliJ IDEA].
+NetBeans has a https://github.com/GeertjanWielenga/SpringBootTools4NetBeans[Spring Boot plugin]. The NetBeans team has been doing a lot of work on web-tools support; they have good JavaScript/AngularJS support and there's a https://chrome.google.com/webstore/detail/netbeans-connector/hafdlehgocfcodbgjnpecfajgkeejnaa?hl=en[NetBeans Connector] plugin for Chrome that allows two-way editing in NetBeans and Chrome.
+
+https://code.visualstudio.com[Visual Studio Code] is an open source text editor made by Microsoft. It's become a popular editor for TypeScript and has plugins for Java development.
 
 The beauty of Spring Boot is you can run it as a simple Java process. This means you can right-click on your `*Application.java` class and run it (or debug it) from your IDE. When debugging, you'll be able to set breakpoints in your Java classes and see what variables are being set to before a process executes.
 
@@ -515,15 +540,12 @@ There's not much code, but it provides many features:
 ** X-Frame-Options integration to help prevent clickjacking.
 * Integrates with HttpServletRequest API methods: `getRemoteUser()`, `getUserPrinciple()`, `isUserInRole(role)`, `login(username, password)`, and `logout()`
 
-TODO: Update for Social Login
-
 JHipster takes the excellence of Spring Security and uses it to provide the real-world authentication mechanism that applications need. When you create a new JHipster project, it provides you with three authentication options:
 
 * *HTTP Session Authentication* — Uses the HTTP session, so it is a stateful mechanism. Recommended for small applications.
 * *OAuth2 Authentication* — A stateless security mechanism. You might prefer it if you want to scale your application across several machines.
-* *Token-based authentication* — Like OAuth2, a stateless security mechanism. This is specific to JHipster, not provided by Spring Security.
-
-TIP: It's possible that JHipster will soon support four authentication options. JHipster Team member, Thibaut Mottet, has been working on integrating http://projects.spring.io/spring-social/[Spring Social] and has published a https://github.com/moifort/jhipster-app-social[sample application with Google and Facebook authentication].
+* *JWT authentication* — Like OAuth2, a stateless security mechanism. This is specific to JHipster, not provided by Spring Security. It uses the https://github.com/jwtk/jjwt[Java JWT project].
+* *Social Login* - Adds support for logging in with social network credentials. Supports Google, Facebook and Twitter.
 
 .OAuth 2.0
 ****
@@ -545,7 +567,7 @@ For security reasons, you should change the default passwords in `src/main/resou
 
 A traditional relational-database management system (RDBMS) provides a number of properties that guarantee its transactions are processed reliably: ACID, for atomicity, consistency, isolation, and durability. Databases like MySQL and PostgreSQL provide RDBMS support and have done wonders to reduce the costs of databases. JHipster supports vendors like Oracle and Microsoft as well, but you just can't generate a project without an open-source database driver. If you'd like to use a traditional database, select SQL when creating your JHipster project.
 
-TIP: JHipster's https://jhipster.github.io/using_oracle.html[Using Oracle] guide shows you how to modify a project to support Oracle.
+TIP: JHipster's https://jhipster.github.io/using-oracle/[Using Oracle] guide shows you how to modify a project to support Oracle.
 
 NoSQL databases have helped many web-scale companies achieve high scalability through https://en.wikipedia.org/wiki/Eventual_consistency[eventual consistency]: because a NoSQL database is often distributed across several machines, with some latency, it guarantees only that all instances will eventually be consistent. Eventually consistent services are often called BASE (basically available, soft state, eventual consistency) services in contrast to traditional ACID properties.
 
@@ -553,12 +575,12 @@ When you create a new JHipster project, you'll be prompted with the following.
 
 ----
 ? (5/15) Which *type* of database would you like to use? (Use arrow keys)
-❯ SQL (H2, MySQL, PostgreSQL, Oracle)
+❯ SQL (H2, MySQL, MariaDB, PostgreSQL, Oracle)
   MongoDB
   Cassandra
 ----
 
-If you're familiar with RDBMS databases, I recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku. You can also use H2 for development, but then you'll lose out on Liquibase's "`diff`" feature.
+If you're familiar with RDBMS databases, I recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku.
 
 If your idea is the next Facebook, you might want to consider a NoSQL database that's more concerned with performance than third normal form.
 
@@ -585,11 +607,10 @@ JHipster's data support lets you dream big!
 When MongoDB is selected:
 
 * JHipster will use Spring Data MongoDB, similar to Spring Data JPA.
-* JHipster will use https://github.com/secondmarket/mongeez[Mongeez] instead of Liquibase to manage database migrations.
+* JHipster will use https://github.com/mongobee/mongobee[Mongobee] instead of Liquibase to manage database migrations.
 * The entity sub-generator will not ask you about relationships. You can't have relationships with a NoSQL database.
 
-Cassandra has http://jhipster.github.io/using_cassandra.html[more limitations and doesn't have a Liquibase equivalent]. For example, it only works with Java 8 and it does not support OAuth2 authentication.
-
+Cassandra has https://jhipster.github.io/using-cassandra/[does not support OAuth2 authentication] and it requires you to run its migration tool manually, or in a Docker container.
 ****
 
 == Liquibase
@@ -604,16 +625,16 @@ This file is loaded by Liquibase when it creates the database schema.
 <loadData encoding="UTF-8"
           file="config/liquibase/users.csv"
           separator=";"
-          tableName="JHI_USER">
+          tableName="jhi_user">
     <column name="activated" type="boolean"/>
     <column name="created_date" type="timestamp"/>
 </loadData>
-<dropDefaultValue tableName="JHI_USER" columnName="created_date" columnDataType="datetime"/>
+<dropDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="datetime"/>
 ----
 
 Liquibase supports http://www.liquibase.org/databases.html[most major databases]. If you use MySQL or PostgreSQL, you can use `mvn liquibase:diff` (or `./gradlew liquibaseDiffChangelog`) to automatically generate a changelog.
 
-http://jhipster.github.io/development.html[JHipster's development guide] recommends the following workflow:
+https://jhipster.github.io/development/[JHipster's development guide] recommends the following workflow:
 
 . Modify your JPA entity (add a field, a relationship, etc.).
 . Run `mvn compile liquibase:diff`.
@@ -624,7 +645,7 @@ If you use Gradle, you can use the same workflow by confirming database settings
 
 == Elasticsearch
 
-Elasticsearch adds searchability to your entities. JHipster's Elasticsearch support requires choosing Java 8+ and a SQL database. Spring Boot uses and configures http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch]. When using JHipster's http://jhipster.github.io/creating_an_entity.html[entity sub-generator],  it automatically indexes the entity and creates an endpoint to support searching its properties. Search superpowers are also added to the AngularJS UI, so you can search in your entity's list screen.
+Elasticsearch adds searchability to your entities. JHipster's Elasticsearch support requires using a SQL database. Spring Boot uses and configures http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch]. When using JHipster's https://jhipster.github.io/creating-an-entity/[entity sub-generator], it automatically indexes the entity and creates an endpoint to support searching its properties. Search superpowers are also added to the AngularJS UI, so you can search in your entity's list screen.
 
 When using the (default) "`dev`" profile, the in-memory Elasticsearch instance will store files in the `target` folder.
 
@@ -645,7 +666,7 @@ data:
               data: /tmp/elasticsearch/data
 ----
 
-You could also use https://addons.heroku.com/searchbox#starter[SearchBox Elasticsearch]. It's an add-on for Heroku that provides hosted, managed, and scalable search with Elasticsearch. It offers a free plan for development and many others to allow scaling up.
+You could also use https://elements.heroku.com/addons/searchbox[SearchBox Elasticsearch]. It's an add-on for Heroku that provides hosted, managed, and scalable search with Elasticsearch. It offers a free plan for development and many others to allow scaling up.
 ====
 
 Elasticsearch is used by a number of well-known companies: Facebook, GitHub, and Uber among others. The project is backed by https://www.elastic.co/[Elastic], which provides an ecosystem of projects around Elasticsearch. Some examples are:
@@ -674,15 +695,15 @@ With Gradle, it's:
 gradlew -Pprod bootRun
 ----
 
-The "`prod`" profile will trigger a `grunt build`, which optimizes your static resources. It will combine your JavaScript and CSS files, minify them, and get them production ready. It also updates your HTML (in your `dist` directory) to have references to your versioned, combined, and minified files.
+The "`prod`" profile will trigger a `gulp build`, which optimizes your static resources. It will combine your JavaScript and CSS files, minify them, and get them production ready. It also updates your HTML (in your `dist` directory) to have references to your versioned, combined, and minified files.
 
-A JHipster application can be deployed to your own JVM, http://jhipster.github.io/cloudfoundry.html[Cloud Foundry], http://jhipster.github.io/heroku.html[Heroku], http://jhipster.github.io/openshift.html[OpenShift], and http://jhipster.github.io/aws.html[AWS].
+A JHipster application can be deployed to your own JVM, https://jhipster.github.io/cloudfoundry/[Cloud Foundry], http://jhipster.github.io/heroku/[Heroku], https://jhipster.github.io/kubernetes/[Kubernetes], and http://jhipster.github.io/aws.html[AWS].
 
-I've deployed JHipster applications to both Heroku and Cloud Foundry. With Heroku, you might have to ask to double the timeout (from 60 to 120 seconds) to get your application started. Heroku support is usually quick to respond and can make it happen in a matter of minutes. Recently, the JHipster team created a non-blocking Liquibase bean and https://twitter.com/java_hipster/status/649504634080468992[cut startup time by 40%].
+I've deployed JHipster applications to both Heroku and Cloud Foundry. With Heroku, you might have to ask to double the timeout (from 60 to 120 seconds) to get your application started. Heroku support is usually quick to respond and can make it happen in a matter of minutes. In 2015, the JHipster team created a non-blocking Liquibase bean and https://twitter.com/java_hipster/status/649504634080468992[cut startup time by 40%].
 
 == Summary
 
-The Spring Framework has one of the best track records for hipness in Javaland. It's remained backwards compatible between many releases and has lived as an open-source project for more than 10 years. Spring Boot has provided a breath of fresh air for people using Spring with its starter dependencies, auto-configuration, and monitoring tools. It's made it easy to build microservices in Java (and Groovy) and deploy them to the cloud.
+The Spring Framework has one of the best track records for hipness in Javaland. It's remained backwards compatible between many releases and has lived as an open-source project for more than 12 years. Spring Boot has provided a breath of fresh air for people using Spring with its starter dependencies, auto-configuration, and monitoring tools. It's made it easy to build microservices in Java (and Groovy) and deploy them to the cloud.
 
 You've seen some of the cool features of Spring Boot and the build tools you can use to package and run a JHipster application. I've described the power of Spring Security and showed you its many features, which you can enable with only a few lines of code. JHipster supports both relational databases and NoSQL databases, which allows you to choose how you want your data stored. You can choose JPA, MongoDB, or Cassandra when creating a new application.
 

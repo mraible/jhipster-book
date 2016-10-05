@@ -1,7 +1,7 @@
 [[action]]
 = Action!
 
-I hope you've enjoyed learning how JHipster can help you develop hip web applications! It's a nifty project, with an easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows five simple http://jhipster.github.io/policies.html[policies], paraphrased here:
+I hope you've enjoyed learning how JHipster can help you develop hip web applications! It's a nifty project, with an easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows five simple https://jhipster.github.io/policies/[policies], paraphrased here:
 
 1. The development team votes on policies.
 2. JHipster uses technologies with their default configurations as much as possible.
