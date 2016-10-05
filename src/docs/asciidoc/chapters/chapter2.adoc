@@ -366,7 +366,7 @@ I opened `bootstrap-material.config.js` to look for the problem.
 ----
 
 I changed `compileServiceConfig.$inject = [];` to `bootstrapMaterialDesignConfig.$inject = []` and it cleaned up
-my console.
+my console. I then https://github.com/moifort/generator-jhipster-bootstrap-material-design/issues/15[logged an issue] for this bug.
 
 After making this change, I committed my updated project to Git. Then I ran `./gradlew test` to make sure all unit
 tests passed. I followed this up with `./gradlew` in one terminal window and `gulp itest` (in the same directory)
@@ -387,7 +387,7 @@ I opened the application in a browser and noticed there were some rounded corner
 This happened because the upgrade overwrite `index.html` and I had to re-apply the <<using sass>> fix.
 
 TIP: After integrating the Material Design theme, I deployed to Heroku for the first time. This is covered in the
-<<Continuous integration and deployment>> section of this chapter.
+<<Deploying to Heroku>> section of this chapter.
 
 === Generating entities
 
@@ -434,9 +434,9 @@ After figuring out how I wanted the UI to look, I started to think about the dat
 track high-level goals (e.g. lose five pounds in Q4 2016). I was more concerned with tracking weekly goals and 21-Points
 Health is all about how many points you get in a week. I created the following diagram as my data model.
 
-[[img-entity-diagram-simpler]]
-.21-Points Health entity diagram - simplified
-image::chapter2/entity-diagram-simpler.png[21-Points Health entity diagram - simplified, 684, scaledwidth=100%, align=center]
+[[img-entity-diagram]]
+.21-Points Health entity diagram
+image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=100%, align=center]
 
 I ran `yo jhipster:entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one
 relationship with `User`. Below is the final output from my answers.
@@ -1639,7 +1639,7 @@ were necessary for the MVP.
 
 == Deploying to Heroku
 
-JHipster ships with support for deploying to Cloud Foundry, Heroku, OpenShift, and AWS. I used Heroku to
+JHipster ships with support for deploying to Cloud Foundry, Heroku, Kubernetes, AWS, and Boxfuse. I used Heroku to
 deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for
 production, it's recommended to use the pre-configured "`production`" profile. With Gradle, you can package your
 application by specifying this profile when building.
@@ -1654,11 +1654,10 @@ The command looks similar when using Maven.
 mvn -Pprod package
 ----
 
-The production profile is used to build an optimized JavaScript client. You can invoke this using Grunt or
-Gulp by running `grunt build` or `gulp build`, depending on which tool your project uses. The production profile also
-configures gzip compression with a servlet filter, cache headers and monitoring via https://github.com/dropwizard/metrics[Metrics].
-If you have a http://graphite.wikidot.com/[Graphite] server configured in your `application-prod.yaml` file, your application
-will automatically send metrics data to it.
+The production profile is used to build an optimized JavaScript client. You can invoke this using Gulp by running `gulp build`.
+The production profile also configures gzip compression with a servlet filter, cache headers and monitoring via
+https://github.com/dropwizard/metrics[Metrics]. If you have a http://graphite.wikidot.com/[Graphite] server configured in
+your `application-prod.yaml` file, your application will automatically send metrics data to it.
 
 To upload 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-command-line[Heroku CLI]
 installed.
@@ -1673,7 +1672,7 @@ Password (typing will be hidden):
 Authentication successful.
 ----
 
-I ran `yo jhipster:heroku` as recommended in the http://jhipster.github.io/heroku.html[Deploying to Heroku]
+I ran `yo jhipster:heroku` as recommended in the http://jhipster.github.io/heroku/[Deploying to Heroku]
 documentation. I tried using the name "`21points`" for my application when prompted.
 
 ----
@@ -1742,7 +1741,7 @@ I quickly changed the default passwords for *admin* and *user* to make things mo
 
 [[img-deployed-to-heroku]]
 .First deployment to Heroku
-image::chapter2/deployed-to-heroku.png[First deployment to Heroku, 1144, scaledwidth=100%, align=center]
+image::chapter2/deployed-to-heroku.png[First deployment to Heroku, 1175, scaledwidth=100%, align=center]
 
 Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for
 Heroku, I ran `heroku domains:add`.
