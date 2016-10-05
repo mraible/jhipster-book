@@ -32,15 +32,15 @@ You will only need to run this command when dependencies change in package.json.
 #!shell
 npm install
 ```
-This project use [Grunt](http://gruntjs.com/) as the client-code build system. You can install the `grunt` command-line 
+This project use [Gulp](http://gulpjs.com/) as the client-code build system. You can install the `gulp` command-line 
 tool globally with:
 ```
 #!shell
-npm install -g grunt-cli
+npm install -g gulp-cli
 ```
-Now you can run the following `grunt` command to create a blissful development experience where your browser auto-refreshes 
+Now you can run the following `gulp` command to create a blissful development experience where your browser auto-refreshes 
 when files change on your hard drive.
 ```
 #!shell
-grunt serve
+gulp
 ```

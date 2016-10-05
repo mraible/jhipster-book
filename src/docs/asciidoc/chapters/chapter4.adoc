@@ -206,6 +206,8 @@ insert into blog (name) values ('Second');
 Start your application with `mvn spring-boot:run` (or right-click -> run in your IDE) and you should see this default
 data show up in your logs.
 
+TODO: Update with output from today
+
 ----
 2015-09-21 06:00:07.056  INFO 6140 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
 [Blog{id=1, name='First'}, Blog{id=2, name='Second'}]
@@ -350,6 +352,8 @@ Actuator's main features are *endpoints*, *metrics*, *auditing*, and *process mo
 number of REST endpoints. By default, Spring Boot will also expose management endpoints as JMX MBeans under the
 `org.springframework.boot` domain. Actuator REST endpoints include:
 
+TODO: Confirm same endpoints still exist
+
 * `/autoconfig` - Returns an auto-configuration report that shows all auto-configuration candidates.
 * `/beans` - Returns a complete list of all the Spring beans in your application.
 * `/configprops` - Returns a list of all `@ConfigurationProperties`.
@@ -415,6 +419,8 @@ If we were forced to conclude with any general recommendation, it would be to go
 ""
 
 I've used both tools for building projects and they've both worked quite well. Maven works for me, but I've used it for over 10 years and recognize that my history and experience with it might contribute to my bias towards it. If you prefer Gradle simply because you are trying to avoid XML, https://github.com/takari/polyglot-maven[Polyglot for Maven] may change your perspective. It supports Atom, Groovy, Clojure, Ruby, Scala, and YAML languages. Ironically, you need to include a XML file to use it. To add support for non-XML languages, create a `+${project}/.mvn/extensions.xml+` file and add the following XML to it.
+
+TODO: Is this the latest version?
 
 [source,xml]
 ----
@@ -508,6 +514,8 @@ There's not much code, but it provides many features:
 ** X-XSS-Protection integration.
 ** X-Frame-Options integration to help prevent clickjacking.
 * Integrates with HttpServletRequest API methods: `getRemoteUser()`, `getUserPrinciple()`, `isUserInRole(role)`, `login(username, password)`, and `logout()`
+
+TODO: Update for Social Login
 
 JHipster takes the excellence of Spring Security and uses it to provide the real-world authentication mechanism that applications need. When you create a new JHipster project, it provides you with three authentication options:
 

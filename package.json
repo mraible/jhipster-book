@@ -1,15 +1,13 @@
 {
   "name": "jhipster-book",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "The JHipster Mini-Book",
   "repository": {
     "type": "git",
     "url": "git@bitbucket.org:mraible/jhipster-book.git"
   },
   "devDependencies": {
-    "grunt": "0.4.5",
-    "grunt-browser-sync": "2.0.0",
-    "load-grunt-tasks": "3.1.0",
-    "grunt-contrib-watch": "0.6.1"
+    "gulp": "3.9.1",
+    "browser-sync": "2.15.0"
   }
 }

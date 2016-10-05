@@ -27,8 +27,7 @@ image::chapter3/angular/linkedin-skills-march2013.png[Skills on LinkedIn in 2013
 --
 
 In February 2014, I updated those statistics for a presentation. The number of Dice jobs that mentioned Angular had grown to roughly equal the number that mentioned Backbone, and
-a lot of people had added Angular to their LinkedIn profiles. I found that Ember had grown around 300%, Backbone 200%, and Angular
-1,000%!
+a lot of people had added Angular to their LinkedIn profiles. I found that Ember had grown around 300%, Backbone 200%, and Angular 1,000%!
 
 [.clearfix]
 --
@@ -80,7 +79,7 @@ Creating Hello World with Angular is pretty simple.
     <hr>
     <h1>Hello {{name}}!</h1>
 </div>
-<script src="http://code.angularjs.org/1.3.11/angular.min.js"></script>
+<script src="http://code.angularjs.org/1.5.8/angular.min.js"></script>
 </body>
 </html>
 ----
@@ -168,6 +167,8 @@ TIP: Angular allows you to bind data to its `$scope` object. It represents your 
 object that can be used to share data between components. Scopes occupy a hierarchical structure that mimics the
 DOM structure. Scopes can watch expressions and propagate events.
 
+NOTE: The generated code in JHipster was changed in 2016 to follow https://github.com/johnpapa/angular-styleguide[John Papa's Angular Style Guide]. This means that `vm` (a.k.a the _view model_) is often used instead of `$scope` for exposing data to the view.
+
 [source,javascript]
 ----
 .controller('SearchController', ['$scope', 'SearchService', function ($scope, SearchService) {
@@ -194,8 +195,8 @@ To make the aforementioned module work, you need a HTML page that includes Angul
 
 <div ng-view></div> <2>
 
-<script src="http://code.angularjs.org/1.3.11/angular.min.js"></script>
-<script src="http://code.angularjs.org/1.3.11/angular-route.min.js"></script>
+<script src="http://code.angularjs.org/1.5.8/angular.min.js"></script>
+<script src="http://code.angularjs.org/1.5.8/angular-route.min.js"></script>
 <script src="app.js"></script> <3>
 <script src="search/search.js"></script>
 </body>
@@ -268,8 +269,8 @@ using on several projects. To use it, you'll need to reference its JavaScript fi
 ----
 <div ui-view></div>
 
-<script src="http://code.angularjs.org/1.3.11/angular.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.js"></script>
+<script src="http://code.angularjs.org/1.5.8/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
 ----
 
 Next, change your `app.js` to use `ui-router` instead of `ngRoute`. Then set up your application states with code like
@@ -348,9 +349,9 @@ On failure, a promise resolves with the HTTP response object, but does not conta
 A resource instance also has a `$resolved` property that returns `true` after its first server interaction completes
 (regardless of success or rejection).
 
-=== AngularJS 2.0
+=== Angular 2.0
 In October 2014, the Angular team announced the http://www.infoq.com/news/2014/10/angular-2-atscript[details of Angular
-2.0]. The announcement led to a bit of upheaval in the AngularJS developer community. The API for writing
+2.0]. The announcement led to a bit of upheaval in the Angular developer community. The API for writing
 Angular applications was going to change and it was to be based on a new language, AtScript. There would be no migration
 path and users would have to continue using 1.x or rewrite their applications for 2.x.
 
@@ -376,7 +377,7 @@ In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-conc
 would provide a migration path for Angular 1.x users. The Angular 2.0 project is hosted at https://angular.io/. The team
 plans to support Angular 1.x (at https://angularjs.org/) as long as its web traffic exceeds the 2.0 site.
 
-JHipster will add support for Angular 2 once it's deemed mature enough for production use. In the meantime, I recommend you read and follow https://github.com/johnpapa/angular-styleguide[John Papa's Angular Style Guide] to prepare for Angular 2.
+Angular 2.0 was released in September 2016. The JHipster team is https://github.com/jhipster/generator-jhipster/issues/3664[currently working on adding support for Angular 2]. In the meantime, you can learn how to develop with Angular 2 by reading my http://gist.asciidoctor.org/?github-mraible/ng2-demo//README.adoc[Angular 2 Tutorial].
 
 Now that you've learned a bit about the hottest web framework on the planet, let's take a look at the most
 popular CSS framework: Bootstrap.
@@ -578,23 +579,23 @@ in your `bower.json` file.
 
 === Customizing CSS
 If you'd like to override Bootstrap classes in your project, the easiest thing to do is to put the override rule in a CSS
-file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/assets/styles/main.css` directly. If you're
-using Compass to compile `*.scss` files, you can modify `src/main/scss/main.scss` instead. Using Compass results in a much
-more concise authoring environment. Below is the default `main.scss` file that Yeoman generates. You can see that
-it overrides the font location variable, imports Bootstrap, then overrides some of its default `body` rules.
+file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/css/main.css` directly. If you're
+using Sass to compile `*.scss` files, you can modify `src/main/webapp/scss/main.scss` instead. Using Sass results in a much
+more concise authoring environment. Below is the default `vendor.scss` file that Yeoman generates. You can see that
+it overrides the font path variable and imports Bootstrap. Default rules are overridden in `src/main/webapp/scss/main.scss`.
 
 [source,css]
-.src/main/scss/main.scss
+.src/main/webapp/scss/vendor.scss
 ----
-$icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
+$icon-font-path: "../fonts/";
 
-@import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+/* Sass bower components will be injected here */
+/* bower:scss */
+@import "../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+/* endinject */
+/* bower:sass */
+/* endinject */
 
-body {
-    background: #fafafa;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333;
-}
 ----
 
 === Angular and Bootstrap
@@ -613,23 +614,23 @@ JHipster. Translating an application to another language is easiest if you put t
 a project. https://angular-translate.github.io/[Angular Translate] provides directives that make it easy to translate
 your application into multiple languages.
 
-To use Angular Translate, you simply add a "`translate`" attribute with a key.
+To use Angular Translate, you simply add a "`data-translate`" attribute with a key.
 
 [source,html]
 ----
-<label translate="user.firstname">First Name</label>
+<label data-translate="user.firstname">First Name</label>
 ----
 
 The key references a JSON document, which will return the translated string. AngularJS will then replace the "`First Name`"
 string with the translated version.
 
-JHipster installs English and French translations when you first create a project. It stores the JSON documents
-for these languages in `src/main/webapp/i18n`, in `en` and `fr` directories. You can install additional languages using
-`yo jhipster:languages`. At the time of this writing, JHipster supports 14 additional languages. You can also add a new
-language. To set the default language, modify `src/main/webapp/scripts/app/app.js` and its preferred language line.
+JHipster allows you to choose a default language and translations when you first create a project. It stores the JSON documents
+for these languages in `src/main/webapp/i18n`. You can install additional languages using `yo jhipster:languages`. At the time
+of this writing, JHipster supports 26 languages. You can also add a new language. To set the default language, modify
+`src/main/webapp/app/blocks/config/translation.config.js` and its preferred language line.
 
 [source,javascript]
-.src/main/webapp/scripts/app/app.js
+.src/main/webapp/app/blocks/config/translation.config.js
 ----
 $translateProvider.preferredLanguage('de');
 ----
@@ -732,75 +733,31 @@ Bootstrap is written with http://lesscss.org/[Less], a CSS pre-processor with si
 founders have https://twitter.com/mdo/status/591364406816079873[announced] that they'll be using SCSS for the 4.0
 version.
 
-JHipster allows you to use Sass by integrating http://compass-style.org/[Compass]. To learn more about structuring your
+JHipster allows you to use Sass by integrating https://www.npmjs.com/package/gulp-sass[gulp-sass]. To learn more about structuring your
 CSS and naming classes, read the great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
 
-== Grunt versus Gulp
-JHipster prompts you to choose between http://gruntjs.com/[Grunt] and http://gulpjs.com/[Gulp] for building the client.
-Both tools allow you to perform tasks like minification, concatenation, compilation (e.g. from TypeScript/
-CoffeeScript to JavaScript), unit testing, and more.
-
-=== Grunt
-Grunt calls itself "`the JavaScript task runner`". It's the incumbent in the field of JavaScript build tools and has
-over 4,000 http://gruntjs.com/plugins[plugins]. You install and manage Grunt and Grunt plugins via https://www.npmjs.com/[npm],
-a package manager for https://nodejs.org/[Node.js]. You can install anything specified as a dependency in
-your project's `package.json` using `npm install`. To install Grunt globally (so you can use it
-anywhere), run `npm install -g grunt-cli`.
-
-Grunt was created by Ben Alman, who http://bocoup.com/weblog/introducing-grunt/[first released it March 29, 2012].
-
-// http://gruntjs.com/plugins: 4,631
-// http://gulpjs.com/plugins/: 1547
-
-The following steps show how to integrate Grunt into https://github.com/angular/angular-seed[angular-seed]. This particular
-build file optimizes your JavaScript, CSS, and HTML for production. It concatenates your JavaScript and CSS
-files, minifies them, then replaces the references in the HTML to point to the optimized files. First, you have
-to configure `package.json` to include Grunt and its plugins for web optimization.
-
-[source,json]
-.package.json
-----
-include::{sourcedir}/chapter3/grunt/package.json[]
-----
-
-Then, you have to write a `Gruntfile.js` that configures each of the different tasks for the project.
-
-[source,javascript]
-.Gruntfile.js
-----
-include::{sourcedir}/chapter3/grunt/Gruntfile.js[]
-----
-
-Before the tasks run, the `index.html` file points to individual CSS and JavaScript files. The `<!-- build:* -\->`
-and `<!-- endbuild -\->` are used by the `useminPrepare` task  to build the list of files for optimization.
-
-[source,html]
-.index.html
-----
-include::{sourcedir}/chapter3/grunt/index-dev.html[]
-----
-
-After the build runs, the `dist/index.html` file points to the revved, combined, and minified CSS and JavaScript files.
-
-[source,html]
-.dist/index.html
-----
-include::{sourcedir}/chapter3/grunt/index-prod.html[]
-----
-
-// http://www.justinmccandless.com/blog/A+Tutorial+for+Getting+Started+with+Gulp
-// https://www.npmjs.com/package/gulp-usemin
-// https://blog.engineyard.com/2014/frontend-dependencies-management-part-2
-// https://medium.com/@preslavrachev/gulp-vs-grunt-why-one-why-the-other-f5d3b398edc4
-
 === Gulp
+JHipster uses http://gulpjs.com/[Gulp] for building the client. It used to support http://gruntjs.com/[Grunt], but it
+was removed when Gulp's popularity sky-rocketed. Gulp allows you to perform tasks like minification, concatenation,
+compilation (e.g. from TypeScript/CoffeeScript to JavaScript), unit testing, and more.
+
+Gulp calls itself the "`the streaming build system`". It's the de-facto standard of JavaScript build tools and has over
+2,500 http://gulpjs.com/plugins/[plugins]. You can install and manage Gulp plugins via https://www.npmjs.com/[npm],
+a package manager for https://nodejs.org/[Node.js]. You can install anything specified as a dependency in
+your project's `package.json` using `npm install`. To install Gulp globally (so you can use it anywhere), run `npm install -g gulp-cli`.
+
 Gulp calls itself "`the streaming build system`". Gulp is all about streams and building complex pipelines with ease.
 It uses Node.js's streams, and executes faster than Grunt, since it does not open/close files or create intermediary copies. Gulp
 was released a couple of years after Grunt, and has received a lot of praise from the JavaScript community. In accordance
 with the UNIX philosophy, Gulp plugins each try to do one thing well.
 
-To compare Gulp versus Grunt, I integrated it into the angular-seed project. Below are the `package.json` and `gulpfile.js`
-that optimize everything for production. The input and resulting HTML are the same as they were for the Grunt example.
+To show a simple example of how to use Gulp, I integrated it into the angular-seed project. Below are the `package.json` and `gulpfile.js`
+that optimize everything for production.
+
+The following steps show how to integrate Gulp into https://github.com/angular/angular-seed[angular-seed]. This particular
+build file optimizes your JavaScript, CSS, and HTML for production. It concatenates your JavaScript and CSS
+files, minifies them, then replaces the references in the HTML to point to the optimized files. First, you have
+to configure `package.json` to include Grunt and its plugins for web optimization.
 
 [source,json]
 .package.json
@@ -814,30 +771,28 @@ include::{sourcedir}/chapter3/gulp/package.json[]
 include::{sourcedir}/chapter3/gulp/gulpfile.js[]
 ----
 
-You can see from this example that Gulp is a bit more concise. However, both tools have their merits. Gulp is the newcomer
-so it can be a bit more nimble without the need for backwards compatibility. It also has many fewer
-http://gulpjs.com/plugins/[plugins] (just over 1,500 at the time of this writing). If you compare Grunt and Gulp at Google Trends,
-you'll see that Gulp received a spike of hype when it first came out but that Grunt has usually led by a slight
-margin.
+Before the tasks run, the `index.html` file points to individual CSS and JavaScript files. The `<!-- build:* -\->`
+and `<!-- endbuild -\->` are used by the `useminPrepare` task to build the list of files for optimization.
 
-[[img-bootstrap-advanced-grid-desktop]]
-.Google Trends: Grunt vs. Gulp
-image::chapter3/grunt-gulp/google-trends-grunt-vs-gulp.png[.Google Trends: Grunt vs. Gulp, 864, scaledwidth=100%]
+[source,html]
+.index.html
+----
+include::{sourcedir}/chapter3/gulp/index-dev.html[]
+----
 
-// https://www.google.com/trends/explore#q=Grunt%2C%20Gulp
+After the build runs, the `dist/index.html` file points to the revved, combined, and minified CSS and JavaScript files.
 
-To learn more, see Mark Dalgleish's http://markdalgleish.github.io/presentation-build-wars-gulp-vs-grunt/[Build Wars]
+[source,html]
+.dist/index.html
+----
+include::{sourcedir}/chapter3/gulp/index-prod.html[]
+----
+
+To learn more about JavaScript build tools, see Mark Dalgleish's http://markdalgleish.github.io/presentation-build-wars-gulp-vs-grunt/[Build Wars]
 presentation, delivered at MelbJS in Melbourne, Australia, February 12, 2014. I asked Mark
 what he thought of these two tools today. He recommended http://webpack.github.io/[webpack] and reading his more recent
 https://medium.com/seek-ui-engineering/block-element-modifying-your-javascript-components-d7f99fcab52b[Block, Element,
 Modifying Your JavaScript Components] article. Since webpack is not an option for JHipster, I will not cover it in this book.
-
-(Keith Cirkel
-recommends you use http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/[neither Grunt nor Gulp but use npm].)
-
-If you're new to JavaScript build tools, I recommend Grunt. You don't want to be overwhelmed with
-too much new technology in your JHipster project if you're trying to meet a deadline. If you're using JHipster to learn
-about a bunch of new technologies, try Gulp, which seems to be the hipper option.
 
 == WebSockets
 WebSockets is an advanced technology that makes it possible to open an interactive communication channel between the
@@ -854,7 +809,7 @@ To see how WebSockets work, take a look at the `TrackerController` in a WebSocke
 activity information that's been posted to the `/websocket/tracker` endpoint.
 
 [source%autofit,javascript]
-.src/main/webapp/scripts/app/admin/tracker/tracker.controller.js
+.src/main/webapp/app/admin/tracker/tracker.controller.js
 ----
 include::{sourcedir}/chapter3/websockets/tracker.controller.js[]
 ----
@@ -884,20 +839,20 @@ Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.
 * URL history: Records your test URLs so you can push them back out to all devices with a single click.
 * Remote inspector: Remotely tweak and debug webpages that are running on connected devices.
 
-To integrate Browsersync in your project, you need a `package.json` and `Gruntfile.js`. Your `package.json` file only needs
-to contain a few things, weighing in at a slim 15 lines of JSON.
+To integrate Browsersync in your project, you need a `package.json` and `gulpfile.js`. Your `package.json` file only needs
+to contain a few things, weighing in at a slim 13 lines of JSON.
 
 [source,javascript]
 ----
 include::{sourcedir}/../../../package.json[]
 ----
 
-The `Gruntfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development
+The `gulpfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development
 experience.
 
 [source%autofit,javascript]
 ----
-include::{sourcedir}/../../../Gruntfile.browsersync.js[]
+include::{sourcedir}/../../../gulpfile.browsersync.js[]
 ----
 
 After you've created these files, you'll need to install https://nodejs.org/[Node.js] and its package manager, npm. This
@@ -910,17 +865,14 @@ npm install
 Then run the following command to create a blissful development environment in which your browser auto-refreshes when files change
 on your hard drive.
 ----
-grunt serve
+gulp
 ----
 
-For an audiovisual introduction to Browsersync, check out the introduction video on its http://www.browsersync.io/[homepage].
-
 JHipster integrates Browsersync for you, using JavaScript that looks very similar to what you see above. I highly recommend
-Browsersync for your project. It's useful for determining if your web application can handle a
-page reload without losing the current user's state.
+Browsersync for your project. It's useful for determining if your web application can handle a page reload without losing the current user's state.
 
 == Summary
 
-This section describes the UI components in a typical JHipster project. It taught you about the extremely popular JavaScript MVC framework called AngularJS. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application and it showed you how you can use Grunt and Gulp. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
+This section describes the UI components in a typical JHipster project. It taught you about the extremely popular JavaScript MVC framework called AngularJS. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application and it showed you how you can use Gulp. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
 
 Now that you've learned about many of the UI components in a JHipster project, let's learn about the API side of things.

@@ -1,35 +1,93 @@
-'use strict';
+(function() {
+    'use strict';
+    /* globals SockJS, Stomp */
 
-angular.module('blogApp')
-    .factory('Tracker', function ($rootScope) {
+    angular
+        .module('blogApp')
+        .factory('JhiTrackerService', JhiTrackerService);
+
+    JhiTrackerService.$inject = ['$rootScope', '$window', '$cookies', '$http', '$q', 'AuthServerProvider'];
+
+    function JhiTrackerService ($rootScope, $window, $cookies, $http, $q, AuthServerProvider) {
         var stompClient = null;
+        var subscriber = null;
+        var listener = $q.defer();
+        var connected = $q.defer();
+        var alreadyConnectedOnce = false;
 
-        function sendActivity() {
-            stompClient.send('/websocket/activity', {},
-                JSON.stringify({'page': $rootScope.toState.name}));
-        }
+        var service = {
+            connect: connect,
+            disconnect: disconnect,
+            receive: receive,
+            sendActivity: sendActivity,
+            subscribe: subscribe,
+            unsubscribe: unsubscribe
+        };
 
-        return {
-            connect: function () {
-                var socket = new SockJS('/websocket/activity');
-                stompClient = Stomp.over(socket);
-                stompClient.connect({}, function(frame) {
-                    sendActivity();
-                    $rootScope.$on('$stateChangeStart', function (event) {
+        return service;
+
+        function connect () {
+            //building absolute path so that websocket doesnt fail when deploying with a context path
+            var loc = $window.location;
+            var url = '//' + loc.host + loc.pathname + 'websocket/tracker';
+            var authToken = AuthServerProvider.getToken();
+            if(authToken){
+                url += '?access_token=' + authToken;
+            }
+            var socket = new SockJS(url);
+            stompClient = Stomp.over(socket);
+            var stateChangeStart;
+            var headers = {};
+            stompClient.connect(headers, function() {
+                connected.resolve('success');
+                sendActivity();
+                if (!alreadyConnectedOnce) {
+                    stateChangeStart = $rootScope.$on('$stateChangeStart', function () {
                         sendActivity();
                     });
-                });
-            },
-            sendActivity: function () {
-                if (stompClient != null) {
-                    sendActivity();
+                    alreadyConnectedOnce = true;
                 }
-            },
-            disconnect: function() {
-                if (stompClient != null) {
-                    stompClient.disconnect();
-                    stompClient == null;
+            });
+            $rootScope.$on('$destroy', function () {
+                if(angular.isDefined(stateChangeStart) && stateChangeStart !== null){
+                    stateChangeStart();
                 }
+            });
+        }
+
+        function disconnect () {
+            if (stompClient !== null) {
+                stompClient.disconnect();
+                stompClient = null;
             }
-        };
-    });
+        }
+
+        function receive () {
+            return listener.promise;
+        }
+
+        function sendActivity() {
+            if (stompClient !== null && stompClient.connected) {
+                stompClient
+                    .send('/topic/activity',
+                        {},
+                        angular.toJson({'page': $rootScope.toState.name}));
+            }
+        }
+
+        function subscribe () {
+            connected.promise.then(function() {
+                subscriber = stompClient.subscribe('/topic/tracker', function(data) {
+                    listener.notify(angular.fromJson(data.body));
+                });
+            }, null, null);
+        }
+
+        function unsubscribe () {
+            if (subscriber !== null) {
+                subscriber.unsubscribe();
+            }
+            listener = $q.defer();
+        }
+    }
+})();
