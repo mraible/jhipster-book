@@ -312,7 +312,7 @@ image::chapter2/material-design-theme.png[Material Design for Bootstrap theme, 1
 
 Before creating the entities and associated database tables for this application, I decided to upgrade JHipster to
 the latest release. You can see that I created this application with JHipster 3.5.1. The latest release as of writing is
-3.6.1, so I updated my version with the following command.
+3.7.0, so I updated my version with the following command.
 
 ----
 npm install -g generator-jhipster@latest
@@ -2185,6 +2185,24 @@ computing cycles or want to pay for a cloud instance to run it.
 
 After getting this application into a "good enough" state, I moved it from Bitbucket to GitHub and made it available
 as an open source project. You can find the source code for 21-Points Health at https://github.com/mraible/21-points.
+
+== Upgrading 21-Points
+
+After I finished developing the MVP of 21-Points Health with JHipster 3.7.0, I wanted to upgrade it to the latest release.
+Rather than doing it manually like I did previously, I tried the using the https://jhipster.github.io/upgrading-an-application/[upgrade sub-generator].
+I'd tried it before and it didn't work. Thanks to a https://github.com/jhipster/generator-jhipster/issues/4239[recent bug fix],
+it worked like a charm this time.
+
+[[jhipster-upgrade-start]]
+.JHipster Upgrade Start
+image::chapter2/jhipster-upgrade-start.png[Running the jhipster:upgrade sub-generator, 1026, scaledwidth=100%, align=center]
+
+[[jhipster-upgrade-finish]]
+.JHipster Upgrade Result
+image::chapter2/jhipster-upgrade-finish.png[Upgrade Result, 1026, scaledwidth=100%, align=center]
+
+After the command finished (in just over two minutes), I fixed the conflicts and checked in my changes. If you're reading
+this and notice that 21-Points is using a version > 3.8.0, it's likely because I used this handy sub-generator again.
 
 == Summary
 
