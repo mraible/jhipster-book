@@ -1,4 +1,4 @@
-= Asciidoctor Changelog
+= JHipster Mini-Book Changelog
 :uri-jhipster: https://jhipster.github.io
 :uri-jhipster-book-blog: http://www.jhipster-book.com/
 :uri-jhipster-book-download: https://www.infoq.com/minibooks/jhipster-mini-book
@@ -21,7 +21,7 @@ Changes::
   * Removed Grunt and modified examples to only use Gulp.
   * Updated links to JHipster documentation.
   * Removed screenshot of JHipster project from OpenHub since their UI is not as pretty anymore.
-  * Generated 21-Points Health with JHipster 3.6.1 instead of 2.x.
+  * Created initial 21-Points Health app with JHipster 3.6.1 instead of 2.x.
   * Upgraded 21-Points Health to JHipster 3.8.0.
   * Updated all screenshots and code listings to match latest version of 21-Points Health.
   * Used Sass instead of CSS.
