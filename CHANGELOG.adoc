@@ -1,0 +1,54 @@
+= Asciidoctor Changelog
+:uri-jhipster: https://jhipster.github.io
+:uri-jhipster-book-blog: http://www.jhipster-book.com/
+:uri-jhipster-book-download: https://www.infoq.com/minibooks/jhipster-mini-book
+:uri-repo: https://bitbucket.org/mraible/jhipster-book
+:icons: font
+:star: icon:star[role=red]
+ifndef::icons[]
+:star: &#9733;
+endif::[]
+
+https://jhipster.github.io[JHipster] is a fully open source, widely used application generator. It allows you to create high-quality Spring Boot and AngularJS projects in minutes. https://www.infoq.com/minibooks/jhipster-mini-book[The JHipster Mini-Book] is a guide to getting started with JHipster.
+
+This document provides a high-level view of the changes introduced in the JHipster Mini-Book by release.
+For a detailed view of what has changed, refer to the https://bitbucket.org/mraible/jhipster-book/commits/all[commit history] on Bitbucket.
+
+// tag::compact[]
+== 2.0 (TBD) - @mraible
+
+Changes::
+  * Removed Grunt and modified examples to only use Gulp.
+  * Updated links to JHipster documentation.
+  * Removed screenshot of JHipster project from OpenHub since their UI is not as pretty anymore.
+  * Generated 21-Points Health with JHipster 3.6.1 instead of 2.x.
+  * Upgraded 21-Points Health to JHipster 3.8.0.
+  * Updated all screenshots and code listings to match latest version of 21-Points Health.
+  * Used Sass instead of CSS.
+  * Integrated Bootstrap Material Design theme using the https://github.com/moifort/generator-jhipster-bootstrap-material-design[Bootstrap Material Design module].
+  * Removed first (failed) attempt at creating a data model with Goals, Metrics and Entry.
+  * Removed section on using Liquibase's "diff" feature.
+  * Added a tip that you can use JDL-Studio, with a link to the https://youtu.be/kkHN2G_nXV0?t=1460[blog demo on YouTube].
+  * Changed to use UTC for all date-time entries.
+  * Added link to https://github.com/mraible/21-points[21-Points source code] on GitHub.
+  * Added section on how Protractor tests were broken out-of-the-box and how I fixed them.
+  * Updated `*Resource.java` classes to do user filters using the repository rather than with fancy Java 8 code.
+  * Migrated from using Joda-Time to using Java 8's Date-Time API.
+  * Updated deployment options to be Cloud Foundry, Heroku, Kubernetes, AWS, and Boxfuse.
+  * Updated Heroku console messages to match what happens when you deploy the latest JHipster version.
+  * Updated Jenkins section to Jenkins 2, using its pipelines feature.
+  * Added a sidebar on how to run continuous integration using Travis CI.
+  * Added section on how to use `yo jhipster:upgrade` to upgrade to the latest JHipster release.
+  * Upgraded AngularJS from 1.3.11 to 1.5.8 in JHipster's UI components chapter.
+  * Added a note that JHipster adopted https://github.com/johnpapa/angular-styleguide[John Papa's Angular Style Guide] in 2016.
+  * Updated Angular 2.0 section to reflect the fact that it's been released and Angular 2 support for JHipster is actively being worked on.
+  * Updated IDE section to include Visual Studio Code and correct NetBeans plugins links.
+  * Updated security section to remove token-based authentication and add JWT and Social.
+  * Updated lines-of-code graphs to match version 2.0 of 21-Points Health.
+    ** JHipster 2.x generated 8,556 LOC for a new project, while 3.x generates 13,920.
+    ** 21-Points total LOC: 13,888 for 2.x, 20,798 for 3.x.
+
+// tag::compact[]
+== 1.0 (2015-10-30) - @mraible
+
+  * Initial Release
