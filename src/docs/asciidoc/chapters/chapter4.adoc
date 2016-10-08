@@ -444,8 +444,6 @@ If we were forced to conclude with any general recommendation, it would be to go
 
 I've used both tools for building projects and they've both worked quite well. Maven works for me, but I've used it for over 10 years and recognize that my history and experience with it might contribute to my bias towards it. If you prefer Gradle simply because you are trying to avoid XML, https://github.com/takari/polyglot-maven[Polyglot for Maven] may change your perspective. It supports Atom, Groovy, Clojure, Ruby, Scala, and YAML languages. Ironically, you need to include a XML file to use it. To add support for non-XML languages, create a `+${project}/.mvn/extensions.xml+` file and add the following XML to it.
 
-TODO: Is this the latest version?
-
 [source,xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
