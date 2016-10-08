@@ -544,7 +544,7 @@ JHipster takes the excellence of Spring Security and uses it to provide the real
 
 * *HTTP Session Authentication* — Uses the HTTP session, so it is a stateful mechanism. Recommended for small applications.
 * *OAuth2 Authentication* — A stateless security mechanism. You might prefer it if you want to scale your application across several machines.
-* *JWT authentication* — Like OAuth2, a stateless security mechanism. This is specific to JHipster, not provided by Spring Security. It uses the https://github.com/jwtk/jjwt[Java JWT project].
+* *JWT authentication* — Like OAuth2, a stateless security mechanism. JSON Web Token (JWT) is an https://tools.ietf.org/html/rfc7519[IETF proposed standard] that uses a compact, URL-safe means of representing claims to be transferred between two parties. JHipster's implementation uses the https://github.com/jwtk/jjwt[Java JWT project].
 * *Social Login* - Adds support for logging in with social network credentials. Supports Google, Facebook and Twitter.
 
 .OAuth 2.0
@@ -580,7 +580,7 @@ When you create a new JHipster project, you'll be prompted with the following.
   Cassandra
 ----
 
-If you're familiar with RDBMS databases, I recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku.
+If you're familiar with RDBMS databases, I recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku and MySQL has great support on AWS. JHipster's https://jhipster.github.io/aws/[AWS sub-generator] has a limitation of only working with MySQL.
 
 If your idea is the next Facebook, you might want to consider a NoSQL database that's more concerned with performance than third normal form.
 
