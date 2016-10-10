@@ -18,6 +18,7 @@ For a detailed view of what has changed, refer to the https://bitbucket.org/mrai
 == 2.0 (TBD) - @mraible
 
 Changes::
+  * Improvements to make it possible to generate a PDF that looks good as a 6x9" printed book.
   * Removed Grunt and modified examples to only use Gulp.
   * Updated links to JHipster documentation.
   * Removed screenshot of JHipster project from OpenHub since their UI is not as pretty anymore.
