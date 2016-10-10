@@ -1145,51 +1145,17 @@ current user.
 image::chapter2/homepage-points-this-week.png[Progress bar for points this week, 1363, scaledwidth=100%, align=center]
 
 You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix this, I needed to add the ability
-to fetch the user's preferences. To make it easier to access a user's preferences, I modified `User.java` and added
-a references to `Preferences`.
+to fetch the user's preferences. To make it easier to access a user's preferences, I modified `PreferencesRepository.java` and added
+a method to retrieve a user's preferences.
 
 [source,java]
-.src/main/java/org/jhipster/health/domain/User.java
+.src/main/java/org/jhipster/health/repository/PreferencesRepository.java
 ----
-@OneToOne(cascade = CascadeType.ALL)
-@JsonIgnore
-private Preferences preferences;
+public interface PreferencesRepository extends JpaRepository<Preferences,Long> {
 
-public Preferences getPreferences() {
-    return preferences;
+    Optional<Preferences> findOneByUserLogin(String login);
+
 }
-
-public void setPreferences(Preferences preferences) {
-    this.preferences = preferences;
-}
-----
-
-Then I added a column to the `JHI_USER` table and a relationship to the `PREFERENCES` tables.
-
-[source,xml]
-.src/main/resources/config/liquibase/changelog/20160831021015_added_entity_Preferences.xml
-----
-<changeSet author="mraible (generated)" id="1440176725177-1">
-    <addColumn tableName="JHI_USER">
-        <column name="preferences_id" type="int8"/>
-    </addColumn>
-</changeSet>
-<changeSet author="mraible (generated)" id="1440176725177-2">
-    <addForeignKeyConstraint baseColumnNames="preferences_id" baseTableName="JHI_USER"
-                             constraintName="FK_1r5e40mq4hwtlyd9lemghc8su" deferrable="false"
-                             initiallyDeferred="false" referencedColumnNames="id"
-                             referencedTableName="PREFERENCES"/>
-</changeSet>
-----
-
-To ensure mapping a `User` object to a `UserDTO`, I added the a reference to this property in `UserMapper.java`:
-
-[source,diff]
-.src/main/java/org/jhipster/health/service/mapper/UserMapper.java
-----
-     @Mapping(target = "password", ignore = true)
-+    @Mapping(target = "preferences", ignore = true)
-     User userDTOToUser(UserDTO userDTO);
 ----
 
 I created a new method in `PreferencesResource.java` to return the user's preferences
@@ -1201,15 +1167,17 @@ I created a new method in `PreferencesResource.java` to return the user's prefer
 /**
  * GET  /my-preferences -> get the current user's preferences.
  */
-@RequestMapping(value = "/my-preferences")
+@RequestMapping(value = "/my-preferences",
+    method = RequestMethod.GET,
+    produces = MediaType.APPLICATION_JSON_VALUE)
 @Timed
 public ResponseEntity<Preferences> getUserPreferences() {
     String username = SecurityUtils.getCurrentUserLogin();
     log.debug("REST request to get Preferences : {}", username);
-    User user = userRepository.findOneByLogin(username).get();
+    Optional<Preferences> preferences = preferencesRepository.findOneByUserLogin(username);
 
-    if (user.getPreferences() != null) {
-        return new ResponseEntity<>(user.getPreferences(), HttpStatus.OK);
+    if (preferences.isPresent()) {
+        return new ResponseEntity<>(preferences.get(), HttpStatus.OK);
     } else {
         Preferences defaultPreferences = new Preferences();
         defaultPreferences.setWeeklyGoal(10); // default

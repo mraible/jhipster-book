@@ -28,6 +28,7 @@ Changes::
   * Integrated Bootstrap Material Design theme using the https://github.com/moifort/generator-jhipster-bootstrap-material-design[Bootstrap Material Design module].
   * Removed first (failed) attempt at creating a data model with Goals, Metrics and Entry.
   * Removed section on using Liquibase's "diff" feature.
+  * Refactor Preferences logic so User entity and schema is not altered.
   * Added a tip that you can use JDL-Studio, with a link to the https://youtu.be/kkHN2G_nXV0?t=1460[blog demo on YouTube].
   * Changed to use UTC for all date-time entries.
   * Added link to https://github.com/mraible/21-points[21-Points source code] on GitHub.
