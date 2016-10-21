@@ -1,23 +1,11 @@
 require 'asciidoctor-pdf' unless defined? ::Asciidoctor::Pdf
 
 module AsciidoctorPdfExtensions
-  NonVersoChapterIds = %(acknowledgements colophon)
+  ZeroWidthSpace = %(\u200b)
+  BreakingForwardSlash = %(/#{ZeroWidthSpace})
 
-  BreakingForwardSlash = %(/#{::Prawn::Text::ZWSP})
-
-  # Allow line breaks in the middle of a URL when printed
-  def convert_inline_anchor node
-      if node.type == :link && ((node.document.attr 'media', 'screen') != 'screen' || (node.document.attr? 'show-link-uri')) &&
-          !(node.has_role? 'bare')
-          visible_target = (target = node.target).gsub %r/(?<!\/)\/(?!\/)/, BreakingForwardSlash
-          %(<a href="#{target}">#{node.text}</a> [<color rgb="#404040"><font size="0.85em">#{visible_target}</font></color>])
-      else
-          super
-      end
-  end
-
-  # Override the built-in layout_toc to move colophon in front of table of contents
-  # NOTE we assume the colophon fits on a single page
+  # Override the built-in layout_toc to move colophon before front of table of contents
+  # NOTE we assume that the colophon fits on a single page
   def layout_toc doc, num_levels = 2, toc_page_number = 2, num_front_matter_pages = 0
     go_to_page toc_page_number unless (page_number == toc_page_number) || scratch?
     if scratch?
@@ -28,7 +16,7 @@ module AsciidoctorPdfExtensions
       end
     else
       if (colophon = doc.instance_variable_get :@colophon)
-        # if prepress book, use blank page before table of contents
+        # if prepress book, consume blank page before table of contents
         go_to_page(page_number - 1) if @ppbook
         convert_section colophon
         go_to_page(page_number + 1)
@@ -39,49 +27,47 @@ module AsciidoctorPdfExtensions
     scratch? ? ((toc_page_numbers.begin - offset)..toc_page_numbers.end) : toc_page_numbers
   end
 
+  # force chapters to start on new page;
   # force select chapters to start on the recto (odd-numbered, right-hand) page
-  def convert_section sect, opts = {}
-    if @ppbook && sect.chapter? && !(NonVersoChapterIds.include? sect.id)
-      start_new_page unless at_page_top?
-      if @ppbook && verso_page?
-        update_colors # prevents Ghostscript from reporting a warning when running content is written to blank page
-        start_new_page
-      end
+  def start_new_chapter chapter
+    start_new_page unless at_page_top?
+    if @ppbook && verso_page? && !(chapter.option? 'nonfacing')
+      update_colors # prevents Ghostscript from reporting a warning when running content is written to blank page
+      start_new_page
     end
-    super # delegate to default implementation
   end
 
   def layout_chapter_title node, title, opts = {}
-    if node.id == 'dedication' || node.id == 'acknowledgements'
+    if (sect_id = node.id) == 'dedication' || sect_id == 'acknowledgements'
       layout_heading_custom title, align: :center
-    elsif node.id == 'colophon'
+    elsif sect_id == 'colophon'
       #puts 'Processing ' + node.sectname + '...'
-      if node.document.attr 'media', 'print'
+      if node.document.attr 'media', 'prepress'
         move_down 325
       else
         move_down 470
       end
       layout_heading title, size: @theme.base_font_size
-    elsif node.id.include? 'jhipster' # chapters
-      #puts 'Processing ' + node.id + '...'
-      move_down 120
+    elsif sect_id.include? 'jhipster' # chapters
+      #puts 'Processing ' + sect_id + '...'
+      # use Akkurat font for all custom headings
+      font 'Akkurat' do
+        move_down 120
+        layout_heading 'PART', align: :right, size: 100, color: [91, 54, 8, 13], style: :normal
+        move_up 40
 
-      # set Akkurat font for all custom headings
-      font 'Akkurat'
-      layout_heading 'PART', align: :right, size: 100, color: [91, 54, 8, 13], style: :normal
-      move_up 40
+        part_number = 'ONE'
+        if sect_id.include? 'ui-components'
+          part_number = 'TWO'
+        elsif sect_id.include? 'api'
+          part_number = 'THREE'
+        end
 
-      part_number = 'ONE'
-      if node.id.include? 'ui-components'
-        part_number = 'TWO'
-      elsif node.id.include? 'api'
-        part_number = 'THREE'
+        layout_heading part_number, align: :right, size: 100, color: [42, 1, 83, 1], style: :bold
+        layout_heading title, align: :right, color: [42, 1, 83, 1], style: :normal, size: 30
       end
 
-      layout_heading part_number, align: :right, size: 100, color: [42, 1, 83, 1], style: :bold
-      layout_heading title, align: :right, color: [42, 1, 83, 1], style: :normal, size: 30
-      move_up 30
-      start_new_page
+      bounds.move_past_bottom
     else
       super # delegate to default implementation
     end
@@ -93,15 +79,15 @@ module AsciidoctorPdfExtensions
       inline_format: true
     }.merge(opts)
     move_up 5
-    $i = 0
+    i = 0
     underline = ''
-    while $i < string.length do
+    while i < string.length do
       if string == 'Dedication'
         underline += '/////'
       else
         underline += '//////'
       end
-      $i += 1
+      i += 1
     end
     if string == 'Dedication'
       underline += '////'
@@ -110,6 +96,17 @@ module AsciidoctorPdfExtensions
       inline_format: true, color: 'B0B0B0', size: 8, style: :italic
     }.merge(opts)
     move_down 20
+  end
+
+  # Allow line breaks in the middle of a URL when printed
+  def convert_inline_anchor node
+    if node.type == :link && ((node.document.attr 'media', 'screen') != 'screen' || (node.document.attr? 'show-link-uri')) &&
+        !(node.has_role? 'bare')
+      printed_target = (target = node.target).gsub %r/(?<!\/)\/(?!\/)/, BreakingForwardSlash
+      %(<a href="#{target}">#{node.text}</a> [<font size="0.85em">#{printed_target}</font>])
+    else
+      super
+    end
   end
 end
 

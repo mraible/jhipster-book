@@ -18,15 +18,16 @@ endif::[]
 :experimental:
 :pdf-fontsdir: ./styles/pdf/fonts
 :pdf-stylesdir: ./styles/pdf
-:pdf-style: infoq
+:pdf-style: infoq-screen
 ifndef::ebook-format[:leveloffset: 1]
 
-[colophon#colophon]
+[colophon#colophon%nonfacing]
 include::chapters/colophon.adoc[]
 
 [dedication]
 include::chapters/dedication.adoc[]
 
+[%nonfacing]
 include::chapters/acknowledgements.adoc[]
 
 [preface]
