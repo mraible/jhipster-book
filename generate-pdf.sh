@@ -9,12 +9,16 @@ if [ ! -d .bundle/gems ]; then
   bundle --path=.bundle/gems --binstubs=.bundle/.bin
 fi
 
-ASCIIDOCTOR_PDF="bundle exec asciidoctor-pdf"
+ASCIIDOCTOR_PDF="./.bundle/.bin/asciidoctor-pdf"
 OPTIMIZE_PDF="`bundle exec gem contents --show-install-dir asciidoctor-pdf`/bin/optimize-pdf"
 
 ROOT_DIR=$(realpath $(dirname $0))
+MEDIA=prepress
+if [ ! -z "$1" ]; then
+  MEDIA=$1
+fi
 BASE_DIR="$ROOT_DIR/src/docs/asciidoc"
-OUT_DIR="$ROOT_DIR/build/asciidoc/print"
+OUT_DIR="$ROOT_DIR/build/asciidoc/pdf-$MEDIA"
 
 $ASCIIDOCTOR_PDF --trace -B "$BASE_DIR" \
   -D "$OUT_DIR" \
@@ -22,7 +26,7 @@ $ASCIIDOCTOR_PDF --trace -B "$BASE_DIR" \
   -r "$ROOT_DIR/src/main/ruby/asciidoctor-pdf-extensions.rb" \
   -a media=prepress \
   -a pdfmarks \
-  -a "pdf-style=infoq-print" \
+  -a pdf-style=infoq-$MEDIA \
   -a pdf-stylesdir="$BASE_DIR/styles/pdf" \
   -a pdf-fontsdir="$BASE_DIR/styles/pdf/fonts" \
   -a sourcedir=../../../main/webapp \
