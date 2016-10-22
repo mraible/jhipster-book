@@ -42,17 +42,21 @@ module AsciidoctorPdfExtensions
       layout_heading_custom title, align: :center
     elsif sect_id == 'colophon'
       #puts 'Processing ' + node.sectname + '...'
-      if node.document.attr 'media', 'prepress'
+      if node.document.attr? 'media', 'prepress'
         move_down 325
       else
-        move_down 470
+        move_down 460
       end
       layout_heading title, size: @theme.base_font_size
     elsif sect_id.include? 'jhipster' # chapters
       #puts 'Processing ' + sect_id + '...'
       # use Akkurat font for all custom headings
       font 'Akkurat' do
-        move_down 120
+        if node.document.attr? 'media', 'prepress'
+          move_down 120
+        else
+          move_down 180
+        end
         layout_heading 'PART', align: :right, size: 100, color: [91, 54, 8, 13], style: :normal
         move_up 40
 
