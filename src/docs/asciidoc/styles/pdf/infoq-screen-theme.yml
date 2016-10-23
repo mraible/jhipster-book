@@ -29,7 +29,7 @@ font:
 page:
   background_color: ffffff
   layout: portrait
-  margin: [0.5in, 30mm, 0.67in, 30mm]
+  margin: [0.5in, 0.67in, 0.67in, 0.67in]
   size: LETTER
 base:
   align: justify
@@ -106,7 +106,7 @@ title_page:
     text_transform: uppercase
     line_height: 1.25
   authors:
-    margin_top: 447.0
+    margin_top: 445.0
     font_size: $heading_h1_font_size
     font_color: 181818
   revision:
