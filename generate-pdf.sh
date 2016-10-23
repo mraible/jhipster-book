@@ -24,7 +24,7 @@ $ASCIIDOCTOR_PDF --trace -B "$BASE_DIR" \
   -D "$OUT_DIR" \
   -S unsafe \
   -r "$ROOT_DIR/src/main/ruby/asciidoctor-pdf-extensions.rb" \
-  -a media=prepress \
+  -a media=$MEDIA \
   -a pdfmarks \
   -a pdf-style=infoq-$MEDIA \
   -a pdf-stylesdir="$BASE_DIR/styles/pdf" \
