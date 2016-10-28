@@ -1603,20 +1603,21 @@ I made similar changes to display weights for the last 30 days as a chart.
 === Lines of code
 
 After finishing the MVP (minimum viable product) of 21-Points Health, I did some quick calculations to see how
-many lines of code JHipster had produced. You can see from the graph below that I only had to write 1,529
-lines of code. JHipster did the rest for me, generating 92.6% of the code in my project!
+many lines of code JHipster had produced. You can see from the graph below that I only had to write 1,157
+lines of code. JHipster did the rest for me, generating 94.5% of the code in my project!
 
 [[img-21-points-loc]]
 .Project lines of code
-image::chapter2/21-points-loc.png[Project lines of code, 1155, scaledwidth=100%, align=center]
+image::chapter2/21-points-loc.png[Project lines of code, 650, scaledwidth=100%, align=center]
 
 To drill down further, I made a graph of the top three languages in the project: Java, JavaScript, and HTML.
 
 [[img-21-points-loc-by-language]]
 .Project lines of code by language
-image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 1282, scaledwidth=100%, align=center]
+image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 750, scaledwidth=100%, align=center]
 
-The amount of code I had to write in each language was 718 lines of Java, 775 lines of JavaScript, and 304 lines of HTML.
+The amount of code I had to write in each language was 344 lines of Java, 459 lines of JavaScript, and 182 lines of HTML.
+The other 172 lines were SASS (130), JSON (25), XML (1), YAML (15), Shell (1).
 
 Wahoo! Thanks, JHipster!
 
