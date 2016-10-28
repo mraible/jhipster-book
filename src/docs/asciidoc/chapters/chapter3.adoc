@@ -273,7 +273,7 @@ using on several projects. To use it, you'll need to reference its JavaScript fi
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
 ----
 
-Next, change your `app.js` to use `ui-router` instead of `ngRoute`. Then set up your application states with code like
+Next, change your `app.js` to use `ui.router` instead of `ngRoute`. Then set up your application states with code like
 the following listing.
 
 [source,javascript]

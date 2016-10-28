@@ -67,6 +67,12 @@ local.properties
 .gradle/**
 
 ######################
+# Ruby
+######################
+/.bundle/
+/Gemfile.lock
+
+######################
 # Package Files
 ######################
 *.jar
