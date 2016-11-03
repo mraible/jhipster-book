@@ -1,6 +1,6 @@
 = About the author
 
-Matt Raible is a Java Hipster. He grew up in the backwoods of Montana with no electricity or running water. He walked a mile and half to the bus stop on school days. His mom and sister often led the early morning hikes, but his BMX skills overcame this handicap later in life.
+Matt Raible is a Java Hipster. He grew up in the backwoods of Montana with no electricity or running water. He walked a mile and a half to the bus stop on school days. His mom and sister often led the early-morning hikes, but his BMX skills overcame this handicap later in life.
 
 He started writing HTML, CSS, and JavaScript in the early '90s and got into Java in the late '90s. He loves the Volkswagen Bus, like no one should love anything. He has a passion for skiing, mountain biking, VWs, and good beer. Matt is married to an awesome woman and amazing photographer, http://www.mcginityphoto.com/[Trish McGinity]. They love skiing, rafting, and camping with their fun-loving kids, Abbie and Jack.
 
