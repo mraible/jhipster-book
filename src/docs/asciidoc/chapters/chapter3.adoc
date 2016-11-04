@@ -47,7 +47,7 @@ increased 200%, while the number of skilled Angular folks had risen 400%.
 
 Angular has rapidly become the most-popular MVC web framework. Like Struts in the early 2000s and
 Rails in the mid-2000s, it's changed the way developers write web applications. Today, data is exposed via REST APIs and UIs
-are written in JavaScript. As a Java developer, I was immediately attracted to Angular when I saw its seperation of concerns.
+are written in JavaScript. As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns.
 It recommended organizing your application into several different components:
 
 * Controllers: JavaScript functions that retrieve data from services and expose it to templates using `$scope`.
@@ -116,9 +116,9 @@ Below is a search controller and a service to fetch search results. It's expecte
 });
 ----
 
-TIP: To see the JavaScript console in Chrome, use kbd:[Command+Option+J] in Mac OS X or kbd:[Control+Shift+J] in Windows or Linux.
+TIP: To see the JavaScript console in Chrome, use kbd:[Command+Option+J] in Mac OS X/MacOS or kbd:[Control+Shift+J] in Windows or Linux.
 
-To make this controller available at a URL, you can use Angular's ngRoute.
+To make this controller available at a URL, you can use Angular's `ngRoute`.
 
 [source,javascript]
 ----
@@ -176,7 +176,7 @@ NOTE: The generated code in JHipster was changed in 2016 to follow https://githu
 }]);
 ----
 
-To make the aforementioned module work, you need a HTML page that includes Angular and ngRoute.
+To make the aforementioned module work, you need a HTML page that includes Angular and `ngRoute`.
 
 [source,html]
 .index.html
@@ -251,7 +251,7 @@ If so, you could display it in a template with Angular's `ng-repeat` directive.
 </table>
 ----
 
-To read a more in-depth example (including source code) of building a search and edit application with Angular, see
+To read a more in-depth example (including source code) of building a search/edit application with Angular, see
 my article http://raibledesigns.com/rd/entry/getting_started_with_angularjs[Getting Started with AngularJS].
 
 === AngularUI Router
@@ -312,11 +312,11 @@ Once you've done this, you can inject the `person` object into your controller d
 })
 ----
 
-=== Angular's $resource
-Angular ships with a https://docs.angularjs.org/api/ngResource/service/$resource[$resource factory] that allows you to
+=== Angular's `$resource`
+Angular ships with a https://docs.angularjs.org/api/ngResource/service/$resource[`$resource` factory] that allows you to
 interact with a http://en.wikipedia.org/wiki/Representational_state_transfer[RESTful] API with only a few lines of code.
 If your API is implemented so that you can perform CRUD (create, read, update, delete) at a specific endpoint, you can use
-`$resource` to wrap that endpoint, and _voila_, you have a service!
+`$resource` to wrap that endpoint, and _voilà_, you have a service!
 
 [source,javascript]
 ----
@@ -365,19 +365,19 @@ is it allows you to use any web component in an Angular app, not just those retr
 <input type="checkbox" [checked]="someProperty">
 ----
 
-Angular 2.x also eliminates the following concepts introduced in 1.0.
+Angular 2.x also eliminates the following concepts introduced in 1.0:
 
-* Controllers
-* Directive definition object
-* `$scope`
-* `angular.module`
-* jqLite
+* controllers,
+* directive definition objects,
+* `$scope`,
+* `angular.module`, and
+* jqLite.
 
 In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announcing that they would be using http://www.typescriptlang.org/[TypeScript] over AtScript and that they
 would provide a migration path for Angular 1.x users. The Angular 2.0 project is hosted at https://angular.io/. The team
 plans to support Angular 1.x (at https://angularjs.org/) as long as its web traffic exceeds the 2.0 site.
 
-Angular 2.0 was released in September 2016. The JHipster team is https://github.com/jhipster/generator-jhipster/issues/3664[currently working on adding support for Angular 2]. In the meantime, you can learn how to develop with Angular 2 by reading my http://gist.asciidoctor.org/?github-mraible/ng2-demo//README.adoc[Angular 2 Tutorial].
+Angular 2.0 was released September 2016. The JHipster team is https://github.com/jhipster/generator-jhipster/issues/3664[currently working on adding support for Angular 2]. In the meantime, you can learn how to develop with Angular 2 by reading my http://gist.asciidoctor.org/?github-mraible/ng2-demo//README.adoc[Angular 2 Tutorial].
 
 Now that you've learned a bit about the hottest web framework on the planet, let's take a look at the most
 popular CSS framework: Bootstrap.
@@ -392,24 +392,24 @@ only that, but its 3.0 version is responsive by default, which means it works be
 
 Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's
 basic grid system is built with containers, rows, and columns. It's 940 pixels (px) wide, divided into 12 columns. The grid
-adapts to widths of 724 and 1170 pixels, according to your viewport. On viewports narrower than 767 pixels, the columns become
+adapts to widths of 724 px and 1170 px, according to your viewport. On viewports narrower than 767 px, the columns become
 fluid and stack vertically.
 
-A basic example of the grid:
-
+A basic example of the grid is shown below.
+// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/grid-basic.html[]
 ----
 
 When rendered with Bootstrap's CSS, the above HTML looks as follows on a desktop. The minimum width of the container element
-on the desktop is set to 1200 pixels.
+on the desktop is set to 1200 px.
 
 [[img-bootstrap-basic-grid-desktop]]
 .Basic grid on desktop
 image::chapter3/bootstrap/basic-grid-desktop.png[Basic grid on desktop, 991, scaledwidth=100%]
 
-If you squish your browser to less than 1200 pixels wide or render this same document on a smaller screen, the columns
+If you squish your browser to less than 1200 px wide or render this same document on a smaller screen, the columns
 will stack.
 
 [[img-bootstrap-basic-grid-mobile]]
@@ -442,16 +442,13 @@ You can use size indicators to specify breakpoints in the columns. Breakpoints i
 row. In the HTML above, "`md`" is the size indicator. Boostrap supports "`xs`", "`sm`", "`md`", "`lg`", and "`xl`".
 
 === Responsive utility classes
-Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size.
-
-* `.visible-[xs|sm|md|lg]`
-* `.hidden-[xs|sm|md|lg]`
+Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size, like `.visible-[xs|sm|md|lg]` and `.hidden-[xs|sm|md|lg]`.
 
 === Forms
 When you add Bootstrap's CSS to your web application, chances are it'll quickly start to look better. Typography, margins,
 and padding will look better by default. However, your forms might look funny, because Bootstrap requires a few
 classes on your form elements to make them look good. Below is an example of a form element.
-
+// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
@@ -462,7 +459,7 @@ include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
 image::chapter3/bootstrap/basicelement.png[Basic form element, 829, scaledwidth=90%]
 
 If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
-
+// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/basicelement-withvalidation.html[]
@@ -479,7 +476,7 @@ If you want to align text in your pages, `text-[left|center|right]` are useful c
 gives them a better look and feel by default.
 
 To make your buttons look better, Bootstrap provides `btn` and a number of `btn-*` classes.
-
+// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/buttons.html[]
@@ -511,7 +508,7 @@ image::chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 467, scaledwidt
 This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source
 online in link:http://getbootstrap.com/components/#navbar-default[Bootstrap's documentation]. The simpler example below
 shows the basic structure.
-
+// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/navbar.html[]
@@ -519,7 +516,7 @@ include::{sourcedir}/chapter3/bootstrap/navbar.html[]
 
 Alerts are useful for displaying feedback to the user. You can invoke differently colored alerts with different classes. You'll need
 to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors.
-
+// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/alerts.html[]
@@ -582,7 +579,7 @@ If you'd like to override Bootstrap classes in your project, the easiest thing t
 file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/css/main.css` directly. If you're
 using Sass to compile `*.scss` files, you can modify `src/main/webapp/scss/main.scss` instead. Using Sass results in a much
 more concise authoring environment. Below is the default `vendor.scss` file that Yeoman generates. You can see that
-it overrides the font path variable and imports Bootstrap. Default rules are overridden in `src/main/webapp/scss/main.scss`.
+it overrides the font-path variable and imports Bootstrap. Default rules are overridden in `src/main/webapp/scss/main.scss`.
 
 [source,css]
 .src/main/webapp/scss/vendor.scss
@@ -611,10 +608,10 @@ jQuery library.
 == Internationalization (i18n)
 Internationalization (also called i18n because the word has 18 letters between "`i`" and "`n`") is a first-class citizen in
 JHipster. Translating an application to another language is easiest if you put the i18n system in place at the beginning of
-a project. https://angular-translate.github.io/[Angular Translate] provides directives that make it easy to translate
+a project. https://angular-translate.github.io/[angular-translate] provides directives that make it easy to translate
 your application into multiple languages.
 
-To use Angular Translate, you simply add a "`data-translate`" attribute with a key.
+To use angular-translate, you simply add a "`data-translate`" attribute with a key.
 
 [source,html]
 ----
@@ -627,7 +624,7 @@ string with the translated version.
 JHipster allows you to choose a default language and translations when you first create a project. It stores the JSON documents
 for these languages in `src/main/webapp/i18n`. You can install additional languages using `yo jhipster:languages`. At the time
 of this writing, JHipster supports 26 languages. You can also add a new language. To set the default language, modify
-`src/main/webapp/app/blocks/config/translation.config.js` and its preferred language line.
+`src/main/webapp/app/blocks/config/translation.config.js` and its preferred-language line.
 
 [source,javascript]
 .src/main/webapp/app/blocks/config/translation.config.js
@@ -636,7 +633,7 @@ $translateProvider.preferredLanguage('de');
 ----
 
 == Sass
-Sass stands for "`Syntactically Awesome StyleSheets`". It's a language for writing CSS with the goodies you're used to
+Sass stands for "`syntactically awesome style sheets`". It's a language for writing CSS with the goodies you're used to
 using in modern programming languages, such as variables, nesting, mixins, and inheritance. Sass uses the `$` symbol
 to indicate a variable, which can then be referenced later in your document.
 
@@ -738,10 +735,10 @@ CSS and naming classes, read the great https://smacss.com/[_Scalable and Modular
 
 === Gulp
 JHipster uses http://gulpjs.com/[Gulp] for building the client. It used to support http://gruntjs.com/[Grunt], but it
-was removed when Gulp's popularity sky-rocketed. Gulp allows you to perform tasks like minification, concatenation,
+was removed when Gulp's popularity skyrocketed. Gulp allows you to perform tasks like minification, concatenation,
 compilation (e.g. from TypeScript/CoffeeScript to JavaScript), unit testing, and more.
 
-Gulp calls itself the "`the streaming build system`". It's the de-facto standard of JavaScript build tools and has over
+Gulp is the de facto standard of JavaScript build tools and has over
 2,500 http://gulpjs.com/plugins/[plugins]. You can install and manage Gulp plugins via https://www.npmjs.com/[npm],
 a package manager for https://nodejs.org/[Node.js]. You can install anything specified as a dependency in
 your project's `package.json` using `npm install`. To install Gulp globally (so you can use it anywhere), run `npm install -g gulp-cli`.
@@ -757,14 +754,14 @@ that optimize everything for production.
 The following steps show how to integrate Gulp into https://github.com/angular/angular-seed[angular-seed]. This particular
 build file optimizes your JavaScript, CSS, and HTML for production. It concatenates your JavaScript and CSS
 files, minifies them, then replaces the references in the HTML to point to the optimized files. First, you have
-to configure `package.json` to include Grunt and its plugins for web optimization.
-
+to configure `package.json` to include Gulp and its plugins for web optimization.
+// LN: Is the following a legit path? There's an error in the rendering.
 [source,json]
 .package.json
 ----
 include::{sourcedir}/chapter3/gulp/package.json[]
 ----
-
+// LN: Is the following a legit path? There's an error in the rendering.
 [source%autofit,javascript]
 .gulpfile.js
 ----
@@ -773,7 +770,7 @@ include::{sourcedir}/chapter3/gulp/gulpfile.js[]
 
 Before the tasks run, the `index.html` file points to individual CSS and JavaScript files. The `<!-- build:* -\->`
 and `<!-- endbuild -\->` are used by the `useminPrepare` task to build the list of files for optimization.
-
+// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
 [source,html]
 .index.html
 ----
@@ -781,7 +778,7 @@ include::{sourcedir}/chapter3/gulp/index-dev.html[]
 ----
 
 After the build runs, the `dist/index.html` file points to the revved, combined, and minified CSS and JavaScript files.
-
+// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
 [source,html]
 .dist/index.html
 ----
@@ -791,23 +788,23 @@ include::{sourcedir}/chapter3/gulp/index-prod.html[]
 To learn more about JavaScript build tools, see Mark Dalgleish's http://markdalgleish.github.io/presentation-build-wars-gulp-vs-grunt/[Build Wars]
 presentation, delivered at MelbJS in Melbourne, Australia, February 12, 2014. I asked Mark
 what he thought of these two tools today. He recommended http://webpack.github.io/[webpack] and reading his more recent
-https://medium.com/seek-ui-engineering/block-element-modifying-your-javascript-components-d7f99fcab52b[Block, Element,
-Modifying Your JavaScript Components] article. Since webpack is not an option for JHipster, I will not cover it in this book.
+https://medium.com/seek-ui-engineering/block-element-modifying-your-javascript-components-d7f99fcab52b["`Block, Element,
+Modifying Your JavaScript Components`"] article. Since webpack is not an option for JHipster, I will not cover it in this book.
 
 == WebSockets
-WebSockets is an advanced technology that makes it possible to open an interactive communication channel between the
+WebSockets are an advanced technology that makes it possible to open an interactive communication channel between the
 user's browser and a server. With this API, you can send messages to a server and receive event-driven responses
 without having to poll the server for a reply. WebSockets have been called "`TCP for the Web`".
 
-If you choose to use WebSockets in a JHipster project, you'll get two JavaScript libraries added to your project.
+If you choose to use WebSockets in a JHipster project, you'll get two JavaScript libraries added to your project:
 
-* http://jmesnil.net/stomp-websocket/doc/[STOMP WebSocket]: STOMP stands for "`simple text-orientated messaging protocol`"
+* http://jmesnil.net/stomp-websocket/doc/[STOMP WebSocket]: STOMP stands for "`simple text-oriented messaging protocol`"
 * https://github.com/sockjs/sockjs-client[SockJS]: SockJS provides a WebSocket-like object. If native WebSockets are
 not available, it falls back to other browser techniques.
 
 To see how WebSockets work, take a look at the `TrackerController` in a WebSockets-enabled project. This displays real-time
 activity information that's been posted to the `/websocket/tracker` endpoint.
-
+// LN: Is the following a legit path? There's an error in the rendering.
 [source%autofit,javascript]
 .src/main/webapp/app/admin/tracker/tracker.controller.js
 ----
@@ -815,7 +812,7 @@ include::{sourcedir}/chapter3/websockets/tracker.controller.js[]
 ----
 
 The `Tracker` service allows you to send tracking information, for example, to track when someone has authenticated.
-
+// LN: Is the following a legit path? There's an error in the rendering.
 [source,javascript]
 .src/main/webapp/scripts/components/tracker/tracker.service.js
 ----
@@ -841,7 +838,7 @@ Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.
 
 To integrate Browsersync in your project, you need a `package.json` and `gulpfile.js`. Your `package.json` file only needs
 to contain a few things, weighing in at a slim 13 lines of JSON.
-
+// LN: Is the following a legit path? There's an error in the rendering.
 [source,javascript]
 ----
 include::{sourcedir}/../../../package.json[]
@@ -849,14 +846,14 @@ include::{sourcedir}/../../../package.json[]
 
 The `gulpfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development
 experience.
-
+// LN: Is the following a legit path? There's an error in the rendering.
 [source%autofit,javascript]
 ----
 include::{sourcedir}/../../../gulpfile.browsersync.js[]
 ----
 
 After you've created these files, you'll need to install https://nodejs.org/[Node.js] and its package manager, npm. This
-should let you run the following command to install Browsersync and Grunt. You will only need to run this command when
+should let you run the following command to install Browsersync and Gulp. You will only need to run this command when
 dependencies change in `package.json`.
 ----
 npm install
