@@ -1965,7 +1965,7 @@ java -jar jenkins.war --httpPort=9000
 
 JHipster has good documentation on https://jhipster.github.io/setting-up-ci-jenkins2/[setting up CI on Jenkins 2] and
 http://jhipster.github.io/heroku/[deploying to Heroku]. I followed JHipster's Jenkins 2 documentation and opted for the global
-NodeJS installation.
+Node.js installation.
 
 .Travis CI
 
