@@ -43,7 +43,7 @@ a life changer for me.
 
 I thought writing a "`21-Point Health`" application would work because tracking your health is always
 important. Wearables that can track your health stats might be able to use the APIs or hooks I create to record
-points for a day. Imagine hooking into http://dailymile.com[dailymile] (where I track my exercise) or https://untappd.com[Untappd] (where I sometimes list
+points for a day. Imagine hooking into http://dailymile.com[Dailymile] (where I track my exercise) or https://untappd.com[Untappd] (where I sometimes list
 the beers I drink). Or even displaying other activities for a day (e.g. showing your blood-pressure score that you keep on
 http://www.apple.com/ios/health/[iOS Health]).
 
@@ -53,7 +53,7 @@ monitors for apps, and now you can use this JHipster app to monitor your health!
 == Creating the application
 
 I started using the http://jhipster.github.io/installation/[Installing JHipster] instructions. I'm a Java developer,
-so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[nodejs.org], then
+so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org], then
 ran the following commands to install http://yeoman.io/[Yeoman] and https://bower.io/[Bower].
 
 [source]
@@ -221,7 +221,7 @@ To git@bitbucket.org:mraible/21-points.git
 ----
 
 This is how I created a new application with JHipster and checked it into source control. If you're
-creating an application following similar steps, I believe there's two common approaches for continuing. The first
+creating an application following similar steps, I believe there are two common approaches for continuing. The first
 involves developing the application, then testing and deploying. The second option is to set up continuous integration,
 deploy, then begin development and testing. In a team development environment, I recommend the second option.
 However, since you're likely reading this as an individual, I'll follow the first approach and get right to coding.
@@ -231,8 +231,8 @@ https://jhipster.github.io/setting-up-ci-jenkins2/[Setting up Continuous Integra
 == Building the UI and business logic
 
 I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a couple of years ago,
-but now Google's https://www.google.com/design/[Material Design] is growing in popularity. I searched for "material" in the
-https://jhipster.github.io/modules/marketplace/[JHipster Marketplace] the
+but now Google's https://www.google.com/design/[material design] is growing in popularity. I searched for "material" in the
+https://jhipster.github.io/modules/marketplace/[JHipster Marketplace] and found the
 https://jhipster.github.io/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design]
 module. To install it, I executed the following commands.
 
@@ -242,7 +242,7 @@ npm install -g generator-jhipster-bootstrap-material-design
 yo jhipster-bootstrap-material-design
 ----
 
-The second command yielded a number of questions about overwriting files and I agreed.
+The second command yielded a number of questions about overwriting files, to which I agreed.
 
 ----
 $ yo jhipster-bootstrap-material-design
@@ -283,9 +283,9 @@ I visited the https://github.com/moifort/generator-jhipster-bootstrap-material-d
 about the changes I needed to make in `index.html`.
 
 [[using-sass]]
-.Using SASS
+.Using Sass
 ****
-When you use sass you need to modify your index.html a little bit to make sure material design styles are not overwritten by default bootstrap styles again:
+When you use Sass, you need to modify your `index.html` a little bit to make sure your material-design styles are not overwritten by the default bootstrap styles:
 
 [source,html]
 ----
@@ -299,16 +299,16 @@ When you use sass you need to modify your index.html a little bit to make sure m
 <!-- endbuild -->
 ----
 
-You should make sure that the `vendor.css` is before all material design stylesheets in your index.html!
+You should make sure that the `vendor.css` is before all material-design stylesheets in your `index.html`!
 ****
 
-After making these changes, I observed the changes made by installing this module using `git diff`.
+After doing this, I observed the changes made by installing this module using `git diff`.
 
 Finally, I ran `./gradlew` and confirmed that the new theme was being used.
 
 [[img-material-design-theme]]
-.Material Design for Bootstrap theme
-image::chapter2/material-design-theme.png[Material Design for Bootstrap theme, 1307, scaledwidth=100%]
+.Material design for Bootstrap theme
+image::chapter2/material-design-theme.png[Material design for Bootstrap theme, 1307, scaledwidth=100%]
 
 Before creating the entities and associated database tables for this application, I decided to upgrade JHipster to
 the latest release. You can see that I created this application with JHipster 3.5.1. The latest release as of writing is
@@ -325,7 +325,7 @@ command to update the project.
 yo jhipster
 ----
 
-This notified me that it was deleting a number of files, and there were some conflicts in my files.
+This notified me that it was deleting a number of files, and that there were some conflicts in my files.
 
 TIP: If you don't see conflicts when upgrading, it's possible that you didn't install JHipster on the machine you're using.
 This happened to me when I switched machines. Check `package.json` to ensure it has the new version number. If it does not, run
@@ -345,7 +345,7 @@ I answered "`Y`" to all the conflict questions. Because I had the files in sourc
 after they were made and decide if I wanted them or not. When I tried to start the app, I did experience a `ConflictingBeanDefinitionException`
 exception for `userMapperImpl`. I was able to solve this by deleting `org/jhipster/health/web/rest/mapper/UserMapper.java`.
 
-I ran `gulp` to verify that everything looked good, and saw the following error in my console:
+I ran `gulp` to verify that everything looked good, and saw the following error in my console.
 
 ----
 bootstrap-material.config.js:8 Uncaught ReferenceError: compileServiceConfig is not defined
@@ -384,9 +384,9 @@ Finished in 33.065 seconds
 ----
 
 I opened the application in a browser and noticed there were some rounded corners and the primary buttons looked funny.
-This happened because the upgrade overwrite `index.html` and I had to re-apply the <<using sass>> fix.
+This happened because the upgrade overwrote `index.html` and I had to re-apply the <<Using Sass>> fix.
 
-TIP: After integrating the Material Design theme, I deployed to Heroku for the first time. This is covered in the
+TIP: After integrating the material-design theme, I deployed to Heroku for the first time. This is covered in the
 <<Deploying to Heroku>> section of this chapter.
 
 === Generating entities
@@ -411,7 +411,7 @@ JavaScript and HTML code to manage them. You can also set up validation to requi
 JHipster supports several methods of code generation. The first uses its
 https://jhipster.github.io/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool
 that prompts you with questions which you answer. https://jhipster.github.io/jdl-studio/[JDL-Studio] is a browser-based
-tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://jhipster.github.io/jhipster-uml/[JHipster UML]
+tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://jhipster.github.io/jhipster-uml/[JHipster-UML]
 is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio],
 http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and
 http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose
@@ -419,7 +419,7 @@ that for this project.
 
 TIP: If you want to see how how easy it is to use JDL-Studio, please see https://youtu.be/kkHN2G_nXV0?t=1460[this YouTube demo].
 
-At this point, I did some trail-and-error designs with the data model. I generated entities with JHipster, tried the app, and
+At this point, I did some trial-and-error designs with the data model. I generated entities with JHipster, tried the app, and
 changed to start with a UI-first approach. As a user, I was hoping to easily add daily entries about whether I'd exercised,
 ate healthy meals, or consumed alcohol. I also wanted to record my weight and blood-pressure metrics when I measured them.
 When I started using the UI I'd just created, it seemed like it might be able to accomplish these goals, but it also seemed
@@ -553,17 +553,17 @@ the column names intact and manually renamed everything in Java, JavaScript, JSO
 Of all the code I write, UI code (HTML, JavaScript, and CSS) is my favorite. I like that you can see changes
 immediately and make progress quickly - especially when you're using dual monitors with
 ifdef::backend-epub3[link:jhipsters-ui-components.xhtml#Browsersync[Browsersync].]
-ifndef::backend-epub3[<<Browsersync>>.]
+ifndef::backend-epub3[<<Browsersync>>.] // LN: Any way to get rid of the square brackets in the rendered version?
 Below is a consolidated list of changes I made to the HTML to make things look better:
 
-. Improved layout of tables and buttons.
-. Improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`.
-. Formatted dates for local timezone https://docs.angularjs.org/api/ng/filter/date[AngularJS's date filter]
-  (for example: `{{bloodPressure.timestamp | date: 'short': 'UTC'}}`).
-. Improved dialogs to hide ID when creating a new entity.
-. Defaulted to current date on new entries.
-. Replaced point metrics with icons on list/detail screens.
-. Replaced point metrics with checkboxes on dialog screen.
+* improved layout of tables and buttons,
+* improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`,
+* formatted dates for local timezone with https://docs.angularjs.org/api/ng/filter/date[AngularJS's date filter]
+  (for example: `{{bloodPressure.timestamp | date: 'short': 'UTC'}}`),
+* improved dialogs to hide ID when creating a new entity,
+* defaulted to current date on new entries,
+* replaced point metrics with icons on list/detail screens, and
+* replaced point metrics with checkboxes on dialog screen.
 
 The biggest visual improvements are on the list screens. I made the buttons a bit smaller, turned button text into tooltips,
 and moved add/search buttons to the top right corner. For the points-list screen, I converted the 1 and 0 metric values
@@ -579,8 +579,8 @@ image::chapter2/points-list-after.png[Default Daily Points list after UI improve
 
 I refactored the HTML at the top of `points.html` to put the title, search, and add buttons on the same row. I also removed
 the button text in favor of a using https://angular-ui.github.io/bootstrap/#/tooltip[UI Bootstrap's tooltip directive].
-The `translate` filter you see in the button titles is provided by https://angular-translate.github.io/[Angular Translate].
-Both UI Bootstrap and Angular Translate are included in JHipster by default.
+The `translate` filter you see in the button titles is provided by https://angular-translate.github.io/[angular-translate].
+Both UI Bootstrap and angular-translate are included in JHipster by default.
 
 [source,html]
 .src/main/webapp/app/entities/points/points.html
@@ -685,7 +685,7 @@ a `has-any-authority` directive that allows you to pass in a comma-delimited lis
 </div>
 ----
 
-Since the dropdown is hidden from non-admins, I had to modify each Resource class to default to the current user when
+Since the dropdown is hidden from non-admins, I had to modify each `Resource` class to default to the current user when
 creating a new record. Below is a diff that shows the changes that I needed to make to `PointsResource.java`.
 
 [source,diff]
@@ -863,11 +863,11 @@ To make tests pass, I had to update `PointsResourceIntTest#getAllPoints` to use 
 
 Making the homepage into something resembling my UI mockup required several steps:
 
-. Adding buttons to facilitate adding new data from the homepage.
-. Adding an API to get points achieved during the current week.
-. Adding an API to get blood-pressure readings for the last 30 days.
-. Adding an API to get body weights for the last 30 days.
-. Adding charts to display points per week, and blood pressure/weight for last 30 days.
+. Add buttons to facilitate adding new data from the homepage.
+. Add an API to get points achieved during the current week.
+. Add an API to get blood-pressure readings for the last 30 days.
+. Add an API to get body weights for the last 30 days.
+. Add charts to display points per week and blood pressure/weight for last 30 days.
 
 I started by reusing the dialogs for entering data that JHipster had created for me. I found that adding new
 routes to `home.state.js` was the easiest way to do this. Instead of routing back to the list screen after a save
@@ -986,7 +986,7 @@ public void getPointsThisWeek() throws Exception {
 <1> To simplify testing, I added a new constructor to `Points.java` that contained the arguments I wanted to set. I
     continued this pattern for most tests I created.
 
-Of course, this test failed when I first ran it since "`/api/points-this-week`" didn't exist in `PointsResource.java`.
+Of course, this test failed when I first ran it since `/api/points-this-week` didn't exist in `PointsResource.java`.
 You might notice the points-this-week API expects two return values: a date in the `week` field and the number
 of points in the `points` field. I created `PointsPerWeek.java` in my project's `rest.vm` package to hold this
 information.
@@ -1322,7 +1322,7 @@ public class BloodPressureByPeriod {
 ----
 
 Using similar logic that I used for points-this-week, I created a new method in `BloodPressureRepository.java` that
-allowed me to query between two different dates. I also added "`orderBy`" logic so the records would be sorted by date
+allowed me to query between two different dates. I also added "`OrderBy`" logic so the records would be sorted by date
 entered.
 
 [source,java]
@@ -1385,6 +1385,34 @@ public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
 }
 ----
 ====
+// LN: I think this looks better as a block quote, as follows. Delete the one you don't want.
+.Filtering by method
+****
+I later learned how do do the filtering in in the database by adding the following method to `BloodPressureRepository.java`:
+
+[source,java]
+.src/main/java/org/jhipster/health/repository/BloodPressureRepository.java
+----
+List<BloodPressure> findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(ZonedDateTime firstDate, ZonedDateTime secondDate, String login);
+----
+
+Then I was able to remove the `filterByUser` method and change `BloodPressureResource#getByDays` to be:
+
+[source,java]
+.src/main/java/org/jhipster/health/web/rest/BloodPressureResource.java
+----
+public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
+    ZonedDateTime rightNow = ZonedDateTime.now();
+    ZonedDateTime daysAgo = rightNow.minusDays(days);
+
+    List<BloodPressure> readings =
+        bloodPressureRepository.findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(
+            daysAgo, rightNow, SecurityUtils.getCurrentUserLogin());
+    BloodPressureByPeriod response = new BloodPressureByPeriod("Last " + days + " Days", readings);
+    return new ResponseEntity<>(response, HttpStatus.OK);
+}
+----
+****
 
 I added a new method to support this API in `blood-pressure.service.js`.
 
@@ -1408,7 +1436,7 @@ While gathering this data seemed easy enough, the hard part was figuring out wha
 
 I did a https://twitter.com/mraible/status/633738800879898624[bit of research] and decided to use
 http://krispo.github.io/angular-nvd3[Angular-nvD3]. I'd heard good things about https://d3js.org/[D3.js] and Angular-nvD3
-is built on top of it. To install Angular-nvD3, I used Bower's install command.
+is built on top of it. To install Angular-nvD3, I used Bower's `install` command.
 
 ----
 bower install angular-nvd3 --save
@@ -1585,7 +1613,7 @@ To drill down further, I made a graph of the top three languages in the project:
 image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 750, scaledwidth=100%, align=center]
 
 The amount of code I had to write in each language was 344 lines of Java, 459 lines of JavaScript, and 182 lines of HTML.
-The other 172 lines were SASS (130), JSON (25), XML (1), YAML (15), Shell (1).
+The other 172 lines were Sass (130), JSON (25), XML (1), YAML (15), and Shell (1).
 
 Wahoo! Thanks, JHipster!
 
@@ -1624,14 +1652,14 @@ mvn -Pprod package
 ----
 
 The production profile is used to build an optimized JavaScript client. You can invoke this using Gulp by running `gulp build`.
-The production profile also configures gzip compression with a servlet filter, cache headers and monitoring via
+The production profile also configures gzip compression with a servlet filter, cache headers, and monitoring via
 https://github.com/dropwizard/metrics[Metrics]. If you have a http://graphite.wikidot.com/[Graphite] server configured in
 your `application-prod.yaml` file, your application will automatically send metrics data to it.
 
 To upload 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-command-line[Heroku CLI]
 installed.
 
-TIP: I first deployed to Heroku after integrating the Material Design theme, meaning that I had a basically default JHipster application with no entities.
+TIP: I first deployed to Heroku after integrating the material-design theme, meaning that I had a basically default JHipster application with no entities.
 
 ----
 $ heroku login
@@ -1808,7 +1836,7 @@ in the top right corner.
 
 === Elasticsearch on Heroku
 
-Once my application's timeout was increased, it seemed like everything was working. I tried to register a new user,
+Once my application's timeout was increased, it seemed like everything was working. I tried to register a new user
 and saw the following error message in my logs.
 
 ----
@@ -1911,7 +1939,7 @@ https://addons.heroku.com/newrelic[New Relic add-on] for Heroku. Heroku's https:
 describes how to set things up if you're letting Heroku do the build for you (meaning, you deploy with
 `git push heroku master`). However, if you're using the heroku-deploy plugin, it's a bit different.
 
-For that, you'll first need to manually download the New Relic Agent, as well as a `newrelic.yml` license file, and put them in the root directory
+For that, you'll first need to manually download the New Relic agent, as well as a `newrelic.yml` license file, and put them in the root directory
 of your project. Then you can run a command like:
 
 ----
@@ -1935,12 +1963,13 @@ the following command.
 java -jar jenkins.war --httpPort=9000
 ----
 
-JHipster has good documentation on https://jhipster.github.io/setting-up-ci-jenkins2/[setting up Continuous Integration on Jenkins 2] and
+JHipster has good documentation on https://jhipster.github.io/setting-up-ci-jenkins2/[setting up CI on Jenkins 2] and
 http://jhipster.github.io/heroku/[deploying to Heroku]. I followed JHipster's Jenkins 2 documentation and opted for the global
 NodeJS installation.
 
-****
 .Travis CI
+
+****
 JHipster ships with a `.travis.yml` file that allows you to run your application's tests on https://travis-ci.org[Travis CI].
 You can modify it to run Protractor tests using something like the following:
 
@@ -2011,14 +2040,14 @@ script:
 ****
 
 I created a new job called "21-points" with a Pipeline script from SCM. By default, a JHipster-generated project
-contains a `Jenkinsfile`. I configured a "Poll SCM" build trigger with a schedule of `H/5 * * * *`. After saving the job,
+contains a `Jenkinsfile`. I configured a "`Poll SCM`" build trigger with a schedule of `H/5 * * * *`. After saving the job,
 I confirmed it ran successfully.
 
 [[jenkins-job1]]
 .Jenkins build #1
 image::chapter2/jenkins-job-1.png[First run of 21-points pipeline, 1124, scaledwidth=100%, align=center]
 
-I modified this file to add running Protractor tests and deploying to Heroku. I checked in my changes to trigger
+I modified this file to add the running of Protractor tests and deploying to Heroku. I checked in my changes to trigger
 another build.
 
 [source]
@@ -2104,15 +2133,12 @@ project, I changed to use Chrome. To to this, I modified `protractor.conf.js` an
 
 This got me a bit further, but tests still failed. I banged my head against the wall for a few hours before I figured out
 the problem: `translate` is a reserved attribute name in HTML5 and Chrome (and Safari) return a boolean for this value if
-its present. Not only that, but Protractor's `element.getAttribute()` returns a promise rather than a value.
+it's present. Not only that, but Protractor's `element.getAttribute()` returns a promise rather than a value.
 
 As part of this debugging exercise, I also discovered that Firefox 48 does not work with Protractor. The most recent
 version I found that works is Firefox 46. Also, Firefox 46 (and below) don't require you to resolve the promise
 returned from Protractor's `element.getAttribute()`. However, since both Safari and Chrome require this change (and
-it works in Firefox), I made the following changes:
-
-1. Changed all `translate` attributes in the project's `*.html` files to `data-translate`.
-2. Changed all Protractor tests (in `src/test/javascript/e2e`) to process the promise and validate the value afterward.
+it works in Firefox), I changed all `translate` attributes in the project's `*.html` files to `data-translate` and I changed all Protractor tests (in `src/test/javascript/e2e`) to process the promise and validate the value afterward.
 
 [source,javascript]
 ----
@@ -2121,7 +2147,7 @@ element.all(by.css('h1')).first().getAttribute('data-translate').then(function (
 });
 ----
 
-After making these changes, https://github.com/jhipster/generator-jhipster/pull/4076[created a pull request] to
+After making these changes, https://github.com/jhipster/generator-jhipster/pull/4076[I created a pull request] to
 fix this in JHipster's main generator. Then I spent hours trying to get all the Protractor tests passing. I discovered
 that logout wasn't happening consistently for Chrome and Safari, causing some tests to fail. Finally, I switched back to Firefox
 and was able to get consistent results.
@@ -2140,7 +2166,7 @@ and was able to get consistent results.
      },
 ----
 
-I checked in my changes, restarting Jenkins, and verified that all stages in my pipeline passed.
+I checked in my changes, restarted Jenkins, and verified that all stages in my pipeline passed.
 
 [[jenkins-job-success]]
 .Jenkins success!
@@ -2150,12 +2176,12 @@ When working on this project, I'd start Jenkins and have it running while I chec
 server and leave it running continuously. My reason was simple: I was only coding in bursts and didn't need to waste
 computing cycles or want to pay for a cloud instance to run it.
 
-== Source Code
+== Source code
 
 After getting this application into a "good enough" state, I moved it from Bitbucket to GitHub and made it available
-as an open source project. You can find the source code for 21-Points Health at https://github.com/mraible/21-points.
+as an open-source project. You can find the source code for 21-Points Health at https://github.com/mraible/21-points.
 
-== Upgrading 21-Points
+== Upgrading 21-Points Health
 
 After I finished developing the MVP of 21-Points Health with JHipster 3.7.0, I wanted to upgrade it to the latest release.
 Rather than doing it manually like I did previously, I tried the using the https://jhipster.github.io/upgrading-an-application/[upgrade sub-generator].
@@ -2171,7 +2197,7 @@ image::chapter2/jhipster-upgrade-start.png[Running the jhipster:upgrade sub-gene
 image::chapter2/jhipster-upgrade-finish.png[Upgrade Result, 1026, scaledwidth=100%, align=center]
 
 After the command finished (in just over two minutes), I fixed the conflicts and checked in my changes. If you're reading
-this and notice that 21-Points is using a version > 3.8.0, it's likely because I used this handy sub-generator again.
+this and notice that 21-Points Health is using a version newer than 3.8.0, it's likely because I used this handy sub-generator again.
 
 == Summary
 
