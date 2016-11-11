@@ -210,9 +210,6 @@ insert into blog (name) values ('Second');
 Start your application with `mvn spring-boot:run` (or right-click -> "`Run in your IDE`") and you should see this default
 data show up in your logs.
 
-TODO: Update with output from today 
-// LN: What is the above TODO line?
-
 ----
 2016-10-05 12:02:51.280  INFO 66181 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
 2016-10-05 12:02:51.325  INFO 66181 --- [           main] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
@@ -368,16 +365,16 @@ Actuator's main features are endpoints, metrics, auditing, and process monitorin
 number of REST endpoints. By default, Spring Boot will also expose management endpoints as JMX MBeans under the
 `org.springframework.boot` domain. Actuator REST endpoints include:
 
-TODO: Confirm same endpoints still exist
-// LN: Confirmed?
-
+* `/actuator` - Provides a hypermedia-based “discovery page” for the other endpoints. Requires Spring HATEOAS to be on the classpath.
 * `/autoconfig` - Returns an auto-configuration report that shows all auto-configuration candidates.
 * `/beans` - Returns a complete list of all the Spring beans in your application.
 * `/configprops` - Returns a list of all `@ConfigurationProperties`.
 * `/dump` - Performs a thread dump.
 * `/env` - Returns properties from Spring's `ConfigurableEnvironment`.
+* `/flyway` - Shows any Flyway database migrations that have been applied.
 * `/health` - Returns information about application health.
 * `/info` - Returns basic application info.
+* `/liquibase` - Shows any Liquibase database migrations that have been applied.
 * `/metrics` - Returns performance information for the current application.
 * `/mappings` - Returns a  list of all `@RequestMapping` paths.
 * `/shutdown` - Shuts the application down gracefully (not enabled by default).

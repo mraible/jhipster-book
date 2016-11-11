@@ -396,7 +396,7 @@ adapts to widths of 724 px and 1170 px, according to your viewport. On viewports
 fluid and stack vertically.
 
 A basic example of the grid is shown below.
-// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
+
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/grid-basic.html[]
@@ -448,7 +448,7 @@ Bootstrap also includes a number of utility classes that can be used to show and
 When you add Bootstrap's CSS to your web application, chances are it'll quickly start to look better. Typography, margins,
 and padding will look better by default. However, your forms might look funny, because Bootstrap requires a few
 classes on your form elements to make them look good. Below is an example of a form element.
-// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
+
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
@@ -459,7 +459,7 @@ include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
 image::chapter3/bootstrap/basicelement.png[Basic form element, 829, scaledwidth=90%]
 
 If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
-// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
+
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/basicelement-withvalidation.html[]
@@ -476,7 +476,7 @@ If you want to align text in your pages, `text-[left|center|right]` are useful c
 gives them a better look and feel by default.
 
 To make your buttons look better, Bootstrap provides `btn` and a number of `btn-*` classes.
-// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
+
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/buttons.html[]
@@ -508,7 +508,7 @@ image::chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 467, scaledwidt
 This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source
 online in link:http://getbootstrap.com/components/#navbar-default[Bootstrap's documentation]. The simpler example below
 shows the basic structure.
-// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
+
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/navbar.html[]
@@ -516,7 +516,7 @@ include::{sourcedir}/chapter3/bootstrap/navbar.html[]
 
 Alerts are useful for displaying feedback to the user. You can invoke differently colored alerts with different classes. You'll need
 to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors.
-// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
+
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/alerts.html[]
@@ -579,7 +579,7 @@ If you'd like to override Bootstrap classes in your project, the easiest thing t
 file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/css/main.css` directly. If you're
 using Sass to compile `*.scss` files, you can modify `src/main/webapp/scss/main.scss` instead. Using Sass results in a much
 more concise authoring environment. Below is the default `vendor.scss` file that Yeoman generates. You can see that
-it overrides the font-path variable and imports Bootstrap. Default rules are overridden in `src/main/webapp/scss/main.scss`.
+it overrides the `$icon-font-path` variable and imports Bootstrap. Default rules are overridden in `src/main/webapp/scss/main.scss`.
 
 [source,css]
 .src/main/webapp/scss/vendor.scss
@@ -755,13 +755,13 @@ The following steps show how to integrate Gulp into https://github.com/angular/a
 build file optimizes your JavaScript, CSS, and HTML for production. It concatenates your JavaScript and CSS
 files, minifies them, then replaces the references in the HTML to point to the optimized files. First, you have
 to configure `package.json` to include Gulp and its plugins for web optimization.
-// LN: Is the following a legit path? There's an error in the rendering.
+
 [source,json]
 .package.json
 ----
 include::{sourcedir}/chapter3/gulp/package.json[]
 ----
-// LN: Is the following a legit path? There's an error in the rendering.
+
 [source%autofit,javascript]
 .gulpfile.js
 ----
@@ -770,7 +770,7 @@ include::{sourcedir}/chapter3/gulp/gulpfile.js[]
 
 Before the tasks run, the `index.html` file points to individual CSS and JavaScript files. The `<!-- build:* -\->`
 and `<!-- endbuild -\->` are used by the `useminPrepare` task to build the list of files for optimization.
-// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
+
 [source,html]
 .index.html
 ----
@@ -778,7 +778,7 @@ include::{sourcedir}/chapter3/gulp/index-dev.html[]
 ----
 
 After the build runs, the `dist/index.html` file points to the revved, combined, and minified CSS and JavaScript files.
-// LN: Is the following a legit path? I don't see the HTML document. And there's an error in the rendering.
+
 [source,html]
 .dist/index.html
 ----
@@ -804,7 +804,7 @@ not available, it falls back to other browser techniques.
 
 To see how WebSockets work, take a look at the `TrackerController` in a WebSockets-enabled project. This displays real-time
 activity information that's been posted to the `/websocket/tracker` endpoint.
-// LN: Is the following a legit path? There's an error in the rendering.
+
 [source%autofit,javascript]
 .src/main/webapp/app/admin/tracker/tracker.controller.js
 ----
@@ -812,7 +812,7 @@ include::{sourcedir}/chapter3/websockets/tracker.controller.js[]
 ----
 
 The `Tracker` service allows you to send tracking information, for example, to track when someone has authenticated.
-// LN: Is the following a legit path? There's an error in the rendering.
+
 [source,javascript]
 .src/main/webapp/scripts/components/tracker/tracker.service.js
 ----
@@ -838,7 +838,7 @@ Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.
 
 To integrate Browsersync in your project, you need a `package.json` and `gulpfile.js`. Your `package.json` file only needs
 to contain a few things, weighing in at a slim 13 lines of JSON.
-// LN: Is the following a legit path? There's an error in the rendering.
+
 [source,javascript]
 ----
 include::{sourcedir}/../../../package.json[]
@@ -846,7 +846,7 @@ include::{sourcedir}/../../../package.json[]
 
 The `gulpfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development
 experience.
-// LN: Is the following a legit path? There's an error in the rendering.
+
 [source%autofit,javascript]
 ----
 include::{sourcedir}/../../../gulpfile.browsersync.js[]

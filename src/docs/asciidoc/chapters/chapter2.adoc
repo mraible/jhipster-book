@@ -384,7 +384,7 @@ Finished in 33.065 seconds
 ----
 
 I opened the application in a browser and noticed there were some rounded corners and the primary buttons looked funny.
-This happened because the upgrade overwrote `index.html` and I had to re-apply the <<Using Sass>> fix.
+This happened because the upgrade overwrote `index.html` and I had to re-apply the <<using-sass>> fix.
 
 TIP: After integrating the material-design theme, I deployed to Heroku for the first time. This is covered in the
 <<Deploying to Heroku>> section of this chapter.
@@ -553,7 +553,7 @@ the column names intact and manually renamed everything in Java, JavaScript, JSO
 Of all the code I write, UI code (HTML, JavaScript, and CSS) is my favorite. I like that you can see changes
 immediately and make progress quickly - especially when you're using dual monitors with
 ifdef::backend-epub3[link:jhipsters-ui-components.xhtml#Browsersync[Browsersync].]
-ifndef::backend-epub3[<<Browsersync>>.] // LN: Any way to get rid of the square brackets in the rendered version?
+ifndef::backend-epub3[<<Browsersync>>.]
 Below is a consolidated list of changes I made to the HTML to make things look better:
 
 * improved layout of tables and buttons,
@@ -1358,34 +1358,6 @@ private List<BloodPressure> filterByUser(List<BloodPressure> readings) {
 }
 ----
 
-[NOTE]
-====
-I later learned how do do the filtering in in the database by adding the following method to `BloodPressureRepository.java`:
-
-[source,java]
-.src/main/java/org/jhipster/health/repository/BloodPressureRepository.java
-----
-List<BloodPressure> findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(ZonedDateTime firstDate, ZonedDateTime secondDate, String login);
-----
-
-Then I was able to remove the `filterByUser` method and change `BloodPressureResource#getByDays` to be:
-
-[source,java]
-.src/main/java/org/jhipster/health/web/rest/BloodPressureResource.java
-----
-public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
-    ZonedDateTime rightNow = ZonedDateTime.now();
-    ZonedDateTime daysAgo = rightNow.minusDays(days);
-
-    List<BloodPressure> readings =
-        bloodPressureRepository.findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(
-            daysAgo, rightNow, SecurityUtils.getCurrentUserLogin());
-    BloodPressureByPeriod response = new BloodPressureByPeriod("Last " + days + " Days", readings);
-    return new ResponseEntity<>(response, HttpStatus.OK);
-}
-----
-====
-// LN: I think this looks better as a block quote, as follows. Delete the one you don't want.
 .Filtering by method
 ****
 I later learned how do do the filtering in in the database by adding the following method to `BloodPressureRepository.java`:
