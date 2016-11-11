@@ -1,30 +1,38 @@
-angular.module('blogApp')
-    .controller('TrackerController', function ($scope) {
-        $scope.activities = [];
-        var stompClient = null;
-        var socket = new SockJS('/websocket/tracker');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function(frame) {
-            stompClient.subscribe('/topic/activity', function(activity){
-                showActivity(JSON.parse(activity.body));
-            });
+(function () {
+    'use strict';
+
+    angular
+        .module('blogApp')
+        .controller('JhiTrackerController', JhiTrackerController);
+
+    JhiTrackerController.$inject = ['$cookies', '$http', 'JhiTrackerService'];
+
+    function JhiTrackerController ($cookies, $http, JhiTrackerService) {
+        // This controller uses a Websocket connection to receive user activities in real-time.
+        var vm = this;
+
+        vm.activities = [];
+
+        JhiTrackerService.receive().then(null, null, function(activity) {
+            showActivity(activity);
         });
 
         function showActivity(activity) {
             var existingActivity = false;
-            for (var index = 0; index < $scope.activities.length; index++) {
-                if($scope.activities[index].sessionId == activity.sessionId) {
+            for (var index = 0; index < vm.activities.length; index++) {
+                if(vm.activities[index].sessionId === activity.sessionId) {
                     existingActivity = true;
-                    if (activity.page == 'logout') {
-                        $scope.activities.splice(index, 1);
+                    if (activity.page === 'logout') {
+                        vm.activities.splice(index, 1);
                     } else {
-                        $scope.activities[index] = activity;
+                        vm.activities[index] = activity;
                     }
                 }
             }
-            if (!existingActivity && (activity.page != 'logout')) {
-                $scope.activities.push(activity);
+            if (!existingActivity && (activity.page !== 'logout')) {
+                vm.activities.push(activity);
             }
-            $scope.$apply();
         }
-    });
+
+    }
+})();

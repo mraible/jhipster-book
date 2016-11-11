@@ -1,7 +1,7 @@
 [[action]]
 = Action!
 
-I hope you've enjoyed learning how JHipster can help you develop hip web applications! It's a nifty project, with an easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows five simple http://jhipster.github.io/policies.html[policies], paraphrased here:
+I hope you've enjoyed learning how JHipster can help you develop hip web applications! It's a nifty project, with an easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows five simple https://jhipster.github.io/policies/[policies], paraphrased here:
 
 1. The development team votes on policies.
 2. JHipster uses technologies with their default configurations as much as possible.
@@ -23,4 +23,4 @@ Learn how to use Spring Boot to build apps faster than ever before with https://
 
 An in-depth and up-to-date book on Angular is https://www.ng-book.com/[_ng-book: The Complete Book on AngularJS_] by Ari Lerner (Fullstack.io, December 2013). Lerner has also written _ng-book 2_ for Angular 2.
 
-Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with http://shop.oreilly.com/product/0636920038252.do[_Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_] by Josh Long and Kenny Bastani (O'Reilly Media, expected late 2016).
+Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with http://shop.oreilly.com/product/0636920038252.do[_Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_] by Josh Long and Kenny Bastani (O'Reilly Media, expected early 2017).

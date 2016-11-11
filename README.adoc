@@ -1,17 +1,46 @@
 = The JHipster Mini-Book
 
-A book written in AsciiDoc that compiles to HTML, PDF, EPUB, and MOBI using the Asciidoctor Gradle plugin.
+This is an awesome book. It's written in AsciiDoc and compiles to HTML, PDF, EPUB, and MOBI using the
+http://asciidoctor.org/docs/asciidoctor-gradle-plugin/[Asciidoctor Gradle plugin].
 
-== Usage
+== Building
 
-Convert the AsciiDoc to HTML, PDF, & epub3 by running Gradle:
+To convert the AsciiDoc to HTML, PDF, EPUB, and MOBI, run the following command:
 
- $ ./gradlew
+----
+$ build.sh
+----
 
-Open the file _build/asciidoc/html5/index.html_ in your browser to see the generated HTML file.
+* Open _build/asciidoc/html5/index.html_ in your browser to see the generated HTML file.
+* Open _build/asciidoc/pdf/index.pdf_ in a PDF Reader to see the generated PDF file.
+* Open _build/asciidoc/epub3/index.epub_ in iBooks to see the generated EPUB file.
+* Open _build/asciidoc/epub3/index.mobi_ in http://calibre-ebook.com/[Calibre] to see the generated MOBI file.
 
-Open the file _build/asciidoc/pdf/index.pdf_ in your browser to see the generated PDF file.
+== Sweet Authoring Experience
 
-Open the file _build/asciidoc/epub3/index.epub_  in your browser to see the generated epub file.
+If you'd like a very pleasant authoring experience, the project provides build files that make it possible. First of all,
+you'll need to run `gradlew` once. After running it once, you can run `./gradlew watch` to watch for any changes and
+recompile files as you save them.
 
-Open the file _build/asciidoc/epub3/index.mobi_  in your browser to see the generated epub file.
+To have a similar awesome experience (watch and auto-reload) in your browser, you'll need to have https://nodejs.org/[Node] installed.
+
+After installing Node, you can run the following command to install development tools (like http://www.browsersync.io/[Browsersync]).
+You will only need to run this command when dependencies change in package.json.
+
+----
+npm install
+----
+
+This project use http://gulpjs.com/[Gulp] as the client-code build system. You can install the `gulp` command-line
+tool globally with:
+
+----
+npm install -g gulp-cli
+----
+
+Now you can run the following `gulp` command to create a blissful development experience where your browser auto-refreshes
+when files change on your hard drive.
+
+----
+gulp
+----

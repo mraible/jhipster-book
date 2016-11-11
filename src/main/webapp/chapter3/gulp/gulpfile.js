@@ -14,7 +14,7 @@ gulp.task('copy', ['clean'], function () {
 gulp.task('usemin', ['copy'], function () {
     return gulp.src('app/index.html')
         .pipe($.usemin({
-            css: [$.minifyCss(), $.rev()],
+            css: [$.cleanCSS(), $.rev()],
             js: [$.uglify(), $.rev()]
         }))
         .pipe(gulp.dest('dist/'));

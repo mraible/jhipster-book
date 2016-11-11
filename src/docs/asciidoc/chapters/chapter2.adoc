@@ -43,7 +43,7 @@ a life changer for me.
 
 I thought writing a "`21-Point Health`" application would work because tracking your health is always
 important. Wearables that can track your health stats might be able to use the APIs or hooks I create to record
-points for a day. Imagine hooking into http://dailymile.com[dailymile] (where I track my exercise) or https://untappd.com[Untappd] (where I sometimes list
+points for a day. Imagine hooking into http://dailymile.com[Dailymile] (where I track my exercise) or https://untappd.com[Untappd] (where I sometimes list
 the beers I drink). Or even displaying other activities for a day (e.g. showing your blood-pressure score that you keep on
 http://www.apple.com/ios/health/[iOS Health]).
 
@@ -53,7 +53,7 @@ monitors for apps, and now you can use this JHipster app to monitor your health!
 == Creating the application
 
 I started using the http://jhipster.github.io/installation/[Installing JHipster] instructions. I'm a Java developer,
-so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[nodejs.org], then
+so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org], then
 ran the following commands to install http://yeoman.io/[Yeoman] and https://bower.io/[Bower].
 
 [source]
@@ -62,7 +62,7 @@ npm install -g yo
 npm install -g bower
 ----
 
-I also installed Grunt and JHipster.
+I also installed Gulp and JHipster.
 
 [source]
 ----
@@ -132,7 +132,7 @@ Finished in 29.433 seconds
 ----
 
 To prove the `prod` profile worked and I could talk to PostgreSQL, I installed http://postgresapp.com/[Postgres.app] and tried
-creating a local PostgreSQL database with settings from `src/main/resources/config/application-prod.yml1. You can see that
+creating a local PostgreSQL database with settings from `src/main/resources/config/application-prod.yml`. You can see that
 PostgreSQL didn't like that my database name started with a number.
 
 ----
@@ -221,7 +221,7 @@ To git@bitbucket.org:mraible/21-points.git
 ----
 
 This is how I created a new application with JHipster and checked it into source control. If you're
-creating an application following similar steps, I believe there's two common approaches for continuing. The first
+creating an application following similar steps, I believe there are two common approaches for continuing. The first
 involves developing the application, then testing and deploying. The second option is to set up continuous integration,
 deploy, then begin development and testing. In a team development environment, I recommend the second option.
 However, since you're likely reading this as an individual, I'll follow the first approach and get right to coding.
@@ -231,8 +231,8 @@ https://jhipster.github.io/setting-up-ci-jenkins2/[Setting up Continuous Integra
 == Building the UI and business logic
 
 I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a couple of years ago,
-but now Google's https://www.google.com/design/[Material Design] is growing in popularity. I searched for "material" in the
-https://jhipster.github.io/modules/marketplace/[JHipster Marketplace] the
+but now Google's https://www.google.com/design/[material design] is growing in popularity. I searched for "material" in the
+https://jhipster.github.io/modules/marketplace/[JHipster Marketplace] and found the
 https://jhipster.github.io/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design]
 module. To install it, I executed the following commands.
 
@@ -242,7 +242,7 @@ npm install -g generator-jhipster-bootstrap-material-design
 yo jhipster-bootstrap-material-design
 ----
 
-The second command yielded a number of questions about overwriting files and I agreed.
+The second command yielded a number of questions about overwriting files, to which I agreed.
 
 ----
 $ yo jhipster-bootstrap-material-design
@@ -282,9 +282,10 @@ https://github.com/moifort/generator-jhipster-bootstrap-material-design
 I visited the https://github.com/moifort/generator-jhipster-bootstrap-material-design[module's documentation] and learned
 about the changes I needed to make in `index.html`.
 
-.Using SASS
+[[using-sass]]
+.Using Sass
 ****
-When you use sass you need to modify your index.html a little bit to make sure material design styles are not overwritten by default bootstrap styles again:
+When you use Sass, you need to modify your `index.html` a little bit to make sure your material-design styles are not overwritten by the default bootstrap styles:
 
 [source,html]
 ----
@@ -298,23 +299,23 @@ When you use sass you need to modify your index.html a little bit to make sure m
 <!-- endbuild -->
 ----
 
-You should make sure that the `vendor.css` is before all material design stylesheets in your index.html!
+You should make sure that the `vendor.css` is before all material-design stylesheets in your `index.html`!
 ****
 
-After making these changes, I observed the changes made by installing this module using `git diff`.
+After doing this, I observed the changes made by installing this module using `git diff`.
 
 Finally, I ran `./gradlew` and confirmed that the new theme was being used.
 
 [[img-material-design-theme]]
-.Material Design for Bootstrap theme
-image::chapter2/material-design-theme.png[Material Design for Bootstrap theme, 1307, scaledwidth=100%]
+.Material design for Bootstrap theme
+image::chapter2/material-design-theme.png[Material design for Bootstrap theme, 1307, scaledwidth=100%]
 
 Before creating the entities and associated database tables for this application, I decided to upgrade JHipster to
 the latest release. You can see that I created this application with JHipster 3.5.1. The latest release as of writing is
-3.6.0, so I updated my version with the following command.
+3.7.0, so I updated my version with the following command.
 
 ----
-npm update -g generator-jhipster
+npm install -g generator-jhipster@latest
 ----
 
 This installs the latest version of JHipster, but does nothing to upgrade my project. I had to run the following
@@ -324,51 +325,69 @@ command to update the project.
 yo jhipster
 ----
 
-This notified me that it was deleting a number of files, and there were some conflicts in my files.
+This notified me that it was deleting a number of files, and that there were some conflicts in my files.
 
 TIP: If you don't see conflicts when upgrading, it's possible that you didn't install JHipster on the machine you're using.
 This happened to me when I switched machines. Check `package.json` to ensure it has the new version number. If it does not, run
-`npm install -g generator-jhipster`.
+`npm install generator-jhipster@latest --save`.
 
 ----
 This is an existing project, using the configuration from your .yo-rc.json file
 to re-generate the project...
 
-Remove the file - src/test/javascript/spec/app/account/health/healthControllerSpec.js
-Remove the file - src/test/javascript/spec/app/account/login/loginControllerSpec.js
-Remove the file - src/test/javascript/spec/app/account/password/passwordControllerSpec.js
-Remove the file - src/test/javascript/spec/app/account/password/passwordDirectiveSpec.js
-Remove the file - src/test/javascript/spec/app/account/sessions/sessionsControllerSpec.js
-Remove the file - src/test/javascript/spec/app/account/settings/settingsControllerSpec.js
-Remove the file - src/test/javascript/spec/components/auth/authServicesSpec.js
+
+Installing languages: en, fr
  conflict bower.json
 ? Overwrite bower.json? (Ynaxdh)
 ----
 
 I answered "`Y`" to all the conflict questions. Because I had the files in source control, I was able to diff the changes
-after they were made and decide if I wanted them or not. Most changes were welcome but I wanted to keep my theme changes
-so I had to add the following back into `bower.json` and run `bower install` again.
+after they were made and decide if I wanted them or not. When I tried to start the app, I did experience a `ConflictingBeanDefinitionException`
+exception for `userMapperImpl`. I was able to solve this by deleting `org/jhipster/health/web/rest/mapper/UserMapper.java`.
 
-[source,json]
-.bower.json
-----
-"bootstrap-material-design": "~0.3.0"
-----
+I ran `gulp` to verify that everything looked good, and saw the following error in my console.
 
-I still needed to manually restore the call to initialize the Material Design theme at the bottom of `index.html`.
-
-[source,html]
-.src/main/webapp/index.html
 ----
-<script>
-    $.material.init()
-</script>
+bootstrap-material.config.js:8 Uncaught ReferenceError: compileServiceConfig is not defined
 ----
 
-I ran `grunt serve` to verify that everything looked good, then committed my updated project to Git.
+I opened `bootstrap-material.config.js` to look for the problem.
 
-TIP: After integrating the Material Design theme, I deployed to Heroku for the first time. This is covered in the
-<<Continuous integration and deployment>> section of this chapter.
+----
+    angular
+        .module('21PointsApp')
+        .config(bootstrapMaterialDesignConfig);
+
+    compileServiceConfig.$inject = [];
+
+    function bootstrapMaterialDesignConfig() {
+        $.material.init();
+    }
+----
+
+I changed `compileServiceConfig.$inject = [];` to `bootstrapMaterialDesignConfig.$inject = []` and it cleaned up
+my console. I then https://github.com/moifort/generator-jhipster-bootstrap-material-design/issues/15[logged an issue] for this bug.
+
+After making this change, I committed my updated project to Git. Then I ran `./gradlew test` to make sure all unit
+tests passed. I followed this up with `./gradlew` in one terminal window and `gulp itest` (in the same directory)
+in another.
+
+----
+10 specs, 0 failures
+Finished in 33.065 seconds
+[00:35:55] I/launcher - 0 instance(s) of WebDriver still running
+[00:35:55] I/launcher - firefox #01 passed
+[00:35:55] Finished 'protractor' after 37 s
+[00:35:55] Starting 'itest'...
+[00:35:55] Finished 'itest' after 28 μs
+[mraible:~/dev/21-points] master(+321/-400) 40s $
+----
+
+I opened the application in a browser and noticed there were some rounded corners and the primary buttons looked funny.
+This happened because the upgrade overwrote `index.html` and I had to re-apply the <<using-sass>> fix.
+
+TIP: After integrating the material-design theme, I deployed to Heroku for the first time. This is covered in the
+<<Deploying to Heroku>> section of this chapter.
 
 === Generating entities
 
@@ -390,418 +409,102 @@ if you have entities with relationships, it will generate the necessary schema t
 JavaScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
 
 JHipster supports several methods of code generation. The first uses its
-https://jhipster.github.io/creating_an_entity.html[entity sub-generator]. The entity sub-generator is a command-line tool
+https://jhipster.github.io/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool
 that prompts you with questions which you answer. https://jhipster.github.io/jdl-studio/[JDL-Studio] is a browser-based
-tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://jhipster.github.io/jhipster_uml.html[JHipster UML]
+tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://jhipster.github.io/jhipster-uml/[JHipster-UML]
 is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio],
 http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and
 http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose
 that for this project.
 
-The diagram below shows the data model for this project. A user has a goal, which is tied to metrics
-and a daily log of activities. The activities could be further abstracted so they're not explicitly exercise, meals, and
-alcohol, but it's important to start, not to get it right the first time.
+TIP: If you want to see how how easy it is to use JDL-Studio, please see https://youtu.be/kkHN2G_nXV0?t=1460[this YouTube demo].
 
-[[img-entity-diagram]]
-.21-Points Health entity diagram
-image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=75%, align=center]
-
-The most important thing to remember when generating entities with JHipster is that you must generate the entity that
-owns the relationship first. In this application, the `Metric` entity is owned by `Goal` and `Entry`, so we'll generate
-that one first. The relationships could be simplified to only track metrics for the entry, but then it'd be difficult
-to relate that back to the goal and display progress. The following diagram is a simplified version, without
-a relationship of metrics to goals. For more information, see
-https://jhipster.github.io/managing_relationships.html[Managing relationships] on the JHipster site.
-
-[[img-entity-diagram-simple]]
-.Simple entity diagram
-image::chapter2/entity-diagram-simple.png[Simple entity diagram, 684, scaledwidth=75%, align=center]
-
-I started by generating a `Goal` entity, with a many-to-one relationship to `User`. Below are the questions and
-answers I used to generate this entity.
-
-....
-$ yo jhipster:entity Goal
-The entity Goal is being created.
-Generating field #1
-? Do you want to add a field to your entity? Yes
-? What is the name of your field? name
-? What is the type of your field? String
-? Do you want to add validation rules to your field? Yes
-? Which validation rules do you want to add? Required, Minimum length
-? What is the minimum length of your field? 10
-=================Goal=================
-name (String) required minlength='10'
-Generating field #2
-? Do you want to add a field to your entity? Yes
-? What is the name of your field? description
-? What is the type of your field? String
-? Do you want to add validation rules to your field? No
-=================Goal=================
-name (String) required minlength='10'
-description (String)
-Generating field #3
-? Do you want to add a field to your entity? No
-=================Goal=================
-name (String) required minlength='10'
-description (String)
-Generating relationships with other entities
-? Do you want to add a relationship to another entity? Yes
-? What is the name of the other entity? user
-? What is the name of the relationship? user
-? What is the type of the relationship? many-to-one
-? When you display this relationship with AngularJS, which field from 'user' do you want to use? id
-===========Goal==============
-name (String)
-description (String)
--------------------
-user - user (many-to-one)
-Generating relationships with other entities
-? Do you want to add a relationship to another entity? No
-===========Goal==============
-name (String)
-description (String)
--------------------
-user - user (many-to-one)
-? Do you want pagination on your entity? No
-....
-
-TIP: I didn't add any pagination because I've been tracking my goals quarterly. I may add it after I've been using this app for a while.
-
-After I answered the last question, JHipster generated the files to create/read/update/delete this entity.
-
-----
-Everything is configured, generating the entity...
-   create .jhipster/Goal.json
-   create src/main/java/org/jhipster/health/domain/Goal.java
-   create src/main/java/org/jhipster/health/repository/GoalRepository.java
-   create src/main/java/org/jhipster/health/repository/search/GoalSearchRepository.java
-   create src/main/java/org/jhipster/health/web/rest/GoalResource.java
-   create src/main/resources/config/liquibase/changelog/20150811180009_added_entity_Goal.xml
-   create src/main/webapp/scripts/app/entities/goal/goals.html
-   create src/main/webapp/scripts/app/entities/goal/goal-detail.html
-   create src/main/webapp/scripts/app/entities/goal/goal.js
-   create src/main/webapp/scripts/app/entities/goal/goal.controller.js
-   create src/main/webapp/scripts/app/entities/goal/goal-detail.controller.js
-   create src/main/webapp/scripts/components/entities/goal/goal.service.js
-   create src/main/webapp/scripts/components/entities/goal/goal.search.service.js
-   create src/test/java/org/jhipster/health/web/rest/GoalResourceTest.java
-   create src/test/gatling/simulations/GoalGatlingTest.scala
-   create src/main/webapp/i18n/en/goal.json
-   create src/main/webapp/i18n/fr/goal.json
-----
-
-I proceeded to generate the `Metric` entity, with a many-to-many relationship to `Entry`.
-
-TIP: When I tried to use `value`, JHipster warned me this was a reserved word in PostgreSQL, so I used `amount` instead.
-
-....
-$ yo jhipster:entity Metric
-The entity Metric is being created.
-Generating field #1
-? Do you want to add a field to your entity? Yes
-? What is the name of your field? name
-? What is the type of your field? String
-? Do you want to add validation rules to your field? Yes
-? Which validation rules do you want to add? Required, Minimum length
-? What is the minimum length of your field? 2
-=================Metric=================
-name (String) required minlength='2'
-Generating field #2
-? Do you want to add a field to your entity? Yes
-? What is the name of your field? amount
-? What is the type of your field? String
-? Do you want to add validation rules to your field? Yes
-? Which validation rules do you want to add? Required
-=================Metric=================
-name (String) required minlength='2'
-amount (String) required
-Generating field #3
-? Do you want to add a field to your entity? No
-=================Metric=================
-name (String) required minlength='2'
-amount (String) required
-Generating relationships with other entities
-? Do you want to add a relationship to another entity? Yes
-? What is the name of the other entity? entry
-? What is the name of the relationship? entry
-? What is the type of the relationship? many-to-many
-? Is this entity the owner of the relationship? No
-===========Metric==============
-name (String)
-amount (String)
--------------------
-entry - entry (many-to-many)
-Generating relationships with other entities
-? Do you want to add a relationship to another entity? Yes
-? What is the name of the other entity? goal
-? What is the name of the relationship? goal
-? What is the type of the relationship? many-to-many
-? Is this entity the owner of the relationship? No
-===========Metric==============
-name (String)
-amount (String)
--------------------
-entry - entry (many-to-many)
-goal - goal (many-to-many)
-Generating relationships with other entities
-? Do you want to add a relationship to another entity? No
-===========Metric==============
-name (String)
-amount (String)
--------------------
-entry - entry (many-to-many)
-goal - goal (many-to-many)
-? Do you want pagination on your entity? Yes, with pagination links
-....
-
-Finally, I created `Entry`, with a many-to-one relationship to `Goal` and `Metric`. Rather than showing you all
-the questions and answers, I'll explain it in simple terms. I made the `date` a `LocalDate` that's required, the individual
-set point fields as Integers, and made `notes` a String that's not required. JHipster showed me the following output before generating
-everything.
-
-....
-===========Entry==============
-date (LocalDate)
-exercise (Integer)
-meals (Integer)
-alcohol (Integer)
-notes (String)
--------------------
-goal - goal (many-to-one)
-metric - metric (many-to-many)
-? Do you want pagination on your entity? Yes, with infinite scroll
-....
-
-To ensure that everything generated correctly, I ran `./gradlew test`. I received numerous failures, many of them looking
-similar to the following.
-
-----
-org.jhipster.health.web.rest.UserResourceTest > testGetExistingUser FAILED
-    java.lang.IllegalStateException
-        Caused by: org.springframework.beans.factory.BeanCreationException
-            Caused by: javax.persistence.PersistenceException
-                Caused by: org.hibernate.AnnotationException
-----
-
-I opened `build/reports/tests/index.html` to investigate further and found the following error:
-
-----
-Caused by: org.hibernate.AnnotationException: mappedBy reference an unknown target entity property:
-  org.jhipster.health.domain.Goal.metrics in org.jhipster.health.domain.Metric.goals
-----
-
-I determined this was caused by generating the `Goal` entity without the relationship to `Metric`, so I added
-the following Java code to `Goal.java` and ran `./gradlew liquibaseDiffChangelog`.
-
-[source,java]
-.src/main/java/org/jhipster/health/domain/Goal.java
-----
-@ManyToMany
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@JoinTable(name = "GOAL_METRIC",
-    joinColumns = @JoinColumn(name="goals_id", referencedColumnName="ID"),
-    inverseJoinColumns = @JoinColumn(name="metrics_id", referencedColumnName="ID"))
-private Set<Metric> metrics = new HashSet<>();
-
-public Set<Metric> getMetrics() {
-    return metrics;
-}
-
-public void setMetrics(Set<Metric> metrics) {
-    this.metrics = metrics;
-}
-----
-
-I had to update `liquibase.gradle` to use the same datasource settings I had in `application-dev.yaml` before this
-command worked. After Liquibase completed successfully, I added the generated file to
-`src/main/resources/config/liquibase/master.xml`.
-
-[source,xml]
-.src/main/resources/config/liquibase/master.xml
-----
-<include file="classpath:config/liquibase/changelog/20150811124815_changelog.xml" relativeToChangelogFile="false"/>
-----
-
-I then ran `./gradlew test` again. This time, they failed with the following reason:
-
-----
-liquibase.exception.DatabaseException: org.h2.jdbc.JdbcSQLException: Table "ENTRY" already exists
-----
-
-At this moment, I realized that Liquibase was diffing against my "`dev`" database, while my tests were hitting my "`test`" (H2)
-database. When I ran Liquibase's diff command, it was looking at my "`dev`" database, where no tables had yet been created.
-To solve this, I removed the changelog reference in `master.xml`, commented out the newly added code in `Goal.java`, and
-ran `./gradlew bootRun` to generate the initial tables in my "`dev`" database. Of course, this failed with the same
-`mappedBy reference` error, but my schema did get created and I ran `./gradlew liquibaseDiffChangelog` again. After adding
-the generated file to `master.xml`, I was pleased to see my tests passed.
-
-----
-BUILD SUCCESSFUL
-
-Total time: 51.422 secs
-----
-
-I ran `grunt test` to ensure my UI tests were good to go, then fired up the app and tried everything out. The biggest
-issue I noticed was that when you created a `Goal`, it showed the `id` of the users instead of their names.
-
-[[img-create-goal-user-id]]
-.Create a goal with user ID
-image::chapter2/create-goal-user-id.png[Create a goal with user ID, 800, scaledwidth=66%, align=center]
-
-Since the `id` doesn't provide much information, I changed this to display the user's username instead. In JHipster's
-`User.java`, this field is called `login`. To make this change, I modified `.jhipster/Goal.json` and changed its
-`otherEntityField` from having a value of `id` to `login`.
-
-[source,json]
-// MR: I can't figure out how to caption this with a filename that starts with a period.
-----
-"relationships": [
-    {
-        "relationshipId": 1,
-        "relationshipName": "user",
-        "relationshipNameCapitalized": "User",
-        "relationshipFieldName": "user",
-        "otherEntityName": "user",
-        "relationshipType": "many-to-one",
-        "otherEntityNameCapitalized": "User",
-        "otherEntityField": "login"
-    }
-]
-----
-
-After making this change, I ran `yo jhipster:entity goal` to regenerate `Goal.java` and its associated UI. Since I'd
-modified `Goal.java`, when prompted to overwrite this file, I answered no.
-
-----
- conflict src/main/java/org/jhipster/health/domain/Goal.java
-? Overwrite src/main/java/org/jhipster/health/domain/Goal.java? do not overwrite
-     skip src/main/java/org/jhipster/health/domain/Goal.java
-----
-
-After restarting everything, I was pleased to see the "`user`" dropdown list contained the `login` field instead of `id`.
-
-[[img-create-goal-user-login]]
-.Create a goal with user login
-image::chapter2/create-goal-user-login.png[Create a goal with user login, 800, scaledwidth=66%, align=center]
-
-After making this change and regenerating everything, I realized there was an easier way. In `goal-dialog.html`, the
-following code existed to display the users dropdown list.
-
-[source,html]
-.src/main/webapp/scripts/app/entities/goal/goal-dialog.html
-----
-<select class="form-control" id="field_user" name="user" ng-model="goal.user.id" ng-options="user.id as user.id for user in users">
-----
-
-To modify it to display `user.login` instead, I simply needed to change `ng-options` and its _as_ expression to the following.
-
-[source,html]
-.src/main/webapp/scripts/app/entities/goal/goal-dialog.html
-----
-<select class="form-control" id="field_user" name="user" ng-model="goal.user.id" ng-options="user.id as user.login for user in users">
-----
-
-At this point, I added all the generated files to Git, committed and pushed. I noticed that JHipster had generated 54 files. What a time saver!
-
-I started to play with my newly created app to see if it had the functionality I wanted. I was hoping to
-easily add daily entries about whether I'd exercised, ate healthy meals, or consumed alcohol. I also wanted to record
-my weight and blood-pressure metrics when I measured them. When I started using the UI I'd just created, it seemed
-like it might be able to accomplish these goals, but it also seemed somewhat cumbersome. That's when I decided to create
-a UI mockup with the main screen and its ancillary screens for data entry. I used
-https://www.omnigroup.com/omnigraffle[OmniGraffle] and a
-https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstrap stencil] to create the following UI mockup.
+At this point, I did some trial-and-error designs with the data model. I generated entities with JHipster, tried the app, and
+changed to start with a UI-first approach. As a user, I was hoping to easily add daily entries about whether I'd exercised,
+ate healthy meals, or consumed alcohol. I also wanted to record my weight and blood-pressure metrics when I measured them.
+When I started using the UI I'd just created, it seemed like it might be able to accomplish these goals, but it also seemed
+somewhat cumbersome. That's when I decided to create a UI mockup with the main screen and its ancillary screens for data entry. I used
+https://www.omnigroup.com/omnigraffle[OmniGraffle] and a https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstrap stencil] to create the following UI mockup.
 
 [[img-ui-mockup]]
 .UI mockup
 image::chapter2/ui-mockup.png[UI mockup, 846, scaledwidth=75%, align=center]
 
-=== Starting over with a straightforward design
+After figuring out how I wanted the UI to look, I started to think about the data model. I quickly decided I didn't need to
+track high-level goals (e.g. lose five pounds in Q4 2016). I was more concerned with tracking weekly goals and 21-Points
+Health is all about how many points you get in a week. I created the following diagram as my data model.
 
-After figuring out how I wanted the UI to look, I realized my data model could be simplified. Before, it was quite generic
-and could handle a number of metrics. In my new design, I realized I didn't need to track high-level goals (e.g. lose
-five pounds in Q4 2015). I was more concerned with tracking weekly goals and 21-Points Health is all about how many points you
-get in a week. I was grateful that JHipster allowed me to quickly see the flaws in my design, then simplify. I created
-the following diagram as my new data model.
+[[img-entity-diagram]]
+.21-Points Health entity diagram
+image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=100%, align=center]
 
-[[img-entity-diagram-simpler]]
-.21-Points Health entity diagram - simplified
-image::chapter2/entity-diagram-simpler.png[21-Points Health entity diagram - simplified, 684, scaledwidth=100%, align=center]
-
-JHipster created 54 files when generating the previous data model, REST controllers, and UI. Rather than hunt down all
-these files and delete them, I reverted to the last commit before them in Git.
-
-TIP: If this doesn't work for you,
-see http://stackoverflow.com/a/28921195/65681[this Stack Overflow answer] for a list of what files to delete.
-
-This is the beauty of a version-control system.
-
-----
-$ git reset --hard 8ad48eb
-HEAD is now at 8ad48eb Upgraded to JHipster 2.19.0.
-----
-
-I also dropped and recreated my local PostgreSQL database.
-
-----
-mraible=# drop database health;
-DROP DATABASE
-mraible=# create database health;
-CREATE DATABASE
-mraible=# grant all privileges on database health to health;
-GRANT
-----
-
-Then I ran `yo jhipster:entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one
+I ran `yo jhipster:entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one
 relationship with `User`. Below is the final output from my answers.
 
-....
-===========Points==============
-date (LocalDate)
+----
+================= Points =================
+Fields
+date (LocalDate) required
 exercise (Integer)
 meals (Integer)
 alcohol (Integer)
-notes (String)
--------------------
-user - user (many-to-one)
+notes (String) maxlength='140'
+
+Relationships
+user (User) many-to-one
+
 ? Do you want to use a Data Transfer Object (DTO)? No, use the entity directly
+? Do you want to use separate service class for your business logic? No, the REST controller should use the repository d
+irectly
 ? Do you want pagination on your entity? Yes, with infinite scroll
+
 Everything is configured, generating the entity...
+
    create .jhipster/Points.json
    create src/main/java/org/jhipster/health/domain/Points.java
    create src/main/java/org/jhipster/health/repository/PointsRepository.java
    create src/main/java/org/jhipster/health/repository/search/PointsSearchRepository.java
    create src/main/java/org/jhipster/health/web/rest/PointsResource.java
-   create src/main/resources/config/liquibase/changelog/20150818154309_added_entity_Points.xml
-   create src/main/webapp/scripts/app/entities/points/pointss.html
-   create src/main/webapp/scripts/app/entities/points/points-detail.html
-   create src/main/webapp/scripts/app/entities/points/points-dialog.html
-   create src/main/webapp/scripts/app/entities/points/points.js
-   create src/main/webapp/scripts/app/entities/points/points.controller.js
-   create src/main/webapp/scripts/app/entities/points/points-dialog.controller.js
-   create src/main/webapp/scripts/app/entities/points/points-detail.controller.js
-   create src/main/webapp/scripts/components/entities/points/points.service.js
-   create src/main/webapp/scripts/components/entities/points/points.search.service.js
-   create src/test/java/org/jhipster/health/web/rest/PointsResourceTest.java
-   create src/test/gatling/simulations/PointsGatlingTest.scala
+   create src/main/resources/config/liquibase/changelog/20160831020048_added_entity_Points.xml
+   create src/main/resources/config/liquibase/changelog/20160831020048_added_entity_constraints_Points.xml
+ conflict src/main/resources/config/liquibase/master.xml
+? Overwrite src/main/resources/config/liquibase/master.xml? overwrite this and all others
+    force src/main/resources/config/liquibase/master.xml
+   create src/main/webapp/app/entities/points/points.html
+   create src/main/webapp/app/entities/points/points-detail.html
+   create src/main/webapp/app/entities/points/points-dialog.html
+   create src/main/webapp/app/entities/points/points-delete-dialog.html
+    force src/main/webapp/app/layouts/navbar/navbar.html
+   create src/main/webapp/app/entities/points/points.state.js
+   create src/main/webapp/app/entities/points/points.controller.js
+   create src/main/webapp/app/entities/points/points-dialog.controller.js
+   create src/main/webapp/app/entities/points/points-delete-dialog.controller.js
+   create src/main/webapp/app/entities/points/points-detail.controller.js
+   create src/main/webapp/app/entities/points/points.service.js
+   create src/main/webapp/app/entities/points/points.search.service.js
    create src/main/webapp/i18n/en/points.json
+    force src/main/webapp/i18n/en/global.json
    create src/main/webapp/i18n/fr/points.json
-....
+    force src/main/webapp/i18n/fr/global.json
+   create src/test/javascript/spec/app/entities/points/points-detail.controller.spec.js
+   create src/test/javascript/e2e/entities/points.js
+   create src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
+   create src/test/gatling/simulations/PointsGatlingTest.scala
 
-I had similar answers for the `Weight` and `BloodPressure` entities. For `Settings`, I created a one-to-one relationship
-with `User`. I learned that "`settings`" is a reserved keywork, so used "`preferences`" instead.
+Running gulp Inject to add javascript to index
+----
 
-----
-$ yo jhipster:entity settings
-The entity name cannot contain a JHipster reserved keyword
-----
+I had similar answers for the `Weight` and `BloodPressure` entities. For `Preferences`, I created a one-to-one relationship
+with `User`.
 
 To ensure that people use 21-Points Health effectively, I set the weekly goal to a minimum of 10 points and a max of 21. I also
 made the `weightUnits` property an enum.
 
 ----
-=================Preferences=================
+================= Preferences =================
+Fields
 weekly_goal (Integer) required min='10' max='21'
+
 Generating field #2
 ? Do you want to add a field to your entity? Yes
 ? What is the name of your field? weight_units
@@ -810,7 +513,9 @@ Generating field #2
 ? What are the values of your enumeration (separated by comma)? kg,lb
 ? Do you want to add validation rules to your field? Yes
 ? Which validation rules do you want to add? Required
-=================Preferences=================
+
+================= Preferences =================
+Fields
 weekly_goal (Integer) required min='10' max='21'
 weight_units (Units) required
 ----
@@ -820,105 +525,45 @@ decided that `timestamp` was a better property name. To fix this, I modified the
 directory and ran `yo jhipster:entity` for each entity again. This seemed easier than refactoring with IntelliJ and hoping
 it caught all the name instances.
 
-When I ran `./gradlew test`, I received an error about `User` not containing the `preferences` property.
+When I ran `./gradlew test`, I was pleased to see that all tests passed.
 
 ----
-Caused by: org.hibernate.AnnotationException: Unknown mappedBy in: org.jhipster.health.domain.Preferences.user,
-referenced property unknown: org.jhipster.health.domain.User.preferences
+BUILD SUCCESSFUL
+
+Total time: 17.64 secs
 ----
 
-I fixed this by removing the reference to `User` in `Preferences.java`, as well as its `getUser()` and `setUser()` methods.
-
-[source,java]
-.src/main/java/org/jhipster/health/domain/Preferences.java
-----
-@OneToOne(mappedBy = "preferences")
-@JsonIgnore
-private User user;
-----
-
-I fixed the relationship by adding a `@OneToOne` mapping in `User.java`:
-
-[source,java]
-.src/main/java/org/jhipster/health/domain/User.java
-----
-@OneToOne
-@JsonIgnore
-private Preferences preferences;
-
-public Preferences getPreferences() {
-    return preferences;
-}
-
-public void setPreferences(Preferences preferences) {
-    this.preferences = preferences;
-}
-----
-
-I then ran `./gradlew liquibaseDiffChangelog` to generate the changelog and added the XML in the generated file to
-`*_added_entity_Preferences.xml`.
-
-[source,xml]
-.src/main/resources/config/liquibase/changelog/20150818155956_added_entity_Preferences.xml
-----
-<!-- Added the preferences field to User -->
-<changeSet author="mraible (generated)" id="1439916664921-1">
-    <addColumn tableName="JHI_USER">
-        <column name="preferences_id" type="int8"/>
-    </addColumn>
-</changeSet>
-<changeSet author="mraible (generated)" id="1439916664921-2">
-    <addForeignKeyConstraint baseColumnNames="preferences_id" baseTableName="JHI_USER"
-                             constraintName="FK_1r5e40mq4hwtlyd9lemghc8su"
-                             deferrable="false" initiallyDeferred="false"
-                             referencedColumnNames="id"
-                             referencedTableName="PREFERENCES"/>
-</changeSet>
-----
-
-TIP: I had to modify the datasource settings in `liquibase.gradle` again since `git reset` reverted that change.
-
-When I ran `./gradlew test`, I saw some failures, but these were for old tests that I'd already deleted. I
-https://github.com/jhipster/generator-jhipster/issues/1886[opened a ticket] with the JHipster project to track this
-issue.
-
-I checked in six changed files and 78 new files generated by the JHipster before continuing to implement my UI mockups.
+I checked in four changed files and 99 new files generated by the JHipster before continuing to implement my UI mockups.
 
 == Application improvements
 
 To make my new JHipster application into something I could be proud of, I made a number of improvements, described below.
 
 TIP: At this point, I set up continuous testing of this project using https://jenkins-ci.org/[Jenkins]. This is covered
-in the <<Deploying to Heroku>> section of this chapter.
+in the <<Continuous integration and deployment>> section of this chapter.
 
-=== Fixed issues with entity and variable names
-
-Shortly after generating all the UI code, I discovered that using plural entity names (e.g. `Points` and `Preferences`)
-causes you to end up with files, URLs, and variable names that end in two "`s`" characters. For example, the URL to
-the points list was `pointss` instead of the more approriate `points`. I fixed this manually in my project and
-https://github.com/jhipster/generator-jhipster/issues/1895[created a bug for JHipster on GitHub].
+=== Fixed issues with variable names
 
 For the `Preferences` entity, I specified `weekly_goals` and `weight_unit` as field names. I was thinking in terms
 of names for database columns when I chose these names. I later learned that these names were used throughout my code. I left
-the column names intact and manually renamed everything in Java, JavaScript, and HTML to `weeklyGoals` and `weightUnit`.
+the column names intact and manually renamed everything in Java, JavaScript, JSON, and HTML to `weeklyGoals` and `weightUnit`.
 
 === Improved HTML layout and I18N messages
 
 Of all the code I write, UI code (HTML, JavaScript, and CSS) is my favorite. I like that you can see changes
 immediately and make progress quickly - especially when you're using dual monitors with
 ifdef::backend-epub3[link:jhipsters-ui-components.xhtml#Browsersync[Browsersync].]
-ifndef::backend-epub3[<<BrowserSync>>.]
+ifndef::backend-epub3[<<Browsersync>>.]
 Below is a consolidated list of changes I made to the HTML to make things look better:
 
-. Improved layout of tables and buttons.
-. Improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`.
-. Formatted dates using https://docs.angularjs.org/api/ng/filter/date[AngularJS's date filter]
-  (for example: `{{bloodPressure.timestamp | date: 'short'}}`).
-. Improved dialogs to hide ID when creating a new entity.
-. Defaulted to current date on new entries.
-. Replaced point metrics with icons on list/detail screens.
-. Replaced point metrics with checkboxes on dialog screen.
-. Added loading indicator for state transitions.
+* improved layout of tables and buttons,
+* improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`,
+* formatted dates for local timezone with https://docs.angularjs.org/api/ng/filter/date[AngularJS's date filter]
+  (for example: `{{bloodPressure.timestamp | date: 'short': 'UTC'}}`),
+* improved dialogs to hide ID when creating a new entity,
+* defaulted to current date on new entries,
+* replaced point metrics with icons on list/detail screens, and
+* replaced point metrics with checkboxes on dialog screen.
 
 The biggest visual improvements are on the list screens. I made the buttons a bit smaller, turned button text into tooltips,
 and moved add/search buttons to the top right corner. For the points-list screen, I converted the 1 and 0 metric values
@@ -926,37 +571,39 @@ to icons. Before and after screenshots of the points list illustrate the improve
 
 [[img-points-list-before]]
 .Default Daily Points list
-image::chapter2/points-list-before.png[Default Daily Points list, 1319, scaledwidth=100%, align=center]
+image::chapter2/points-list-before.png[Default Daily Points list, 1322, scaledwidth=100%, align=center]
 
 [[img-points-list-after]]
 .Default Daily Points list after UI improvements
-image::chapter2/points-list-after.png[Default Daily Points list after UI improvements, 1319, scaledwidth=100%, align=center]
+image::chapter2/points-list-after.png[Default Daily Points list after UI improvements, 1322, scaledwidth=100%, align=center]
 
 I refactored the HTML at the top of `points.html` to put the title, search, and add buttons on the same row. I also removed
 the button text in favor of a using https://angular-ui.github.io/bootstrap/#/tooltip[UI Bootstrap's tooltip directive].
-The `translate` filter you see in the button titles is provided by https://angular-translate.github.io/[Angular Translate].
-Both UI Bootstrap and Angular Translate are included in JHipster by default.
+The `translate` filter you see in the button titles is provided by https://angular-translate.github.io/[angular-translate].
+Both UI Bootstrap and angular-translate are included in JHipster by default.
 
 [source,html]
-.src/main/webapp/scripts/app/entities/points/points.html
+.src/main/webapp/app/entities/points/points.html
 ----
 <div class="row">
     <div class="col-sm-7">
-        <h2 translate="21pointsApp.points.home.title">Points</h2>
+        <h2 translate="21PointsApp.points.home.title">Points</h2>
     </div>
-    <div class="col-sm-5 text-right">
+    <div class="col-sm-5 text-right p-n">
         <form name="searchForm" class="form-inline">
-            <div class="form-group p-r">
-                <input type="text" id="searchQuery"
-                       class="form-control" ng-model="searchQuery"
+            <div class="form-group m-n">
+                <input type="search" class="form-control" ng-model="vm.searchQuery" id="searchQuery"
                        placeholder="{{'entity.action.search' | translate}}">
             </div>
-            <button class="btn btn-info btn-sm" ng-click="search()"
-                    tooltip="{{'entity.action.search' | translate}}">
+            <button class="btn btn-info btn-sm" ng-click="vm.clear()" ng-if="vm.currentSearch">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+            <button class="btn btn-info btn-sm btn-raised" ng-click="vm.search(vm.searchQuery)"
+                    uib-tooltip="{{'entity.action.search' | translate}}">
                 <i class="glyphicon glyphicon-search"></i>
             </button>
-            <button class="btn btn-primary btn-sm" ui-sref="points.new"
-                    tooltip="{{'entity.action.new' | translate}}">
+            <button class="btn btn-primary btn-sm btn-raised" ui-sref="points.new"
+                    uib-tooltip="{{'entity.action.new' | translate}}">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
         </form>
@@ -967,7 +614,7 @@ Both UI Bootstrap and Angular Translate are included in JHipster by default.
 Changing the numbers to icons was pretty easy thanks to Angular's `ng-class` directive.
 
 [source,html]
-.src/main/webapp/scripts/app/entities/points/points.html
+.src/main/webapp/app/entities/points/points.html
 ----
 <td class="text-center">
     <i class="glyphicon"
@@ -990,17 +637,15 @@ Similarly, I changed the input fields to checkboxes in `points-dialog.html`. Ang
 and `ng-false-value` made it easy to continue receiving/sending integers to the API.
 
 [source,html]
-.src/main/webapp/scripts/app/entities/points/points-dialog.html
+.src/main/webapp/app/entities/points/points-dialog.html
 ----
 <div class="form-group">
     <div class="checkbox">
         <label>
-            <input type="checkbox" ng-model="points.exercise" id="field_exercise"
+            <input type="checkbox" ng-model="vm.points.exercise" id="field_exercise"
                    ng-true-value="1" ng-false-value="0">
-            <span class="checkbox-material"><span class="check"></span></span>
-            <label translate="21pointsApp.points.exercise" for="field_exercise">
-                Exercise
-            </label>
+            <span class="check"></span>
+            <label data-translate="21PointsApp.points.exercise" for="field_exercise" class="control-label">Exercise</label>
         </label>
     </div>
 </div>
@@ -1011,10 +656,10 @@ I created.
 
 [[img-add-points-dialog]]
 .Add Points dialog
-image::chapter2/add-points-dialog.png[Add Points dialog, 593, scaledwidth=80%, align=center]
+image::chapter2/add-points-dialog.png[Add Points dialog, 892, scaledwidth=80%, align=center]
 
 Improving the UI was the most fun, but also the most time consuming as it involved lots of little tweaks to
-multiple screens. The next task was more straighforward: implementing business logic.
+multiple screens. The next task was more straightforward: implementing business logic.
 
 === Added logic so non-admin users only see their own data
 
@@ -1025,22 +670,22 @@ everyone's data.
 ==== Hide user selection from non-admin users
 
 The default dialogs for many-to-one relationships allow you to choose the user when you add/edit a record. To make
-it so only administrators had this ability, I modified the dialog screens and used the `has-role` directive. This
-directive is included with JHipster, in `src/main/webapp/scripts/components/auth/authority.directive.js`. It also has
-a `has-any-role` directive that allows you to pass in a comma-delimited list of roles.
+it so only administrators had this ability, I modified the dialog screens and used the `has-authority` directive. This
+directive is included with JHipster, in `src/main/webapp/app/services/auth/has-authority.directive.js`. It also has
+a `has-any-authority` directive that allows you to pass in a comma-delimited list of roles.
 
 [source,html]
-.src/main/webapp/scripts/app/entities/points/points-dialog.html
+.src/main/webapp/app/entities/points/points-dialog.html
 ----
-<div class="form-group" has-role="ROLE_ADMIN">
-    <label translate="21pointsApp.weight.user" for="field_user">user</label>
-    <select class="form-control" id="field_user" name="user" ng-model="weight.user.id"
-            ng-options="user.id as user.login for user in users">
+<div class="form-group" has-authority="ROLE_ADMIN">
+    <label class="control-label" data-translate="21PointsApp.points.user" for="field_user">User</label>
+    <select class="form-control" id="field_user" name="user" ng-model="vm.points.user" ng-options="user as user.login for user in vm.users track by user.id">
+        <option value=""></option>
     </select>
 </div>
 ----
 
-Since the dropdown is hidden from non-admins, I had to modify each Resource class to default to the current user when
+Since the dropdown is hidden from non-admins, I had to modify each `Resource` class to default to the current user when
 creating a new record. Below is a diff that shows the changes that I needed to make to `PointsResource.java`.
 
 [source,diff]
@@ -1053,25 +698,21 @@ creating a new record. Below is a diff that shows the changes that I needed to m
 +    private UserRepository userRepository;
 +
      /**
-      * POST  /points -> Create a new points.
-      */
-     @RequestMapping(value = "/points",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-     @Timed
-     public ResponseEntity<Points> create(@Valid @RequestBody Points points) throws URISyntaxException {
-         log.debug("REST request to save Points : {}", points);
+      * POST  /points : Create a new points.
+      *
+@@ -59,6 +67,10 @@ public class PointsResource {
          if (points.getId() != null) {
-             return ResponseEntity.badRequest().header("Failure", "A new points cannot already have an ID").body(null);
+             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("points", "idexists", "A new points cannot already have an ID")).body(null);
          }
-+        if (!SecurityUtils.isUserInRole(AuthoritiesConstants.ADMIN)) {
-+            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentLogin());
-+            points.setUser(userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get());
++        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
++            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
++            points.setUser(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get());
 +        }
          Points result = pointsRepository.save(points);
+         pointsSearchRepository.save(result);
 ----
 
-`SecurityUtils` is a class JHipster provides when you create a project. I had to modify `PointsResourceTest.java` to
+`SecurityUtils` is a class JHipster provides when you create a project. I had to modify `PointsResourceIntTest.java` to
 be security-aware after making this change.
 
 Spring MVC Test provides a convenient interface called `RequestPostProcessor` that you can use to modify a request.
@@ -1079,20 +720,15 @@ Spring Security provides a number of `RequestPostProcessor` implementations that
 Spring Security’s `RequestPostProcessor` implementations, you can include them all with the following static import.
 
 [source,java]
+----
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
-
-To add Spring Security Test to the 21-Points Health project, I added `spring-security-test` to my `build.gradle`.
-
-[source,groovy]
-----
-testCompile group: 'org.springframework.security', name: 'spring-security-test', version: spring_security_version
 ----
 
-I then modified `PointsResourceTest.java`, creating a new `MockMvc` instance that was security-aware and
+I then modified `PointsResourceIntTest.java`, creating a new `MockMvc` instance that was security-aware and
 specified `with(user("user"))` to populate Spring Security's `SecurityContext` with an authenticated user.
 
 [source,diff]
-.src/test/java/org/jhipster/health/web/rest/PointsResourceTest.java
+.src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
 ----
 +import org.jhipster.health.repository.UserRepository;
 +import org.springframework.beans.factory.annotation.Autowired;
@@ -1100,38 +736,40 @@ specified `with(user("user"))` to populate Spring Security's `SecurityContext` w
 +import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 +import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
-@@ -63,18 +67,25 @@
-     private PointsSearchRepository pointsSearchRepository;
-
+@@ -55,6 +63,9 @@
      @Inject
 +    private UserRepository userRepository;
 +
 +    @Inject
-     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+     private PointsRepository pointsRepository;
 
+     @Inject
+@@ -69,6 +80,9 @@ public class PointsResourceIntTest {
+     @Inject
+     private EntityManager em;
+
++    @Inject
++    private WebApplicationContext context;
++
      private MockMvc restPointsMockMvc;
 
      private Points points;
 
-+    @Autowired
-+    private WebApplicationContext context;
-+
-     @PostConstruct
-     public void setup() {
-         MockitoAnnotations.initMocks(this);
+@@ -79,6 +93,7 @@
          PointsResource pointsResource = new PointsResource();
-         ReflectionTestUtils.setField(pointsResource, "pointsRepository", pointsRepository);
          ReflectionTestUtils.setField(pointsResource, "pointsSearchRepository", pointsSearchRepository);
+         ReflectionTestUtils.setField(pointsResource, "pointsRepository", pointsRepository);
 +        ReflectionTestUtils.setField(pointsResource, "userRepository", userRepository);
-         this.restPointsMockMvc = MockMvcBuilders.standaloneSetup(pointsResource).setMessageConverters(jacksonMessageConverter).build();
-     }
+         this.restPointsMockMvc = MockMvcBuilders.standaloneSetup(pointsResource)
+             .setCustomArgumentResolvers(pageableArgumentResolver)
+             .setMessageConverters(jacksonMessageConverter).build();
 
-@@ -93,9 +104,15 @@
+@@ -112,9 +127,15 @@
      public void createPoints() throws Exception {
          int databaseSizeBeforeCreate = pointsRepository.findAll().size();
 
 -        // Create the Points
-+        // create security-aware mockMvc
++        // Create security-aware mockMvc
 +        restPointsMockMvc = MockMvcBuilders
 +            .webAppContextSetup(context)
 +            .apply(springSecurity())
@@ -1153,28 +791,28 @@ users should see all users' data. To facilitate this feature, I modified `Points
 [source,java]
 .src/main/java/org/jhipster/health/web/rest/PointsResource.java
 ----
-public ResponseEntity<List<Points>> getAll(@RequestParam(value = "page", required = false) Integer offset,
-                                           @RequestParam(value = "per_page", required = false) Integer limit)
-    throws URISyntaxException {
+public ResponseEntity<List<Points>> getAllPoints(Pageable pageable) throws URISyntaxException {
+    log.debug("REST request to get a page of Points");
     Page<Points> page;
-    if (SecurityUtils.isUserInRole(AuthoritiesConstants.ADMIN)) {
-        page = pointsRepository.findAll(PaginationUtil.generatePageRequest(offset, limit));
+    if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+        page = pointsRepository.findAllByOrderByDateDesc(pageable);
     } else {
-        page = pointsRepository.findAllForCurrentUser(PaginationUtil.generatePageRequest(offset, limit));
+        page = pointsRepository.findByUserIsCurrentUser(pageable);
     }
-    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/points", offset, limit);
+
+    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/points");
     return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 }
 ----
 
-The `PointsRepository#findAllForCurrentUser()` method that JHipster generated contains a custom query that uses Spring Expression Language
-to grab the user's information from Spring Security.
+The `PointsRepository#findByUserIsCurrentUser()` method that JHipster generated contains a custom query that uses Spring Expression Language
+to grab the user's information from Spring Security. I changed it from returning a `List<Points>` to returning `Page<Points>`.
 
 [source,java]
 .src/main/java/org/jhipster/health/repository/PointsRepository.java
 ----
 @Query("select points from Points points where points.user.login = ?#{principal.username}")
-Page<Points> findAllForCurrentUser(Pageable pageable);
+Page<Points> findByUserIsCurrentUser(Pageable pageable);
 ----
 
 [sidebar]
@@ -1188,8 +826,8 @@ Later on, I changed the above query to order by date, so the first records in th
 @Query("select points from Points points where points.user.login = ?#{principal.username} order by points.date desc")
 ----
 
-In addition, I changed `findAll` to `findAllByOrderByDateDesc` so the admin user's query would order by date. The query for this
-is generated dynamically by Spring Data, simply by adding the method to your repository.
+In addition, I changed the call to `pointsRepository.findAll` to `pointsRepository.findAllByOrderByDateDesc` so the admin
+user's query would order by date. The query for this is generated dynamically by Spring Data, simply by adding the method to your repository.
 
 [source,java]
 ----
@@ -1197,10 +835,10 @@ Page<Points> findAllByOrderByDateDesc(Pageable pageable);
 ----
 --
 
-To make tests pass, I had to update `PointsResourceTest#getAllPoints` to use Spring Security Test's `user` post processor.
+To make tests pass, I had to update `PointsResourceIntTest#getAllPoints` to use Spring Security Test's `user` post processor.
 
 [source,diff]
-.src/test/java/org/jhipster/health/web/rest/PointsResourceTest.java
+.src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
 ----
  @Test
  @Transactional
@@ -1208,16 +846,15 @@ To make tests pass, I had to update `PointsResourceTest#getAllPoints` to use Spr
      // Initialize the database
      pointsRepository.saveAndFlush(points);
 
--    // Create the Points
-+    // create security-aware mockMvc
++    // Create security-aware mockMvc
 +    restPointsMockMvc = MockMvcBuilders
 +        .webAppContextSetup(context)
 +        .apply(springSecurity())
 +        .build();
-
++
      // Get all the points
--    restPointsMockMvc.perform(get("/api/points"))
-+    restPointsMockMvc.perform(get("/api/points")
+-    restPointsMockMvc.perform(get("/api/points?sort=id,desc"))
++    restPointsMockMvc.perform(get("/api/points?sort=id,desc")
 +            .with(user("admin").roles("ADMIN")))
              .andExpect(status().isOk())
 ----
@@ -1226,43 +863,45 @@ To make tests pass, I had to update `PointsResourceTest#getAllPoints` to use Spr
 
 Making the homepage into something resembling my UI mockup required several steps:
 
-. Adding buttons to facilitate adding new data from the homepage.
-. Adding an API to get points achieved during the current week.
-. Adding an API to get blood-pressure readings for the last 30 days.
-. Adding an API to get body weights for the last 30 days.
-. Adding charts to display points per week, and blood pressure/weight for last 30 days.
+. Add buttons to facilitate adding new data from the homepage.
+. Add an API to get points achieved during the current week.
+. Add an API to get blood-pressure readings for the last 30 days.
+. Add an API to get body weights for the last 30 days.
+. Add charts to display points per week and blood pressure/weight for last 30 days.
 
 I started by reusing the dialogs for entering data that JHipster had created for me. I found that adding new
-routes to `main.js` was the easiest way to do this. Instead of routing back to the list screen after a save
-succeeded, I routed the user back to the `main` state. I copied the generated `points.new` state from `points.js`
-and pasted it into `main.js`.
+routes to `home.state.js` was the easiest way to do this. Instead of routing back to the list screen after a save
+succeeded, I routed the user back to the `home` state. I copied the generated `points.new` state from `points.state.js`
+and pasted it into `home.state.js`.
 
 [source,javascript]
-.src/main/webapp/scripts/app/main/main.js
+.src/main/webapp/app/home/home.state.js
 ----
 .state('points.add', { <1>
     parent: 'home', <2>
     url: 'add/points', <3>
     data: {
-        roles: ['ROLE_USER']
+        authorities: ['ROLE_USER']
     },
-    onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
-        $modal.open({
-            templateUrl: 'scripts/app/entities/points/points-dialog.html',
+    onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+        $uibModal.open({
+            templateUrl: 'app/entities/points/points-dialog.html',
             controller: 'PointsDialogController',
+            controllerAs: 'vm',
+            backdrop: 'static',
             size: 'lg',
             resolve: {
                 entity: function () {
                     return {date: null, exercise: null, meals: null, alcohol: null, notes: null, id: null};
                 }
             }
-        }).result.then(function(result) { <4>
-                $state.go('home', null, { reload: true });
-            }, function() {
-                $state.go('home');
-            })
+        }).result.then(function() { <4>
+            $state.go('home', null, { reload: true });
+        }, function() {
+            $state.go('home');
+        });
     }]
-})
+});
 ----
 <1> I changed from 'points.new' to 'points.add'.
 <2> I changed the parent to be 'home'.
@@ -1272,20 +911,33 @@ and pasted it into `main.js`.
 After configuring the state to add new points from the homepage, I added a button to activate the dialog.
 
 [source,html]
-.src/main/webapp/scripts/app/main/main.html
+.src/main/webapp/app/home/home.html
 ----
-<div class="col-md-4 text-right">
-    <a ui-sref="points.add" class="btn btn-primary btn-raised">Add Points</a>
-</div>
+<a ui-sref="points.add" class="btn btn-primary btn-raised">Add Points</a>
+----
+
+I fired up the application to test the button and dialog and discovered that the messages in the dialog were not
+translated. I fixed this by adding `$translatePartialLoader.addPart('points')` to the `home` state in `home.state.js`:
+
+[source,javascript]
+.src/main/webapp/app/home/home.state.js
+----
+resolve: {
+    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
+        $translatePartialLoader.addPart('home');
+        $translatePartialLoader.addPart('points');
+        return $translate.refresh();
+    }]
+}
 ----
 
 ==== Points this week
 
-To get points achieved in the current week, I started by adding a unit test to `PointsResourceTest.java` that
+To get points achieved in the current week, I started by adding a unit test to `PointsResourceIntTest.java` that
 would allow me to prove my API was working.
 
 [source,java]
-.src/test/java/org/jhipster/health/web/rest/PointsResourceTest.java
+.src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
 ----
 private void createPointsByWeek(LocalDate thisMonday, LocalDate lastMonday) {
     User user = userRepository.findOneByLogin("user").get();
@@ -1303,11 +955,9 @@ private void createPointsByWeek(LocalDate thisMonday, LocalDate lastMonday) {
     pointsRepository.saveAndFlush(points);
 }
 
-@Test
-@Transactional
 public void getPointsThisWeek() throws Exception {
-    LocalDate today = new LocalDate();
-    LocalDate thisMonday = today.withDayOfWeek(DateTimeConstants.MONDAY);
+    LocalDate today = LocalDate.now();
+    LocalDate thisMonday = today.with(DayOfWeek.MONDAY);
     LocalDate lastMonday = thisMonday.minusWeeks(1);
     createPointsByWeek(thisMonday, lastMonday);
 
@@ -1336,14 +986,18 @@ public void getPointsThisWeek() throws Exception {
 <1> To simplify testing, I added a new constructor to `Points.java` that contained the arguments I wanted to set. I
     continued this pattern for most tests I created.
 
-Of course, this test failed when I first ran it since "`/api/points-this-week`" didn't exist in `PointsResource.java`.
+Of course, this test failed when I first ran it since `/api/points-this-week` didn't exist in `PointsResource.java`.
 You might notice the points-this-week API expects two return values: a date in the `week` field and the number
-of points in the `points` field. I created `PointsPerWeek.java` in my project's `rest.dto` package to hold this
+of points in the `points` field. I created `PointsPerWeek.java` in my project's `rest.vm` package to hold this
 information.
 
 [source,java]
-.src/main/java/org/jhipster/health/web/rest/dto/PointsPerWeek.java
+.src/main/java/org/jhipster/health/web/rest/vm/PointsPerWeek.java
 ----
+package org.jhipster.health.web.rest.vm;
+
+import java.time.LocalDate;
+
 public class PointsPerWeek {
     private LocalDate week;
     private Integer points;
@@ -1361,8 +1015,6 @@ public class PointsPerWeek {
         this.points = points;
     }
 
-    @JsonSerialize(using = CustomLocalDateSerializer.class)
-    @JsonDeserialize(using = ISO8601LocalDateDeserializer.class)
     public LocalDate getWeek() {
         return week;
     }
@@ -1403,17 +1055,17 @@ in `PointsResource.java`.
 @Timed
 public ResponseEntity<PointsPerWeek> getPointsThisWeek() {
     // Get current date
-    LocalDate now = new LocalDate(); <1>
+    LocalDate now = LocalDate.now();
     // Get first day of week
-    LocalDate startOfWeek = now.withDayOfWeek(DateTimeConstants.MONDAY); <2>
+    LocalDate startOfWeek = now.with(DayOfWeek.MONDAY);
     // Get last day of week
-    LocalDate endOfWeek = now.withDayOfWeek(DateTimeConstants.SUNDAY);
+    LocalDate endOfWeek = now.with(DayOfWeek.SUNDAY);
     log.debug("Looking for points between: {} and {}", startOfWeek, endOfWeek);
 
     List<Points> points = pointsRepository.findAllByDateBetween(startOfWeek, endOfWeek);
     // filter by current user and sum the points
     Integer numPoints = points.stream()
-        .filter(p -> p.getUser().getLogin().equals(SecurityUtils.getCurrentLogin()))
+        .filter(p -> p.getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin()))
         .mapToInt(p -> p.getExercise() + p.getMeals() + p.getAlcohol())
         .sum();
 
@@ -1421,60 +1073,62 @@ public ResponseEntity<PointsPerWeek> getPointsThisWeek() {
     return new ResponseEntity<>(count, HttpStatus.OK);
 }
 ----
-<1> I later discovered that creating a new `LocalDate` uses the server's time zone by default. When I deployed on a server
-    using UTC, I discovered this logic didn't work too well. I decided I'd make it a user preference or look into using a
-    JavaScript library like http://pellepim.bitbucket.org/jstz/[jsTimezoneDetect] to detect a client's time zone and pass it
-    to the server.
-<2> Since I live in the United States, I'm used to the week beginning on Sunday. However, since Joda-Time uses Monday
-    as the first day of the week, I decided this would be my application's logic as well.
 
 To support this new method on the client, I added a new method to my `Points` service.
 
 [source,javascript]
-.src/main/webapp/scripts/components/entities/points/points.service.js
+.src/main/webapp/app/entities/points/points.service.js
 ----
-.factory('Points', function ($resource, DateUtils) {
-    return $resource('api/points/:id', {}, {
+function Points ($resource, DateUtils) {
+    var resourceUrl =  'api/points/:id';
+
+    return $resource(resourceUrl, {}, {
         'query': { method: 'GET', isArray: true},
         'thisWeek': { method: 'GET', isArray: false, url: 'api/points-this-week'},
         ...
     });
-});
+}
 ----
 
-Then I added the service to `main.controller.js` and calculated the data I wanted to display.
+Then I added the service to `home.controller.js` and calculated the data I wanted to display.
 
 [source,javascript]
-.src/main/webapp/scripts/app/main/main.controller.js
+.src/main/webapp/app/home/home.controller.js
 ----
-.controller('MainController', function ($scope, Principal, Points) {
-    Principal.identity().then(function(account) {
-        $scope.account = account;
-        $scope.isAuthenticated = Principal.isAuthenticated;
-    });
+function HomeController ($scope, Principal, LoginService, Points, $state) {
+    var vm = this;
 
-    Points.thisWeek(function(data) {
-        $scope.pointsThisWeek = data;
-        $scope.pointsPercentage = (data.points / 21) * 100;
-    });
-});
+    ...
+
+    function getAccount() {
+        Principal.identity().then(function(account) {
+            vm.account = account;
+            vm.isAuthenticated = Principal.isAuthenticated;
+        });
+
+        Points.thisWeek(function(data) {
+            vm.pointsThisWeek = data;
+            vm.pointsPercentage = (data.points / 21) * 100;
+        });
+    }
+}
 ----
 
-I added a Bootstrap progress bar to `main.html` to show points-this-week progress.
+I added a Bootstrap progress bar to `home.html` to show points-this-week progress.
 
 [source,html]
-.src/main/webapp/scripts/app/main/main.html
+.src/main/webapp/app/main/main.html
 ----
 <div class="row">
     <div class="col-md-10">
-        <div class="progress progress-lg" ng-show="pointsThisWeek.points"> <1>
+        <div class="progress progress-lg" ng-show="vm.pointsThisWeek.points"> <1>
             <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
-                 aria-valuenow="{{pointsThisWeek.points}}"
-                 aria-valuemin="0" aria-valuemax="21" style="width: {{pointsPercentage}}%">
-                 {{pointsThisWeek.points}} / Goal: 10
+                 aria-valuenow="{{vm.pointsThisWeek.points}}"
+                 aria-valuemin="0" aria-valuemax="21" style="width: {{vm.pointsPercentage}}%">
+                {{vm.pointsThisWeek.points}} / Goal: 10
             </div>
         </div>
-        <alert type="info" ng-hide="pointsThisWeek.points">
+        <alert type="info" ng-hide="vm.pointsThisWeek.points">
             No points yet this week, better get moving!
         </alert>
     </div>
@@ -1483,14 +1137,28 @@ I added a Bootstrap progress bar to `main.html` to show points-this-week progres
 <1> I later realized this could be replaced with UI Bootstrap's
     https://angular-ui.github.io/bootstrap/#/progressbar[progressbar], but why fix something if it isn't broke?! ;)
 
-Below is a screenshot of what this progress bar looked like after entering some data for the current user.
+Below is a screenshot of what this progress bar looked like after restarting the server and entering some data for the
+current user.
 
 [[img-homepage-progress-bar]]
 .Progress bar for points this week
-image::chapter2/homepage-points-this-week.png[Progress bar for points this week, 1381, scaledwidth=100%, align=center]
+image::chapter2/homepage-points-this-week.png[Progress bar for points this week, 1363, scaledwidth=100%, align=center]
 
 You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix this, I needed to add the ability
-to fetch the user's preferences. I created a new method in `PreferencesResource.java` to return the user's preferences
+to fetch the user's preferences. To make it easier to access a user's preferences, I modified `PreferencesRepository.java` and added
+a method to retrieve a user's preferences.
+
+[source,java]
+.src/main/java/org/jhipster/health/repository/PreferencesRepository.java
+----
+public interface PreferencesRepository extends JpaRepository<Preferences,Long> {
+
+    Optional<Preferences> findOneByUserLogin(String login);
+
+}
+----
+
+I created a new method in `PreferencesResource.java` to return the user's preferences
 (or a default weekly goal of 10 points if no preferences are defined).
 
 [source,java]
@@ -1499,15 +1167,17 @@ to fetch the user's preferences. I created a new method in `PreferencesResource.
 /**
  * GET  /my-preferences -> get the current user's preferences.
  */
-@RequestMapping(value = "/my-preferences")
+@RequestMapping(value = "/my-preferences",
+    method = RequestMethod.GET,
+    produces = MediaType.APPLICATION_JSON_VALUE)
 @Timed
 public ResponseEntity<Preferences> getUserPreferences() {
-    String username = SecurityUtils.getCurrentLogin();
+    String username = SecurityUtils.getCurrentUserLogin();
     log.debug("REST request to get Preferences : {}", username);
-    User user = userRepository.findOneByLogin(username).get();
+    Optional<Preferences> preferences = preferencesRepository.findOneByUserLogin(username);
 
-    if (user.getPreferences() != null) {
-        return new ResponseEntity<>(user.getPreferences(), HttpStatus.OK);
+    if (preferences.isPresent()) {
+        return new ResponseEntity<>(preferences.get(), HttpStatus.OK);
     } else {
         Preferences defaultPreferences = new Preferences();
         defaultPreferences.setWeeklyGoal(10); // default
@@ -1519,69 +1189,77 @@ public ResponseEntity<Preferences> getUserPreferences() {
 To facilitate calling this endpoint, I added a new `user` method to the `Preferences` client service.
 
 [source,javascript]
-.src/main/webapp/scripts/components/entities/preferences/preferences.service.js
+.src/main/webapp/app/entities/preferences/preferences.service.js
 ----
-.factory('Preferences', function ($resource) {
-    return $resource('api/preferences/:id', {}, {
+function Preferences ($resource) {
+    var resourceUrl =  'api/preferences/:id';
+
+    return $resource(resourceUrl, {}, {
         'query': { method: 'GET', isArray: true},
-        'user': { method: 'GET', isArray: false, url: '/api/my-preferences'},
+        'user': { method: 'GET', isArray: false, url: '/api/my-preferences'}
         ...
     });
-});
+}
 ----
 
-In `main.controller.js`, I added the `Preferences` service as a dependency and set the preferences on `$scope`
+In `home.controller.js`, I added the `Preferences` service as a dependency and set the preferences on `vm`
 so the HTML template could read it.
 
 [source,javascript]
-.src/main/webapp/scripts/app/main/main.controller.js
+.src/main/webapp/app/home/home.controller.js
 ----
-.controller('MainController', function ($scope, Principal, Points, Preferences) {
+function HomeController ($scope, Principal, LoginService, Points, Preferences, $state) {
+    var vm = this;
+
     ...
 
-    Preferences.user(function(data) {
-        $scope.preferences = data;
-    })
-});
+    function getAccount() {
+        ...
+
+        Preferences.user(function(data) {
+            vm.preferences = data;
+        });
+    }
+}
 ----
 
-Now that a user's preferences were available, I modified `main.html` to display the user's weekly goal, as well
+Now that a user's preferences were available, I modified `home.html` to display the user's weekly goal, as well
 as to color the progress bar appropriately with `ng-class`.
 
 [source,html]
-.src/main/webapp/scripts/app/main/main.html
+.src/main/webapp/app/home/home.html
 ----
 <div class="progress-bar progress-bar-striped" role="progressbar"
-     ng-class="{'progress-bar-success': pointsThisWeek.points >= preferences.weeklyGoal,
-                'progress-bar-danger': pointsThisWeek.points < 10,
-                'progress-bar-warning': pointsThisWeek.points > 10 && pointsThisWeek.points < preferences.weeklyGoal}"
-     aria-valuenow="{{pointsThisWeek.points}}"
-     aria-valuemin="0" aria-valuemax="21" style="width: {{pointsPercentage}}%">
-    <span ng-show="pointsThisWeek.points">
-        {{pointsThisWeek.points}} / Goal: {{preferences.weeklyGoal}}
+     ng-class="{'progress-bar-success': vm.pointsThisWeek.points >= vm.preferences.weeklyGoal,
+                'progress-bar-danger': vm.pointsThisWeek.points < 10,
+                'progress-bar-warning': vm.pointsThisWeek.points > 10 && vm.pointsThisWeek.points < vm.preferences.weeklyGoal}"
+     aria-valuenow="{{vm.pointsThisWeek.points}}"
+     aria-valuemin="0" aria-valuemax="21" style="width: {{vm.pointsPercentage}}%">
+    <span ng-show="vm.pointsThisWeek.points">
+        {{vm.pointsThisWeek.points}} / Goal: {{vm.preferences.weeklyGoal}}
     </span>
-    <span class="sr-only">{{pointsPercentage}} points this week</span>
+    <span class="sr-only">{{vm.pointsPercentage}} points this week</span>
 </div>
 ----
 
-To finish things off, I added a link to a dialog where users could edit their preferences. I also added an appropriate state to allow editing in `main.js`.
+To finish things off, I added a link to a dialog where users could edit their preferences. I also added an appropriate state to allow editing in `home.state.js`.
 
 ==== Blood pressure and weight for the last 30 days
 
-To populate the two remaining charts on the homepage, I needed to fetch the user's blood-pressure readings and weights
-for the last 30 days. I added a method to `BloodPressureResourceTest.java` to set up my expectations.
+To populate the two remaining charts on the homepage, I needed to fetch the user's blood pressure readings and weights
+for the last 30 days. I added a method to `BloodPressureResourceIntTest.java` to set up my expectations.
 
 [source%autofit,java]
-.src/test/java/org/jhipster/health/web/rest/BloodPressureResourceTest.java
+.src/test/java/org/jhipster/health/web/rest/BloodPressureResourceIntTest.java
 ----
-private void createBloodPressureByMonth(DateTime firstOfMonth, DateTime firstDayOfLastMonth) {
+private void createBloodPressureByMonth(ZonedDateTime firstDate, ZonedDateTime firstDayOfLastMonth) {
     User user = userRepository.findOneByLogin("user").get();
-    // this month
-    bloodPressure = new BloodPressure(firstOfMonth, 120, 80, user);
+
+    bloodPressure = new BloodPressure(firstDate, 120, 80, user);
     bloodPressureRepository.saveAndFlush(bloodPressure);
-    bloodPressure = new BloodPressure(firstOfMonth.plusDays(10), 125, 75, user);
+    bloodPressure = new BloodPressure(firstDate.plusDays(10), 125, 75, user);
     bloodPressureRepository.saveAndFlush(bloodPressure);
-    bloodPressure = new BloodPressure(firstOfMonth.plusDays(20), 100, 69, user);
+    bloodPressure = new BloodPressure(firstDate.plusDays(20), 100, 69, user);
     bloodPressureRepository.saveAndFlush(bloodPressure);
 
     // last month
@@ -1596,10 +1274,10 @@ private void createBloodPressureByMonth(DateTime firstOfMonth, DateTime firstDay
 @Test
 @Transactional
 public void getBloodPressureForLast30Days() throws Exception {
-    DateTime now = new DateTime();
-    DateTime firstOfMonth = now.withDayOfMonth(1);
-    DateTime firstDayOfLastMonth = firstOfMonth.minusMonths(1);
-    createBloodPressureByMonth(firstOfMonth, firstDayOfLastMonth);
+    ZonedDateTime now = ZonedDateTime.now();
+    ZonedDateTime twentyNineDaysAgo = now.minusDays(29);
+    ZonedDateTime firstDayOfLastMonth = now.withDayOfMonth(1).minusMonths(1);
+    createBloodPressureByMonth(twentyNineDaysAgo, firstDayOfLastMonth);
 
     // create security-aware mockMvc
     restBloodPressureMockMvc = MockMvcBuilders
@@ -1608,7 +1286,7 @@ public void getBloodPressureForLast30Days() throws Exception {
         .build();
 
     // Get all the blood pressure readings
-    restBloodPressureMockMvc.perform(get("/api/bloodPressures")
+    restBloodPressureMockMvc.perform(get("/api/blood-pressures")
         .with(user("user").roles("USER")))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -1629,7 +1307,7 @@ public void getBloodPressureForLast30Days() throws Exception {
 I created a `BloodPressureByPeriod.java` class to return the results from the API.
 
 [source,java]
-.src/main/java/org/jhipster/health/web/rest/dto/BloodPressureByPeriod.java
+.src/main/java/org/jhipster/health/web/rest/vm/BloodPressureByPeriod.java
 ----
 public class BloodPressureByPeriod {
     private String period;
@@ -1644,13 +1322,13 @@ public class BloodPressureByPeriod {
 ----
 
 Using similar logic that I used for points-this-week, I created a new method in `BloodPressureRepository.java` that
-allowed me to query between two different dates. I also added "`orderBy`" logic so the records would be sorted by date
+allowed me to query between two different dates. I also added "`OrderBy`" logic so the records would be sorted by date
 entered.
 
 [source,java]
 .src/main/java/org/jhipster/health/repository/BloodPressureRepository.java
 ----
-List<BloodPressure> findAllByTimestampBetweenOrderByTimestampDesc(DateTime firstDate, DateTime secondDate);
+List<BloodPressure> findAllByTimestampBetweenOrderByTimestampDesc(ZonedDateTime firstDate, ZonedDateTime secondDate);
 ----
 
 Next, I created a new method in `BloodPressureResource.java` that calculated the first and last days of the current
@@ -1660,15 +1338,13 @@ month, executed the query for the current user, and constructed the data to retu
 .src/main/java/org/jhipster/health/web/rest/BloodPressureResource.java
 ----
 /**
- * GET  /bp-by-days -> get all the blood pressure readings by last x days.
+ * GET  /bp-by-days : get all the blood pressure readings by last x days.
  */
 @RequestMapping(value = "/bp-by-days/{days}")
 @Timed
 public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
-    LocalDate today = new LocalDate();
-    LocalDate previousDate = today.minusDays(days);
-    DateTime daysAgo = previousDate.toDateTimeAtCurrentTime();
-    DateTime rightNow = today.toDateTimeAtCurrentTime();
+    ZonedDateTime rightNow = ZonedDateTime.now();
+    ZonedDateTime daysAgo = rightNow.minusDays(days);
 
     List<BloodPressure> readings = bloodPressureRepository.findAllByTimestampBetweenOrderByTimestampDesc(daysAgo, rightNow);
     BloodPressureByPeriod response = new BloodPressureByPeriod("Last " + days + " Days", filterByUser(readings));
@@ -1682,18 +1358,48 @@ private List<BloodPressure> filterByUser(List<BloodPressure> readings) {
 }
 ----
 
-I added a new method to support this API in `bloodPressure.service.js`.
+.Filtering by method
+****
+I later learned how do do the filtering in in the database by adding the following method to `BloodPressureRepository.java`:
+
+[source,java]
+.src/main/java/org/jhipster/health/repository/BloodPressureRepository.java
+----
+List<BloodPressure> findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(ZonedDateTime firstDate, ZonedDateTime secondDate, String login);
+----
+
+Then I was able to remove the `filterByUser` method and change `BloodPressureResource#getByDays` to be:
+
+[source,java]
+.src/main/java/org/jhipster/health/web/rest/BloodPressureResource.java
+----
+public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
+    ZonedDateTime rightNow = ZonedDateTime.now();
+    ZonedDateTime daysAgo = rightNow.minusDays(days);
+
+    List<BloodPressure> readings =
+        bloodPressureRepository.findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(
+            daysAgo, rightNow, SecurityUtils.getCurrentUserLogin());
+    BloodPressureByPeriod response = new BloodPressureByPeriod("Last " + days + " Days", readings);
+    return new ResponseEntity<>(response, HttpStatus.OK);
+}
+----
+****
+
+I added a new method to support this API in `blood-pressure.service.js`.
 
 [source,javascript]
-.src/main/webapp/scripts/components/entities/bloodPressure/bloodPressure.service.js
+.src/main/webapp/app/entities/blood-pressure/blood-pressure.service.js
 ----
-.factory('BloodPressure', function ($resource, DateUtils) {
-    return $resource('api/bloodPressures/:id', {}, {
+function BloodPressure ($resource, DateUtils) {
+    var resourceUrl =  'api/blood-pressures/:id';
+
+    return $resource(resourceUrl, {}, {
         'query': { method: 'GET', isArray: true},
         'last30Days': { method: 'GET', isArray: false, url: 'api/bp-by-days/30'},
         ...
     });
-});
+}
 ----
 
 While gathering this data seemed easy enough, the hard part was figuring out what charting library to use to display it.
@@ -1701,93 +1407,115 @@ While gathering this data seemed easy enough, the hard part was figuring out wha
 ==== Charts of the last 30 days
 
 I did a https://twitter.com/mraible/status/633738800879898624[bit of research] and decided to use
-http://krispo.github.io/angular-nvd3[Angular-nvD3]. I'd heard good things about http://d3js.org/[D3.js] and Angular-nvD3
-is built on top of it. To install Angular-nvD3, I used Bower's install command.
+http://krispo.github.io/angular-nvd3[Angular-nvD3]. I'd heard good things about https://d3js.org/[D3.js] and Angular-nvD3
+is built on top of it. To install Angular-nvD3, I used Bower's `install` command.
 
 ----
 bower install angular-nvd3 --save
 ----
 
-Then I ran `grunt wiredep` to update `index.html` and `karma.conf.js` with references to the new files. I also updated
-`app.js` to add `nvd3` as a dependency.
+Then I ran `gulp inject` to update `index.html` and `karma.conf.js` with references to the new files. I also updated
+`app.module.js` to add `nvd3` as a dependency.
 
 [source,javascript]
-.src/main/webapp/scripts/app/app.js
+.src/main/webapp/app/app.module.js
 ----
-angular.module('21pointsApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate',
-    'ui.bootstrap', // for modal dialogs
-    'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll', 'nvd3'])
+angular
+    .module('21PointsApp', [
+        'ngStorage',
+        'tmh.dynamicLocale',
+        'pascalprecht.translate',
+        'ngResource',
+        'ngCookies',
+        'ngAria',
+        'ngCacheBuster',
+        'ngFileUpload',
+        'ui.bootstrap',
+        'ui.bootstrap.datetimepicker',
+        'ui.router',
+        'infinite-scroll',
+        // jhipster-needle-angularjs-add-module JHipster will add new module here
+        'angular-loading-bar',
+        'nvd3'
+    ])
+    .run(run);
 ----
 
-I modified `main.controller.js` to have the `BloodPressure` service as a dependency and went to work building the
+I modified `home.controller.js` to have the `BloodPressure` service as a dependency and went to work building the
 data so Angular-nvD3 could render it. I found that charts required a bit of JSON to configure them, so I created
 a service to contain this configuration.
 
 [source,javascript]
-.src/main/webapp/scripts/component/chart/chart.service.js
+.app/components/chart/chart.service.js
 ----
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('21pointsApp').factory('Chart', function Chart() {
-    return {
-        getBpChartConfig: function() {
-            return bpChartConfig;
-        }
-    }
-});
-
-var today = new Date();
-var priorDate = new Date().setDate(today.getDate()-30);
-
-var bpChartConfig = {
-    chart: {
-        type: "lineChart",
-        height: 200,
-        margin: {
-            top: 20,
-            right: 20,
-            bottom: 40,
-            left: 55
-        },
-        x: function(d){ return d.x; },
-        y: function(d){ return d.y; },
-        useInteractiveGuideline: true,
-        dispatch: {},
-        xAxis: {
-            axisLabel: "Dates",
-            showMaxMin: false,
-            tickFormat: function(d){
-                return d3.time.format("%b %d")(new Date(d));
+    angular.module('21PointsApp')
+        .factory('Chart', function Chart() {
+            return {
+                getBpChartConfig: function() {
+                    return bpChartConfig;
+                }
             }
+        });
+
+    var today = new Date();
+    var priorDate = new Date().setDate(today.getDate()-30);
+
+    var bpChartConfig = {
+        chart: {
+            type: "lineChart",
+            height: 200,
+            margin: {
+                top: 20,
+                right: 20,
+                bottom: 40,
+                left: 55
+            },
+            x: function(d){ return d.x; },
+            y: function(d){ return d.y; },
+            useInteractiveGuideline: true,
+            dispatch: {},
+            xAxis: {
+                axisLabel: "Dates",
+                showMaxMin: false,
+                tickFormat: function(d){
+                    return d3.time.format("%b %d")(new Date(d));
+                }
+            },
+            xDomain: [priorDate, today],
+            yAxis: {
+                axisLabel: "",
+                axisLabelDistance: 30
+            },
+            transitionDuration: 250
         },
-        xDomain: [priorDate, today],
-        yAxis: {
-            axisLabel: "",
-            axisLabelDistance: 30
-        },
-        transitionDuration: 250
-    },
-    title: {
-        enable: true
-    }
-};
+        title: {
+            enable: true
+        }
+    };
+})();
+
 ----
 
-In `main.controller.js`, I grabbed the blood-pressure readings from the API and morphed them into data that Angular-nvD3
+In `home.controller.js`, I grabbed the blood pressure readings from the API and morphed them into data that Angular-nvD3
 could understand.
 
 [source,javascript]
-.src/main/webapp/scripts/app/main/main.controller.js
+.src/main/webapp/app/home/home.controller.js
 ----
-BloodPressure.last30Days(function(bpReadings) {
-    $scope.bpReadings = bpReadings;
+BloodPressure.last30Days(function (bpReadings) {
+    vm.bpReadings = bpReadings;
     if (bpReadings.readings.length) {
-        $scope.bpOptions = angular.copy(Chart.getBpChartConfig());
-        $scope.bpOptions.title.text = bpReadings.period;
-        $scope.bpOptions.chart.yAxis.axisLabel = "Blood Pressure";
-        var systolics, diastolics;
+        vm.bpOptions = angular.copy(Chart.getBpChartConfig());
+        vm.bpOptions.title.text = bpReadings.period;
+        vm.bpOptions.chart.yAxis.axisLabel = "Blood Pressure";
+        var systolics, diastolics, upperValues, lowerValues;
         systolics = [];
         diastolics = [];
+        upperValues = [];
+        lowerValues = [];
         bpReadings.readings.forEach(function (item) {
             systolics.push({
                 x: new Date(item.timestamp),
@@ -1797,8 +1525,10 @@ BloodPressure.last30Days(function(bpReadings) {
                 x: new Date(item.timestamp),
                 y: item.diastolic
             });
+            upperValues.push(item.systolic);
+            lowerValues.push(item.diastolic);
         });
-        $scope.bpData = [{
+        vm.bpData = [{
             values: systolics,
             key: 'Systolic',
             color: '#673ab7'
@@ -1807,22 +1537,24 @@ BloodPressure.last30Days(function(bpReadings) {
             key: 'Diastolic',
             color: '#03a9f4'
         }];
+        // set y scale to be 10 more than max and min
+        vm.bpOptions.chart.yDomain = [Math.min.apply(Math, lowerValues) - 10, Math.max.apply(Math, upperValues) + 10]
     }
 });
 ----
 
-Finally, I used the "`nvd3`" directive in `main.html` to read `$scope.bpOptions` and `$scope.bpData`, then display a chart.
+Finally, I used the "`nvd3`" directive in `home.html` to read `vm.bpOptions` and `vm.bpData`, then display a chart.
 
 [source,html]
-.src/main/webapp/scripts/app/main/main.html
+.src/main/webapp/app/home/home.html
 ----
 <div class="row">
     <div class="col-md-10">
-        <span ng-if="bpReadings.readings.length">
-            <nvd3 options="bpOptions" data="bpData" class="with-3d-shadow with-transitions"></nvd3>
+        <span ng-if="vm.bpReadings.readings.length">
+            <nvd3 options="vm.bpOptions" data="vm.bpData" class="with-3d-shadow with-transitions"></nvd3>
         </span>
-        <span ng-if="!bpReadings.readings.length">
-            <alert type="info">No blood pressure readings found.</alert>
+        <span ng-if="!vm.bpReadings.readings.length">
+            <div uib-alert type="info">No blood pressure readings found.</div>
         </span>
     </div>
 </div>
@@ -1832,41 +1564,42 @@ After entering some test data, I was quite pleased with the results.
 
 [[img-homepage-bp-last-30-days]]
 .Chart of blood pressure during the last 30 days
-image::chapter2/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1338, scaledwidth=100%, align=center]
+image::chapter2/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1393, scaledwidth=100%, align=center]
 
 I made similar changes to display weights for the last 30 days as a chart.
 
 === Lines of code
 
 After finishing the MVP (minimum viable product) of 21-Points Health, I did some quick calculations to see how
-many lines of code JHipster had produced. You can see from the graph below that I only had to write 1,152
-lines of code. JHipster did the rest for me, generating 91.7% of the code in my project!
+many lines of code JHipster had produced. You can see from the graph below that I only had to write 1,157
+lines of code. JHipster did the rest for me, generating 94.5% of the code in my project!
 
 [[img-21-points-loc]]
 .Project lines of code
-image::chapter2/21-points-loc.png[Project lines of code, 700, scaledwidth=100%, align=center]
+image::chapter2/21-points-loc.png[Project lines of code, 650, scaledwidth=100%, align=center]
 
 To drill down further, I made a graph of the top three languages in the project: Java, JavaScript, and HTML.
 
 [[img-21-points-loc-by-language]]
 .Project lines of code by language
-image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 900, scaledwidth=100%, align=center]
+image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 750, scaledwidth=100%, align=center]
 
-The amount of code I had to write in each language was 582 lines of Java, 268 lines of JavaScript, and 109 lines of HTML.
+The amount of code I had to write in each language was 344 lines of Java, 459 lines of JavaScript, and 182 lines of HTML.
+The other 172 lines were Sass (130), JSON (25), XML (1), YAML (15), and Shell (1).
 
 Wahoo! Thanks, JHipster!
 
 .Testing
 ****
 You probably noticed that a lot of the Java code I wrote was for the tests. I felt that these tests were essential to prove that
-the business logic I implemented was correct. It's never easy to work with dates but Joda-Time greatly simplified
+the business logic I implemented was correct. It's never easy to work with dates but Java 8's Date-Time API greatly simplified
 it and Spring Data JPA made it easy to write "`between date`" queries.
 
 I believe TDD (test-driven development) is a great way to write code. However, when developing UIs, I tend to make them
 work before writing tests. It's usually a very visual activity and, with the aid of Browsersync, there's rarely a delay before
 you see your changes. I like to write unit tests for my Angular controllers and directives using
-http://jasmine.github.io/2.3/introduction.html[Jasmine] and I like to write integration tests with
-https://angular.github.io/protractor/#/[Protractor].
+http://jasmine.github.io/2.5/introduction.html[Jasmine] and I like to write integration tests with
+http://www.protractortest.org/#/[Protractor].
 
 I did not write any JavaScript tests for this project because I was in a time crunch and I was able to visually verify that
 things worked as I wanted. I plan to write unit and integration tests when I find the time, but didn't think they
@@ -1875,7 +1608,7 @@ were necessary for the MVP.
 
 == Deploying to Heroku
 
-JHipster ships with support for deploying to Cloud Foundry, Heroku, OpenShift, and AWS. I used Heroku to
+JHipster ships with support for deploying to Cloud Foundry, Heroku, Kubernetes, AWS, and Boxfuse. I used Heroku to
 deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for
 production, it's recommended to use the pre-configured "`production`" profile. With Gradle, you can package your
 application by specifying this profile when building.
@@ -1890,16 +1623,15 @@ The command looks similar when using Maven.
 mvn -Pprod package
 ----
 
-The production profile is used to build an optimized JavaScript client. You can invoke this using Grunt or
-Gulp by running `grunt build` or `gulp build`, depending on which tool your project uses. The production profile also
-configures gzip compression with a servlet filter, cache headers and monitoring via https://github.com/dropwizard/metrics[Metrics].
-If you have a http://graphite.wikidot.com/[Graphite] server configured in your `application-prod.yaml` file, your application
-will automatically send metrics data to it.
+The production profile is used to build an optimized JavaScript client. You can invoke this using Gulp by running `gulp build`.
+The production profile also configures gzip compression with a servlet filter, cache headers, and monitoring via
+https://github.com/dropwizard/metrics[Metrics]. If you have a http://graphite.wikidot.com/[Graphite] server configured in
+your `application-prod.yaml` file, your application will automatically send metrics data to it.
 
-To upload 21-Points Health, I logged in to my Heroku account. I already had the https://toolbelt.heroku.com/[Heroku Toolbelt]
+To upload 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-command-line[Heroku CLI]
 installed.
 
-TIP: I first deployed to Heroku after integrating the Material Design theme, meaning that I had a basically default JHipster application with no entities.
+TIP: I first deployed to Heroku after integrating the material-design theme, meaning that I had a basically default JHipster application with no entities.
 
 ----
 $ heroku login
@@ -1909,7 +1641,7 @@ Password (typing will be hidden):
 Authentication successful.
 ----
 
-I ran `yo jhipster:heroku` as recommended in the http://jhipster.github.io/heroku.html[Deploying to Heroku]
+I ran `yo jhipster:heroku` as recommended in the http://jhipster.github.io/heroku/[Deploying to Heroku]
 documentation. I tried using the name "`21points`" for my application when prompted.
 
 ----
@@ -1921,18 +1653,18 @@ Heroku configuration is starting
 Using existing Git repository
 
 Installing Heroku CLI deployment plugin
-Installing https://github.com/heroku/heroku-deploy...
-done
 
 Creating Heroku application and setting up node environment
-heroku create 21points --addons heroku-postgresql:hobby-dev
-✖ { [Error: Command failed: /bin/sh -c heroku create 21points --addons heroku-postgresql:hobby-dev
- !    Name must start with a letter and can only contain lowercase letters, numbers, and dashes.
+heroku create 21-points --addons heroku-postgresql
+✖ { [Error: Command failed: /bin/sh -c heroku create 21-points --addons heroku-postgresql
+Creating 21-points... !
+▸    Name must start with a letter and can only contain lowercase letters,
+▸    numbers, and dashes.
 ]
-  killed: false,
-  code: 1,
-  signal: null,
-  cmd: '/bin/sh -c heroku create 21points --addons heroku-postgresql:hobby-dev' }
+killed: false,
+code: 1,
+signal: null,
+cmd: '/bin/sh -c heroku create 21-points --addons heroku-postgresql' }
 ----
 
 You can see my first attempt failed for the same reason that creating a local PostgreSQL database failed: it didn't
@@ -1949,35 +1681,28 @@ Heroku configuration is starting
 Using existing Git repository
 
 Installing Heroku CLI deployment plugin
-Installing https://github.com/heroku/heroku-deploy...
-done
 
 Creating Heroku application and setting up node environment
-heroku create health-by-points --addons heroku-postgresql:hobby-dev
-Creating health-by-points... done, stack is cedar-14
-
-Adding heroku-postgresql:hobby-dev to health-by-points...
-done
-
+heroku create health-by-points --addons heroku-postgresql
 https://health-by-points.herokuapp.com/ | https://git.heroku.com/health-by-points.git
 
-Git remote heroku added
-
 Creating Heroku deployment files
+   create src/main/resources/config/bootstrap-heroku.yml
+   create src/main/resources/config/application-heroku.yml
+   create Procfile
 
 Building application
-:generateMainMapperClasses
-
-Download https://oss.sonatype.org/content/repositories/releases/io/dropwizard/metrics/metrics-healthchecks/3.1.2/metrics-healthchecks-3.1.2.pom
 ...
 
 BUILD SUCCESSFUL
 
-Total time: 2 mins 58.204 secs
+Total time: 50.636 secs
+
+Deploying application
 
 Uploading your application code.
  This may take several minutes depending on your connection speed...
-Uploading build/libs/21points-0.1-SNAPSHOT.war....
+Uploading 21-points-0.0.1-SNAPSHOT.war
 ----
 
 I was pumped to see that this process worked and that my application was available at http://health-by-points.herokuapp.com.
@@ -1985,7 +1710,7 @@ I quickly changed the default passwords for *admin* and *user* to make things mo
 
 [[img-deployed-to-heroku]]
 .First deployment to Heroku
-image::chapter2/deployed-to-heroku.png[First deployment to Heroku, 1144, scaledwidth=100%, align=center]
+image::chapter2/deployed-to-heroku.png[First deployment to Heroku, 1175, scaledwidth=100%, align=center]
 
 Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for
 Heroku, I ran `heroku domains:add`.
@@ -2083,7 +1808,7 @@ in the top right corner.
 
 === Elasticsearch on Heroku
 
-Once my application's timeout was increased, it seemed like everything was working. I tried to register a new user,
+Once my application's timeout was increased, it seemed like everything was working. I tried to register a new user
 and saw the following error message in my logs.
 
 ----
@@ -2186,7 +1911,7 @@ https://addons.heroku.com/newrelic[New Relic add-on] for Heroku. Heroku's https:
 describes how to set things up if you're letting Heroku do the build for you (meaning, you deploy with
 `git push heroku master`). However, if you're using the heroku-deploy plugin, it's a bit different.
 
-For that, you'll first need to manually download the New Relic Agent, as well as a `newrelic.yml` license file, and put them in the root directory
+For that, you'll first need to manually download the New Relic agent, as well as a `newrelic.yml` license file, and put them in the root directory
 of your project. Then you can run a command like:
 
 ----
@@ -2202,7 +1927,7 @@ web: java -javaagent:newrelic.jar -jar build/libs/*.war
 == Continuous integration and deployment
 
 After generating entities for this project, I wanted to configure a continuous-integration (CI) server to build/test/deploy
-whenever I checked in changes to Git. I chose https://jenkins-ci.org/[Jenkins] for my CI server and used the simplest
+whenever I checked in changes to Git. I chose https://jenkins.io/[Jenkins] for my CI server and used the simplest
 configuration possible: I downloaded `jenkins.war` to `/opt/tools/jenkins` on my MacBook Pro. I started it with
 the following command.
 
@@ -2210,109 +1935,253 @@ the following command.
 java -jar jenkins.war --httpPort=9000
 ----
 
-JHipster has good documentation on http://jhipster.github.io/setting_up_ci.html[setting up CI] and
-http://jhipster.github.io/heroku.html[deploying to Heroku]. The CI documentation also shows
-how to set up Jenkins on http://jhipster.github.io/setting_up_ci_linux.html[Linux] and
-http://jhipster.github.io/setting_up_ci_windows.html[Windows]. However, it doesn't have any documentation on how
-to configure a job to build, test, and deploy. This section aims to supply that.
+JHipster has good documentation on https://jhipster.github.io/setting-up-ci-jenkins2/[setting up CI on Jenkins 2] and
+http://jhipster.github.io/heroku/[deploying to Heroku]. I followed JHipster's Jenkins 2 documentation and opted for the global
+Node.js installation.
 
-I added `jasmine-reporters` and `karma-junit-reporter` to my project so I could read JavaScript test results with Jenkins.
+.Travis CI
 
-----
-npm install jasmine-reporters --save-dev
-npm install karma-junit-reporter --save-dev
-----
-
-Then I updated `src/test/javascript/karma.conf.js` to override the default plugins, specify reporters, and configure
-the JUnit reporter.
-
-[source,javascript]
-.src/test/javascript/karma.conf.js
-----
-singleRun: false,
-
-plugins: [
-    'karma-chrome-launcher',
-    'karma-phantomjs-launcher',
-    'karma-jasmine',
-    'karma-junit-reporter'
-],
-
-reporters: ['dots', 'junit'],
-
-junitReporter: {
-    outputFile: '../build/test-results/TEST-javascript-results.xml',
-    suite: 'unit'
-}
-----
-
-.Testing in the Zone
 ****
-I created a new Karma configuration in `Gruntfile.js` to allow continuous testing while "`in the zone`". Running
-`grunt karma:zone` will automatically re-execute tests when you save changes.
+JHipster ships with a `.travis.yml` file that allows you to run your application's tests on https://travis-ci.org[Travis CI].
+You can modify it to run Protractor tests using something like the following:
 
-[source,javascript]
-.Gruntfile.js
+```
+language: java
+jdk:
+  - oraclejdk8
+sudo: false
+cache:
+  directories:
+    - node
+    - node_modules
+    - $HOME/.gradle
+env:
+  - NODE_VERSION=4.4.7
+before_install:
+  - nvm install $NODE_VERSION
+  - npm install -g npm
+  - npm install -g bower gulp-cli
+  - node -v
+  - npm -v
+  - bower -v
+  - gulp -v
+  - java -version
+install: npm install
+script:
+  - ./gradlew clean
+  - ./gradlew test
+  - gulp test
+  - ./gradlew bootRepackage -Pprod -x test
+notifications:
+  webhooks:
+    on_success: change  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: false     # default: false
+
+os:
+  - linux
+services:
+  - docker
+language: java
+node_js:
+  - "4.2.1"
+jdk:
+  - oraclejdk8
+before_install:
+  - sudo /etc/init.d/postgresql stop
+install:
+  - java -version
+  - ./gradlew --version
+  - npm install -g bower
+  - npm install -g grunt-cli
+  - npm install
+  - ./gradlew assemble
+script:
+  - ./gradlew test
+  - gulp test
+  - docker-compose up -d
+  - sleep 20s
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - ./gradlew bootRun &
+  - bootPid=$!
+  - sleep 120s
+  - gulp itest
+  - ./gradlew bootRepackage -Pprod -x test
+```
+****
+
+I created a new job called "21-points" with a Pipeline script from SCM. By default, a JHipster-generated project
+contains a `Jenkinsfile`. I configured a "`Poll SCM`" build trigger with a schedule of `H/5 * * * *`. After saving the job,
+I confirmed it ran successfully.
+
+[[jenkins-job1]]
+.Jenkins build #1
+image::chapter2/jenkins-job-1.png[First run of 21-points pipeline, 1124, scaledwidth=100%, align=center]
+
+I modified this file to add the running of Protractor tests and deploying to Heroku. I checked in my changes to trigger
+another build.
+
+[source]
+.Jenkinsfile
 ----
-karma: {
-    unit: {
-        configFile: 'src/test/javascript/karma.conf.js',
-        singleRun: true
-    },
-    zone: {
-        configFile: 'src/test/javascript/karma.conf.js',
-        singleRun: false,
-        autoWatch: true
+node {
+    // uncomment these 2 lines and edit the name 'node-4.4.7' according to what you choose in configuration
+    // def nodeHome = tool name: 'node-4.4.7', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+    // env.PATH = "${nodeHome}/bin:${env.PATH}"
+
+    stage('check tools') {
+        sh "node -v"
+        sh "npm -v"
+        sh "bower -v"
+        sh "gulp -v"
+    }
+
+    stage('checkout') {
+        checkout scm
+    }
+
+    stage('npm install') {
+        sh "npm install"
+    }
+
+    stage('clean') {
+        sh "./gradlew clean"
+    }
+
+    stage('backend tests') {
+        sh "./gradlew test"
+    }
+
+    stage('frontend tests') {
+        sh "gulp test"
+    }
+
+    stage('protractor tests') {
+        sh '''./gradlew &
+        bootPid=$!
+        sleep 45s
+        gulp itest
+        kill $bootPid
+        '''
+    }
+
+    stage('packaging') {
+        sh "./gradlew bootRepackage -Pprod -x test"
+    }
+
+    stage('deploying') {
+        sh "heroku deploy:jar --jar build/libs/*.war --app health-by-points"
     }
 }
 ----
 
-To make this work, I also had to update the `test` task to run `karma:unit` instead of `karma`.
-****
+After making these changes, I found out that my Protractor tests were failing. I tried running them using `gulp itest` and
+found that Firefox was not loading the application. Since I'd recently experienced Firefox and Protractor issues on another
+project, I changed to use Chrome. To to this, I modified `protractor.conf.js` and fixed the path to the Chrome driver.
 
-I set up a new freestyle project in Jenkins using this configuration.
+[source,diff]
+.src/test/javascript/protractor.conf.js
+----
+@@ -5,7 +5,7 @@ var prefix = 'src/test/javascript/'.replace(/[^/]+/g,'..');
 
-* Project name: `21-points`
-* Source Code Management
-** Git Repository: `git@bitbucket.org:mraible/21-points.git`
-** Branches to build: `*/master`
-** Additional Behaviours: `Wipe out repository & force clone`
-* Build Triggers
-** Poll SCM / Schedule: `H/5 * * * *`
-* Build
-** Invoke Gradle script / Use Gradle Wrapper / Tasks: `-Pprod clean test bootRepackage`
-* Post-build Actions
-** Build other projects: `21-points-deploy`
-** Publish JUnit test result report / Test Report XMLs: `build/test-results/*.xml`
+ exports.config = {
+     seleniumServerJar: prefix + 'node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar',
+-    chromeDriver: prefix + 'node_modules/protractor/selenium/chromedriver',
++    chromeDriver: prefix + 'node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.22',
+     allScriptsTimeout: 20000,
 
-I then created another job to deploy to Heroku.
+     suites: {
+@@ -15,7 +15,7 @@ exports.config = {
+     },
 
-* Project name: `21-points-deploy`
-* Source Code Management
-** Git Repository: `git@bitbucket.org:mraible/21-points.git`
-** Branches to build: `*/master`
-* Build
-** Invoke Gradle script / Use Gradle Wrapper / Tasks: `-Pprod bootRepackage -x test`
-** Execute Shell / Command: `heroku deploy:jar --jar build/libs/*.war --app health-by-points`
+     capabilities: {
+-        'browserName': 'firefox',
++        'browserName': 'chrome',
+         'phantomjs.binary.path': require('phantomjs-prebuilt').path,
+         'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
+     },
+----
+
+This got me a bit further, but tests still failed. I banged my head against the wall for a few hours before I figured out
+the problem: `translate` is a reserved attribute name in HTML5 and Chrome (and Safari) return a boolean for this value if
+it's present. Not only that, but Protractor's `element.getAttribute()` returns a promise rather than a value.
+
+As part of this debugging exercise, I also discovered that Firefox 48 does not work with Protractor. The most recent
+version I found that works is Firefox 46. Also, Firefox 46 (and below) don't require you to resolve the promise
+returned from Protractor's `element.getAttribute()`. However, since both Safari and Chrome require this change (and
+it works in Firefox), I changed all `translate` attributes in the project's `*.html` files to `data-translate` and I changed all Protractor tests (in `src/test/javascript/e2e`) to process the promise and validate the value afterward.
+
+[source,javascript]
+----
+element.all(by.css('h1')).first().getAttribute('data-translate').then(function (value) {
+    expect(value).toMatch(/home.title/);
+});
+----
+
+After making these changes, https://github.com/jhipster/generator-jhipster/pull/4076[I created a pull request] to
+fix this in JHipster's main generator. Then I spent hours trying to get all the Protractor tests passing. I discovered
+that logout wasn't happening consistently for Chrome and Safari, causing some tests to fail. Finally, I switched back to Firefox
+and was able to get consistent results.
+
+[source,diff]
+.src/test/javascript/protractor.conf.js
+----
+@@ -15,7 +15,7 @@ exports.config = {
+     },
+
+     capabilities: {
++        'browserName': 'firefox',
+-        'browserName': 'chrome',
+         'phantomjs.binary.path': require('phantomjs-prebuilt').path,
+         'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
+     },
+----
+
+I checked in my changes, restarted Jenkins, and verified that all stages in my pipeline passed.
+
+[[jenkins-job-success]]
+.Jenkins success!
+image::chapter2/jenkins-job-success.png[Jenkins success!, 1461, scaledwidth=100%, align=center]
 
 When working on this project, I'd start Jenkins and have it running while I checked in code. I did not install it on a
 server and leave it running continuously. My reason was simple: I was only coding in bursts and didn't need to waste
 computing cycles or want to pay for a cloud instance to run it.
 
+== Source code
+
+After getting this application into a "good enough" state, I moved it from Bitbucket to GitHub and made it available
+as an open-source project. You can find the source code for 21-Points Health at https://github.com/mraible/21-points.
+
+== Upgrading 21-Points Health
+
+After I finished developing the MVP of 21-Points Health with JHipster 3.7.0, I wanted to upgrade it to the latest release.
+Rather than doing it manually like I did previously, I tried the using the https://jhipster.github.io/upgrading-an-application/[upgrade sub-generator].
+I'd tried it before and it didn't work. Thanks to a https://github.com/jhipster/generator-jhipster/issues/4239[recent bug fix],
+it worked like a charm this time.
+
+[[jhipster-upgrade-start]]
+.JHipster Upgrade Start
+image::chapter2/jhipster-upgrade-start.png[Running the jhipster:upgrade sub-generator, 1026, scaledwidth=100%, align=center]
+
+[[jhipster-upgrade-finish]]
+.JHipster Upgrade Result
+image::chapter2/jhipster-upgrade-finish.png[Upgrade Result, 1026, scaledwidth=100%, align=center]
+
+After the command finished (in just over two minutes), I fixed the conflicts and checked in my changes. If you're reading
+this and notice that 21-Points Health is using a version newer than 3.8.0, it's likely because I used this handy sub-generator again.
+
 == Summary
 
-This section showed you how I created a health-tracking Web application with JHipster. It walked you through upgrading to the
-latest release of JHipster and how to generate code with `yo jhipster:entity`. It showed you how to
-modify relationships between entities after the fact and how Liquibase can generate changelogs to update your database.
-You learned how to do test-first development when writing new APIs and how Spring Data JPA makes it easy to add custom
-queries. You also saw how to reuse existing dialogs on different pages, how to add methods to client services, and how to
-manipulate data to display pretty charts.
+This section showed you how I created a health-tracking web application with JHipster. It walked you through upgrading to the
+latest release of JHipster and how to generate code with `yo jhipster:entity`. You learned how to do test-first development
+when writing new APIs and how Spring Data JPA makes it easy to add custom queries. You also saw how to reuse existing
+dialogs on different pages, how to add methods to client services, and how to manipulate data to display pretty charts.
 
 After modifying the application to look like my UI mockups, I showed you how to deploy to Heroku and some
 common issues I encountered along the way. Finally, you learned how to use Jenkins to build, test, and deploy a
 Gradle-based JHipster project. I highly recommend doing something similar shortly after you've created your project
 and verified that it passes all tests.
 
-In the next chapter, I'll explain JHipster's UI components in more detail. AngularJS, Bootstrap, JavaScript build tools,
-Sass, WebSockets, and Browsersync are all packed in a JHipster application, so it's useful to dive
-in and learn a bit more about these technologies.
+In the next chapter, I'll explain JHipster's UI components in more detail. AngularJS, Bootstrap, Gulp, Sass, WebSockets,
+and Browsersync are all packed in a JHipster application, so it's useful to dive in and learn a bit more about these technologies.
