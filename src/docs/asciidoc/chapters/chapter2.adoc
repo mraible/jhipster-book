@@ -1152,9 +1152,7 @@ a method to retrieve a user's preferences.
 .src/main/java/org/jhipster/health/repository/PreferencesRepository.java
 ----
 public interface PreferencesRepository extends JpaRepository<Preferences,Long> {
-
     Optional<Preferences> findOneByUserLogin(String login);
-
 }
 ----
 
@@ -1210,12 +1208,9 @@ so the HTML template could read it.
 ----
 function HomeController ($scope, Principal, LoginService, Points, Preferences, $state) {
     var vm = this;
-
     ...
-
     function getAccount() {
         ...
-
         Preferences.user(function(data) {
             vm.preferences = data;
         });
