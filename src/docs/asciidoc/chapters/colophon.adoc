@@ -1,4 +1,4 @@
-= {doctitle}
+= {book-title}
 
 (C) {revyear} Matt Raible. All rights reserved. Version {revnumber}.
 

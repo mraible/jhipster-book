@@ -1,4 +1,5 @@
 = The JHipster Mini-Book
+:book-title: {doctitle}
 :author: Matt Raible
 :email: matt@raibledesigns.com
 :revnumber: 2.0
