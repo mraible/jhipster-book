@@ -733,7 +733,7 @@ version.
 JHipster allows you to use Sass by integrating https://www.npmjs.com/package/gulp-sass[gulp-sass]. To learn more about structuring your
 CSS and naming classes, read the great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
 
-=== Gulp
+== Gulp
 JHipster uses http://gulpjs.com/[Gulp] for building the client. It used to support http://gruntjs.com/[Grunt], but it
 was removed when Gulp's popularity skyrocketed. Gulp allows you to perform tasks like minification, concatenation,
 compilation (e.g. from TypeScript/CoffeeScript to JavaScript), unit testing, and more.
