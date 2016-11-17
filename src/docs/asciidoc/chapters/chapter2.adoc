@@ -727,6 +727,8 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 I then modified `PointsResourceIntTest.java`, creating a new `MockMvc` instance that was security-aware and
 specified `with(user("user"))` to populate Spring Security's `SecurityContext` with an authenticated user.
 
+ifdef::backend-pdf[<<<]
+
 [source,diff]
 .src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
 ----
@@ -1135,7 +1137,7 @@ I added a Bootstrap progress bar to `home.html` to show points-this-week progres
 </div>
 ----
 <1> I later realized this could be replaced with UI Bootstrap's
-    https://angular-ui.github.io/bootstrap/#/progressbar[progressbar], but why fix something if it isn't broke?! ;)
+    https://angular-ui.github.io/bootstrap/#/progressbar[progressbar], but why fix something if it isn't broke?! image:wink.png[wink,16]
 
 Below is a screenshot of what this progress bar looked like after restarting the server and entering some data for the
 current user.
@@ -1360,7 +1362,8 @@ I later learned how do do the filtering in in the database by adding the followi
 [source,java]
 .src/main/java/org/jhipster/health/repository/BloodPressureRepository.java
 ----
-List<BloodPressure> findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(ZonedDateTime firstDate, ZonedDateTime secondDate, String login);
+List<BloodPressure> findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(
+        ZonedDateTime firstDate, ZonedDateTime secondDate, String login);
 ----
 
 Then I was able to remove the `filterByUser` method and change `BloodPressureResource#getByDays` to be:
@@ -1725,6 +1728,8 @@ DNS settings on Google Domains. I configured a subdomain forward of:
 ----
 
 I also configured a custom resource record with a CNAME to point to health-by-points.herokuapp.com.
+
+ifdef::backend-pdf[<<<]
 
 .Custom resource record on Google Domains
 |===
