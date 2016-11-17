@@ -1,9 +1,6 @@
 require 'asciidoctor-pdf' unless defined? ::Asciidoctor::Pdf
 
 module AsciidoctorPdfExtensions
-  ZeroWidthSpace = %(\u200b)
-  BreakingForwardSlash = %(/#{ZeroWidthSpace})
-
   # Override the built-in layout_toc to move colophon before front of table of contents
   # NOTE we assume that the colophon fits on a single page
   def layout_toc doc, num_levels = 2, toc_page_number = 2, num_front_matter_pages = 0
@@ -100,17 +97,6 @@ module AsciidoctorPdfExtensions
       inline_format: true, color: 'B0B0B0', size: 8, style: :italic
     }.merge(opts)
     move_down 20
-  end
-
-  # Allow line breaks in the middle of a URL when printed
-  def convert_inline_anchor node
-    if node.type == :link && ((node.document.attr 'media', 'screen') != 'screen' || (node.document.attr? 'show-link-uri')) &&
-        !(node.has_role? 'bare')
-      printed_target = (target = node.target).gsub %r/(?<!\/)\/(?!\/)/, BreakingForwardSlash
-      %(<a href="#{target}">#{node.text}</a> [<font size="0.85em">#{printed_target}</font>])
-    else
-      super
-    end
   end
 end
 

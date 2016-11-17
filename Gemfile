@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
 gem 'coderay'
-gem 'asciidoctor-pdf', github: 'asciidoctor/asciidoctor-pdf', ref: 'e93f14a8ef8d7fdc6e5b36536fb03e04b0d1311e'
+gem 'asciidoctor-pdf', github: 'asciidoctor/asciidoctor-pdf', ref: 'cffe2d41a3055a8cfc55e37b12513f69a7e1484a'

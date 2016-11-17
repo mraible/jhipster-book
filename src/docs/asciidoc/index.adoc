@@ -46,7 +46,7 @@ include::chapters/action.adoc[]
 
 include::chapters/about.adoc[]
 
-ifdef::backend-docbook[]
-[index]
-== Index
-endif::[]
+//ifdef::backend-pdf,backend-docbook[]
+//[index]
+//== Index
+//endif::[]
