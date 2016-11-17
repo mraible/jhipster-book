@@ -25,13 +25,15 @@ Building an app with JHipster
     Deploying to Heroku
     Monitoring and analytics
     Continuous integration and deployment
+    Source code
+    Upgrading 21-Points Health
     Summary
 JHipster's UI components
     AngularJS
     Bootstrap
     Internationalization (i18n)
     Sass
-    Grunt versus Gulp
+    Gulp
     WebSockets
     Browsersync
     Summary
@@ -51,6 +53,6 @@ About the author
 
 Author Bio:
 
-Matt is a well-known figure in the Java community, and has been building web applications for most of his adult life. For over 17 years, he has helped companies adopt open source frameworks and use them effectively. Amongst his roles he was Lead UI Architect for LinkedIn, the UI Architect for Evite.com and the Chief Architect of Web Development at Time Warner Cable. Matt has been a speaker at many conferences worldwide, including Devoxx, Jfokus, No Fluff Just Stuff, SpringOne 2GX, UberConf, Angular Summit, and JavaOne for which he won a JavaOne Rock Star Award in 2013. He is the author of The JHipster Mini-Book, Spring Live, and Pro JSP. He is also the founder of AppFuse, an Apache committer, and a member of the JHipster development team.
+Matt Raible is a web developer and Java Champion. He loves to architect and build slick-looking UIs using CSS and JavaScript. When he's not evangelizing Stormpath and open source, he likes to ski with his family, drive his VWs and enjoy craft beer.
 
 https://www.flickr.com/photos/mraible/16900780428
