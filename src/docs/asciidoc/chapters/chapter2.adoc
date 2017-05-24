@@ -1,7 +1,7 @@
 = Building an app with JHipster
 
 When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating
-a photo gallery to showcase the 1996 VW Bus I've been working on for over 10 years. The project was recently finished and
+a photo gallery to showcase the 1966 VW Bus I've been working on since 2006. The project was recently finished and
 I wanted a website to show how things have progressed through the years.
 
 I also thought about creating a blog application.
@@ -59,14 +59,12 @@ ran the following commands to install http://yeoman.io/[Yeoman] and https://bowe
 [source]
 ----
 npm install -g yo
-npm install -g bower
 ----
 
-I also installed Gulp and JHipster.
+I also installed Yarn using https://yarnpkg.com/lang/en/docs/install/[its instructions] and JHipster.
 
 [source]
 ----
-npm install -g gulp
 npm install -g generator-jhipster
 ----
 
@@ -398,7 +396,7 @@ For each entity you want to create, you will need:
 * a JPA entity class;
 * a Spring Data `JpaRepository` interface;
 * a Spring MVC `RestController` class;
-* an AngularJS router, controller and service; and
+* an Angular router, controller and service; and
 * a HTML page.
 
 In addition, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In
@@ -558,7 +556,7 @@ Below is a consolidated list of changes I made to the HTML to make things look b
 
 * improved layout of tables and buttons,
 * improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`,
-* formatted dates for local timezone with https://docs.angularjs.org/api/ng/filter/date[AngularJS's date filter]
+* formatted dates for local timezone with https://docs.Angular.org/api/ng/filter/date[Angular's date filter]
   (for example: `{{bloodPressure.timestamp | date: 'short': 'UTC'}}`),
 * improved dialogs to hide ID when creating a new entity,
 * defaulted to current date on new entries,
@@ -1432,7 +1430,7 @@ angular
         'ui.bootstrap.datetimepicker',
         'ui.router',
         'infinite-scroll',
-        // jhipster-needle-angularjs-add-module JHipster will add new module here
+        // jhipster-needle-Angular-add-module JHipster will add new module here
         'angular-loading-bar',
         'nvd3'
     ])
@@ -2159,5 +2157,5 @@ common issues I encountered along the way. Finally, you learned how to use Jenki
 Gradle-based JHipster project. I highly recommend doing something similar shortly after you've created your project
 and verified that it passes all tests.
 
-In the next chapter, I'll explain JHipster's UI components in more detail. AngularJS, Bootstrap, Gulp, Sass, WebSockets,
+In the next chapter, I'll explain JHipster's UI components in more detail. Angular, Bootstrap, Gulp, Sass, WebSockets,
 and Browsersync are all packed in a JHipster application, so it's useful to dive in and learn a bit more about these technologies.

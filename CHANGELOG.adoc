@@ -15,7 +15,7 @@ This document provides a high-level view of the changes introduced in the JHipst
 For a detailed view of what has changed, refer to the https://bitbucket.org/mraible/jhipster-book/commits/all[commit history] on Bitbucket.
 
 // tag::compact[]
-== 2.0 (TBD) - @mraible
+== 2.0 (2016-12-05) - @mraible
 
 Changes::
   * Improvements to make it possible to generate a PDF that looks good as a 6x9" printed book.
