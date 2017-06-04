@@ -556,7 +556,7 @@ Below is a consolidated list of changes I made to the HTML to make things look b
 
 * improved layout of tables and buttons,
 * improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`,
-* formatted dates for local timezone with https://angular.io/docs/ts/latest/api/common/index/DatePipe-pipe.html[Angular's date pipe]
+* formatted dates for local timezone with https://docs.Angular.org/api/ng/filter/date[Angular's date pipe]
   (for example: `{{bloodPressure.timestamp | date: 'short': 'UTC'}}`),
 * improved dialogs to hide ID when creating a new entity,
 * defaulted to current date on new entries,
@@ -1430,7 +1430,7 @@ angular
         'ui.bootstrap.datetimepicker',
         'ui.router',
         'infinite-scroll',
-        // jhipster-needle-Angular-add-module JHipster will add new module here
+        // jhipster-needle-angularjs-add-module JHipster will add new module here
         'angular-loading-bar',
         'nvd3'
     ])
