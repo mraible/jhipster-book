@@ -11,7 +11,7 @@ I hope you've enjoyed learning how JHipster can help you develop hip web applica
 
 These policies help the project maintain its sharp edge and streamline its development process. If you have features you'd like to add or if you'd like to refine existing features, please follow the project and help with its development and support. We're always looking for help!
 
-Now that you've learned how to use AngularJS, Bootstrap, and Spring Boot with JHipster, go forth and develop great applications!
+Now that you've learned how to use Angular, Bootstrap, and Spring Boot with JHipster, go forth and develop great applications!
 
 == Additional reading
 

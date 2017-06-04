@@ -2,11 +2,11 @@
 :book-title: {doctitle}
 :author: Matt Raible
 :email: matt@raibledesigns.com
-:revnumber: 2.0
+:revnumber: 4.0
 :revdate: {docdate}
-:revyear: 2016
+:revyear: 2017
 :subject: JHipster
-:keywords: JHipster, AngularJS, Bootstrap, Spring Boot
+:keywords: JHipster, Angular, Bootstrap, Spring Boot
 :doctype: book
 :media: screen
 ifeval::["{media}" != "prepress"]
