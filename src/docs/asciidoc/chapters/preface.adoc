@@ -18,7 +18,7 @@ This book is aimed specifically at web developers who want a rapid introduction 
 
 == What you need for this book
 
-To try code samples in this book, you will need a computer running an up-to-date operating system (Windows, Linux, or Mac OS X/MacOS). You will need Node.js and Java installed. The book code was tested against Node.js v4.5.0 and JDK 8, but newer versions should also work.
+To try code samples in this book, you will need a computer running an up-to-date operating system (Windows, Linux, or Mac OS X/MacOS). You will need Node.js and Java installed. The book code was tested against Node.js 8 and JDK 8, but newer versions should also work.
 
 == Conventions
 
