@@ -10,6 +10,6 @@ The Yeoman workflow is made up of three types of tools to enhance your productiv
 
 * the scaffolding tool (yo),
 * the build tool (Grunt, Gulp, etc.), and
-* the package manager (Bower, npm, etc.)
+* the package manager (Bower, npm, etc.).
 
 This book shows you how to build an app with JHipster, and guides you through the plethora of tools, techniques, and options. Furthermore, it explains the UI components and API building blocks so you can understand the underpinnings of a JHipster application.
