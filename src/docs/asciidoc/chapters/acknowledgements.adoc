@@ -8,4 +8,4 @@ I'd like to thank this book's tech editors, Dennis Sharpe and Kile Niklawski. Th
 
 This book's copy editor, Lawrence Nyveen, was a tremendous help in correcting my words and making this book easier to read. Thanks Laurie!
 
-Finally, kudos to Julien Dubois for creating JHipster and turning it into a widely used, successful open-source project.
+Finally, kudos to Julien Dubois and Deepu Sasidharan for creating and improving JHipster. They've done a helluva job in turning it into a widely used and successful open-source project.
