@@ -85,10 +85,10 @@ WARNING: Warnings are shown using callouts like this.
 
 .Sidebar
 ****
-Additional information about a certain topic may be displayed using a sidebar like this one.
+Additional information about a certain topic may be displayed in a sidebar like this one.
 ****
 
-Finally, this text shows what a quote looks like.
+Finally, this text shows what a quote looks like:
 
 "In the end, it's not the years in your life that count. It's the life in your years."
 -- Abraham Lincoln
