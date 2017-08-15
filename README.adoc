@@ -5,7 +5,7 @@ http://asciidoctor.org/docs/asciidoctor-gradle-plugin/[Asciidoctor Gradle plugin
 
 == Building
 
-To convert this book to HTML, PDF, EPUB, and MOBI, run the following command:
+To convert this book to HTML, EPUB, and MOBI, run the following command:
 
 ----
 $ build.sh
