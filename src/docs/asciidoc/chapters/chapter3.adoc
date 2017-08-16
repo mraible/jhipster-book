@@ -1,3 +1,5 @@
+:imagesdir: ../images
+
 [[jhipsters-ui-components]]
 = JHipster\'s UI components
 
@@ -9,58 +11,74 @@ run your pre-processor, run your tests, minify your web assets, and prepare your
 
 This section shows how JHipster includes all of these UI components for you and makes your developer experience a joyous one.
 
-== AngularJS
-AngularJS (Angular) is the MVC framework used by JHipster. It's written in JavaScript and just using it makes you a hipster.
-I've been tracking statistics on jobs and skills for JavaScript MVC frameworks ever since I compared JVM Web frameworks
-at Devoxx France in 2013. At that time, Backbone was the dominant framework.
+== Angular
+JHipster supports two UI frameworks: AngularJS and Angular. It will also support React by the end of 2017. In the first
+two versions of this book, I showed you how to use AngularJS. In this version, I'll show you how to use Angular. You can
+see from the following graphs that Angular and React are the most popular among JavaScript frameworks.
 
 [.clearfix]
 --
 [.left]
-[[img-angular-jobs-2013]]
-.Jobs on Dice, March 2013
-image::chapter3/angular/dice-jobs-march2013.png[Jobs on Dice in 2013, 450, scaledwidth=75%]
+[[img-angular-jobs-2017]]
+.Jobs on Indeed, August 2017
+image::chapter3/angular/indeed-jobs-aug2017.jpg[Jobs on Indeed, 762, scaledwidth=100%]
 [.left]
 [[img-angular-skills-2013]]
-.Skills on LinkedIn, March 2013
-image::chapter3/angular/linkedin-skills-march2013.png[Skills on LinkedIn in 2013, 450, scaledwidth=75%]
+.Stack Overflow Tags, August 2017
+image::chapter3/angular/stackoverflow-tags-aug2017.jpg[Tags on Stack OverFlow, 450, scaledwidth=75%]
 --
 
-In February 2014, I updated those statistics for a presentation. The number of Dice jobs that mentioned Angular had grown to roughly equal the number that mentioned Backbone, and
-a lot of people had added Angular to their LinkedIn profiles. I found that Ember had grown around 300%, Backbone 200%, and Angular 1,000%!
-
-[.clearfix]
---
-[.left]
-[[img-angular-jobs-2014]]
-.Jobs on Dice, February 2014
-image::chapter3/angular/dice-jobs-february2014.png[Jobs on Dice in 2014, 450, scaledwidth=75%]
-[.left]
-[[img-angular-skills-2014]]
-.Skills on LinkedIn, February 2014
-image::chapter3/angular/linkedin-skills-february2014.png[Skills on LinkedIn in 2014, 450, scaledwidth=75%]
---
-
-In March 2015, I updated these statistics once again. I found the number of jobs for Angular had doubled over the last
-year, while jobs for Ember and Backbone had fallen slightly. The number of developers who mentioned skills in Ember and Backbone had
-increased 200%, while the number of skilled Angular folks had risen 400%.
-
-Angular has rapidly become the most-popular MVC web framework. Like Struts in the early 2000s and
-Rails in the mid-2000s, it's changed the way developers write web applications. Today, data is exposed via REST APIs and UIs
-are written in JavaScript. As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns.
+Angular is the default UI framework used by JHipster. It's written in TypeScript, compiles to JavaScript, and just using
+it makes you a hipster! Like Struts in the early 2000s and Rails in the mid-2000s, Angular (and other JavaScript frameworks)
+have changed the way developers write web applications. Today, data is exposed via REST APIs and UIs are written in
+JavaScript (or TypeScript). As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns.
 It recommended organizing your application into several different components:
 
-* Controllers: JavaScript functions that retrieve data from services and expose it to templates using `$scope`.
-* Services: JavaScript functions that make HTTP calls to a JSON API.
+* Components: Classes that retrieve data from services and expose it to templates.
+* Services: Classes that make HTTP calls to a JSON API.
 * Templates: HTML pages that display data. Use Angular directives to iterate over collections and show/hide elements.
-* Filters: Data-manipulation tools that can transform data (e.g. uppercase, lowercase, ordering, and searching).
+* Pipes: Data-manipulation tools that can transform data (e.g. uppercase, lowercase, ordering, and searching).
 * Directives: HTML processors that allow components to be written. Similar to JSP tags.
 
 === History
+
 AngularJS was started by Miško Hevery in 2009. He was working on a project that was using GWT. Three developers had been
-developing the product for six months, and Miško rewrote the whole thing in Angular in three weeks. At that time, Angular
+developing the product for six months, and Miško rewrote the whole thing in AngularJS in three weeks. At that time, AngularJS
 was a side project he'd created. It didn't require you to write much in JavaScript as you could program most of the logic
-in HTML. The GWT version of the product contained 17,000 lines of code. The Angular version was only 1,000 lines of code!
+in HTML. The GWT version of the product contained 17,000 lines of code. The AngularJS version was only 1,000 lines of code!
+
+In October 2014, the AngularJS team announced they were building http://www.infoq.com/news/2014/10/angular-2-atscript[Angular
+2.0]. The announcement led to a bit of upheaval in the Angular developer community. The API for writing
+Angular applications was going to change and it was to be based on a new language, AtScript. There would be no migration
+path and users would have to continue using 1.x or rewrite their applications for 2.x.
+
+A new syntax was introduced that binds data to element properties, not attributes. The advantage of this syntax
+is it allows you to use any web component in an Angular app, not just those retrofitted to work with Angular.
+
+[source,html]
+----
+<input type="text" [value]="firstName">
+<button (click)="addPerson()">Add</button>
+<input type="checkbox" [checked]="someProperty">
+----
+
+Angular 2.x also eliminates the following concepts introduced in 1.0:
+
+* controllers,
+* directive definition objects,
+* `$scope`,
+* `angular.module`, and
+* jqLite.
+
+In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns],
+announcing that they would be using http://www.typescriptlang.org/[TypeScript] over AtScript and that they would provide
+a migration path for Angular 1.x users. They also adopted semantic versioning and [recommended people call it "Angular"
+instead of Angular 2.0](http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html).
+
+Angular 2.0 was released September 2016. Angular 4.0 was released in March 2017. https://jhipster.github.io/2017/07/06/jhipster-release-4.6.0.html[JHipster 4.6.0] was released on July 6, 2017 and contains production-ready Angular support. Prior to that, JHipster's
+Angular support was considered beta quality.
+
+The Angular project is hosted at https://angular.io/[https://angular.io].
 
 === Basics
 Creating Hello World with Angular is pretty simple.
@@ -348,36 +366,6 @@ On success, a promise resolves with the same resource instance or collection obj
 On failure, a promise resolves with the HTTP response object, but does not contain a `resource` property.
 A resource instance also has a `$resolved` property that returns `true` after its first server interaction completes
 (regardless of success or rejection).
-
-=== Angular 2.0
-In October 2014, the Angular team announced the http://www.infoq.com/news/2014/10/angular-2-atscript[details of Angular
-2.0]. The announcement led to a bit of upheaval in the Angular developer community. The API for writing
-Angular applications was going to change and it was to be based on a new language, AtScript. There would be no migration
-path and users would have to continue using 1.x or rewrite their applications for 2.x.
-
-A new syntax was introduced that binds data to element properties, not attributes. The advantage of this syntax
-is it allows you to use any web component in an Angular app, not just those retrofitted to work with Angular.
-
-[source,html]
-----
-<input type="text" [value]="firstName">
-<button (click)="addPerson()">Add</button>
-<input type="checkbox" [checked]="someProperty">
-----
-
-Angular 2.x also eliminates the following concepts introduced in 1.0:
-
-* controllers,
-* directive definition objects,
-* `$scope`,
-* `angular.module`, and
-* jqLite.
-
-In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announcing that they would be using http://www.typescriptlang.org/[TypeScript] over AtScript and that they
-would provide a migration path for Angular 1.x users. The Angular 2.0 project is hosted at https://angular.io/. The team
-plans to support Angular 1.x (at https://angularjs.org/) as long as its web traffic exceeds the 2.0 site.
-
-Angular 2.0 was released September 2016. The JHipster team is https://github.com/jhipster/generator-jhipster/issues/3664[currently working on adding support for Angular 2]. In the meantime, you can learn how to develop with Angular 2 by reading my http://gist.asciidoctor.org/?github-mraible/ng2-demo//README.adoc[Angular 2 Tutorial].
 
 Now that you've learned a bit about the hottest web framework on the planet, let's take a look at the most
 popular CSS framework: Bootstrap.
