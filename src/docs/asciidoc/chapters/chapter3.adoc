@@ -392,21 +392,66 @@ If so, you could display it in the `search.component.html` template with Angular
 To read a more in-depth example (including source code and tests) of building a search/edit application with Angular, see
 my https://github.com/mraible/ng-demo[Angular and Angular CLI Tutorial].
 
-Now that you've learned a bit about the hottest web framework on the planet, let's take a look at the most popular CSS
+Now that you've learned a bit about one of the hottest web framework on the planet, let's take a look at the most popular CSS
 framework: Bootstrap.
 
 == Bootstrap
 
 http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides a
 number of CSS classes and HTML structures that allow you to develop HTML user interfaces that look good by default. Not
-only that, but its 3.0 version is responsive by default, which means it works better (or even best) on a mobile device.
+only that, but its responsive by default, which means it works better (or even best) on a mobile device.
 
 === Bootstrap's grid system
 
 Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's
-basic grid system is built with containers, rows, and columns. It's 940 pixels (px) wide, divided into 12 columns. The grid
-adapts to widths of 724 px and 1170 px, according to your viewport. On viewports narrower than 767 px, the columns become
-fluid and stack vertically.
+powerful grid is built with containers, rows, and columns. It's based on CSS3 Flexible Box, or flexbox. Flexbox is a layout
+mode intended to accommodate different screen sizes and different display devices. It's easier than using blocks to do
+layouts because it doesn't use floats, nor do the flex container's margins collapse with the margins of its contents.
+CSS-Tricks has https://css-tricks.com/snippets/css/a-guide-to-flexbox/[A Complete Guide to Flexbox] that explains its
+concepts well.
+
+> The main idea behind the flex layout is to give the container the ability to alter its items' width/height (and order)
+> to best fill the available space (mostly to accommodate to all kind of display devices and screen sizes). A flex
+> container expands items to fill available free space, or shrinks them to prevent overflow.
+
+Bootstrap's grid width varies based on viewport width. The table below shows how aspects of the grid system work across
+different devices.
+
+[cols="2,1,1,1,1,1", options="header"]
+|===
+|
+|Extra small
+|Small
+|Medium
+|Large
+|Extra large
+
+|**Max container width**
+|None (auto)
+|540px
+|720px
+|960px
+|1140px
+
+|**Class prefix**
+|`.col-`
+|`.col-sm-`
+|`.col-md-`
+|`.col-lg-`
+|`.col-xl-`
+
+|**# of columns**
+5+| 12
+
+|**Gutter width**
+5+| 30px (15px on each side)
+
+|**Nestable**
+5+| Yes
+
+|**Column ordering**
+5+| Yes
+|===
 
 A basic example of the grid is shown below.
 
@@ -436,7 +481,7 @@ to understand a few basics if want to use it effectively.
 * Just use "`md`" class and fix as needed.
 * It can be used to size input fields.
 
-Bootstrap 3's grid system has four tiers of classes: xs (phones), sm (tablets), md (desktops), and lg (larger desktops).
+Bootstrap's grid system has five tiers of classes: xs (portrait phones), sm (landscape phones), md (tablets), lg (desktops), xl (large desktops).
 You can use nearly any combination of these classes to create more dynamic and flexible layouts. Below is an example of a
 grid that's a little more advanced.
 
@@ -452,10 +497,28 @@ include::{sourcedir}/chapter3/bootstrap/grid-advanced.html[]
 image::chapter3/bootstrap/advanced-grid-desktop.png[Advanced grid, 983, scaledwidth=100%]
 
 You can use size indicators to specify breakpoints in the columns. Breakpoints indicate where a column wraps onto the next
-row. In the HTML above, "`md`" is the size indicator. Boostrap supports "`xs`", "`sm`", "`md`", "`lg`", and "`xl`".
+row. In the HTML above, "`md`" is the size indicator. Boostrap supports "`xs`", "`sm`", "`md`", "`lg`", and "`xl`". Bootstrap uses the following media query ranges.
+
+[source,css]
+----
+// Extra small devices (portrait phones, less than 576px)
+// No media query since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) { ... }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { ... }
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) { ... }
+----
 
 === Responsive utility classes
-Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size, like `.visible-[xs|sm|md|lg]` and `.hidden-[xs|sm|md|lg]`.
+Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size, like `.hidden-[xs|sm|md|lg]-up` and `.hidden-[xs|sm|md|lg]-down`. There are no explicit "show" responsive utility classes; you make an element visible by simply not hiding it at that breakpoint size. You can combine one `.hidden-\*-up` class with one `.hidden-*-down` class to show an element only on a given interval of screen sizes. For example, `.hidden-sm-down.hidden-xl-up` shows the element only on medium and large viewports.
 
 === Forms
 When you add Bootstrap's CSS to your web application, chances are it'll quickly start to look better. Typography, margins,
@@ -497,11 +560,11 @@ include::{sourcedir}/chapter3/bootstrap/buttons.html[]
 
 [[img-bootstrap-buttons]]
 .Buttons
-image::chapter3/bootstrap/buttons.png[Buttons, 500, scaledwidth=55%]
+image::chapter3/bootstrap/buttons.png[Buttons, 754, scaledwidth=90%]
 
 === Components
 Bootstrap ships with a number of components included. Some require JavaScript; some only require HTML5 markup and
-CSS classes to work. Its rich set of components have helped make it the most popular project on GitHub. Web developers
+CSS classes to work. Its rich set of components have helped make it one of the most popular project on GitHub. Web developers
 have always liked components in their frameworks. A framework that offers easy-to-use components often allows developers
 to write less code. Less code to write means there's less code to maintain!
 
@@ -510,16 +573,16 @@ alerts, progress bars, and panels. Below is an example of a navbar with a dropdo
 
 [[img-bootstrap-navbar]]
 .Navbar with dropdown
-image::chapter3/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 867, scaledwidth=100%]
+image::chapter3/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 938, scaledwidth=100%]
 
 When rendered on a mobile device, everything collapses into a hamburger menu that can expand downward.
 
 [[img-bootstrap-navbar-mobile]]
 .Navbar on mobile
-image::chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 467, scaledwidth=50%]
+image::chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 519, scaledwidth=50%]
 
 This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source
-online in link:http://getbootstrap.com/components/#navbar-default[Bootstrap's documentation]. The simpler example below
+online in link:https://getbootstrap.com/docs/4.0/examples/navbars/[Bootstrap's documentation]. A simpler example below
 shows the basic structure.
 
 [source,html]
@@ -539,7 +602,7 @@ This renders alerts like the following.
 
 [[img-bootstrap-alerts]]
 .Alerts
-image::chapter3/bootstrap/alerts.png[Alerts, 828, scaledwidth=100%]
+image::chapter3/bootstrap/alerts.png[Alerts, 874, scaledwidth=100%]
 
 To make an alert closeable, you need to add an `.alert-dismissible` class and a close button.
 
