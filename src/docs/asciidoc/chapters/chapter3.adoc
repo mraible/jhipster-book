@@ -21,7 +21,7 @@ see from the following graphs that Angular and React are the most popular among 
 [.left]
 [[img-angular-jobs-2017]]
 .Jobs on Indeed, August 2017
-image::chapter3/angular/indeed-jobs-aug2017.jpg[Jobs on Indeed, 762, scaledwidth=100%]
+image::chapter3/angular/indeed-jobs-aug2017.jpg[Jobs on Indeed, 450, scaledwidth=75%]
 [.left]
 [[img-angular-skills-2013]]
 .Stack Overflow Tags, August 2017
@@ -62,18 +62,10 @@ is it allows you to use any web component in an Angular app, not just those retr
 <input type="checkbox" [checked]="someProperty">
 ----
 
-Angular 2.x also eliminates the following concepts introduced in 1.0:
-
-* controllers,
-* directive definition objects,
-* `$scope`,
-* `angular.module`, and
-* jqLite.
-
 In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns],
 announcing that they would be using http://www.typescriptlang.org/[TypeScript] over AtScript and that they would provide
-a migration path for Angular 1.x users. They also adopted semantic versioning and [recommended people call it "Angular"
-instead of Angular 2.0](http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html).
+a migration path for Angular 1.x users. They also adopted semantic versioning and http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html[recommended people call it "Angular"
+instead of Angular 2.0].
 
 Angular 2.0 was released September 2016. Angular 4.0 was released in March 2017. https://jhipster.github.io/2017/07/06/jhipster-release-4.6.0.html[JHipster 4.6.0] was released on July 6, 2017 and contains production-ready Angular support. Prior to that, JHipster's
 Angular support was considered beta quality.
@@ -81,90 +73,227 @@ Angular support was considered beta quality.
 The Angular project is hosted at https://angular.io/[https://angular.io].
 
 === Basics
-Creating Hello World with Angular is pretty simple.
+Creating a component that says "Hello World" with Angular is pretty simple.
+
+[source,typescript]
+----
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'my-app',
+  template: `<h1>Hello {{name}}</h1>`
+})
+export class AppComponent {
+  name = 'World';
+}
+----
+
+In this example, the `name` variable in the component maps to the value displayed in `+{{name}}+`. To make this component
+render on a page, you'll need a few more files: a module definition, a bootstrapping class, and an HTML file. A basic
+module definition contains component declarations, imports, providers, and a class to bootstrap.
+
+[source,typescript]
+----
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+----
+
+Then you'll need a bootstrap file, typically named `main.ts`. This file bootstraps the module.
+
+[source,typescript]
+----
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
+
+if (environment.production) {
+  enableProdMode();
+}
+
+platformBrowserDynamic().bootstrapModule(AppModule);
+----
+
+Finally, you'll need a basic HTML file that renders the component.
 
 [source,html]
 ----
-<!doctype html>
-<html ng-app>
+<html>
 <head>
-    <title>Hello World</title>
+    <title>Howdy</title>
 </head>
 <body>
-<div>
-    <label>Name:</label>
-    <input type="text" ng-model="name" placeholder="Enter a name here">
-    <hr>
-    <h1>Hello {{name}}!</h1>
-</div>
-<script src="http://code.angularjs.org/1.5.8/angular.min.js"></script>
+    <my-app></my-app>
+    <script src="path/to/compiled/javascript.js"></script>
 </body>
 </html>
 ----
 
-In this example, `ng-model` maps to the value displayed in `+{{name}}+`. When using jQuery to do something similar, you
-have to add an event handler that listens for a change of value. With Angular, the two-way binding is done for you
-and it saves you from writing a lot of boilerplate code. The `+{{ng-app}}+` directive on line 2 makes this an Angular
-application.
-
 The MVC pattern is a common one for web frameworks to implement. With Angular, the model is represented
-by a JavaScript object that you create or retrieve from a service. The view is a HTML template and the controller
-is a JavaScript function that watches for changes to the model from the user.
+by an object that you create or retrieve from a service. The view is a HTML template and the component
+is a class that sets variables to be read by the template.
 
 [[img-angular-mvc]]
 .MVC in Angular
 image::chapter3/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth=75%, align=center]
 
-Below is a search controller and a service to fetch search results. It's expected that a JSON endpoint exists at
-`/api/search` on the same server.
+Below is a `SearchService` to fetch search results. It's expected that a JSON endpoint exists at `/api/search` on
+the same server.
 
-[source,javascript]
+[source,typescript]
+.SearchService
 ----
-.controller('SearchController', function () {
-    console.log("In Search Controller...");
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class SearchService {
+
+  constructor(private http: Http) {}
+
+  search(term): Observable<any> {
+    return this.http.get(`/api/search/${term}`).map((res: Response) => res.json());
+  }
+}
+----
+
+An associated `SearchComponent` can be used to display the results from this service. Notice how you can use
+constructor injection to get a reference to the service.
+
+[source,typescript]
+.SearchComponent
+----
+import { Component } from '@angular/core';
+import { SearchService } from '../search.service';
+
+@Component({
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css'],
+  providers: [SearchService]
 })
+export class SearchComponent {
+  query: string;
+  searchResults: Array<any>;
 
-.factory('SearchService', function ($http) {
-    var service = {
-        query: function (term) {
-            return $http.get('/api/search/' + term);
-        }
-    };
-    return service;
-});
+  constructor(private searchService: SearchService) {
+    console.log("In Search Component...");
+  }
+
+  search(): void {
+    this.searchService.search(this.query).subscribe(
+      data => {
+        this.searchResults = data;
+      },
+      error => console.log(error)
+    );
+  }
+}
 ----
 
-TIP: To see the JavaScript console in Chrome, use kbd:[Command+Option+J] in Mac OS X/MacOS or kbd:[Control+Shift+J] in Windows or Linux.
+TIP: To see the JavaScript console in Chrome, use kbd:[Command+Option+J] in Mac OS X/MacOS or kbd:[Control+Shift+J] in
+Windows or Linux.
 
-To make this controller available at a URL, you can use Angular's `ngRoute`.
+To make this component available at a URL, you can use Angular's `Router` and specify the path in the module that includes
+the component.
 
-[source,javascript]
+[source,typescript]
+.AppModule
 ----
-angular.module('myApp.search', ['ngRoute'])
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
-    .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider
-            .when('/search', {
-                templateUrl: 'search/index.html',
-                controller: 'SearchController'
-            })
-    }])
+import { AppComponent } from './app.component';
+import { SearchComponent } from './search/search.component';
+import { Routes, RouterModule } from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: 'search', component: SearchComponent },
+  { path: '', redirectTo: '/search', pathMatch: 'full' }
+];
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    SearchComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    RouterModule.forRoot(appRoutes)
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
 ----
 
-The template to call this controller can be as simple as a form with a button.
+In the main entry point of the app, `AppComponent` in this case, you'll need to specify the router outlet in a template.
+
+[source,html]
+.app.component.html
+----
+<router-outlet></router-outlet>
+----
+
+The template for the `SearchComponent` can be as simple as a form with a button.
 
 [source,html]
 ----
-<form ng-submit="search()">
-    <input type="search" name="search" ng-model="term">
-    <button>Search</button>
+<h2>Search</h2>
+<form>
+  <input type="search" name="query" [(ngModel)]="query" (keyup.enter)="search()">
+  <button type="button" (click)="search()">Search</button>
 </form>
 ----
 
-To get the results from the `SearchService` in your controller, you can use Angular's dependency injection.
+Now that you've seen the code, let's look at how everything works in the `SearchComponent`.
 
-[source,javascript]
+[source,typescript]
 ----
+@Component({
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css'],
+  providers: [SearchService]
+})
+export class SearchComponent {
+  query: string;
+  searchResults: Array<any>;
+
+  constructor(private searchService: SearchService) { <1>
+    console.log("In Search Component...");
+  }
+
+  search(): void { <2>
+    this.searchService.search(this.query).subscribe( <3>
+      data => {
+        this.searchResults = data;
+      },
+      error => console.log(error)
+    );
+  }
+}
+
 .controller('SearchController', function ($scope, SearchService) { <1>
     $scope.search = function () { <2>
         console.log("Search term is: " + $scope.term); <3>
@@ -174,69 +303,60 @@ To get the results from the `SearchService` in your controller, you can use Angu
     };
 })
 ----
-<1> To inject `SearchService` into `SearchController`, simply add it as a parameter to the controller's argument list.
-<2> `$scope.search()` is a function that's called from the HTML's `<form>`, wired up using the `ng-submit` directive.
-<3> `$scope.term` is a variable that's wired to `<input>` using the `ng-model` directive.
+<1> To inject `SearchService` into `SearchComponent`, simply add it as a parameter to the components's constructor. Note
+that the service has to be listed as a provider in `@Component`, or in `AppModule`. TypeScript makes constructor dependencies
+available automatically as class variables.
+<2> `search()` is a method that's called from the HTML's `<input>` and `<button>`, wired up using the `(keyup.enter)`
+and `(click)` event handlers.
+<3> `this.query` is a variable that's wired to `<input>` using the `[(ngModule)]` directive. This syntax provides two-way
+binding so if you change the value in the component, it changes it in the rendered HTML. You can think of it this way:
+`[] => component to template` and  `() => template to component`.
 
-Another common way to write controllers is to name the arguments passed into the function. This helps if you plan
-to obfuscate your code.
+To make the aforementioned code work, you can generate a new Angular project using https://cli.angular.io[Angular CLI].
+To install Angular CLI, you can use Yarn.
 
-TIP: Angular allows you to bind data to its `$scope` object. It represents your application's model. There's also a `$rootScope`
-object that can be used to share data between components. Scopes occupy a hierarchical structure that mimics the
-DOM structure. Scopes can watch expressions and propagate events.
-
-NOTE: The generated code in JHipster was changed in 2016 to follow https://github.com/johnpapa/angular-styleguide[John Papa's Angular Style Guide]. This means that `vm` (a.k.a the _view model_) is often used instead of `$scope` for exposing data to the view.
-
-[source,javascript]
+[source,bash]
 ----
-.controller('SearchController', ['$scope', 'SearchService', function ($scope, SearchService) {
-    ...
-}]);
+yarn add global @angular/cli
 ----
 
-To make the aforementioned module work, you need a HTML page that includes Angular and `ngRoute`.
+Then generate a new application using `ng new`.
 
-[source,html]
-.index.html
+[source,bash]
 ----
-<!DOCTYPE html>
-<html ng-app="myApp"> <1>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>My AngularJS App</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<ul class="menu">
-    <li><a href="#/search">search</a></li>
-</ul>
-
-<div ng-view></div> <2>
-
-<script src="http://code.angularjs.org/1.5.8/angular.min.js"></script>
-<script src="http://code.angularjs.org/1.5.8/angular-route.min.js"></script>
-<script src="app.js"></script> <3>
-<script src="search/search.js"></script>
-</body>
-</html>
+ng new ng-demo
 ----
-<1> The `ng-app` directive tells Angular the name of your app.
-<2> `ng-view` is where your rendered template is displayed.
-<3> `app.js` contains your application's definition.
 
-[source,javascript]
-.app.js
-----
-'use strict'; <1>
+This creates all the files you need for a basic app, installs dependencies, and sets up a build system for compiling
+your TypeScript code to JavaScript.
 
-// Declare app level module which depends on views, and components
-angular.module('myApp', ['ngRoute', 'myApp.search'])
-.config(['$routeProvider', function($routeProvider) {
-    // default URL to route to
-    $routeProvider.otherwise({redirectTo: '/search'});
-}]);
+[[img-ng-new]]
+.Creating a new Angular project with Angular CLI
+image::chapter3/angular/ng-new.png[ng new ng-demo, 1222, scaledwidth=100%]
+
+You can generate the `SearchService` using `ng generate service search` (or `ng g s search`).
+
+[source,bash]
 ----
-<1> ECMAScript 5's strict mode is a way to opt in to a restricted variant of JavaScript. It improves your browser's error reporting and performance.
+$ ng g s search
+installing service
+  create src/app/search.service.spec.ts
+  create src/app/search.service.ts
+  WARNING Service is generated but not provided, it must be provided to be used
+----
+
+And you can generate the `SearchComponent` using `ng generate component search` (or `ng g c search`).
+
+[source,bash]
+----
+$ ng g c search
+installing component
+  create src/app/search/search.component.css
+  create src/app/search/search.component.html
+  create src/app/search/search.component.spec.ts
+  create src/app/search/search.component.ts
+  update src/app/app.module.ts
+----
 
 Does your API return data like the following?
 
@@ -245,130 +365,35 @@ Does your API return data like the following?
 include::{sourcedir}/chapter3/angular/search-results.json[]
 ----
 
-If so, you could display it in a template with Angular's `ng-repeat` directive.
+If so, you could display it in the `search.component.html` template with Angular's `*ngFor` directive.
 
 [source,html]
 ----
-<table ng-show="searchResults.length" class="table">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Address</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="person in searchResults">
-        <td>{{person.name}}</td>
-        <td>{{person.phone}}</td>
-        <td>{{person.address.street}}<br/>
-            {{person.address.city}}, {{person.address.state}} {{person.address.zip}}
-        </td>
-    </tr>
-    </tbody>
+<table *ngIf="searchResults">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Phone</th>
+    <th>Address</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let person of searchResults; let i=index">
+    <td><a href="" (click)="onSelect(person); false">{{person.name}}</a></td>
+    <td>{{person.phone}}</td>
+    <td>{{person.address.street}}<br/>
+      {{person.address.city}}, {{person.address.state}} {{person.address.zip}}
+    </td>
+  </tr>
+  </tbody>
 </table>
 ----
 
-To read a more in-depth example (including source code) of building a search/edit application with Angular, see
-my article http://raibledesigns.com/rd/entry/getting_started_with_angularjs[Getting Started with AngularJS].
+To read a more in-depth example (including source code and tests) of building a search/edit application with Angular, see
+my https://github.com/mraible/ng-demo[Angular and Angular CLI Tutorial].
 
-=== AngularUI Router
-https://github.com/angular-ui/ui-router[AngularUI Router] is a routing component for AngularJS. It's organized around
-states, to which you can attach routes and other behaviors. Some of its best features include support for
-nested/named views, tab history, and loading data before rendering a view. You can see an example of its basic
-features at http://angular-ui.github.io/ui-router/sample/.
-
-JHipster includes AngularUI Router (often called ui-router) by default. It's a great framework that I've enjoyed
-using on several projects. To use it, you'll need to reference its JavaScript file (`angular-ui-router.min.js`) instead of `angular-route.min.js` in
-`index.html`. You'll also need to change from using `ng-view` to using `ui-view`.
-
-[source,javascript]
-.index.html
-----
-<div ui-view></div>
-
-<script src="http://code.angularjs.org/1.5.8/angular.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
-----
-
-Next, change your `app.js` to use `ui.router` instead of `ngRoute`. Then set up your application states with code like
-the following listing.
-
-[source,javascript]
-.app.js
-----
-include::{sourcedir}/chapter3/angular/ui-router.js[]
-----
-
-AngularUI Router allows you to look up data before displaying a page. It does this with its `resolve` property. For example,
-by enhancing the 'search.edit' state, we can look up the person from the `SearchService` before instantiating the controller.
-
-[source,javascript]
-----
-.state('search.edit', {
-      url: '/edit/:id',
-      templateUrl: 'search/edit.html',
-      controller: 'EditController',
-      resolve: {
-          SearchService: 'SearchService', <1>
-          person: function($stateParams, SearchService) {
-              return SearchService.get({id: $stateParams}).$promise; <2>
-          }
-      }
-  })
-----
-<1> This is necessary to indicate the name of the service to the line below this.
-<2> This assumes your service has a `get(id)` method defined.
-
-Once you've done this, you can inject the `person` object into your controller directly.
-
-[source,javascript]
-----
-.controller('EditController', function ($scope, person) {
-    // make person available to template
-    $scope.person = person;
-})
-----
-
-=== Angular's `$resource`
-Angular ships with a https://docs.angularjs.org/api/ngResource/service/$resource[`$resource` factory] that allows you to
-interact with a http://en.wikipedia.org/wiki/Representational_state_transfer[RESTful] API with only a few lines of code.
-If your API is implemented so that you can perform CRUD (create, read, update, delete) at a specific endpoint, you can use
-`$resource` to wrap that endpoint, and _voilà_, you have a service!
-
-[source,javascript]
-----
-.factory('Product', function($resource) {
-    return $resource(API_HOSTNAME + '/api/products/:id');
-});
-----
-
-This gives you a number of actions (or methods) by default. You can easily override these methods or add new ones.
-
-[source,javascript]
-----
-{
-    'get':    {method:'GET'},
-    'save':   {method:'POST'},
-    'query':  {method:'GET', isArray:true},
-    'remove': {method:'DELETE'},
-    'delete': {method:'DELETE'}
-};
-----
-
-You can can then use this service in a controller using `Product.get{id: '123'}`. If you're reading the `id` from the URL,
-you can use ui-router's `$stateParams` so it becomes `Product.get{id: $stateParams.id}`. To use this service in
-ui-router's `resolve` property, you'll need to tack on `$promise` to the end.
-
-A `$promise` is a promise of the original server interaction that created this instance or collection. It's a service
-that helps you run functions asynchronously, and to use their return values (or exceptions) when they are done processing.
-On success, a promise resolves with the same resource instance or collection object, updated with data from server.
-On failure, a promise resolves with the HTTP response object, but does not contain a `resource` property.
-A resource instance also has a `$resolved` property that returns `true` after its first server interaction completes
-(regardless of success or rejection).
-
-Now that you've learned a bit about the hottest web framework on the planet, let's take a look at the most
-popular CSS framework: Bootstrap.
+Now that you've learned a bit about the hottest web framework on the planet, let's take a look at the most popular CSS
+framework: Bootstrap.
 
 == Bootstrap
 
