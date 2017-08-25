@@ -626,86 +626,103 @@ and hipper than plain text. Humans are visual beings and icons are a great way t
 several years, font icons have become popular for web development. Font icons are just fonts, but they contain
 symbols and glyphs instead of text. You can style, scale, and load them quickly because of their small size.
 
-The http://glyphicons.com/[Glyphicons] Halflings set of font icons is included with Bootstrap. They're not normally free,
-but their creator has made them free for Bootstrap users. There are more than 250 glyphs in this set. They're often
-used to display eye candy on buttons.
+In Bootstrap 3.x, the http://glyphicons.com/[Glyphicons] Halflings set of font icons was included. They're not normally
+free, but their creator made them free for Bootstrap users. One of the https://v4-alpha.getbootstrap.com/migration/[changes]
+for Bootstrap 4 is they dropped the Glyphicons icon font. You can use http://fontawesome.io/[Font Awesome] and
+https://octicons.github.com/[Github Octicons] as a free alternatives to Glyphicons.
+
+Font Awesome has 675 icons and is included by default in JHipster. They're often used to display eye candy on buttons.
 
 [source,html]
 ----
-<button class="btn btn-info"><i class="glyphicon glyphicon-plus"></i> Add</button>
-<button class="btn btn-danger"><i class="glyphicon glyphicon-minus"></i> Delete</button>
-<button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i> Edit</button>
+<button class="btn btn-info"><i class="fa fa-plus"></i> Add</button>
+<button class="btn btn-danger"><i class="fa fa-remove"></i> Delete</button>
+<button class="btn btn-success"><i class="fa fa-pencil"></i> Edit</button>
 ----
 
 You can see how the icons change color based on the font color defined for the element they're inside.
 
 [[img-bootstrap-buttons-icons]]
 .Buttons with icons
-image::chapter3/bootstrap/buttons-with-icons.png[Buttons with icons, 241, scaledwidth=25%]
-
-You can use other icon fonts with Bootstrap and JHipster, http://fortawesome.github.io/Font-Awesome/[Font Awesome]
-being one of the most popular. It's completely free for commercial use and contains over 500 icons. JHipster uses
-Font Awesome for its website, but not for generated projects. The
-https://github.com/jhipster/generator-jhipster/issues/978#issuecomment-69988321[reason] for not including Font Awesome is that
-Glyphicons is the default and it's easy to change the font in your project. Simply add it as a dependency
-in your `bower.json` file.
+image::chapter3/bootstrap/buttons-with-icons.png[Buttons with icons, 262, scaledwidth=25%]
 
 === Customizing CSS
 If you'd like to override Bootstrap classes in your project, the easiest thing to do is to put the override rule in a CSS
-file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/css/main.css` directly. If you're
-using Sass to compile `*.scss` files, you can modify `src/main/webapp/scss/main.scss` instead. Using Sass results in a much
-more concise authoring environment. Below is the default `vendor.scss` file that Yeoman generates. You can see that
-it overrides the `$icon-font-path` variable and imports Bootstrap. Default rules are overridden in `src/main/webapp/scss/main.scss`.
+file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/content/css/global.css` directly. If you're
+using Sass to compile `*.scss` files, you can modify `src/main/webapp/content/scss/global.scss` instead. Using Sass results
+in a much more concise authoring environment. Below is the default `vendor.scss` file that Yeoman generates. You can see that
+it overrides the `$fa-font-path` variable and imports Bootstrap. Default Bootstrap rules are overridden in
+`src/main/webapp/content/scss/global.scss`.
 
 [source,css]
 .src/main/webapp/scss/vendor.scss
 ----
-$icon-font-path: "../fonts/";
+/* after changing this file run 'yarn run 'yarn run webpack:build' */
+$fa-font-path: '~font-awesome/fonts';
 
-/* Sass bower components will be injected here */
-/* bower:scss */
-@import "../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-/* endinject */
-/* bower:sass */
-/* endinject */
-
+/***************************
+put Sass variables here:
+eg $input-color: red;
+****************************/
+// Override Boostrap variables
+@import "bootstrap-variables";
+// Import Bootstrap source files from node_modules
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/font-awesome/scss/font-awesome';
 ----
 
-=== Angular and Bootstrap
-There's a number of other open-source components that can help to further enhance an application built with Angular and
-Bootstrap that are not included in JHipster at the time of this writing:
+In JHipster 4.7.0+, a `src/main/webapp/content/scss/_bootstrap-variable.scss` file is included. You can modify this file
+to change the default Bootstrap settings like colors, border-radius, etc.
 
-* https://angular-ui.github.io/bootstrap/[UI-Bootstrap]: Bootstrap components written in pure AngularJS by the AngularUI Team. No jQuery required.
-* http://ionicframework.com[Ionic]: Offers a library of mobile-optimized HTML, CSS, and JavaScript components, gestures,
-and tools for building highly interactive apps. Built with Sass and optimized for AngularJS. Provides a native look and feel.
-* https://github.com/jirikavi/AngularJS-Toaster[AngularJS-Toaster]: An AngularJS port of the http://codeseven.github.io/toastr/[Toastr] non-blocking notification
-jQuery library.
+=== Angular and Bootstrap
+JHipster includes https://ng-bootstrap.github.io/[ng-bootstrap] by default. This library provides Bootstrap 4 components
+that are powered by Angular instead of jQuery.
+
+http://codeseven.github.io/toastr/[Toastr] is a popular non-blocking notification library powered by jQuery. To use something
+similar in an Angular application, there's several implementations to choose from:
+
+* https://github.com/PointInside/ng2-toastr[ng2-toastr]: 261 GitHub Stars
+* https://github.com/stabzs/Angular2-Toaster[Angular2-Toaster]: 197 GitHub Stars
+* https://github.com/scttcper/ngx-toastr[ngx-toastr]: 170 GitHub Stars
+
+Popular alternatives to Bootstrap include https://material.angular.io/[Angular Material] and
+http://ionicframework.com/[Ionic Framework]. There is no support for these frameworks at this time. To integrate them would
+require that all templates to rewritten to include their classes instead of Bootstrap's. While possible, it'd be a lot
+of work to create and maintain.
 
 == Internationalization (i18n)
 Internationalization (also called i18n because the word has 18 letters between "`i`" and "`n`") is a first-class citizen in
 JHipster. Translating an application to another language is easiest if you put the i18n system in place at the beginning of
-a project. https://angular-translate.github.io/[angular-translate] provides directives that make it easy to translate
-your application into multiple languages.
+a project. http://www.ngx-translate.com/[ngx-translate] provides directives that make it easy to translate your application
+into multiple languages. You won't see this dependency in your JHipster project's `package.json` because it's included
+in the https://github.com/jhipster/ng-jhipster[ng-jhipster] project and wrapped in a `jhiTranslate` directive.
 
-To use angular-translate, you simply add a "`data-translate`" attribute with a key.
+To use i18n in a JHipster project, you simply add a "`jhiTranslate`" attribute with a key.
 
 [source,html]
 ----
-<label data-translate="user.firstname">First Name</label>
+<label for="username" jhiTranslate="global.form.username">Login</label>
 ----
 
-The key references a JSON document, which will return the translated string. AngularJS will then replace the "`First Name`"
+The key references a JSON document, which will return the translated string. Angular will then replace the "`First Name`"
 string with the translated version.
 
 JHipster allows you to choose a default language and translations when you first create a project. It stores the JSON documents
 for these languages in `src/main/webapp/i18n`. You can install additional languages using `yo jhipster:languages`. At the time
-of this writing, JHipster supports 26 languages. You can also add a new language. To set the default language, modify
-`src/main/webapp/app/blocks/config/translation.config.js` and its preferred-language line.
+of this writing, JHipster supports 37 languages. You can also add a new language. To set the default language, modify
+`src/main/webapp/app/shared/shared-common.module.ts` and its `LOCALE_ID` setting.
 
 [source,javascript]
-.src/main/webapp/app/blocks/config/translation.config.js
+.src/main/webapp/app/shared/shared-common.module.ts
 ----
-$translateProvider.preferredLanguage('de');
+providers: [
+    JhiLanguageHelper,
+    Title,
+    {
+        provide: LOCALE_ID,
+        useValue: 'en'
+    },
+],
 ----
 
 == Sass
@@ -802,100 +819,118 @@ CSS generated from the above code looks as follows.
 }
 ----
 
-Bootstrap is written with http://lesscss.org/[Less], a CSS pre-processor with similar features to Sass. However, its
-founders have https://twitter.com/mdo/status/591364406816079873[announced] that they'll be using SCSS for the 4.0
-version.
+Bootstrap 3.x was written with http://lesscss.org/[Less], a CSS pre-processor with similar features to Sass. It uses Sass
+for the 4.0 version.
 
-JHipster allows you to use Sass by integrating https://www.npmjs.com/package/gulp-sass[gulp-sass]. To learn more about structuring your
-CSS and naming classes, read the great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
+JHipster allows you to use Sass by integrating http://sass-lang.com/libsass[LibSass] with
+https://github.com/sass/node-sass[node-sass]. To learn more about structuring your CSS and naming classes, read the
+great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
 
-== Gulp
-JHipster uses http://gulpjs.com/[Gulp] for building the client. It used to support http://gruntjs.com/[Grunt], but it
-was removed when Gulp's popularity skyrocketed. Gulp allows you to perform tasks like minification, concatenation,
-compilation (e.g. from TypeScript/CoffeeScript to JavaScript), unit testing, and more.
+== Webpack
+JHipster 4 uses https://webpack.github.io/[Webpack] for building the client. JHipster 3.x uses https://gulpjs.com/[Gulp].
+Gulp allows you to perform tasks like minification, concatenation, compilation (e.g. from TypeScript/CoffeeScript to JavaScript),
+unit testing, and more. Webpack is a more modern solution that's become very popular for Angular projects and is included
+under-the-covers in Angular CLI.
 
-Gulp is the de facto standard of JavaScript build tools and has over
-2,500 http://gulpjs.com/plugins/[plugins]. You can install and manage Gulp plugins via https://www.npmjs.com/[npm],
-a package manager for https://nodejs.org/[Node.js]. You can install anything specified as a dependency in
-your project's `package.json` using `npm install`. To install Gulp globally (so you can use it anywhere), run `npm install -g gulp-cli`.
+Webpack is a module bundler that recursively builds a dependency graph with every module your application needs. It
+packages all of these modules into a smaller number of bundles to be loaded by the browser. Its code-splitting abilities
+make it possible to break up large JavaScript applications into small chunks that can be loaded on-demand.
 
-Gulp calls itself "`the streaming build system`". Gulp is all about streams and building complex pipelines with ease.
-It uses Node.js's streams, and executes faster than Grunt, since it does not open/close files or create intermediary copies. Gulp
-was released a couple of years after Grunt, and has received a lot of praise from the JavaScript community. In accordance
-with the UNIX philosophy, Gulp plugins each try to do one thing well.
+It has four core concepts:
 
-To show a simple example of how to use Gulp, I integrated it into the angular-seed project. Below are the `package.json` and `gulpfile.js`
-that optimize everything for production.
+* **Entry:** This tells webpack where to start and follows the graph of dependencies to know what to bundle.
+* **Output:** Once you've bundled all of your assets together, you need to tell webpack *where* to put them.
+* **Loaders:** Webpack treats every file (.css, .scss, .ts, .png, .html, etc.) as a module, but only understands JavaScript.
+Loaders transform files into modules as they are added to the dependency graph.
+* **Plugins:** Loaders execute transforms per-file, plugins perform actions and customizations on chunks of your bundled
+modules.
 
-The following steps show how to integrate Gulp into https://github.com/angular/angular-seed[angular-seed]. This particular
-build file optimizes your JavaScript, CSS, and HTML for production. It concatenates your JavaScript and CSS
-files, minifies them, then replaces the references in the HTML to point to the optimized files. First, you have
-to configure `package.json` to include Gulp and its plugins for web optimization.
+Below is a basic `webpack.config.js` that shows all four concepts being used.
 
-[source,json]
-.package.json
+[source,javascript]
+.webpack.config.js
 ----
-include::{sourcedir}/chapter3/gulp/package.json[]
-----
+const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
+const webpack = require('webpack'); //to access built-in plugins
+const path = require('path');
 
-[source%autofit,javascript]
-.gulpfile.js
-----
-include::{sourcedir}/chapter3/gulp/gulpfile.js[]
-----
+const config = {
+  entry: './path/to/my/entry/file.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'my-first-webpack.bundle.js'
+  },
+  module: {
+    rules: [
+      { test: /\.txt$/, use: 'raw-loader' }
+    ]
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin(),
+    new HtmlWebpackPlugin({template: './src/index.html'})
+  ]
+};
 
-Before the tasks run, the `index.html` file points to individual CSS and JavaScript files. The `<!-- build:* -\->`
-and `<!-- endbuild -\->` are used by the `useminPrepare` task to build the list of files for optimization.
-
-[source,html]
-.index.html
-----
-include::{sourcedir}/chapter3/gulp/index-dev.html[]
-----
-
-After the build runs, the `dist/index.html` file points to the revved, combined, and minified CSS and JavaScript files.
-
-[source,html]
-.dist/index.html
-----
-include::{sourcedir}/chapter3/gulp/index-prod.html[]
+module.exports = config;
 ----
 
-To learn more about JavaScript build tools, see Mark Dalgleish's http://markdalgleish.github.io/presentation-build-wars-gulp-vs-grunt/[Build Wars]
-presentation, delivered at MelbJS in Melbourne, Australia, February 12, 2014. I asked Mark
-what he thought of these two tools today. He recommended http://webpack.github.io/[webpack] and reading his more recent
-https://medium.com/seek-ui-engineering/block-element-modifying-your-javascript-components-d7f99fcab52b["`Block, Element,
-Modifying Your JavaScript Components`"] article. Since webpack is not an option for JHipster, I will not cover it in this book.
+In the Angular section, I mentioned Angular CLI and my https://github.com/mraible/ng-demo[ng-demo] project that shows
+how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command.
+To see its webpack config, or to tweak it for your needs, you can _eject_ it from your project by running
+https://github.com/angular/angular-cli/wiki/eject["`ng eject`"].
+
+I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js`
+file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack
+configuration. JHipster generates a `webpack` directory that contains files for different scenarios: dev mode with hot reload,
+testing, and preparing for production.
+
+* `logo-jhipster.png`: logo shows in desktop alerts for build notifications.
+* `utils.js`: utility functions for finding the project's version and determining external libraries.
+* `webpack.common.js`: common parent configuration that's extended by each of the following files.
+* `webpack.dev.js`: configuration used when you run `yarn start`. Enables hot-reloading with Browsersync and desktop
+notifications.
+* `webpack.prod.js`: configuration used for production, where Angular's AOT compilation is used, HTML templates are
+converted to JavaScript, and source maps are created.
+* `webpack.test.js`: configuration used for running tests, where files are watched and reloaded when changed.
+
+To learn more about Webpack, I recommend visiting https://webpack.academy/[webpack.academy]. This is a site dedicated
+to teaching webpack, created by https://twitter.com/TheLarkInn[Sean Larkin]. Sean is a member of the Webpack core team,
+Angular team and Angular-CLI core team. He's a big reason for the success of webpack, as he's constantly promoting it,
+providing learning materials around it, and helping open source projects adopt it.
 
 == WebSockets
 WebSockets are an advanced technology that makes it possible to open an interactive communication channel between the
 user's browser and a server. With this API, you can send messages to a server and receive event-driven responses
 without having to poll the server for a reply. WebSockets have been called "`TCP for the Web`".
 
-If you choose to use WebSockets in a JHipster project, you'll get two JavaScript libraries added to your project:
+If you choose "WebSockets using Spring Websocket" as part of the "other technologies" options when creating a JHipster
+project, you'll get two JavaScript libraries added to your project:
 
 * http://jmesnil.net/stomp-websocket/doc/[STOMP WebSocket]: STOMP stands for "`simple text-oriented messaging protocol`"
 * https://github.com/sockjs/sockjs-client[SockJS]: SockJS provides a WebSocket-like object. If native WebSockets are
 not available, it falls back to other browser techniques.
 
-To see how WebSockets work, take a look at the `TrackerController` in a WebSockets-enabled project. This displays real-time
+To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSockets-enabled project. This displays real-time
 activity information that's been posted to the `/websocket/tracker` endpoint.
 
 [source%autofit,javascript]
-.src/main/webapp/app/admin/tracker/tracker.controller.js
+.src/main/webapp/app/admin/tracker/tracker.component.ts
 ----
-include::{sourcedir}/chapter3/websockets/tracker.controller.js[]
+include::{sourcedir}/chapter3/websockets/tracker.component.ts[]
 ----
 
 The `Tracker` service allows you to send tracking information, for example, to track when someone has authenticated.
 
 [source,javascript]
-.src/main/webapp/scripts/components/tracker/tracker.service.js
+.src/main/webapp/app/shared/tracker/tracker.service.ts
 ----
-include::{sourcedir}/chapter3/websockets/tracker.service.js[]
+include::{sourcedir}/chapter3/websockets/tracker.service.ts[]
 ----
 
-WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
+WebSockets on the server side of a JHipster project are implemented with
+http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. To
+learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with
+Spring]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
 
 == Browsersync
 
@@ -935,17 +970,21 @@ dependencies change in `package.json`.
 npm install
 ----
 
-Then run the following command to create a blissful development environment in which your browser auto-refreshes when files change
-on your hard drive.
+Then run the following command to create a blissful development environment in which your browser auto-refreshes when
+files change on your hard drive.
 ----
 gulp
 ----
 
-JHipster integrates Browsersync for you, using JavaScript that looks very similar to what you see above. I highly recommend
-Browsersync for your project. It's useful for determining if your web application can handle a page reload without losing the current user's state.
+JHipster integrates Browsersync for you, using Webpack instead of Gulp. I show a Gulp exampl here because it so simple.
+I highly recommend Browsersync for your project. It's useful for determining if your web application can handle a page
+reload without losing the current user's state.
 
 == Summary
 
-This section describes the UI components in a typical JHipster project. It taught you about the extremely popular JavaScript MVC framework called AngularJS. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application and it showed you how you can use Gulp. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
+This section describes the UI components in a typical JHipster project. It taught you about the extremely popular UI
+framework called Angular. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build
+tool is essential for building a modern web application and it showed you how you can use Webpack. Finally, it showed
+you how WebSockets work and described the beauty of Browsersync.
 
 Now that you've learned about many of the UI components in a JHipster project, let's learn about the API side of things.
