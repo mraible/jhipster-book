@@ -249,14 +249,16 @@ import java.util.Collection;
 
 @RestController
 class BlogController {
+    private final BlogRespository repository;
+
+    public BlogController(BlogRepository repository) {
+        this.repository = repository;
+    }
 
     @RequestMapping("/blogs")
     Collection<Blog> list() {
         return repository.findAll();
     }
-
-    @Autowired
-    BlogRepository repository;
 }
 ----
 
