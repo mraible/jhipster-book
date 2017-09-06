@@ -602,9 +602,9 @@ For security reasons, you should change the default passwords in `src/main/resou
 
 == JPA versus MongoDB versus Cassandra
 
-A traditional relational-database management system (RDBMS) provides a number of properties that guarantee its transactions are processed reliably: ACID, for atomicity, consistency, isolation, and durability. Databases like MySQL and PostgreSQL provide RDBMS support and have done wonders to reduce the costs of databases. JHipster supports vendors like Oracle and Microsoft as well, but you just can't generate a project without an open-source database driver. If you'd like to use a traditional database, select SQL when creating your JHipster project.
+A traditional relational-database management system (RDBMS) provides a number of properties that guarantee its transactions are processed reliably: ACID, for atomicity, consistency, isolation, and durability. Databases like MySQL and PostgreSQL provide RDBMS support and have done wonders to reduce the costs of databases. JHipster supports vendors like Oracle and Microsoft as well. If you'd like to use a traditional database, select SQL when creating your JHipster project.
 
-TIP: JHipster's http://www.jhipster.tech/using-oracle/[Using Oracle] guide shows you how to modify a project to support Oracle.
+TIP: JHipster's http://www.jhipster.tech/using-oracle/[Using Oracle] guide explains how'll you need an Oracle account to download its proprietary JDBC driver.
 
 NoSQL databases have helped many web-scale companies achieve high scalability through https://en.wikipedia.org/wiki/Eventual_consistency[eventual consistency]: because a NoSQL database is often distributed across several machines, with some latency, it guarantees only that all instances will eventually be consistent. Eventually consistent services are often called BASE (basically available, soft state, eventual consistency) services in contrast to traditional ACID properties.
 
