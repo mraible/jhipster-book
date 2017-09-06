@@ -530,7 +530,7 @@ https://www.jetbrains.com/idea/[IntelliJ IDEA], which brings these same features
 
 https://eclipse.org/downloads/[Eclipse] is a free alternative to IntelliJ IDEA. Its error highlighting (via auto-compile), code assist, and refactoring support is excellent. When I started using it back in 2002, it blew away the competition. It was the first Java IDE that was fast and efficient to use. Unfortunately, it fell behind in the JavaScript MVC era and lacks good support for JavaScript or CSS.
 
-NetBeans has a https://github.com/GeertjanWielenga/SpringBootTools4NetBeans[Spring Boot plugin]. The NetBeans team has been doing a lot of work on web-tools support; they have good JavaScript/AngularJS support and there's a https://chrome.google.com/webstore/detail/netbeans-connector/hafdlehgocfcodbgjnpecfajgkeejnaa?hl=en[NetBeans Connector] plugin for Chrome that allows two-way editing in NetBeans and Chrome.
+NetBeans has a http://plugins.netbeans.org/plugin/67888/nb-springboot[Spring Boot plugin]. The NetBeans team has been doing a lot of work on web-tools support; they have good JavaScript/AngularJS support and there's a https://chrome.google.com/webstore/detail/netbeans-connector/hafdlehgocfcodbgjnpecfajgkeejnaa?hl=en[NetBeans Connector] plugin for Chrome that allows two-way editing in NetBeans and Chrome.
 
 https://code.visualstudio.com[Visual Studio Code] is an open source text editor made by Microsoft. It's become a popular editor for TypeScript and has plugins for Java development.
 
