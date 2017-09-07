@@ -9,5 +9,4 @@ image::about/family.jpg[The Raible Family, 400, scaledwidth=50%, align=center]
 Matt's blog is at http://raibledesigns.com[http://raibledesigns.com]. You can also find him on Twitter at
 http://twitter.com/mraible[@mraible]. Matt drives a 1966 Deluxe Samba and a 1990 Vanagon Syncro.
 
-// todo: newer picture
 image::about/bus-and-van.jpg[The Bus and the Syncro, 800, scaledwidth=72%, align=center]
