@@ -99,4 +99,4 @@ We always welcome feedback from our readers. Let us know what you thought about 
 
 To send us feedback, e-mail us at feedback@infoq.com, send a tweet to https://twitter.com/jhipster_book[@jhipster_book], or post a question on Stack Overflow using the "`jhipster`" tag.
 
-If there is a topic in which you have expertise and you are interested in either writing or contributing to a book, please take a look at our mini-book guidelines at http://www.infoq.com/minibook-guidelines.
+If you're interested in writing a mini-book for InfoQ, see http://www.infoq.com/minibook-guidelines.
