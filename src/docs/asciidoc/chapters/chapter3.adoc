@@ -9,348 +9,43 @@ run your pre-processor, run your tests, minify your web assets, and prepare your
 
 This section shows how JHipster includes all of these UI components for you and makes your developer experience a joyous one.
 
-== AngularJS
-AngularJS (Angular) is the MVC framework used by JHipster. It's written in JavaScript and just using it makes you a hipster.
-I've been tracking statistics on jobs and skills for JavaScript MVC frameworks ever since I compared JVM Web frameworks
-at Devoxx France in 2013. At that time, Backbone was the dominant framework.
+== Angular
+JHipster supports two UI frameworks: AngularJS and Angular. It will also support React by the end of 2017. In the first
+two versions of this book, I showed you how to use AngularJS. In this version, I'll show you how to use Angular. You can
+see from the following graphs that Angular and React are the most popular among JavaScript frameworks.
 
 [.clearfix]
 --
 [.left]
-[[img-angular-jobs-2013]]
-.Jobs on Dice, March 2013
-image::chapter3/angular/dice-jobs-march2013.png[Jobs on Dice in 2013, 450, scaledwidth=75%]
+[[img-angular-jobs-2017]]
+.Jobs on Indeed, August 2017
+image::chapter3/angular/indeed-jobs-aug2017.jpg[Jobs on Indeed, 450, scaledwidth=75%]
 [.left]
 [[img-angular-skills-2013]]
-.Skills on LinkedIn, March 2013
-image::chapter3/angular/linkedin-skills-march2013.png[Skills on LinkedIn in 2013, 450, scaledwidth=75%]
+.Stack Overflow Tags, August 2017
+image::chapter3/angular/stackoverflow-tags-aug2017.jpg[Tags on Stack OverFlow, 450, scaledwidth=75%]
 --
 
-In February 2014, I updated those statistics for a presentation. The number of Dice jobs that mentioned Angular had grown to roughly equal the number that mentioned Backbone, and
-a lot of people had added Angular to their LinkedIn profiles. I found that Ember had grown around 300%, Backbone 200%, and Angular 1,000%!
-
-[.clearfix]
---
-[.left]
-[[img-angular-jobs-2014]]
-.Jobs on Dice, February 2014
-image::chapter3/angular/dice-jobs-february2014.png[Jobs on Dice in 2014, 450, scaledwidth=75%]
-[.left]
-[[img-angular-skills-2014]]
-.Skills on LinkedIn, February 2014
-image::chapter3/angular/linkedin-skills-february2014.png[Skills on LinkedIn in 2014, 450, scaledwidth=75%]
---
-
-In March 2015, I updated these statistics once again. I found the number of jobs for Angular had doubled over the last
-year, while jobs for Ember and Backbone had fallen slightly. The number of developers who mentioned skills in Ember and Backbone had
-increased 200%, while the number of skilled Angular folks had risen 400%.
-
-Angular has rapidly become the most-popular MVC web framework. Like Struts in the early 2000s and
-Rails in the mid-2000s, it's changed the way developers write web applications. Today, data is exposed via REST APIs and UIs
-are written in JavaScript. As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns.
+Angular is the default UI framework used by JHipster. It's written in TypeScript, compiles to JavaScript, and just using
+it makes you a hipster! Like Struts in the early 2000s and Rails in the mid-2000s, Angular and other JavaScript frameworks
+have changed the way developers write web applications. Today, data is exposed via REST APIs and UIs are written in
+JavaScript (or TypeScript). As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns.
 It recommended organizing your application into several different components:
 
-* Controllers: JavaScript functions that retrieve data from services and expose it to templates using `$scope`.
-* Services: JavaScript functions that make HTTP calls to a JSON API.
+* Components: Classes that retrieve data from services and expose it to templates.
+* Services: Classes that make HTTP calls to a JSON API.
 * Templates: HTML pages that display data. Use Angular directives to iterate over collections and show/hide elements.
-* Filters: Data-manipulation tools that can transform data (e.g. uppercase, lowercase, ordering, and searching).
+* Pipes: Data-manipulation tools that can transform data (e.g. uppercase, lowercase, ordering, and searching).
 * Directives: HTML processors that allow components to be written. Similar to JSP tags.
 
 === History
+
 AngularJS was started by Miško Hevery in 2009. He was working on a project that was using GWT. Three developers had been
-developing the product for six months, and Miško rewrote the whole thing in Angular in three weeks. At that time, Angular
+developing the product for six months, and Miško rewrote the whole thing in AngularJS in three weeks. At that time, AngularJS
 was a side project he'd created. It didn't require you to write much in JavaScript as you could program most of the logic
-in HTML. The GWT version of the product contained 17,000 lines of code. The Angular version was only 1,000 lines of code!
+in HTML. The GWT version of the product contained 17,000 lines of code. The AngularJS version was only 1,000 lines of code!
 
-=== Basics
-Creating Hello World with Angular is pretty simple.
-
-[source,html]
-----
-<!doctype html>
-<html ng-app>
-<head>
-    <title>Hello World</title>
-</head>
-<body>
-<div>
-    <label>Name:</label>
-    <input type="text" ng-model="name" placeholder="Enter a name here">
-    <hr>
-    <h1>Hello {{name}}!</h1>
-</div>
-<script src="http://code.angularjs.org/1.5.8/angular.min.js"></script>
-</body>
-</html>
-----
-
-In this example, `ng-model` maps to the value displayed in `+{{name}}+`. When using jQuery to do something similar, you
-have to add an event handler that listens for a change of value. With Angular, the two-way binding is done for you
-and it saves you from writing a lot of boilerplate code. The `+{{ng-app}}+` directive on line 2 makes this an Angular
-application.
-
-The MVC pattern is a common one for web frameworks to implement. With Angular, the model is represented
-by a JavaScript object that you create or retrieve from a service. The view is a HTML template and the controller
-is a JavaScript function that watches for changes to the model from the user.
-
-[[img-angular-mvc]]
-.MVC in Angular
-image::chapter3/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth=75%, align=center]
-
-Below is a search controller and a service to fetch search results. It's expected that a JSON endpoint exists at
-`/api/search` on the same server.
-
-[source,javascript]
-----
-.controller('SearchController', function () {
-    console.log("In Search Controller...");
-})
-
-.factory('SearchService', function ($http) {
-    var service = {
-        query: function (term) {
-            return $http.get('/api/search/' + term);
-        }
-    };
-    return service;
-});
-----
-
-TIP: To see the JavaScript console in Chrome, use kbd:[Command+Option+J] in Mac OS X/MacOS or kbd:[Control+Shift+J] in Windows or Linux.
-
-To make this controller available at a URL, you can use Angular's `ngRoute`.
-
-[source,javascript]
-----
-angular.module('myApp.search', ['ngRoute'])
-
-    .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider
-            .when('/search', {
-                templateUrl: 'search/index.html',
-                controller: 'SearchController'
-            })
-    }])
-----
-
-The template to call this controller can be as simple as a form with a button.
-
-[source,html]
-----
-<form ng-submit="search()">
-    <input type="search" name="search" ng-model="term">
-    <button>Search</button>
-</form>
-----
-
-To get the results from the `SearchService` in your controller, you can use Angular's dependency injection.
-
-[source,javascript]
-----
-.controller('SearchController', function ($scope, SearchService) { <1>
-    $scope.search = function () { <2>
-        console.log("Search term is: " + $scope.term); <3>
-        SearchService.query($scope.term).then(function (response) {
-            $scope.searchResults = response.data;
-        });
-    };
-})
-----
-<1> To inject `SearchService` into `SearchController`, simply add it as a parameter to the controller's argument list.
-<2> `$scope.search()` is a function that's called from the HTML's `<form>`, wired up using the `ng-submit` directive.
-<3> `$scope.term` is a variable that's wired to `<input>` using the `ng-model` directive.
-
-Another common way to write controllers is to name the arguments passed into the function. This helps if you plan
-to obfuscate your code.
-
-TIP: Angular allows you to bind data to its `$scope` object. It represents your application's model. There's also a `$rootScope`
-object that can be used to share data between components. Scopes occupy a hierarchical structure that mimics the
-DOM structure. Scopes can watch expressions and propagate events.
-
-NOTE: The generated code in JHipster was changed in 2016 to follow https://github.com/johnpapa/angular-styleguide[John Papa's Angular Style Guide]. This means that `vm` (a.k.a the _view model_) is often used instead of `$scope` for exposing data to the view.
-
-[source,javascript]
-----
-.controller('SearchController', ['$scope', 'SearchService', function ($scope, SearchService) {
-    ...
-}]);
-----
-
-To make the aforementioned module work, you need a HTML page that includes Angular and `ngRoute`.
-
-[source,html]
-.index.html
-----
-<!DOCTYPE html>
-<html ng-app="myApp"> <1>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>My AngularJS App</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<ul class="menu">
-    <li><a href="#/search">search</a></li>
-</ul>
-
-<div ng-view></div> <2>
-
-<script src="http://code.angularjs.org/1.5.8/angular.min.js"></script>
-<script src="http://code.angularjs.org/1.5.8/angular-route.min.js"></script>
-<script src="app.js"></script> <3>
-<script src="search/search.js"></script>
-</body>
-</html>
-----
-<1> The `ng-app` directive tells Angular the name of your app.
-<2> `ng-view` is where your rendered template is displayed.
-<3> `app.js` contains your application's definition.
-
-[source,javascript]
-.app.js
-----
-'use strict'; <1>
-
-// Declare app level module which depends on views, and components
-angular.module('myApp', ['ngRoute', 'myApp.search'])
-.config(['$routeProvider', function($routeProvider) {
-    // default URL to route to
-    $routeProvider.otherwise({redirectTo: '/search'});
-}]);
-----
-<1> ECMAScript 5's strict mode is a way to opt in to a restricted variant of JavaScript. It improves your browser's error reporting and performance.
-
-Does your API return data like the following?
-
-[source,json]
-----
-include::{sourcedir}/chapter3/angular/search-results.json[]
-----
-
-If so, you could display it in a template with Angular's `ng-repeat` directive.
-
-[source,html]
-----
-<table ng-show="searchResults.length" class="table">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Address</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="person in searchResults">
-        <td>{{person.name}}</td>
-        <td>{{person.phone}}</td>
-        <td>{{person.address.street}}<br/>
-            {{person.address.city}}, {{person.address.state}} {{person.address.zip}}
-        </td>
-    </tr>
-    </tbody>
-</table>
-----
-
-To read a more in-depth example (including source code) of building a search/edit application with Angular, see
-my article http://raibledesigns.com/rd/entry/getting_started_with_angularjs[Getting Started with AngularJS].
-
-=== AngularUI Router
-https://github.com/angular-ui/ui-router[AngularUI Router] is a routing component for AngularJS. It's organized around
-states, to which you can attach routes and other behaviors. Some of its best features include support for
-nested/named views, tab history, and loading data before rendering a view. You can see an example of its basic
-features at http://angular-ui.github.io/ui-router/sample/.
-
-JHipster includes AngularUI Router (often called ui-router) by default. It's a great framework that I've enjoyed
-using on several projects. To use it, you'll need to reference its JavaScript file (`angular-ui-router.min.js`) instead of `angular-route.min.js` in
-`index.html`. You'll also need to change from using `ng-view` to using `ui-view`.
-
-[source,javascript]
-.index.html
-----
-<div ui-view></div>
-
-<script src="http://code.angularjs.org/1.5.8/angular.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
-----
-
-Next, change your `app.js` to use `ui.router` instead of `ngRoute`. Then set up your application states with code like
-the following listing.
-
-[source,javascript]
-.app.js
-----
-include::{sourcedir}/chapter3/angular/ui-router.js[]
-----
-
-AngularUI Router allows you to look up data before displaying a page. It does this with its `resolve` property. For example,
-by enhancing the 'search.edit' state, we can look up the person from the `SearchService` before instantiating the controller.
-
-[source,javascript]
-----
-.state('search.edit', {
-      url: '/edit/:id',
-      templateUrl: 'search/edit.html',
-      controller: 'EditController',
-      resolve: {
-          SearchService: 'SearchService', <1>
-          person: function($stateParams, SearchService) {
-              return SearchService.get({id: $stateParams}).$promise; <2>
-          }
-      }
-  })
-----
-<1> This is necessary to indicate the name of the service to the line below this.
-<2> This assumes your service has a `get(id)` method defined.
-
-Once you've done this, you can inject the `person` object into your controller directly.
-
-[source,javascript]
-----
-.controller('EditController', function ($scope, person) {
-    // make person available to template
-    $scope.person = person;
-})
-----
-
-=== Angular's `$resource`
-Angular ships with a https://docs.angularjs.org/api/ngResource/service/$resource[`$resource` factory] that allows you to
-interact with a http://en.wikipedia.org/wiki/Representational_state_transfer[RESTful] API with only a few lines of code.
-If your API is implemented so that you can perform CRUD (create, read, update, delete) at a specific endpoint, you can use
-`$resource` to wrap that endpoint, and _voilà_, you have a service!
-
-[source,javascript]
-----
-.factory('Product', function($resource) {
-    return $resource(API_HOSTNAME + '/api/products/:id');
-});
-----
-
-This gives you a number of actions (or methods) by default. You can easily override these methods or add new ones.
-
-[source,javascript]
-----
-{
-    'get':    {method:'GET'},
-    'save':   {method:'POST'},
-    'query':  {method:'GET', isArray:true},
-    'remove': {method:'DELETE'},
-    'delete': {method:'DELETE'}
-};
-----
-
-You can can then use this service in a controller using `Product.get{id: '123'}`. If you're reading the `id` from the URL,
-you can use ui-router's `$stateParams` so it becomes `Product.get{id: $stateParams.id}`. To use this service in
-ui-router's `resolve` property, you'll need to tack on `$promise` to the end.
-
-A `$promise` is a promise of the original server interaction that created this instance or collection. It's a service
-that helps you run functions asynchronously, and to use their return values (or exceptions) when they are done processing.
-On success, a promise resolves with the same resource instance or collection object, updated with data from server.
-On failure, a promise resolves with the HTTP response object, but does not contain a `resource` property.
-A resource instance also has a `$resolved` property that returns `true` after its first server interaction completes
-(regardless of success or rejection).
-
-=== Angular 2.0
-In October 2014, the Angular team announced the http://www.infoq.com/news/2014/10/angular-2-atscript[details of Angular
+In October 2014, the AngularJS team announced they were building http://www.infoq.com/news/2014/10/angular-2-atscript[Angular
 2.0]. The announcement led to a bit of upheaval in the Angular developer community. The API for writing
 Angular applications was going to change and it was to be based on a new language, AtScript. There would be no migration
 path and users would have to continue using 1.x or rewrite their applications for 2.x.
@@ -365,35 +60,396 @@ is it allows you to use any web component in an Angular app, not just those retr
 <input type="checkbox" [checked]="someProperty">
 ----
 
-Angular 2.x also eliminates the following concepts introduced in 1.0:
+In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns],
+announcing that they would be using http://www.typescriptlang.org/[TypeScript] over AtScript and that they would provide
+a migration path for Angular 1.x users. They also adopted semantic versioning and http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html[recommended people call it "Angular"
+instead of Angular 2.0].
 
-* controllers,
-* directive definition objects,
-* `$scope`,
-* `angular.module`, and
-* jqLite.
+Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. https://jhipster.github.io/2017/07/06/jhipster-release-4.6.0.html[JHipster 4.6.0] was released July 6, 2017 and contains production-ready Angular support. Prior to that, JHipster's
+Angular support was considered beta quality.
 
-In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announcing that they would be using http://www.typescriptlang.org/[TypeScript] over AtScript and that they
-would provide a migration path for Angular 1.x users. The Angular 2.0 project is hosted at https://angular.io/. The team
-plans to support Angular 1.x (at https://angularjs.org/) as long as its web traffic exceeds the 2.0 site.
+The Angular project is hosted at https://angular.io/[https://angular.io].
 
-Angular 2.0 was released September 2016. The JHipster team is https://github.com/jhipster/generator-jhipster/issues/3664[currently working on adding support for Angular 2]. In the meantime, you can learn how to develop with Angular 2 by reading my http://gist.asciidoctor.org/?github-mraible/ng2-demo//README.adoc[Angular 2 Tutorial].
+=== Basics
+Creating a component that says "Hello World" with Angular is pretty simple.
 
-Now that you've learned a bit about the hottest web framework on the planet, let's take a look at the most
-popular CSS framework: Bootstrap.
+[source,typescript]
+----
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'my-app',
+  template: `<h1>Hello {{name}}</h1>`
+})
+export class AppComponent {
+  name = 'World';
+}
+----
+
+In this example, the `name` variable in the component maps to the value displayed in `+{{name}}+`. To make this component
+render on a page, you'll need a few more files: a module definition, a bootstrapping class, and an HTML file. A basic
+module definition contains component declarations, imports, providers, and a class to bootstrap.
+
+[source,typescript]
+----
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+----
+
+Then you'll need a bootstrap file, typically named `main.ts`. This file bootstraps the module.
+
+[source,typescript]
+----
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
+
+if (environment.production) {
+  enableProdMode();
+}
+
+platformBrowserDynamic().bootstrapModule(AppModule);
+----
+
+Finally, you'll need a basic HTML file that renders the component.
+
+[source,html]
+----
+<html>
+<head>
+    <title>Howdy</title>
+</head>
+<body>
+    <my-app></my-app>
+    <script src="path/to/compiled/javascript.js"></script>
+</body>
+</html>
+----
+
+The MVC pattern is a common one for web frameworks to implement. With Angular, the model is represented
+by an object that you create or retrieve from a service. The view is a HTML template and the component
+is a class that sets variables to be read by the template.
+
+[[img-angular-mvc]]
+.MVC in Angular
+image::chapter3/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth=75%, align=center]
+
+Below is a `SearchService` to fetch search results. It's expected that a JSON endpoint exists at `/api/search` on
+the same server.
+
+[source,typescript]
+.SearchService
+----
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class SearchService {
+
+  constructor(private http: Http) {}
+
+  search(term): Observable<any> {
+    return this.http.get(`/api/search/${term}`).map((res: Response) => res.json());
+  }
+}
+----
+
+An associated `SearchComponent` can be used to display the results from this service. Notice how you can use
+constructor injection to get a reference to the service.
+
+[source,typescript]
+.SearchComponent
+----
+import { Component } from '@angular/core';
+import { SearchService } from '../search.service';
+
+@Component({
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css'],
+  providers: [SearchService]
+})
+export class SearchComponent {
+  query: string;
+  searchResults: Array<any>;
+
+  constructor(private searchService: SearchService) {
+    console.log("In Search Component...");
+  }
+
+  search(): void {
+    this.searchService.search(this.query).subscribe(
+      data => {
+        this.searchResults = data;
+      },
+      error => console.log(error)
+    );
+  }
+}
+----
+
+TIP: To see the JavaScript console in Chrome, use kbd:[Command+Option+J] in Mac OS X/MacOS or kbd:[Control+Shift+J] in
+Windows or Linux.
+
+To make this component available at a URL, you can use Angular's `Router` and specify the path in the module that includes
+the component.
+
+[source,typescript]
+.AppModule
+----
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
+import { AppComponent } from './app.component';
+import { SearchComponent } from './search/search.component';
+import { Routes, RouterModule } from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: 'search', component: SearchComponent },
+  { path: '', redirectTo: '/search', pathMatch: 'full' }
+];
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    SearchComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    RouterModule.forRoot(appRoutes)
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+----
+
+In the main entry point of the app, `AppComponent` in this case, you'll need to specify the router outlet in a template.
+
+[source,html]
+.app.component.html
+----
+<router-outlet></router-outlet>
+----
+
+The template for the `SearchComponent` can be as simple as a form with a button.
+
+[source,html]
+----
+<h2>Search</h2>
+<form>
+  <input type="search" name="query" [(ngModel)]="query" (keyup.enter)="search()">
+  <button type="button" (click)="search()">Search</button>
+</form>
+----
+
+Now that you've seen the code, let's look at how everything works in the `SearchComponent`.
+
+[source,typescript]
+----
+@Component({
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css'],
+  providers: [SearchService]
+})
+export class SearchComponent {
+  query: string;
+  searchResults: Array<any>;
+
+  constructor(private searchService: SearchService) { <1>
+    console.log("In Search Component...");
+  }
+
+  search(): void { <2>
+    this.searchService.search(this.query).subscribe( <3>
+      data => {
+        this.searchResults = data;
+      },
+      error => console.log(error)
+    );
+  }
+}
+
+.controller('SearchController', function ($scope, SearchService) { <1>
+    $scope.search = function () { <2>
+        console.log("Search term is: " + $scope.term); <3>
+        SearchService.query($scope.term).then(function (response) {
+            $scope.searchResults = response.data;
+        });
+    };
+})
+----
+<1> To inject `SearchService` into `SearchComponent`, simply add it as a parameter to the component's constructor. Note
+that the service has to be listed as a provider in `@Component`, or in `AppModule`. TypeScript automatically makes constructor dependencies
+available as class variables.
+<2> `search()` is a method that's called from the HTML's `<input>` and `<button>`, wired up using the `(keyup.enter)`
+and `(click)` event handlers.
+<3> `this.query` is a variable that's wired to `<input>` using the `[(ngModule)]` directive. This syntax provides two-way
+binding so if you change the value in the component, it changes it in the rendered HTML. You can think of it this way:
+`[] => component to template` and  `() => template to component`.
+
+To make the aforementioned code work, you can generate a new Angular project using https://cli.angular.io[Angular CLI].
+To install Angular CLI, you can use Yarn.
+
+[source,bash]
+----
+yarn add global @angular/cli
+----
+
+Then generate a new application using `ng new`.
+
+[source,bash]
+----
+ng new ng-demo
+----
+
+This creates all the files you need for a basic app, installs dependencies, and sets up a build system for compiling
+your TypeScript code to JavaScript.
+
+[[img-ng-new]]
+.Creating a new Angular project with Angular CLI
+image::chapter3/angular/ng-new.png[ng new ng-demo, 1222, scaledwidth=100%]
+
+You can generate the `SearchService` using `ng generate service search` (or `ng g s search`).
+
+[source,bash]
+----
+$ ng g s search
+installing service
+  create src/app/search.service.spec.ts
+  create src/app/search.service.ts
+  WARNING Service is generated but not provided, it must be provided to be used
+----
+
+And you can generate the `SearchComponent` using `ng generate component search` (or `ng g c search`).
+
+[source,bash]
+----
+$ ng g c search
+installing component
+  create src/app/search/search.component.css
+  create src/app/search/search.component.html
+  create src/app/search/search.component.spec.ts
+  create src/app/search/search.component.ts
+  update src/app/app.module.ts
+----
+
+Does your API return data like the following?
+
+[source,json]
+----
+include::{sourcedir}/chapter3/angular/search-results.json[]
+----
+
+If so, you could display it in the `search.component.html` template with Angular's `*ngFor` directive.
+
+[source,html]
+----
+<table *ngIf="searchResults">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Phone</th>
+    <th>Address</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let person of searchResults; let i=index">
+    <td><a href="" (click)="onSelect(person); false">{{person.name}}</a></td>
+    <td>{{person.phone}}</td>
+    <td>{{person.address.street}}<br/>
+      {{person.address.city}}, {{person.address.state}} {{person.address.zip}}
+    </td>
+  </tr>
+  </tbody>
+</table>
+----
+
+To read a more in-depth example (including source code and tests) of building a search/edit application with Angular, see
+my https://github.com/mraible/ng-demo[Angular and Angular CLI Tutorial].
+
+Now that you've learned a bit about one of the hottest web frameworks on the planet, let's take a look at the most popular CSS
+framework: Bootstrap.
 
 == Bootstrap
 
 http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides a
 number of CSS classes and HTML structures that allow you to develop HTML user interfaces that look good by default. Not
-only that, but its 3.0 version is responsive by default, which means it works better (or even best) on a mobile device.
+only that, but it’s responsive by default, which means it works better (or even best) on a mobile device.
 
 === Bootstrap's grid system
 
 Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's
-basic grid system is built with containers, rows, and columns. It's 940 pixels (px) wide, divided into 12 columns. The grid
-adapts to widths of 724 px and 1170 px, according to your viewport. On viewports narrower than 767 px, the columns become
-fluid and stack vertically.
+powerful grid is built with containers, rows, and columns. It's based on the CSS3 flexible box, or flexbox. Flexbox is a layout
+mode intended to accommodate different screen sizes and different display devices. It's easier than using blocks to do
+layouts because it doesn't use floats, nor do the flex container's margins collapse with the margins of its content.
+CSS-Tricks has https://css-tricks.com/snippets/css/a-guide-to-flexbox/[A Complete Guide to Flexbox] that explains its
+concepts well.
+
+> The main idea behind the flex layout is to give the container the ability to alter its items' width/height (and order)
+> to best fill the available space,mostly to accommodate all kinds of display devices and screen sizes. A flex
+> container expands items to fill available free space or shrinks them to prevent overflow.
+
+Bootstrap's grid width varies based on viewport width. The table below shows how aspects of the grid system work across
+different devices.
+
+[cols="2,1,1,1,1,1", options="header"]
+|===
+|
+|Extra small
+|Small
+|Medium
+|Large
+|Extra large
+
+|**Max container width**
+|None (auto)
+|540px
+|720px
+|960px
+|1140px
+
+|**Class prefix**
+|`.col-`
+|`.col-sm-`
+|`.col-md-`
+|`.col-lg-`
+|`.col-xl-`
+
+|**# of columns**
+5+| 12
+
+|**Gutter width**
+5+| 30px (15px on each side)
+
+|**Nestable**
+5+| Yes
+
+|**Column ordering**
+5+| Yes
+|===
 
 A basic example of the grid is shown below.
 
@@ -423,7 +479,7 @@ to understand a few basics if want to use it effectively.
 * Just use "`md`" class and fix as needed.
 * It can be used to size input fields.
 
-Bootstrap 3's grid system has four tiers of classes: xs (phones), sm (tablets), md (desktops), and lg (larger desktops).
+Bootstrap's grid system has five tiers of classes: xs (portrait phones), sm (landscape phones), md (tablets), lg (desktops), and xl (large desktops).
 You can use nearly any combination of these classes to create more dynamic and flexible layouts. Below is an example of a
 grid that's a little more advanced.
 
@@ -439,10 +495,28 @@ include::{sourcedir}/chapter3/bootstrap/grid-advanced.html[]
 image::chapter3/bootstrap/advanced-grid-desktop.png[Advanced grid, 983, scaledwidth=100%]
 
 You can use size indicators to specify breakpoints in the columns. Breakpoints indicate where a column wraps onto the next
-row. In the HTML above, "`md`" is the size indicator. Boostrap supports "`xs`", "`sm`", "`md`", "`lg`", and "`xl`".
+row. In the HTML above, "`xs`" and "`md`" are the size indicators (of course,  "`sm`", "`lg`", and "`xl`" are the other options). Bootstrap uses the following media query ranges.
+
+[source,css]
+----
+// Extra small devices (portrait phones, less than 576 px)
+// No media query since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576 px and up)
+@media (min-width: 576px) { ... }
+
+// Medium devices (tablets, 768 px and up)
+@media (min-width: 768px) { ... }
+
+// Large devices (desktops, 992 px and up)
+@media (min-width: 992px) { ... }
+
+// Extra large devices (large desktops, 1200 px and up)
+@media (min-width: 1200px) { ... }
+----
 
 === Responsive utility classes
-Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size, like `.visible-[xs|sm|md|lg]` and `.hidden-[xs|sm|md|lg]`.
+Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size, like `.hidden-[xs|sm|md|lg]-up` and `.hidden-[xs|sm|md|lg]-down`. There are no explicit "show" responsive utility classes; you make an element visible by simply not hiding it at that breakpoint size. You can combine one `.hidden-\*-up` class with one `.hidden-*-down` class to show an element only on a given interval of screen sizes. For example, `.hidden-sm-down.hidden-xl-up` shows the element only on medium and large viewports.
 
 === Forms
 When you add Bootstrap's CSS to your web application, chances are it'll quickly start to look better. Typography, margins,
@@ -484,11 +558,11 @@ include::{sourcedir}/chapter3/bootstrap/buttons.html[]
 
 [[img-bootstrap-buttons]]
 .Buttons
-image::chapter3/bootstrap/buttons.png[Buttons, 500, scaledwidth=55%]
+image::chapter3/bootstrap/buttons.png[Buttons, 754, scaledwidth=90%]
 
 === Components
 Bootstrap ships with a number of components included. Some require JavaScript; some only require HTML5 markup and
-CSS classes to work. Its rich set of components have helped make it the most popular project on GitHub. Web developers
+CSS classes to work. Its rich set of components have helped make it one of the most popular projects on GitHub. Web developers
 have always liked components in their frameworks. A framework that offers easy-to-use components often allows developers
 to write less code. Less code to write means there's less code to maintain!
 
@@ -497,16 +571,16 @@ alerts, progress bars, and panels. Below is an example of a navbar with a dropdo
 
 [[img-bootstrap-navbar]]
 .Navbar with dropdown
-image::chapter3/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 867, scaledwidth=100%]
+image::chapter3/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 938, scaledwidth=100%]
 
 When rendered on a mobile device, everything collapses into a hamburger menu that can expand downward.
 
 [[img-bootstrap-navbar-mobile]]
 .Navbar on mobile
-image::chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 467, scaledwidth=50%]
+image::chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 519, scaledwidth=50%]
 
 This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source
-online in link:http://getbootstrap.com/components/#navbar-default[Bootstrap's documentation]. The simpler example below
+online in link:https://getbootstrap.com/docs/4.0/examples/navbars/[Bootstrap's documentation]. A simpler example below
 shows the basic structure.
 
 [source,html]
@@ -526,7 +600,7 @@ This renders alerts like the following.
 
 [[img-bootstrap-alerts]]
 .Alerts
-image::chapter3/bootstrap/alerts.png[Alerts, 828, scaledwidth=100%]
+image::chapter3/bootstrap/alerts.png[Alerts, 874, scaledwidth=100%]
 
 To make an alert closeable, you need to add an `.alert-dismissible` class and a close button.
 
@@ -550,86 +624,103 @@ and hipper than plain text. Humans are visual beings and icons are a great way t
 several years, font icons have become popular for web development. Font icons are just fonts, but they contain
 symbols and glyphs instead of text. You can style, scale, and load them quickly because of their small size.
 
-The http://glyphicons.com/[Glyphicons] Halflings set of font icons is included with Bootstrap. They're not normally free,
-but their creator has made them free for Bootstrap users. There are more than 250 glyphs in this set. They're often
-used to display eye candy on buttons.
+Bootstrap 3.x included the http://glyphicons.com/[Glyphicons] Halflings set of font icons. It’s not normally
+free, but the font creator made it free for Bootstrap users. One of the https://v4-alpha.getbootstrap.com/migration/[changes]
+for Bootstrap 4 is that it dropped the Glyphicons icon font. You can use http://fontawesome.io/[Font Awesome] and
+https://octicons.github.com/[Github Octicons] as a free alternatives to Glyphicons.
+
+Font Awesome has 675 icons and is included by default in JHipster. It is often used to display eye candy on buttons.
 
 [source,html]
 ----
-<button class="btn btn-info"><i class="glyphicon glyphicon-plus"></i> Add</button>
-<button class="btn btn-danger"><i class="glyphicon glyphicon-minus"></i> Delete</button>
-<button class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i> Edit</button>
+<button class="btn btn-info"><i class="fa fa-plus"></i> Add</button>
+<button class="btn btn-danger"><i class="fa fa-remove"></i> Delete</button>
+<button class="btn btn-success"><i class="fa fa-pencil"></i> Edit</button>
 ----
 
-You can see how the icons change color based on the font color defined for the element they're inside.
+You can see how the icons change color based on the font color defined for the element that contains them.
 
 [[img-bootstrap-buttons-icons]]
 .Buttons with icons
-image::chapter3/bootstrap/buttons-with-icons.png[Buttons with icons, 241, scaledwidth=25%]
-
-You can use other icon fonts with Bootstrap and JHipster, http://fortawesome.github.io/Font-Awesome/[Font Awesome]
-being one of the most popular. It's completely free for commercial use and contains over 500 icons. JHipster uses
-Font Awesome for its website, but not for generated projects. The
-https://github.com/jhipster/generator-jhipster/issues/978#issuecomment-69988321[reason] for not including Font Awesome is that
-Glyphicons is the default and it's easy to change the font in your project. Simply add it as a dependency
-in your `bower.json` file.
+image::chapter3/bootstrap/buttons-with-icons.png[Buttons with icons, 262, scaledwidth=25%]
 
 === Customizing CSS
 If you'd like to override Bootstrap classes in your project, the easiest thing to do is to put the override rule in a CSS
-file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/css/main.css` directly. If you're
-using Sass to compile `*.scss` files, you can modify `src/main/webapp/scss/main.scss` instead. Using Sass results in a much
-more concise authoring environment. Below is the default `vendor.scss` file that Yeoman generates. You can see that
-it overrides the `$icon-font-path` variable and imports Bootstrap. Default rules are overridden in `src/main/webapp/scss/main.scss`.
+file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/content/css/global.css` directly. If you're
+using Sass to compile `*.scss` files, you can modify `src/main/webapp/content/scss/global.scss` instead. Using Sass results
+in a much more concise authoring environment. Below is the default `vendor.scss` file that Yeoman generates. You can see that
+it overrides the `$fa-font-path` variable and imports Bootstrap. Default Bootstrap rules are overridden in
+`src/main/webapp/content/scss/global.scss`.
 
 [source,css]
 .src/main/webapp/scss/vendor.scss
 ----
-$icon-font-path: "../fonts/";
+/* after changing this file run 'yarn run 'yarn run webpack:build' */
+$fa-font-path: '~font-awesome/fonts';
 
-/* Sass bower components will be injected here */
-/* bower:scss */
-@import "../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-/* endinject */
-/* bower:sass */
-/* endinject */
-
+/***************************
+put Sass variables here:
+eg $input-color: red;
+****************************/
+// Override Boostrap variables
+@import "bootstrap-variables";
+// Import Bootstrap source files from node_modules
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/font-awesome/scss/font-awesome';
 ----
 
-=== Angular and Bootstrap
-There's a number of other open-source components that can help to further enhance an application built with Angular and
-Bootstrap that are not included in JHipster at the time of this writing:
+JHipster 4.7.0+ includes a `src/main/webapp/content/scss/_bootstrap-variable.scss` file. You can modify this file
+to change the default Bootstrap settings like colors, border radius, etc.
 
-* https://angular-ui.github.io/bootstrap/[UI-Bootstrap]: Bootstrap components written in pure AngularJS by the AngularUI Team. No jQuery required.
-* http://ionicframework.com[Ionic]: Offers a library of mobile-optimized HTML, CSS, and JavaScript components, gestures,
-and tools for building highly interactive apps. Built with Sass and optimized for AngularJS. Provides a native look and feel.
-* https://github.com/jirikavi/AngularJS-Toaster[AngularJS-Toaster]: An AngularJS port of the http://codeseven.github.io/toastr/[Toastr] non-blocking notification
-jQuery library.
+=== Angular and Bootstrap
+JHipster includes https://ng-bootstrap.github.io/[ng-bootstrap] by default. This library provides Bootstrap 4 components
+that are powered by Angular instead of jQuery.
+
+http://codeseven.github.io/toastr/[Toastr] is a popular non-blocking notification library powered by jQuery. To use something
+similar in an Angular application, you can choose from several implementations:
+
+* https://github.com/PointInside/ng2-toastr[ng2-toastr] (265 GitHub stars)
+* https://github.com/stabzs/Angular2-Toaster[Angular2-Toaster] (203 GitHub stars)
+* https://github.com/scttcper/ngx-toastr[ngx-toastr] (179 GitHub stars)
+
+Popular alternatives to Bootstrap include https://material.angular.io/[Angular Material] and
+http://ionicframework.com/[Ionic Framework]. There is no support for these frameworks at this time. To integrate them would
+require that all templates to rewritten to include their classes instead of Bootstrap's. While possible, it'd be a lot
+of work to create and maintain.
 
 == Internationalization (i18n)
 Internationalization (also called i18n because the word has 18 letters between "`i`" and "`n`") is a first-class citizen in
 JHipster. Translating an application to another language is easiest if you put the i18n system in place at the beginning of
-a project. https://angular-translate.github.io/[angular-translate] provides directives that make it easy to translate
-your application into multiple languages.
+a project. http://www.ngx-translate.com/[ngx-translate] provides directives that make it easy to translate your application
+into multiple languages. You won't see this dependency in your JHipster project's `package.json` because it's included
+in the https://github.com/jhipster/ng-jhipster[ng-jhipster] project and wrapped in a `jhiTranslate` directive.
 
-To use angular-translate, you simply add a "`data-translate`" attribute with a key.
+To use i18n in a JHipster project, you simply add a "`jhiTranslate`" attribute with a key.
 
 [source,html]
 ----
-<label data-translate="user.firstname">First Name</label>
+<label for="username" jhiTranslate="global.form.username">Login</label>
 ----
 
-The key references a JSON document, which will return the translated string. AngularJS will then replace the "`First Name`"
+The key references a JSON document, which will return the translated string. Angular will then replace the "`First Name`"
 string with the translated version.
 
 JHipster allows you to choose a default language and translations when you first create a project. It stores the JSON documents
 for these languages in `src/main/webapp/i18n`. You can install additional languages using `yo jhipster:languages`. At the time
-of this writing, JHipster supports 26 languages. You can also add a new language. To set the default language, modify
-`src/main/webapp/app/blocks/config/translation.config.js` and its preferred-language line.
+of this writing, JHipster supports 37 languages. You can also add a new language. To set the default language, modify
+`src/main/webapp/app/shared/shared-common.module.ts` and its `LOCALE_ID` setting.
 
 [source,javascript]
-.src/main/webapp/app/blocks/config/translation.config.js
+.src/main/webapp/app/shared/shared-common.module.ts
 ----
-$translateProvider.preferredLanguage('de');
+providers: [
+    JhiLanguageHelper,
+    Title,
+    {
+        provide: LOCALE_ID,
+        useValue: 'en'
+    },
+],
 ----
 
 == Sass
@@ -695,7 +786,7 @@ nav {
 }
 ----
 
-WARNING: Overly nested rules will result in over-qualified CSS that can be hard to maintain.
+WARNING: Overly nested rules will result in overqualified CSS that can be hard to maintain.
 
 As mentioned, Sass also supports partials, imports, mixins, and inheritance. Mixins can be particularly
 useful for handling vendor prefixes.
@@ -726,115 +817,133 @@ CSS generated from the above code looks as follows.
 }
 ----
 
-Bootstrap is written with http://lesscss.org/[Less], a CSS pre-processor with similar features to Sass. However, its
-founders have https://twitter.com/mdo/status/591364406816079873[announced] that they'll be using SCSS for the 4.0
-version.
+Bootstrap 3.x was written with http://lesscss.org/[Less], a CSS pre-processor with similar features to Sass. It uses Sass
+for the 4.0 version.
 
-JHipster allows you to use Sass by integrating https://www.npmjs.com/package/gulp-sass[gulp-sass]. To learn more about structuring your
-CSS and naming classes, read the great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
+JHipster allows you to use Sass by integrating http://sass-lang.com/libsass[LibSass] with
+https://github.com/sass/node-sass[node-sass]. To learn more about structuring your CSS and naming classes, read the
+great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
 
-== Gulp
-JHipster uses http://gulpjs.com/[Gulp] for building the client. It used to support http://gruntjs.com/[Grunt], but it
-was removed when Gulp's popularity skyrocketed. Gulp allows you to perform tasks like minification, concatenation,
-compilation (e.g. from TypeScript/CoffeeScript to JavaScript), unit testing, and more.
+== webpack
+JHipster 4 uses https://webpack.github.io/[webpack] for building the client. JHipster 3.x uses https://gulpjs.com/[Gulp].
+Gulp allows you to perform tasks like minification, concatenation, compilation (e.g. from TypeScript/CoffeeScript to JavaScript),
+unit testing, and more. webpack is a more modern solution that's become very popular for Angular projects and is included
+under-the-covers in Angular CLI.
 
-Gulp is the de facto standard of JavaScript build tools and has over
-2,500 http://gulpjs.com/plugins/[plugins]. You can install and manage Gulp plugins via https://www.npmjs.com/[npm],
-a package manager for https://nodejs.org/[Node.js]. You can install anything specified as a dependency in
-your project's `package.json` using `npm install`. To install Gulp globally (so you can use it anywhere), run `npm install -g gulp-cli`.
+webpack is a module bundler that recursively builds a dependency graph with every module your application needs. It
+packages all of these modules into a smaller number of bundles to be loaded by the browser. Its code-splitting abilities
+make it possible to break up large JavaScript applications into small chunks that can be loaded on demand.
 
-Gulp calls itself "`the streaming build system`". Gulp is all about streams and building complex pipelines with ease.
-It uses Node.js's streams, and executes faster than Grunt, since it does not open/close files or create intermediary copies. Gulp
-was released a couple of years after Grunt, and has received a lot of praise from the JavaScript community. In accordance
-with the UNIX philosophy, Gulp plugins each try to do one thing well.
+It has four core concepts:
 
-To show a simple example of how to use Gulp, I integrated it into the angular-seed project. Below are the `package.json` and `gulpfile.js`
-that optimize everything for production.
+* **Entry:** This tells webpack where to start and follows the graph of dependencies to know what to bundle.
+* **Output:** Once you've bundled all of your assets together, you need to tell webpack *where* to put them.
+* **Loaders:** webpack treats every file (.css, .scss, .ts, .png, .html, etc.) as a module, but only understands JavaScript.
+Loaders transform files into modules as they are added to the dependency graph.
+* **Plugins:** Loaders execute transforms per file. Plugins perform actions and customizations on chunks of your bundled
+modules.
 
-The following steps show how to integrate Gulp into https://github.com/angular/angular-seed[angular-seed]. This particular
-build file optimizes your JavaScript, CSS, and HTML for production. It concatenates your JavaScript and CSS
-files, minifies them, then replaces the references in the HTML to point to the optimized files. First, you have
-to configure `package.json` to include Gulp and its plugins for web optimization.
+Below is a basic `webpack.config.js` that shows all four concepts in use.
 
-[source,json]
-.package.json
+[source,javascript]
+.webpack.config.js
 ----
-include::{sourcedir}/chapter3/gulp/package.json[]
-----
+const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
+const webpack = require('webpack'); //to access built-in plugins
+const path = require('path');
 
-[source%autofit,javascript]
-.gulpfile.js
-----
-include::{sourcedir}/chapter3/gulp/gulpfile.js[]
-----
+const config = {
+  entry: './path/to/my/entry/file.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'my-first-webpack.bundle.js'
+  },
+  module: {
+    rules: [
+      { test: /\.txt$/, use: 'raw-loader' }
+    ]
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin(),
+    new HtmlWebpackPlugin({template: './src/index.html'})
+  ]
+};
 
-Before the tasks run, the `index.html` file points to individual CSS and JavaScript files. The `<!-- build:* -\->`
-and `<!-- endbuild -\->` are used by the `useminPrepare` task to build the list of files for optimization.
-
-[source,html]
-.index.html
-----
-include::{sourcedir}/chapter3/gulp/index-dev.html[]
-----
-
-After the build runs, the `dist/index.html` file points to the revved, combined, and minified CSS and JavaScript files.
-
-[source,html]
-.dist/index.html
-----
-include::{sourcedir}/chapter3/gulp/index-prod.html[]
+module.exports = config;
 ----
 
-To learn more about JavaScript build tools, see Mark Dalgleish's http://markdalgleish.github.io/presentation-build-wars-gulp-vs-grunt/[Build Wars]
-presentation, delivered at MelbJS in Melbourne, Australia, February 12, 2014. I asked Mark
-what he thought of these two tools today. He recommended http://webpack.github.io/[webpack] and reading his more recent
-https://medium.com/seek-ui-engineering/block-element-modifying-your-javascript-components-d7f99fcab52b["`Block, Element,
-Modifying Your JavaScript Components`"] article. Since webpack is not an option for JHipster, I will not cover it in this book.
+In the Angular section, I mentioned Angular CLI and my https://github.com/mraible/ng-demo[ng-demo] project that shows
+how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command.
+To see its webpack config, or to tweak it for your needs, you can _eject_ it from your project by running
+https://github.com/angular/angular-cli/wiki/eject["`ng eject`"].
+
+I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js`
+file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack
+configuration. JHipster generates a `webpack` directory that contains files for different scenarios: dev mode with hot reload,
+testing, and preparing for production.
+
+* `logo-jhipster.png` is the logo that shows in desktop alerts for build notifications.
+* `utils.js` contains utility functions for finding the project's version and determining external libraries.
+* `webpack.common.js` is the common parent configuration that's extended by each of the following files.
+* `webpack.dev.js` is the configuration used when you run `yarn start`. It enables hot-reloading with Browsersync and desktop
+notifications.
+* `webpack.prod.js` is the configuration used for production. Angular's AOT compilation is used, HTML templates are
+converted to JavaScript, and source maps are created.
+* `webpack.test.js` is the configuration used for running tests, where files are watched and reloaded when changed.
+
+To learn more about webpack, I recommend visiting https://webpack.academy/[https://webpack.academy], which is a site dedicated
+to teaching webpack. It was created by https://twitter.com/TheLarkInn[Sean Larkin], a member of the webpack core team, the
+Angular team, and the Angular-CLI core team. He's a big reason for the success of webpack, as he's constantly promoting it,
+providing learning materials around it, and helping open-source projects adopt it.
 
 == WebSockets
 WebSockets are an advanced technology that makes it possible to open an interactive communication channel between the
 user's browser and a server. With this API, you can send messages to a server and receive event-driven responses
 without having to poll the server for a reply. WebSockets have been called "`TCP for the Web`".
 
-If you choose to use WebSockets in a JHipster project, you'll get two JavaScript libraries added to your project:
+If you choose "WebSockets using Spring Websocket" as part of the "other technologies" options when creating a JHipster
+project, you'll get two JavaScript libraries added to your project:
 
-* http://jmesnil.net/stomp-websocket/doc/[STOMP WebSocket]: STOMP stands for "`simple text-oriented messaging protocol`"
+* http://jmesnil.net/stomp-websocket/doc/[STOMP WebSocket]: STOMP stands for "`simple text-oriented messaging protocol`".
 * https://github.com/sockjs/sockjs-client[SockJS]: SockJS provides a WebSocket-like object. If native WebSockets are
 not available, it falls back to other browser techniques.
 
-To see how WebSockets work, take a look at the `TrackerController` in a WebSockets-enabled project. This displays real-time
+To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSockets-enabled project. This displays real-time
 activity information that's been posted to the `/websocket/tracker` endpoint.
 
 [source%autofit,javascript]
-.src/main/webapp/app/admin/tracker/tracker.controller.js
+.src/main/webapp/app/admin/tracker/tracker.component.ts
 ----
-include::{sourcedir}/chapter3/websockets/tracker.controller.js[]
+include::{sourcedir}/chapter3/websockets/tracker.component.ts[]
 ----
 
-The `Tracker` service allows you to send tracking information, for example, to track when someone has authenticated.
+The `Tracker` service allows you to send tracking information — for example, to track when someone has authenticated.
 
 [source,javascript]
-.src/main/webapp/scripts/components/tracker/tracker.service.js
+.src/main/webapp/app/shared/tracker/tracker.service.ts
 ----
-include::{sourcedir}/chapter3/websockets/tracker.service.js[]
+include::{sourcedir}/chapter3/websockets/tracker.service.ts[]
 ----
 
-WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
+WebSockets on the server side of a JHipster project are implemented with
+http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. To
+learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with
+Spring]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
 
 == Browsersync
 
 http://www.browsersync.io/[Browsersync] is one of those tools that makes you wonder how you ever lived without it. It
 keeps your assets in sync with your browser. It's also capable of syncing browsers, so you can, for example, scroll in
 Safari and watch synced windows scroll in Chrome and in Safari running in iOS Simulator. When you save
-files, it updates your browser windows, saving you an incredible amount of time. As its website says:
+files, it updates your browser windows, saving you an incredible amount of time. As its website says,
 "`It's wicked-fast and totally free.`"
 
 Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.0 License. It contains a number of slick features:
 
-* Interaction sync: It mirrors your scroll, click, refresh, and form actions between browsers while you test.
+* Interaction sync: Browsersync mirrors your scroll, click, refresh, and form actions between browsers while you test.
 * File sync: Browsers automatically update as you change HTML, CSS, images, and other project files.
-* URL history: Records your test URLs so you can push them back out to all devices with a single click.
-* Remote inspector: Remotely tweak and debug webpages that are running on connected devices.
+* URL history: Browsersync records your test URLs so you can push them back out to all devices with a single click.
+* Remote inspector: You can remotely tweak and debug web pages that are running on connected devices.
 
 To integrate Browsersync in your project, you need a `package.json` and `gulpfile.js`. Your `package.json` file only needs
 to contain a few things, weighing in at a slim 13 lines of JSON.
@@ -859,17 +968,21 @@ dependencies change in `package.json`.
 npm install
 ----
 
-Then run the following command to create a blissful development environment in which your browser auto-refreshes when files change
-on your hard drive.
+Then run the following command to create a blissful development environment in which your browser auto-refreshes when
+files change on your hard drive.
 ----
 gulp
 ----
 
-JHipster integrates Browsersync for you, using JavaScript that looks very similar to what you see above. I highly recommend
-Browsersync for your project. It's useful for determining if your web application can handle a page reload without losing the current user's state.
+JHipster integrates Browsersync for you, using webpack instead of Gulp. I show a Gulp example here because it so simple.
+I highly recommend Browsersync for your project. It's useful for determining if your web application can handle a page
+reload without losing the current user's state.
 
 == Summary
 
-This section describes the UI components in a typical JHipster project. It taught you about the extremely popular JavaScript MVC framework called AngularJS. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application and it showed you how you can use Gulp. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
+This section describes the UI components in a typical JHipster project. It taught you about the extremely popular UI
+framework called Angular. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build
+tool is essential for building a modern web application and it showed you how you can use webpack. Finally, it showed
+you how WebSockets work and described the beauty of Browsersync.
 
 Now that you've learned about many of the UI components in a JHipster project, let's learn about the API side of things.
