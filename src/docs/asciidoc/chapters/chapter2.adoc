@@ -2029,7 +2029,7 @@ After I finished developing the MVP of 21-Points Health with JHipster 4.5.3, I w
 I tried using the https://jhipster.github.io/upgrading-an-application/[upgrade sub-generator], but found that it was broken in 4.5.3
 https://jhipster.github.io/2017/06/23/jhipster-release-4.5.6.html[and only fixed in 4.5.6]. Therefore, I manually upgraded 4.5.3 to 4.6.2 using
 http://www.syntevo.com/smartsynchronize/[SmartSynchronize]. You can see what changed when I upgraded by taking a look
-at [the commit on GitHub](https://github.com/mraible/21-points/commit/4571d2c1a31fcbeb820417ea0f6d3f2364bb8e7e).
+at https://github.com/mraible/21-points/commit/4571d2c1a31fcbeb820417ea0f6d3f2364bb8e7e[the commit on GitHub].
 
 If you're reading this and notice that 21-Points Health is using a version newer than 4.6.2, it's likely because I
 upgraded again.
