@@ -694,7 +694,7 @@ gradlew -Pprod bootRun
 
 The "`prod`" profile will trigger a `gulp build`, which optimizes your static resources. It will combine your JavaScript and CSS files, minify them, and get them production ready. It also updates your HTML (in your `dist` directory) to have references to your versioned, combined, and minified files.
 
-A JHipster application can be deployed to your own JVM, https://jhipster.github.io/cloudfoundry/[Cloud Foundry], http://jhipster.github.io/heroku/[Heroku], https://jhipster.github.io/kubernetes/[Kubernetes], and http://jhipster.github.io/aws.html[AWS].
+A JHipster application can be deployed to your own JVM, https://jhipster.github.io/cloudfoundry/[Cloud Foundry], https://jhipster.github.io/heroku/[Heroku], https://jhipster.github.io/kubernetes/[Kubernetes], and https://jhipster.github.io/aws.html[AWS].
 
 I've deployed JHipster applications to both Heroku and Cloud Foundry. With Heroku, you might have to ask to double the timeout (from 60 to 120 seconds) to get your application started. Heroku support is usually quick to respond and can make it happen in a matter of minutes. In 2015, the JHipster team created a non-blocking Liquibase bean and https://twitter.com/java_hipster/status/649504634080468992[cut startup time by 40%].
 
