@@ -73,7 +73,7 @@ The Angular project is hosted at https://angular.io/[https://angular.io].
 === Basics
 Creating a component that says "Hello World" with Angular is pretty simple.
 
-[source,typescript]
+[source,javascript]
 ----
 import { Component } from '@angular/core';
 
@@ -90,7 +90,7 @@ In this example, the `name` variable in the component maps to the value displaye
 render on a page, you'll need a few more files: a module definition, a bootstrapping class, and an HTML file. A basic
 module definition contains component declarations, imports, providers, and a class to bootstrap.
 
-[source,typescript]
+[source,javascript]
 ----
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -111,7 +111,7 @@ export class AppModule { }
 
 Then you'll need a bootstrap file, typically named `main.ts`. This file bootstraps the module.
 
-[source,typescript]
+[source,javascript]
 ----
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -152,7 +152,7 @@ image::chapter3/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth=75%, al
 Below is a `SearchService` to fetch search results. It's expected that a JSON endpoint exists at `/api/search` on
 the same server.
 
-[source,typescript]
+[source,javascript]
 .SearchService
 ----
 import { Injectable } from '@angular/core';
@@ -174,7 +174,7 @@ export class SearchService {
 An associated `SearchComponent` can be used to display the results from this service. Notice how you can use
 constructor injection to get a reference to the service.
 
-[source,typescript]
+[source,javascript]
 .SearchComponent
 ----
 import { Component } from '@angular/core';
@@ -211,7 +211,7 @@ Windows or Linux.
 To make this component available at a URL, you can use Angular's `Router` and specify the path in the module that includes
 the component.
 
-[source,typescript]
+[source,javascript]
 .AppModule
 ----
 import { BrowserModule } from '@angular/platform-browser';
@@ -266,7 +266,7 @@ The template for the `SearchComponent` can be as simple as a form with a button.
 
 Now that you've seen the code, let's look at how everything works in the `SearchComponent`.
 
-[source,typescript]
+[source,javascript]
 ----
 @Component({
   selector: 'app-search',

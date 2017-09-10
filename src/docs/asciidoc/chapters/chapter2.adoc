@@ -542,7 +542,7 @@ Similarly, I changed the input fields to checkboxes in `points-dialog.component.
 In `points-dialog.component.ts`, I had to modify the `save()` method to convert booleans from each checkbox
 into integers.
 
-[source,typescript]
+[source,javascript]
 .src/main/webapp/app/entities/points/points-dialog.component.ts
 ----
 save() {
@@ -809,7 +809,7 @@ I started by reusing the dialogs for entering data that JHipster had created for
 
 Then I had to modify `home.component.ts` to listen for the events these dialogs fire when they modify an entity.
 
-[source,typescript]
+[source,javascript]
 .src/main/webapp/app/home/home.component.ts
 ----
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -991,7 +991,7 @@ private ResponseEntity<PointsPerWeek> calculatePoints(LocalDate startOfWeek, Lis
 
 To support this new method on the client, I added a new method to `PointsService` in `src/main/webapp/app/entities/points/points.service.ts`.
 
-[source,typescript]
+[source,javascript]
 .src/main/webapp/app/entities/points/points.service.ts
 ----
 thisWeek(): Observable<ResponseWrapper> {
@@ -1002,7 +1002,7 @@ thisWeek(): Observable<ResponseWrapper> {
 
 Then I added the service (and `PreferencesService`) as a dependency to `home.component.ts` and calculated the data I wanted to display.
 
-[source,typescript]
+[source,javascript]
 .src/main/webapp/app/home/home.component.ts
 ----
 export class HomeComponent implements OnInit {
@@ -1097,7 +1097,7 @@ public ResponseEntity<Preferences> getUserPreferences() {
 
 To facilitate calling this endpoint, I added a new `user` method to the `PreferencesService` in the client.
 
-[source,typescript]
+[source,javascript]
 .src/main/webapp/app/entities/preferences/preferences.service.ts
 ----
 user(): Observable<Preferences> {
@@ -1111,7 +1111,7 @@ In `home.component.ts`, I added the `PreferencesService` as a dependency and set
 `preferences` variable so the HTML template could read it. I also added a listener for `preference` updates
 and logic to calculate the background color of the progress bar.
 
-[source,typescript]
+[source,javascript]
 .src/main/webapp/app/home/home.component.ts
 ----
 export class HomeComponent implements OnInit {
@@ -1327,7 +1327,7 @@ public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
 
 I added a new method to support this API in `blood-pressure.service.ts`.
 
-[source,typescript]
+[source,javascript]
 .src/main/webapp/app/entities/blood-pressure/blood-pressure.service.ts
 ----
 last30Days(): Observable<BloodPressure> {
@@ -1352,7 +1352,7 @@ yarn add ng2-nvd3
 
 Then I updated `home.module.ts` to import the `NvD3Module`, as well as others imports I found necessary.
 
-[source,typescript]
+[source,javascript]
 .src/main/webapp/app/home/home.module.ts
 ----
 import { NvD3Module } from 'ng2-nvd3';
@@ -1374,7 +1374,7 @@ I modified `home.component.ts` to have the `BloodPressureService` as a dependenc
 data so D3 could render it. I found that charts required a bit of JSON to configure them, so I created
 a service to contain this configuration.
 
-[source,typescript]
+[source,javascript]
 .src/main/webapp/app/home/d3-chart.service.ts
 ----
 declare const d3, nv: any;
@@ -1430,7 +1430,7 @@ export class D3ChartService {
 In `home.component.Ts`, I grabbed the blood pressure readings from the API and morphed them into data that D3
 could understand.
 
-[source,typescript]
+[source,javascript]
 .src/main/webapp/app/home/home.component.ts
 ----
 // Get blood pressure readings for the last 30 days
