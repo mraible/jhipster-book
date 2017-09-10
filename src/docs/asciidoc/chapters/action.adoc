@@ -21,6 +21,6 @@ The definitive book about Spring's JDBC, JPA, and NoSQL support is http://shop.o
 
 Learn how to use Spring Boot to build apps faster than ever before with https://www.packtpub.com/application-development/learning-spring-boot[_Learning Spring Boot_] by Greg L. Turnquist (Packt Publishing, November 2014).
 
-An in-depth and up-to-date book on Angular is https://www.ng-book.com/2/[_ng-book: The Complete Guide to Angular 4] by by Nathan Murray, Ari Lerner, Felipe Coury, and Carlos Taborda) (Fullstack.io, April 2017).
+An in-depth and up-to-date book on Angular is https://www.ng-book.com/2/[_ng-book: The Complete Guide to Angular 4_] by by Nathan Murray, Felipe Coury, Ari Lerner, and Carlos Taborda) (Fullstack.io, April 2017).
 
-Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with http://shop.oreilly.com/product/0636920038252.do[_Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_] by Josh Long and Kenny Bastani (O'Reilly Media, expected early 2017).
+Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with http://shop.oreilly.com/product/0636920038252.do[_Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_] by Josh Long and Kenny Bastani (O'Reilly Media, August 2017).
