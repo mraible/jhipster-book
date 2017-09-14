@@ -1,10 +1,10 @@
 Book Abstract:
 
-The JHipster Mini-Book is a guide to getting started with hip technologies today: AngularJS, Bootstrap and Spring Boot. All of these frameworks are wrapped up in an easy-to-use project called JHipster. JHipster is a Yeoman generator that can be used to a create a project and generate boilerplate code for you. This book shows you how to build an app with JHipster, and guides you through the plethora of tools, techniques and options you can use. Furthermore, it explains the UI and API building blocks so you understand the underpinnings of your great application.
+The JHipster Mini-Book is a guide to getting started with hip technologies today: Angular, Bootstrap and Spring Boot. All of these frameworks are wrapped up in an easy-to-use project called JHipster. JHipster is a Yeoman generator that can be used to a create a project and generate boilerplate code for you. This book shows you how to build an app with JHipster, and guides you through the plethora of tools, techniques and options you can use. Furthermore, it explains the UI and API building blocks so you understand the underpinnings of your great application.
 
 Purpose of the book:
 
-To provide free information to the JHipster community. I've used many of the frameworks that JHipster supports and I like how it integrates them. I think building web and mobile applications with AngularJS, Bootstrap and Spring Boot is a great experience and I'd like to encourage more developers to try it.
+To provide free information to the JHipster community. I've used many of the frameworks that JHipster supports and I like how it integrates them. I think building web and mobile applications with Angular, Bootstrap and Spring Boot is a great experience and I'd like to encourage more developers to try it.
 
 Table of Contents:
 
@@ -29,11 +29,11 @@ Building an app with JHipster
     Upgrading 21-Points Health
     Summary
 JHipster's UI components
-    AngularJS
+    Angular
     Bootstrap
     Internationalization (i18n)
     Sass
-    Gulp
+    Webpack
     WebSockets
     Browsersync
     Summary
@@ -53,6 +53,6 @@ About the author
 
 Author Bio:
 
-Matt Raible is a web developer and Java Champion. He loves to architect and build slick-looking UIs using CSS and JavaScript. When he's not evangelizing Stormpath and open source, he likes to ski with his family, drive his VWs and enjoy craft beer.
+Matt Raible is a web developer, Java Champion, and Developer Advocate @okta. He loves to architect and build slick-looking UIs using CSS and JavaScript. When he's not evangelizing Okta and open source, he likes to ski with his family, drive his VWs and enjoy craft beer.
 
 https://www.flickr.com/photos/mraible/16900780428
