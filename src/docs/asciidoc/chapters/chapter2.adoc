@@ -52,7 +52,7 @@ monitors for apps, and now you can use this JHipster app to monitor your health!
 
 == Creating the application
 
-I started using the https://jhipster.github.io/installation/[Installing JHipster] instructions. I'm a Java developer,
+I started using the http://www.jhipster.tech/installation/[Installing JHipster] instructions. I'm a Java developer,
 so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org], Yarn using https://yarnpkg.com/en/docs/install[its instructions], then ran the following command to install http://yeoman.io/[Yeoman] and JHipster.
 
 [source]
@@ -60,7 +60,7 @@ so I already had Java 8 installed, as well as Maven and Git. I installed Node.js
 npm install -g yo generator-jhipster
 ----
 
-TIP: If you need to install Java, Maven, or Git, please see https://jhipster.github.io/installation/[JHipster's local installation documentation].
+TIP: If you need to install Java, Maven, or Git, please see http://www.jhipster.tech/installation/[JHipster's local installation documentation].
 
 Then I proceeded to build my application. Unlike many application generators in Javaland, Yeoman expects you to be
 in the directory you want to create your project in, rather than creating the directory for you. So I created a `21-points`
@@ -257,14 +257,14 @@ involves developing the application, then testing and deploying. The second opti
 deploy, then begin development and testing. In a team development environment, I recommend the second option.
 However, since you're likely reading this as an individual, I'll follow the first approach and get right to coding.
 If you're interested in setting up continuous integration with Jenkins, please see
-https://jhipster.github.io/setting-up-ci-jenkins2/[Setting up Continuous Integration on Jenkins 2].
+http://www.jhipster.tech/setting-up-ci-jenkins2/[Setting up Continuous Integration on Jenkins 2].
 
 == Building the UI and business logic
 
 I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a couple of years ago,
 but now Google's https://www.google.com/design/[material design] is growing in popularity. I searched for "material" in the
-https://jhipster.github.io/modules/marketplace/[JHipster Marketplace] and found the
-https://jhipster.github.io/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design]
+http://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the
+http://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design]
 module. Unfortunately, I soon found out it doesn't support JHipster 4.x. I also discovered the https://github.com/FezVrasta/bootstrap-material-design[project it depends on] is still in development for Bootstrap v4. Since Bootstrap
 4 is still an alpha release at the time of this writing, I opted to simply use Bootstrap and its default theme.
 
@@ -290,9 +290,9 @@ if you have entities with relationships, it will generate the necessary schema t
 TypeScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
 
 JHipster supports several methods of code generation. The first uses its
-https://jhipster.github.io/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool
-that prompts you with questions which you answer. https://jhipster.github.io/jdl-studio/[JDL-Studio] is a browser-based
-tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://jhipster.github.io/jhipster-uml/[JHipster-UML]
+http://www.jhipster.tech/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool
+that prompts you with questions which you answer. http://www.jhipster.tech/jdl-studio/[JDL-Studio] is a browser-based
+tool for defining your domain model with JHipster Domain Language (JDL). Finally, http://www.jhipster.tech/jhipster-uml/[JHipster-UML]
 is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio],
 http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and
 http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose
@@ -1573,7 +1573,7 @@ Password (typing will be hidden):
 Authentication successful.
 ----
 
-I ran `yo jhipster:heroku` as recommended in the https://jhipster.github.io/heroku/[Deploying to Heroku]
+I ran `yo jhipster:heroku` as recommended in the http://www.jhipster.tech/heroku/[Deploying to Heroku]
 documentation. I tried using the name "`21points`" for my application when prompted.
 
 ----
@@ -1599,7 +1599,7 @@ like that the app name started with a number. I tried again with "`health`", but
 with this name already existed. Finally, I settled on "`health-by-points`" as the application name.
 
 This failed too, because of https://github.com/jhipster/generator-jhipster/issues/5902[an issue with JHipster 4.5.2].
-JHipster 4.5.3 fixes this issue, so I upgraded using the https://jhipster.github.io/upgrading-an-application/[upgrade sub-generator].
+JHipster 4.5.3 fixes this issue, so I upgraded using the http://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator].
 
 [[jhipster-upgrade]]
 .JHipster Upgrade
@@ -1894,8 +1894,8 @@ the following command.
 java -jar jenkins.war --httpPort=9000
 ----
 
-JHipster has good documentation on https://jhipster.github.io/setting-up-ci-jenkins2/[setting up CI on Jenkins 2] and
-https://jhipster.github.io/heroku/[deploying to Heroku]. It also has a handy sub-generator to generate the config files
+JHipster has good documentation on http://www.jhipster.tech/setting-up-ci-jenkins2/[setting up CI on Jenkins 2] and
+http://www.jhipster.tech/heroku/[deploying to Heroku]. It also has a handy sub-generator to generate the config files
 needed for Jenkins. I ran `yo jhipster:ci-cd` and watched the magic happen.
 
 ----
@@ -2026,8 +2026,8 @@ as an open-source project. You can find the source code for 21-Points Health at 
 == Upgrading 21-Points Health
 
 After I finished developing the MVP of 21-Points Health with JHipster 4.5.3, I wanted to upgrade it to the latest release.
-I tried using the https://jhipster.github.io/upgrading-an-application/[upgrade sub-generator], but found that it was broken in 4.5.3
-https://jhipster.github.io/2017/06/23/jhipster-release-4.5.6.html[and only fixed in 4.5.6]. Therefore, I manually upgraded 4.5.3 to 4.6.2 using
+I tried using the http://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator], but found that it was broken in 4.5.3
+http://www.jhipster.tech/2017/06/23/jhipster-release-4.5.6.html[and only fixed in 4.5.6]. Therefore, I manually upgraded 4.5.3 to 4.6.2 using
 http://www.syntevo.com/smartsynchronize/[SmartSynchronize]. You can see what changed when I upgraded by taking a look
 at https://github.com/mraible/21-points/commit/4571d2c1a31fcbeb820417ea0f6d3f2364bb8e7e[the commit on GitHub].
 
