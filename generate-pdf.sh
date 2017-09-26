@@ -1,4 +1,6 @@
 #!/bin/bash
+# Usage: `./generate-pdf.sh` to generate printable 6x9" PDF
+#        `./generate-pdf.sh screen` to generate a downloadable 8.5x11" PDF
 
 source $HOME/.rvm/scripts/rvm
 

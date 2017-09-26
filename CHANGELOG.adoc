@@ -1,5 +1,5 @@
 = JHipster Mini-Book Changelog
-:uri-jhipster: https://jhipster.github.io
+:uri-jhipster: http://www.jhipster.tech
 :uri-jhipster-book-blog: http://www.jhipster-book.com/
 :uri-jhipster-book-download: https://www.infoq.com/minibooks/jhipster-mini-book
 :uri-repo: https://bitbucket.org/mraible/jhipster-book
@@ -9,12 +9,26 @@ ifndef::icons[]
 :star: &#9733;
 endif::[]
 
-https://jhipster.github.io[JHipster] is a fully open source, widely used application generator. It allows you to create high-quality Spring Boot and AngularJS projects in minutes. https://www.infoq.com/minibooks/jhipster-mini-book[The JHipster Mini-Book] is a guide to getting started with JHipster.
+https://jhipster.github.io[JHipster] is a fully open source, widely used application generator. It allows you to create high-quality Spring Boot and Angular projects in minutes. https://www.infoq.com/minibooks/jhipster-mini-book[The JHipster Mini-Book] is a guide to getting started with JHipster.
 
 This document provides a high-level view of the changes introduced in the JHipster Mini-Book by release.
 For a detailed view of what has changed, refer to the https://bitbucket.org/mraible/jhipster-book/commits/all[commit history] on Bitbucket.
 
 // tag::compact[]
+== 4.0 (2017-09-22) - @mraible
+
+Changes::
+  * Updated all chapters for JHipster 4 and Angular.
+  * Re-wrote 21-Points Health with Angular, Bootstrap 4, and TypeScript.
+  ** Integrated charts with https://github.com/krispo/ng2-nvd3[ng2-nvd3].
+  ** Integrated http://www.jhipster-book.com/angular-calendar[angular-calendar] for history feature.
+  ** Customized Bootstrap to look similar to Angular Material rather than using JHipster's Angular Material module.
+  * Removed various bug fixes and workarounds. Book is now 10 pages smaller!
+  * Updated lines-of-code graphs to match version 4.0 of 21-Points Health.
+  ** JHipster 2.x generated 8.556 LOC for a new project.
+  ** JHipster 3.x generated 13,920 LOC for a new project.
+  ** JHipster 4.x generates 15,173 LOC for a new project.
+  
 == 2.0 (2016-12-05) - @mraible
 
 Changes::
