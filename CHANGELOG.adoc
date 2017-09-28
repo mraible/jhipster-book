@@ -15,6 +15,10 @@ This document provides a high-level view of the changes introduced in the JHipst
 For a detailed view of what has changed, refer to the https://bitbucket.org/mraible/jhipster-book/commits/all[commit history] on Bitbucket.
 
 // tag::compact[]
+== 4.1 (2017-09-28) - @mraible
+Changes::
+  * Fixed code sample on page 73: included some AngularJS code `.controller('SearchController' ...)`.
+
 == 4.0 (2017-09-22) - @mraible
 
 Changes::
@@ -28,7 +32,7 @@ Changes::
   ** JHipster 2.x generated 8.556 LOC for a new project.
   ** JHipster 3.x generated 13,920 LOC for a new project.
   ** JHipster 4.x generates 15,173 LOC for a new project.
-  
+
 == 2.0 (2016-12-05) - @mraible
 
 Changes::
