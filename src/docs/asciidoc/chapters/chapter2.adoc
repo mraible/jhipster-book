@@ -43,7 +43,7 @@ a life changer for me.
 
 I thought writing a "`21-Point Health`" application would work because tracking your health is always
 important. Wearables that can track your health stats might be able to use the APIs or hooks I create to record
-points for a day. Imagine hooking into http://dailymile.com[Dailymile] (where I track my exercise) or https://untappd.com[Untappd] (where I sometimes list
+points for a day. Imagine hooking into http://dailymile.com[dailymile] (where I track my exercise) or https://untappd.com[Untappd] (where I sometimes list
 the beers I drink). Or even displaying other activities for a day (e.g. showing your blood-pressure score that you keep on
 http://www.apple.com/ios/health/[iOS Health]).
 
@@ -262,11 +262,11 @@ http://www.jhipster.tech/setting-up-ci-jenkins2/[Setting up Continuous Integrati
 == Building the UI and business logic
 
 I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a couple of years ago,
-but now Google's https://www.google.com/design/[material design] is growing in popularity. I searched for "material" in the
+but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the
 http://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the
 http://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design]
 module. Unfortunately, I soon found out it doesn't support JHipster 4.x. I also discovered the https://github.com/FezVrasta/bootstrap-material-design[project it depends on] is still in development for Bootstrap v4. Since Bootstrap
-4 is still an alpha release at the time of this writing, I opted to simply use Bootstrap and its default theme.
+4 is still a beta release at the time of this writing, I opted to simply use Bootstrap and its default theme.
 
 TIP: At this point, I deployed to Heroku for the first time. This is covered in the <<Deploying to Heroku>> section of this chapter.
 
