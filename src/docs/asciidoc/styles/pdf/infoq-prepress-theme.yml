@@ -154,7 +154,7 @@ code:
   background_color: ffffff
   border_color: cccccc
   border_radius: $base_border_radius
-  border_width: 0.5
+  border_width: 0
 conum:
   font_family: M+ 1mn
   font_color: $literal_font_color

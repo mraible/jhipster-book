@@ -70,13 +70,53 @@ directory and typed the following command in it to invoke JHipster.
 ----
 yo jhipster
 ----
-
-After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can
-see the choices I made in the following screenshot.
+ifeval::["{media}" != "prepress"]
+After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can see the choices I made in the following screenshot.
 
 [[img-generating-21points]]
 .Generating the application
 image::chapter2/generating-21points.png[Generating the application, 1442, scaledwidth=100%]
+endif::[]
+ifeval::["{media}" == "prepress"]
+After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can see the choices I made from my answers below.
+
+[source%autofit]
+----
+$ yo jhipster
+
+...
+
+                            https://jhipster.github.io
+
+Welcome to the JHipster Generator v4.5.2
+Documentation for creating an application: https://jhipster.github.io/creating-an-app/
+Application files will be generated in folder: /Users/mraible/dev/21-points
+? (1/16) Which *type* of application would you like to create? Monolithic application
+? (2/16) What is the base name of your application? TwentyOnePoints
+? (3/16) Would you like to install other generators from the JHipster Marketplace? No
+? (4/16) What is your default Java package name? org.jhipster.health
+? (5/16) Do you want to use the JHipster Registry ... ? No
+? (6/16) Which *type* of authentication would you like to use? JWT authentication
+? (7/16) Which *type* of database would you like to use? SQL
+? (8/16) Which *production* database would you like to use? PostgreSQL
+? (9/16) Which *development* database would you like to use? H2 with disk-based persistence
+? (10/16) Do you want to use Hibernate 2nd level cache? Yes, with ehcache
+? (11/16) Would you like to use Maven or Gradle for building the backend? Gradle
+? (12/16) Which other technologies would you like to use? Search engine using Elasticsearch
+? (13/16) Which *Framework* would you like to use for the client? [BETA] Angular 4
+? (14/16) Would you like to use the LibSass stylesheet preprocessor for your CSS? Yes
+? (15/16) Would you like to enable internationalization support? Yes
+? Please choose the native language of the application? English
+? Please choose additional languages to install French
+? (16/16) Besides JUnit and Karma, which testing frameworks would you like to use?
+          Gatling, Protractor
+
+Installing languages: en, fr
+   create package.json
+   create README.md
+   ...
+----
+endif::[]
 
 NOTE: I tried using "21-points" as the application name, but quickly discovered that this caused issues with the generated TypeScript class names. Starting a class name with a number is illegal, just like it is in Java.
 
@@ -192,10 +232,11 @@ postgres=#
 I updated `application-prod.yml` to use `21points` for the datasource password. I confirmed I could talk to a PostgreSQL database when running with the `prod` profile.
 I was greeted with an error saying that things were not set up correctly.
 
+[source]
 ----
 $ ./gradlew -Pprod
 ...
-2017-06-05 21:36:47.801 ERROR 85865 --- [           main] o.s.boot.SpringApplication               : Application startup failed
+2017-06-05 21:36:47.801 ERROR 85865 --- [           main] o.s.boot.SpringApplication: Application startup failed
 
 org.springframework.beans.factory.BeanCreationException: Error creating bean with
 name 'liquibase' defined in class path resource
@@ -322,6 +363,7 @@ image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledw
 I ran `yo jhipster:entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one
 relationship with `User`. Below is the final output from my answers.
 
+[source%autofit]
 ----
 ================= Points =================
 Fields
@@ -350,7 +392,7 @@ Everything is configured, generating the entity...
    create src/main/java/org/jhipster/health/repository/search/PointsSearchRepository.java
    create src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
    create src/test/gatling/user-files/simulations/PointsGatlingTest.scala
- conflict src/main/resources/config/liquibase/master.xml
+conflict src/main/resources/config/liquibase/master.xml
 ? Overwrite src/main/resources/config/liquibase/master.xml? overwrite this and all others
     force src/main/resources/config/liquibase/master.xml
     force src/main/java/org/jhipster/health/config/CacheConfiguration.java
@@ -466,7 +508,7 @@ I refactored the HTML at the top of `points.component.html` to put the title, se
 the button text in favor of a using https://ng-bootstrap.github.io/#/components/tooltip/api[ng-bootstrap's tooltip directive].
 The `jhiTranslate` directive you see in the button tooltips is provided by https://github.com/jhipster/ng-jhipster[JHipster's Angular library].
 
-[source,html]
+[source%autofit,html]
 .src/main/webapp/app/entities/points/points.component.html
 ----
 <div class="row">
@@ -474,7 +516,9 @@ The `jhiTranslate` directive you see in the button tooltips is provided by https
         <h2 jhiTranslate="twentyOnePointsApp.points.home.title">Points</h2>
     </div>
     <div class="col-sm-4 text-right">
-        <button class="btn btn-primary float-right create-points" [routerLink]="['/', { outlets: { popup: ['points-new'] } }]" [ngbTooltip]="addTooltip" placement="bottom">
+        <button class="btn btn-primary float-right create-points"
+                [routerLink]="['/', { outlets: { popup: ['points-new'] } }]"
+                [ngbTooltip]="addTooltip" placement="bottom">
             <span class="fa fa-plus"></span>
             <ng-template #addTooltip>
                 <span jhiTranslate="twentyOnePointsApp.points.home.createLabel">Add Points</span>
@@ -482,7 +526,9 @@ The `jhiTranslate` directive you see in the button tooltips is provided by https
         </button>
         <form name="searchForm" class="form-inline">
             <div class="input-group w-100 mr-1">
-                <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'twentyOnePointsApp.points.home.search' | translate }}">
+                <input type="text" class="form-control" [(ngModel)]="currentSearch"
+                       id="currentSearch" name="currentSearch"
+                       placeholder="{{ 'twentyOnePointsApp.points.home.search' | translate }}">
                 <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
                     <span class="fa fa-search"></span>
                 </button>
@@ -497,44 +543,49 @@ The `jhiTranslate` directive you see in the button tooltips is provided by https
 
 Changing the numbers to icons was pretty easy thanks to Angular's expression language.
 
-[source,html]
+[source%autofit,html]
 .src/main/webapp/app/entities/points/points.component.html
 ----
 <td class="text-center">
-    <i class="fa fa-{{points.exercise ? 'check text-success' : 'times text-danger'}}" aria-hidden="true"></i>
+    <i class="fa fa-{{points.exercise ? 'check text-success' : 'times text-danger'}}"
+       aria-hidden="true"></i>
 </td>
 <td class="text-center">
-    <i class="fa fa-{{points.meals ? 'check text-success' : 'times text-danger'}}" aria-hidden="true"></i>
+    <i class="fa fa-{{points.meals ? 'check text-success' : 'times text-danger'}}"
+       aria-hidden="true"></i>
 </td>
 <td class="text-center">
-    <i class="fa fa-{{points.alcohol ? 'check text-success' : 'times text-danger'}}" aria-hidden="true"></i>
+    <i class="fa fa-{{points.alcohol ? 'check text-success' : 'times text-danger'}}"
+       aria-hidden="true"></i>
 </td>
 ----
 
 Similarly, I changed the input fields to checkboxes in `points-dialog.component.html`.
 
-[source,html]
+[source%autofit,html]
 .src/main/webapp/app/entities/points/points-dialog.component.html
 ----
 <div class="form-check">
     <label class="form-check-label" for="field_exercise">
-        <input type="checkbox" class="form-check-input" name="exercise" id="field_exercise"
-            [(ngModel)]="points.exercise"  />
-        <span jhiTranslate="twentyOnePointsApp.points.exercise" for="field_exercise">Exercise</span>
+        <input type="checkbox" class="form-check-input" name="exercise"
+               id="field_exercise" [(ngModel)]="points.exercise"  />
+        <span jhiTranslate="twentyOnePointsApp.points.exercise"
+              for="field_exercise">Exercise</span>
     </label>
 </div>
 <div class="form-check">
     <label class="form-check-label" for="field_meals">
-        <input type="checkbox" class="form-check-input" name="meals" id="field_meals"
-            [(ngModel)]="points.meals"  />
+        <input type="checkbox" class="form-check-input" name="meals"
+               id="field_meals" [(ngModel)]="points.meals"  />
         <span jhiTranslate="twentyOnePointsApp.points.meals">Meals</span>
     </label>
 </div>
 <div class="form-check">
     <label class="form-check-label" for="field_alcohol">
-        <input type="checkbox" class="form-check-input" name="alcohol" id="field_alcohol"
-            [(ngModel)]="points.alcohol"  />
-        <span jhiTranslate="twentyOnePointsApp.points.alcohol" for="field_alcohol">Alcohol</span>
+        <input type="checkbox" class="form-check-input" name="alcohol"
+            id="field_alcohol" [(ngModel)]="points.alcohol"  />
+        <span jhiTranslate="twentyOnePointsApp.points.alcohol"
+              for="field_alcohol">Alcohol</span>
     </label>
 </div>
 ----
@@ -592,7 +643,8 @@ directive is included with JHipster, in `src/main/webapp/app/shared/auth/has-any
     <label jhiTranslate="twentyOnePointsApp.points.user" for="field_user">User</label>
     <select class="form-control" id="field_user" name="user" [(ngModel)]="points.user" required>
         <option [ngValue]="null"></option>
-        <option [ngValue]="userOption.id === points.user?.id ? points.user : userOption" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+        <option [ngValue]="userOption.id === points.user?.id ? points.user : userOption"
+                *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
     </select>
 </div>
 ----
@@ -600,7 +652,7 @@ directive is included with JHipster, in `src/main/webapp/app/shared/auth/has-any
 Since the dropdown is hidden from non-admins, I had to modify each `Resource` class to default to the current user when
 creating a new record. Below is a diff that shows the changes that I needed to make to `PointsResource.java`.
 
-[source,diff]
+[source%autofit,diff]
 .src/main/java/org/jhipster/health/web/rest/PointsResource.java
 ----
 +import org.jhipster.health.repository.UserRepository;
@@ -612,7 +664,8 @@ creating a new record. Below is a diff that shows the changes that I needed to m
 -    public PointsResource(PointsRepository pointsRepository, PointsSearchRepository pointsSearchRepository) {
 +    private final UserRepository userRepository;
 +
-+    public PointsResource(PointsRepository pointsRepository, PointsSearchRepository pointsSearchRepository, UserRepository userRepository) {
++    public PointsResource(PointsRepository pointsRepository, PointsSearchRepository pointsSearchRepository,
++        UserRepository userRepository) {
          this.pointsRepository = pointsRepository;
          this.pointsSearchRepository = pointsSearchRepository;
 +        this.userRepository = userRepository;
@@ -623,7 +676,9 @@ creating a new record. Below is a diff that shows the changes that I needed to m
      public ResponseEntity<Points> createPoints(@Valid @RequestBody Points points) throws URISyntaxException {
          log.debug("REST request to save Points : {}", points);
          if (points.getId() != null) {
-             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new points cannot already have an ID")).body(null);
+             return ResponseEntity.badRequest().headers(
+                 HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists",
+                     "A new points cannot already have an ID")).body(null);
          }
 +        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
 +            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
@@ -834,9 +889,12 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.getUserData();
             });
         });
-        this.eventSubscriber = this.eventManager.subscribe('pointsListModification', () => this.getUserData());
-        this.eventSubscriber = this.eventManager.subscribe('bloodPressureListModification', () => this.getUserData());
-        this.eventSubscriber = this.eventManager.subscribe('weightListModification', () => this.getUserData());
+        this.eventSubscriber = this.eventManager
+            .subscribe('pointsListModification', () => this.getUserData());
+        this.eventSubscriber = this.eventManager
+            .subscribe('bloodPressureListModification', () => this.getUserData());
+        this.eventSubscriber = this.eventManager
+            .subscribe('weightListModification', () => this.getUserData());
     }
     ...
 }
@@ -975,11 +1033,14 @@ public ResponseEntity<PointsPerWeek> getPointsThisWeek() {
     LocalDate endOfWeek = now.with(DayOfWeek.SUNDAY);
     log.debug("Looking for points between: {} and {}", startOfWeek, endOfWeek);
 
-    List<Points> points = pointsRepository.findAllByDateBetweenAndUserLogin(startOfWeek, endOfWeek, SecurityUtils.getCurrentUserLogin());
+    List<Points> points =
+        pointsRepository.findAllByDateBetweenAndUserLogin(
+            startOfWeek, endOfWeek, SecurityUtils.getCurrentUserLogin());
     return calculatePoints(startOfWeek, points);
 }
 
-private ResponseEntity<PointsPerWeek> calculatePoints(LocalDate startOfWeek, List<Points> points) {
+private ResponseEntity<PointsPerWeek> calculatePoints(LocalDate startOfWeek,
+                                                      List<Points> points) {
     Integer numPoints = points.stream()
         .mapToInt(p -> p.getExercise() + p.getMeals() + p.getAlcohol())
         .sum();
@@ -1036,8 +1097,8 @@ I added a progress bar to `home.component.html` to show points-this-week progres
 ----
 <div class="row">
     <div class="col-md-11">
-        <ngb-progressbar max="21" [value]="pointsThisWeek.points" [striped]="true"
-                         [hidden]="!pointsThisWeek.points">
+        <ngb-progressbar max="21" [value]="pointsThisWeek.points"
+                         [hidden]="!pointsThisWeek.points" [striped]="true">
             <span *ngIf="pointsThisWeek.points">
                 {{pointsThisWeek.points}} / Goal: 10
             </span>
@@ -1083,7 +1144,8 @@ I created a new method in `PreferencesResource.java` to return the user's prefer
 public ResponseEntity<Preferences> getUserPreferences() {
     String username = SecurityUtils.getCurrentUserLogin();
     log.debug("REST request to get Preferences : {}", username);
-    Optional<Preferences> preferences = preferencesRepository.findOneByUserLogin(username);
+    Optional<Preferences> preferences =
+        preferencesRepository.findOneByUserLogin(username);
 
     if (preferences.isPresent()) {
         return new ResponseEntity<>(preferences.get(), HttpStatus.OK);
@@ -1125,7 +1187,8 @@ export class HomeComponent implements OnInit {
 
     registerAuthenticationSuccess() {
         ...
-        this.eventSubscriber = this.eventManager.subscribe('preferencesListModification', () => this.getUserData());
+        this.eventSubscriber = this.eventManager.subscribe(
+            'preferencesListModification', () => this.getUserData());
     }
 
     getUserData() {
@@ -1137,14 +1200,16 @@ export class HomeComponent implements OnInit {
             this.pointsService.thisWeek().subscribe((points: any) => {
                 points = points.json;
                 this.pointsThisWeek = points;
-                this.pointsPercentage = (points.points / this.preferences.weeklyGoal) * 100;
+                this.pointsPercentage =
+                    (points.points / this.preferences.weeklyGoal) * 100;
 
                 // calculate success, warning, or danger
                 if (points.points >= preferences.weeklyGoal) {
                     this.pointsThisWeek.progress = 'success';
                 } else if (points.points < 10) {
                     this.pointsThisWeek.progress = 'danger';
-                } else if (points.points > 10 && points.points < this.preferences.weeklyGoal) {
+                } else if (points.points > 10 &&
+                    points.points < this.preferences.weeklyGoal) {
                     this.pointsThisWeek.progress = 'warning';
                 }
             });
@@ -1161,8 +1226,9 @@ as to color the progress bar appropriately with a `[type]` attribute.
 [source,html]
 .src/main/webapp/app/home/home.component.html
 ----
-<ngb-progressbar max="21" [value]="pointsThisWeek.points" [striped]="true"
-                 [type]="pointsThisWeek.progress" [hidden]="!pointsThisWeek.points">
+<ngb-progressbar max="21" [value]="pointsThisWeek.points"
+                 [type]="pointsThisWeek.progress" [striped]="true"
+                 [hidden]="!pointsThisWeek.points">
     <span *ngIf="pointsThisWeek.points">
         {{pointsThisWeek.points}} / Goal: {{preferences.weeklyGoal}}
     </span>a
@@ -1190,7 +1256,8 @@ for the last 30 days. I added a method to `BloodPressureResourceIntTest.java` to
 [source%autofit,java]
 .src/test/java/org/jhipster/health/web/rest/BloodPressureResourceIntTest.java
 ----
-private void createBloodPressureByMonth(ZonedDateTime firstDate, ZonedDateTime firstDayOfLastMonth) {
+private void createBloodPressureByMonth(ZonedDateTime firstDate,
+                                        ZonedDateTime firstDayOfLastMonth) {
     User user = userRepository.findOneByLogin("user").get();
 
     bloodPressure = new BloodPressure(firstDate, 120, 80, user);
@@ -1266,7 +1333,8 @@ entered.
 [source,java]
 .src/main/java/org/jhipster/health/repository/BloodPressureRepository.java
 ----
-List<BloodPressure> findAllByTimestampBetweenOrderByTimestampDesc(ZonedDateTime firstDate, ZonedDateTime secondDate);
+List<BloodPressure> findAllByTimestampBetweenOrderByTimestampDesc(
+    ZonedDateTime firstDate, ZonedDateTime secondDate);
 ----
 
 Next, I created a new method in `BloodPressureResource.java` that calculated the first and last days of the current
@@ -1284,8 +1352,10 @@ public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
     ZonedDateTime rightNow = ZonedDateTime.now();
     ZonedDateTime daysAgo = rightNow.minusDays(days);
 
-    List<BloodPressure> readings = bloodPressureRepository.findAllByTimestampBetweenOrderByTimestampDesc(daysAgo, rightNow);
-    BloodPressureByPeriod response = new BloodPressureByPeriod("Last " + days + " Days", filterByUser(readings));
+    List<BloodPressure> readings =
+        bloodPressureRepository.findAllByTimestampBetweenOrderByTimestampDesc(daysAgo, rightNow);
+    BloodPressureByPeriod response =
+        new BloodPressureByPeriod("Last " + days + " Days", filterByUser(readings));
     return new ResponseEntity<>(response, HttpStatus.OK);
 }
 
@@ -1319,7 +1389,8 @@ public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
     List<BloodPressure> readings =
         bloodPressureRepository.findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(
             daysAgo, rightNow, SecurityUtils.getCurrentUserLogin());
-    BloodPressureByPeriod response = new BloodPressureByPeriod("Last " + days + " Days", readings);
+    BloodPressureByPeriod response =
+        new BloodPressureByPeriod("Last " + days + " Days", readings);
     return new ResponseEntity<>(response, HttpStatus.OK);
 }
 ----
@@ -1467,7 +1538,9 @@ this.bloodPressureService.last30Days().subscribe((bpReadings: any) => {
             color: '#03a9f4'
         }];
         // set y scale to be 10 more than max and min
-        this.bpOptions.chart.yDomain = [Math.min.apply(Math, lowerValues) - 10, Math.max.apply(Math, upperValues) + 10];
+        this.bpOptions.chart.yDomain =
+          [Math.min.apply(Math, lowerValues) - 10,
+                          Math.max.apply(Math, upperValues) + 10];
     } else {
         this.bpReadings.readings = [];
     }
@@ -1482,9 +1555,11 @@ Finally, I used the "`nvd3`" directive in `home.component.html` to read `bpOptio
 <div class="row">
     <div class="col-md-11">
         <span *ngIf="bpReadings.readings && bpReadings.readings.length">
-            <nvd3 [options]="bpOptions" [data]="bpData" class="with-3d-shadow with-transitions"></nvd3>
+            <nvd3 [options]="bpOptions" [data]="bpData"
+                  class="with-3d-shadow with-transitions"></nvd3>
         </span>
-        <ngb-alert [dismissible]="false" [hidden]="bpReadings.readings && bpReadings.readings.length">
+        <ngb-alert [dismissible]="false"
+            [hidden]="bpReadings.readings && bpReadings.readings.length">
             <span jhiTranslate="home.bloodPressure.noReadings">
                 No blood pressure readings found.
             </span>
