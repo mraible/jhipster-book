@@ -20,6 +20,8 @@ Changes::
   * Changed Angular to AngularJS in preface since it's telling the history of how I came to know JHipster.
   * Added paragraph to preface explaining that this is the 3rd edition of the book.
   * Reduced colors in printable versions so it looks better.
+  * Added `[source%autofit]` to many code listings to turn off line wrapping.
+  * Changed from screenshot of `yo jhipster` to console text for print PDF.
 
 == 4.1 (2017-09-28) - @mraible
 Changes::
