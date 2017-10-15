@@ -15,6 +15,14 @@ This document provides a high-level view of the changes introduced in the JHipst
 For a detailed view of what has changed, refer to the https://bitbucket.org/mraible/jhipster-book/commits/all[commit history] on Bitbucket.
 
 // tag::compact[]
+== 4.1.1 (2017-10-13) - @mraible
+Changes::
+  * Changed Angular to AngularJS in preface since it's telling the history of how I came to know JHipster.
+  * Added paragraph to preface explaining that this is the 3rd edition of the book.
+  * Reduced colors in printable versions so it looks better.
+  * Added `[source%autofit]` to many code listings to turn off line wrapping.
+  * Changed from screenshot of `yo jhipster` to console text for print PDF.
+
 == 4.1 (2017-09-28) - @mraible
 Changes::
   * Fixed code sample on page 73: included some AngularJS code `.controller('SearchController' ...)`.
