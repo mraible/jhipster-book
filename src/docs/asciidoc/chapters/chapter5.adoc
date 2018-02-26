@@ -549,6 +549,10 @@ image::chapter5/heroku-store.png[Store on Heroku, 1200, scaledwidth=100%, align=
 
 TIP: If you're interested in deploying to Google Cloud using Kubernetes, you might enjoy my blog post and screencast on how to http://www.jhipster-book.com/#!/news/entry/build-jhipster-microservices-and-deploy-to-google-cloud-with-kubernetes[Build JHipster Microservices and Deploy to Google Cloud with Kubernetes].
 
+== Source Code
+
+You can find the source code for this microservices example at https://github.com/oktadeveloper/okta-jhipster-microservices-oauth-example.
+
 == Summary
 
 I hope you've enjoyed this whirlwind tour of how to create a microservices architecture with JHipster. Just because JHipster makes microservices easy doesn't mean you should use them. Using a microservices architecture is a great way to scale development teams. However, if you don't have a large team, a https://m.signalvnoise.com/the-majestic-monolith-29166d022228[Majestic Monolith] might work better.
@@ -557,4 +561,5 @@ If you'd like to learn more about microservices, authentication, and JHipster, s
 
 * https://developer.okta.com/blog/2017/06/15/build-microservices-architecture-spring-boot[Build a Microservices Architecture for Microbrews with Spring Boot]
 * https://developer.okta.com[Secure a Spring Microservices Architecture with Spring Security and OAuth]
+* https://developer.okta.com/blog/2017/06/20/develop-microservices-with-jhipster[Develop and Deploy Microservices with JHipster] (uses JWT for authentication)
 * https://developer.okta.com/blog/2017/10/20/oidc-with-jhipster[Use OpenID Connect Support with JHipster]
