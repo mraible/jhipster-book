@@ -2,11 +2,11 @@
 :book-title: {doctitle}
 :author: Matt Raible
 :email: matt@raibledesigns.com
-:revnumber: 4.1.1
+:revnumber: 4.5.0
 :revdate: {docdate}
-:revyear: 2017
+:revyear: 2018
 :subject: JHipster
-:keywords: JHipster, Angular, Bootstrap, Spring Boot
+:keywords: JHipster, Angular, Bootstrap, Spring Boot, Microservices
 :doctype: book
 :media: screen
 ifeval::["{media}" != "prepress"]
@@ -41,6 +41,8 @@ include::chapters/chapter2.adoc[]
 include::chapters/chapter3.adoc[]
 
 include::chapters/chapter4.adoc[]
+
+include::chapters/chapter5.adoc[]
 
 include::chapters/action.adoc[]
 
