@@ -66,6 +66,8 @@ module AsciidoctorPdfExtensions
           part_number = 'TWO'
         elsif sect_id.include? 'api'
           part_number = 'THREE'
+        elsif sect_id.include? 'microservices'
+            part_number = 'FOUR'
         end
         if @ppbook
           layout_heading part_number, align: :right, size: 100, style: :bold
