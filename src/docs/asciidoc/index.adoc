@@ -6,7 +6,7 @@
 :revdate: {docdate}
 :revyear: 2018
 :subject: JHipster
-:keywords: JHipster, Angular, Bootstrap, Spring Boot, Microservices
+:keywords: JHipster, Angular, Bootstrap, Spring Boot, Spring Cloud, Microservices, Docker, Heroku
 :doctype: book
 :media: screen
 ifeval::["{media}" != "prepress"]

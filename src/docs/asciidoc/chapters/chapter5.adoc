@@ -1,54 +1,53 @@
 [[microservices-with-jhipster]]
 = Microservices with JHipster
 
-Adopting a microservice architecture provides unique opportunities to add failover and resiliency to your systems, so your components can handle load spikes and errors gracefully. Microservices make change less expensive too. It can also be a good idea when you have a large team working on a single product. Your project can likely be broken up into components that can function independently of one another. Once components can function independently, they can be built, tested, and deployed independently. This gives an organization and its teams the agility to develop and deploy very quickly.
+Adopting a microservice architecture provides unique opportunities to add failover and resiliency to your systems, so your components can handle load spikes and errors gracefully. Microservices make change less expensive, too. They can also be a good idea when you have a large team working on a single product. You can likely break up your project into components that can function independently of one another. Once components can function independently, they can be built, tested, and deployed independently. This gives an organization and its teams the agility to develop and deploy very quickly.
 
-Before we dive into the code tutorial, I'd like to talk a bit about microservices, their history, and why you should
-(or should not) consider a microservices architecture for your next project.
+Before we dive into the code tutorial, I'd like to talk a bit about microservices, their history, and why you should (or should not) consider a microservices architecture for your next project.
 
-== History of Microservices
+== History of microservices
 
 According to https://en.wikipedia.org/wiki/Microservices#History[Wikipedia], the term "microservice" was first used as a common architecture style at a workshop of software architects near Venice in May 2011. In May 2012, the same group decided "microservices" was a more appropriate name.
 
-https://www.linkedin.com/in/adriancockcroft[Adrian Cockcroft], who was at Netflix at the time, described this architecture as "fine-grained SOA". Martin Fowler and James Lewis wrote an article titled simply http://martinfowler.com/articles/microservices.html[Microservices] on March 25, 2014. Years later, this is still considered the definitive article for microservices.
+https://www.linkedin.com/in/adriancockcroft[Adrian Cockcroft], who was at Netflix at the time, described this architecture as "fine-grained SOA". Martin Fowler and James Lewis wrote an article titled simply "`http://martinfowler.com/articles/microservices.html[Microservices]`" on March 25, 2014. Years later, this is still considered the definitive article for microservices.
 
-=== Organizations and Conway's Law
+=== Organizations and Conway's law
 
-Technology has traditionally been organized into technology layers: UI team, database team, operations team. When teams are separated along these lines, even simple changes can lead to a cross-team project sucking down huge chunks of time and budget.
+Technology has traditionally been organized into technology layers: UI team, database team, operations team. When teams are separated along these lines, even simple changes can lead to a cross-team project consuming huge chunks of time and budget.
 
-A smart team will optimize around this and choose the lesser of two evils; forcing the logic into whichever application they have access to. This is an example of http://www.melconway.com/Home/Committees_Paper.html[Conway's Law] in action.
+A smart team will optimize around this and choose the lesser of two evils: forcing the logic into whichever application they have access to. This is an example of http://www.melconway.com/Home/Conways_Law.html[Conway's law] in action.
 
-.Conway's Law
-image::chapter5/conways-law.png[Conway's Law, 560, scaledwidth=50%, align=center]
+.Conway's law
+image::chapter5/conways-law.png[Conway's law, 560, scaledwidth=50%, align=center]
 
 > Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the
 > organization's communication structure.
 >
 > — Melvyn Conway, 1967
 
-=== Microservices Architecture Philosophy
+=== Microservices architecture philosophy
 
-The philosophy of a microservices architecture is essentially equal to the Unix philosophy of "Do one thing and do it well". The characteristics of a microservices architecture are as follows:
+The philosophy of a microservices architecture is essentially equal to the Unix philosophy of "do one thing and do it well". The characteristics of a microservices architecture are as follows:
 
-* Componentization via services
-* Organized around business capabilities
-* Products not projects
-* Smart endpoints and dumb pipes
-* Decentralized governance
-* Decentralized data management
-* Infrastructure automation
-* Design for failure
-* Evolutionary design
+* componentization via services,
+* organized around business capabilities,
+* products not projects,
+* smart endpoints and dumb pipes,
+* decentralized governance,
+* decentralized data management,
+* infrastructure automation,
+* design for failure, and
+* evolutionary design.
 
-== Why Microservices?
+== Why microservices?
 
-For most developers, dev teams, and organizations, it's easier to work on small "do one thing well" services. No single program represents the whole application, so services can change frameworks (or even languages) without a massive cost. As long as the services use a language agnostic protocol (HTTP or lightweight messaging), applications can be written in several different platforms - Java, Ruby, Node, Go, .NET, etc. - without issue.
+For most developers, dev teams, and organizations, it's easier to work on small, "do one thing well" services. No single program represents the whole application, so services can change frameworks (or even languages) without a massive cost. As long as the services use a language-agnostic protocol (HTTP or lightweight messaging), applications can be written in several different platforms — Java, Ruby, Node, Go, .NET, etc. — without issue.
 
-Platform-as-a-Service (PaaS) providers and containers have made it easy to deploy microservices. All the technologies needed to support a monolith (e.g. load balancing, discovery, process monitoring) are provided by the PaaS, outside of your container. Deployment effort comes close to zero.
+Platform-as-a-service (PaaS) providers and containers have made it easy to deploy microservices. All the technologies needed to support a monolith (e.g., load balancing, discovery, process monitoring) are provided by the PaaS, outside of your container. Deployment effort comes close to zero.
 
-=== Are Microservices the Future?
+=== Are microservices the future?
 
-Architecture decisions, like adopting microservices, are usually only evident several years after you make them. Microservices have been successful at companies like LinkedIn, Twitter, Facebook, Amazon, and Netflix. But that doesn't mean they'll be successful for your organization. Component boundaries are hard to define. If you're not able to create your components cleanly, you're just shifting complexity from inside a component to the connections between the components. Also, team capabilities are something to consider. A weak team will always create a weak system.
+The consequences of architecture decisions, like adopting microservices, usually only become evident several years after you make them. Microservices have been successful at companies like LinkedIn, Twitter, Facebook, Amazon.com, and Netflix, but that doesn't mean they'll be successful for your organization. Component boundaries are hard to define. If you're not able to create your components cleanly, you're just shifting complexity from inside a component to the connections between components. Also, team capabilities are something to consider. A weak team will always create a weak system.
 
 > You shouldn't start with a microservices architecture. Instead, begin with a monolith, keep it modular, and split it into microservices once the monolith becomes a problem.
 >
@@ -58,23 +57,23 @@ Architecture decisions, like adopting microservices, are usually only evident se
 
 In this example, I'll show you how to build a microservices architecture with JHipster. As part of this process, you'll be generating three applications and running another.
 
-* Generate a gateway
-* Generate a blog microservice
-* Generate a store microservice
-* Run the JHipster Registry
+* Generate a gateway.
+* Generate a blog microservice.
+* Generate a store microservice.
+* Run the JHipster Registry.
 
 You can see how these components fit in the diagram below.
 
-.JHipster Microservices Architecture
-image::chapter5/jhipster-microservices-architecture.png[JHipster Microservices Architecture, 1378, scaledwidth=100%, align=center]
+.JHipster microservices architecture
+image::chapter5/jhipster-microservices-architecture.png[JHipster microservices architecture, 1378, scaledwidth=100%, align=center]
 
 To see what's happening inside your applications, you can use the https://jhipster.github.io/monitoring/#jhipster-console[JHipster Console], a monitoring tool based on the https://www.elastic.co/products[Elastic Stack]. I'll cover JHipster Console in the Docker Compose section.
 
-This tutorial shows you how to build a microservices architecture with http://www.jhipster.tech/2018/01/30/jhipster-release-4.14.0.html[JHipster 4.14.0]. You'll generate a gateway (powered by Netflix Zuul), a blog microservices (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
+This tutorial shows you how to build a microservices architecture with http://www.jhipster.tech/2018/01/30/jhipster-release-4.14.0.html[JHipster 4.14.0]. You'll generate a gateway (powered by Netflix Zuul), a blog microservice (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
 
-== Generate an API Gateway
+== Generate an API gateway
 
-To generate an API Gateway with JHipster, open a terminal window, navigate to `jhipster-microservices-example`, create a `gateway` directory, and run `jhipster`.
+To generate an API gateway with JHipster, open a terminal window, navigate to `jhipster-microservices-example`, create a `gateway` directory, and run `jhipster`.
 
 [source]
 ----
@@ -111,17 +110,17 @@ The project generation process will take several minutes to run, depending on yo
 
 While you're waiting, you can get started with setting up OAuth with Okta.
 
-=== What is OAuth?
+=== What is OAuth 2.0?
 
-The OAuth implementation in JHipster leverages Spring Boot and its OAuth 2.0 support (an `@EnableOAuthSso` annotation). If you're not sure what OAuth and OpenID Connect (OIDC) are, please see https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth[What the Heck is OAuth?]. Basically, it provides single sign-on (SSO) to JHipster applications. https://developer.okta.com/blog/2018/02/13/secure-spring-microservices-with-oauth[Securing Microservices with Spring Security OAuth] shows a bare-bones Spring microservices architecture using OAuth. JHipster uses the same setup internally.
+The OAuth implementation in JHipster leverages Spring Boot and its OAuth 2.0 support (an `@EnableOAuthSso` annotation). If you're not sure what OAuth and OpenID Connect (OIDC) are, please see "`https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth[What the Heck Is OAuth?]`". OAuth provides single sign-on (SSO) to JHipster applications. "`https://developer.okta.com/blog/2018/02/13/secure-spring-microservices-with-oauth[Securing Microservices with Spring Security OAuth]`" shows a bare-bones Spring microservices architecture using OAuth. JHipster uses the same internal setup.
 
-JHipster ships with https://keycloak.org[Keycloak] configured for OAuth by default. This works great for local development. However, if you want to deploy your apps to production, you might want to use an identity provider that's "always on", like http://developer.okta.com[Okta]. Okta's Developer accounts are forever-free and allow you to have up to 7,000 monthly users for no cost.
+JHipster ships with https://keycloak.org[Keycloak] configured for OAuth by default. This works great for local development. However, if you want to deploy your apps to production, you might want to use an identity provider that's always on, like http://developer.okta.com[Okta]. Okta offers accounts that are forever-free and allow you 7,000 monthly users at no cost.
 
-To configure your apps to work with Okta, you'll first need to https://developer.okta.com/signup/[create a free developer account]. After doing so, you'll get your own Okta domain, that has a name like `https://dev-123456.oktapreview.com`.
+To configure your apps to work with Okta, you'll first need to https://developer.okta.com/signup/[create a free developer account]. After doing so, you'll get your own Okta domain, which has a name like `https://dev-123456.oktapreview.com`.
 
-=== Create an OIDC Application on Okta
+=== Create an OpenID Connect application on Okta
 
-Create an OIDC App in Okta to get a client ID and secret. This basically means you're "registering" your application with Okta. Log in to your Okta Developer account and navigate to *Applications* &gt; *Add Application*. Click *Web* and click the *Next* button. Give the app a name you’ll remember (e.g., `JHipster Microservices`), and specify `http://localhost:8080` as a Base URI and `http://localhost:8080/login` as a Login Redirect URI. Click *Done* and make note of your client ID and client secret values.
+Create an OpenID Connect (OIDC) app in Okta to get a client ID and a secret. This basically means you're "registering" your application with Okta. Log in to your Okta account and navigate to *Applications* &gt; *Add Application*. Click *Web* and click *Next*. Give the app a name you’ll remember (e.g., `JHipster Microservices`), and specify `http://localhost:8080` as a base URI and `http://localhost:8080/login` as a login redirect URI. Click *Done* and make note of your client ID and client secret values.
 
 In order for the roles coming from Okta to match the default roles in JHipster, you'll need to create them. Create a `ROLE_ADMIN` and `ROLE_USER` group (**Users** &gt; *Groups* &gt; *Add Group*) and add users to them. You can use the account you signed up with, or create a new user (**Users** &gt; *Add Person*). Navigate to *API* &gt; *Authorization Servers*, click the *Authorization Servers* tab and edit the default one. Click the *Claims* tab and *Add Claim*. Name it `roles`, and include it in the ID Token. Set the value type to `Groups` and set the filter to be a Regex of `.*`.
 
@@ -149,7 +148,7 @@ security:
 
 NOTE: Make sure to remove the `security.oauth2.resource.jwt.key-uri` key and value. This property causes Spring Security to retrieve a public key from Keycloak, and Okta doesn't have this same functionality. I https://github.com/jhipster/generator-jhipster/issues/7116[entered an issue] to fix this in JHipster.
 
-You can also use environment variables to override the default values. Using this technique is recommend because 1) You don't need to modify the values in each microservice application and 2) it prevents you from leaking your client secret in a source code repository.
+You can also use environment variables to override the default values. Using this technique is recommended because 1) you don't need to modify the values in each microservice application and 2) it prevents you from leaking your client secret in a source-code repository.
 
 [source%autofit,bash]
 ----
@@ -163,7 +162,7 @@ export SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="{clientSecret}"
 
 TIP: If you're using JHipster’s Protractor support, you'll want to add a user to the `ROLE_ADMIN` group on Okta and change the credentials in `src/test/javascript/e2e/account/account.spec.ts` and `src/test/javascript/e2e/admin/administration.spec.ts`.
 
-== Install the JHipster Registry
+== Install JHipster Registry
 
 You'll need a service discovery server installed before you can start the gateway. In a browser, go to the https://github.com/jhipster/jhipster-registry/releases[JHipster Registry release page] and download the latest release. At the time of this writing, it was v3.2.4.
 
@@ -183,12 +182,12 @@ Start the `gateway` app by navigating to its directory in a terminal and running
 
 TIP: If you already have Maven installed, you can simply use `mvn`.
 
-Open your browser and go to http://localhost:8761[http://localhost:8761]. Log in with `admin/admin` and you should see a welcome page that shows the gateway has been registered.
+Open your browser and go to http://localhost:8761[http://localhost:8761]. Log in with `admin/admin` and you should see a welcome page that shows that the gateway has been registered.
 
-.JHipster Registry with Gateway registered
-image::chapter5/jhipster-registry-with-gateway.png[JHipster Registry with Gateway registered, 800, scaledwidth=100%, align=center]
+.JHipster Registry with gateway registered
+image::chapter5/jhipster-registry-with-gateway.png[JHipster Registry with gateway registered, 800, scaledwidth=100%, align=center]
 
-== Generate a Blog Microservice Application
+== Generate a blog microservice application
 
 In `jhipster-microservices-example`, create a `blog` directory, and run `jhipster`.
 
@@ -222,7 +221,7 @@ Use the following answers to generate a blog microservice with OAuth 2.0 support
 |Install other generators? |`No`
 |===
 
-Create a `blog/blog.jh` file and fill it with the following JDL (JHipster Domain Language).
+Create a `blog/blog.jh` file and fill it with the following, written in JHipster Domain Language (JDL).
 
 [source]
 ----
@@ -252,7 +251,7 @@ relationship ManyToMany {
 
 NOTE: This schema does not have a many-to-one relationship from `Blog` to `User` because JHipster's microservices support for OAuth doesn't currently have a `User` entity. I'm https://github.com/jhipster/generator-jhipster/issues/7065[currently working to improve that].
 
-Run `jhipster import-jdl blog.jh` to create the backend API to power this schema. Answer `a` when prompted to overwrite `src/main/resources/config/liquibase/master.xml`.
+Run `jhipster import-jdl blog.jh` to create the back-end API to power this schema. Answer `a` when prompted to overwrite `src/main/resources/config/liquibase/master.xml`.
 
 Change directories into the `gateway` application and run `jhipster entity blog`. Specify `Y` when prompted to generate from an existing microservice. Enter `../blog` as the path to the root directory. Select `Yes, re-generate the entity` and type `a` when prompted to overwrite `src/main/webapp/app/entities/entity.module.ts`.
 
@@ -264,7 +263,7 @@ jhipster entity entry
 jhipster entity tag
 ----
 
-== Generate a Store Microservice Application
+== Generate a store microservice application
 
 In `jhipster-microservices-example`, create a `store` directory, then run `jhipster`.
 
@@ -324,13 +323,13 @@ You have an empty microservice, but it needs some entities to manage! Run `jhips
 
 Change directories into the `gateway` application and run `jhipster entity product`. Specify `Y` when prompted to generate from an existing microservice. Enter `../store` as the path to the root directory. Select `Yes, re-generate the entity` and type `a` when prompted to overwrite `src/main/webapp/app/entities/entity.module.ts`.
 
-== Run Your Microservices Architecture
+== Run your microservices architecture
 
-There's a lot of services to start if you want to see all your applications running. The blog application depends on Elasticsearch and PostgreSQL, but only when running in production mode. The store app, however, needs MongoDB running. Luckily, JHipster creates Docker Compose files you can use to start MongoDB.
+There are many services to start if you want to see all your applications running. The blog application depends on Elasticsearch and PostgreSQL, but only when running in production mode. The store app, however, needs MongoDB running. Luckily, JHipster creates Docker Compose files you can use to start MongoDB.
 
 NOTE: Make sure to remove the `security.oauth2.resource.jwt.key-uri` key and value from `src/main/resources/config/application.yml` in the gateway, blog, and store apps before you try to run them.
 
-. Restart the gateway app since you added new entity management pages to it.
+. Restart the gateway app, because you added new entity management pages to it.
 . Start the blog app from the `blog` directory by running `mvn`.
 . Start a Docker container for MongoDB from the `store` directory by running:
 
@@ -338,37 +337,38 @@ NOTE: Make sure to remove the `security.oauth2.resource.jwt.key-uri` key and val
 
 . Start the store app from the `store` directory by running `mvn`.
 
-Once everything finishes starting, open a browser to http://localhost:8080[http://localhost:8080] and click *sign in*. You should be redirected to your Okta org to sign-in, then back to the gateway once you've entered valid credentials.
+Once everything is running, open a browser, go to http://localhost:8080[http://localhost:8080], and click *sign in*. You should be redirected to your Okta tenant to sign in, then back to the gateway once you've entered valid credentials.
 
 .Welcome, JHipster
 image::chapter5/welcome-jhipster.png["Welcome, JHipster", 1200, scaledwidth=100%, align=center]
 
-.Okta Sign-In
-image::chapter5/okta-sign-in.png[Okta Sign-In, 1200, scaledwidth=100%, align=center]
+.Okta sign-in
+image::chapter5/okta-sign-in.png[Okta sign-in, 1200, scaledwidth=100%, align=center]
 
 .JHipster after Okta SSO
 image::chapter5/jhipster-logged-in.png[JHipster after Okta SSO, 800, scaledwidth=100%, align=center]
 
-You should be able to navigate to *Entities* &gt; *Blog* and and add a new blog record to your blog microservice.
+You should be able to navigate to *Entities* &gt; *Blog* and add a new blog record to your blog microservice.
 
-.New Blog
-image::chapter5/new-blog.png[New Blog, 800, scaledwidth=100%, align=center]
+.New blog
+image::chapter5/new-blog.png[New blog, 800, scaledwidth=100%, align=center]
 
 Navigate to *Entities* &gt; *Product* to prove your product microservice is working. Since you added an image as a property, you'll be prompted to upload one when creating a new record.
 
-.Add Product Dialog
-image::chapter5/add-product-dialog.png[Add Product Dialog, 800, scaledwidth=100%, align=center]
+.Add product modal
+image::chapter5/add-product-dialog.png[Add product modal, 800, scaledwidth=100%, align=center]
 
-Click *Save* and you'll know it's correctly using MongoDB based on the generated ID.
+Click *Save* and you'll know, based on the generated ID, that it's correctly using MongoDB.
 
 .New Product
 image::chapter5/new-product.png[New Product, 800, scaledwidth=100%, align=center]
 
-=== Use Docker Compose to Run Everything
 
-Rather than starting all your services individually, you can also start them all using https://docs.docker.com/compose/[Docker Compose]. To learn more about Docker Compose, see https://developer.okta.com/blog/2017/10/11/developers-guide-to-docker-part-3[A Developer's Guide To Docker Compose].
+=== Use Docker Compose to run everything
 
-Create a `docker-compose` directory in the root directory (`jhipster-microservices-example`) of your applications and run JHipster's Docker Compose subgenerator.
+Rather than individually starting all your services, you can start them all at once using https://docs.docker.com/compose/[Docker Compose]. To learn more about Docker Compose, see "`https://developer.okta.com/blog/2017/10/11/developers-guide-to-docker-part-3[A Developer's Guide to Docker Compose]`".
+
+Create a `docker-compose` directory in the root directory (`jhipster-microservices-example`) and run JHipster's Docker Compose subgenerator.
 
 [source]
 ----
@@ -390,14 +390,14 @@ Answer as follows when prompted:
 |Admin password |`&lt;choose your own&gt;`
 |===
 
-You'll get a warning saying you need to generate Docker images by running the following command in the `blog`, `gateway`, and `store` directories. Stop all your running processes and build your Docker images before proceeding.
+You'll get a warning that says you need to generate Docker images by running the following command in the `blog`, `gateway`, and `store` directories. Stop all your running processes and build your Docker images before proceeding.
 
 [source]
 ----
 ./mvnw verify -Pprod dockerfile:build
 ----
 
-NOTE: Building the gateway will likely fail because of https://github.com/jhipster/generator-jhipster/issues/7114[an issue with JavaScript tests]. To workaround this issue, skip the tests with `mvn package -Pprod -DskipTests dockerfile:build`.
+NOTE: Building the gateway will likely fail because of https://github.com/jhipster/generator-jhipster/issues/7114[an issue with JavaScript tests]. To work around this issue, skip the tests with `mvn package -Pprod -DskipTests dockerfile:build`.
 
 While you're waiting for things to build, edit `docker-compose/docker-compose.yml` and change the Spring Security settings from being hard-coded to being environment variables. Make this change for all applications and make sure to add the client ID and secret since those aren't included by default.
 
@@ -411,9 +411,11 @@ While you're waiting for things to build, edit `docker-compose/docker-compose.ym
 - SECURITY_OAUTH2_RESOURCE_TOKEN_INFO_URI=${SECURITY_OAUTH2_RESOURCE_TOKEN_INFO_URI}
 ----
 
-TIP: You can run `docker-compose config` to verify the environment variables are substituted properly.
+TIP: You can run `docker-compose config` to verify that the environment variables are substituted properly.
 
-When everything has finished building, run `docker-compose up -d` from the `docker-compose` directory. It can take a while to start all 14 containers, so now might be a good time to take a break, or get some exercise. You can use Docker's Kitematic to watch the status of your images as they start.
+When everything has finished building, run `docker-compose up -d` from the `docker-compose` directory. It can take a while to start all 14 containers, so now might be a good time to take a break or get some exercise. You can use Docker's Kitematic to watch the status of your images as they start.
+
+TIP: Before you start everything, make sure you’ve provided adequate CPUs and memory to Docker. It defaults to one CPU and 2 GB of memory — not quite enough for 14 containers!
 
 .New Product
 image::chapter5/kitematic.png[Kitematic, 800, scaledwidth=100%, align=center]
@@ -434,7 +436,7 @@ docker rm $(docker ps -a -q)
 
 == Deploy to Heroku
 
-The founder of JHipster, https://twitter.com/juliendubois[Julien Dubois], wrote a blog post on the Heroku blog titled https://blog.heroku.com/bootstrapping_your_microservices_architecture_with_jhipster_and_spring[Bootstrapping Your Microservices Architecture with JHipster and Spring]. Here's an abbreviated set of steps to deploy all your apps to Heroku.
+The founder of JHipster, https://twitter.com/juliendubois[Julien Dubois], wrote a blog post on the Heroku blog titled "`https://blog.heroku.com/bootstrapping_your_microservices_architecture_with_jhipster_and_spring[Bootstrapping Your Microservices Architecture with JHipster and Spring]`". Here's an abbreviated set of steps to deploy all your apps to Heroku.
 
 === Deploy the JHipster Registry
 
@@ -442,7 +444,7 @@ Heroku and JHipster have configured a JHipster Registry for you, so you just nee
 
 image::chapter5/deploy-to-heroku.png[link="https://dashboard.heroku.com/new?&amp;template=https%3A%2F%2Fgithub.com%2Fjhipster%2Fjhipster-registry"]
 
-=== Deploy Your Gateway and Apps
+=== Deploy your gateway and apps
 
 Edit `src/main/resources/config/application-prod.yml` in your gateway and apps. Remove `appname` and `instanceId` and add the following `eureka.instance` properties:
 
@@ -488,7 +490,7 @@ To set the JHipster Registry password on your gateway app, run:
 heroku config:set JHIPSTER_REGISTRY_PASSWORD="$JHIPSTER_REGISTRY_PASSWORD"
 ----
 
-Then update your Okta app to have a *Login redirect URI* that matches your Heroku app (e.g., `https://okta-gateway.herokuapp.com/`). To do this, log in to your Okta account, go to *Applications* &gt; *JHipster Microservices* &gt; *General* &gt; *Edit*. You'll also need to add this as a trusted origin in *API* &gt; *Trusted Origins* &gt; *Add Origin*.
+Update your Okta app to have a *Login redirect URI* that matches your Heroku app (e.g., `https://okta-gateway.herokuapp.com/`). To do this, log in to your Okta account, go to *Applications* &gt; *JHipster Microservices* &gt; *General* &gt; *Edit*. You'll also need to add this as a trusted origin in *API* &gt; *Trusted Origins* &gt; *Add Origin*.
 
 If you chose Elasticsearch like I did, you'll need to configure it to be in-memory and use http://stackoverflow.com/questions/12416738/how-to-use-herokus-ephemeral-filesystem[Heroku's ephemeral filesystem]. Add the following Elasticsearch properties to `src/main/resources/config/application-heroku.yml` and redeploy your apps using `jhipster heroku`. You could also try adding and configuring Heroku's https://elements.heroku.com/addons/searchbox[Searchbox Elasticsearch add-on].
 
@@ -538,8 +540,8 @@ Below are screenshots to prove everything worked after I got my timeouts increas
 .Gateway on Heroku
 image::chapter5/heroku-welcome.png[Gateway on Heroku, 1200, scaledwidth=100%, align=center]
 
-.Heroku Gateway Routes
-image::chapter5/heroku-gateway-routes.png[Heroku Gateway Routes, 1200, scaledwidth=100%, align=center]
+.Heroku gateway routes
+image::chapter5/heroku-gateway-routes.png[Heroku gateway routes, 1200, scaledwidth=100%, align=center]
 
 .Blog on Heroku
 image::chapter5/heroku-blog.png[Blog on Heroku, 1200, scaledwidth=100%, align=center]
@@ -547,19 +549,20 @@ image::chapter5/heroku-blog.png[Blog on Heroku, 1200, scaledwidth=100%, align=ce
 .Store on Heroku
 image::chapter5/heroku-store.png[Store on Heroku, 1200, scaledwidth=100%, align=center]
 
-TIP: If you're interested in deploying to Google Cloud using Kubernetes, you might enjoy my blog post and screencast on how to http://www.jhipster-book.com/#!/news/entry/build-jhipster-microservices-and-deploy-to-google-cloud-with-kubernetes[Build JHipster Microservices and Deploy to Google Cloud with Kubernetes].
 
-== Source Code
+TIP: If you're interested in deploying to Google Cloud using Kubernetes, you might enjoy my blog post and screencast on how to "`http://www.jhipster-book.com/#!/news/entry/build-jhipster-microservices-and-deploy-to-google-cloud-with-kubernetes[Build JHipster Microservices and Deploy to Google Cloud with Kubernetes]`".
+
+== Source code
 
 You can find the source code for this microservices example at https://github.com/oktadeveloper/okta-jhipster-microservices-oauth-example.
 
 == Summary
 
-I hope you've enjoyed this whirlwind tour of how to create a microservices architecture with JHipster. Just because JHipster makes microservices easy doesn't mean you should use them. Using a microservices architecture is a great way to scale development teams. However, if you don't have a large team, a https://m.signalvnoise.com/the-majestic-monolith-29166d022228[Majestic Monolith] might work better.
+I hope you've enjoyed this whirlwind tour of how to create a microservices architecture with JHipster. Just because JHipster makes microservices easy doesn't mean you should use them. Using a microservices architecture is a great way to scale development teams, but if you don't have a large team, a "`https://m.signalvnoise.com/the-majestic-monolith-29166d022228[Majestic Monolith]`" might work better.
 
 If you'd like to learn more about microservices, authentication, and JHipster, see the following resources.
 
-* https://developer.okta.com/blog/2017/06/15/build-microservices-architecture-spring-boot[Build a Microservices Architecture for Microbrews with Spring Boot]
-* https://developer.okta.com[Secure a Spring Microservices Architecture with Spring Security and OAuth]
-* https://developer.okta.com/blog/2017/06/20/develop-microservices-with-jhipster[Develop and Deploy Microservices with JHipster] (uses JWT for authentication)
-* https://developer.okta.com/blog/2017/10/20/oidc-with-jhipster[Use OpenID Connect Support with JHipster]
+* "`https://developer.okta.com/blog/2017/06/15/build-microservices-architecture-spring-boot[Build a Microservices Architecture for Microbrews with Spring Boot]`"
+* "`https://developer.okta.com[Secure a Spring Microservices Architecture with Spring Security and OAuth]`"
+* "`https://developer.okta.com/blog/2017/06/20/develop-microservices-with-jhipster[Develop and Deploy Microservices with JHipster]`" (uses JWT for authentication)
+* "`https://developer.okta.com/blog/2017/10/20/oidc-with-jhipster[Use OpenID Connect Support with JHipster]`"
