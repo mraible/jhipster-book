@@ -15,7 +15,7 @@ This document provides a high-level view of the changes introduced in the JHipst
 For a detailed view of what has changed, refer to the https://bitbucket.org/mraible/jhipster-book/commits/all[commit history] on Bitbucket.
 
 // tag::compact[]
-== 4.5.0 (2018-03-16) - @mraible
+== 4.5.0 (2018-03-19) - @mraible
 Changes::
   * Added chapter on building a microservice architecture with JHipster.
 
