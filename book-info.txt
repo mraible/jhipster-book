@@ -2,6 +2,10 @@ Book Abstract:
 
 The JHipster Mini-Book is a guide to getting started with hip technologies today: Angular, Bootstrap and Spring Boot. All of these frameworks are wrapped up in an easy-to-use project called JHipster. JHipster is a Yeoman generator that can be used to a create a project and generate boilerplate code for you. This book shows you how to build an app with JHipster, and guides you through the plethora of tools, techniques and options you can use. Furthermore, it explains the UI and API building blocks so you understand the underpinnings of your great application.
 
+The latest edition (v4.5) includes a brand new chapter on microservices! It also shows you how to use Docker Compose and deploy your microservices to Heroku.
+
+You can find the blog for the JHipster Mini-Book at http://www.jhipster-book.com. You can also follow it on Twitter at https://twitter.com/jhipster_book.
+
 Purpose of the book:
 
 To provide free information to the JHipster community. I've used many of the frameworks that JHipster supports and I like how it integrates them. I think building web and mobile applications with Angular, Bootstrap and Spring Boot is a great experience and I'd like to encourage more developers to try it.
@@ -33,7 +37,7 @@ JHipster's UI components
     Bootstrap
     Internationalization (i18n)
     Sass
-    Webpack
+    webpack
     WebSockets
     Browsersync
     Summary
@@ -46,6 +50,18 @@ JHipster's API building blocks
     Liquibase
     Elasticsearch
     Deployment
+    Summary
+Microservices with JHipster
+    History of microservices
+    Why microservices?
+    Microservices with JHipster
+    Generate an API gateway
+    Install JHipster Registry
+    Generate a blog microservice application
+    Generate a store microservice application
+    Run your microservices architecture
+    Deploy to Heroku
+    Source code
     Summary
 Action!
     Additional reading
