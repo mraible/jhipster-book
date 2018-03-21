@@ -65,7 +65,7 @@ announcing that they would be using http://www.typescriptlang.org/[TypeScript] o
 a migration path for Angular 1.x users. They also adopted semantic versioning and http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html[recommended people call it "Angular"
 instead of Angular 2.0].
 
-Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. http://www.jhipster.tech/2017/07/06/jhipster-release-4.6.0.html[JHipster 4.6.0] was released July 6, 2017 and contains production-ready Angular support. Prior to that, JHipster's
+Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. https://www.jhipster.tech/2017/07/06/jhipster-release-4.6.0.html[JHipster 4.6.0] was released July 6, 2017 and contains production-ready Angular support. Prior to that, JHipster's
 Angular support was considered beta quality.
 
 The Angular project is hosted at https://angular.io/[https://angular.io].

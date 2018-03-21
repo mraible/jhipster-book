@@ -9,7 +9,7 @@ Before we dive into the code tutorial, I'd like to talk a bit about microservice
 
 According to https://en.wikipedia.org/wiki/Microservices#History[Wikipedia], the term "microservice" was first used as a common architecture style at a workshop of software architects near Venice in May 2011. In May 2012, the same group decided "microservices" was a more appropriate name.
 
-https://www.linkedin.com/in/adriancockcroft[Adrian Cockcroft], who was at Netflix at the time, described this architecture as "fine-grained SOA". Martin Fowler and James Lewis wrote an article titled simply "link:http://martinfowler.com/articles/microservices.html[Microservices]" on March 25, 2014. Years later, this is still considered the definitive article for microservices.
+https://www.linkedin.com/in/adriancockcroft[Adrian Cockcroft], who was at Netflix at the time, described this architecture as "fine-grained SOA". Martin Fowler and James Lewis wrote an article titled simply "`link:http://martinfowler.com/articles/microservices.html[Microservices]`" on March 25, 2014. Years later, this is still considered the definitive article for microservices.
 
 === Organizations and Conway's law
 
@@ -69,7 +69,7 @@ image::chapter5/jhipster-microservices-architecture.png[JHipster microservices a
 
 To see what's happening inside your applications, you can use the https://jhipster.github.io/monitoring/#jhipster-console[JHipster Console], a monitoring tool based on the https://www.elastic.co/products[Elastic Stack]. I'll cover JHipster Console in the Docker Compose section.
 
-This tutorial shows you how to build a microservices architecture with http://www.jhipster.tech/2018/01/30/jhipster-release-4.14.0.html[JHipster 4.14.0]. You'll generate a gateway (powered by Netflix Zuul), a blog microservice (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
+This tutorial shows you how to build a microservices architecture with https://www.jhipster.tech/2018/01/30/jhipster-release-4.14.0.html[JHipster 4.14.0]. You'll generate a gateway (powered by Netflix Zuul), a blog microservice (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
 
 == Generate an API gateway
 
@@ -112,7 +112,7 @@ While you're waiting, you can get started with setting up OAuth with Okta.
 
 === What is OAuth 2.0?
 
-The OAuth implementation in JHipster leverages Spring Boot and its OAuth 2.0 support (an `@EnableOAuthSso` annotation). If you're not sure what OAuth and OpenID Connect (OIDC) are, please see "link:https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth[What the Heck Is OAuth?]". OAuth provides single sign-on (SSO) to JHipster applications. "link:https://developer.okta.com/blog/2018/02/13/secure-spring-microservices-with-oauth[Securing Microservices with Spring Security OAuth]" shows a bare-bones Spring microservices architecture using OAuth. JHipster uses the same internal setup.
+The OAuth implementation in JHipster leverages Spring Boot and its OAuth 2.0 support (an `@EnableOAuthSso` annotation). If you're not sure what OAuth and OpenID Connect (OIDC) are, please see "`link:https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth[What the Heck Is OAuth?]`". OAuth provides single sign-on (SSO) to JHipster applications. "`link:https://developer.okta.com/blog/2018/02/13/secure-spring-microservices-with-oauth[Securing Microservices with Spring Security OAuth]`" shows a bare-bones Spring microservices architecture using OAuth. JHipster uses the same internal setup.
 
 JHipster ships with https://keycloak.org[Keycloak] configured for OAuth by default. This works great for local development. However, if you want to deploy your apps to production, you might want to use an identity provider that's always on, like http://developer.okta.com[Okta]. Okta offers accounts that are forever-free and allow you 7,000 monthly users at no cost.
 
@@ -366,7 +366,7 @@ image::chapter5/new-product.png[New Product, 800, scaledwidth=100%, align=center
 
 === Use Docker Compose to run everything
 
-Rather than individually starting all your services, you can start them all at once using https://docs.docker.com/compose/[Docker Compose]. To learn more about Docker Compose, see "link:https://developer.okta.com/blog/2017/10/11/developers-guide-to-docker-part-3[A Developer's Guide to Docker Compose]".
+Rather than individually starting all your services, you can start them all at once using https://docs.docker.com/compose/[Docker Compose]. To learn more about Docker Compose, see "`link:https://developer.okta.com/blog/2017/10/11/developers-guide-to-docker-part-3[A Developer's Guide to Docker Compose]`".
 
 Create a `docker-compose` directory in the root directory (`jhipster-microservices-example`) and run JHipster's Docker Compose subgenerator.
 
@@ -436,7 +436,7 @@ docker rm $(docker ps -a -q)
 
 == Deploy to Heroku
 
-The founder of JHipster, https://twitter.com/juliendubois[Julien Dubois], wrote a blog post on the Heroku blog titled "link:https://blog.heroku.com/bootstrapping_your_microservices_architecture_with_jhipster_and_spring[Bootstrapping Your Microservices Architecture with JHipster and Spring]". Here's an abbreviated set of steps to deploy all your apps to Heroku.
+The founder of JHipster, https://twitter.com/juliendubois[Julien Dubois], wrote a blog post on the Heroku blog titled "`link:https://blog.heroku.com/bootstrapping_your_microservices_architecture_with_jhipster_and_spring[Bootstrapping Your Microservices Architecture with JHipster and Spring]`". Here's an abbreviated set of steps to deploy all your apps to Heroku.
 
 === Deploy the JHipster Registry
 
@@ -549,8 +549,7 @@ image::chapter5/heroku-blog.png[Blog on Heroku, 1200, scaledwidth=100%, align=ce
 .Store on Heroku
 image::chapter5/heroku-store.png[Store on Heroku, 1200, scaledwidth=100%, align=center]
 
-
-TIP: If you're interested in deploying to Google Cloud using Kubernetes, you might enjoy my blog post and screencast on how to "link:http://www.jhipster-book.com/#!/news/entry/build-jhipster-microservices-and-deploy-to-google-cloud-with-kubernetes[Build JHipster Microservices and Deploy to Google Cloud with Kubernetes]".
+TIP: If you're interested in deploying to Google Cloud using Kubernetes, you might enjoy my blog post and screencast on how to "`link:http://www.jhipster-book.com/#!/news/entry/build-jhipster-microservices-and-deploy-to-google-cloud-with-kubernetes[Build JHipster Microservices and Deploy to Google Cloud with Kubernetes]`".
 
 == Source code
 
@@ -558,11 +557,11 @@ You can find the source code for this microservices example at https://github.co
 
 == Summary
 
-I hope you've enjoyed this whirlwind tour of how to create a microservices architecture with JHipster. Just because JHipster makes microservices easy doesn't mean you should use them. Using a microservices architecture is a great way to scale development teams, but if you don't have a large team, a "link:https://m.signalvnoise.com/the-majestic-monolith-29166d022228[Majestic Monolith]" might work better.
+I hope you've enjoyed this whirlwind tour of how to create a microservices architecture with JHipster. Just because JHipster makes microservices easy doesn't mean you should use them. Using a microservices architecture is a great way to scale development teams, but if you don't have a large team, a "`link:https://m.signalvnoise.com/the-majestic-monolith-29166d022228[Majestic Monolith]`" might work better.
 
 If you'd like to learn more about microservices, authentication, and JHipster, see the following resources.
 
-* "link:https://developer.okta.com/blog/2017/06/15/build-microservices-architecture-spring-boot[Build a Microservices Architecture for Microbrews with Spring Boot]"
-* "link:https://developer.okta.com[Secure a Spring Microservices Architecture with Spring Security and OAuth]"
-* "link:https://developer.okta.com/blog/2017/06/20/develop-microservices-with-jhipster[Develop and Deploy Microservices with JHipster]" (uses JWT for authentication)
-* "link:https://developer.okta.com/blog/2017/10/20/oidc-with-jhipster[Use OpenID Connect Support with JHipster]"
+* "`link:https://developer.okta.com/blog/2017/06/15/build-microservices-architecture-spring-boot[Build a Microservices Architecture for Microbrews with Spring Boot]`"
+* "`link:https://developer.okta.com[Secure a Spring Microservices Architecture with Spring Security and OAuth]`"
+* "`link:https://developer.okta.com/blog/2017/06/20/develop-microservices-with-jhipster[Develop and Deploy Microservices with JHipster]`" (uses JWT for authentication)
+* "`link:https://developer.okta.com/blog/2017/10/20/oidc-with-jhipster[Use OpenID Connect Support with JHipster]`"

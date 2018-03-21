@@ -524,7 +524,7 @@ I'd recommend starting with the tool that's most familiar to you. If you're usin
 
 IDE stands for "`integrated development environment`". It is the lifeblood of a programmer who likes keyboard shortcuts and typing fast. The good IDEs have code completion that allows you to type a few characters, press tab, and have your code written for you. Furthermore, they provide quick formatting, easy access to documentation, and debugging. You can generate a lot of code with your IDE in statically typed languages like Java, like getters and setters on POJOs and methods in interfaces and classes. You can also easily find references to methods.
 
-The JHipster documentation includes http://www.jhipster.tech/configuring-ide/[guides] for configuring Eclipse, IntelliJ IDEA, Visual Studio Code, and NetBeans. Not only that, but Spring Boot has a https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html[devtools plugin] that's configured by default in a generated JHipster application. This plugin allows hot-reloading of your application when you recompile classes.
+The JHipster documentation includes https://www.jhipster.tech/configuring-ide/[guides] for configuring Eclipse, IntelliJ IDEA, Visual Studio Code, and NetBeans. Not only that, but Spring Boot has a https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html[devtools plugin] that's configured by default in a generated JHipster application. This plugin allows hot-reloading of your application when you recompile classes.
 
 https://www.jetbrains.com/idea/[IntelliJ IDEA], which brings these same features to Java development, is a truly amazing IDE. If you're only writing JavaScript, their https://www.jetbrains.com/webstorm/[WebStorm IDE] will likely become your best friend. Both IntelliJ products have excellent CSS support and accept plugins for many web languages/frameworks. See https://github.com/jhipster/generator-jhipster/issues/4258[this tip] to learn how to make IDEA auto-compile on save, like Eclipse does.
 
@@ -604,7 +604,7 @@ For security reasons, you should change the default passwords in `src/main/resou
 
 A traditional relational-database management system (RDBMS) provides a number of properties that guarantee its transactions are processed reliably: ACID, for atomicity, consistency, isolation, and durability. Databases like MySQL and PostgreSQL provide RDBMS support and have done wonders to reduce the costs of databases. JHipster supports vendors like Oracle and Microsoft as well. If you'd like to use a traditional database, select SQL when creating your JHipster project.
 
-TIP: JHipster's http://www.jhipster.tech/using-oracle/[Using Oracle] guide explains how'll you need an Oracle account to download its proprietary JDBC driver.
+TIP: JHipster's https://www.jhipster.tech/using-oracle/[Using Oracle] guide explains how'll you need an Oracle account to download its proprietary JDBC driver.
 
 NoSQL databases have helped many web-scale companies achieve high scalability through https://en.wikipedia.org/wiki/Eventual_consistency[eventual consistency]: because a NoSQL database is often distributed across several machines, with some latency, it guarantees only that all instances will eventually be consistent. Eventually consistent services are often called BASE (basically available, soft state, eventual consistency) services in contrast to traditional ACID properties.
 
@@ -617,7 +617,7 @@ When you create a new JHipster project, you'll be prompted with the following.
   Cassandra
 ----
 
-If you're familiar with RDBMS databases, I recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku and MySQL has great support on AWS. JHipster's http://www.jhipster.tech/aws/[AWS sub-generator] has a limitation of only working with MySQL.
+If you're familiar with RDBMS databases, I recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku and MySQL has great support on AWS. JHipster's https://www.jhipster.tech/aws/[AWS sub-generator] has a limitation of only working with MySQL.
 
 If your idea is the next Facebook, you might want to consider a NoSQL database that's more concerned with performance than third normal form.
 
@@ -647,7 +647,7 @@ When MongoDB is selected:
 * JHipster will use https://github.com/mongobee/mongobee[Mongobee] instead of Liquibase to manage database migrations.
 * The entity sub-generator will not ask you about relationships. You can't have relationships with a NoSQL database.
 
-Cassandra http://www.jhipster.tech/using-cassandra/[does not support OAuth 2.0 authentication] and it requires you to run its migration tool manually, or in a Docker container.
+Cassandra https://www.jhipster.tech/using-cassandra/[does not support OAuth 2.0 authentication] and it requires you to run its migration tool manually, or in a Docker container.
 ****
 
 == Liquibase
@@ -671,7 +671,7 @@ This file is loaded by Liquibase when it creates the database schema.
 
 Liquibase supports http://www.liquibase.org/databases.html[most major databases]. If you use MySQL or PostgreSQL, you can use `mvn liquibase:diff` (or `./gradlew liquibaseDiffChangelog`) to automatically generate a changelog.
 
-https://http://www.jhipster.tech//development/[JHipster's development guide] recommends the following workflow:
+https://https://www.jhipster.tech//development/[JHipster's development guide] recommends the following workflow:
 
 1. Modify your JPA entity (add a field, a relationship, etc.).
 2. Run `mvn compile liquibase:diff`.
@@ -682,7 +682,7 @@ If you use Gradle, you can use the same workflow by confirming database settings
 
 == Elasticsearch
 
-Elasticsearch adds searchability to your entities. JHipster's Elasticsearch support requires using a SQL database. Spring Boot uses and configures http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch]. When using JHipster's http://www.jhipster.tech/creating-an-entity/[entity sub-generator], it automatically indexes the entity and creates an endpoint to support searching its properties. Search superpowers are also added to the AngularJS UI, so you can search in your entity's list screen.
+Elasticsearch adds searchability to your entities. JHipster's Elasticsearch support requires using a SQL database. Spring Boot uses and configures http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch]. When using JHipster's https://www.jhipster.tech/creating-an-entity/[entity sub-generator], it automatically indexes the entity and creates an endpoint to support searching its properties. Search superpowers are also added to the AngularJS UI, so you can search in your entity's list screen.
 
 When using the (default) "`dev`" profile, the in-memory Elasticsearch instance will store files in the `target` folder.
 
@@ -732,7 +732,7 @@ gradlew -Pprod bootRun
 
 The "`prod`" profile will trigger a `webpack:prod`, which optimizes your static resources. It will combine your JavaScript and CSS files, minify them, and get them production ready. It also updates your HTML (in your `(build|target)/www` directory) to have references to your versioned, combined, and minified files.
 
-A JHipster application can be deployed to your own JVM, http://www.jhipster.tech/cloudfoundry/[Cloud Foundry], http://www.jhipster.tech/heroku/[Heroku], https://http://www.jhipster.tech//kubernetes/[Kubernetes], and http://www.jhipster.tech/aws.html[AWS].
+A JHipster application can be deployed to your own JVM, https://www.jhipster.tech/cloudfoundry/[Cloud Foundry], https://www.jhipster.tech/heroku/[Heroku], https://https://www.jhipster.tech//kubernetes/[Kubernetes], and https://www.jhipster.tech/aws.html[AWS].
 
 I've deployed JHipster applications to both Heroku and Cloud Foundry. With Heroku, you might have to ask to double the timeout (from 60 to 120 seconds) to get your application started. Heroku support is usually quick to respond and can make it happen in a matter of minutes. In 2015, the JHipster team created a non-blocking Liquibase bean and https://twitter.com/java_hipster/status/649504634080468992[cut startup time by 40%].
 
