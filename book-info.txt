@@ -72,3 +72,16 @@ Author Bio:
 Matt Raible is a web developer, Java Champion, and Developer Advocate @okta. He loves to architect and build slick-looking UIs using CSS and JavaScript. When he's not evangelizing Okta and open source, he likes to ski with his family, drive his VWs and enjoy craft beer.
 
 https://www.flickr.com/photos/mraible/16900780428
+
+Back Cover:
+
+The things you need to do to set up a new software project can be daunting. First, you have to select the back-end framework to create your API, choose your database, set up security, and choose your build tool. Then you have to choose the tools to create your front end: select a UI framework, configure a build tool, set up Sass processing, configure your browser to auto-refresh when you make changes, and configure the client and server so they work in unison. If you’re building a new application using Spring Boot and Angular, you can save days by using JHipster. 
+
+JHipster generates a complete and modern web app, unifying:
+
+* A high-performance and robust Java stack on the server side with Spring Boot
+* A sleek, modern, mobile-first front-end with Angular and Bootstrap
+* A robust microservice architecture with the JHipster Registry, Netflix OSS, the ELK stack, and Docker
+* A powerful workflow to build your application with Yeoman, Webpack, and Maven/Gradle
+
+JHipster is a treasure trove of information of how to build modern web applications and microservice architectures. It can turn any curious and willing developer into a Java Hipster!
