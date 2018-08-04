@@ -53,11 +53,11 @@ monitors for apps, and now you can use this JHipster app to monitor your health!
 == Creating the application
 
 I started using the https://www.jhipster.tech/installation/[Installing JHipster] instructions. I'm a Java developer,
-so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org], Yarn using https://yarnpkg.com/en/docs/install[its instructions], then ran the following command to install http://yeoman.io/[Yeoman] and JHipster.
+so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org], Yarn using https://yarnpkg.com/en/docs/install[its instructions], then ran the following command to install JHipster.
 
 [source]
 ----
-npm install -g yo generator-jhipster
+npm install -g generator-jhipster
 ----
 
 TIP: If you need to install Java, Maven, or Git, please see https://www.jhipster.tech/installation/[JHipster's local installation documentation].
@@ -68,48 +68,52 @@ directory and typed the following command in it to invoke JHipster.
 
 [source]
 ----
-yo jhipster
+jhipster
 ----
 ifeval::["{media}" != "prepress"]
 After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can see the choices I made in the following screenshot.
 
 [[img-generating-21points]]
 .Generating the application
-image::chapter2/generating-21points.png[Generating the application, 1442, scaledwidth=100%]
+image::chapter2/generating-21points.png[Generating the application, 1365, scaledwidth=100%]
 endif::[]
 ifeval::["{media}" == "prepress"]
 After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can see the choices I made from my answers below.
 
 [source%autofit]
 ----
-$ yo jhipster
+$ jhipster
 
 ...
 
-                            https://jhipster.github.io
-
-Welcome to the JHipster Generator v4.5.2
-Documentation for creating an application: https://jhipster.github.io/creating-an-app/
+Welcome to JHipster v5.1.0
 Application files will be generated in folder: /Users/mraible/dev/21-points
-? (1/16) Which *type* of application would you like to create? Monolithic application
-? (2/16) What is the base name of your application? TwentyOnePoints
-? (3/16) Would you like to install other generators from the JHipster Marketplace? No
-? (4/16) What is your default Java package name? org.jhipster.health
-? (5/16) Do you want to use the JHipster Registry ... ? No
-? (6/16) Which *type* of authentication would you like to use? JWT authentication
-? (7/16) Which *type* of database would you like to use? SQL
-? (8/16) Which *production* database would you like to use? PostgreSQL
-? (9/16) Which *development* database would you like to use? H2 with disk-based persistence
-? (10/16) Do you want to use Hibernate 2nd level cache? Yes, with ehcache
-? (11/16) Would you like to use Maven or Gradle for building the backend? Gradle
-? (12/16) Which other technologies would you like to use? Search engine using Elasticsearch
-? (13/16) Which *Framework* would you like to use for the client? [BETA] Angular 4
-? (14/16) Would you like to use the LibSass stylesheet preprocessor for your CSS? Yes
-? (15/16) Would you like to enable internationalization support? Yes
-? Please choose the native language of the application? English
+ _______________________________________________________________________________________________________________
+
+  Documentation for creating an application is at https://www.jhipster.tech/creating-an-app/
+  If you find JHipster useful, consider sponsoring the project at https://opencollective.com/generator-jhipster
+ _______________________________________________________________________________________________________________
+
+? Which *type* of application would you like to create? Monolithic application (recommended for simple projects)
+? What is the base name of your application? TwentyOnePoints
+? What is your default Java package name? org.jhipster.health
+? Do you want to use the JHipster Registry to configure, monitor and scale your application? No
+? Which *type* of authentication would you like to use? JWT authentication (stateless, with a token)
+? Which *type* of database would you like to use? SQL (H2, MySQL, MariaDB, PostgreSQL, Oracle, MSSQL)
+? Which *production* database would you like to use? PostgreSQL
+? Which *development* database would you like to use? H2 with disk-based persistence
+? Do you want to use the Spring cache abstraction? Yes, with the Ehcache implementation (local cache, for a singl
+e node)
+? Do you want to use Hibernate 2nd level cache? Yes
+? Would you like to use Maven or Gradle for building the backend? Gradle
+? Which other technologies would you like to use? Search engine using Elasticsearch
+? Which *Framework* would you like to use for the client? Angular 6
+? Would you like to enable *SASS* support using the LibSass stylesheet preprocessor? Yes
+? Would you like to enable internationalization support? Yes
+? Please choose the native language of the application English
 ? Please choose additional languages to install French
-? (16/16) Besides JUnit and Karma, which testing frameworks would you like to use?
-          Gatling, Protractor
+? Besides JUnit and Jest, which testing frameworks would you like to use? Gatling, Protractor
+? Would you like to install other generators from the JHipster Marketplace? No
 
 Installing languages: en, fr
    create package.json
@@ -132,14 +136,15 @@ this file in an empty directory to create a project with the same settings.
       "packageName": "org.jhipster.health",
       "nativeLanguage": "en"
     },
-    "jhipsterVersion": "4.5.2",
+    "jhipsterVersion": "5.1.0",
+    "applicationType": "monolith",
     "baseName": "TwentyOnePoints",
     "packageName": "org.jhipster.health",
     "packageFolder": "org/jhipster/health",
     "serverPort": "8080",
     "authenticationType": "jwt",
-    "hibernateCache": "ehcache",
-    "clusteredHttpSession": false,
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
     "websocket": false,
     "databaseType": "sql",
     "devDatabaseType": "h2Disk",
@@ -148,12 +153,11 @@ this file in an empty directory to create a project with the same settings.
     "messageBroker": false,
     "serviceDiscoveryType": false,
     "buildTool": "gradle",
-    "enableSocialSignIn": false,
-    "jwtSecretKey": "51b88e52708cfa62c9bc4a7e6c50eff6143ad55c",
-    "clientFramework": "angular2",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "085df706b054e1db67afbae8cf2c649b7e8e880d",
+    "clientFramework": "angularX",
     "useSass": true,
     "clientPackageManager": "yarn",
-    "applicationType": "monolith",
     "testFrameworks": [
       "gatling",
       "protractor"
@@ -185,33 +189,39 @@ To prove everything was good to go, I ran the Java unit tests using `./gradlew t
 
 [source]
 ----
-BUILD SUCCESSFUL
+BUILD SUCCESSFUL in 1m 19s
+8 actionable tasks: 7 executed, 1 up-to-date
+----
 
-Total time: 1 mins 49.367 secs
+JHipster v5 will only work with external Elasticsearch instance. In previous versions, you could use an embedded Elasticsearch instance, but this feature has been removed in recent Elasticsearch releases. The easiest way to run a local Elasticsearch instance is to use Docker Compose. I ran the following command to start Elasticsearch as a daemon. Remove the `-d` option if you don't want it to run as a daemon.
+
+----
+docker-compose -f src/main/docker/elasticsearch.yml up -d
 ----
 
 Next, I started the app using `./gradlew` and then ran the UI integration tests with `yarn e2e`. All tests passed with flying colors.
 
 ----
 $ yarn e2e
-yarn e2e v0.24.4
+yarn run v1.9.2
 $ protractor src/test/javascript/protractor.conf.js
-(node:82790) [DEP0022] DeprecationWarning: os.tmpDir() is deprecated. Use os.tmpdir() instead.
-[21:18:47] W/configParser - pattern ./e2e/entities/*.spec.ts did not match any files.
-[21:18:47] I/launcher - Running 1 instances of WebDriver
-[21:18:47] I/direct - Using ChromeDriver directly...
+(node:49754) [DEP0022] DeprecationWarning: os.tmpDir() is deprecated. Use os.tmpdir() instead.
+[15:47:19] W/configParser - pattern ./e2e/entities/**/*.spec.ts did not match any files.
+[15:47:19] I/launcher - Running 1 instances of WebDriver
+[15:47:19] I/direct - Using ChromeDriver directly...
 Started
-..........
+...........
 
 
-10 specs, 0 failures
-Finished in 17.828 seconds
+11 specs, 0 failures
+Finished in 25.126 seconds
 
-[21:19:08] I/launcher - 0 instance(s) of WebDriver still running
-[21:19:08] I/launcher - chrome #01 passed
-✨  Done in 22.14s.
+[15:47:48] I/launcher - 0 instance(s) of WebDriver still running
+[15:47:48] I/launcher - chrome #01 passed
+✨  Done in 31.24s.
 ----
 
+// todo: use the PostgreSQL Docker container
 To prove the `prod` profile worked and I could talk to PostgreSQL, I installed http://postgresapp.com/[Postgres.app] and tried
 creating a local PostgreSQL database with settings from `src/main/resources/config/application-prod.yml`.
 
@@ -360,7 +370,7 @@ Health is all about how many points you get in a week. I created the following d
 .21-Points Health entity diagram
 image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=100%, align=center]
 
-I ran `yo jhipster:entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one
+I ran `jhipster entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one
 relationship with `User`. Below is the final output from my answers.
 
 [source%autofit]
@@ -450,7 +460,7 @@ weight_units (Units) required
 
 TIP: After generating the `Weight` and `BloodPressure` entities with a `date` property for the date/time field, I
 decided that `timestamp` was a better property name. To fix this, I modified the respective JSON files in the `.jhipster`
-directory and ran `yo jhipster:entity` for each entity again. This seemed easier than refactoring with IntelliJ and hoping
+directory and ran `jhipster entity` for each entity again. This seemed easier than refactoring with IntelliJ and hoping
 it caught all the name instances.
 
 When I ran `./gradlew test`, I was pleased to see that all tests passed.
@@ -513,13 +523,13 @@ The `jhiTranslate` directive you see in the button tooltips is provided by https
 ----
 <div class="row">
     <div class="col-sm-8">
-        <h2 jhiTranslate="twentyOnePointsApp.points.home.title">Points</h2>
+        <h2 id="page-heading" jhiTranslate="twentyOnePointsApp.points.home.title">Points</h2>
     </div>
     <div class="col-sm-4 text-right">
-        <button class="btn btn-primary float-right create-points"
-                [routerLink]="['/', { outlets: { popup: ['points-new'] } }]"
+        <button class="btn btn-primary float-right jh-create-entity create-points"
+                [routerLink]="['/points/new']"
                 [ngbTooltip]="addTooltip" placement="bottom">
-            <span class="fa fa-plus"></span>
+            <fa-icon [icon]="'plus'"></fa-icon>
             <ng-template #addTooltip>
                 <span jhiTranslate="twentyOnePointsApp.points.home.createLabel">Add Points</span>
             </ng-template>
@@ -529,11 +539,11 @@ The `jhiTranslate` directive you see in the button tooltips is provided by https
                 <input type="text" class="form-control" [(ngModel)]="currentSearch"
                        id="currentSearch" name="currentSearch"
                        placeholder="{{ 'twentyOnePointsApp.points.home.search' | translate }}">
-                <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
-                    <span class="fa fa-search"></span>
+                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                    <fa-icon [icon]="'search'"></fa-icon>
                 </button>
-                <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                    <span class="fa fa-trash-o"></span>
+                <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                    <fa-icon [icon]="'trash-alt'"></fa-icon>
                 </button>
             </div>
         </form>
@@ -1648,11 +1658,11 @@ Password (typing will be hidden):
 Authentication successful.
 ----
 
-I ran `yo jhipster:heroku` as recommended in the https://www.jhipster.tech/heroku/[Deploying to Heroku]
+I ran `jhipster heroku` as recommended in the https://www.jhipster.tech/heroku/[Deploying to Heroku]
 documentation. I tried using the name "`21points`" for my application when prompted.
 
 ----
-$ yo jhipster:heroku
+$ jhipster heroku
   Heroku configuration is starting
   ? Name to deploy as: 21points
   ? On which region do you want to deploy ? us
@@ -1687,7 +1697,7 @@ likely because I used this handy sub-generator again.
 After upgrading, I tried to deploy to Heroku once more.
 
 ----
-$ yo jhipster:heroku
+$ jhipster heroku
   Heroku configuration is starting
   ? Name to deploy as: health-by-points
   ? On which region do you want to deploy ? us
@@ -1971,10 +1981,10 @@ java -jar jenkins.war --httpPort=9000
 
 JHipster has good documentation on https://www.jhipster.tech/setting-up-ci-jenkins2/[setting up CI on Jenkins 2] and
 https://www.jhipster.tech/heroku/[deploying to Heroku]. It also has a handy sub-generator to generate the config files
-needed for Jenkins. I ran `yo jhipster:ci-cd` and watched the magic happen.
+needed for Jenkins. I ran `jhipster ci-cd` and watched the magic happen.
 
 ----
-$ yo jhipster:ci-cd
+$ jhipster ci-cd
 [Beta] Welcome to the JHipster CI/CD Sub-Generator
 ? What CI/CD pipeline do you want to generate? Jenkins pipeline
 ? Jenkins pipeline: what tasks/integrations do you want to include?
@@ -2115,7 +2125,7 @@ https://github.com/jhipster/generator-jhipster/issues/6178#issuecomment-31872652
 == Summary
 
 This section showed you how I created a health-tracking web application with JHipster. It walked you through upgrading to the
-latest release of JHipster and how to generate code with `yo jhipster:entity`. You learned how to do test-first development
+latest release of JHipster and how to generate code with `jhipster entity`. You learned how to do test-first development
 when writing new APIs and how Spring Data JPA makes it easy to add custom queries. You also saw how to reuse existing
 dialogs on different pages, how to add methods to client services, and how to manipulate data to display pretty charts.
 
