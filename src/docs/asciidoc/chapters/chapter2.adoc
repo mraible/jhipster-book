@@ -245,9 +245,7 @@ $ ./gradlew -Pprod
 One of the first things I like to do when creating a new project is to add it to a version-control system (VCS). In this
 particular case, I chose Git and https://bitbucket.org[Bitbucket].
 
-JHipster will initialize Git for your project automatically if you have Git installed. All I had to do to push to Bitbucket was
-
-The following commands show how I added a reference to the remote Bitbucket repository, then pushed everything. I created the repository on Bitbucket before executing these commands.
+JHipster will initialize Git for your project automatically if you have Git installed. The following commands show how I added a reference to the remote Bitbucket repository, then pushed everything. I created the repository on Bitbucket before executing these commands.
 
 [source]
 ----
