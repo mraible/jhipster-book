@@ -221,43 +221,13 @@ Finished in 25.126 seconds
 ✨  Done in 31.24s.
 ----
 
-// todo: use the PostgreSQL Docker container
-To prove the `prod` profile worked and I could talk to PostgreSQL, I installed http://postgresapp.com/[Postgres.app] and tried
-creating a local PostgreSQL database with settings from `src/main/resources/config/application-prod.yml`.
+To prove the `prod` profile worked and I could talk to PostgreSQL, I ran Docker Compose for PostgreSQL.
 
 ----
-"/Applications/Postgres.app/Contents/Versions/9.6/bin/psql" -p5432 -d "postgres"
-⌂104% [mraible:~] $ "/Applications/Postgres.app/Contents/Versions/9.6/bin/psql" -p5432 -d "postgres"
-psql (9.6.3)
-Type "help" for help.
-postgres=# create user TwentyOnePoints with password '21points';
-CREATE ROLE
-postgres=# create database TwentyOnePoints;
-CREATE DATABASE
-postgres=# grant all privileges on database TwentyOnePoints to TwentyOnePoints;
-GRANT
-postgres=#
+docker-compose -f src/main/docker/postgresql.yml up -d
 ----
 
 I updated `application-prod.yml` to use `21points` for the datasource password. I confirmed I could talk to a PostgreSQL database when running with the `prod` profile.
-I was greeted with an error saying that things were not set up correctly.
-
-[source]
-----
-$ ./gradlew -Pprod
-...
-2017-06-05 21:36:47.801 ERROR 85865 --- [           main] o.s.boot.SpringApplication: Application startup failed
-
-org.springframework.beans.factory.BeanCreationException: Error creating bean with
-name 'liquibase' defined in class path resource
-[org/jhipster/health/config/DatabaseConfiguration.class]: Invocation of init method
-failed; nested exception is liquibase.exception.DatabaseException: org.postgresql
-.util.PSQLException: FATAL: role "TwentyOnePoints" does not exist
-----
-
-I quickly realized that PostgreSQL is case insensitive, so even though I typed
-"TwentyOnePoints", it configured the database name and username as "twentyonepoints".
-I updated `application-prod.yml` with the correct case and tried again. This time it worked!
 
 ----
 $ ./gradlew -Pprod
@@ -265,7 +235,7 @@ $ ./gradlew -Pprod
 ----------------------------------------------------------
         Application 'TwentyOnePoints' is running! Access URLs:
         Local:          http://localhost:8080
-        External:       http://192.168.1.27:8080
+        External:       http://192.168.0.121:8080
         Profile(s):     [prod]
 ----------------------------------------------------------
 ----
@@ -275,29 +245,21 @@ $ ./gradlew -Pprod
 One of the first things I like to do when creating a new project is to add it to a version-control system (VCS). In this
 particular case, I chose Git and https://bitbucket.org[Bitbucket].
 
-The following commands show how I initialized Git, committed the project, added a reference to the remote Bitbucket
-repository, then pushed everything. I created the repository on Bitbucket before executing these commands.
+JHipster will initialize Git for your project automatically if you have Git installed. All I had to do to push to Bitbucket was
+
+The following commands show how I added a reference to the remote Bitbucket repository, then pushed everything. I created the repository on Bitbucket before executing these commands.
 
 [source]
 ----
-$ git init
-Initialized empty Git repository in /Users/mraible/dev/21-points/.git/
-
 $ git remote add origin git@bitbucket.org:mraible/21-points.git
-
-$ git add .
-
-$ git commit -m "Initial checkin of 21-points application"
-[master (root-commit) 447c712] Initial checkin of 21-points application
- 353 files changed, 27405 insertions(+)
- ...
-
 $ git push origin master
-Counting objects: 471, done.
+Warning: Permanently added the RSA host key for IP address '18.205.93.2' to the list of known hosts.
+Counting objects: 512, done.
 Delta compression using up to 8 threads.
-Compressing objects: 100% (448/448), done.
-Writing objects: 100% (471/471), 368.52 KiB | 0 bytes/s, done.
-Total 471 (delta 58), reused 0 (delta 0)
+Compressing objects: 100% (483/483), done.
+Writing objects: 100% (512/512), 608.64 KiB | 7.08 MiB/s, done.
+Total 512 (delta 54), reused 0 (delta 0)
+remote: Resolving deltas: 100% (54/54), done.
 To bitbucket.org:mraible/21-points.git
  * [new branch]      master -> master
 ----
