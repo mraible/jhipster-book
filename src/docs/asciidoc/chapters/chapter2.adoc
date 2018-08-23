@@ -233,7 +233,7 @@ This is how I created a new application with JHipster and checked it into source
 
 I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a couple of years ago, but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the https://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the https://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design] module. Unfortunately, I soon found out it doesn't support JHipster 4+.
 
-In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. However, I did https://github.com/FezVrasta/bootstrap-material-design/issues/1299#issuecomment-410544707[figure out how] to make Bootstrap Material Design work with JHipster 5.
+In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. However, I did https://github.com/FezVrasta/bootstrap-material-design/issues/1299#issuecomment-410544707[figure out how] to make [Bootstrap Material Design](https://fezvrasta.github.io/bootstrap-material-design/) work with JHipster 5.
 
 [sidebar]
 .How to use Bootstrap Material Design with JHipster 5

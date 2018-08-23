@@ -6,13 +6,7 @@
 ######################
 # Node
 ######################
-/node/**
 /node_modules/**
-
-######################
-# SASS
-######################
-.sass-cache/**
 
 ######################
 # Eclipse
@@ -31,7 +25,6 @@ local.properties
 .classpath
 .settings/**
 .loadpath
-/src/main/resources/rebel.xml
 
 # External tool builders
 .externalToolBuilders/**
@@ -108,7 +101,6 @@ Desktop.ini
 /asciidoctor-pdf/
 /build/**
 /bin/**
-/spring_loaded/**
 /deploy/**
 
 ######################
@@ -128,4 +120,3 @@ Desktop.ini
 # Gradle Wrapper
 ######################
 !gradle/wrapper/gradle-wrapper.jar
-
