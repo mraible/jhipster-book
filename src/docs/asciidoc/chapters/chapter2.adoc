@@ -1,59 +1,32 @@
 = Building an app with JHipster
 
-When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating
-a photo gallery to showcase the 1966 VW Bus I've been working on since 2006. The project was recently finished and
-I wanted a website to show how things have progressed through the years.
+When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating a photo gallery to showcase the 1966 VW Bus I've been working on since 2006. The project was recently finished and I wanted a website to show how things have progressed through the years.
 
-I also thought about creating a blog application.
-As part of http://raibledesigns.com/rd/entry/getting_hip_with_jhipster_at[my first presentation on JHipster]
-(at http://www.denverjug.org/[Denver's Java User Group]), I created a blog application that I live-coded in front of
-the audience. After that presentation, I spent several hours polishing the application and started
-http://www.jhipster-book.com[The JHipster Mini-Book site] with it.
+I also thought about creating a blog application. As part of http://raibledesigns.com/rd/entry/getting_hip_with_jhipster_at[my first presentation on JHipster] (at http://www.denverjug.org/[Denver's Java User Group]), I created a blog application that I live-coded in front of the audience. After that presentation, I spent several hours polishing the application and started http://www.jhipster-book.com[The JHipster Mini-Book site] with it.
 
-After thinking about the VW Bus Gallery and developing the blog application, I thought to myself, is this hip enough?
-Shouldn't a book about becoming what the JHipster homepage calls a "`Java Hipster`" show how to build a hip application?
+After thinking about the VW Bus Gallery and developing the blog application, I thought to myself, is this hip enough? Shouldn't a book about becoming what the JHipster homepage calls a "`Java Hipster`" show how to build a hip application?
 
-I wrote to Julien Dubois, founder of JHipster, and Dennis Sharpe, the technical editor for this book, and asked them
-what they thought. We went back and forth on a few ideas: a https://gitter.im[Gitter] clone, a job board for JHipster coders, a shopping-cart
-app. Then it hit me: there was an idea I'd been wanting to develop for a while.
+I wrote to Julien Dubois, founder of JHipster, and Dennis Sharpe, the technical editor for this book, and asked them what they thought. We went back and forth on a few ideas: a https://gitter.im[Gitter] clone, a job board for JHipster coders, a shopping-cart app. Then it hit me: there was an idea I'd been wanting to develop for a while.
 
-It's basically an app that you can use to monitor your health. In late September through mid-October 2014, I'd done a
-sugar detox during which I stopped eating sugar, started exercising regularly, and stopped drinking alcohol. I'd had high blood
-pressure for over 10 years and was on blood-pressure medication at the time. During the first week of the detox, I ran
-out of blood-pressure medication. Since a new prescription required a doctor visit, I decided I'd wait until
-after the detox to get it. After three weeks, not only did I lose 15 pounds, but my blood pressure was at normal levels!
+It's basically an app that you can use to monitor your health. In late September through mid-October 2014, I'd done a sugar detox during which I stopped eating sugar, started exercising regularly, and stopped drinking alcohol. I'd had high blood pressure for over 10 years and was on blood-pressure medication at the time. During the first week of the detox, I ran out of blood-pressure medication. Since a new prescription required a doctor visit, I decided I'd wait until after the detox to get it. After three weeks, not only did I lose 15 pounds, but my blood pressure was at normal levels!
 
-Before I started the detox, I came up with a 21-point system to see how healthy I was being each week. Its rules were
-simple: you can earn up to three points per day for the following reasons:
+Before I started the detox, I came up with a 21-point system to see how healthy I was being each week. Its rules were simple: you can earn up to three points per day for the following reasons:
 
 1. If you eat healthy, you get a point. Otherwise, zero.
 2. If you exercise, you get a point.
 3. If you don't drink alcohol, you get a point.
 
-I was surprised to find I got eight points the first week I used this system. During the detox, I got 16 points the
-first week, 20 the second, and 21 the third. Before the detox, I thought eating healthy meant eating anything except
-fast food. After the detox, I realized that eating healthy for me meant eating no sugar. I'm also a big lover of craft
-beer, so I modified the alcohol rule to allow two healthier alcohol drinks (like a greyhound or
-red wine) per day.
+I was surprised to find I got eight points the first week I used this system. During the detox, I got 16 points the first week, 20 the second, and 21 the third. Before the detox, I thought eating healthy meant eating anything except fast food. After the detox, I realized that eating healthy for me meant eating no sugar. I'm also a big lover of craft beer, so I modified the alcohol rule to allow two healthier alcohol drinks (like a greyhound or red wine) per day.
 
-My goal is to earn 15 points per week. I find that if I get more, I'll likely lose weight and have good blood pressure. If I
-get fewer than 15, I risk getting sick. I've been tracking my health like this since September 2014. I've lost 30 pounds and
-my blood pressure has returned to and maintained normal levels. I haven't had good blood pressure since my early 20s, so this has been
-a life changer for me.
+My goal is to earn 15 points per week. I find that if I get more, I'll likely lose weight and have good blood pressure. If I get fewer than 15, I risk getting sick. I've been tracking my health like this since September 2014. I've lost 30 pounds and my blood pressure has returned to and maintained normal levels. I haven't had good blood pressure since my early 20s, so this has been a life changer for me.
 
-I thought writing a "`21-Point Health`" application would work because tracking your health is always
-important. Wearables that can track your health stats might be able to use the APIs or hooks I create to record
-points for a day. Imagine hooking into http://dailymile.com[dailymile] (where I track my exercise) or https://untappd.com[Untappd] (where I sometimes list
-the beers I drink). Or even displaying other activities for a day (e.g. showing your blood-pressure score that you keep on
-http://www.apple.com/ios/health/[iOS Health]).
+I thought writing a "`21-Point Health`" application would work because tracking your health is always important. Wearables that can track your health stats might be able to use the APIs or hooks I create to record points for a day. Imagine hooking into http://dailymile.com[dailymile] (where I track my exercise) or https://untappd.com[Untappd] (where I sometimes list the beers I drink). Or even displaying other activities for a day (e.g. showing your blood-pressure score that you keep on http://www.apple.com/ios/health/[iOS Health]).
 
-I thought my idea would fit nicely with JHipster and Spring Boot from a monitoring standpoint. Spring Boot has lots of health
-monitors for apps, and now you can use this JHipster app to monitor your health!
+I thought my idea would fit nicely with JHipster and Spring Boot from a monitoring standpoint. Spring Boot has lots of health monitors for apps, and now you can use this JHipster app to monitor your health!
 
 == Creating the application
 
-I started using the https://www.jhipster.tech/installation/[Installing JHipster] instructions. I'm a Java developer,
-so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org], Yarn using https://yarnpkg.com/en/docs/install[its instructions], then ran the following command to install JHipster.
+I started using the https://www.jhipster.tech/installation/[Installing JHipster] instructions. I'm a Java developer, so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org], Yarn using https://yarnpkg.com/en/docs/install[its instructions], then ran the following command to install JHipster.
 
 [source]
 ----
@@ -62,9 +35,7 @@ npm install -g generator-jhipster
 
 TIP: If you need to install Java, Maven, or Git, please see https://www.jhipster.tech/installation/[JHipster's local installation documentation].
 
-Then I proceeded to build my application. Unlike many application generators in Javaland, Yeoman expects you to be
-in the directory you want to create your project in, rather than creating the directory for you. So I created a `21-points`
-directory and typed the following command in it to invoke JHipster.
+Then I proceeded to build my application. Unlike many application generators in Javaland, Yeoman expects you to be in the directory you want to create your project in, rather than creating the directory for you. So I created a `21-points` directory and typed the following command in it to invoke JHipster.
 
 [source]
 ----
@@ -124,8 +95,7 @@ endif::[]
 
 NOTE: I tried using "21-points" as the application name, but quickly discovered that this caused issues with the generated TypeScript class names. Starting a class name with a number is illegal, just like it is in Java.
 
-This process generates a `.yo-rc.json` file that captures all of the choices you make. You can use
-this file in an empty directory to create a project with the same settings.
+This process generates a `.yo-rc.json` file that captures all of the choices you make. You can use this file in an empty directory to create a project with the same settings.
 
 [source,json]
 .yo-rc.json
@@ -173,19 +143,15 @@ this file in an empty directory to create a project with the same settings.
 }
 ----
 
-You can see that I chose H2 with disk-based persistence for development and PostgreSQL for my production database. I did
-this because using a non-embedded database offers some important benefits:
+You can see that I chose H2 with disk-based persistence for development and PostgreSQL for my production database. I did this because using a non-embedded database offers some important benefits:
 
 * Your data is retained when restarting the application.
 * Your application starts a bit faster.
 * You can use Liquibase to generate a database changelog.
 
-The http://www.liquibase.org/[Liquibase] homepage describes it as source control for your database. It will help create new fields as
-you add them to your entities. It will also refactor your database, for example creating tables and dropping columns.
-It also has the ability to undo changes to your database, either automatically or with custom SQL.
+The http://www.liquibase.org/[Liquibase] homepage describes it as source control for your database. It will help create new fields as you add them to your entities. It will also refactor your database, for example creating tables and dropping columns. It also has the ability to undo changes to your database, either automatically or with custom SQL.
 
-After answering all the questions, JHipster created a whole bunch of files, then ran `yarn install`.
-To prove everything was good to go, I ran the Java unit tests using `./gradlew test`.
+After answering all the questions, JHipster created a whole bunch of files, then ran `yarn install`. To prove everything was good to go, I ran the Java unit tests using `./gradlew test`.
 
 [source]
 ----
@@ -242,8 +208,7 @@ $ ./gradlew -Pprod
 
 === Adding source control
 
-One of the first things I like to do when creating a new project is to add it to a version-control system (VCS). In this
-particular case, I chose Git and https://bitbucket.org[Bitbucket].
+One of the first things I like to do when creating a new project is to add it to a version-control system (VCS). In this particular case, I chose Git and https://bitbucket.org[Bitbucket].
 
 JHipster will initialize Git for your project automatically if you have Git installed. The following commands show how I added a reference to the remote Bitbucket repository, then pushed everything. I created the repository on Bitbucket before executing these commands.
 
@@ -262,24 +227,83 @@ To bitbucket.org:mraible/21-points.git
  * [new branch]      master -> master
 ----
 
-This is how I created a new application with JHipster and checked it into source control. If you're
-creating an application following similar steps, I believe there are two common approaches for continuing. The first
-involves developing the application, then testing and deploying. The second option is to set up continuous integration,
-deploy, then begin development and testing. In a team development environment, I recommend the second option.
-However, since you're likely reading this as an individual, I'll follow the first approach and get right to coding.
-If you're interested in setting up continuous integration with Jenkins, please see
-https://www.jhipster.tech/setting-up-ci-jenkins2/[Setting up Continuous Integration on Jenkins 2].
+This is how I created a new application with JHipster and checked it into source control. If you're creating an application following similar steps, I believe there are two common approaches for continuing. The first involves developing the application, then testing and deploying. The second option is to set up continuous integration, deploy, then begin development and testing. In a team development environment, I recommend the second option. However, since you're likely reading this as an individual, I'll follow the first approach and get right to coding. If you're interested in setting up continuous integration with Jenkins, please see https://www.jhipster.tech/setting-up-ci-jenkins2/[Setting up Continuous Integration on Jenkins 2].
 
 == Building the UI and business logic
 
-I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a couple of years ago,
-but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the
-https://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the
-https://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design]
-module. Unfortunately, I soon found out it doesn't support JHipster 4.x. I also discovered the https://github.com/FezVrasta/bootstrap-material-design[project it depends on] is still in development for Bootstrap v4. Since Bootstrap
-4 is still a beta release at the time of this writing, I opted to simply use Bootstrap and its default theme.
+I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a couple of years ago, but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the https://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the https://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design] module. Unfortunately, I soon found out it doesn't support JHipster 4+.
 
-TIP: At this point, I deployed to Heroku for the first time. This is covered in the <<Deploying to Heroku>> section of this chapter.
+In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. However, I did https://github.com/FezVrasta/bootstrap-material-design/issues/1299#issuecomment-410544707[figure out how] to make Bootstrap Material Design work with JHipster 5.
+
+[sidebar]
+.How to use Bootstrap Material Design with JHipster 5
+--
+Below are the steps necessary to use this library with JHipster 5 and Sass:
+
+. Install bootstrap-material-design:
++
+[source,bash]
+----
+npm install bootstrap-material-design@4.1.1
+----
++
+. Remove all variables from `src/main/webapp/content/scss/_bootstrap-variables.scss`.
+. Comment out the import for Bootstrap in `src/main/webapp/content/scss/vendor.scss`:
++
+[source,scss]
+----
+// Import Bootstrap source files from node_modules
+// @import '~bootstrap/scss/bootstrap';
+----
++
+. Add the following to import bootstrap-material-design in `src/main/webapp/content/scss/vendor.scss`:
++
+[source,scss]
+----
+// Import Bootstrap Material Design
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
+@import '~bootstrap-material-design/scss/bootstrap-material-design';
+----
++
+. Remove the following styles from `global.scss`:
++
+[source,scss]
+----
+/* Error highlight on input fields */
+.ng-valid[required],
+.ng-valid.required {
+ border-left: 5px solid green;
+}
+
+.ng-invalid:not(form) {
+ border-left: 5px solid red;
+}
+----
++
+. Add the following overrides on the dropdown menus so they look good.
++
+[source,scss]
+----
+.dropdown-menu .dropdown-item.active, .dropdown-menu .dropdown-item:active {
+ color: #fff !important;
+}
+
+.dropdown-menu .dropdown-item {
+ display: inline-block !important;
+ padding: 0.5rem 1.5rem !important;
+ min-height: 2rem !important;
+}
+----
++
+
+Below is a screenshot after these changes.
+
+[[img-bootstrap-angular-material]]
+.JHipster with Bootstrap Angular Material
+image::chapter2/angular-material-theme.png[UI mockup, 1333, scaledwidth=100%, align=center]
+--
+
+At this point, I deployed to Heroku for the first time. This is covered in the <<Deploying to Heroku>> section of this chapter.
 
 === Generating entities
 
@@ -293,37 +317,22 @@ For each entity you want to create, you will need:
 * an Angular router, controller, and service; and
 * a HTML page.
 
-In addition, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In
-an ideal world, you'd also have unit tests and integration tests for your Angular code.
+In addition, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In an ideal world, you'd also have unit tests and integration tests for your Angular code.
 
-The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In addition,
-if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the
-TypeScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
+The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the TypeScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
 
-JHipster supports several methods of code generation. The first uses its
-https://www.jhipster.tech/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool
-that prompts you with questions which you answer. https://www.jhipster.tech/jdl-studio/[JDL-Studio] is a browser-based
-tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://www.jhipster.tech/jhipster-uml/[JHipster-UML]
-is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio],
-http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and
-http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose
-that for this project.
+JHipster supports several methods of code generation. The first uses its https://www.jhipster.tech/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool that prompts you with questions which you answer. https://www.jhipster.tech/jdl-studio/[JDL-Studio] is a browser-based tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://www.jhipster.tech/jhipster-uml/[JHipster-UML] is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio], http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose that for this project.
 
-TIP: If you want to see how how easy it is to use JDL-Studio, please see https://www.youtube.com/watch?v=XRREt1KB4Y8[this YouTube demo].
+TIP: If you want to see how how easy it is to use JDL-Studio, please see my https://www.youtube.com/watch?v=-VQ_SVkaXbs[Get Started with JHipster 5 Screencast].
 
-At this point, I did some trial-and-error designs with the data model. I generated entities with JHipster, tried the app, and
-changed to start with a UI-first approach. As a user, I was hoping to easily add daily entries about whether I'd exercised,
-ate healthy meals, or consumed alcohol. I also wanted to record my weight and blood-pressure metrics when I measured them.
-When I started using the UI I'd just created, it seemed like it might be able to accomplish these goals, but it also seemed
-somewhat cumbersome. That's when I decided to create a UI mockup with the main screen and its ancillary screens for data entry. I used
-https://www.omnigroup.com/omnigraffle[OmniGraffle] and a https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstrap stencil] to create the following UI mockup.
+At this point, I did some trial-and-error designs with the data model. I generated entities with JHipster, tried the app, and changed to start with a UI-first approach. As a user, I was hoping to easily add daily entries about whether I'd exercised, ate healthy meals, or consumed alcohol. I also wanted to record my weight and blood-pressure metrics when I measured them. When I started using the UI I'd just created, it seemed like it might be able to accomplish these goals, but it also seemed somewhat cumbersome. That's when I decided to create a UI mockup with the main screen and its ancillary screens for data entry. I used https://www.omnigroup.com/omnigraffle[OmniGraffle] and a https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstrap stencil] to create the following UI mockup.
 
 [[img-ui-mockup]]
 .UI mockup
 image::chapter2/ui-mockup.png[UI mockup, 846, scaledwidth=75%, align=center]
 
 After figuring out how I wanted the UI to look, I started to think about the data model. I quickly decided I didn't need to
-track high-level goals (e.g. lose ten pounds in Q3 2017). I was more concerned with tracking weekly goals and 21-Points
+track high-level goals (e.g. lose ten pounds in Q3 2018). I was more concerned with tracking weekly goals and 21-Points
 Health is all about how many points you get in a week. I created the following diagram as my data model.
 
 [[img-entity-diagram]]
@@ -392,11 +401,9 @@ conflict src/main/resources/config/liquibase/master.xml
 Running `webpack:build` to update client app
 ----
 
-I had similar answers for the `Weight` and `BloodPressure` entities. For `Preferences`, I created a one-to-one relationship
-with `User`.
+I had similar answers for the `Weight` and `BloodPressure` entities. For `Preferences`, I created a one-to-one relationship with `User`.
 
-To ensure that people use 21-Points Health effectively, I set the weekly goal to a minimum of 10 points and a max of 21. I also
-made the `weightUnits` property an enum.
+To ensure that people use 21-Points Health effectively, I set the weekly goal to a minimum of 10 points and a max of 21. I also made the `weightUnits` property an enum.
 
 ----
 ================= Preferences =================
@@ -443,16 +450,11 @@ in the <<Continuous integration and deployment>> section of this chapter.
 === Fixed issues with variable names
 
 For the `Preferences` entity, I specified `weekly_goals` and `weight_unit` as field names. I was thinking in terms
-of names for database columns when I chose these names. I later learned that these names were used throughout my code. I left
-the column names intact and manually renamed everything in Java, JavaScript, JSON, and HTML to `weeklyGoals` and `weightUnit`.
+of names for database columns when I chose these names. I later learned that these names were used throughout my code. I left the column names intact and manually renamed everything in Java, JavaScript, JSON, and HTML to `weeklyGoals` and `weightUnit`.
 
 === Improved HTML layout and I18N messages
 
-Of all the code I write, UI code (HTML, JavaScript, and CSS) is my favorite. I like that you can see changes
-immediately and make progress quickly - especially when you're using dual monitors with
-ifdef::backend-epub3[link:jhipsters-ui-components.xhtml#Browsersync[Browsersync].]
-ifndef::backend-epub3[<<Browsersync>>.]
-Below is a consolidated list of changes I made to the HTML to make things look better:
+Of all the code I write, UI code (HTML, JavaScript, and CSS) is my favorite. I like that you can see changes immediately and make progress quickly - especially when you're using dual monitors with ifdef::backend-epub3[link:jhipsters-ui-components.xhtml#Browsersync[Browsersync].] ifndef::backend-epub3[<<Browsersync>>.] Below is a consolidated list of changes I made to the HTML to make things look better:
 
 * improved layout of tables and buttons,
 * improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`,
@@ -462,9 +464,7 @@ Below is a consolidated list of changes I made to the HTML to make things look b
 * replaced point metrics with icons on list/detail screens, and
 * replaced point metrics with checkboxes on dialog screen.
 
-The biggest visual improvements are on the list screens. I made the buttons a bit smaller, turned button text into tooltips,
-and moved add/search buttons to the top right corner. For the points-list screen, I converted the 1 and 0 metric values
-to icons. Before and after screenshots of the points list illustrate the improved, compact layout.
+The biggest visual improvements are on the list screens. I made the buttons a bit smaller, turned button text into tooltips, and moved add/search buttons to the top right corner. For the points-list screen, I converted the 1 and 0 metric values to icons. Before and after screenshots of the points list illustrate the improved, compact layout.
 
 [[img-points-list-before]]
 .Default Daily Points list
@@ -474,9 +474,7 @@ image::chapter2/points-list-before.png[Default Daily Points list, 1336, scaledwi
 .Default Daily Points list after UI improvements
 image::chapter2/points-list-after.png[Default Daily Points list after UI improvements, 1326, scaledwidth=100%, align=center]
 
-I refactored the HTML at the top of `points.component.html` to put the title, search, and add buttons on the same row. I also removed
-the button text in favor of a using https://ng-bootstrap.github.io/#/components/tooltip/api[ng-bootstrap's tooltip directive].
-The `jhiTranslate` directive you see in the button tooltips is provided by https://github.com/jhipster/ng-jhipster[JHipster's Angular library].
+I refactored the HTML at the top of `points.component.html` to put the title, search, and add buttons on the same row. I also removed the button text in favor of a using https://ng-bootstrap.github.io/#/components/tooltip/api[ng-bootstrap's tooltip directive]. The `jhiTranslate` directive you see in the button tooltips is provided by https://github.com/jhipster/ng-jhipster[JHipster's Angular library].
 
 [source%autofit,html]
 .src/main/webapp/app/entities/points/points.component.html
@@ -584,27 +582,21 @@ save() {
 }
 ----
 
-After making this change, you can see that the "`Add Points`" screen is starting to look like the UI mockup
-I created.
+After making this change, you can see that the "`Add Points`" screen is starting to look like the UI mockup I created.
 
 [[img-add-points-dialog]]
 .Add Points dialog
 image::chapter2/add-points-dialog.png[Add Points dialog, 892, scaledwidth=80%, align=center]
 
-Improving the UI was the most fun, but also the most time consuming as it involved lots of little tweaks to
-multiple screens. The next task was more straightforward: implementing business logic.
+Improving the UI was the most fun, but also the most time consuming as it involved lots of little tweaks to multiple screens. The next task was more straightforward: implementing business logic.
 
 === Added logic so non-admin users only see their own data
 
-I wanted to make several improvements to what users could see, based on their roles. A user should be able to see
-and modify their data, but nobody else's. I also wanted to ensure that an administrator could see and modify
-everyone's data.
+I wanted to make several improvements to what users could see, based on their roles. A user should be able to see and modify their data, but nobody else's. I also wanted to ensure that an administrator could see and modify everyone's data.
 
 ==== Hide user selection from non-admin users
 
-The default dialogs for many-to-one relationships allow you to choose the user when you add/edit a record. To make
-it so only administrators had this ability, I modified the dialog screens and used the `*jhiHasAnyAuthority` directive. This
-directive is included with JHipster, in `src/main/webapp/app/shared/auth/has-any-authority.directive.ts`. It allows you to pass in a single role or a list of roles.
+The default dialogs for many-to-one relationships allow you to choose the user when you add/edit a record. To make it so only administrators had this ability, I modified the dialog screens and used the `*jhiHasAnyAuthority` directive. This directive is included with JHipster, in `src/main/webapp/app/shared/auth/has-any-authority.directive.ts`. It allows you to pass in a single role or a list of roles.
 
 [source,html]
 .src/main/webapp/app/entities/points/points-dialog.component.html
@@ -619,8 +611,7 @@ directive is included with JHipster, in `src/main/webapp/app/shared/auth/has-any
 </div>
 ----
 
-Since the dropdown is hidden from non-admins, I had to modify each `Resource` class to default to the current user when
-creating a new record. Below is a diff that shows the changes that I needed to make to `PointsResource.java`.
+Since the dropdown is hidden from non-admins, I had to modify each `Resource` class to default to the current user when creating a new record. Below is a diff that shows the changes that I needed to make to `PointsResource.java`.
 
 [source%autofit,diff]
 .src/main/java/org/jhipster/health/web/rest/PointsResource.java
@@ -659,20 +650,16 @@ creating a new record. Below is a diff that shows the changes that I needed to m
          return ResponseEntity.created(new URI("/api/points/" + result.getId()))
 ----
 
-`SecurityUtils` is a class JHipster provides when you create a project. I had to modify `PointsResourceIntTest.java` to
-be security-aware after making this change.
+`SecurityUtils` is a class JHipster provides when you create a project. I had to modify `PointsResourceIntTest.java` to be security-aware after making this change.
 
-Spring MVC Test provides a convenient interface called `RequestPostProcessor` that you can use to modify a request.
-Spring Security provides a number of `RequestPostProcessor` implementations that simplify testing. In order to use
-Spring Security’s `RequestPostProcessor` implementations, you can include them all with the following static import.
+Spring MVC Test provides a convenient interface called `RequestPostProcessor` that you can use to modify a request. Spring Security provides a number of `RequestPostProcessor` implementations that simplify testing. In order to use Spring Security’s `RequestPostProcessor` implementations, you can include them all with the following static import.
 
 [source,java]
 ----
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 ----
 
-I then modified `PointsResourceIntTest.java`, creating a new `MockMvc` instance that was security-aware and
-specified `with(user("user"))` to populate Spring Security's `SecurityContext` with an authenticated user.
+I then modified `PointsResourceIntTest.java`, creating a new `MockMvc` instance that was security-aware and specified `with(user("user"))` to populate Spring Security's `SecurityContext` with an authenticated user.
 
 ifdef::backend-pdf[<<<]
 
@@ -740,8 +727,7 @@ public class PointsResourceIntTest {
 
 ==== List screen should show only user's data
 
-The next business-logic improvement I wanted was to modify list screens so they'd only show records for current user. Admin
-users should see all users' data. To facilitate this feature, I modified `PointsResource#getAll` to have a switch based on the user's role.
+The next business-logic improvement I wanted was to modify list screens so they'd only show records for current user. Admin users should see all users' data. To facilitate this feature, I modified `PointsResource#getAll` to have a switch based on the user's role.
 
 [source,java]
 .src/main/java/org/jhipster/health/web/rest/PointsResource.java
@@ -759,8 +745,7 @@ public ResponseEntity<List<Points>> getAllPoints(@ApiParam Pageable pageable) {
 }
 ----
 
-The `PointsRepository#findByUserIsCurrentUser()` method that JHipster generated contains a custom query that uses Spring Expression Language
-to grab the user's information from Spring Security. I changed it from returning a `List<Points>` to returning `Page<Points>`.
+The `PointsRepository#findByUserIsCurrentUser()` method that JHipster generated contains a custom query that uses Spring Expression Language to grab the user's information from Spring Security. I changed it from returning a `List<Points>` to returning `Page<Points>`.
 
 [source,java]
 .src/main/java/org/jhipster/health/repository/PointsRepository.java
@@ -780,8 +765,7 @@ Later on, I changed the above query to order by date, so the first records in th
 @Query("select points from Points points where points.user.login = ?#{principal.username} order by points.date desc")
 ----
 
-In addition, I changed the call to `pointsRepository.findAll` to `pointsRepository.findAllByOrderByDateDesc` so the admin
-user's query would order by date. The query for this is generated dynamically by Spring Data, simply by adding the method to your repository.
+In addition, I changed the call to `pointsRepository.findAll` to `pointsRepository.findAllByOrderByDateDesc` so the admin user's query would order by date. The query for this is generated dynamically by Spring Data, simply by adding the method to your repository.
 
 [source,java]
 ----
@@ -823,8 +807,7 @@ Making the homepage into something resembling my UI mockup required several step
 . Add an API to get body weights for the last 30 days.
 . Add charts to display points per week and blood pressure/weight for last 30 days.
 
-I started by reusing the dialogs for entering data that JHipster had created for me. I invoked the dialogs using Angular's
-`routerLink` syntax, copied from each entity’s main list page. For example, below is the code for the "Add Points" button.
+I started by reusing the dialogs for entering data that JHipster had created for me. I invoked the dialogs using Angular's `routerLink` syntax, copied from each entity’s main list page. For example, below is the code for the "Add Points" button.
 
 [source,html]
 ----
@@ -872,8 +855,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 ==== Points this week
 
-To get points achieved in the current week, I started by adding a unit test to `PointsResourceIntTest.java` that
-would allow me to prove my API was working.
+To get points achieved in the current week, I started by adding a unit test to `PointsResourceIntTest.java` that would allow me to prove my API was working.
 
 [source,java]
 .src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
@@ -927,10 +909,7 @@ public void getPointsThisWeek() throws Exception {
 <1> To simplify testing, I added a new constructor to `Points.java` that contained the arguments I wanted to set. I
     continued this pattern for most tests I created.
 
-Of course, this test failed when I first ran it since `/api/points-this-week` didn't exist in `PointsResource.java`.
-You might notice the points-this-week API expects two return values: a date in the `week` field and the number
-of points in the `points` field. I created `PointsPerWeek.java` in my project's `rest.vm` package to hold this
-information.
+Of course, this test failed when I first ran it since `/api/points-this-week` didn't exist in `PointsResource.java`. You might notice the points-this-week API expects two return values: a date in the `week` field and the number of points in the `points` field. I created `PointsPerWeek.java` in my project's `rest.vm` package to hold this information.
 
 [source,java]
 .src/main/java/org/jhipster/health/web/rest/vm/PointsPerWeek.java
@@ -974,8 +953,7 @@ public class PointsPerWeek {
 }
 ----
 
-Spring Data JPA made it easy to find all point entries in a particular week. I added a new method
-to my `PointsRepository.java` that allowed me to query between two dates.
+Spring Data JPA made it easy to find all point entries in a particular week. I added a new method to my `PointsRepository.java` that allowed me to query between two dates.
 
 [source,java]
 .src/main/java/org/jhipster/health/repository/PointsRepository.java
@@ -983,8 +961,7 @@ to my `PointsRepository.java` that allowed me to query between two dates.
 List<Points> findAllByDateBetween(LocalDate firstDate, LocalDate secondDate);
 ----
 
-From there, it was just a matter of calculating the beginning and end of the current week and processing the data
-in `PointsResource.java`.
+From there, it was just a matter of calculating the beginning and end of the current week and processing the data in `PointsResource.java`.
 
 [source,java]
 .src/main/java/org/jhipster/health/web/rest/PointsResource.java
@@ -1081,16 +1058,13 @@ I added a progress bar to `home.component.html` to show points-this-week progres
 </div>
 ----
 
-Below is a screenshot of what this progress bar looked like after restarting the server and entering some data for the
-current user.
+Below is a screenshot of what this progress bar looked like after restarting the server and entering some data for the current user.
 
 [[img-homepage-progress-bar]]
 .Progress bar for points this week
 image::chapter2/homepage-points-this-week.png[Progress bar for points this week, 1330, scaledwidth=100%, align=center]
 
-You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix this, I needed to add the ability
-to fetch the user's preferences. To make it easier to access a user's preferences, I modified `PreferencesRepository.java` and added
-a method to retrieve a user's preferences.
+You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix this, I needed to add the ability to fetch the user's preferences. To make it easier to access a user's preferences, I modified `PreferencesRepository.java` and added a method to retrieve a user's preferences.
 
 [source,java]
 .src/main/java/org/jhipster/health/repository/PreferencesRepository.java
@@ -1100,8 +1074,7 @@ public interface PreferencesRepository extends JpaRepository<Preferences,Long> {
 }
 ----
 
-I created a new method in `PreferencesResource.java` to return the user's preferences
-(or a default weekly goal of 10 points if no preferences are defined).
+I created a new method in `PreferencesResource.java` to return the user's preferences (or a default weekly goal of 10 points if no preferences are defined).
 
 [source,java]
 .src/main/java/org/jhipster/health/web/rest/PreferencesResource.java
@@ -1139,9 +1112,7 @@ user(): Observable<Preferences> {
 }
 ----
 
-In `home.component.ts`, I added the `PreferencesService` as a dependency and set the preferences in a local
-`preferences` variable so the HTML template could read it. I also added a listener for `preference` updates
-and logic to calculate the background color of the progress bar.
+In `home.component.ts`, I added the `PreferencesService` as a dependency and set the preferences in a local `preferences` variable so the HTML template could read it. I also added a listener for `preference` updates and logic to calculate the background color of the progress bar.
 
 [source,javascript]
 .src/main/webapp/app/home/home.component.ts
@@ -1190,8 +1161,7 @@ export class HomeComponent implements OnInit {
 }
 ----
 
-Now that a user's preferences were available, I modified `home.component.html` to display the user's weekly goal, as well
-as to color the progress bar appropriately with a `[type]` attribute.
+Now that a user's preferences were available, I modified `home.component.html` to display the user's weekly goal, as well as to color the progress bar appropriately with a `[type]` attribute.
 
 [source,html]
 .src/main/webapp/app/home/home.component.html
@@ -1220,8 +1190,7 @@ To finish things off, I added a link to a dialog where users could edit their pr
 
 ==== Blood pressure and weight for the last 30 days
 
-To populate the two remaining charts on the homepage, I needed to fetch the user's blood pressure readings and weights
-for the last 30 days. I added a method to `BloodPressureResourceIntTest.java` to set up my expectations.
+To populate the two remaining charts on the homepage, I needed to fetch the user's blood pressure readings and weights for the last 30 days. I added a method to `BloodPressureResourceIntTest.java` to set up my expectations.
 
 [source%autofit,java]
 .src/test/java/org/jhipster/health/web/rest/BloodPressureResourceIntTest.java
@@ -1296,9 +1265,7 @@ public class BloodPressureByPeriod {
 }
 ----
 
-Using similar logic that I used for points-this-week, I created a new method in `BloodPressureRepository.java` that
-allowed me to query between two different dates. I also added "`OrderBy`" logic so the records would be sorted by date
-entered.
+Using similar logic that I used for points-this-week, I created a new method in `BloodPressureRepository.java` that allowed me to query between two different dates. I also added "`OrderBy`" logic so the records would be sorted by date entered.
 
 [source,java]
 .src/main/java/org/jhipster/health/repository/BloodPressureRepository.java
@@ -1307,8 +1274,7 @@ List<BloodPressure> findAllByTimestampBetweenOrderByTimestampDesc(
     ZonedDateTime firstDate, ZonedDateTime secondDate);
 ----
 
-Next, I created a new method in `BloodPressureResource.java` that calculated the first and last days of the current
-month, executed the query for the current user, and constructed the data to return.
+Next, I created a new method in `BloodPressureResource.java` that calculated the first and last days of the current month, executed the query for the current user, and constructed the data to return.
 
 [source,java]
 .src/main/java/org/jhipster/health/web/rest/BloodPressureResource.java
@@ -1384,8 +1350,7 @@ While gathering this data seemed easy enough, the hard part was figuring out wha
 
 ==== Charts of the last 30 days
 
-Based on my experience writing the first two versions of this book, I looked for an Angular library that integrated
-with https://d3js.org/[D3.js] and found https://github.com/krispo/ng2-nvd3[ng2-nvd3]. To install ng2-nvd3, I used yarn's `add` command.
+Based on my experience writing the first two versions of this book, I looked for an Angular library that integrated with https://d3js.org/[D3.js] and found https://github.com/krispo/ng2-nvd3[ng2-nvd3]. To install ng2-nvd3, I used yarn's `add` command.
 
 ----
 yarn add ng2-nvd3
@@ -1411,9 +1376,7 @@ import 'nvd3';
 export class TwentyOnePointsHomeModule {}
 ----
 
-I modified `home.component.ts` to have the `BloodPressureService` as a dependency and went to work building the
-data so D3 could render it. I found that charts required a bit of JSON to configure them, so I created
-a service to contain this configuration.
+I modified `home.component.ts` to have the `BloodPressureService` as a dependency and went to work building the data so D3 could render it. I found that charts required a bit of JSON to configure them, so I created a service to contain this configuration.
 
 [source,javascript]
 .src/main/webapp/app/home/d3-chart.service.ts
@@ -1468,8 +1431,7 @@ export class D3ChartService {
 }
 ----
 
-In `home.component.Ts`, I grabbed the blood pressure readings from the API and morphed them into data that D3
-could understand.
+In `home.component.Ts`, I grabbed the blood pressure readings from the API and morphed them into data that D3 could understand.
 
 [source,javascript]
 .src/main/webapp/app/home/home.component.ts
@@ -1548,9 +1510,7 @@ I made similar changes to display weights for the last 30 days as a chart.
 
 === Lines of code
 
-After finishing the MVP (minimum viable product) of 21-Points Health, I did some quick calculations to see how
-many lines of code JHipster had produced. You can see from the graph below that I only had to write 1,521
-lines of code. JHipster did the rest for me, generating 93.4% of the code in my project!
+After finishing the MVP (minimum viable product) of 21-Points Health, I did some quick calculations to see how many lines of code JHipster had produced. You can see from the graph below that I only had to write 1,521 lines of code. JHipster did the rest for me, generating 93.4% of the code in my project!
 
 [[img-21-points-loc]]
 .Project lines of code
@@ -1562,33 +1522,22 @@ To drill down further, I made a graph of the top three languages in the project:
 .Project lines of code by language
 image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 1427, scaledwidth=100%, align=center]
 
-The amount of code I had to write in each language was 647 lines of Java, 435 lines of TypeScript, and 302 lines of HTML.
-The other 137 lines were Sass (63), JSON (49), CSS (12), YAML (7), and Markdown (6).
+The amount of code I had to write in each language was 647 lines of Java, 435 lines of TypeScript, and 302 lines of HTML. The other 137 lines were Sass (63), JSON (49), CSS (12), YAML (7), and Markdown (6).
 
 Wahoo! Thanks, JHipster!
 
 .Testing
 ****
-You probably noticed that a lot of the Java code I wrote was for the tests. I felt that these tests were essential to prove that
-the business logic I implemented was correct. It's never easy to work with dates but Java 8's Date-Time API greatly simplified
-it and Spring Data JPA made it easy to write "`between date`" queries.
+You probably noticed that a lot of the Java code I wrote was for the tests. I felt that these tests were essential to prove that the business logic I implemented was correct. It's never easy to work with dates but Java 8's Date-Time API greatly simplified it and Spring Data JPA made it easy to write "`between date`" queries.
 
-I believe TDD (test-driven development) is a great way to write code. However, when developing UIs, I tend to make them
-work before writing tests. It's usually a very visual activity and, with the aid of Browsersync, there's rarely a delay before
-you see your changes. I like to write unit tests for my Angular components and directives using
-https://jasmine.github.io/[Jasmine] and I like to write integration tests with http://www.protractortest.org/#/[Protractor].
+I believe TDD (test-driven development) is a great way to write code. However, when developing UIs, I tend to make them work before writing tests. It's usually a very visual activity and, with the aid of Browsersync, there's rarely a delay before you see your changes. I like to write unit tests for my Angular components and directives using https://jasmine.github.io/[Jasmine] and I like to write integration tests with http://www.protractortest.org/#/[Protractor].
 
-I did not write any tests for this project's UI because I was in a time crunch and I was able to visually verify that
-things worked as I wanted. I plan to write unit and integration tests when I find the time, but didn't think they
-were necessary for the MVP.
+I did not write any tests for this project's UI because I was in a time crunch and I was able to visually verify that things worked as I wanted. I plan to write unit and integration tests when I find the time, but didn't think they were necessary for the MVP.
 ****
 
 == Deploying to Heroku
 
-JHipster ships with support for deploying to Cloud Foundry, Heroku, Kubernetes, OpenShift, Rancher, AWS, and Boxfuse. I
-used Heroku to deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application
-for production, it's recommended to use the pre-configured "`production`" profile. With Gradle, you can package your
-application by specifying this profile when building.
+JHipster ships with support for deploying to Cloud Foundry, Heroku, Kubernetes, OpenShift, Rancher, AWS, and Boxfuse. I used Heroku to deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for production, it's recommended to use the pre-configured "`production`" profile. With Gradle, you can package your application by specifying this profile when building.
 
 ----
 ./gradlew -Pprod bootRepackage
@@ -1600,13 +1549,9 @@ The command looks similar when using Maven.
 ./mvnw -Pprod package
 ----
 
-The production profile is used to build an optimized JavaScript client. You can invoke this using Webpack by running `yarn webpack:prod`.
-The production profile also configures gzip compression with a servlet filter, cache headers, and monitoring via
-https://github.com/dropwizard/metrics[Metrics]. If you have a http://graphite.wikidot.com/[Graphite] server configured in
-your `application-prod.yml` file, your application will automatically send metrics data to it.
+The production profile is used to build an optimized JavaScript client. You can invoke this using Webpack by running `yarn webpack:prod`. The production profile also configures gzip compression with a servlet filter, cache headers, and monitoring via https://github.com/dropwizard/metrics[Metrics]. If you have a http://graphite.wikidot.com/[Graphite] server configured in your `application-prod.yml` file, your application will automatically send metrics data to it.
 
-To upload 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-command-line[Heroku CLI]
-installed.
+To upload 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-command-line[Heroku CLI] installed.
 
 TIP: I first deployed to Heroku after creating the application, meaning that I had a default JHipster application with no entities.
 
@@ -1618,8 +1563,7 @@ Password (typing will be hidden):
 Authentication successful.
 ----
 
-I ran `jhipster heroku` as recommended in the https://www.jhipster.tech/heroku/[Deploying to Heroku]
-documentation. I tried using the name "`21points`" for my application when prompted.
+I ran `jhipster heroku` as recommended in the https://www.jhipster.tech/heroku/[Deploying to Heroku] documentation. I tried using the name "`21points`" for my application when prompted.
 
 ----
 $ jhipster heroku
@@ -1639,22 +1583,9 @@ $ jhipster heroku
    ▸    numbers, and dashes.
 ----
 
-You can see my first attempt failed for the same reason that creating the initial JHipster app failed: it didn't
-like that the app name started with a number. I tried again with "`health`", but that failed, too, since a Heroku app
-with this name already existed. Finally, I settled on "`health-by-points`" as the application name.
+You can see my first attempt failed for the same reason that creating the initial JHipster app failed: it didn't like that the app name started with a number. I tried again with "`health`", but that failed, too, since a Heroku app with this name already existed. Finally, I settled on "`health-by-points`" as the application name.
 
-This failed too, because of https://github.com/jhipster/generator-jhipster/issues/5902[an issue with JHipster 4.5.2].
-JHipster 4.5.3 fixes this issue, so I upgraded using the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator].
-
-[[jhipster-upgrade]]
-.JHipster Upgrade
-image::chapter2/jhipster-upgrade.png[Running the jhipster:upgrade sub-generator, 1222, scaledwidth=100%, align=center]
-
-After the command finished (in just over 21 minutes because I had a slow connection), I committed changes to `yarn.lock`
-and ran `git push`. If you're reading this and notice that 21-Points Health is using a version newer than 4.5.3, it's
-likely because I used this handy sub-generator again.
-
-After upgrading, I tried to deploy to Heroku once more.
+I tried to deploy to Heroku once more.
 
 ----
 $ jhipster heroku
@@ -1695,15 +1626,13 @@ This may take several minutes depending on your connection speed...
 Uploading twenty-one-points-0.0.1-SNAPSHOT.war
 ----
 
-I was pumped to see that this process worked and that my application was available at http://health-by-points.herokuapp.com.
-I quickly changed the default passwords for *admin* and *user* to make things more secure.
+I was pumped to see that this process worked and that my application was available at http://health-by-points.herokuapp.com. I quickly changed the default passwords for *admin* and *user* to make things more secure.
 
 [[img-deployed-to-heroku]]
 .First deployment to Heroku
 image::chapter2/deployed-to-heroku.png[First deployment to Heroku, 1187, scaledwidth=100%, align=center]
 
-Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for
-Heroku, I ran `heroku domains:add`.
+Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for Heroku, I ran `heroku domains:add`.
 
 ----
 $ heroku domains:add www.21-points.com
@@ -1712,8 +1641,7 @@ Adding www.21-points.com to health-by-points... done
 !    For help, see https://devcenter.heroku.com/articles/custom-domains
 ----
 
-I read the https://devcenter.heroku.com/articles/custom-domains[documentation], then went to work configuring
-DNS settings on Google Domains. I configured a subdomain forward of:
+I read the https://devcenter.heroku.com/articles/custom-domains[documentation], then went to work configuring DNS settings on Google Domains. I configured a subdomain forward of:
 
 ----
 21-points.com → http://www.21-points.com
@@ -1733,10 +1661,7 @@ ifdef::backend-pdf[<<<]
 |health-by-points.herokuapp.com
 |===
 
-This was all I needed to get my JHipster application running on Heroku. However, after generating entities and adding
-more code to the project, I found some issues. First of all, I learned that after the initial setup, you can redeploy
-your application using https://github.com/heroku/heroku-cli-deploy[heroku-cli-deploy]. Use the following command to install
-this plugin.
+This was all I needed to get my JHipster application running on Heroku. However, after generating entities and adding more code to the project, I found some issues. First of all, I learned that after the initial setup, you can redeploy your application using https://github.com/heroku/heroku-cli-deploy[heroku-cli-deploy]. Use the following command to install this plugin.
 
 ----
 heroku plugins:install heroku-cli-deploy
@@ -1794,50 +1719,13 @@ It is possible that you'll see the following error on startup.
 Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 60 seconds of launch
 ----
 
-If this happens, create a support ticket at https://help.heroku.com/ and ask
-to have your application's allowed timeout increased to 120 seconds.
+If this happens, create a support ticket at https://help.heroku.com/ and ask to have your application's allowed timeout increased to 120 seconds.
 
-TIP: If you need to reset your Postgres database on Heroku, you can do so my logging into https://dashboard.heroku.com.
-Click on your application name > Add-Ons > Heroku Postgres :: Gray and select "`Reset Database`" from the gear icon
-in the top right corner.
-
-=== Elasticsearch on Heroku
-
-Once my application's timeout was increased, it seemed like everything was working. I tried to register a new user
-and saw the following error message in my logs.
-
-----
-2017-07-29T21:20:57.222878+00:00 app[web.1]: 2017-07-29 21:20:57.222 ERROR 4 ---
-[ost-startStop-1] .d.e.r.s.AbstractElasticsearchRepository : failed to load elasticsearch nodes :
- org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available:
- [{#transport#-1}{localhost}{127.0.0.1:9300}]
-----
-
-I searched for an Elasticsearch add-on for Heroku and found https://devcenter.heroku.com/articles/bonsai[Bonsai
-Elasticsearch]. Its cheapest plan cost $10/month. I also found https://elements.heroku.com/addons/foundelasticsearch[Elasticsearch]
-for $67/month. Since I didn't want to pay for anything right away, I decided to configure Elasticsearch to use an in-memory
-store like it did in development. (I later discovered that https://addons.heroku.com/searchbox[Searchbox Elasticsearch]
- offers a free plan.) I updated my `application-prod.yml` file to use Heroku's ephemeral filesystem.
-
-[source,yaml]
-.src/main/resources/config/application-prod.yml
-----
-# Configure prod to use ElasticSearch in-memory.
-# http://stackoverflow.com/questions/12416738/how-to-use-herokus-ephemeral-filesystem
-data:
-    elasticsearch:
-        cluster-name:
-        cluster-nodes:
-        properties:
-            path:
-              logs: /tmp/elasticsearch/log
-              data: /tmp/elasticsearch/data
-----
+TIP: If you need to reset your PostgreSQL database on Heroku, you can do so my logging into https://dashboard.heroku.com. Click on your application name > Add-Ons > Heroku Postgres :: Gray and select "`Reset Database`" from the gear icon in the top right corner.
 
 === Mail on Heroku
 
-After making this change, I repackaged and redeployed. This time, when I tried to register, I received an error when my
-`MailService` tried to send me an activation e-mail.
+After making this change, I repackaged and redeployed. This time, when I tried to register, I received an error when my `MailService` tried to send me an activation e-mail.
 
 ----
 2017-08-14T21:26:12.193734+00:00 app[web.1]: 2017-08-14 21:26:12.193  WARN 4 --- [ints-Executor-2]
@@ -1860,8 +1748,7 @@ Setting SENDGRID_PASSWORD, SENDGRID_USERNAME and restarting health-by-points... 
 Use `heroku addons:docs sendgrid` to view documentation.
 ----
 
-Then I updated `application-prod.yml` to use the configured `SENDGRID_PASSWORD` and `SENDGRID_USERNAME` environment
-variables for mail, as well as to turn on authentication.
+Then I updated `application-prod.yml` to use the configured `SENDGRID_PASSWORD` and `SENDGRID_USERNAME` environment variables for mail, as well as to turn on authentication.
 
 [source,yaml]
 .src/main/resources/config/application-prod.yml
@@ -1880,21 +1767,17 @@ mail:
 I also changed the `jhipster.mail.*` properties further down in this file.
 
 [source,yaml]
-
 ----
 mail:
     from: app@21-points.com
     base-url: http://www.21-points.com
 ----
 
-After repackaging and redeploying, I used the built-in health-checks feature of my application to verify that everything
-was configured correctly.
+After repackaging and redeploying, I used the built-in health-checks feature of my application to verify that everything was configured correctly.
 
 == Monitoring and analytics
 
-JHipster generates the code necessary for Google Analytics in every application's `src/main/webapp/index.html` file.
-I chose not to enable this just yet, but I hope to eventually. I already have a http://www.google.com/analytics/[Google Analytics] account, so it's just a matter of creating a new account for www.21-points.com, copying the
-account number, and modifying the following section of `index.html`:
+JHipster generates the code necessary for Google Analytics in every application's `src/main/webapp/index.html` file. I chose not to enable this just yet, but I hope to eventually. I already have a http://www.google.com/analytics/[Google Analytics] account, so it's just a matter of creating a new account for www.21-points.com, copying the account number, and modifying the following section of `index.html`:
 
 [source,html]
 .src/main/webapp/index.html
@@ -1910,13 +1793,9 @@ account number, and modifying the following section of `index.html`:
 </script>-->
 ----
 
-I've used http://newrelic.com/[New Relic] to monitor my production applications in the past. There is a free
-https://addons.heroku.com/newrelic[New Relic add-on] for Heroku. Heroku's https://devcenter.heroku.com/articles/newrelic[New Relic APM]
-describes how to set things up if you're letting Heroku do the build for you (meaning, you deploy with
-`git push heroku master`). However, if you're using the heroku-deploy plugin, it's a bit different.
+I've used http://newrelic.com/[New Relic] to monitor my production applications in the past. There is a free https://addons.heroku.com/newrelic[New Relic add-on] for Heroku. Heroku's https://devcenter.heroku.com/articles/newrelic[New Relic APM] describes how to set things up if you're letting Heroku do the build for you (meaning, you deploy with `git push heroku master`). However, if you're using the heroku-deploy plugin, it's a bit different.
 
-For that, you'll first need to manually download the New Relic agent, as well as a `newrelic.yml` license file, and put them in the root directory
-of your project. Then you can run a command like:
+For that, you'll first need to manually download the New Relic agent, as well as a `newrelic.yml` license file, and put them in the root directory of your project. Then you can run a command like:
 
 ----
 heroku war:deploy build/libs/*war --includes newrelic.jar:newrelic.yml
@@ -1930,18 +1809,13 @@ web: java -javaagent:newrelic.jar $JAVA_OPTS -Xmx256m -jar build/libs/*.war ...
 
 == Continuous integration and deployment
 
-After generating entities for this project, I wanted to configure a continuous-integration (CI) server to build/test/deploy
-whenever I checked in changes to Git. I chose https://jenkins.io/[Jenkins] for my CI server and used the simplest
-configuration possible: I downloaded `jenkins.war` to `/opt/tools/jenkins` on my MacBook Pro. I started it with
-the following command.
+After generating entities for this project, I wanted to configure a continuous-integration (CI) server to build/test/deploy whenever I checked in changes to Git. I chose https://jenkins.io/[Jenkins] for my CI server and used the simplest configuration possible: I downloaded `jenkins.war` to `/opt/tools/jenkins` on my MacBook Pro. I started it with the following command.
 
 ----
 java -jar jenkins.war --httpPort=9000
 ----
 
-JHipster has good documentation on https://www.jhipster.tech/setting-up-ci-jenkins2/[setting up CI on Jenkins 2] and
-https://www.jhipster.tech/heroku/[deploying to Heroku]. It also has a handy sub-generator to generate the config files
-needed for Jenkins. I ran `jhipster ci-cd` and watched the magic happen.
+JHipster has good documentation on https://www.jhipster.tech/setting-up-ci-jenkins2/[setting up CI on Jenkins 2] and https://www.jhipster.tech/heroku/[deploying to Heroku]. It also has a handy sub-generator to generate the config files needed for Jenkins. I ran `jhipster ci-cd` and watched the magic happen.
 
 ----
 $ jhipster ci-cd
@@ -1961,8 +1835,7 @@ When choosing Jenkins, you can also select the following options for tasks/integ
 * Send build status to Gitlab.
 * Build and publish a Docker image.
 
-To log in to Jenkins, I navigated to http://localhost:9000. I copied the password from the startup log file and pasted
-into the unlock Jenkins page.
+To log in to Jenkins, I navigated to http://localhost:9000. I copied the password from the startup log file and pasted into the unlock Jenkins page.
 
 [[unlock-jenkins]]
 .Unlock Jenkins
@@ -1974,18 +1847,15 @@ Next, I chose to install selected plugins and waited while everything installed.
 .Customize Jenkins
 image::chapter2/customize-jenkins.png[Customize Jenkins, 1124, scaledwidth=100%, align=center]
 
-I created a new job called "21-points" with a Pipeline script from SCM. I configured a "`Poll SCM`" build trigger with a
-schedule of `H/5 * * * *`. After saving the job, I confirmed it ran successfully.
+I created a new job called "21-points" with a Pipeline script from SCM. I configured a "`Poll SCM`" build trigger with a schedule of `H/5 * * * *`. After saving the job, I confirmed it ran successfully.
 
 [[jenkins-job1]]
 .Jenkins build #1
 image::chapter2/jenkins-job-1.png[First run of 21-points pipeline, 1124, scaledwidth=100%, align=center]
 
-TIP: It's possible the `deployment` stage will fail for you the first time. If this happens, stop Jenkins, run `heroku login`,
-then restart Jenkins.
+TIP: It's possible the `deployment` stage will fail for you the first time. If this happens, stop Jenkins, run `heroku login`, then restart Jenkins.
 
-I modified this file to add a `protractor tests` stage to run all the Protractor tests. I checked in my changes to trigger
-another build.
+I modified this file to add a `protractor tests` stage to run all the Protractor tests. I checked in my changes to trigger another build.
 
 [source]
 .Jenkinsfile
@@ -2056,43 +1926,30 @@ I was pumped to see all the stages in my pipeline pass.
 .Jenkins success!
 image::chapter2/jenkins-job-success.png[Jenkins success!, 1619, scaledwidth=100%, align=center]
 
-NOTE: The reason job #2 didn't pass in the screenshot above is because I initially slept 45 seconds before running
-Protractor tests. This was not enough time for Spring Boot to start up. Increasing it to 60 seconds solved the problem.
+NOTE: The reason job #2 didn't pass in the screenshot above is because I initially slept 45 seconds before running Protractor tests. This was not enough time for Spring Boot to start up. Increasing it to 60 seconds solved the problem.
 
-When working on this project, I'd start Jenkins and have it running while I checked in code. I did not install it on a
-server and leave it running continuously. My reason was simple: I was only coding in bursts and didn't need to waste
-computing cycles or want to pay for a cloud instance to run it.
+When working on this project, I'd start Jenkins and have it running while I checked in code. I did not install it on a server and leave it running continuously. My reason was simple: I was only coding in bursts and didn't need to waste computing cycles or want to pay for a cloud instance to run it.
 
 == Source code
 
-After getting this application into a "good enough" state, I moved it from Bitbucket to GitHub and made it available
-as an open-source project. You can find the source code for 21-Points Health at https://github.com/mraible/21-points.
+After getting this application into a "good enough" state, I moved it from Bitbucket to GitHub and made it available as an open-source project. You can find the source code for 21-Points Health at https://github.com/mraible/21-points.
 
 == Upgrading 21-Points Health
 
-After I finished developing the MVP of 21-Points Health with JHipster 4.5.3, I wanted to upgrade it to the latest release.
-I tried using the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator], but found that it was broken in 4.5.3
-https://www.jhipster.tech/2017/06/23/jhipster-release-4.5.6.html[and only fixed in 4.5.6]. Therefore, I manually upgraded 4.5.3 to 4.6.2 using
-http://www.syntevo.com/smartsynchronize/[SmartSynchronize]. You can see what changed when I upgraded by taking a look
-at https://github.com/mraible/21-points/commit/4571d2c1a31fcbeb820417ea0f6d3f2364bb8e7e[the commit on GitHub].
+After I finished developing the MVP of 21-Points Health with JHipster 5.2.2, I wanted to upgrade it to the latest release. I used the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator], and upgraded it to 5.x.x.
 
-If you're reading this and notice that 21-Points Health is using a version newer than 4.6.2, it's likely because I
-upgraded again.
+[screenshot]
 
-If you have a JHipster 3.x app that was written in AngularJS, you might try
-https://github.com/jhipster/generator-jhipster/issues/6178#issuecomment-318726528[these instructions] for upgrading.
+You can see what changed when I upgraded by taking a look at https://github.com/mraible/21-points/commit/4571d2c1a31fcbeb820417ea0f6d3f2364bb8e7e[the commit on GitHub].
+
+TIP: If the upgrade sub-generator doesn't work for you when upgrading JHipster, you can manually upgraded using http://www.syntevo.com/smartsynchronize/[SmartSynchronize]. I do this by creating a new branch, running `rm -rf *` in my project, then running `jhipster --with-entities`. Then I use SmartSynchronize to compare files and restore my custom code.
+
+If you're reading this and notice that 21-Points Health is using a version newer than 5.x.x, it's likely because I upgraded again.
 
 == Summary
 
-This section showed you how I created a health-tracking web application with JHipster. It walked you through upgrading to the
-latest release of JHipster and how to generate code with `jhipster entity`. You learned how to do test-first development
-when writing new APIs and how Spring Data JPA makes it easy to add custom queries. You also saw how to reuse existing
-dialogs on different pages, how to add methods to client services, and how to manipulate data to display pretty charts.
+This section showed you how I created a health-tracking web application with JHipster. It walked you through upgrading to the latest release of JHipster and how to generate code with `jhipster entity`. You learned how to do test-first development when writing new APIs and how Spring Data JPA makes it easy to add custom queries. You also saw how to reuse existing dialogs on different pages, how to add methods to client services, and how to manipulate data to display pretty charts.
 
-After modifying the application to look like my UI mockups, I showed you how to deploy to Heroku and some
-common issues I encountered along the way. Finally, you learned how to use Jenkins to build, test, and deploy a
-Gradle-based JHipster project. I highly recommend doing something similar shortly after you've created your project
-and verified that it passes all tests.
+After modifying the application to look like my UI mockups, I showed you how to deploy to Heroku and some common issues I encountered along the way. Finally, you learned how to use Jenkins to build, test, and deploy a Gradle-based JHipster project. I highly recommend doing something similar shortly after you've created your project and verified that it passes all tests.
 
-In the next chapter, I'll explain JHipster's UI components in more detail. Angular, Bootstrap, Webpack, Sass, WebSockets,
-and Browsersync are all packed in a JHipster application, so it's useful to dive in and learn a bit more about these technologies.
+In the next chapter, I'll explain JHipster's UI components in more detail. Angular, Bootstrap, Webpack, Sass, WebSockets, and Browsersync are all packed in a JHipster application, so it's useful to dive in and learn a bit more about these technologies.
