@@ -57,7 +57,7 @@ $ jhipster
 
 ...
 
-Welcome to JHipster v5.1.0
+Welcome to JHipster v5.2.1
 Application files will be generated in folder: /Users/mraible/dev/21-points
  _______________________________________________________________________________________________________________
 
@@ -106,7 +106,7 @@ This process generates a `.yo-rc.json` file that captures all of the choices you
       "packageName": "org.jhipster.health",
       "nativeLanguage": "en"
     },
-    "jhipsterVersion": "5.1.0",
+    "jhipsterVersion": "5.2.1",
     "applicationType": "monolith",
     "baseName": "TwentyOnePoints",
     "packageName": "org.jhipster.health",
@@ -124,7 +124,7 @@ This process generates a `.yo-rc.json` file that captures all of the choices you
     "serviceDiscoveryType": false,
     "buildTool": "gradle",
     "enableSwaggerCodegen": false,
-    "jwtSecretKey": "085df706b054e1db67afbae8cf2c649b7e8e880d",
+    "jwtSecretKey": "43d99bb3ca6ffaa96b33b632e4a82fb45b672d80",
     "clientFramework": "angularX",
     "useSass": true,
     "clientPackageManager": "yarn",
@@ -155,8 +155,8 @@ After answering all the questions, JHipster created a whole bunch of files, then
 
 [source]
 ----
-BUILD SUCCESSFUL in 1m 19s
-8 actionable tasks: 7 executed, 1 up-to-date
+BUILD SUCCESSFUL in 1m 7s
+10 actionable tasks: 9 executed, 1 up-to-date
 ----
 
 JHipster v5 will only work with external Elasticsearch instance. In previous versions, you could use an embedded Elasticsearch instance, but this feature has been removed in recent Elasticsearch releases. The easiest way to run a local Elasticsearch instance is to use Docker Compose. I ran the following command to start Elasticsearch as a daemon. Remove the `-d` option if you don't want it to run as a daemon.
@@ -165,26 +165,28 @@ JHipster v5 will only work with external Elasticsearch instance. In previous ver
 docker-compose -f src/main/docker/elasticsearch.yml up -d
 ----
 
+**TIP:** Running Elasticsearch as an embedded instance is the default again in JHipster 5.3.0+ thanks to https://github.com/jhipster/generator-jhipster/pull/8122[this pull-request] that integrates Spring Data Jest.
+
 Next, I started the app using `./gradlew` and then ran the UI integration tests with `yarn e2e`. All tests passed with flying colors.
 
 ----
 $ yarn e2e
-yarn run v1.9.2
+yarn run v1.9.4
 $ protractor src/test/javascript/protractor.conf.js
-(node:49754) [DEP0022] DeprecationWarning: os.tmpDir() is deprecated. Use os.tmpdir() instead.
-[15:47:19] W/configParser - pattern ./e2e/entities/**/*.spec.ts did not match any files.
-[15:47:19] I/launcher - Running 1 instances of WebDriver
-[15:47:19] I/direct - Using ChromeDriver directly...
+(node:30302) [DEP0022] DeprecationWarning: os.tmpDir() is deprecated. Use os.tmpdir() instead.
+[14:45:36] W/configParser - pattern ./e2e/entities/**/*.spec.ts did not match any files.
+[14:45:36] I/launcher - Running 1 instances of WebDriver
+[14:45:36] I/direct - Using ChromeDriver directly...
 Started
 ...........
 
 
 11 specs, 0 failures
-Finished in 25.126 seconds
+Finished in 21.309 seconds
 
-[15:47:48] I/launcher - 0 instance(s) of WebDriver still running
-[15:47:48] I/launcher - chrome #01 passed
-✨  Done in 31.24s.
+[14:45:59] I/launcher - 0 instance(s) of WebDriver still running
+[14:45:59] I/launcher - chrome #01 passed
+✨  Done in 23.25s.
 ----
 
 To prove the `prod` profile worked and I could talk to PostgreSQL, I ran Docker Compose for PostgreSQL.
@@ -193,7 +195,7 @@ To prove the `prod` profile worked and I could talk to PostgreSQL, I ran Docker 
 docker-compose -f src/main/docker/postgresql.yml up -d
 ----
 
-I updated `application-prod.yml` to use `21points` for the datasource password. I confirmed I could talk to a PostgreSQL database when running with the `prod` profile.
+Then I restarted the app with the `prod` profile enabled.
 
 ----
 $ ./gradlew -Pprod
@@ -201,10 +203,48 @@ $ ./gradlew -Pprod
 ----------------------------------------------------------
         Application 'TwentyOnePoints' is running! Access URLs:
         Local:          http://localhost:8080
-        External:       http://192.168.0.121:8080
+        External:       http://192.168.105.207:8080
         Profile(s):     [prod]
 ----------------------------------------------------------
 ----
+
+Wahoo - it worked!
+
+[sidebar]
+.Using a local PostgreSQL database
+--
+You can also use a local PostgreSQL database. To do this on a Mac, I installed http://postgresapp.com/[Postgres.app] and tried creating a local PostgreSQL database with settings from `src/main/resources/config/application-prod.yml`.
+
+----
+psql (9.6.10)
+Type "help" for help.
+
+template1=# create user TwentyOnePoints with password '21points';
+CREATE ROLE
+template1=# create database TwentyOnePoints;
+CREATE DATABASE
+template1=# grant all privileges on database TwentyOnePoints to TwentyOnePoints;
+GRANT
+template1=#
+----
+
+I updated `application-prod.yml` to use `21points` for the datasource password. I confirmed I could talk to a PostgreSQL database when running with the `prod` profile. I was greeted with an error saying that things were not set up correctly.
+
+[source]
+----
+$ ./gradlew -Pprod
+...
+2018-08-27 09:59:32.094 ERROR 5180 --- [           main] com.zaxxer.hikari.pool.HikariPool        :
+HikariPool-1 - Exception during pool initialization.
+
+org.postgresql.util.PSQLException: FATAL: role "TwentyOnePoints" does not exist
+        at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
+        at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2559)
+        at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:133)
+----
+
+I quickly realized that PostgreSQL is case insensitive, so even though I typed "TwentyOnePoints", it configured the database name and username as "twentyonepoints". I updated `application-prod.yml` with the correct case and tried again. This time it worked!
+--
 
 === Adding source control
 
@@ -216,13 +256,13 @@ JHipster will initialize Git for your project automatically if you have Git inst
 ----
 $ git remote add origin git@bitbucket.org:mraible/21-points.git
 $ git push origin master
-Warning: Permanently added the RSA host key for IP address '18.205.93.2' to the list of known hosts.
-Counting objects: 512, done.
+Warning: Permanently added the RSA host key for IP address '18.205.93.1' to the list of known hosts.
+Counting objects: 523, done.
 Delta compression using up to 8 threads.
-Compressing objects: 100% (483/483), done.
-Writing objects: 100% (512/512), 608.64 KiB | 7.08 MiB/s, done.
-Total 512 (delta 54), reused 0 (delta 0)
-remote: Resolving deltas: 100% (54/54), done.
+Compressing objects: 100% (495/495), done.
+Writing objects: 100% (523/523), 616.70 KiB | 8.94 MiB/s, done.
+Total 523 (delta 61), reused 0 (delta 0)
+remote: Resolving deltas: 100% (61/61), done.
 To bitbucket.org:mraible/21-points.git
  * [new branch]      master -> master
 ----
@@ -231,7 +271,7 @@ This is how I created a new application with JHipster and checked it into source
 
 == Building the UI and business logic
 
-I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a couple of years ago, but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the https://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the https://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design] module. Unfortunately, I soon found out it doesn't support JHipster 4+.
+I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a few years ago, but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the https://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the https://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design] module. Unfortunately, I soon found out it doesn't support JHipster 4+.
 
 In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. However, I did https://github.com/FezVrasta/bootstrap-material-design/issues/1299#issuecomment-410544707[figure out how] to make [Bootstrap Material Design](https://fezvrasta.github.io/bootstrap-material-design/) work with JHipster 5.
 
@@ -1537,10 +1577,10 @@ I did not write any tests for this project's UI because I was in a time crunch a
 
 == Deploying to Heroku
 
-JHipster ships with support for deploying to Cloud Foundry, Heroku, Kubernetes, OpenShift, Rancher, AWS, and Boxfuse. I used Heroku to deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for production, it's recommended to use the pre-configured "`production`" profile. With Gradle, you can package your application by specifying this profile when building.
+JHipster ships with support for deploying to Cloud Foundry, Heroku, Kubernetes, OpenShift, Rancher, AWS, and Boxfuse. I used Heroku to deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for production, it's recommended to use the pre-configured "`prod`" profile. With Gradle, you can package your application by specifying this profile when building.
 
 ----
-./gradlew -Pprod bootRepackage
+./gradlew -Pprod bootWar
 ----
 
 The command looks similar when using Maven.
@@ -1551,7 +1591,7 @@ The command looks similar when using Maven.
 
 The production profile is used to build an optimized JavaScript client. You can invoke this using Webpack by running `yarn webpack:prod`. The production profile also configures gzip compression with a servlet filter, cache headers, and monitoring via https://github.com/dropwizard/metrics[Metrics]. If you have a http://graphite.wikidot.com/[Graphite] server configured in your `application-prod.yml` file, your application will automatically send metrics data to it.
 
-To upload 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-command-line[Heroku CLI] installed.
+To deploy 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-command-line[Heroku CLI] installed.
 
 TIP: I first deployed to Heroku after creating the application, meaning that I had a default JHipster application with no entities.
 
@@ -1567,70 +1607,87 @@ I ran `jhipster heroku` as recommended in the https://www.jhipster.tech/heroku/[
 
 ----
 $ jhipster heroku
-  Heroku configuration is starting
-  ? Name to deploy as: 21points
-  ? On which region do you want to deploy ? us
+Heroku configuration is starting
+? Name to deploy as: 21points
+? On which region do you want to deploy ? us
+? Which type of deployment do you want ? Git (compile on Heroku)
 
-  Using existing Git repository
+Using existing Git repository
 
-  Installing Heroku CLI deployment plugin
+Heroku CLI deployment plugin already installed
 
-  Creating Heroku application and setting up node environment
-  heroku create 21-points
-  ✖ { Error: Command failed: heroku create 21-points
-  Creating 21-points... !
-   ▸    Name must start with a letter and can only contain lowercase letters,
-   ▸    numbers, and dashes.
+Creating Heroku application and setting up node environment
+✖ { Error: Command failed: heroku create 21-points
+Creating 21-points... !
+ ▸    Name must start with a letter and can only contain lowercase letters,
+ ▸    numbers, and dashes.
 ----
 
 You can see my first attempt failed for the same reason that creating the initial JHipster app failed: it didn't like that the app name started with a number. I tried again with "`health`", but that failed, too, since a Heroku app with this name already existed. Finally, I settled on "`health-by-points`" as the application name.
 
-I tried to deploy to Heroku once more.
-
 ----
 $ jhipster heroku
-  Heroku configuration is starting
-  ? Name to deploy as: health-by-points
-  ? On which region do you want to deploy ? us
+Using JHipster version installed locally in current project's node_modules
+Executing jhipster:heroku
+Options:
+Heroku configuration is starting
+? Name to deploy as: health-by-points
+? On which region do you want to deploy ? us
 
-  Using existing Git repository
+Using existing Git repository
 
-  Heroku CLI deployment plugin already installed
+Heroku CLI deployment plugin already installed
 
-  Creating Heroku application and setting up node environment
-  heroku create health-by-points
-  https://health-by-points.herokuapp.com/ | https://git.heroku.com/health-by-points.git
+Creating Heroku application and setting up node environment
+https://health-by-points.herokuapp.com/ | https://git.heroku.com/health-by-points.git
 
-  Provisioning addons
-  Created heroku-postgresql --as DATABASE
+Provisioning addons
+Created Elasticsearch addon
+Created Database addon
 
-  Creating Heroku deployment files
-     create src/main/resources/config/bootstrap-heroku.yml
-     create src/main/resources/config/application-heroku.yml
-     create Procfile
-     create gradle/heroku.gradle
-   conflict build.gradle
-  ? Overwrite build.gradle? overwrite this and all others
-      force build.gradle
+Creating Heroku deployment files
+   create src/main/resources/config/bootstrap-heroku.yml
+   create src/main/resources/config/application-heroku.yml
+   create Procfile
+   create gradle/heroku.gradle
+ conflict build.gradle
+? Overwrite build.gradle? overwrite this and all others
+    force build.gradle
 
-  Building application
-...
+Skipping build
 
-BUILD SUCCESSFUL
-Total time: 3 mins 18.313 secs
+Updating Git repository
+git add .
+git commit -m "Deploy to Heroku" --allow-empty
+
+Configuring Heroku
 
 Deploying application
+remote: Compressing source files... done.
+remote: Building source:
+...
 
-Uploading your application code.
-This may take several minutes depending on your connection speed...
-Uploading twenty-one-points-0.0.1-SNAPSHOT.war
+remote:        BUILD SUCCESSFUL in 4m 30s
+remote:        8 actionable tasks: 7 executed, 1 up-to-date
+remote: -----> Discovering process types
+remote:        Procfile declares types -> web
+remote:
+remote: -----> Compressing...
+remote:        Done: 141.3M
+remote: -----> Launching...
+remote:        Released v6
+remote:        https://health-by-points.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+To https://git.heroku.com/health-by-points.git
+ * [new branch]      HEAD -> master
 ----
 
 I was pumped to see that this process worked and that my application was available at http://health-by-points.herokuapp.com. I quickly changed the default passwords for *admin* and *user* to make things more secure.
 
 [[img-deployed-to-heroku]]
 .First deployment to Heroku
-image::chapter2/deployed-to-heroku.png[First deployment to Heroku, 1187, scaledwidth=100%, align=center]
+image::chapter2/deployed-to-heroku.png[First deployment to Heroku, 1179, scaledwidth=100%, align=center]
 
 Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for Heroku, I ran `heroku domains:add`.
 
@@ -1661,7 +1718,12 @@ ifdef::backend-pdf[<<<]
 |health-by-points.herokuapp.com
 |===
 
-This was all I needed to get my JHipster application running on Heroku. However, after generating entities and adding more code to the project, I found some issues. First of all, I learned that after the initial setup, you can redeploy your application using https://github.com/heroku/heroku-cli-deploy[heroku-cli-deploy]. Use the following command to install this plugin.
+This was all I needed to get my JHipster application running on Heroku. For subsequent deployments, I ran `jhipster heroku` again, or used `git push heroku master`.
+
+[sidebar]
+.JAR Deployments to Heroku
+--
+If you use JAR deployments with Heroku, in addition to using `jhipster heroku` you can redeploy your application using https://github.com/heroku/heroku-cli-deploy[heroku-cli-deploy]. Use the following command to install this plugin.
 
 ----
 heroku plugins:install heroku-cli-deploy
@@ -1670,62 +1732,54 @@ heroku plugins:install heroku-cli-deploy
 After that, you can package your JHipster project for production and deploy it. Using Gradle, it looks like this.
 
 ----
-./gradlew -Pprod bootRepackage -x test
+./gradlew -Pprod bootWar
 heroku war:deploy build/libs/*war --app health-by-points
 ----
 
 With Maven, the commands look slightly different:
 
 ----
-./mvnw install -Pprod -DskipTests
+./mvnw package -Pprod
 heroku war:deploy target/*war --app health-by-points
 ----
+--
 
-I ran the deployment command after generating all my entities and it looked like everything worked just fine.
+=== Elasticsearch on Heroku
 
-....
-heroku war:deploy build/libs/*war --app health-by-points
-Uploading twenty-one-points-0.0.1-SNAPSHOT.war
------> Packaging application...
-       - app: health-by-points
-       - including: webapp-runner.jar
-       - including: build/libs/twenty-one-points-0.0.1-SNAPSHOT.war
------> Creating build...
-       - file: slug.tgz
-       - size: 73MB
------> Uploading build...
-       - success
------> Deploying...
-remote:
-remote: -----> heroku-deploy app detected
-remote: -----> Installing OpenJDK 1.8... done
-remote: -----> Discovering process types
-remote:        Procfile declares types -> web
-remote:
-remote: -----> Compressing...
-remote:        Done: 121.6M
-remote: -----> Launching...
-remote:        Released v8
-remote:        https://health-by-points.herokuapp.com/ deployed to Heroku
-remote:
------> Done
-....
+To prove everything was working on Heroku, I tried registering a new user. I received an error that appeared to come from Elasticsearch.
 
-I tailed my log files with `heroku logs --tail` to make sure everything started up okay.
-
-It is possible that you'll see the following error on startup.
-
+[source%autofit]
 ----
-Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 60 seconds of launch
+2018-08-27T21:15:27.588565+00:00 app[web.1]: 2018-08-27 21:15:27.587 ERROR 4 --- [ XNIO-2 task-15]
+  o.z.p.spring.web.advice.AdviceTrait      : Internal Server Error
+2018-08-27T21:15:27.588578+00:00 app[web.1]:
+2018-08-27T21:15:27.588581+00:00 app[web.1]: org.elasticsearch.client.transport.NoNodeAvailableException:
+  None of the configured nodes are available: [{#transport#-1}{7Du0TB4WQ_6crjWFO1iJVQ}{localhost}{127.0.0.1:9300}]
+2018-08-27T21:15:27.588583+00:00 app[web.1]: at org.elasticsearch.client.transport.TransportClientNodesService
+  .ensureNodesAreAvailable(TransportClientNodesService.java:347)
+2018-08-27T21:15:27.588585+00:00 app[web.1]: at org.elasticsearch.client.transport.TransportClientNodesService.execute
+  (TransportClientNodesService.java:245)
 ----
 
-If this happens, create a support ticket at https://help.heroku.com/ and ask to have your application's allowed timeout increased to 120 seconds.
+I https://github.com/jhipster/generator-jhipster/issues/7810[created an issue] in the JHipster project saying that Elasticsearch doesn't work out-of-the-box with Heroku. I worked with Joe Kutner of Heroku to come up with a solution and fix.
 
-TIP: If you need to reset your PostgreSQL database on Heroku, you can do so my logging into https://dashboard.heroku.com. Click on your application name > Add-Ons > Heroku Postgres :: Gray and select "`Reset Database`" from the gear icon in the top right corner.
+The fix for Elasticsearch on Heroku was released in JHipster 5.3.0, so I upgraded using the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator].
+
+// todo: start from here once 5.3.0 is released
+[[jhipster-upgrade]]
+.JHipster Upgrade
+image::chapter2/jhipster-upgrade.png[Running the jhipster:upgrade sub-generator, 1222, scaledwidth=100%, align=center]
+
+After the command finished (in just over 21 minutes because I had a slow connection), I committed changes to `yarn.lock`
+and ran `git push`. If you're reading this and notice that 21-Points Health is using a version newer than 4.5.3, it's
+likely because I used this handy sub-generator again.
+
+After upgrading, I tried to deploy to Heroku once more.
 
 === Mail on Heroku
 
-After making this change, I repackaged and redeployed. This time, when I tried to register, I received an error when my `MailService` tried to send me an activation e-mail.
+After making this change, I repackaged and redeployed. This time, when I tried to register, I received an error when my
+`MailService` tried to send me an activation e-mail.
 
 ----
 2017-08-14T21:26:12.193734+00:00 app[web.1]: 2017-08-14 21:26:12.193  WARN 4 --- [ints-Executor-2]
