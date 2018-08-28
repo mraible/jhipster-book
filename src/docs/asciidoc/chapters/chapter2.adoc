@@ -275,10 +275,148 @@ I wanted 21-Points Health to be a bit more hip than a stock JHipster application
 
 In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. However, I did https://github.com/FezVrasta/bootstrap-material-design/issues/1299#issuecomment-410544707[figure out how] to make [Bootstrap Material Design](https://fezvrasta.github.io/bootstrap-material-design/) work with JHipster 5.
 
+To make the default Bootstrap theme look like Material Design, modify `_bootstrap-variables.scss` and replace it with the contents below.
+
+[source,scss]
+.src/main/webapp/content/scss/_bootstrap-variables.scss
+----
+/*
+* Bootstrap overrides https://getbootstrap.com/docs/4.0/getting-started/theming/
+* All values defined in bootstrap source
+* https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss can be overwritten here
+* Make sure not to add !default to values here
+*/
+
+// Colors:
+// Grayscale and brand colors for use across Bootstrap.
+
+// Customize colors to match Bootstrap Material Theme
+// https://github.com/FezVrasta/bootstrap-material-design/blob/master/sass/_variables.scss
+
+$primary: #009688;
+$success: #4caf50;
+$info: #03a9f4;
+$warning: #ff5722;
+$danger: #f44336;
+$blue: #0275d8;
+
+// Options:
+// Quickly modify global styling by enabling or disabling optional features.
+$enable-rounded: true;
+$enable-shadows: false;
+$enable-gradients: false;
+$enable-transitions: true;
+$enable-hover-media-query: false;
+$enable-grid-classes: true;
+$enable-print-styles: true;
+
+// Components:
+// Define common padding and border radius sizes and more.
+
+$border-radius: 0.15rem;
+$border-radius-lg: 0.125rem;
+$border-radius-sm: 0.1rem;
+
+// Body:
+// Settings for the `<body>` element.
+
+$body-bg: #fff;
+
+// Typography:
+// Font, line-height, and color for body text, headings, and more.
+
+$font-size-base: 0.9rem;
+
+$border-radius: 2px;
+$border-radius-sm: 1px;
+
+$font-family-sans-serif: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+$headings-font-weight: 300;
+
+$link-color: $primary;
+
+$input-focus-border-color: lighten($blue, 25%);
+$input-focus-box-shadow: none;
+----
+
+Then add the following Sass to the bottom of `global.scss`.
+
+[source,scss]
+----
+/* ==========================================================================
+custom styles for 21-Points Health
+==========================================================================*/
+.jh-card {
+    border: none !important;
+}
+
+.jh-navbar {
+    background-color: #009688 !important;
+}
+
+.blockquote {
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 1rem !important;
+    font-weight: 100;
+    border-left: 0.25rem solid #eceeef;
+}
+
+a {
+    font-weight: normal !important;
+}
+
+.truncate {
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+
+    &.cal-day-notes {
+        width: 150px;
+    }
+}
+
+.footer {
+    bottom: 0;
+    left: 0;
+    color: #666;
+    background: #eee;
+    border-top: 1px solid silver;
+    position: fixed;
+    width: 100%;
+    padding: 10px;
+    padding-bottom: 0;
+    text-align: center;
+    z-index: 2;
+    font-size: 0.9em;
+
+    p {
+        margin-bottom: 7px;
+    }
+}
+
+.thread-dump-modal-lock {
+    max-width: 450px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Override Bootstrap's default vertical-align: top */
+.table {
+    th,
+    td {
+        vertical-align: middle !important;
+    }
+}
+----
+
 [sidebar]
 .How to use Bootstrap Material Design with JHipster 5
 --
-Below are the steps necessary to use this library with JHipster 5 and Sass:
+Below are the steps necessary to use Bootstrap Material Design with JHipster 5 and Sass:
 
 . Install bootstrap-material-design:
 +
@@ -371,16 +509,13 @@ At this point, I did some trial-and-error designs with the data model. I generat
 .UI mockup
 image::chapter2/ui-mockup.png[UI mockup, 846, scaledwidth=75%, align=center]
 
-After figuring out how I wanted the UI to look, I started to think about the data model. I quickly decided I didn't need to
-track high-level goals (e.g. lose ten pounds in Q3 2018). I was more concerned with tracking weekly goals and 21-Points
-Health is all about how many points you get in a week. I created the following diagram as my data model.
+After figuring out how I wanted the UI to look, I started to think about the data model. I quickly decided I didn't need to track high-level goals (e.g. lose ten pounds in Q3 2018). I was more concerned with tracking weekly goals and 21-Points Health is all about how many points you get in a week. I created the following diagram as my data model.
 
 [[img-entity-diagram]]
 .21-Points Health entity diagram
 image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=100%, align=center]
 
-I ran `jhipster entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one
-relationship with `User`. Below is the final output from my answers.
+I ran `jhipster entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one relationship with `User`. Below is the final output from my answers.
 
 [source%autofit]
 ----
@@ -390,53 +525,56 @@ date (LocalDate) required
 exercise (Integer)
 meals (Integer)
 alcohol (Integer)
-notes (String) maxlength='140'
+notes (byte[] text)
 
 Relationships
 user (User) many-to-one
 
-? Do you want to use a Data Transfer Object (DTO)? No, use the entity directly
-? Do you want to use separate service class for your business logic? No, the REST controller should
-use the repository directly
+? Do you want to use separate service class for your business logic? No, the REST controller should use the repository directly
 ? Do you want pagination on your entity? Yes, with pagination links
 
 Everything is configured, generating the entity...
 
    create .jhipster/Points.json
-   create src/main/resources/config/liquibase/changelog/20170725030037_added_entity_Points.xml
-   create src/main/resources/config/liquibase/changelog/20170725030037_added_entity_constraints_Points.xml
+   create src/main/resources/config/liquibase/changelog/20180828004742_added_entity_Points.xml
+   create src/main/resources/config/liquibase/changelog/20180828004742_added_entity_constraints_Points.xml
    create src/main/java/org/jhipster/health/domain/Points.java
    create src/main/java/org/jhipster/health/repository/PointsRepository.java
    create src/main/java/org/jhipster/health/web/rest/PointsResource.java
    create src/main/java/org/jhipster/health/repository/search/PointsSearchRepository.java
    create src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
+   create src/test/java/org/jhipster/health/repository/search/PointsSearchRepositoryMockConfiguration.java
    create src/test/gatling/user-files/simulations/PointsGatlingTest.scala
-conflict src/main/resources/config/liquibase/master.xml
+ conflict src/main/resources/config/liquibase/master.xml
 ? Overwrite src/main/resources/config/liquibase/master.xml? overwrite this and all others
     force src/main/resources/config/liquibase/master.xml
     force src/main/java/org/jhipster/health/config/CacheConfiguration.java
    create src/main/webapp/app/entities/points/points.component.html
    create src/main/webapp/app/entities/points/points-detail.component.html
-   create src/main/webapp/app/entities/points/points-dialog.component.html
+   create src/main/webapp/app/entities/points/points-update.component.html
    create src/main/webapp/app/entities/points/points-delete-dialog.component.html
-   create src/main/webapp/app/entities/points/index.ts
-   create src/main/webapp/app/entities/points/points.module.ts
-   create src/main/webapp/app/entities/points/points.route.ts
-   create src/main/webapp/app/entities/points/points.model.ts
-   create src/main/webapp/app/entities/points/points.component.ts
-   create src/main/webapp/app/entities/points/points-dialog.component.ts
-   create src/main/webapp/app/entities/points/points-delete-dialog.component.ts
-   create src/main/webapp/app/entities/points/points-detail.component.ts
-   create src/main/webapp/app/entities/points/points.service.ts
-   create src/main/webapp/app/entities/points/points-popup.service.ts
-   create src/test/javascript/spec/app/entities/points/points-detail.component.spec.ts
-   create src/test/javascript/e2e/entities/points.spec.ts
-    force src/main/webapp/app/entities/entity.module.ts
     force src/main/webapp/app/layouts/navbar/navbar.component.html
    create src/main/webapp/i18n/en/points.json
     force src/main/webapp/i18n/en/global.json
    create src/main/webapp/i18n/fr/points.json
     force src/main/webapp/i18n/fr/global.json
+   create src/main/webapp/app/entities/points/index.ts
+   create src/main/webapp/app/entities/points/points.module.ts
+   create src/main/webapp/app/entities/points/points.route.ts
+   create src/main/webapp/app/shared/model/points.model.ts
+   create src/main/webapp/app/entities/points/points.component.ts
+   create src/main/webapp/app/entities/points/points-update.component.ts
+   create src/main/webapp/app/entities/points/points-delete-dialog.component.ts
+   create src/main/webapp/app/entities/points/points-detail.component.ts
+   create src/main/webapp/app/entities/points/points.service.ts
+   create src/test/javascript/spec/app/entities/points/points-detail.component.spec.ts
+   create src/test/javascript/spec/app/entities/points/points-update.component.spec.ts
+   create src/test/javascript/spec/app/entities/points/points-delete-dialog.component.spec.ts
+   create src/test/javascript/spec/app/entities/points/points.component.spec.ts
+   create src/test/javascript/spec/app/entities/points/points.service.spec.ts
+   create src/test/javascript/e2e/entities/points/points.page-object.ts
+   create src/test/javascript/e2e/entities/points/points.spec.ts
+    force src/main/webapp/app/entities/entity.module.ts
 
 Running `webpack:build` to update client app
 ----
@@ -448,49 +586,39 @@ To ensure that people use 21-Points Health effectively, I set the weekly goal to
 ----
 ================= Preferences =================
 Fields
-weekly_goal (Integer) required min='10' max='21'
+weeklyGoal (Integer) required min='10' max='21'
 
 Generating field #2
+
 ? Do you want to add a field to your entity? Yes
-? What is the name of your field? weight_units
+? What is the name of your field? weightUnits
 ? What is the type of your field? Enumeration (Java enum type)
 ? What is the class name of your enumeration? Units
-? What are the values of your enumeration (separated by comma)? kg,lb
+? What are the values of your enumeration (separated by comma, no spaces)? kg,lb
 ? Do you want to add validation rules to your field? Yes
 ? Which validation rules do you want to add? Required
 
 ================= Preferences =================
 Fields
-weekly_goal (Integer) required min='10' max='21'
-weight_units (Units) required
+weeklyGoal (Integer) required min='10' max='21'
+weightUnits (Units) required
 ----
 
-TIP: After generating the `Weight` and `BloodPressure` entities with a `date` property for the date/time field, I
-decided that `timestamp` was a better property name. To fix this, I modified the respective JSON files in the `.jhipster`
-directory and ran `jhipster entity` for each entity again. This seemed easier than refactoring with IntelliJ and hoping
-it caught all the name instances.
+TIP: After generating the `Weight` and `BloodPressure` entities with a `date` property for the date/time field, I decided that `timestamp` was a better property name. To fix this, I modified the respective JSON files in the `.jhipster` directory and ran `jhipster entity` for each entity again. This seemed easier than refactoring with IntelliJ and hoping it caught all the name instances.
 
 When I ran `./gradlew test`, I was pleased to see that all tests passed.
 
 ----
-BUILD SUCCESSFUL
-
-Total time: 1 mins 0.004 secs
+BUILD SUCCESSFUL in 36s
 ----
 
-I checked in six changed files and 113 new files generated by the JHipster before continuing to implement my UI mockups.
+I checked in six changed files and 130 new files generated by the JHipster before continuing to implement my UI mockups.
 
 == Application improvements
 
 To make my new JHipster application into something I could be proud of, I made a number of improvements, described below.
 
-TIP: At this point, I set up continuous testing of this project using https://jenkins-ci.org/[Jenkins]. This is covered
-in the <<Continuous integration and deployment>> section of this chapter.
-
-=== Fixed issues with variable names
-
-For the `Preferences` entity, I specified `weekly_goals` and `weight_unit` as field names. I was thinking in terms
-of names for database columns when I chose these names. I later learned that these names were used throughout my code. I left the column names intact and manually renamed everything in Java, JavaScript, JSON, and HTML to `weeklyGoals` and `weightUnit`.
+TIP: At this point, I set up continuous testing of this project using https://jenkins-ci.org/[Jenkins]. This is covered in the <<Continuous integration and deployment>> section of this chapter.
 
 === Improved HTML layout and I18N messages
 
@@ -508,11 +636,11 @@ The biggest visual improvements are on the list screens. I made the buttons a bi
 
 [[img-points-list-before]]
 .Default Daily Points list
-image::chapter2/points-list-before.png[Default Daily Points list, 1336, scaledwidth=100%, align=center]
+image::chapter2/points-list-before.png[Default Daily Points list, 1337, scaledwidth=100%, align=center]
 
 [[img-points-list-after]]
 .Default Daily Points list after UI improvements
-image::chapter2/points-list-after.png[Default Daily Points list after UI improvements, 1326, scaledwidth=100%, align=center]
+image::chapter2/points-list-after.png[Default Daily Points list after UI improvements, 1136, scaledwidth=100%, align=center]
 
 I refactored the HTML at the top of `points.component.html` to put the title, search, and add buttons on the same row. I also removed the button text in favor of a using https://ng-bootstrap.github.io/#/components/tooltip/api[ng-bootstrap's tooltip directive]. The `jhiTranslate` directive you see in the button tooltips is provided by https://github.com/jhipster/ng-jhipster[JHipster's Angular library].
 
@@ -524,7 +652,7 @@ I refactored the HTML at the top of `points.component.html` to put the title, se
         <h2 id="page-heading" jhiTranslate="twentyOnePointsApp.points.home.title">Points</h2>
     </div>
     <div class="col-sm-4 text-right">
-        <button class="btn btn-primary float-right jh-create-entity create-points"
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-points"
                 [routerLink]="['/points/new']"
                 [ngbTooltip]="addTooltip" placement="bottom">
             <fa-icon [icon]="'plus'"></fa-icon>
@@ -555,78 +683,88 @@ Changing the numbers to icons was pretty easy thanks to Angular's expression lan
 .src/main/webapp/app/entities/points/points.component.html
 ----
 <td class="text-center">
-    <i class="fa fa-{{points.exercise ? 'check text-success' : 'times text-danger'}}"
-       aria-hidden="true"></i>
+    <fa-icon [icon]="points.exercise ? 'check' : 'times'" aria-hidden="true"
+             class="{{points.exercise ? 'text-success' : 'text-danger'}}"></fa-icon>
 </td>
 <td class="text-center">
-    <i class="fa fa-{{points.meals ? 'check text-success' : 'times text-danger'}}"
-       aria-hidden="true"></i>
+    <fa-icon [icon]="points.meals ? 'check' : 'times'" aria-hidden="true"
+             class="{{points.meals ? 'text-success' : 'text-danger'}}"></fa-icon>
 </td>
 <td class="text-center">
-    <i class="fa fa-{{points.alcohol ? 'check text-success' : 'times text-danger'}}"
-       aria-hidden="true"></i>
+    <fa-icon [icon]="points.alcohol ? 'check' : 'times'" aria-hidden="true"
+             class="{{points.alcohol ? 'text-success' : 'text-danger'}}"></fa-icon>
 </td>
 ----
 
-Similarly, I changed the input fields to checkboxes in `points-dialog.component.html`.
+After adding this HTML, I saw an error in my browser's developer console.
+
+----
+FontAwesome: Could not find icon with iconName=check and prefix=fas
+----
+
+To fix this, I modified `vendor.ts` and added `faCheck` as an imported icon.
+
+[source,typescript]
+.src/main/webapp/app/vendor.ts
+----
+library.add(faTimes);
+library.add(faCheck); // add this line
+----
+
+Next, I changed the input fields to checkboxes in `points-update.component.html`.
 
 [source%autofit,html]
-.src/main/webapp/app/entities/points/points-dialog.component.html
+.src/main/webapp/app/entities/points/points-update.component.html
 ----
 <div class="form-check">
     <label class="form-check-label" for="field_exercise">
-        <input type="checkbox" class="form-check-input" name="exercise"
-               id="field_exercise" [(ngModel)]="points.exercise"  />
-        <span jhiTranslate="twentyOnePointsApp.points.exercise"
-              for="field_exercise">Exercise</span>
+        <input type="checkbox" class="form-check-input" name="exercise" id="field_exercise"
+               [(ngModel)]="points.exercise"  />
+        <span jhiTranslate="twentyOnePointsApp.points.exercise" for="field_exercise">Exercise</span>
     </label>
 </div>
 <div class="form-check">
     <label class="form-check-label" for="field_meals">
-        <input type="checkbox" class="form-check-input" name="meals"
-               id="field_meals" [(ngModel)]="points.meals"  />
+        <input type="checkbox" class="form-check-input" name="meals" id="field_meals"
+               [(ngModel)]="points.meals"  />
         <span jhiTranslate="twentyOnePointsApp.points.meals">Meals</span>
     </label>
 </div>
 <div class="form-check">
     <label class="form-check-label" for="field_alcohol">
-        <input type="checkbox" class="form-check-input" name="alcohol"
-            id="field_alcohol" [(ngModel)]="points.alcohol"  />
-        <span jhiTranslate="twentyOnePointsApp.points.alcohol"
-              for="field_alcohol">Alcohol</span>
+        <input type="checkbox" class="form-check-input" name="alcohol" id="field_alcohol"
+               [(ngModel)]="points.alcohol"  />
+        <span jhiTranslate="twentyOnePointsApp.points.alcohol" for="field_alcohol">Alcohol</span>
     </label>
 </div>
 ----
 
-In `points-dialog.component.ts`, I had to modify the `save()` method to convert booleans from each checkbox
-into integers.
+In `points-update.component.ts`, I had to modify the `save()` method to convert booleans from each checkbox into integers.
 
 [source,javascript]
-.src/main/webapp/app/entities/points/points-dialog.component.ts
+.src/main/webapp/app/entities/points/points-update.component.ts
 ----
 save() {
     this.isSaving = true;
 
     // convert booleans to ints
-    this.points.exercise = (this.points.exercise) ? 1 : 0;
-    this.points.meals = (this.points.meals) ? 1 : 0;
-    this.points.alcohol = (this.points.alcohol) ? 1 : 0;
+    this.points.exercise = this.points.exercise ? 1 : 0;
+    this.points.meals = this.points.meals ? 1 : 0;
+    this.points.alcohol = this.points.alcohol ? 1 : 0;
 
     if (this.points.id !== undefined) {
-        this.subscribeToSaveResponse(
-            this.pointsService.update(this.points), false);
+        this.subscribeToSaveResponse(this.pointsService.update(this.points));
     } else {
-        this.subscribeToSaveResponse(
-            this.pointsService.create(this.points), true);
+        this.subscribeToSaveResponse(this.pointsService.create(this.points));
     }
 }
 ----
 
-After making this change, you can see that the "`Add Points`" screen is starting to look like the UI mockup I created.
+After making these changes, modifying a bit of HTML, and tweaking some i18n message, and you can see that the "`Add Points`" screen is starting to look like the UI mockup I created.
 
 [[img-add-points-dialog]]
 .Add Points dialog
-image::chapter2/add-points-dialog.png[Add Points dialog, 892, scaledwidth=80%, align=center]
+image::chapter2/add-points-page.png[Add Points page, 1167, scaledwidth=90%, align=center]
 
 Improving the UI was the most fun, but also the most time consuming as it involved lots of little tweaks to multiple screens. The next task was more straightforward: implementing business logic.
 
@@ -1873,21 +2011,31 @@ JHipster has good documentation on https://www.jhipster.tech/setting-up-ci-jenki
 
 ----
 $ jhipster ci-cd
-[Beta] Welcome to the JHipster CI/CD Sub-Generator
+Using JHipster version installed locally in current project's node_modules
+Executing jhipster:ci-cd
+Options:
+🚀 Welcome to the JHipster CI/CD Sub-Generator 🚀
 ? What CI/CD pipeline do you want to generate? Jenkins pipeline
-? Jenkins pipeline: what tasks/integrations do you want to include?
-? Deploy to heroku? In Jenkins pipeline
+? Would you like to perform the build in a Docker container ? No
+? Would you like to send build status to GitLab ? No
+? What tasks/integrations do you want to include ? Deploy to *Heroku* (requires HEROKU_API_KEY set on CI service)
+? *Heroku*: name of your Heroku Application ? health-by-points
    create Jenkinsfile
    create src/main/docker/jenkins.yml
    create src/main/resources/idea.gdsl
 ----
 
+After I generated these files, I checked them in and pushed to Bitbucket.
+
+[sidebar]
+.Jenkins Options
+--
 When choosing Jenkins, you can also select the following options for tasks/integrations:
 
-* Perform the build in a Docker container.
+* Deploy artifact to Artifactory.
 * Analyze code with Sonar.
-* Send build status to Gitlab.
 * Build and publish a Docker image.
+--
 
 To log in to Jenkins, I navigated to http://localhost:9000. I copied the password from the startup log file and pasted into the unlock Jenkins page.
 
@@ -1905,13 +2053,13 @@ I created a new job called "21-points" with a Pipeline script from SCM. I config
 
 [[jenkins-job1]]
 .Jenkins build #1
-image::chapter2/jenkins-job-1.png[First run of 21-points pipeline, 1124, scaledwidth=100%, align=center]
+image::chapter2/jenkins-job-1.png[First run of 21-points pipeline, 1380, scaledwidth=100%, align=center]
 
 TIP: It's possible the `deployment` stage will fail for you the first time. If this happens, stop Jenkins, run `heroku login`, then restart Jenkins.
 
 I modified this file to add a `protractor tests` stage to run all the Protractor tests. I checked in my changes to trigger another build.
 
-[source]
+[source,groovy]
 .Jenkinsfile
 ----
 #!/usr/bin/env groovy
@@ -1950,7 +2098,7 @@ node {
         } catch(err) {
             throw err
         } finally {
-            junit '**/build/test-results/karma/TESTS-*.xml'
+            junit '**/build/test-results/jest/TESTS-*.xml'
         }
     }
 
@@ -1964,7 +2112,7 @@ node {
     }
 
     stage('packaging') {
-        sh "./gradlew bootRepackage -x test -Pprod -PnodeInstall --no-daemon"
+        sh "./gradlew bootWar -x test -Pprod -PnodeInstall --no-daemon"
         archiveArtifacts artifacts: '**/build/libs/*.war', fingerprint: true
     }
 
@@ -1979,8 +2127,6 @@ I was pumped to see all the stages in my pipeline pass.
 [[jenkins-job-success]]
 .Jenkins success!
 image::chapter2/jenkins-job-success.png[Jenkins success!, 1619, scaledwidth=100%, align=center]
-
-NOTE: The reason job #2 didn't pass in the screenshot above is because I initially slept 45 seconds before running Protractor tests. This was not enough time for Spring Boot to start up. Increasing it to 60 seconds solved the problem.
 
 When working on this project, I'd start Jenkins and have it running while I checked in code. I did not install it on a server and leave it running continuously. My reason was simple: I was only coding in bursts and didn't need to waste computing cycles or want to pay for a cloud instance to run it.
 
