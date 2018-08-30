@@ -630,7 +630,7 @@ Of all the code I write, UI code (HTML, JavaScript, and CSS) is my favorite. I l
   (for example: `{{bloodPressure.timestamp | date:'short': 'UTC'}}`),
 * defaulted to current date on new entries,
 * replaced point metrics with icons on list/detail screens, and
-* replaced point metrics with checkboxes on dialog screen.
+* replaced point metrics with checkboxes on update screen.
 
 The biggest visual improvements are on the list screens. I made the buttons a bit smaller, turned button text into tooltips, and moved add/search buttons to the top right corner. For the points-list screen, I converted the 1 and 0 metric values to icons. Before and after screenshots of the points list illustrate the improved, compact layout.
 
@@ -762,8 +762,8 @@ save() {
 
 After making these changes, modifying a bit of HTML, and tweaking some i18n message, and you can see that the "`Add Points`" screen is starting to look like the UI mockup I created.
 
-[[img-add-points-dialog]]
-.Add Points dialog
+[[img-add-points-page]]
+.Add Points page
 image::chapter2/add-points-page.png[Add Points page, 1167, scaledwidth=90%, align=center]
 
 Improving the UI was the most fun, but also the most time consuming as it involved lots of little tweaks to multiple screens. The next task was more straightforward: implementing business logic.
@@ -774,14 +774,14 @@ I wanted to make several improvements to what users could see, based on their ro
 
 ==== Hide user selection from non-admin users
 
-The default dialogs for many-to-one relationships allow you to choose the user when you add/edit a record. To make it so only administrators had this ability, I modified the dialog screens and used the `*jhiHasAnyAuthority` directive. This directive is included with JHipster, in `src/main/webapp/app/shared/auth/has-any-authority.directive.ts`. It allows you to pass in a single role or a list of roles.
+The default update components for many-to-one relationships allow you to choose the user when you add/edit a record. To make it so only administrators had this ability, I modified the update templates and used the `*jhiHasAnyAuthority` directive. This directive is included with JHipster, in `src/main/webapp/app/shared/auth/has-any-authority.directive.ts`. It allows you to pass in a single role or a list of roles.
 
 [source,html]
-.src/main/webapp/app/entities/points/points-dialog.component.html
+.src/main/webapp/app/entities/points/points-update.component.html
 ----
 <div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN'">
-    <label jhiTranslate="twentyOnePointsApp.points.user" for="field_user">User</label>
-    <select class="form-control" id="field_user" name="user" [(ngModel)]="points.user" required>
+    <label class="form-control-label" jhiTranslate="twentyOnePointsApp.points.user" for="field_user">User</label>
+    <select class="form-control" id="field_user" name="user" [(ngModel)]="points.user">
         <option [ngValue]="null"></option>
         <option [ngValue]="userOption.id === points.user?.id ? points.user : userOption"
                 *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
@@ -985,21 +985,20 @@ Making the homepage into something resembling my UI mockup required several step
 . Add an API to get body weights for the last 30 days.
 . Add charts to display points per week and blood pressure/weight for last 30 days.
 
-I started by reusing the dialogs for entering data that JHipster had created for me. I invoked the dialogs using Angular's `routerLink` syntax, copied from each entity’s main list page. For example, below is the code for the "Add Points" button.
+I started by reusing the update components for entering data that JHipster had created for me. I navigated to the components using Angular's `routerLink` syntax, copied from each entity’s main list page. For example, below is the code for the "Add Points" button.
 
 [source,html]
 ----
-<a [routerLink]="['/', { outlets: { popup: ['points-new'] } }]"
-    class="btn btn-primary m-0 mb-1 text-white">Add Points</a>
+<a [routerLink]="['/points/new']" class="btn btn-primary m-0 mb-1 text-white">Add Points</a>
 ----
 
-Then I had to modify `home.component.ts` to listen for the events these dialogs fire when they modify an entity.
+Then I had to modify `home.component.ts` to listen for the events these components fire when they modify an entity.
 
 [source,javascript]
 .src/main/webapp/app/home/home.component.ts
 ----
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 ...
 export class HomeComponent implements OnInit, OnDestroy {
@@ -1014,7 +1013,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     registerAuthenticationSuccess() {
-        this.eventManager.subscribe('authenticationSuccess', (message) => {
+        this.eventManager.subscribe('authenticationSuccess', () => {
             this.principal.identity().then((account) => {
                 this.account = account;
                 this.getUserData();
@@ -1149,9 +1148,15 @@ From there, it was just a matter of calculating the beginning and end of the cur
  */
 @GetMapping("/points-this-week")
 @Timed
-public ResponseEntity<PointsPerWeek> getPointsThisWeek() {
-    // Get current date
+public ResponseEntity<PointsPerWeek> getPointsThisWeek(
+    @RequestParam(value="tz", required=false) String timezone) {
+
+    // Get current date (with timezone if passed in)
     LocalDate now = LocalDate.now();
+    if (timezone != null) {
+        now = LocalDate.now(ZoneId.of(timezone));
+    }
+
     // Get first day of week
     LocalDate startOfWeek = now.with(DayOfWeek.MONDAY);
     // Get last day of week
@@ -1180,13 +1185,15 @@ To support this new method on the client, I added a new method to `PointsService
 [source,javascript]
 .src/main/webapp/app/entities/points/points.service.ts
 ----
-thisWeek(): Observable<ResponseWrapper> {
-    return this.http.get('api/points-this-week')
-        .map((res: any) => this.convertResponse(res));
+thisWeek(): Observable<EntityResponseType> {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    return this.http
+        .get(`api/points-this-week?tz=${tz}`, { observe: 'response' })
+        .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
 }
 ----
 
-Then I added the service (and `PreferencesService`) as a dependency to `home.component.ts` and calculated the data I wanted to display.
+Then I added the service as a dependency to `home.component.ts` and calculated the data I wanted to display.
 
 [source,javascript]
 .src/main/webapp/app/home/home.component.ts
@@ -1206,7 +1213,7 @@ export class HomeComponent implements OnInit {
     getUserData() {
         // Get points for the current week
         this.pointsService.thisWeek().subscribe((points: any) => {
-            points = points.json;
+            points = points.body;
             this.pointsThisWeek = points;
             this.pointsPercentage = (points.points / 21) * 100;
         });
@@ -1247,7 +1254,7 @@ You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix 
 [source,java]
 .src/main/java/org/jhipster/health/repository/PreferencesRepository.java
 ----
-public interface PreferencesRepository extends JpaRepository<Preferences,Long> {
+public interface PreferencesRepository extends JpaRepository<Preferences, Long> {
     Optional<Preferences> findOneByUserLogin(String login);
 }
 ----
@@ -1263,10 +1270,9 @@ I created a new method in `PreferencesResource.java` to return the user's prefer
 @GetMapping("/my-preferences")
 @Timed
 public ResponseEntity<Preferences> getUserPreferences() {
-    String username = SecurityUtils.getCurrentUserLogin();
+    String username = SecurityUtils.getCurrentUserLogin().get();
     log.debug("REST request to get Preferences : {}", username);
-    Optional<Preferences> preferences =
-        preferencesRepository.findOneByUserLogin(username);
+    Optional<Preferences> preferences = preferencesRepository.findOneByUserLogin(username);
 
     if (preferences.isPresent()) {
         return new ResponseEntity<>(preferences.get(), HttpStatus.OK);
@@ -1283,10 +1289,8 @@ To facilitate calling this endpoint, I added a new `user` method to the `Prefere
 [source,javascript]
 .src/main/webapp/app/entities/preferences/preferences.service.ts
 ----
-user(): Observable<Preferences> {
-    return this.http.get('api/my-preferences').map((res: Response) => {
-        return res.json();
-    });
+user(): Observable<EntityResponseType> {
+    return this.http.get<IPreferences>('api/my-preferences', { observe: 'response' });
 }
 ----
 
@@ -1312,12 +1316,12 @@ export class HomeComponent implements OnInit {
 
     getUserData() {
         // Get preferences
-        this.preferencesService.user().subscribe((preferences) => {
-            this.preferences = preferences;
+        this.preferencesService.user().subscribe((preferences: any) => {
+            this.preferences = preferences.body;
 
             // Get points for the current week
             this.pointsService.thisWeek().subscribe((points: any) => {
-                points = points.json;
+                points = points.body;
                 this.pointsThisWeek = points;
                 this.pointsPercentage =
                     (points.points / this.preferences.weeklyGoal) * 100;
@@ -1357,13 +1361,13 @@ Now that a user's preferences were available, I modified `home.component.html` t
 </ngb-alert>
 ----
 
-To finish things off, I added a link to a dialog where users could edit their preferences.
+To finish things off, I added a link to a component where users could edit their preferences.
 
 [source,html]
 .src/main/webapp/app/home/home.component.html
 ----
-<a [routerLink]="['/', { outlets: { popup: 'preferences/'+ preferences.id + '/edit'} }]"
-   class="pull-right" jhiTranslate="home.link.preferences">Edit Preferences</a>
+<a [routerLink]="['/preferences', preferences.id, 'edit']"
+   class="float-right" jhiTranslate="home.link.preferences">Edit Preferences</a>
 ----
 
 ==== Blood pressure and weight for the last 30 days
@@ -1463,7 +1467,7 @@ Next, I created a new method in `BloodPressureResource.java` that calculated the
 @RequestMapping(value = "/bp-by-days/{days}")
 @Timed
 public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
-    ZonedDateTime rightNow = ZonedDateTime.now();
+    ZonedDateTime rightNow = ZonedDateTime.now(ZoneOffset.UTC);
     ZonedDateTime daysAgo = rightNow.minusDays(days);
 
     List<BloodPressure> readings =
@@ -1475,7 +1479,7 @@ public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
 
 private List<BloodPressure> filterByUser(List<BloodPressure> readings) {
     Stream<BloodPressure> userReadings = readings.stream()
-        .filter(bp -> bp.getUser().getLogin().equals(SecurityUtils.getCurrentLogin()));
+        .filter(bp -> bp.getUser().getLogin().equals(SecurityUtils.getCurrentLogin().get()));
     return userReadings.collect(Collectors.toList());
 }
 ----
@@ -1502,7 +1506,7 @@ public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
 
     List<BloodPressure> readings =
         bloodPressureRepository.findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(
-            daysAgo, rightNow, SecurityUtils.getCurrentUserLogin());
+            daysAgo, rightNow, SecurityUtils.getCurrentUserLogin().get());
     BloodPressureByPeriod response =
         new BloodPressureByPeriod("Last " + days + " Days", readings);
     return new ResponseEntity<>(response, HttpStatus.OK);
@@ -1515,12 +1519,10 @@ I added a new method to support this API in `blood-pressure.service.ts`.
 [source,javascript]
 .src/main/webapp/app/entities/blood-pressure/blood-pressure.service.ts
 ----
-last30Days(): Observable<BloodPressure> {
-    return this.http.get('api/bp-by-days/30').map((res: Response) => {
-        const jsonResponse = res.json();
-        this.convertItemFromServer(jsonResponse);
-        return jsonResponse;
-    });
+last30Days(): Observable<EntityResponseType> {
+    return this.http
+        .get('api/bp-by-days/30', { observe: 'response' })
+        .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
 }
 ----
 
@@ -1616,6 +1618,7 @@ In `home.component.Ts`, I grabbed the blood pressure readings from the API and m
 ----
 // Get blood pressure readings for the last 30 days
 this.bloodPressureService.last30Days().subscribe((bpReadings: any) => {
+    bpReadings = bpReadings.body;
     this.bpReadings = bpReadings;
     this.bpOptions = {... D3ChartService.getChartConfig() };
     if (bpReadings.readings.length) {
@@ -1662,8 +1665,8 @@ Finally, I used the "`nvd3`" directive in `home.component.html` to read `bpOptio
 [source,html]
 .src/main/webapp/app/home/home.component.html
 ----
-<div class="row">
-    <div class="col-md-11">
+<div class="row mt-1">
+    <div class="col-md-11 col-xs-12">
         <span *ngIf="bpReadings.readings && bpReadings.readings.length">
             <nvd3 [options]="bpOptions" [data]="bpData"
                   class="with-3d-shadow with-transitions"></nvd3>
@@ -1715,7 +1718,7 @@ I did not write any tests for this project's UI because I was in a time crunch a
 
 == Deploying to Heroku
 
-JHipster ships with support for deploying to Cloud Foundry, Heroku, Kubernetes, OpenShift, Rancher, AWS, and Boxfuse. I used Heroku to deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for production, it's recommended to use the pre-configured "`prod`" profile. With Gradle, you can package your application by specifying this profile when building.
+JHipster ships with support for deploying to Cloud Foundry, Heroku, Kubernetes, Microsoft Azure, OpenShift, Rancher, AWS, and Boxfuse. I used Heroku to deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for production, it's recommended to use the pre-configured "`prod`" profile. With Gradle, you can package your application by specifying this profile when building.
 
 ----
 ./gradlew -Pprod bootWar
@@ -2148,7 +2151,7 @@ If you're reading this and notice that 21-Points Health is using a version newer
 
 == Summary
 
-This section showed you how I created a health-tracking web application with JHipster. It walked you through upgrading to the latest release of JHipster and how to generate code with `jhipster entity`. You learned how to do test-first development when writing new APIs and how Spring Data JPA makes it easy to add custom queries. You also saw how to reuse existing dialogs on different pages, how to add methods to client services, and how to manipulate data to display pretty charts.
+This section showed you how I created a health-tracking web application with JHipster. It walked you through upgrading to the latest release of JHipster and how to generate code with `jhipster entity`. You learned how to do test-first development when writing new APIs and how Spring Data JPA makes it easy to add custom queries. You also saw how to reuse existing components on different pages, how to add methods to client services, and how to manipulate data to display pretty charts.
 
 After modifying the application to look like my UI mockups, I showed you how to deploy to Heroku and some common issues I encountered along the way. Finally, you learned how to use Jenkins to build, test, and deploy a Gradle-based JHipster project. I highly recommend doing something similar shortly after you've created your project and verified that it passes all tests.
 
