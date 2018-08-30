@@ -230,7 +230,7 @@ template1=#
 
 I updated `application-prod.yml` to use `21points` for the datasource password. I confirmed I could talk to a PostgreSQL database when running with the `prod` profile. I was greeted with an error saying that things were not set up correctly.
 
-[source]
+[source%autofit]
 ----
 $ ./gradlew -Pprod
 ...
@@ -256,8 +256,6 @@ JHipster will initialize Git for your project automatically if you have Git inst
 ----
 $ git remote add origin git@bitbucket.org:mraible/21-points.git
 $ git push origin master
-Warning: Permanently added the RSA host key for IP address '18.205.93.1' to the list of known hosts.
-Counting objects: 523, done.
 Delta compression using up to 8 threads.
 Compressing objects: 100% (495/495), done.
 Writing objects: 100% (523/523), 616.70 KiB | 8.94 MiB/s, done.
@@ -273,7 +271,7 @@ This is how I created a new application with JHipster and checked it into source
 
 I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a few years ago, but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the https://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the https://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design] module. Unfortunately, I soon found out it doesn't support JHipster 4+.
 
-In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. However, I did https://github.com/FezVrasta/bootstrap-material-design/issues/1299#issuecomment-410544707[figure out how] to make [Bootstrap Material Design](https://fezvrasta.github.io/bootstrap-material-design/) work with JHipster 5.
+In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. However, I did https://github.com/FezVrasta/bootstrap-material-design/issues/1299#issuecomment-410544707[figure out how] to make https://fezvrasta.github.io/bootstrap-material-design/[Bootstrap Material Design] work with JHipster 5.
 
 To make the default Bootstrap theme look like Material Design, modify `_bootstrap-variables.scss` and replace it with the contents below.
 
@@ -436,7 +434,7 @@ npm install bootstrap-material-design@4.1.1
 +
 . Add the following to import bootstrap-material-design in `src/main/webapp/content/scss/vendor.scss`:
 +
-[source,scss]
+[source%autofit,scss]
 ----
 // Import Bootstrap Material Design
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
@@ -450,11 +448,11 @@ npm install bootstrap-material-design@4.1.1
 /* Error highlight on input fields */
 .ng-valid[required],
 .ng-valid.required {
- border-left: 5px solid green;
+  border-left: 5px solid green;
 }
 
 .ng-invalid:not(form) {
- border-left: 5px solid red;
+  border-left: 5px solid red;
 }
 ----
 +
@@ -463,13 +461,13 @@ npm install bootstrap-material-design@4.1.1
 [source,scss]
 ----
 .dropdown-menu .dropdown-item.active, .dropdown-menu .dropdown-item:active {
- color: #fff !important;
+  color: #fff !important;
 }
 
 .dropdown-menu .dropdown-item {
- display: inline-block !important;
- padding: 0.5rem 1.5rem !important;
- min-height: 2rem !important;
+  display: inline-block !important;
+  padding: 0.5rem 1.5rem !important;
+  min-height: 2rem !important;
 }
 ----
 +
@@ -513,7 +511,7 @@ After figuring out how I wanted the UI to look, I started to think about the dat
 
 [[img-entity-diagram]]
 .21-Points Health entity diagram
-image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=100%, align=center]
+image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=75%, align=center]
 
 I ran `jhipster entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one relationship with `User`. Below is the final output from my answers.
 
@@ -776,7 +774,7 @@ I wanted to make several improvements to what users could see, based on their ro
 
 The default update components for many-to-one relationships allow you to choose the user when you add/edit a record. To make it so only administrators had this ability, I modified the update templates and used the `*jhiHasAnyAuthority` directive. This directive is included with JHipster, in `src/main/webapp/app/shared/auth/has-any-authority.directive.ts`. It allows you to pass in a single role or a list of roles.
 
-[source,html]
+[source%autofit,html]
 .src/main/webapp/app/entities/points/points-update.component.html
 ----
 <div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN'">
@@ -832,7 +830,7 @@ Since the dropdown is hidden from non-admins, I had to modify each `Resource` cl
 
 Spring MVC Test provides a convenient interface called `RequestPostProcessor` that you can use to modify a request. Spring Security provides a number of `RequestPostProcessor` implementations that simplify testing. In order to use Spring Security’s `RequestPostProcessor` implementations, you can include them all with the following static import.
 
-[source,java]
+[source%autofit,java]
 ----
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 ----
@@ -841,7 +839,7 @@ I then modified `PointsResourceIntTest.java`, creating a new `MockMvc` instance 
 
 ifdef::backend-pdf[<<<]
 
-[source,diff]
+[source%autofit,diff]
 .src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
 ----
 +import org.jhipster.health.domain.User;
@@ -907,7 +905,7 @@ public class PointsResourceIntTest {
 
 The next business-logic improvement I wanted was to modify list screens so they'd only show records for current user. Admin users should see all users' data. To facilitate this feature, I modified `PointsResource#getAll` to have a switch based on the user's role.
 
-[source,java]
+[source%autofit,java]
 .src/main/java/org/jhipster/health/web/rest/PointsResource.java
 ----
 public ResponseEntity<List<Points>> getAllPoints(@ApiParam Pageable pageable) {
@@ -925,7 +923,7 @@ public ResponseEntity<List<Points>> getAllPoints(@ApiParam Pageable pageable) {
 
 The `PointsRepository#findByUserIsCurrentUser()` method that JHipster generated contains a custom query that uses Spring Expression Language to grab the user's information from Spring Security. I changed it from returning a `List<Points>` to returning `Page<Points>`.
 
-[source,java]
+[source%autofit,java]
 .src/main/java/org/jhipster/health/repository/PointsRepository.java
 ----
 @Query("select points from Points points where points.user.login = ?#{principal.username}")
@@ -987,7 +985,7 @@ Making the homepage into something resembling my UI mockup required several step
 
 I started by reusing the update components for entering data that JHipster had created for me. I navigated to the components using Angular's `routerLink` syntax, copied from each entity’s main list page. For example, below is the code for the "Add Points" button.
 
-[source,html]
+[source%autofit,html]
 ----
 <a [routerLink]="['/points/new']" class="btn btn-primary m-0 mb-1 text-white">Add Points</a>
 ----
@@ -1272,7 +1270,8 @@ I created a new method in `PreferencesResource.java` to return the user's prefer
 public ResponseEntity<Preferences> getUserPreferences() {
     String username = SecurityUtils.getCurrentUserLogin().get();
     log.debug("REST request to get Preferences : {}", username);
-    Optional<Preferences> preferences = preferencesRepository.findOneByUserLogin(username);
+    Optional<Preferences> preferences =
+        preferencesRepository.findOneByUserLogin(username);
 
     if (preferences.isPresent()) {
         return new ResponseEntity<>(preferences.get(), HttpStatus.OK);
@@ -1458,7 +1457,7 @@ List<BloodPressure> findAllByTimestampBetweenOrderByTimestampDesc(
 
 Next, I created a new method in `BloodPressureResource.java` that calculated the first and last days of the current month, executed the query for the current user, and constructed the data to return.
 
-[source,java]
+[source%autofit,java]
 .src/main/java/org/jhipster/health/web/rest/BloodPressureResource.java
 ----
 /**
@@ -1497,7 +1496,7 @@ List<BloodPressure> findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(
 
 Then I was able to remove the `filterByUser` method and change `BloodPressureResource#getByDays` to be:
 
-[source,java]
+[source%autofit,java]
 .src/main/java/org/jhipster/health/web/rest/BloodPressureResource.java
 ----
 public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
@@ -1695,13 +1694,13 @@ After finishing the MVP (minimum viable product) of 21-Points Health, I did some
 
 [[img-21-points-loc]]
 .Project lines of code
-image::chapter2/21-points-loc.png[Project lines of code, 1239, scaledwidth=100%, align=center]
+image::chapter2/21-points-loc.png[Project lines of code, 600, scaledwidth=60%, align=center]
 
 To drill down further, I made a graph of the top three languages in the project: Java, TypeScript, and HTML.
 
 [[img-21-points-loc-by-language]]
 .Project lines of code by language
-image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 1427, scaledwidth=100%, align=center]
+image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 700, scaledwidth=70%, align=center]
 
 The amount of code I had to write in each language was 647 lines of Java, 435 lines of TypeScript, and 302 lines of HTML. The other 137 lines were Sass (63), JSON (49), CSS (12), YAML (7), and Markdown (6).
 
@@ -1922,6 +1921,7 @@ After upgrading, I tried to deploy to Heroku once more.
 After making this change, I repackaged and redeployed. This time, when I tried to register, I received an error when my
 `MailService` tried to send me an activation e-mail.
 
+[source%autofit]
 ----
 2017-08-14T21:26:12.193734+00:00 app[web.1]: 2017-08-14 21:26:12.193  WARN 4 --- [ints-Executor-2]
  org.jhipster.health.service.MailService  : Email could not be sent to user 'mraible@gmail.com':
@@ -2012,6 +2012,7 @@ java -jar jenkins.war --httpPort=9000
 
 JHipster has good documentation on https://www.jhipster.tech/setting-up-ci-jenkins2/[setting up CI on Jenkins 2] and https://www.jhipster.tech/heroku/[deploying to Heroku]. It also has a handy sub-generator to generate the config files needed for Jenkins. I ran `jhipster ci-cd` and watched the magic happen.
 
+[source%autofit]
 ----
 $ jhipster ci-cd
 Using JHipster version installed locally in current project's node_modules
