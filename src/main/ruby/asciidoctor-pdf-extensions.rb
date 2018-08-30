@@ -42,7 +42,7 @@ module AsciidoctorPdfExtensions
       if node.document.attr? 'media', 'prepress'
         move_down 325
       else
-        move_down 460
+        move_down 450
       end
       layout_heading title, size: @theme.base_font_size
     elsif sect_id.include? 'jhipster' # chapters
