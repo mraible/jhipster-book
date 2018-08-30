@@ -620,7 +620,10 @@ TIP: At this point, I set up continuous testing of this project using https://je
 
 === Improved HTML layout and I18N messages
 
-Of all the code I write, UI code (HTML, JavaScript, and CSS) is my favorite. I like that you can see changes immediately and make progress quickly - especially when you're using dual monitors with ifdef::backend-epub3[link:jhipsters-ui-components.xhtml#Browsersync[Browsersync].] ifndef::backend-epub3[<<Browsersync>>.] Below is a consolidated list of changes I made to the HTML to make things look better:
+Of all the code I write, UI code (HTML, JavaScript, and CSS) is my favorite. I like that you can see changes immediately and make progress quickly - especially when you're using dual monitors with
+ifdef::backend-epub3[link:jhipsters-ui-components.xhtml#Browsersync[Browsersync].]
+ifndef::backend-epub3[<<Browsersync>>.]
+Below is a consolidated list of changes I made to the HTML to make things look better:
 
 * improved layout of tables and buttons,
 * improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`,
