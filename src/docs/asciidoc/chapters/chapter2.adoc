@@ -1252,7 +1252,7 @@ image::chapter2/homepage-points-this-week.png[Progress bar for points this week,
 
 You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix this, I needed to add the ability to fetch the user's preferences. To make it easier to access a user's preferences, I modified `PreferencesRepository.java` and added a method to retrieve a user's preferences.
 
-[source,java]
+[source%autofit,java]
 .src/main/java/org/jhipster/health/repository/PreferencesRepository.java
 ----
 public interface PreferencesRepository extends JpaRepository<Preferences, Long> {
@@ -1693,7 +1693,7 @@ I made similar changes to display weights for the last 30 days as a chart.
 
 === Lines of code
 
-After finishing the MVP (minimum viable product) of 21-Points Health, I did some quick calculations to see how many lines of code JHipster had produced. You can see from the graph below that I only had to write 1,521 lines of code. JHipster did the rest for me, generating 93.4% of the code in my project!
+After finishing the MVP (minimum viable product) of 21-Points Health, I did some quick calculations to see how many lines of code JHipster produced. You can see from the graph below that I only had to write 2,080 lines of code. JHipster did the rest for me, generating 91.2% of the code in my project!
 
 [[img-21-points-loc]]
 .Project lines of code
@@ -1705,7 +1705,7 @@ To drill down further, I made a graph of the top three languages in the project:
 .Project lines of code by language
 image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 700, scaledwidth=70%, align=center]
 
-The amount of code I had to write in each language was 647 lines of Java, 435 lines of TypeScript, and 302 lines of HTML. The other 137 lines were Sass (63), JSON (49), CSS (12), YAML (7), and Markdown (6).
+The amount of code I had to write in each language was 561 lines of TypeScript, 687 lines of TypeScript, and 351 lines of HTML (1599). The other 481 lines were JSON (135), XML (187), Sass (80), YAML (54), CSS (12), Markdown (6), Groovy (4), and Bourne Shell (3).
 
 Wahoo! Thanks, JHipster!
 
