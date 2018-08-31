@@ -1705,7 +1705,7 @@ To drill down further, I made a graph of the top three languages in the project:
 .Project lines of code by language
 image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 700, scaledwidth=70%, align=center]
 
-The amount of code I had to write in each language was 561 lines of TypeScript, 687 lines of TypeScript, and 351 lines of HTML. The other 481 lines were JSON (135), XML (187), Sass (80), YAML (54), CSS (12), Markdown (6), Groovy (4), and Bourne Shell (3).
+The amount of code I had to write in each language was 561 lines of TypeScript, 687 lines of Java, and 351 lines of HTML. The other 481 lines were JSON (135), XML (187), Sass (80), YAML (54), CSS (12), Markdown (6), Groovy (4), and Bourne Shell (3).
 
 Wahoo! Thanks, JHipster!
 
