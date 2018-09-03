@@ -275,7 +275,7 @@ In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its defa
 
 To make the default Bootstrap theme look like Material Design, modify `_bootstrap-variables.scss` and replace it with the contents below.
 
-[source,scss]
+[source,sass]
 .src/main/webapp/content/scss/_bootstrap-variables.scss
 ----
 /*
@@ -339,7 +339,7 @@ $input-focus-box-shadow: none;
 
 Then add the following Sass to the bottom of `global.scss`.
 
-[source,scss]
+[source,sass]
 ----
 /* ==========================================================================
 custom styles for 21-Points Health
@@ -426,7 +426,7 @@ npm install bootstrap-material-design@4.1.1
 . Remove all variables from `src/main/webapp/content/scss/_bootstrap-variables.scss`.
 . Comment out the import for Bootstrap in `src/main/webapp/content/scss/vendor.scss`:
 +
-[source,scss]
+[source,sass]
 ----
 // Import Bootstrap source files from node_modules
 // @import '~bootstrap/scss/bootstrap';
@@ -434,7 +434,7 @@ npm install bootstrap-material-design@4.1.1
 +
 . Add the following to import bootstrap-material-design in `src/main/webapp/content/scss/vendor.scss`:
 +
-[source%autofit,scss]
+[source%autofit,sass]
 ----
 // Import Bootstrap Material Design
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
@@ -443,7 +443,7 @@ npm install bootstrap-material-design@4.1.1
 +
 . Remove the following styles from `global.scss`:
 +
-[source,scss]
+[source,sass]
 ----
 /* Error highlight on input fields */
 .ng-valid[required],
@@ -458,7 +458,7 @@ npm install bootstrap-material-design@4.1.1
 +
 . Add the following overrides on the dropdown menus so they look good.
 +
-[source,scss]
+[source,sass]
 ----
 .dropdown-menu .dropdown-item.active, .dropdown-menu .dropdown-item:active {
   color: #fff !important;
@@ -705,7 +705,7 @@ FontAwesome: Could not find icon with iconName=check and prefix=fas
 
 To fix this, I modified `vendor.ts` and added `faCheck` as an imported icon.
 
-[source,typescript]
+[source,javascript]
 .src/main/webapp/app/vendor.ts
 ----
 library.add(faTimes);
@@ -1908,21 +1908,90 @@ I https://github.com/jhipster/generator-jhipster/issues/7810[created an issue] i
 
 The fix for Elasticsearch on Heroku was released in JHipster 5.3.0, so I upgraded using the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator].
 
-// todo: start from here once 5.3.0 is released
-[[jhipster-upgrade]]
-.JHipster Upgrade
-image::chapter2/jhipster-upgrade.png[Running the jhipster:upgrade sub-generator, 1222, scaledwidth=100%, align=center]
+ifeval::["{media}" != "prepress"]
+[[jhipster-upgrade-start]]
+.JHipster Upgrade Start
+image::chapter2/jhipster-upgrade-start.png[Running the upgrade sub-generator, 1354, scaledwidth=100%, align=center]
 
-After the command finished (in just over 21 minutes because I had a slow connection), I committed changes to `yarn.lock`
-and ran `git push`. If you're reading this and notice that 21-Points Health is using a version newer than 4.5.3, it's
-likely because I used this handy sub-generator again.
+[[jhipster-upgrade-end]]
+.JHipster Upgrade End
+image::chapter2/jhipster-upgrade-end.png[Running the upgrade sub-generator, upgraded, 1354, scaledwidth=100%, align=center]
+endif::[]
+ifeval::["{media}" == "prepress"]
+[source%autofit]
+----
+$ git checkout -b jhipster-v5.3.0
+Switched to a new branch 'jhipster-v5.3.0'
+$ jhipster upgrade
+Using JHipster version installed globally
+Executing jhipster:upgrade
+Options:
+Welcome to the JHipster Upgrade Sub-Generator
+This will upgrade your current application codebase to the latest JHipster version
+Looking for latest generator-jhipster version...
+yarn info v1.9.4
+5.3.0
+Done in 1.24s.
+✔ New generator-jhipster version found: 5.3.0
+     info git rev-parse -q --is-inside-work-tree
+true
+✔ Git repository detected
+     info git status --porcelain
+     info git rev-parse -q --abbrev-ref HEAD
+jhipster-v5.3.0
+     info git rev-parse -q --verify jhipster_upgrade
+d279be92bb9e0481392946e4b2e98d2a4de06cc4
+     info git checkout -q jhipster_upgrade
+✔ Checked out branch "jhipster_upgrade"
+Updating generator-jhipster to 5.3.0 . This might take some time...
+     info yarn add generator-jhipster@5.3.0 --dev --no-lockfile --ignore-scripts
+
+...
+
+✔ Upgraded successfully.
+WARNING! Please fix conflicts listed below and commit!
+README.md
+build.gradle
+gradle.properties
+gradle/sonar.gradle
+gradle/wrapper/gradle-wrapper.properties
+package.json
+src/main/resources/config/application-prod.yml
+src/main/webapp/app/entities/blood-pressure/blood-pressure.route.ts
+src/main/webapp/app/entities/blood-pressure/blood-pressure.service.ts
+src/main/webapp/app/entities/points/points.route.ts
+src/main/webapp/app/entities/points/points.service.ts
+src/main/webapp/app/entities/weight/weight.service.ts
+src/main/webapp/app/home/home.component.html
+src/test/java/org/jhipster/health/web/rest/BloodPressureResourceIntTest.java
+src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
+src/test/java/org/jhipster/health/web/rest/PreferencesResourceIntTest.java
+src/test/java/org/jhipster/health/web/rest/WeightResourceIntTest.java
+src/test/javascript/e2e/account/account.spec.ts
+src/test/javascript/e2e/entities/blood-pressure/blood-pressure.page-object.ts
+src/test/javascript/e2e/entities/blood-pressure/blood-pressure.spec.ts
+src/test/javascript/e2e/entities/points/points.page-object.ts
+src/test/javascript/e2e/entities/points/points.spec.ts
+src/test/javascript/e2e/entities/preferences/preferences.page-object.ts
+src/test/javascript/e2e/entities/preferences/preferences.spec.ts
+src/test/javascript/e2e/entities/weight/weight.page-object.ts
+src/test/javascript/e2e/entities/weight/weight.spec.ts
+src/test/resources/config/application.yml
+webpack/webpack.dev.js
+
+Congratulations, JHipster execution is complete!
+Execution time: 2 min. 23 s.
+----
+endif::[]
+
+
+After the command finished, I resolved conflicts, committed my changes, and ran `git push`. If you're reading this and notice that 21-Points Health is using a version newer than 5.3.0, it's likely because I used this handy sub-generator again.
 
 After upgrading, I tried to deploy to Heroku once more.
 
 === Mail on Heroku
 
-After making this change, I repackaged and redeployed. This time, when I tried to register, I received an error when my
-`MailService` tried to send me an activation e-mail.
+After making this change, I repackaged and redeployed. This time, when I tried to register, I received an error when my `MailService` tried to send me an activation e-mail.
 
 [source%autofit]
 ----
@@ -2143,11 +2212,7 @@ After getting this application into a "good enough" state, I moved it from Bitbu
 
 == Upgrading 21-Points Health
 
-After I finished developing the MVP of 21-Points Health with JHipster 5.2.2, I wanted to upgrade it to the latest release. I used the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator], and upgraded it to 5.x.x.
-
-[screenshot]
-
-You can see what changed when I upgraded by taking a look at https://github.com/mraible/21-points/commit/4571d2c1a31fcbeb820417ea0f6d3f2364bb8e7e[the commit on GitHub].
+After I finished developing the MVP of 21-Points Health with JHipster 5.3.0, I wanted to upgrade it to the latest release. I used the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator], and upgraded it to 5.x.x. You can see what changed when I upgraded by taking a look at https://github.com/mraible/21-points/commit/4571d2c1a31fcbeb820417ea0f6d3f2364bb8e7e[the commit on GitHub].
 
 TIP: If the upgrade sub-generator doesn't work for you when upgrading JHipster, you can manually upgraded using http://www.syntevo.com/smartsynchronize/[SmartSynchronize]. I do this by creating a new branch, running `rm -rf *` in my project, then running `jhipster --with-entities`. Then I use SmartSynchronize to compare files and restore my custom code.
 
