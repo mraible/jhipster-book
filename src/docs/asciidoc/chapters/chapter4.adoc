@@ -9,11 +9,7 @@ JHipster leverages Spring MVC and its `@RestController` annotation to create a R
 
 == Spring Boot
 
-In August 2013, Phil Webb and Dave Syer, engineers at Pivotal,
-https://spring.io/blog/2013/08/06/spring-boot-simplifying-spring-for-everyone[announced the first milestone release] of Spring
-Boot. Spring Boot makes it easy to create Spring applications with minimal effort. It takes an opinionated
-view of Spring and auto-configures dependencies for you. This allows you to write less code but still harness
-the power of Spring. The diagram below shows how Spring Boot is the gateway to the larger Spring ecosystem.
+In August 2013, Phil Webb and Dave Syer, engineers at Pivotal, https://spring.io/blog/2013/08/06/spring-boot-simplifying-spring-for-everyone[announced the first milestone release] of Spring Boot. Spring Boot makes it easy to create Spring applications with minimal effort. It takes an opinionated view of Spring and auto-configures dependencies for you. This allows you to write less code but still harness the power of Spring. The diagram below shows how Spring Boot is the gateway to the larger Spring ecosystem.
 
 [[img-spring-boot-pyramid]]
 .Spring Boot
@@ -26,9 +22,7 @@ The primary goals of Spring Boot are:
 * to provide a range of non-functional features that are common to large classes of projects
   (e.g. embedded servers, security, metrics, health checks, externalized configuration).
 
-Folks who want to use Spring Boot outside of a JHipster application can do so with Spring Initializr,
-a configurable service for generating Spring projects. It's both a web application and a REST API.
-You can visit it in your browser at https://start.spring.io or you can call it via `curl`.
+Folks who want to use Spring Boot outside of a JHipster application can do so with Spring Initializr, a configurable service for generating Spring projects. It's both a web application and a REST API. You can visit it in your browser at https://start.spring.io or you can call it via `curl`.
 
 [[img-spring-initializr-web]]
 .Spring Initializr in a browser
@@ -38,24 +32,20 @@ image::chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1175, 
 .Spring Initializr via `curl`
 image::chapter4/spring-initializr-curl.png[Spring Initializr via `curl`, 1082, scaledwidth=100%]
 
-Spring Initializr is an Apache 2.0-licensed open-source project that you install and customize to generate Spring
-projects for your company or team. You can find it on GitHub at https://github.com/spring-io/initializr[https://github.com/spring-io/initializr].
+Spring Initializr is an Apache 2.0-licensed open-source project that you install and customize to generate Spring projects for your company or team. You can find it on GitHub at https://github.com/spring-io/initializr[https://github.com/spring-io/initializr].
 
 Spring Initializr is also available in the Eclipse-based https://spring.io/tools/sts[Spring Tool Suite] (STS) and
 https://www.jetbrains.com/idea/[IntelliJ IDEA].
 
 .Spring CLI
 ****
-At the bottom of the start.spring.io page, you can also download or install the Spring CLI (also called the Spring Boot CLI).
-The easiest way to install it is with the following command.
+At the bottom of the start.spring.io page, you can also download or install the Spring CLI (also called the Spring Boot CLI). The easiest way to install it is with the following command.
 
 ----
 curl https://start.spring.io/install.sh | sh
 ----
 
-Spring CLI is best used for rapid prototyping: when you want to show someone how to do something very quickly, with code you'll
-likely throw away when you're done. For example, if you want to create a "`Hello World`" web application in Groovy,
-you can do it with seven lines of code.
+Spring CLI is best used for rapid prototyping: when you want to show someone how to do something very quickly, with code you'll likely throw away when you're done. For example, if you want to create a "`Hello World`" web application in Groovy, you can do it with seven lines of code.
 
 [source,groovy]
 .hello.groovy
@@ -75,13 +65,10 @@ To compile and run this application, simply type:
 spring run hello.groovy
 ----
 
-After running this command, you can see the application at http://localhost:8080. For more information about the
-Spring CLI, see the http://docs.spring.io/spring-boot/docs/current/reference/html/cli-using-the-cli.html[Spring Boot documentation].
+After running this command, you can see the application at http://localhost:8080. For more information about the Spring CLI, see the http://docs.spring.io/spring-boot/docs/current/reference/html/cli-using-the-cli.html[Spring Boot documentation].
 ****
 
-To show you how to create a simple application with Spring Boot, go to https://start.spring.io[https://start.spring.io] and select `Web`, `JPA`,
-`H2`, and `Actuator` as project dependencies. Click "`Generate Project`" to download a .zip file for your project. Extract
-it on your hard drive and import it into your favorite IDE.
+To show you how to create a simple application with Spring Boot, go to https://start.spring.io[https://start.spring.io] and select `Web`, `JPA`, `H2`, and `Actuator` as project dependencies. Click "`Generate Project`" to download a .zip file for your project. Extract it on your hard drive and import it into your favorite IDE.
 
 This project has only a few files in it, as you can see by running the `tree` command (on *nix).
 
@@ -111,8 +98,7 @@ This project has only a few files in it, as you can see by running the `tree` co
 14 directories, 6 files
 ----
 
-`DemoApplication.java` is the heart of this application; the file and class name are not relevant. What is relevant
-is the `@SpringBootApplication` annotation and the class's `public static void main` method.
+`DemoApplication.java` is the heart of this application; the file and class name are not relevant. What is relevant is the `@SpringBootApplication` annotation and the class's `public static void main` method.
 
 [source,java]
 .src/main/java/com/example/demo/DemoApplication.java
@@ -131,8 +117,7 @@ public class DemoApplication {
 }
 ----
 
-For this application, you'll create an entity, a JPA repository, and a REST endpoint to show data in the browser. To
-create an entity, add the following code to the `DemoApplication.java` file, outside of the `DemoApplication` class.
+For this application, you'll create an entity, a JPA repository, and a REST endpoint to show data in the browser. To create an entity, add the following code to the `DemoApplication.java` file, outside of the `DemoApplication` class.
 
 [source,java]
 .src/main/java/demo/com/example/demo/DemoApplication.java
@@ -176,8 +161,7 @@ class Blog {
 }
 ----
 
-In the same file, add a `BlogRepository` interface that extends `JpaRepository`. Spring Data JPA makes it really easy to
-create a CRUD repository for an entity. It automatically creates for you the implementation that talks to the underlying datastore.
+In the same file, add a `BlogRepository` interface that extends `JpaRepository`. Spring Data JPA makes it really easy to create a CRUD repository for an entity. It automatically creates for you the implementation that talks to the underlying datastore.
 
 [source,java]
 .src/main/java/com/example/demo/DemoApplication.java
@@ -188,9 +172,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 interface BlogRepository extends JpaRepository<Blog, Long> {}
 ----
 
-Define a `CommandLineRunner` that injects this repository and prints out all the data that's found by calling its `findAll()` method.
-`CommandLineRunner` is an interface that's used to indicate that a bean should run when it is contained within a
-http://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html[`SpringApplication`].
+Define a `CommandLineRunner` that injects this repository and prints out all the data that's found by calling its `findAll()` method. `CommandLineRunner` is an interface that's used to indicate that a bean should run when it is contained within a http://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html[`SpringApplication`].
 
 [source,java]
 .src/main/java/com/example/demo/DemoApplication.java
@@ -227,8 +209,7 @@ insert into blog (name) values ('First');
 insert into blog (name) values ('Second');
 ----
 
-Start your application with `mvn spring-boot:run` (or right-click -> "`Run in your IDE`") and you should see this default
-data show up in your logs.
+Start your application with `mvn spring-boot:run` (or right-click -> "`Run in your IDE`") and you should see this default data show up in your logs.
 
 ----
 2017-08-31 23:09:27.436  INFO 67327 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
@@ -262,18 +243,14 @@ class BlogController {
 }
 ----
 
-After adding this code and restarting the application, you can `curl` the endpoint or open it in your
-favorite browser.
+After adding this code and restarting the application, you can `curl` the endpoint or open it in your favorite browser.
 
 ----
 $ curl localhost:8080/blogs
 [{"id":1,"name":"First"},{"id":2,"name":"Second"}]
 ----
 
-Spring has one of the best track records for hipness in Javaland. It is an essential cornerstone of the solid API foundation
-that makes JHipster awesome. Spring Boot allows you to create stand-alone Spring applications that directly embed Tomcat, Jetty, or
-Undertow. It provides opinionated starter dependencies that simplify your build configuration, regardless of
-whether you're using Maven or Gradle.
+Spring has one of the best track records for hipness in Javaland. It is an essential cornerstone of the solid API foundation that makes JHipster awesome. Spring Boot allows you to create stand-alone Spring applications that directly embed Tomcat, Jetty, or Undertow. It provides opinionated starter dependencies that simplify your build configuration, regardless of whether you're using Maven or Gradle.
 
 === External configuration
 
@@ -301,8 +278,7 @@ Spring Boot runs through this specific sequence for `PropertySource` to ensure t
 
 ==== Application property files
 
-By default, `SpringApplication` will load properties from `application.properties` files in the following locations and add
-them to the Spring `Environment`:
+By default, `SpringApplication` will load properties from `application.properties` files in the following locations and add them to the Spring `Environment`:
 
 1. a `/config` subdirectory of the current directory,
 2. the current directory,
@@ -324,9 +300,7 @@ This code does not work when using a Spring Boot executable JAR because the clas
 
 === Automatic configuration
 
-Spring Boot is unique in that it automatically configures Spring whenever possible. It does this by peeking into JAR
-files to see if they're hip. If they are, they contain a `META-INF/spring.factories` that defines configuration classes
-under the `EnableAutoConfiguration` key. For example, below is what's contained in `spring-boot-actuator`.
+Spring Boot is unique in that it automatically configures Spring whenever possible. It does this by peeking into JAR files to see if they're hip. If they are, they contain a `META-INF/spring.factories` that defines configuration classes under the `EnableAutoConfiguration` key. For example, below is what's contained in `spring-boot-actuator`.
 
 .spring-boot-actuator.jar!/META-INF/spring.factories
 [%autofit]
@@ -358,9 +332,7 @@ org.springframework.boot.actuate.autoconfigure.EndpointWebMvcManagementContextCo
 org.springframework.boot.actuate.autoconfigure.EndpointWebMvcHypermediaManagementContextConfiguration
 ----
 
-These configuration classes will usually contain `@Conditional` annotations to help configure themselves. Developers can use
-`@ConditionalOnMissingBean` to override the auto-configured defaults. There are several
-conditional-related annotations you can use when developing Spring Boot plugins:
+These configuration classes will usually contain `@Conditional` annotations to help configure themselves. Developers can use `@ConditionalOnMissingBean` to override the auto-configured defaults. There are several conditional-related annotations you can use when developing Spring Boot plugins:
 
 * `@ConditionalOnClass` and `@ConditionalOnMissingClass`
 * `@ConditionalOnMissingClass` and `@ConditionalOnMissingBean`
@@ -372,8 +344,8 @@ conditional-related annotations you can use when developing Spring Boot plugins:
 These annotations are what give Spring Boot its immense power and make it easy to use, configure, and override.
 
 === Actuator
-Spring Boot's Actuator sub-project adds several production-grade services to your application with little effort.
-You can add the actuator to a Maven-based project by adding the `spring-boot-starter-actuator` dependency.
+
+Spring Boot's Actuator sub-project adds several production-grade services to your application with little effort. You can add the actuator to a Maven-based project by adding the `spring-boot-starter-actuator` dependency.
 
 [source,xml]
 ----
@@ -394,9 +366,7 @@ dependencies {
 }
 ----
 
-Actuator's main features are endpoints, metrics, auditing, and process monitoring. Actuator auto-creates a
-number of REST endpoints. By default, Spring Boot will also expose management endpoints as JMX MBeans under the
-`org.springframework.boot` domain. Actuator REST endpoints include:
+Actuator's main features are endpoints, metrics, auditing, and process monitoring. Actuator auto-creates a number of REST endpoints. By default, Spring Boot will also expose management endpoints as JMX MBeans under the `org.springframework.boot` domain. Actuator REST endpoints include:
 
 * `/actuator` — Provides a hypermedia-based “discovery page” for the other endpoints. Requires Spring HATEOAS to be on the classpath.
 * `/auditevents` — Exposes audit events information for the current application.
@@ -415,8 +385,7 @@ number of REST endpoints. By default, Spring Boot will also expose management en
 * `/shutdown` — Shuts the application down gracefully (not enabled by default).
 * `/trace` — Returns trace information (by default, the last several HTTP requests).
 
-JHipster includes a plethora of Spring Boot starter dependencies by default. This allows developers to write less code and worry
-less about dependencies and configuration. The boot-starter dependencies in the 21-Points Health application are as follows:
+JHipster includes a plethora of Spring Boot starter dependencies by default. This allows developers to write less code and worry less about dependencies and configuration. The boot-starter dependencies in the 21-Points Health application are as follows:
 
 // cat build.gradle | grep boot-starter
 ----
@@ -433,14 +402,11 @@ spring-boot-starter-cloud-connectors
 spring-boot-starter-test
 ----
 
-Spring Boot does a great job of auto-configuring libraries and simplifying Spring. JHipster complements that by
-integrating the wonderful world of Spring Boot with a modern UI and developer experience.
+Spring Boot does a great job of auto-configuring libraries and simplifying Spring. JHipster complements that by integrating the wonderful world of Spring Boot with a modern UI and developer experience.
 
 == Maven versus Gradle
 
-Maven and Gradle are the two main build tools used in Java projects today. JHipster allows you to use either one.
-With Maven, you have one `pom.xml` file that's 986 lines of XML. With Gradle, you end up with several `*.gradle` files.
-In the 21-Points project, their Groovy code adds up to only 583 lines.
+Maven and Gradle are the two main build tools used in Java projects today. JHipster allows you to use either one. With Maven, you have one `pom.xml` file that's 986 lines of XML. With Gradle, you end up with several `*.gradle` files. In the 21-Points project, their Groovy code adds up to only 583 lines.
 
 ////
 build.gradle (243)
@@ -461,10 +427,7 @@ gradle/zipkin.gradle (3)
 243 + 27 + 1 + 75 + 46 + 3 + 5 + 55 + 5 + 48 + 55 + 5 + 12 + 3 = 583
 ////
 
-Apache calls http://maven.apache.org/[Apache Maven] a "`software project-management and comprehension tool`". Based on the
-concept of a project object model (POM), Maven can manage a project's build, reporting, and documentation from a
-central piece of information. Most of Maven's functionality comes through plugins. There are Maven plugins for building,
-testing, source-control management, running a web server, generating IDE project files, and much more.
+Apache calls http://maven.apache.org/[Apache Maven] a "`software project-management and comprehension tool`". Based on the concept of a project object model (POM), Maven can manage a project's build, reporting, and documentation from a central piece of information. Most of Maven's functionality comes through plugins. There are Maven plugins for building, testing, source-control management, running a web server, generating IDE project files, and much more.
 
 https://gradle.org/[Gradle] is a general-purpose build tool. It can build pretty much anything you care to implement in your build script. Out of the box, however, it won't build anything unless you add code to your build script to ask for that. Gradle has a Groovy-based domain-specific language (DSL) instead of the more traditional XML form of declaring the project configuration. Like Maven, Gradle has plugins that allow you to configure tasks for your project. Most plugins add some preconfigured tasks, which together do something useful. For example, Gradle's Java plugin adds tasks to your project that will compile and unit test your Java source code as well as bundle it into a JAR file.
 
@@ -506,8 +469,7 @@ mvn io.takari.polyglot:polyglot-translate-plugin:0.1.19:translate \
 
 Supported formats are `rb`, `groovy`, `scala`, `yaml`, `atom`, and of course `xml`. You can even convert back to XML or cross-convert between all supported formats. To learn more about alternate languages with Maven, see https://github.com/takari/polyglot-maven[Polyglot for Maven] on GitHub.
 
-Many Internet resources support the use of Gradle. There's Gradle's own https://gradle.org/maven_vs_gradle/[Gradle vs Maven Feature Comparison].
-Benjamin Muschko, a principal engineer at Gradle, wrote a Dr. Dobb's article titled http://www.drdobbs.com/jvm/why-build-your-java-projects-with-gradle/240168608["`Why Build Your Java Projects with Gradle Rather than Ant or Maven?`"] He's also the the author of https://www.manning.com/books/gradle-in-action[_Gradle in Action_].
+Many Internet resources support the use of Gradle. There's Gradle's own https://gradle.org/maven_vs_gradle/[Gradle vs Maven Feature Comparison]. Benjamin Muschko, a principal engineer at Gradle, wrote a Dr. Dobb's article titled http://www.drdobbs.com/jvm/why-build-your-java-projects-with-gradle/240168608["`Why Build Your Java Projects with Gradle Rather than Ant or Maven?`"] He's also the the author of https://www.manning.com/books/gradle-in-action[_Gradle in Action_].
 
 Gradle is the default build tool for Android development. Android Studio uses a Gradle wrapper to fully integrate the Android plugin for Gradle.
 
