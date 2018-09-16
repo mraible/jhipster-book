@@ -637,8 +637,7 @@ to change the default Bootstrap settings like colors, border radius, etc.
 
 === Angular and Bootstrap
 
-JHipster includes https://ng-bootstrap.github.io/[ng-bootstrap] by default. This library provides Bootstrap 4 components
-that are powered by Angular instead of jQuery.
+JHipster includes https://ng-bootstrap.github.io/[ng-bootstrap] by default. This library provides Bootstrap 4 components that are powered by Angular instead of jQuery.
 
 http://codeseven.github.io/toastr/[Toastr] is a popular non-blocking notification library powered by jQuery. JHipster has an https://github.com/jhipster/ng-jhipster/blob/master/src/service/alert.service.ts[alert.service.ts] that allows you to use Toastr-like alerts.
 
@@ -677,11 +676,9 @@ To use i18n in a JHipster project, you simply add a "`jhiTranslate`" attribute w
 <label for="username" jhiTranslate="global.form.username">Login</label>
 ----
 
-The key references a JSON document, which will return the translated string. Angular will then replace the "`First Name`"
-string with the translated version.
+The key references a JSON document, which will return the translated string. Angular will then replace the "`First Name`" string with the translated version.
 
-JHipster allows you to choose a default language and translations when you first create a project. It stores the JSON documents for these languages in `src/main/webapp/i18n`. You can install additional languages using `yo jhipster:languages`. At the time of this writing, JHipster supports 39 languages. You can also add a new language. To set the default language, modify
-`src/main/webapp/app/shared/shared-libs.module.ts` and its `defaultI18nLang` setting.
+JHipster allows you to choose a default language and translations when you first create a project. It stores the JSON documents for these languages in `src/main/webapp/i18n`. You can install additional languages using `yo jhipster:languages`. At the time of this writing, JHipster supports 39 languages. You can also add a new language. To set the default language, modify `src/main/webapp/app/shared/shared-libs.module.ts` and its `defaultI18nLang` setting.
 
 [source,javascript]
 .src/main/webapp/app/shared/shared-libs.module.ts
@@ -700,9 +697,7 @@ imports: [
 
 == Sass
 
-Sass stands for "`syntactically awesome style sheets`". It's a language for writing CSS with the goodies you're used to
-using in modern programming languages, such as variables, nesting, mixins, and inheritance. Sass uses the `$` symbol
-to indicate a variable, which can then be referenced later in your document.
+Sass stands for "`syntactically awesome style sheets`". It's a language for writing CSS with the goodies you're used to using in modern programming languages, such as variables, nesting, mixins, and inheritance. Sass uses the `$` symbol to indicate a variable, which can then be referenced later in your document.
 
 [source,sass]
 ----
@@ -714,8 +709,7 @@ body
     color: $primary-color
 ----
 
-Sass 3 introduces a new syntax known as SCSS that is fully compatible with the syntax of CSS3, while still supporting
-the full power of Sass. It looks more like CSS.
+Sass 3 introduces a new syntax known as SCSS that is fully compatible with the syntax of CSS3, while still supporting the full power of Sass. It looks more like CSS.
 
 [source,sass]
 ----
@@ -738,8 +732,7 @@ body {
 }
 ----
 
-Another powerful feature of Sass is the ability to write nested CSS selectors. When writing HTML, you can often visualize
-the hierarchy of elements. Sass allows you to bring that hierarchy into your CSS.
+Another powerful feature of Sass is the ability to write nested CSS selectors. When writing HTML, you can often visualize the hierarchy of elements. Sass allows you to bring that hierarchy into your CSS.
 
 [source,sass]
 ----
@@ -764,8 +757,7 @@ nav {
 
 WARNING: Overly nested rules will result in overqualified CSS that can be hard to maintain.
 
-As mentioned, Sass also supports partials, imports, mixins, and inheritance. Mixins can be particularly
-useful for handling vendor prefixes.
+As mentioned, Sass also supports partials, imports, mixins, and inheritance. Mixins can be particularly useful for handling vendor prefixes.
 
 [source,sass]
 ----
@@ -793,22 +785,15 @@ CSS generated from the above code looks as follows.
 }
 ----
 
-Bootstrap 3.x was written with http://lesscss.org/[Less], a CSS pre-processor with similar features to Sass. It uses Sass
-for the 4.0+ versions.
+Bootstrap 3.x was written with http://lesscss.org/[Less], a CSS pre-processor with similar features to Sass. It uses Sass for the 4.0+ versions.
 
-JHipster allows you to use Sass by default. To learn more about structuring your CSS and naming classes, read the
-great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
+JHipster allows you to use Sass by default. To learn more about structuring your CSS and naming classes, read the great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
 
 == webpack
 
-JHipster 4+ uses https://webpack.github.io/[webpack] for building the client. JHipster 3.x used https://gulpjs.com/[Gulp].
-Gulp allows you to perform tasks like minification, concatenation, compilation (e.g. from TypeScript/CoffeeScript to JavaScript),
-unit testing, and more. webpack is a more modern solution that's become very popular for Angular projects and is included
-under-the-covers in Angular CLI.
+JHipster 4+ uses https://webpack.github.io/[webpack] for building the client. JHipster 3.x used https://gulpjs.com/[Gulp]. Gulp allows you to perform tasks like minification, concatenation, compilation (e.g. from TypeScript/CoffeeScript to JavaScript), unit testing, and more. webpack is a more modern solution that's become very popular for Angular projects and is included under-the-covers in Angular CLI.
 
-webpack is a module bundler that recursively builds a dependency graph with every module your application needs. It
-packages all of these modules into a smaller number of bundles to be loaded by the browser. Its code-splitting abilities
-make it possible to break up large JavaScript applications into small chunks that can be loaded on demand.
+webpack is a module bundler that recursively builds a dependency graph with every module your application needs. It packages all of these modules into a smaller number of bundles to be loaded by the browser. Its code-splitting abilities make it possible to break up large JavaScript applications into small chunks that can be loaded on demand.
 
 It has four core concepts:
 
@@ -848,15 +833,9 @@ const config = {
 module.exports = config;
 ----
 
-In the Angular section, I mentioned Angular CLI and my https://github.com/mraible/ng-demo[ng-demo] project that shows
-how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command.
-To see its webpack config, or to tweak it for your needs, you can _eject_ it from your project by running
-https://github.com/angular/angular-cli/wiki/eject["`ng eject`"].
+In the Angular section, I mentioned Angular CLI and my https://github.com/mraible/ng-demo[ng-demo] project that shows how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command. To see its webpack config, or to tweak it for your needs, you can _eject_ it from your project by running https://github.com/angular/angular-cli/wiki/eject["`ng eject`"].
 
-I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js`
-file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack
-configuration. JHipster generates a `webpack` directory that contains files for different scenarios: dev mode with hot reload,
-testing, and preparing for production.
+I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js` file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack configuration. JHipster generates a `webpack` directory that contains files for different scenarios: dev mode with hot reload, testing, and preparing for production.
 
 * `logo-jhipster.png` is the logo that shows in desktop alerts for build notifications.
 * `utils.js` contains utility functions for finding the project's version and determining external libraries.
@@ -866,26 +845,18 @@ notifications.
 * `webpack.prod.js` is the configuration used for production. Angular's AOT compilation is used, HTML templates are
 converted to JavaScript, and source maps are created.
 
-To learn more about webpack, I recommend visiting https://webpack.academy/[https://webpack.academy], which is a site dedicated
-to teaching webpack. It was created by https://twitter.com/TheLarkInn[Sean Larkin], a member of the webpack core team, the
-Angular team, and the Angular CLI core team. He's a big reason for the success of webpack, as he's constantly promoting it,
-providing learning materials around it, and helping open-source projects adopt it.
+To learn more about webpack, I recommend visiting https://webpack.academy/[https://webpack.academy], which is a site dedicated to teaching webpack. It was created by https://twitter.com/TheLarkInn[Sean Larkin], a member of the webpack core team, the Angular team, and the Angular CLI core team. He's a big reason for the success of webpack, as he's constantly promoting it, providing learning materials around it, and helping open-source projects adopt it.
 
 == WebSockets
 
-WebSockets are an advanced technology that makes it possible to open an interactive communication channel between the
-user's browser and a server. With this API, you can send messages to a server and receive event-driven responses
-without having to poll the server for a reply. WebSockets have been called "`TCP for the Web`".
+WebSockets are an advanced technology that makes it possible to open an interactive communication channel between the user's browser and a server. With this API, you can send messages to a server and receive event-driven responses without having to poll the server for a reply. WebSockets have been called "`TCP for the Web`".
 
-If you choose "WebSockets using Spring Websocket" as part of the "other technologies" options when creating a JHipster
-project, you'll get two JavaScript libraries added to your project:
+If you choose "WebSockets using Spring Websocket" as part of the "other technologies" options when creating a JHipster project, you'll get two JavaScript libraries added to your project:
 
 * https://github.com/JSteunou/webstomp-client[webstomp-client]: STOMP stands for "`simple text-oriented messaging protocol`".
-* https://github.com/sockjs/sockjs-client[SockJS]: SockJS provides a WebSocket-like object. If native WebSockets are
-not available, it falls back to other browser techniques.
+* https://github.com/sockjs/sockjs-client[SockJS]: SockJS provides a WebSocket-like object. If native WebSockets are not available, it falls back to other browser techniques.
 
-To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSockets-enabled project. This displays real-time
-activity information that's been posted to the `/websocket/tracker` endpoint.
+To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSockets-enabled project. This displays real-time activity information that's been posted to the `/websocket/tracker` endpoint.
 
 [source%autofit,javascript]
 .src/main/webapp/app/admin/tracker/tracker.component.ts
@@ -901,18 +872,11 @@ The `Tracker` service allows you to send tracking information — for example, t
 include::{sourcedir}/chapter3/websockets/tracker.service.ts[]
 ----
 
-WebSockets on the server side of a JHipster project are implemented with
-http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. To
-learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with
-Spring]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
+WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. To learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with Spring]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
 
 == Browsersync
 
-http://www.browsersync.io/[Browsersync] is one of those tools that makes you wonder how you ever lived without it. It
-keeps your assets in sync with your browser. It's also capable of syncing browsers, so you can, for example, scroll in
-Safari and watch synced windows scroll in Chrome and in Safari running in iOS Simulator. When you save
-files, it updates your browser windows, saving you an incredible amount of time. As its website says,
-"`It's wicked-fast and totally free.`"
+http://www.browsersync.io/[Browsersync] is one of those tools that makes you wonder how you ever lived without it. It keeps your assets in sync with your browser. It's also capable of syncing browsers, so you can, for example, scroll in Safari and watch synced windows scroll in Chrome and in Safari running in iOS Simulator. When you save files, it updates your browser windows, saving you an incredible amount of time. As its website says, "`It's wicked-fast and totally free.`"
 
 Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.0 License. It contains a number of slick features:
 
@@ -921,46 +885,36 @@ Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.
 * URL history: Browsersync records your test URLs so you can push them back out to all devices with a single click.
 * Remote inspector: You can remotely tweak and debug web pages that are running on connected devices.
 
-To integrate Browsersync in your project, you need a `package.json` and `gulpfile.js`. Your `package.json` file only needs
-to contain a few things, weighing in at a slim 13 lines of JSON.
+To integrate Browsersync in your project, you need a `package.json` and `gulpfile.js`. Your `package.json` file only needs to contain a few things, weighing in at a slim 13 lines of JSON.
 
 [source,javascript]
 ----
 include::{sourcedir}/../../../package.json[]
 ----
 
-The `gulpfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development
-experience.
+The `gulpfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development experience.
 
 [source%autofit,javascript]
 ----
 include::{sourcedir}/../../../gulpfile.browsersync.js[]
 ----
 
-After you've created these files, you'll need to install https://nodejs.org/[Node.js] and its package manager, npm. This
-should let you run the following command to install Browsersync and Gulp. You will only need to run this command when
-dependencies change in `package.json`.
+After you've created these files, you'll need to install https://nodejs.org/[Node.js] and its package manager, npm. This should let you run the following command to install Browsersync and Gulp. You will only need to run this command when dependencies change in `package.json`.
 
 ----
 npm install
 ----
 
-Then run the following command to create a blissful development environment in which your browser auto-refreshes when
-files change on your hard drive.
+Then run the following command to create a blissful development environment in which your browser auto-refreshes when files change on your hard drive.
 
 ----
 gulp
 ----
 
-JHipster integrates Browsersync for you, using webpack instead of Gulp. I show a Gulp example here because it so simple.
-I highly recommend Browsersync for your project. It's useful for determining if your web application can handle a page
-reload without losing the current user's state.
+JHipster integrates Browsersync for you, using webpack instead of Gulp. I show a Gulp example here because it so simple. I highly recommend Browsersync for your project. It's useful for determining if your web application can handle a page reload without losing the current user's state.
 
 == Summary
 
-This section describes the UI components in a typical JHipster project. It taught you about the extremely popular UI
-framework called Angular. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build
-tool is essential for building a modern web application and it showed you how you can use webpack. Finally, it showed
-you how WebSockets work and described the beauty of Browsersync.
+This section describes the UI components in a typical JHipster project. It taught you about the extremely popular UI framework called Angular. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application and it showed you how you can use webpack. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
 
 Now that you've learned about many of the UI components in a JHipster project, let's learn about the API side of things.
