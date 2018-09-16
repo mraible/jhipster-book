@@ -14,7 +14,7 @@ JHipster supports two UI frameworks: Angular and React. In the first two version
 [.left]
 [[img-angular-jobs-2018]]
 .Jobs on Indeed, September 2018
-image::chapter3/angular/indeed-jobs-aug2018.jpg[Jobs on Indeed, 450, scaledwidth=75%]
+image::chapter3/angular/indeed-jobs-sep2018.jpg[Jobs on Indeed, 450, scaledwidth=75%]
 [.left]
 [[img-stackoverflow-tags-2018]]
 .Stack Overflow Tags, August 2018
@@ -46,7 +46,7 @@ A new syntax was introduced that binds data to element properties, not attribute
 
 In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announcing that they would be using http://www.typescriptlang.org/[TypeScript] over AtScript and that they would provide a migration path for Angular 1.x users. They also adopted semantic versioning and http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html[recommended people call it "Angular" instead of Angular 2.0].
 
-Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. https://www.jhipster.tech/2017/07/06/jhipster-release-4.6.0.html[JHipster 4.6.0] was released July 6, 2017 and was the first release to contain production-ready Angular support. At the time of this writing, JHipster uses Angular 6. Angular's https://angular.io/guide/releases[releases documentation] says Angular 7 will be released in October 2018.
+Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. https://www.jhipster.tech/2017/07/06/jhipster-release-4.6.0.html[JHipster 4.6.0] was released July 6, 2017 and was the first release to contain production-ready Angular support. At the time of this writing, JHipster 5 uses Angular 6. Angular's https://angular.io/guide/releases[releases documentation] says Angular 7 will be released in October 2018.
 
 The Angular project is hosted at https://angular.io/[https://angular.io].
 
@@ -159,8 +159,7 @@ import { SearchService } from '../search.service';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css'],
-  providers: [SearchService]
+  styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
   query: string;
@@ -503,7 +502,7 @@ include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
 
 [[img-bootstrap-basic-element]]
 .Basic form element
-image::chapter3/bootstrap/basicelement.png[Basic form element, 829, scaledwidth=90%]
+image::chapter3/bootstrap/basicelement.png[Basic form element, 712, scaledwidth=90%]
 
 If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
 
@@ -797,8 +796,7 @@ CSS generated from the above code looks as follows.
 Bootstrap 3.x was written with http://lesscss.org/[Less], a CSS pre-processor with similar features to Sass. It uses Sass
 for the 4.0+ versions.
 
-JHipster allows you to use Sass by integrating http://sass-lang.com/libsass[LibSass] with
-https://github.com/sass/node-sass[node-sass]. To learn more about structuring your CSS and naming classes, read the
+JHipster allows you to use Sass by default. To learn more about structuring your CSS and naming classes, read the
 great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
 
 == webpack
