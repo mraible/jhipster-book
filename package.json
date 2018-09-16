@@ -1,6 +1,6 @@
 {
   "name": "jhipster-book",
-  "version": "4.5.0",
+  "version": "5.0.0",
   "description": "The JHipster Mini-Book",
   "repository": {
     "type": "git",
@@ -8,6 +8,6 @@
   },
   "devDependencies": {
     "gulp": "3.9.1",
-    "browser-sync": "2.18.13"
+    "browser-sync": "2.24.7"
   }
 }
