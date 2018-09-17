@@ -463,6 +463,16 @@ spring-boot-starter-test
 
 Spring Boot does a great job of auto-configuring libraries and simplifying Spring. JHipster complements that by integrating the wonderful world of Spring Boot with a modern UI and developer experience.
 
+== Spring WebFlux
+
+Spring Boot 2.0 also supports building applications with a reactive stack through Spring WebFlux. When using WebFlux (instead of Web), your application will be based on the Reactive Streams API and run on non-blocking servers such as Netty, Undertow, and Servlet 3.1+ containers.
+
+At the time of this writing, JHipster has experimental support for generating  microservice apps with WebFlux. See https://github.com/jhipster/generator-jhipster/pull/7983[pull request #7983] for more information.
+
+Showing how Spring WebFlux works is outside the scope of this mini-book. If you'd like to learn more about it, I'd suggest you read http://developer.okta.com/blog[Josh Long's Build and Secure a Reactive Spring API].
+
+// todo: Update link to Josh's blog post once it's released (should be before SpringOne 2018
+
 == Maven versus Gradle
 
 Maven and Gradle are the two main build tools used in Java projects today. JHipster allows you to use either one. With Maven, you have one `pom.xml` file that's 1090 lines of XML. With Gradle, you end up with several `*.gradle` files. In the 21-Points project, the Groovy code adds up to only 496 lines.
