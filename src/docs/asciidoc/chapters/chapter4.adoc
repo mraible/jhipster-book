@@ -9,40 +9,39 @@ JHipster leverages Spring MVC and its `@RestController` annotation to create a R
 
 == Spring Boot
 
-In August 2013, Phil Webb and Dave Syer, engineers at Pivotal, https://spring.io/blog/2013/08/06/spring-boot-simplifying-spring-for-everyone[announced the first milestone release] of Spring Boot. Spring Boot makes it easy to create Spring applications with minimal effort. It takes an opinionated view of Spring and auto-configures dependencies for you. This allows you to write less code but still harness the power of Spring. The diagram below shows how Spring Boot is the gateway to the larger Spring ecosystem.
+In August 2013, Phil Webb and Dave Syer, engineers at Pivotal, https://spring.io/blog/2013/08/06/spring-boot-simplifying-spring-for-everyone[announced the first milestone release] of Spring Boot. Spring Boot makes it easy to create Spring applications with minimal effort. It takes an opinionated view of Spring and auto-configures dependencies for you. This allows you to write less code but still harness the power of Spring. The diagram below (from https://spring.io) shows how Spring Boot is the gateway to the larger Spring ecosystem.
 
-[[img-spring-boot-pyramid]]
-.Spring Boot
-image::chapter4/spring-boot-pyramid.png[Spring Boot, 379, scaledwidth=50%, align=center]
+[[img-spring-boot-diagram]]
+.Spring Boot 2.0
+image::chapter4/diagram-boot-reactor.svg[Spring Boot 2.0, 600, scaledwidth=100%, align=center]
 
 The primary goals of Spring Boot are:
 
 * to provide a radically faster and widely accessible "`getting started`" experience for all Spring development;
 * to be opinionated out of the box, but get out of the way quickly as requirements start to diverge from the defaults; and
-* to provide a range of non-functional features that are common to large classes of projects
-  (e.g. embedded servers, security, metrics, health checks, externalized configuration).
+* to provide a range of non-functional features that are common to large classes of projects (e.g. embedded servers, security, metrics, health checks, externalized configuration).
 
 Folks who want to use Spring Boot outside of a JHipster application can do so with Spring Initializr, a configurable service for generating Spring projects. It's both a web application and a REST API. You can visit it in your browser at https://start.spring.io or you can call it via `curl`.
 
 [[img-spring-initializr-web]]
 .Spring Initializr in a browser
-image::chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1175, scaledwidth=100%]
+image::chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1247, scaledwidth=100%]
 
 [[img-spring-initializr-curl]]
 .Spring Initializr via `curl`
-image::chapter4/spring-initializr-curl.png[Spring Initializr via `curl`, 1082, scaledwidth=100%]
+image::chapter4/spring-initializr-curl.png[Spring Initializr via `curl`, 1354, scaledwidth=100%]
 
 Spring Initializr is an Apache 2.0-licensed open-source project that you install and customize to generate Spring projects for your company or team. You can find it on GitHub at https://github.com/spring-io/initializr[https://github.com/spring-io/initializr].
 
-Spring Initializr is also available in the Eclipse-based https://spring.io/tools/sts[Spring Tool Suite] (STS) and
-https://www.jetbrains.com/idea/[IntelliJ IDEA].
+Spring Initializr is also available in the Eclipse-based https://spring.io/tools/sts[Spring Tool Suite] (STS) and https://www.jetbrains.com/idea/[IntelliJ IDEA].
 
 .Spring CLI
 ****
-At the bottom of the start.spring.io page, you can also download or install the Spring CLI (also called the Spring Boot CLI). The easiest way to install it is with the following command.
+You can also download and install the Spring CLI (also called the Spring Boot CLI). The easiest way to install it is with http://sdkman.io/[SDKMAN!].
 
 ----
-curl https://start.spring.io/install.sh | sh
+curl -s "https://get.sdkman.io" | bash
+sdk install springboot
 ----
 
 Spring CLI is best used for rapid prototyping: when you want to show someone how to do something very quickly, with code you'll likely throw away when you're done. For example, if you want to create a "`Hello World`" web application in Groovy, you can do it with seven lines of code.
@@ -79,15 +78,15 @@ This project has only a few files in it, as you can see by running the `tree` co
 ├── pom.xml
 └── src
     ├── main
-    │   ├── java
-    │   │   └── com
-    │   │       └── example
-    │   │           └── demo
-    │   │               └── DemoApplication.java
-    │   └── resources
-    │       ├── application.properties
-    │       ├── static
-    │       └── templates
+    │   ├── java
+    │   │   └── com
+    │   │       └── example
+    │   │           └── demo
+    │   │               └── DemoApplication.java
+    │   └── resources
+    │       ├── application.properties
+    │       ├── static
+    │       └── templates
     └── test
         └── java
             └── com
@@ -250,6 +249,8 @@ $ curl localhost:8080/blogs
 [{"id":1,"name":"First"},{"id":2,"name":"Second"}]
 ----
 
+TIP: https://httpie.org/[HTTPie] is an alternative to cURL that makes many things easier.
+
 Spring has one of the best track records for hipness in Javaland. It is an essential cornerstone of the solid API foundation that makes JHipster awesome. Spring Boot allows you to create stand-alone Spring applications that directly embed Tomcat, Jetty, or Undertow. It provides opinionated starter dependencies that simplify your build configuration, regardless of whether you're using Maven or Gradle.
 
 === External configuration
@@ -300,36 +301,91 @@ This code does not work when using a Spring Boot executable JAR because the clas
 
 === Automatic configuration
 
-Spring Boot is unique in that it automatically configures Spring whenever possible. It does this by peeking into JAR files to see if they're hip. If they are, they contain a `META-INF/spring.factories` that defines configuration classes under the `EnableAutoConfiguration` key. For example, below is what's contained in `spring-boot-actuator`.
+Spring Boot is unique in that it automatically configures Spring whenever possible. It does this by peeking into JAR files to see if they're hip. If they are, they contain a `META-INF/spring.factories` that defines configuration classes under the `EnableAutoConfiguration` key. For example, below is what's contained in `spring-boot-actuator-autoconfigure`.
 
-.spring-boot-actuator.jar!/META-INF/spring.factories
+.spring-boot-actuator-autoconfigure-2.0.5.RELEASE.jar!/META-INF/spring.factories
 [%autofit]
 ----
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.springframework.boot.actuate.autoconfigure.AuditAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.CacheStatisticsAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.CrshAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.EndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.EndpointMBeanExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.EndpointWebMvcAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.HealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.InfoContributorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.JolokiaAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.ManagementServerPropertiesAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.MetricsDropwizardAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.MetricsChannelAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.MetricExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.PublicMetricsAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.TraceRepositoryAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.TraceWebFilterAutoConfiguration,\
-org.springframework.boot.actuate.cloudfoundry.CloudFoundryActuatorAutoConfiguration
+org.springframework.boot.actuate.autoconfigure.amqp.RabbitHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.audit.AuditAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.audit.AuditEventsEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.beans.BeansEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.cassandra.CassandraHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.cloudfoundry.servlet.CloudFoundryActuatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.cloudfoundry.reactive.ReactiveCloudFoundryActuatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.condition.ConditionsReportEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.context.properties.ConfigurationPropertiesReportEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.context.ShutdownEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.couchbase.CouchbaseHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.elasticsearch.ElasticsearchHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.endpoint.EndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.endpoint.jmx.JmxEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.env.EnvironmentEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.flyway.FlywayEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.health.HealthEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.health.HealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.info.InfoContributorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.info.InfoEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.jdbc.DataSourceHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.jms.JmsHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.jolokia.JolokiaEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.ldap.LdapHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.liquibase.LiquibaseEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.logging.LogFileWebEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.logging.LoggersEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.mail.MailHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.management.HeapDumpWebEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.management.ThreadDumpEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.CompositeMeterRegistryAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.MetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.MetricsEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.amqp.RabbitMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.cache.CacheMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.atlas.AtlasMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.datadog.DatadogMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.ganglia.GangliaMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.graphite.GraphiteMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.jmx.JmxMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.newrelic.NewRelicMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.prometheus.PrometheusMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.simple.SimpleMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.signalfx.SignalFxMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.statsd.StatsdMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.wavefront.WavefrontMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.jdbc.DataSourcePoolMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.web.client.RestTemplateMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.web.reactive.WebFluxMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.web.servlet.WebMvcMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.web.tomcat.TomcatMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.mongo.MongoHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.neo4j.Neo4jHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.redis.RedisHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.scheduling.ScheduledTasksEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.session.SessionsEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.solr.SolrHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.system.DiskSpaceHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.trace.http.HttpTraceAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.trace.http.HttpTraceEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.mappings.MappingsEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.reactive.ReactiveManagementContextAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.servlet.ServletManagementContextAutoConfiguration
+org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration=\
+org.springframework.boot.actuate.autoconfigure.endpoint.web.ServletEndpointManagementContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.endpoint.web.reactive.WebFluxEndpointManagementContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.endpoint.web.servlet.WebMvcEndpointManagementContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.endpoint.web.jersey.JerseyWebEndpointManagementContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.jersey.JerseyManagementChildContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.reactive.ReactiveManagementChildContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.servlet.ServletManagementChildContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.servlet.WebMvcEndpointChildContextConfiguration
 
-org.springframework.boot.actuate.autoconfigure.ManagementContextConfiguration=\
-org.springframework.boot.actuate.autoconfigure.EndpointWebMvcManagementContextConfiguration,\
-org.springframework.boot.actuate.autoconfigure.EndpointWebMvcHypermediaManagementContextConfiguration
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+org.springframework.boot.actuate.autoconfigure.metrics.MissingRequiredConfigurationFailureAnalyzer
 ----
 
 These configuration classes will usually contain `@Conditional` annotations to help configure themselves. Developers can use `@ConditionalOnMissingBean` to override the auto-configured defaults. There are several conditional-related annotations you can use when developing Spring Boot plugins:
@@ -368,37 +424,40 @@ dependencies {
 
 Actuator's main features are endpoints, metrics, auditing, and process monitoring. Actuator auto-creates a number of REST endpoints. By default, Spring Boot will also expose management endpoints as JMX MBeans under the `org.springframework.boot` domain. Actuator REST endpoints include:
 
-* `/actuator` — Provides a hypermedia-based “discovery page” for the other endpoints. Requires Spring HATEOAS to be on the classpath.
 * `/auditevents` — Exposes audit events information for the current application.
-* `/autoconfig` — Returns an auto-configuration report that shows all auto-configuration candidates.
 * `/beans` — Returns a complete list of all the Spring beans in your application.
+* `/conditions` — Shows the conditions that were evaluated on configuration and auto-configuration classes.
 * `/configprops` — Returns a list of all `@ConfigurationProperties`.
-* `/dump` — Performs a thread dump.
 * `/env` — Returns properties from Spring's `ConfigurableEnvironment`.
 * `/flyway` — Shows any Flyway database migrations that have been applied.
 * `/health` — Returns information about application health.
+* `/httptrace` — Returns trace information (by default, the last 100 HTTP requests).
 * `/info` — Returns basic application info.
 * `/loggers` — Shows and modifies the configuration of loggers in the application.
 * `/liquibase` — Shows any Liquibase database migrations that have been applied.
 * `/metrics` — Returns performance information for the current application.
 * `/mappings` — Returns a  list of all `@RequestMapping` paths.
+* `/scheduledtasks` — Displays the scheduled tasks in your application.
+* `/sessions` — Allows retrieval and deletion of user sessions from a Spring Session-backed session store.
 * `/shutdown` — Shuts the application down gracefully (not enabled by default).
-* `/trace` — Returns trace information (by default, the last several HTTP requests).
+* `/threaddump` — Performs a thread dump.
 
 JHipster includes a plethora of Spring Boot starter dependencies by default. This allows developers to write less code and worry less about dependencies and configuration. The boot-starter dependencies in the 21-Points Health application are as follows:
 
 // cat build.gradle | grep boot-starter
 ----
+spring-boot-starter-cache
 spring-boot-starter-mail
 spring-boot-starter-logging
+spring-boot-starter-actuator
 spring-boot-starter-aop
 spring-boot-starter-data-jpa
 spring-boot-starter-data-elasticsearch
+spring-boot-starter-data-jest
 spring-boot-starter-security
 spring-boot-starter-web
 spring-boot-starter-undertow
 spring-boot-starter-thymeleaf
-spring-boot-starter-cloud-connectors
 spring-boot-starter-test
 ----
 
@@ -406,25 +465,20 @@ Spring Boot does a great job of auto-configuring libraries and simplifying Sprin
 
 == Maven versus Gradle
 
-Maven and Gradle are the two main build tools used in Java projects today. JHipster allows you to use either one. With Maven, you have one `pom.xml` file that's 986 lines of XML. With Gradle, you end up with several `*.gradle` files. In the 21-Points project, their Groovy code adds up to only 583 lines.
+Maven and Gradle are the two main build tools used in Java projects today. JHipster allows you to use either one. With Maven, you have one `pom.xml` file that's 1090 lines of XML. With Gradle, you end up with several `*.gradle` files. In the 21-Points project, the Groovy code adds up to only 496 lines.
 
 ////
-build.gradle (243)
-gradle.properties (27)
+build.gradle (280)
+gradle.properties (20)
 settings.gradle (1)
-gradle/docker.gradle (75)
-gradle/gatling.gradle (46)
-gradle/graphite.gradle (3)
-gradle/heroku.gradle (5)
-gradle/liquibase.gradle (55)
-gradle/mapstruct.gradle (5)
-gradle/profile_dev.gradle (48)
-gradle/profile_prod.gradle (55)
-gradle/prometheus.gradle (5)
-gradle/sonar.gradle (12)
+gradle/docker.gradle (29)
+gradle/heroku.gradle (14)
+gradle/profile_dev.gradle (45)
+gradle/profile_prod.gradle (56)
+gradle/sonar.gradle (48)
 gradle/zipkin.gradle (3)
 
-243 + 27 + 1 + 75 + 46 + 3 + 5 + 55 + 5 + 48 + 55 + 5 + 12 + 3 = 583
+280 + 20 + 1 + 29 + 14 + 45 + 56 + 48 + 3 = 496
 ////
 
 Apache calls http://maven.apache.org/[Apache Maven] a "`software project-management and comprehension tool`". Based on the concept of a project object model (POM), Maven can manage a project's build, reporting, and documentation from a central piece of information. Most of Maven's functionality comes through plugins. There are Maven plugins for building, testing, source-control management, running a web server, generating IDE project files, and much more.
@@ -437,7 +491,7 @@ In January 2014, ZeroTurnaround's RebelLabs published a report titled http://zer
 .The Evolution of Build Tools, 1977-2013
 image::chapter4/evolution-of-build-tools-timeline.jpg[The Evolution of Build Tools, 600, scaledwidth=100%, align=center]
 
-RebelLabs advises that you should experiment with Gradle in your next project.
+Back then, RebelLabs advised that you experiment with Gradle in your next project.
 
 [, RebelLabs, "Java Build Tools – Part 2: A Decision Maker's Comparison of Maven, Gradle and Ant + Ivy"]
 ""
@@ -453,7 +507,7 @@ I've used both tools for building projects and they've both worked quite well. M
   <extension>
     <groupId>io.takari.polyglot</groupId>
     <artifactId>${artifactId}</artifactId>
-    <version>0.1.19</version>
+    <version>0.3.0</version>
   </extension>
 </extensions>
 ----
@@ -463,7 +517,7 @@ In this example, `+${artifactId}+` should be `polyglot-_language_`, where `_lang
 To convert an existing `pom.xml` file to another format, you can use the following command.
 
 ----
-mvn io.takari.polyglot:polyglot-translate-plugin:0.1.19:translate \
+mvn io.takari.polyglot:polyglot-translate-plugin:translate \
  -Dinput=pom.xml -Doutput=pom.{format}
 ----
 
@@ -488,7 +542,10 @@ IDE stands for "`integrated development environment`". It is the lifeblood of a 
 
 The JHipster documentation includes https://www.jhipster.tech/configuring-ide/[guides] for configuring Eclipse, IntelliJ IDEA, Visual Studio Code, and NetBeans. Not only that, but Spring Boot has a https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html[devtools plugin] that's configured by default in a generated JHipster application. This plugin allows hot-reloading of your application when you recompile classes.
 
-https://www.jetbrains.com/idea/[IntelliJ IDEA], which brings these same features to Java development, is a truly amazing IDE. If you're only writing JavaScript, their https://www.jetbrains.com/webstorm/[WebStorm IDE] will likely become your best friend. Both IntelliJ products have excellent CSS support and accept plugins for many web languages/frameworks. See https://github.com/jhipster/generator-jhipster/issues/4258[this tip] to learn how to make IDEA auto-compile on save, like Eclipse does.
+https://www.jetbrains.com/idea/[IntelliJ IDEA], which brings these same features to Java development, is a truly amazing IDE. If you're only writing JavaScript, their https://www.jetbrains.com/webstorm/[WebStorm IDE] will likely become your best friend. Both IntelliJ products have excellent CSS support and accept plugins for many web languages/frameworks. To make IDEA auto-compile on save, like Eclipse does, perform the following steps:
+
+* Navigate to File > Settings > Build, Execution, Deployment > Compiler: enable `Make project automatically`
+* Open Registry (Mac: kbd:[Cmd+Shift+A], Linux: kbd:[Ctrl+Shift+A], choose Registry...) and enable `compiler.automake.allow.when.app.running`
 
 https://eclipse.org/downloads/[Eclipse] is a free alternative to IntelliJ IDEA. Its error highlighting (via auto-compile), code assist, and refactoring support is excellent. When I started using it back in 2002, it blew away the competition. It was the first Java IDE that was fast and efficient to use. Unfortunately, it fell behind in the JavaScript MVC era and lacks good support for JavaScript or CSS.
 
@@ -502,23 +559,30 @@ To learn about profiling a Java application, I recommend you watch Nitsan Wakart
 
 == Security
 
-Spring Boot has excellent security features thanks to its integration with Spring Security. When you create a Spring Boot application with a `spring-boot-starter-security` dependency, you get HTTP Basic authentication out of the box. By default, a user is created with username `user` and the password is printed in the logs when the application starts. To override the generated password, you can define a `security.user.password`. Additional security features of Spring Boot can be found in http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-security.html[Spring Boot's guide to security].
+Spring Boot has excellent security features thanks to its integration with Spring Security. When you create a Spring Boot application with a `spring-boot-starter-security` dependency, you get HTTP Basic authentication out of the box. By default, a user is created with username `user` and the password is printed in the logs when the application starts. To override the generated password, you can define a `spring.security.user.password`. Additional security features of Spring Boot can be found in http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-security.html[Spring Boot's guide to security].
 
 The most basic Spring Security Java configuration creates a servlet `Filter`, which is responsible for all the security (protecting URLs, validating credentials, redirecting to login, etc.). This involves several lines of code, but half of them are class imports.
 
 [source%autofit,java]
 ----
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.*;
-import org.springframework.security.config.annotation.authentication.builders.*;
-import org.springframework.security.config.annotation.web.configuration.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import static org.springframework.security.core.userdetails.User.UserBuilder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-            .withUser("user").password("password").roles("USER");
+    @Bean
+    public UserDetailsService userDetailsService() {
+        // ensure the passwords are encoded properly
+        UserBuilder users = User.withDefaultPasswordEncoder();
+        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+        manager.createUser(users.username("user").password("password").roles("USER").build());
+        return manager;
     }
 }
 ----
@@ -542,7 +606,7 @@ There's not much code, but it provides many features:
 JHipster takes the excellence of Spring Security and uses it to provide the real-world authentication mechanism that applications need. When you create a new JHipster project, it provides you with three authentication options:
 
 * *HTTP Session Authentication* — Uses the HTTP session, so it is a stateful mechanism. Recommended for small applications.
-* *OAuth 2.0 Authentication* — A stateless security mechanism. You might prefer it if you want to scale your application across several machines.
+* *OAuth 2.0 / OIDC Authentication* — A stateless security mechanism. You might prefer it if you want to share your users between several applications.
 * *JWT authentication* — Like OAuth 2.0, a stateless security mechanism. JSON Web Token (JWT) is an https://tools.ietf.org/html/rfc7519[IETF proposed standard] that uses a compact, URL-safe means of representing claims to be transferred between two parties. JHipster's implementation uses the https://github.com/jwtk/jjwt[Java JWT project].
 * *Social Login* - Adds support for logging in with social network credentials. Supports Google, Facebook, and Twitter.
 
@@ -573,13 +637,14 @@ NoSQL databases have helped many web-scale companies achieve high scalability th
 When you create a new JHipster project, you'll be prompted with the following.
 
 ----
-? (6/16) Which *type* of database would you like to use? (Use arrow keys)
+? Which *type* of database would you like to use? (Use arrow keys)
 ❯ SQL (H2, MySQL, MariaDB, PostgreSQL, Oracle, MSSQL)
   MongoDB
+  Couchbase
   Cassandra
 ----
 
-If you're familiar with RDBMS databases, I recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku and MySQL has great support on AWS. JHipster's https://www.jhipster.tech/aws/[AWS sub-generator] has a limitation of only working with MySQL.
+If you're familiar with RDBMS databases, I recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku and MySQL has excellent support on AWS. JHipster's https://www.jhipster.tech/aws/[AWS sub-generator] has a limitation of only working with MySQL.
 
 If your idea is the next Facebook, you might want to consider a NoSQL database that's more concerned with performance than third normal form.
 
@@ -608,8 +673,7 @@ When MongoDB is selected:
 * JHipster will use Spring Data MongoDB, similar to Spring Data JPA.
 * JHipster will use https://github.com/mongobee/mongobee[Mongobee] instead of Liquibase to manage database migrations.
 * The entity sub-generator will not ask you about relationships. You can't have relationships with a NoSQL database.
-
-Cassandra https://www.jhipster.tech/using-cassandra/[does not support OAuth 2.0 authentication] and it requires you to run its migration tool manually, or in a Docker container.
+* `de.flapdoodle.embed.mongo` is used to run an in-memory version of the database for running unit tests.
 ****
 
 == Liquibase
@@ -618,7 +682,7 @@ http://www.liquibase.org/[Liquibase] is "`source control for your database`". It
 
 This file is loaded by Liquibase when it creates the database schema.
 
-[source,xml]
+[source%autofit,xml]
 .src/main/resources/config/liquibase/changelog/00000000000000_initial_schema.xml
 ----
 <loadData encoding="UTF-8"
@@ -631,7 +695,7 @@ This file is loaded by Liquibase when it creates the database schema.
 <dropDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="datetime"/>
 ----
 
-Liquibase supports http://www.liquibase.org/databases.html[most major databases]. If you use MySQL or PostgreSQL, you can use `mvn liquibase:diff` (or `./gradlew liquibaseDiffChangelog`) to automatically generate a changelog.
+Liquibase supports http://www.liquibase.org/databases.html[most major databases]. If you use MySQL or PostgreSQL, you can use `mvn liquibase:diff` (or `./gradlew generateChangeLog`) to automatically generate a changelog.
 
 https://https://www.jhipster.tech//development/[JHipster's development guide] recommends the following workflow:
 
@@ -640,31 +704,39 @@ https://https://www.jhipster.tech//development/[JHipster's development guide] re
 3. A new changelog is created in your `src/main/resources/config/liquibase/changelog` directory.
 4. Review this changelog and add it to your `src/main/resources/config/liquibase/master.xml` file, so it is applied the next time you run your application.
 
-If you use Gradle, you can use the same workflow by confirming database settings in `liquibase.gradle` and running `./gradlew liquibaseDiffChangelog`.
+If you use Gradle, you can use the same workflow by running `./gradlew generateChangeLog`.
 
 == Elasticsearch
 
-Elasticsearch adds searchability to your entities. JHipster's Elasticsearch support requires using a SQL database. Spring Boot uses and configures http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch]. When using JHipster's https://www.jhipster.tech/creating-an-entity/[entity sub-generator], it automatically indexes the entity and creates an endpoint to support searching its properties. Search superpowers are also added to the AngularJS UI, so you can search in your entity's list screen.
+Elasticsearch adds searchability to your entities. JHipster's Elasticsearch support requires using a SQL database. Spring Boot uses and configures http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch]. When using JHipster's https://www.jhipster.tech/creating-an-entity/[entity sub-generator], it automatically indexes the entity and creates an endpoint to support searching its properties. Search superpowers are also added to the Angular UI, so you can search in your entity's list screen.
 
-When using the (default) "`dev`" profile, the in-memory Elasticsearch instance will store files in the `target` folder.
+When using the (default) "`dev`" profile, the in-memory Elasticsearch instance will store files in the `build/elasticsearch` folder. You can change this by modifying the following setting in `application-dev.yml`.
 
-[TIP]
-====
-When I deployed 21-Points to Heroku, my app failed to start because it expected to find Elasticsearch nodes listening on `localhost:9200`. To fix this, I changed my production configuration.
+[source,yaml]
+.src/main/resources/config/application-dev.yml
+----
+data:
+    elasticsearch:
+        properties:
+            path:
+                home: build/elasticsearch
+----
+
+When using the "`prod`" profile, JHipster will use Spring Data Jest to communicate with Elasticsearch's REST API on port `9200`. This setting is configured in `application-prod.yml`.
 
 [source,yaml]
 .src/main/resources/config/application-prod.yml
 ----
 data:
-    elasticsearch:
-        cluster-name:
-        cluster-nodes:
-        properties:
-            path:
-              logs: /tmp/elasticsearch/log
-              data: /tmp/elasticsearch/data
+    jest:
+        uri: http://localhost:9200
 ----
-====
+
+If you want to run the "`prod`" profile locally, you will need to start an Elasticsearch Docker image first.
+
+----
+docker-compose -f src/main/docker/elasticsearch.yml up -d
+----
 
 Elasticsearch is used by a number of well-known companies: Facebook, GitHub, and Uber among others. The project is backed by https://www.elastic.co/[Elastic], which provides an ecosystem of projects around Elasticsearch. Some examples are:
 
@@ -680,27 +752,27 @@ A JHipster application can be deployed wherever a Java program can be run. Sprin
 
 TIP: Josh Long's https://spring.io/blog/2014/03/07/deploying-spring-boot-applications["`Deploying Spring Boot Applications`"] is an excellent resource for learning how to customize your application archive. It shows how to change your application to a traditional WAR: extend `SpringBootServletInitializer`, change packaging to `war`, and set `spring-boot-starter-tomcat` as a provided dependency.
 
-To build your app with the production profile, use the preconfigured "`prod`" Maven profile.
+To build your JHipster app with the production profile, use the preconfigured "`prod`" Maven profile.
 
 ----
-mvn -Pprod spring-boot:run
+mvn -Pprod package
 ----
 
 With Gradle, it's:
 
 ----
-gradlew -Pprod bootRun
+gradlew -Pprod bootWar
 ----
 
 The "`prod`" profile will trigger a `webpack:prod`, which optimizes your static resources. It will combine your JavaScript and CSS files, minify them, and get them production ready. It also updates your HTML (in your `(build|target)/www` directory) to have references to your versioned, combined, and minified files.
 
 A JHipster application can be deployed to your own JVM, https://www.jhipster.tech/cloudfoundry/[Cloud Foundry], https://www.jhipster.tech/heroku/[Heroku], https://https://www.jhipster.tech//kubernetes/[Kubernetes], and https://www.jhipster.tech/aws.html[AWS].
 
-I've deployed JHipster applications to both Heroku and Cloud Foundry. With Heroku, you might have to ask to double the timeout (from 60 to 120 seconds) to get your application started. Heroku support is usually quick to respond and can make it happen in a matter of minutes. In 2015, the JHipster team created a non-blocking Liquibase bean and https://twitter.com/java_hipster/status/649504634080468992[cut startup time by 40%].
+I've deployed JHipster applications to Heroku, Cloud Foundry, and Google Cloud with Kubernetes.
 
 == Summary
 
-The Spring Framework has one of the best track records for hipness in Javaland. It's remained backwards compatible between many releases and has lived as an open-source project for more than 12 years. Spring Boot has provided a breath of fresh air for people using Spring with its starter dependencies, auto-configuration, and monitoring tools. It's made it easy to build microservices in Java (and Groovy) and deploy them to the cloud.
+The Spring Framework has one of the best track records for hipness in Javaland. It's remained backwards compatible between many releases and has lived as an open-source project for more than 14 years. Spring Boot has provided a breath of fresh air for people using Spring with its starter dependencies, auto-configuration, and monitoring tools. It's made it easy to build microservices in Java (and Groovy) and deploy them to the cloud.
 
 You've seen some of the cool features of Spring Boot and the build tools you can use to package and run a JHipster application. I've described the power of Spring Security and showed you its many features, which you can enable with only a few lines of code. JHipster supports both relational databases and NoSQL databases, which allows you to choose how you want your data stored. You can choose JPA, MongoDB, or Cassandra when creating a new application.
 
