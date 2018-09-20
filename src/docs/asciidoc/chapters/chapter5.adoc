@@ -55,12 +55,12 @@ The consequences of architecture decisions, like adopting microservices, usually
 
 == Microservices with JHipster
 
-In this example, I'll show you how to build a microservices architecture with JHipster. As part of this process, you'll be generating three applications and running another.
+In this example, I'll show you how to build a microservices architecture with JHipster. As part of this process, you'll be generating three applications and running several others.
 
 * Generate a gateway.
 * Generate a blog microservice.
 * Generate a store microservice.
-* Run the JHipster Registry.
+* Run the JHipster Registry, Keycloak, and MongoDB.
 
 You can see how these components fit in the diagram below.
 
@@ -76,6 +76,7 @@ This tutorial shows you how to build a microservices architecture with https://w
 One of the new features added in JHipster 5.3.x is the ability to generate a full microservices stack using the `import-jdl` command. Open a terminal window, create a directory (e.g.,`jhipster-microservices-example`) and create a `apps.jh` file in it. Copy the JDL below into this file.
 
 [source]
+.apps.jh
 ----
 application {
   config {
@@ -154,9 +155,15 @@ paginate Post, Tag with infinite-scroll
 paginate Product with pagination
 ----
 
-TIP: You can also find this file [on GitHub](https://gist.github.com/mraible/3c97f60c6617e67fd87cd9895d54311c).
+TIP: You can also find this file http://bit.ly/jhipster-ms-oauth[on GitHub].
 
-The project generation process will take several minutes to run, depending on your internet connection speed.
+Run JHipster's `import-jdl` command to import this microservices architecture definition.
+
+----
+jhipster import-jdl apps.jh
+----
+
+The project generation process will take a minute or two to run, depending on your internet connection speed and hardware.
 
 While you're waiting, you can get started with setting up OAuth with Okta.
 
@@ -215,9 +222,15 @@ docker-compose -f gateway/src/main/docker/keycloak.yml up -d
 docker-compose -f store/src/main/docker/mongodb.yml up -d
 ----
 
-By default, the JHipster Registry will use Keycloak when running with Docker Compose. If you want to change it to use Okta, you'll need to modify `gateway/src/main/docker/jhipster-registry.yml` and change the default Keycloak settings to use your Okta settings, or environment variables (recommended).
+By default, the JHipster Registry will use Keycloak when running with Docker Compose. For everything to work properly, you'll need to add an entry to your `hosts` file for Keycloak.
 
-[source,yaml]
+----
+127.0.0.1       keycloak
+----
+
+If you want to change it to use Okta, you'll need to modify `gateway/src/main/docker/jhipster-registry.yml` and change the default Keycloak settings to use your Okta settings, or environment variables (recommended).
+
+[source%autofit,yaml]
 ----
 - SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI=${SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI}
 - SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI=${SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI}
@@ -226,7 +239,7 @@ By default, the JHipster Registry will use Keycloak when running with Docker Com
 - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
 ----
 
-TIP: You can also put these variables in a file and specify an `env_file` setting. See [Environment variables in Compose](https://docs.docker.com/compose/environment-variables/#the-env-file) to learn more.
+TIP: You can also put these variables in a file and specify an `env_file` setting. See https://docs.docker.com/compose/environment-variables/#the-env-file[Environment variables in Compose] to learn more.
 
 Then you'll need to stop your JHipster Registry (if it's already running):
 
@@ -234,7 +247,7 @@ Then you'll need to stop your JHipster Registry (if it's already running):
 docker-compose -f src/main/docker/jhipster-registry.yml down
 ----
 
-And start it again.
+And start it again:
 
 ----
 docker-compose -f src/main/docker/jhipster-registry.yml up -d
@@ -253,7 +266,7 @@ Open three terminal windows and navigate to each app (`gateway`, `blog`, and `st
 
 TIP: If you already have Maven installed, you can simply use `mvn`.
 
-Open your browser and go to http://localhost:8761[http://localhost:8761]. Log in with `admin/admin` and you should see a welcome page that shows that the gateway has been registered.
+Open your browser and go to http://localhost:8761[http://localhost:8761]. Log in, and you should see a welcome page that shows that the gateway has been registered.
 
 .JHipster Registry with gateway registered
 image::chapter5/jhipster-registry-with-gateway.png[JHipster Registry with gateway registered, 800, scaledwidth=100%, align=center]
@@ -320,7 +333,7 @@ You'll get a warning that says you need to generate Docker images by running the
 ./mvnw package -Pprod dockerfile:build
 ----
 
-NOTE: Building the gateway will likely fail because of https://github.com/jhipster/generator-jhipster/issues/7114[an issue with JavaScript tests]. To work around this issue, skip the tests with `mvn package -Pprod -DskipTests dockerfile:build`.
+NOTE: Building the store will likely fail because of https://github.com/jhipster/generator-jhipster/issues/8313[an issue with the `UserServiceIntTest`]. To work around this issue, skip the tests with `mvn package -Pprod -DskipTests dockerfile:build`.
 
 While you're waiting for things to build, edit `docker-compose/docker-compose.yml` and change the Spring Security settings from being hard-coded to being environment variables. Make this change for all applications and make sure to add the client ID and secret since those aren't included by default.
 
@@ -364,7 +377,7 @@ keycloak:
 
 You'll need to edit `docker-compose/jhipster-registry.yml` as well.
 
-[source,yaml]
+[source%autofit,yaml]
 ----
 services:
     jhipster-registry:
@@ -435,12 +448,12 @@ In each project, run `jhipster heroku` and answer the questions as follows:
 |Name to deploy as? |`&lt;unique-prefix&gt;-&lt;app-name&gt;` (e.g., okta-gateway, okta-blog, etc.)
 |Which region? |`us`
 |Type of deployment? |`Git`
-| Name of Registry app? | `<unique-prefix>-jhipster-registry` |
-| JHipster Registry username | `admin` |
-| JHipster Registry password | `<JHIPSTER_PASSWORD from Registry>` |
+| Name of Registry app? |`<unique-prefix>-jhipster-registry`
+| JHipster Registry username |`admin`
+| JHipster Registry password |`<JHIPSTER_PASSWORD from Registry>`
 |===
 
- When prompted to overwrite files, type `a`.
+When prompted to overwrite files, type `a`.
 
 After each has deployed, you'll want to run the following so they use Okta for authentication.
 
