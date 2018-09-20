@@ -69,42 +69,92 @@ image::chapter5/jhipster-microservices-architecture.png[JHipster microservices a
 
 To see what's happening inside your applications, you can use the https://jhipster.github.io/monitoring/#jhipster-console[JHipster Console], a monitoring tool based on the https://www.elastic.co/products[Elastic Stack]. I'll cover JHipster Console in the Docker Compose section.
 
-This tutorial shows you how to build a microservices architecture with https://www.jhipster.tech/2018/01/30/jhipster-release-4.14.0.html[JHipster 4.14.0]. You'll generate a gateway (powered by Netflix Zuul), a blog microservice (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
+This tutorial shows you how to build a microservices architecture with https://www.jhipster.tech/2018/09/17/jhipster-release-5.3.4.html[JHipster 5.3.4]. You'll generate a gateway (powered by Netflix Zuul), a blog microservice (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
 
-== Generate an API gateway
+== Generate an API gateway, and {blog,store} microservice applications
 
-To generate an API gateway with JHipster, open a terminal window, navigate to `jhipster-microservices-example`, create a `gateway` directory, and run `jhipster`.
+One of the new features added in JHipster 5.3.x is the ability to generate a full microservices stack using the `import-jdl` command. Open a terminal window, create a directory (e.g.,`jhipster-microservices-example`) and create a `apps.jh` file in it. Copy the JDL below into this file.
 
 [source]
 ----
-mkdir gateway && cd gateway && jhipster
+application {
+  config {
+    baseName gateway,
+    packageName com.okta.developer.gateway,
+    applicationType gateway,
+    authenticationType oauth2,
+    prodDatabaseType postgresql,
+    searchEngine elasticsearch,
+    serviceDiscoveryType eureka,
+    testFrameworks [protractor]
+  }
+  entities Blog, Post, Tag, Product
+}
+
+application {
+  config {
+    baseName blog,
+    packageName com.okta.developer.blog,
+    applicationType microservice,
+    authenticationType oauth2,
+    prodDatabaseType postgresql,
+    searchEngine elasticsearch,
+    serverPort 8081
+  }
+  entities Blog, Post, Tag
+}
+
+application {
+  config {
+    baseName store,
+    packageName com.okta.developer.store,
+    applicationType microservice,
+    authenticationType oauth2,
+    databaseType mongodb,
+    devDatabaseType mongodb,
+    prodDatabaseType mongodb,
+    enableHibernateCache false,
+    searchEngine elasticsearch,
+    serverPort 8082
+  }
+  entities Product
+}
+
+entity Blog {
+  name String required minlength(3),
+  handle String required minlength(2)
+}
+
+entity Post {
+  title String required,
+  content TextBlob required,
+  date Instant required
+}
+
+entity Tag {
+  name String required minlength(2)
+}
+
+entity Product {
+  title String required,
+  price BigDecimal required min(0),
+  image ImageBlob
+}
+
+relationship ManyToOne {
+  Blog{user(login)} to User,
+  Post{blog(name)} to Blog
+}
+
+relationship ManyToMany {
+  Post{tag(name)} to Tag{post}
+}
+
+paginate Post, Tag with infinite-scroll
+paginate Product with pagination
 ----
 
-JHipster asks a multitude of questions about the application you want to create and what features you’d like to include. Use the following answers to generate a gateway with OAuth 2.0 support.
-
-|===
-|Question |Answer
-
-|Type of application? |`Microservice gateway`
-|Name? |`gateway`
-|Port? |`8080`
-|Java package name? |`com.okta.developer.gateway`
-|Which service discovery server? |`JHipster Registry`
-|Type of authentication? |`OAuth 2.0 / OIDC`
-|Type of database? |`SQL`
-|Production database? |`PostgreSQL`
-|Development database? |`H2 with disk-based persistence`
-|Use Hibernate 2nd level cache? |`Yes`
-|Maven or Gradle? |`Maven`
-|Other technologies? |`&lt;blank&gt;`
-|Client framework? |`Angular 5`
-|Enable SASS support? |`No`
-|Enable i18n? |`Yes`
-|Native language of application? |`English`
-|Additional languages? |`&lt;blank&gt;`
-|Additional testing frameworks? |`Protractor`
-|Install other generators? |`No`
-|===
+TIP: You can also find this file [on GitHub](https://gist.github.com/mraible/3c97f60c6617e67fd87cd9895d54311c).
 
 The project generation process will take several minutes to run, depending on your internet connection speed.
 
@@ -114,7 +164,7 @@ While you're waiting, you can get started with setting up OAuth with Okta.
 
 The OAuth implementation in JHipster leverages Spring Boot and its OAuth 2.0 support (an `@EnableOAuthSso` annotation). If you're not sure what OAuth and OpenID Connect (OIDC) are, please see "`link:https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth[What the Heck Is OAuth?]`". OAuth provides single sign-on (SSO) to JHipster applications. "`link:https://developer.okta.com/blog/2018/02/13/secure-spring-microservices-with-oauth[Securing Microservices with Spring Security OAuth]`" shows a bare-bones Spring microservices architecture using OAuth. JHipster uses the same internal setup.
 
-JHipster ships with https://keycloak.org[Keycloak] configured for OAuth by default. This works great for local development. However, if you want to deploy your apps to production, you might want to use an identity provider that's always on, like http://developer.okta.com[Okta]. Okta offers accounts that are forever-free and allow you 7,000 monthly users at no cost.
+JHipster ships with https://keycloak.org[Keycloak] configured for OAuth by default. This works great for local development. However, if you want to deploy your apps to production, you might want to use an identity provider that's always on, like http://developer.okta.com[Okta]. Okta offers accounts that are forever-free and allow you 1,000 monthly users at no cost.
 
 To configure your apps to work with Okta, you'll first need to https://developer.okta.com/signup/[create a free developer account]. After doing so, you'll get your own Okta domain, which has a name like `https://dev-123456.oktapreview.com`.
 
@@ -129,24 +179,16 @@ Modify `gateway/src/main/resources/config/application.yml` to have the following
 [source%autofit,yaml]
 ----
 security:
-    basic:
-        enabled: false
     oauth2:
         client:
-            access-token-uri: https://{yourOktaDomain}.com/oauth2/default/v1/token
-            user-authorization-uri: https://{yourOktaDomain}.com/oauth2/default/v1/authorize
+            access-token-uri: https://{yourOktaDomain}/oauth2/default/v1/token
+            user-authorization-uri: https://{yourOktaDomain}/oauth2/default/v1/authorize
             client-id: {clientId}
             client-secret: {clientSecret}
-            client-authentication-scheme: form
             scope: openid profile email
         resource:
-            filter-order: 3
-            user-info-uri: https://{yourOktaDomain}.com/oauth2/default/v1/userinfo
-            token-info-uri: https://{yourOktaDomain}.com/oauth2/default/v1/introspect
-            prefer-token-info: false
+            user-info-uri: https://{yourOktaDomain}/oauth2/default/v1/userinfo
 ----
-
-NOTE: Make sure to remove the `security.oauth2.resource.jwt.key-uri` key and value. This property causes Spring Security to retrieve a public key from Keycloak, and Okta doesn't have this same functionality. I https://github.com/jhipster/generator-jhipster/issues/7116[entered an issue] to fix this in JHipster.
 
 You can also use environment variables to override the default values. Using this technique is recommended because 1) you don't need to modify the values in each microservice application and 2) it prevents you from leaking your client secret in a source-code repository.
 
@@ -155,25 +197,54 @@ You can also use environment variables to override the default values. Using thi
 export SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI="https://{yourOktaDomain}.com/oauth2/default/v1/token"
 export SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI="https://{yourOktaDomain}.com/oauth2/default/v1/authorize"
 export SECURITY_OAUTH2_RESOURCE_USER_INFO_URI="https://{yourOktaDomain}.com/oauth2/default/v1/userinfo"
-export SECURITY_OAUTH2_RESOURCE_TOKEN_INFO_URI="https://{yourOktaDomain}.com/oauth2/default/v1/introspect"
 export SECURITY_OAUTH2_CLIENT_CLIENT_ID="{clientId}"
 export SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="{clientSecret}"
 ----
 
-TIP: If you're using JHipster’s Protractor support, you'll want to add a user to the `ROLE_ADMIN` group on Okta and change the credentials in `src/test/javascript/e2e/account/account.spec.ts` and `src/test/javascript/e2e/admin/administration.spec.ts`.
+NOTE: If you're hard-coding your Okta settings in `application.yml`, make sure you update your settings in the blog and store apps too. If you're using environment variable, you don't need to make any changes.
 
-== Install JHipster Registry
+TIP: If you're using Protractor and want to run your tests against Okta, you'll need to add a user to the `ROLE_ADMIN` group on Okta and change the credentials to match that user in `src/test/javascript/e2e/account/account.spec.ts` and `src/test/javascript/e2e/admin/administration.spec.ts`.
 
-You'll need a service discovery server installed before you can start the gateway. In a browser, go to the https://github.com/jhipster/jhipster-registry/releases[JHipster Registry release page] and download the latest release. At the time of this writing, it was v3.2.4.
+== Start JHipster Registry, Keycloak, and MongoDB
 
-Download the WAR and put it alongside your `gateway` application. Start it so your apps can register with it.
+You'll need a service discovery server installed before you can start the gateway. You'll also need Keycloak for authentication and MongoDB for your store microservices. The blog application depends on Elasticsearch and PostgreSQL, but only when running in production mode.  Luckily, JHipster creates Docker Compose files for all of the services your apps depend on. You can run the following commands from your root directory to start Docker containers for JHipster Registry, Keycloak, and MongoDB.
 
-[source,java]
 ----
-java -jar jhipster-registry-3.2.4.war
+docker-compose -f gateway/src/main/docker/jhipster-registry.yml up -d
+docker-compose -f gateway/src/main/docker/keycloak.yml up -d
+docker-compose -f store/src/main/docker/mongodb.yml up -d
 ----
 
-Start the `gateway` app by navigating to its directory in a terminal and running:
+By default, the JHipster Registry will use Keycloak when running with Docker Compose. If you want to change it to use Okta, you'll need to modify `gateway/src/main/docker/jhipster-registry.yml` and change the default Keycloak settings to use your Okta settings, or environment variables (recommended).
+
+[source,yaml]
+----
+- SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI=${SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI}
+- SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI=${SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI}
+- SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
+- SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
+- SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
+----
+
+TIP: You can also put these variables in a file and specify an `env_file` setting. See [Environment variables in Compose](https://docs.docker.com/compose/environment-variables/#the-env-file) to learn more.
+
+Then you'll need to stop your JHipster Registry (if it's already running):
+
+----
+docker-compose -f src/main/docker/jhipster-registry.yml down
+----
+
+And start it again.
+
+----
+docker-compose -f src/main/docker/jhipster-registry.yml up -d
+----
+
+To login, you'll need to add `http://localhost:8761` as a Login redirect URI in your Okta app.
+
+== Run your microservices architecture
+
+Open three terminal windows and navigate to each app (`gateway`, `blog`, and `store`). In each window, run Maven to start each app:
 
 [source,java]
 ----
@@ -186,156 +257,6 @@ Open your browser and go to http://localhost:8761[http://localhost:8761]. Log in
 
 .JHipster Registry with gateway registered
 image::chapter5/jhipster-registry-with-gateway.png[JHipster Registry with gateway registered, 800, scaledwidth=100%, align=center]
-
-== Generate a blog microservice application
-
-In `jhipster-microservices-example`, create a `blog` directory, and run `jhipster`.
-
-[source]
-----
-mkdir blog && cd blog && jhipster
-----
-
-Use the following answers to generate a blog microservice with OAuth 2.0 support.
-
-|===
-|Question |Answer
-
-|Type of application? |`Microservice application`
-|Name? |`blog`
-|Port? |`8081`
-|Java package name? |`com.okta.developer.blog`
-|Which service discovery server? |`JHipster Registry`
-|Type of authentication? |`OAuth 2.0 / OIDC`
-|Type of database? |`SQL`
-|Production database? |`PostgreSQL`
-|Development database? |`H2 with disk-based persistence`
-|Spring cache? |`Yes, with Hazelcast`
-|Use Hibernate 2nd level cache? |`Yes`
-|Maven or Gradle? |`Maven`
-|Other technologies? |`Search engine using Elasticsearch`
-|Enable i18n? |`Yes`
-|Native language of application? |`English`
-|Additional languages? |`&lt;blank&gt;`
-|Additional testing frameworks? |`&lt;blank&gt;`
-|Install other generators? |`No`
-|===
-
-Create a `blog/blog.jh` file and fill it with the following, written in JHipster Domain Language (JDL).
-
-[source]
-----
-entity Blog {
-    name String required minlength(3),
-    handle String required minlength(2)
-}
-
-entity Entry {
-    title String required,
-    content TextBlob required,
-    date ZonedDateTime required
-}
-
-entity Tag {
-    name String required minlength(2)
-}
-
-relationship ManyToOne {
-    Entry{blog(name)} to Blog
-}
-
-relationship ManyToMany {
-    Entry{tag(name)} to Tag{entry}
-}
-----
-
-NOTE: This schema does not have a many-to-one relationship from `Blog` to `User` because JHipster's microservices support for OAuth doesn't currently have a `User` entity. I'm https://github.com/jhipster/generator-jhipster/issues/7065[currently working to improve that].
-
-Run `jhipster import-jdl blog.jh` to create the back-end API to power this schema. Answer `a` when prompted to overwrite `src/main/resources/config/liquibase/master.xml`.
-
-Change directories into the `gateway` application and run `jhipster entity blog`. Specify `Y` when prompted to generate from an existing microservice. Enter `../blog` as the path to the root directory. Select `Yes, re-generate the entity` and type `a` when prompted to overwrite `src/main/webapp/app/entities/entity.module.ts`.
-
-Run the following commands to generate the UI for `entry` and `tag`.
-
-[source,bash]
-----
-jhipster entity entry
-jhipster entity tag
-----
-
-== Generate a store microservice application
-
-In `jhipster-microservices-example`, create a `store` directory, then run `jhipster`.
-
-[source]
-----
-mkdir store && cd store && jhipster
-----
-
-Use the following answers to generate a store microservice with OAuth 2.0 and MongoDB.
-
-|===
-|Question |Answer
-
-|Type of application? |`Microservice application`
-|Name? |`store`
-|Port? |`8082`
-|Java package name? |`com.okta.developer.store`
-|Which service discovery server? |`JHipster Registry`
-|Type of authentication? |`OAuth 2.0 / OIDC`
-|Type of database? |`MongoDB`
-|Spring cache? |`Yes, with Hazelcast`
-|Use Hibernate 2nd level cache? |`Yes`
-|Maven or Gradle? |`Maven`
-|Other technologies? |`Search engine using Elasticsearch`
-|Enable i18n? |`Yes`
-|Native language of application? |`English`
-|Additional languages? |`&lt;blank&gt;`
-|Additional testing frameworks? |`&lt;blank&gt;`
-|Install other generators? |`No`
-|===
-
-You have an empty microservice, but it needs some entities to manage! Run `jhipster entity product` to create a product entity.
-
-|===
-|Question |Answer
-
-|Add a field? |`Y`
-|Field name? |`name`
-|Field type? |`String`
-|Field validation rules? |`Y`
-|Which validation rules? |`Required`
-|Add a field? |`Y`
-|Field name? |`price`
-|Field type? |`Double`
-|Field validation rules? |`Y`
-|Which validation rules? |`Required` and `Minimum`
-|Field minimum? |`0`
-|Add a field? |`Y`
-|Field name? |`image`
-|Field type? |`[BETA] Blob`
-|What is the content of the blob field? |`An image`
-|Field validation rules? |`N`
-|Add a field? |`N`
-|Separate service class? |`No`
-|Pagination on entity? |`Yes, with pagination links`
-|===
-
-Change directories into the `gateway` application and run `jhipster entity product`. Specify `Y` when prompted to generate from an existing microservice. Enter `../store` as the path to the root directory. Select `Yes, re-generate the entity` and type `a` when prompted to overwrite `src/main/webapp/app/entities/entity.module.ts`.
-
-== Run your microservices architecture
-
-There are many services to start if you want to see all your applications running. The blog application depends on Elasticsearch and PostgreSQL, but only when running in production mode. The store app, however, needs MongoDB running. Luckily, JHipster creates Docker Compose files you can use to start MongoDB.
-
-NOTE: Make sure to remove the `security.oauth2.resource.jwt.key-uri` key and value from `src/main/resources/config/application.yml` in the gateway, blog, and store apps before you try to run them.
-
-. Restart the gateway app, because you added new entity management pages to it.
-. Start the blog app from the `blog` directory by running `mvn`.
-. Start a Docker container for MongoDB from the `store` directory by running:
-
-    docker-compose -f src/main/docker/mongodb.yml up
-
-. Start the store app from the `store` directory by running `mvn`.
 
 Once everything is running, open a browser, go to http://localhost:8080[http://localhost:8080], and click *sign in*. You should be redirected to your Okta tenant to sign in, then back to the gateway once you've entered valid credentials.
 
@@ -356,7 +277,7 @@ image::chapter5/new-blog.png[New blog, 800, scaledwidth=100%, align=center]
 Navigate to *Entities* &gt; *Product* to prove your product microservice is working. Since you added an image as a property, you'll be prompted to upload one when creating a new record.
 
 .Add product modal
-image::chapter5/add-product-dialog.png[Add product modal, 800, scaledwidth=100%, align=center]
+image::chapter5/add-product-page.png[Add product page, 800, scaledwidth=100%, align=center]
 
 Click *Save* and you'll know, based on the generated ID, that it's correctly using MongoDB.
 
@@ -372,7 +293,9 @@ Create a `docker-compose` directory in the root directory (`jhipster-microservic
 
 [source]
 ----
-mkdir docker-compose && cd docker-compose && jhipster docker-compose
+mkdir docker-compose
+cd docker-compose
+jhipster docker-compose
 ----
 
 Answer as follows when prompted:
@@ -394,7 +317,7 @@ You'll get a warning that says you need to generate Docker images by running the
 
 [source]
 ----
-./mvnw verify -Pprod dockerfile:build
+./mvnw package -Pprod dockerfile:build
 ----
 
 NOTE: Building the gateway will likely fail because of https://github.com/jhipster/generator-jhipster/issues/7114[an issue with JavaScript tests]. To work around this issue, skip the tests with `mvn package -Pprod -DskipTests dockerfile:build`.
@@ -403,12 +326,55 @@ While you're waiting for things to build, edit `docker-compose/docker-compose.ym
 
 [source%autofit,yaml]
 ----
-- SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI=${SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI}
-- SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
-- SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
-- SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI=${SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI}
-- SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
-- SECURITY_OAUTH2_RESOURCE_TOKEN_INFO_URI=${SECURITY_OAUTH2_RESOURCE_TOKEN_INFO_URI}
+services:
+    blog-app:
+        image: blog
+        environment:
+            - SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
+            - SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
+            - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
+    ...
+    gateway-app:
+        image: gateway
+        environment:
+            - SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI=${SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI}
+            - SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI=${SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI}
+            - SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
+            - SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
+            - SECURITY_OAUTH2_CLIENT_SCOPE=openid profile email
+            - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
+    ....
+    store-app:
+        image: store
+        environment:
+            - SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
+            - SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
+            - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
+----
+
+You can remove Keycloak from `docker-compose/docker-compose.yml` since it won't be used with this configuration.
+
+[source,yaml]
+----
+keycloak:
+    extends:
+        file: keycloak.yml
+        service: keycloak
+----
+
+You'll need to edit `docker-compose/jhipster-registry.yml` as well.
+
+[source,yaml]
+----
+services:
+    jhipster-registry:
+        ...
+        environment:
+            - SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI=${SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI}
+            - SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI=${SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI}
+            - SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
+            - SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
+            - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
 ----
 
 TIP: You can run `docker-compose config` to verify that the environment variables are substituted properly.
@@ -444,7 +410,9 @@ Heroku and JHipster have configured a JHipster Registry for you, so you just nee
 
 image::chapter5/deploy-to-heroku.png[link="https://dashboard.heroku.com/new?&amp;template=https%3A%2F%2Fgithub.com%2Fjhipster%2Fjhipster-registry"]
 
-=== Deploy your gateway and apps
+Enter an app name (I used `okta-jhipster-registry`), add a `JHIPSTER_PASSWORD`, and click *Deploy app*.
+
+=== Deploy your gateway and apps to Heroku
 
 Edit `src/main/resources/config/application-prod.yml` in your gateway and apps. Remove `appname` and `instanceId` and add the following `eureka.instance` properties:
 
@@ -464,11 +432,15 @@ In each project, run `jhipster heroku` and answer the questions as follows:
 |===
 |Question |Answer
 
-|Name to deploy as? |`&lt;unique-prefix&gt;-&lt;app-name&gt;` (e.g., okta-gateway)
+|Name to deploy as? |`&lt;unique-prefix&gt;-&lt;app-name&gt;` (e.g., okta-gateway, okta-blog, etc.)
 |Which region? |`us`
 |Type of deployment? |`Git`
-|JHipster Registry URL? |`https://user:pass@app.herokuapp.com/`
+| Name of Registry app? | `<unique-prefix>-jhipster-registry` |
+| JHipster Registry username | `admin` |
+| JHipster Registry password | `<JHIPSTER_PASSWORD from Registry>` |
 |===
+
+ When prompted to overwrite files, type `a`.
 
 After each has deployed, you'll want to run the following so they use Okta for authentication.
 
@@ -478,64 +450,34 @@ heroku config:set \
   SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI="$SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI" \
   SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI="$SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI" \
   SECURITY_OAUTH2_RESOURCE_USER_INFO_URI="$SECURITY_OAUTH2_RESOURCE_USER_INFO_URI" \
-  SECURITY_OAUTH2_RESOURCE_TOKEN_INFO_URI="$SECURITY_OAUTH2_RESOURCE_TOKEN_INFO_URI" \
   SECURITY_OAUTH2_CLIENT_CLIENT_ID="$SECURITY_OAUTH2_CLIENT_CLIENT_ID" \
   SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="$SECURITY_OAUTH2_CLIENT_CLIENT_SECRET"
 ----
 
-To set the JHipster Registry password on your gateway app, run:
+Update your Okta app to have a *Login redirect URI* that matches your Heroku app (e.g., `https://okta-gateway.herokuapp.com/`). To do this, log in to your Okta account, go to *Applications* &gt; *JHipster Microservices* &gt; *General* &gt; *Edit*.
 
-[source,bash]
-----
-heroku config:set JHIPSTER_REGISTRY_PASSWORD="$JHIPSTER_REGISTRY_PASSWORD"
-----
+To see if your apps have started correctly, you can run `heroku logs --tail` in each app's directory. You may see a timeout error, but your app should succeed in starting on its next attempt.
 
-Update your Okta app to have a *Login redirect URI* that matches your Heroku app (e.g., `https://okta-gateway.herokuapp.com/`). To do this, log in to your Okta account, go to *Applications* &gt; *JHipster Microservices* &gt; *General* &gt; *Edit*. You'll also need to add this as a trusted origin in *API* &gt; *Trusted Origins* &gt; *Add Origin*.
-
-If you chose Elasticsearch like I did, you'll need to configure it to be in-memory and use http://stackoverflow.com/questions/12416738/how-to-use-herokus-ephemeral-filesystem[Heroku's ephemeral filesystem]. Add the following Elasticsearch properties to `src/main/resources/config/application-heroku.yml` and redeploy your apps using `jhipster heroku`. You could also try adding and configuring Heroku's https://elements.heroku.com/addons/searchbox[Searchbox Elasticsearch add-on].
-
-[source]
-----
-spring:
-    data:
-        elasticsearch:
-            cluster-name:
-            cluster-nodes:
-            properties:
-                path:
-                    logs: target/elasticsearch/log
-                    data: target/elasticsearch/data
-----
-
-To see if your apps have started correctly, you can run `heroku logs --tail` in each app's directory. You may see a timeout error:
-
-[source]
-----
-Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 90 seconds of launch
-----
-
-If this happens, go to https://help.heroku.com[https://help.heroku.com/] and click *Create a ticket* at the top. Click *Running Applications* &gt; *Java*, scroll to the bottom, and click *Create a ticket*. Enter something like the following for the subject and description, select one of your apps, then submit it.
+If it crashes and doesn't start, trying running `heroku restart`. If that doesn't solve the problem, go to <https://help.heroku.com> and click *Create a ticket* at the top. Click *Running Applications* > *Java*, scroll to the bottom, and click *Create a ticket*. Enter something like the following for the subject and description, select one of your apps, then submit it.
 
 [source]
 ----
 Subject: JHipster Apps Startup Timeout
 
-Description: Hello, I have three JHipster apps that have the following error on startup:
+Description: Hello, I have a JHipster apps that has the following error on startup:
 
 Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 90 seconds of launch
 
-Their URLs are as follows:
+The URL is:
 
-* https://<your-prefix>-gateway.herokuapp.com/
-* https://<your-prefix>-blog.herokuapp.com/
-* https://<your-prefix>-store.herokuapp.com/
+* https://<your-app>-store.herokuapp.com/
 
-Can you please increase the timeouts on these apps?
+Can you please increase the timeout on this app?
 
 Thanks!
 ----
 
-Below are screenshots to prove everything worked after I got my timeouts increased. 😊
+Below are screenshots to prove everything worked after I deployed to Heroku. 😊
 
 .Gateway on Heroku
 image::chapter5/heroku-welcome.png[Gateway on Heroku, 1200, scaledwidth=100%, align=center]
