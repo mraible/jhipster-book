@@ -100,7 +100,8 @@ application {
     authenticationType oauth2,
     prodDatabaseType postgresql,
     searchEngine elasticsearch,
-    serverPort 8081
+    serverPort 8081,
+    serviceDiscoveryType eureka
   }
   entities Blog, Post, Tag
 }
@@ -116,7 +117,8 @@ application {
     prodDatabaseType mongodb,
     enableHibernateCache false,
     searchEngine elasticsearch,
-    serverPort 8082
+    serverPort 8082,
+    serviceDiscoveryType eureka
   }
   entities Product
 }
@@ -297,7 +299,6 @@ Click *Save* and you'll know, based on the generated ID, that it's correctly usi
 .New Product
 image::chapter5/new-product.png[New Product, 800, scaledwidth=100%, align=center]
 
-
 === Use Docker Compose to run everything
 
 Rather than individually starting all your services, you can start them all at once using https://docs.docker.com/compose/[Docker Compose]. To learn more about Docker Compose, see "`link:https://developer.okta.com/blog/2017/10/11/developers-guide-to-docker-part-3[A Developer's Guide to Docker Compose]`".
@@ -427,19 +428,6 @@ Enter an app name (I used `okta-jhipster-registry`), add a `JHIPSTER_PASSWORD`, 
 
 === Deploy your gateway and apps to Heroku
 
-Edit `src/main/resources/config/application-prod.yml` in your gateway and apps. Remove `appname` and `instanceId` and add the following `eureka.instance` properties:
-
-[source,yaml]
-----
-eureka:
-    instance:
-        hostname: <unique-prefix>-<app-name>.herokuapp.com
-        non-secure-port: 80
-        prefer-ip-address: false
-----
-
-In the gateway, you'll also need to specify the registry's password in `src/main/resources/config/bootstrap-prod.yml`.
-
 In each project, run `jhipster heroku` and answer the questions as follows:
 
 |===
@@ -454,6 +442,18 @@ In each project, run `jhipster heroku` and answer the questions as follows:
 |===
 
 When prompted to overwrite files, type `a`.
+
+NOTE: There is an https://github.com/jhipster/generator-jhipster/issues/8373[issue when deploying apps with MongoDB and Elasticsearch to Heroku]. To fix it, modify `src/main/resources/config/application-heroku.yml` to have the following YAML for the "spring.data" key. Then run `jhipster heroku` on your store app again. When it prompts you to overwrite `application-heroku.yml`, type `n`.
+
+[source,yaml]
+----
+spring:
+    data:
+        mongodb:
+            uri: ${MONGODB_URI}?authMode=scram-sha1
+        jest:
+            uri: ${BONSAI_URL}
+----
 
 After each has deployed, you'll want to run the following so they use Okta for authentication.
 
