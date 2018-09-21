@@ -73,7 +73,7 @@ This tutorial shows you how to build a microservices architecture with https://w
 
 == Generate an API gateway, and {blog,store} microservice applications
 
-One of the new features added in JHipster 5.3.x is the ability to generate a full microservices stack using the `import-jdl` command. Open a terminal window, create a directory (e.g.,`jhipster-microservices-example`) and create a `apps.jh` file in it. Copy the JDL below into this file.
+One of the new features added in JHipster 5.3.x is the ability to generate a full microservices stack using the `import-jdl` command. Open a terminal window, create a directory (e.g., `jhipster-microservices-example`) and create an `apps.jh` file in it. Copy the JDL below into this file.
 
 [source]
 .apps.jh
@@ -155,6 +155,9 @@ relationship ManyToMany {
 
 paginate Post, Tag with infinite-scroll
 paginate Product with pagination
+
+microservice Product with store
+microservice Blog, Post, Tag with blog
 ----
 
 TIP: You can also find this file http://bit.ly/jhipster-ms-oauth[on GitHub].
@@ -176,6 +179,8 @@ The OAuth implementation in JHipster leverages Spring Boot and its OAuth 2.0 sup
 JHipster ships with https://keycloak.org[Keycloak] configured for OAuth by default. This works great for local development. However, if you want to deploy your apps to production, you might want to use an identity provider that's always on, like http://developer.okta.com[Okta]. Okta offers accounts that are forever-free and allow you 1,000 monthly users at no cost.
 
 To configure your apps to work with Okta, you'll first need to https://developer.okta.com/signup/[create a free developer account]. After doing so, you'll get your own Okta domain, which has a name like `https://dev-123456.oktapreview.com`.
+
+image::chapter5/okta-signup.png[Okta Developer Signup, 1200, scaledwidth=100%, align=center]
 
 === Create an OpenID Connect application on Okta
 
@@ -210,7 +215,7 @@ export SECURITY_OAUTH2_CLIENT_CLIENT_ID="{clientId}"
 export SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="{clientSecret}"
 ----
 
-NOTE: If you're hard-coding your Okta settings in `application.yml`, make sure you update your settings in the blog and store apps too. If you're using environment variable, you don't need to make any changes.
+If you're hard-coding your Okta settings in `application.yml`, make sure you update your settings in the blog and store apps too. If you're using environment variable, you don't need to make any changes.
 
 TIP: If you're using Protractor and want to run your tests against Okta, you'll need to add a user to the `ROLE_ADMIN` group on Okta and change the credentials to match that user in `src/test/javascript/e2e/account/account.spec.ts` and `src/test/javascript/e2e/admin/administration.spec.ts`.
 
@@ -243,15 +248,10 @@ If you want to change it to use Okta, you'll need to modify `gateway/src/main/do
 
 TIP: You can also put these variables in a file and specify an `env_file` setting. See https://docs.docker.com/compose/environment-variables/#the-env-file[Environment variables in Compose] to learn more.
 
-Then you'll need to stop your JHipster Registry (if it's already running):
+Then you'll need to stop your JHipster Registry (if it's already running), and start it again:
 
 ----
 docker-compose -f src/main/docker/jhipster-registry.yml down
-----
-
-And start it again:
-
-----
 docker-compose -f src/main/docker/jhipster-registry.yml up -d
 ----
 
@@ -291,7 +291,7 @@ image::chapter5/new-blog.png[New blog, 800, scaledwidth=100%, align=center]
 
 Navigate to *Entities* &gt; *Product* to prove your product microservice is working. Since you added an image as a property, you'll be prompted to upload one when creating a new record.
 
-.Add product modal
+.Add product page
 image::chapter5/add-product-page.png[Add product page, 800, scaledwidth=100%, align=center]
 
 Click *Save* and you'll know, based on the generated ID, that it's correctly using MongoDB.
@@ -443,7 +443,7 @@ In each project, run `jhipster heroku` and answer the questions as follows:
 
 When prompted to overwrite files, type `a`.
 
-NOTE: There is https://github.com/jhipster/generator-jhipster/issues/8373[a duplicate key issue when deploying apps with MongoDB and Elasticsearch to Heroku]. To fix it, modify `src/main/resources/config/application-heroku.yml` to have the following YAML for the "spring.data" key.
+NOTE: There is https://github.com/jhipster/generator-jhipster/issues/8373[a duplicate key issue when deploying apps with MongoDB and Elasticsearch to Heroku]. To fix it, modify `src/main/resources/config/application-heroku.yml` to have the following YAML for the `spring.data` key.
 
 [source,yaml]
 ----
