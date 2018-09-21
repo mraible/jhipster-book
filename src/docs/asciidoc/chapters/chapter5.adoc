@@ -443,7 +443,7 @@ In each project, run `jhipster heroku` and answer the questions as follows:
 
 When prompted to overwrite files, type `a`.
 
-NOTE: There is an https://github.com/jhipster/generator-jhipster/issues/8373[issue when deploying apps with MongoDB and Elasticsearch to Heroku]. To fix it, modify `src/main/resources/config/application-heroku.yml` to have the following YAML for the "spring.data" key. Then run `jhipster heroku` on your store app again. When it prompts you to overwrite `application-heroku.yml`, type `n`.
+NOTE: There is https://github.com/jhipster/generator-jhipster/issues/8373[a duplicate key issue when deploying apps with MongoDB and Elasticsearch to Heroku]. To fix it, modify `src/main/resources/config/application-heroku.yml` to have the following YAML for the "spring.data" key.
 
 [source,yaml]
 ----
@@ -455,7 +455,9 @@ spring:
             uri: ${BONSAI_URL}
 ----
 
-After each has deployed, you'll want to run the following so they use Okta for authentication.
+Run `jhipster heroku` on your store app again. When it prompts you to overwrite `application-heroku.yml`, type `n`.
+
+After each app has finished deploying, you'll want to run the following so they use Okta for authentication.
 
 [source%autofit,bash]
 ----
@@ -492,8 +494,11 @@ Thanks!
 
 Below are screenshots to prove everything worked after I deployed to Heroku. 😊
 
+.JHipster Registry on Heroku
+image::chapter5/heroku-registry.png[JHipster Registry on Heroku, 1200, scaledwidth=100%, align=center]
+
 .Gateway on Heroku
-image::chapter5/heroku-welcome.png[Gateway on Heroku, 1200, scaledwidth=100%, align=center]
+image::chapter5/heroku-welcome.png[Welcome, Java Hipster!, 1200, scaledwidth=100%, align=center]
 
 .Heroku gateway routes
 image::chapter5/heroku-gateway-routes.png[Heroku gateway routes, 1200, scaledwidth=100%, align=center]
