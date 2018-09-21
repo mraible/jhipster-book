@@ -71,23 +71,24 @@ To see what's happening inside your applications, you can use the https://jhipst
 
 This tutorial shows you how to build a microservices architecture with https://www.jhipster.tech/2018/09/17/jhipster-release-5.3.4.html[JHipster 5.3.4]. You'll generate a gateway (powered by Netflix Zuul), a blog microservice (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
 
-== Generate an API gateway, and {blog,store} microservice applications
+== Generate an API gateway and microservice applications
 
 One of the new features added in JHipster 5.3.x is the ability to generate a full microservices stack using the `import-jdl` command. Open a terminal window, create a directory (e.g., `jhipster-microservices-example`) and create an `apps.jh` file in it. Copy the JDL below into this file.
 
-[source]
 .apps.jh
+====
+[source]
 ----
-application {
+application { // <1>
   config {
     baseName gateway,
     packageName com.okta.developer.gateway,
     applicationType gateway,
-    authenticationType oauth2,
+    authenticationType oauth2, // <2>
     prodDatabaseType postgresql,
-    searchEngine elasticsearch,
-    serviceDiscoveryType eureka,
-    testFrameworks [protractor]
+    searchEngine elasticsearch, // <3>
+    serviceDiscoveryType eureka, // <4>
+    testFrameworks [protractor] // <5>
   }
   entities Blog, Post, Tag, Product
 }
@@ -96,11 +97,11 @@ application {
   config {
     baseName blog,
     packageName com.okta.developer.blog,
-    applicationType microservice,
-    authenticationType oauth2,
+    applicationType microservice, // <6>
+    authenticationType oauth2, // <7>
     prodDatabaseType postgresql,
     searchEngine elasticsearch,
-    serverPort 8081,
+    serverPort 8081, // <8>
     serviceDiscoveryType eureka
   }
   entities Blog, Post, Tag
@@ -112,7 +113,7 @@ application {
     packageName com.okta.developer.store,
     applicationType microservice,
     authenticationType oauth2,
-    databaseType mongodb,
+    databaseType mongodb, // <9>
     devDatabaseType mongodb,
     prodDatabaseType mongodb,
     enableHibernateCache false,
@@ -123,6 +124,7 @@ application {
   entities Product
 }
 
+// <10>
 entity Blog {
   name String required minlength(3),
   handle String required minlength(2)
@@ -144,6 +146,7 @@ entity Product {
   image ImageBlob
 }
 
+// <11>
 relationship ManyToOne {
   Blog{user(login)} to User,
   Post{blog(name)} to Blog
@@ -153,12 +156,28 @@ relationship ManyToMany {
   Post{tag(name)} to Tag{post}
 }
 
+// <12>
 paginate Post, Tag with infinite-scroll
 paginate Product with pagination
 
+// <13>
 microservice Product with store
 microservice Blog, Post, Tag with blog
 ----
+<1> JDL supports full stack definitions in v3.0!
+<2> The authentication type for the gateway is OAuth 2.0.
+<3> Specifying `elasticsearch` on the gateway is necessary for JHipster to generate the proper client code for microservices that use Elasticsearch.
+<4> You must specify `eureka` as the service discovery type for the gateway and all microservice apps.
+<5> Including Protractor on the gateway allows you to test everything with `npm run e2e`.
+<6> For the microservice apps, you need to specify an application type of `microservice`.
+<7> The microservice app's authentication type must match the gateway.
+<8> The default server port is 8080. You must specify different ports for each app.
+<9> The store app uses MongoDB for its database. You must use the same databases for dev and prod when using NoSQL options.
+<10> Entity definitions live outside of your application definitions. You can validate your JDL using https://start.jhipster.tech/jdl-studio/[JDL-Studio].
+<11> Relationships between entities can be defined in JDL!
+<12> If you want pagination on your list screens, you can use infinite scrolling or page links.
+<13> You need to specify which microservices contain which entities, or API classes will be generated on your gateway rather than in the microservice.
+====
 
 TIP: You can also find this file http://bit.ly/jhipster-ms-oauth[on GitHub].
 
