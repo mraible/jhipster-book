@@ -17,6 +17,8 @@ Now that you've learned how to use Angular, Bootstrap, and Spring Boot with JHip
 
 If you want to learn more, here are some suggestions.
 
+Deepu K Sasidharan and Sendil Kumar N, two prolific committers on the JHipster team wrote https://www.packtpub.com/application-development/full-stack-development-jhipster[Full Stack Development with JHipster] (Packt Publishing, March 2018).
+
 The definitive book about Spring's JDBC, JPA, and NoSQL support is http://shop.oreilly.com/product/0636920024767.do[_Spring Data: Modern Data Access for Enterprise Java_] by Mark Pollack _et al._ (O'Reilly Media, October 2012).
 
 Learn how to use Spring Boot to build apps faster than ever before with https://www.packtpub.com/application-development/learning-spring-boot[_Learning Spring Boot_] by Greg L. Turnquist (Packt Publishing, November 2014).
@@ -24,5 +26,3 @@ Learn how to use Spring Boot to build apps faster than ever before with https://
 An in-depth and up-to-date book on Angular is https://www.ng-book.com/2/[_ng-book: The Complete Guide to Angular 4_] by by Nathan Murray, Felipe Coury, Ari Lerner, and Carlos Taborda) (Fullstack.io, April 2017).
 
 Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with http://shop.oreilly.com/product/0636920038252.do[_Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_] by Josh Long and Kenny Bastani (O'Reilly Media, August 2017).
-
-// todo: add Full Stack JHipster Book
