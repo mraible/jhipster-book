@@ -998,6 +998,7 @@ Then I had to modify `home.component.ts` to listen for the events these componen
 [source,javascript]
 .src/main/webapp/app/home/home.component.ts
 ----
+import { JhiEventManager } from 'ng-jhipster';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
