@@ -18,7 +18,7 @@ InfoQ mini-books are designed to be concise, intending to serve technical archit
 
 This book is aimed specifically at web developers who want a rapid introduction to Angular, Bootstrap, and Spring Boot by learning JHipster. JHipster 5 adds support for React as well, but I won’t be covering it in this book since Angular is the default. If I added React coverage, this would no longer be a mini-book. 😉
 
-If you'd like to see a React version of the app developed in this book, check out https://github.com/robmelfi/21-points-react[Roberto Melfi's 21-points-react project].
+TIP: If you'd like to see a React version of the app developed in this book, check out https://github.com/robmelfi/21-points-react[Roberto Melfi's 21-points-react project].
 
 == What you need for this book
 
