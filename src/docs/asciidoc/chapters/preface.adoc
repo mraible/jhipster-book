@@ -8,7 +8,7 @@ When I heard about JHipster, I was motivated to use it right away. It combined m
 
 I wanted to write this book because I knew all the tools in JHipster really well. I wanted to further the knowledge of this wonderful project. I wanted Java developers to see that they can be hip again by leveraging AngularJS and Bootstrap. I wanted to show them how JavaScript web development isn't scary, it's just another powerful platform that can improve your web-development skills.
 
-The first version of this book was released in October 2015, the second in December 2016, and the third (4.x to match Angular) was released in the fall of 2017 after JHipster migrated to Angular. Version 4.5 was released in April 2018 with an additional chapter on microservices. This version is updated for JHipster version 5. I spent a lot of time learning Angular and TypeScript in 2016-18 and I'm pleased to bring you this book as an active member of the JHipster Development Team.
+The first version of this book was released in October 2015, the second in December 2016, and the third (4.x to match Angular) was released in the fall of 2017 after JHipster migrated to Angular. Version 4.5 was released in April 2018 with an additional chapter on microservices. This version is updated for JHipster version 5. I spent a lot of time learning Angular and TypeScript in 2016-2018 and I'm pleased to bring you this book as an active member of the JHipster Development Team.
 
 == What is in an InfoQ mini-book?
 
@@ -16,11 +16,15 @@ InfoQ mini-books are designed to be concise, intending to serve technical archit
 
 == Who this book is for
 
-This book is aimed specifically at web developers who want a rapid introduction to Angular, Bootstrap, and Spring Boot by learning JHipster.
+This book is aimed specifically at web developers who want a rapid introduction to Angular, Bootstrap, and Spring Boot by learning JHipster. JHipster 5 adds support for React as well, but I won’t be covering it in this book since Angular is the default. If I added React coverage, this would no longer be a mini-book. 😉
+
+If you'd like to see a React version of the app developed in this book, check out https://github.com/robmelfi/21-points-react[Roberto Melfi's 21-points-react project].
 
 == What you need for this book
 
 To try code samples in this book, you will need a computer running an up-to-date operating system (Windows, Linux, or Mac OS X/macOS). You will need Node.js and Java installed. The book code was tested against Node.js 8 and JDK 8, but newer versions should also work.
+
+NOTE: It _should_ be possible to run a JHipster app on Java 9+ because it’s possible to use Java 10 with Spring Boot 2.0.1. Java 11 support is in Spring Boot 2.1. However, JHipster depends on many plugins that are not yet Java 9+ compatible. The most common error is `java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException`. For this reason, I recommend using Java 8.
 
 == Conventions
 
@@ -99,6 +103,10 @@ Finally, this text shows what a quote looks like:
 
 We always welcome feedback from our readers. Let us know what you thought about this book — what you liked or disliked. Reader feedback helps us develop titles that deliver the most value to you.
 
-To send us feedback, e-mail us at feedback@infoq.com, send a tweet to @jhipster_book, or post a question on Stack Overflow using the "`jhipster`" tag.
+To send us feedback, email us at feedback@infoq.com, send a tweet to @jhipster_book, or post a question on Stack Overflow using the "`jhipster`" tag.
 
 If you're interested in writing a mini-book for InfoQ, see http://www.infoq.com/minibook-guidelines.
+
+ifeval::["{media}" == "prepress"]
+The most up-to-date version of this book can be downloaded from https://infoq.com/minibooks/jhipster-mini-book.
+endif::[]

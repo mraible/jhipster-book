@@ -9,7 +9,7 @@ At its core, JHipster is a http://yeoman.io/[Yeoman] generator. Yeoman is a code
 The Yeoman workflow is made up of three types of tools to enhance your productivity and satisfaction when building a web app:
 
 * the scaffolding tool (yo),
-* the build tool (npm/yarn, webpack, etc.), and
-* the package manager (npm/yarn).
+* the build tool (npm/Yarn, webpack, etc.), and
+* the package manager (npm/Yarn).
 
 This book shows you how to build an app with JHipster, and guides you through the plethora of tools, techniques, and options. Furthermore, it explains the UI components and API building blocks so you can understand the underpinnings of a JHipster application.
