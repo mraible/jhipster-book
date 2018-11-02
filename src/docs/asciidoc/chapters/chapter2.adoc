@@ -2146,7 +2146,7 @@ That will include the JAR in the slug. Then you'll need to modify your Procfile 
 web: java -javaagent:newrelic.jar $JAVA_OPTS -Xmx256m -jar build/libs/*.war ...
 ----
 
-== Securing User Data
+== Securing user data
 
 After running the 5.0 version of 21-Points Health on Heroku for a couple weeks, someone reported https://github.com/mraible/21-points/issues/49[an issue with security on GitHub]. They pointed out that if you searched, you could see another user's data. I also discovered you could edit data based on the URL too.
 

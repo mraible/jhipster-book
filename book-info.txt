@@ -28,7 +28,10 @@ Building an app with JHipster
     Application improvements
     Deploying to Heroku
     Monitoring and analytics
+    Securing user data
     Continuous integration and deployment
+    Code quality
+    Progressive web apps
     Source code
     Upgrading 21-Points Health
     Summary
@@ -37,12 +40,13 @@ JHipster's UI components
     Bootstrap
     Internationalization (i18n)
     Sass
-    webpack
+    Webpack
     WebSockets
     Browsersync
     Summary
 JHipster's API building blocks
     Spring Boot
+    Spring WebFlux
     Maven versus Gradle
     IDE support: Running, debugging, and profiling
     Security
@@ -55,10 +59,8 @@ Microservices with JHipster
     History of microservices
     Why microservices?
     Microservices with JHipster
-    Generate an API gateway
-    Install JHipster Registry
-    Generate a blog microservice application
-    Generate a store microservice application
+    Generate an API gateway and microservice applications
+    Start JHipster Registry, Keycloak, and MongoDB
     Run your microservices architecture
     Deploy to Heroku
     Source code
@@ -69,7 +71,7 @@ About the author
 
 Author Bio:
 
-Matt Raible is a web developer, Java Champion, and Developer Advocate @okta. He loves to architect and build slick-looking UIs using CSS and JavaScript. When he's not evangelizing Okta and open source, he likes to ski with his family, drive his VWs, and enjoy craft beer.
+Matt Raible is a web developer, Java Champion, and developer advocate @oktadev with a passion for skiing, mountain biking, classic VWs, and good 🍺. He drives a '66 21-window and a '90 Syncro Westy. He's made in Montana and resides in Centennial, Colorado with his fabulous family.
 
 https://www.flickr.com/photos/mraible/16900780428
 
