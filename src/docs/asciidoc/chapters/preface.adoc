@@ -1,6 +1,6 @@
 = Preface
 
-Over the last few years, I've consulted at several companies that used Spring and Java to develop their back-end systems. On those projects, I introduced Spring Boot to simplify development. DevOps teams often admired its external configuration and its starter dependencies made it easy to develop SOAP and REST APIs.
+A few years ago, I consulted at several companies that used Spring and Java to develop their back-end systems. On those projects, I introduced Spring Boot to simplify development. DevOps teams often admired its external configuration and its starter dependencies made it easy to develop SOAP and REST APIs.
 
 I used AngularJS for several years as well. For the first project I used AngularJS on, in early 2013, I implemented in 40% of the code that jQuery would've required. I helped that company modernize its UI in a project for which we integrated Bootstrap. I was very impressed with both AngularJS and Bootstrap and have used them ever since. In 2014, I used Ionic on a project to implement a HTML5 UI in a native iOS application. We used AngularJS, Bootstrap, and Spring Boot in that project and they worked very well for us.
 
@@ -8,7 +8,7 @@ When I heard about JHipster, I was motivated to use it right away. It combined m
 
 I wanted to write this book because I knew all the tools in JHipster really well. I wanted to further the knowledge of this wonderful project. I wanted Java developers to see that they can be hip again by leveraging AngularJS and Bootstrap. I wanted to show them how JavaScript web development isn't scary, it's just another powerful platform that can improve your web-development skills.
 
-The first version of this book was released in October 2015, the second in December 2016. This version (4.x to match Angular) was released in the fall of 2017 after JHipster migrated to Angular. I spent a lot of time learning Angular and TypeScript in 2016-17 and I'm pleased to bring you this book as an active member of the JHipster Development Team.
+The first version of this book was released in October 2015, the second in December 2016, and the third (4.x to match Angular) was released in the fall of 2017 after JHipster migrated to Angular. Version 4.5 was released in April 2018 with an additional chapter on microservices. This version is updated for JHipster version 5. I spent a lot of time learning Angular and TypeScript in 2016-18 and I'm pleased to bring you this book as an active member of the JHipster Development Team.
 
 == What is in an InfoQ mini-book?
 
