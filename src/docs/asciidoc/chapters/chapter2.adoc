@@ -1,3 +1,132 @@
+= Preface
+
+A few years ago, I consulted at several companies that used Spring and Java to develop their back-end systems. On those projects, I introduced Spring Boot to simplify development. DevOps teams often admired its external configuration and its starter dependencies made it easy to develop SOAP and REST APIs.
+
+I used AngularJS for several years as well. For the first project I used AngularJS on, in early 2013, I implemented in 40% of the code that jQuery would've required. I helped that company modernize its UI in a project for which we integrated Bootstrap. I was very impressed with both AngularJS and Bootstrap and have used them ever since. In 2014, I used Ionic on a project to implement a HTML5 UI in a native iOS application. We used AngularJS, Bootstrap, and Spring Boot in that project and they worked very well for us.
+
+When I heard about JHipster, I was motivated to use it right away. It combined my most-often-used frameworks into an easy-to-use package. For the first several months I knew about JHipster, I used it as a learning tool — generating projects and digging into files to see how it coded features. The JHipster project is a goldmine of information and lessons from several years of developer experience.
+
+I wanted to write this book because I knew all the tools in JHipster really well. I wanted to further the knowledge of this wonderful project. I wanted Java developers to see that they can be hip again by leveraging AngularJS and Bootstrap. I wanted to show them how JavaScript web development isn't scary, it's just another powerful platform that can improve your web-development skills.
+
+The first version of this book was released in October 2015, the second in December 2016, and the third (4.x to match Angular) was released in the fall of 2017 after JHipster migrated to Angular. Version 4.5 was released in April 2018 with an additional chapter on microservices. This version is updated for JHipster version 5. I spent a lot of time learning Angular and TypeScript in 2016-2018 and I'm pleased to bring you this book as an active member of the JHipster Development Team.
+
+== What is in an InfoQ mini-book?
+
+InfoQ mini-books are designed to be concise, intending to serve technical architects looking to get a firm conceptual understanding of a new technology or technique in a quick yet in-depth fashion. You can think of these books as covering a topic strategically or essentially. After reading a mini-book, the reader should have a fundamental understanding of a technology, including when and where to apply it, how it relates to other technologies, and an overall feeling that they have assimilated the combined knowledge of other professionals who have already figured out what this technology is about. The reader will then be able to make intelligent decisions about the technology once their projects require it, and can delve into sources of more detailed information (such as larger books or tutorials) at that time.
+
+== Who this book is for
+
+This book is aimed specifically at web developers who want a rapid introduction to Angular, Bootstrap, and Spring Boot by learning JHipster. JHipster 5 adds support for React as well, but I won’t be covering it in this book since Angular is the default. If I added React coverage, this would no longer be a mini-book. 😉
+
+If you'd like to see a React version of the app developed in this book, check out https://github.com/robmelfi/21-points-react[Roberto Melfi's 21-points-react project].
+
+== What you need for this book
+
+To try code samples in this book, you will need a computer running an up-to-date operating system (Windows, Linux, or Mac OS X/macOS). You will need Node.js and Java installed. The book code was tested against Node.js 8 and JDK 8, but newer versions should also work.
+
+NOTE: It _should_ be possible to run a JHipster app on Java 9+ because it’s possible to use Java 10 with Spring Boot 2.0.1. Java 11 support is in Spring Boot 2.1. However, JHipster depends on many plugins that are not yet Java 9+ compatible. The most common error is `java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException`. For this reason, I recommend using Java 8.
+
+== Conventions
+
+We use a number of typographical conventions within this book that distinguish between different kinds of information.
+
+Code in the text, including commands, variables, file names, CSS class names, and property names are shown as follows.
+
+[example]
+Spring Boot uses a `public static void main` entry-point that launches an embedded web server for you.
+
+A block of code is set out as follows. It may be colored, depending on the format in which you're reading this book.
+
+[source,html]
+.src/app/search/search.component.html
+----
+<form>
+ <input type="search" name="query" [(ngModel)]="query" (keyup.enter)="search()">
+ <button type="button" (click)="search()">Search</button>
+</form>
+----
+
+[source,java]
+.src/main/java/demo/DemoApplication.java
+----
+@RestController
+class BlogController {
+   private final BlogRepository repository;
+
+   // Yay! No annotations needed for constructor injection in Spring 4.3+.
+   public BlogController(BlogRepository repository) {
+       this.repository = repository;
+   }
+
+   @RequestMapping("/blogs")
+   Collection<Blog> list() {
+       return repository.findAll();
+   }
+}
+----
+
+When we want to draw your attention to certain lines of code, those lines are annotated using numbers accompanied by brief descriptions.
+
+[source,javascript]
+----
+export class SearchComponent {
+ constructor(private searchService: SearchService) {} <1>
+
+ search(): void { <2>
+   this.searchService.search(this.query).subscribe( <3>
+     data => { this.searchResults = data; },
+     error => console.log(error)
+   );
+ }
+}
+----
+<1> To inject `SearchService` into `SearchComponent`, add it as a parameter to the constructors's argument list.
+<2> `search()` is a method that's called from the HTML's `<button>`, wired up using the `(click)` event handler.
+<3> `this.query` is a variable that's wired to `<input>` using two-way binding with `[(ngModel)]="query"`.
+
+
+TIP: Tips are shown using callouts like this.
+
+WARNING: Warnings are shown using callouts like this.
+
+.Sidebar
+****
+Additional information about a certain topic may be displayed in a sidebar like this one.
+****
+
+Finally, this text shows what a quote looks like:
+
+"In the end, it's not the years in your life that count. It's the life in your years."
+-- Abraham Lincoln
+
+== Reader feedback
+
+We always welcome feedback from our readers. Let us know what you thought about this book — what you liked or disliked. Reader feedback helps us develop titles that deliver the most value to you.
+
+To send us feedback, email us at feedback@infoq.com, send a tweet to @jhipster_book, or post a question on Stack Overflow using the "`jhipster`" tag.
+
+If you're interested in writing a mini-book for InfoQ, see http://www.infoq.com/minibook-guidelines.
+
+ifeval::["{media}" == "prepress"]
+The most up-to-date version of this book can be downloaded from https://infoq.com/minibooks/jhipster-mini-book.
+endif::[]
+
+= Introduction
+
+JHipster is one of those open-source projects you stumble upon and immediately think, "`Of course!`" It combines three very successful frameworks in web development: Bootstrap, Angular, and Spring Boot. Bootstrap was one of the first dominant web-component frameworks. Its largest appeal was that it only required a bit of HTML and it worked! All the efforts we made in the Java community to develop web components were shown a better path by Bootstrap. It leveled the playing field in HTML/CSS development, much like Apple's Human Interface Guidelines did for iOS apps.
+
+JHipster was started by Julien Dubois in October 2013 (Julien's first commit was on https://github.com/jhipster/generator-jhipster/commit/c8630ab7af7b6a99db880b3b0e2403806b7d2436[October 21, 2013]). The first public release (version 0.3.1) was launched December 7, 2013. Since then, the project has had over 172 releases! It is an open-source, Apache 2.0-licensed project on GitHub. It has a core team of 19 developers and over 430 contributors. You can find its homepage at https://www.jhipster.tech/[https://www.jhipster.tech]. Its https://github.com/jhipster/generator-jhipster[GitHub project] shows it's mostly written in JavaScript (33%), Java (27%), and TypeScript (25%). HTML is trailing in the fourth position with 12%.
+
+At its core, JHipster is a http://yeoman.io/[Yeoman] generator. Yeoman is a code generator that you run with a `yo` command to generate complete applications or useful pieces of an application. Yeoman generators promote what the Yeoman team calls the "`Yeoman workflow`". This is an opinionated client-side stack of tools that can help developers quickly build beautiful web applications. It takes care of providing everything needed to get working without the normal pains associated with a manual setup.
+
+The Yeoman workflow is made up of three types of tools to enhance your productivity and satisfaction when building a web app:
+
+* the scaffolding tool (yo),
+* the build tool (npm/Yarn, webpack, etc.), and
+* the package manager (npm/Yarn).
+
+This book shows you how to build an app with JHipster, and guides you through the plethora of tools, techniques, and options. Furthermore, it explains the UI components and API building blocks so you can understand the underpinnings of a JHipster application.
+
 = Building an app with JHipster
 
 When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating a photo gallery to showcase the 1966 VW Bus I've been working on since 2006. The project was recently finished and I wanted a website to show how things have progressed through the years.
@@ -26,7 +155,7 @@ I thought my idea would fit nicely with JHipster and Spring Boot from a monitori
 
 == Creating the application
 
-I started using the https://www.jhipster.tech/installation/[Installing JHipster] instructions. I'm a Java developer, so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org], Yarn using https://yarnpkg.com/en/docs/install[its instructions], then ran the following command to install JHipster.
+I started using the https://www.jhipster.tech/installation/[Installing JHipster] instructions. I'm a Java developer, so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org] and Yarn using https://yarnpkg.com/en/docs/install[its instructions], then ran the following command to install JHipster.
 
 [source]
 ----
@@ -159,7 +288,7 @@ BUILD SUCCESSFUL in 1m 7s
 10 actionable tasks: 9 executed, 1 up-to-date
 ----
 
-JHipster v5 will only work with external Elasticsearch instance. In previous versions, you could use an embedded Elasticsearch instance, but this feature has been removed in recent Elasticsearch releases. The easiest way to run a local Elasticsearch instance is to use Docker Compose. I ran the following command to start Elasticsearch as a daemon. Remove the `-d` option if you don't want it to run as a daemon.
+JHipster v5 will only work with an external Elasticsearch instance. In previous versions, you could use an embedded Elasticsearch instance, but Elasticsearch has removed this ability in recent releases. The easiest way to run a local Elasticsearch instance is to use Docker Compose. I ran the following command to start Elasticsearch as a daemon. Remove the `-d` option if you don't want it to run as a daemon.
 
 ----
 docker-compose -f src/main/docker/elasticsearch.yml up -d
@@ -208,7 +337,7 @@ $ ./gradlew -Pprod
 ----------------------------------------------------------
 ----
 
-Wahoo - it worked!
+Wahoo — it worked!
 
 [sidebar]
 .Using a local PostgreSQL database
@@ -271,9 +400,7 @@ This is how I created a new application with JHipster and checked it into source
 
 I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a few years ago, but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the https://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the https://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design] module. Unfortunately, I soon found out it doesn't support JHipster 4+.
 
-In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. However, I did https://github.com/FezVrasta/bootstrap-material-design/issues/1299#issuecomment-410544707[figure out how] to make https://fezvrasta.github.io/bootstrap-material-design/[Bootstrap Material Design] work with JHipster 5.
-
-To make the default Bootstrap theme look like Material Design, modify `_bootstrap-variables.scss` and replace it with the contents below.
+In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. To make the default Bootstrap theme look like Material Design, modify `_bootstrap-variables.scss` and replace it with the contents below.
 
 [source,sass]
 .src/main/webapp/content/scss/_bootstrap-variables.scss
@@ -414,7 +541,9 @@ a {
 [sidebar]
 .How to use Bootstrap Material Design with JHipster 5
 --
-Below are the steps necessary to use Bootstrap Material Design with JHipster 5 and Sass:
+If you’d like to use https://fezvrasta.github.io/bootstrap-material-design/[Bootstrap Material Design] with JHipster 5, that’s possible too.
+
+Below are the steps necessary to use Bootstrap Material Design and Sass:
 
 . Install bootstrap-material-design:
 +
@@ -472,7 +601,7 @@ npm install bootstrap-material-design@4.1.1
 ----
 +
 
-Below is a screenshot after these changes.
+Below is a screenshot taken after these changes.
 
 [[img-bootstrap-angular-material]]
 .JHipster with Bootstrap Angular Material
@@ -497,7 +626,7 @@ In addition, you should have integration tests to verify that everything works a
 
 The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the TypeScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
 
-JHipster supports several methods of code generation. The first uses its https://www.jhipster.tech/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool that prompts you with questions which you answer. https://www.jhipster.tech/jdl-studio/[JDL-Studio] is a browser-based tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://www.jhipster.tech/jhipster-uml/[JHipster-UML] is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio], http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose that for this project.
+JHipster supports several methods of code generation. The first uses its https://www.jhipster.tech/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool that prompts you with questions to answer. https://www.jhipster.tech/jdl-studio/[JDL-Studio] is a browser-based tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://www.jhipster.tech/jhipster-uml/[JHipster-UML] is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio], http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose that for this project.
 
 TIP: If you want to see how how easy it is to use JDL-Studio, please see my https://www.youtube.com/watch?v=-VQ_SVkaXbs[Get Started with JHipster 5 Screencast].
 
@@ -513,7 +642,7 @@ After figuring out how I wanted the UI to look, I started to think about the dat
 .21-Points Health entity diagram
 image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=75%, align=center]
 
-I ran `jhipster entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one relationship with `User`. Below is the final output from my answers.
+I ran `jhipster entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one relationship with `user`. Below is the final output from my answers.
 
 [source%autofit]
 ----
@@ -523,7 +652,7 @@ date (LocalDate) required
 exercise (Integer)
 meals (Integer)
 alcohol (Integer)
-notes (byte[] text)
+notes (String) maxlength='140'
 
 Relationships
 user (User) many-to-one
@@ -577,7 +706,19 @@ Everything is configured, generating the entity...
 Running `webpack:build` to update client app
 ----
 
-I had similar answers for the `Weight` and `BloodPressure` entities. For `Preferences`, I created a one-to-one relationship with `User`.
+You can see the validation rules for date and notes above, but you don’t see how I created the relationship to user. Here are the questions and answers from that section.
+
+----
+? Do you want to add a relationship to another entity? Yes
+? What is the name of the other entity? user
+? What is the name of the relationship? user
+? What is the type of the relationship? many-to-one
+? When you display this relationship on client-side, which field from 'user' do you want to use? This field will
+ be displayed as a String, so it cannot be a Blob login
+? Do you want to add any validation rules to this relationship? No
+----
+
+I had similar answers for the `Weight` and `BloodPressure` entities. Please refer to the entity diagram for the field names in each entity. For `Preferences`, I created a one-to-one relationship with `User`.
 
 To ensure that people use 21-Points Health effectively, I set the weekly goal to a minimum of 10 points and a max of 21. I also made the `weightUnits` property an enum.
 
@@ -761,7 +902,7 @@ save() {
 }
 ----
 
-After making these changes, modifying a bit of HTML, and tweaking some i18n message, and you can see that the "`Add Points`" screen is starting to look like the UI mockup I created.
+After making these changes, modifying a bit of HTML, and tweaking some i18n messages, the "`Add Points`" screen is starting to look like the UI mockup I created.
 
 [[img-add-points-page]]
 .Add Points page
@@ -827,6 +968,8 @@ Since the dropdown is hidden from non-admins, I had to modify each `Resource` cl
          Points result = pointsRepository.save(points);
          pointsSearchRepository.save(result);
          return ResponseEntity.created(new URI("/api/points/" + result.getId()))
+             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+             .body(result);
 ----
 
 `SecurityUtils` is a class JHipster provides when you create a project. I had to modify `PointsResourceIntTest.java` to be security-aware after making this change.
@@ -906,7 +1049,7 @@ public class PointsResourceIntTest {
 
 ==== List screen should show only user's data
 
-The next business-logic improvement I wanted was to modify list screens so they'd only show records for current user. Admin users should see all users' data. To facilitate this feature, I modified `PointsResource#getAll` to have a switch based on the user's role.
+The next business-logic improvement I wanted was to modify list screens so they'd only show records for current user. Admin users should see all users' data. To facilitate this feature, I modified `PointsResource#getAll` to have a switch based on the user's role. Rather than showing you the diff of method, here’s the whole thing.
 
 [source%autofit,java]
 .src/main/java/org/jhipster/health/web/rest/PointsResource.java
@@ -924,7 +1067,7 @@ public ResponseEntity<List<Points>> getAllPoints(@ApiParam Pageable pageable) {
 }
 ----
 
-The `PointsRepository#findByUserIsCurrentUser()` method that JHipster generated contains a custom query that uses Spring Expression Language to grab the user's information from Spring Security. I changed it from returning a `List<Points>` to returning `Page<Points>`.
+The `PointsRepository#findByUserIsCurrentUser()` method that JHipster generated contains a custom query that uses Spring Expression Language to grab the user's information from Spring Security. I changed it from returning `List<Points>` to returning `Page<Points>`.
 
 [source%autofit,java]
 .src/main/java/org/jhipster/health/repository/PointsRepository.java
@@ -1042,7 +1185,7 @@ To get points achieved in the current week, I started by adding a unit test to `
 private void createPointsByWeek(LocalDate thisMonday, LocalDate lastMonday) {
     User user = userRepository.findOneByLogin("user").get();
     // Create points in two separate weeks
-    points = new Points(thisMonday.plusDays(2), 1, 1, 1, user);  <1>
+    points = new Points(thisMonday.plusDays(2), 1, 1, 1, user); // <1>
     pointsRepository.saveAndFlush(points);
 
     points = new Points(thisMonday.plusDays(3), 1, 1, 0, user);
@@ -1085,8 +1228,7 @@ public void getPointsThisWeek() throws Exception {
         .andExpect(jsonPath("$.points").value(5));
 }
 ----
-<1> To simplify testing, I added a new constructor to `Points.java` that contained the arguments I wanted to set. I
-    continued this pattern for most tests I created.
+<1> To simplify testing, I added a new constructor to `Points.java` that contained the arguments I wanted to set. I continued this pattern for most tests I created.
 
 Of course, this test failed when I first ran it since `/api/points-this-week` didn't exist in `PointsResource.java`. You might notice the points-this-week API expects two return values: a date in the `week` field and the number of points in the `points` field. I created `PointsPerWeek.java` in my project's `rest.vm` package to hold this information.
 
@@ -1137,7 +1279,7 @@ Spring Data JPA made it easy to find all point entries in a particular week. I a
 [source,java]
 .src/main/java/org/jhipster/health/repository/PointsRepository.java
 ----
-List<Points> findAllByDateBetween(LocalDate firstDate, LocalDate secondDate);
+List<Points> findAllByDateBetweenAndUserLogin(LocalDate firstDate, LocalDate secondDate, String login);
 ----
 
 From there, it was just a matter of calculating the beginning and end of the current week and processing the data in `PointsResource.java`.
@@ -1200,7 +1342,15 @@ Then I added the service as a dependency to `home.component.ts` and calculated t
 [source,javascript]
 .src/main/webapp/app/home/home.component.ts
 ----
-export class HomeComponent implements OnInit {
+import { Account, LoginModalService, Principal } from 'app/core';
+import { PreferencesService } from 'app/entities/preferences';
+import { BloodPressureService } from 'app/entities/blood-pressure';
+import { WeightService } from 'app/entities/weight';
+import { D3ChartService } from './d3-chart.service';
+import { Preferences } from 'app/shared/model/preferences.model';
+
+...
+export class HomeComponent implements OnInit, OnDestroy {
     account: Account;
     modalRef: NgbModalRef;
     pointsThisWeek: any = {};
@@ -1302,7 +1452,7 @@ In `home.component.ts`, I added the `PreferencesService` as a dependency and set
 [source,javascript]
 .src/main/webapp/app/home/home.component.ts
 ----
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestory {
     ...
     preferences: Preferences;
 
@@ -1375,7 +1525,7 @@ To finish things off, I added a link to a component where users could edit their
 
 ==== Blood pressure and weight for the last 30 days
 
-To populate the two remaining charts on the homepage, I needed to fetch the user's blood pressure readings and weights for the last 30 days. I added a method to `BloodPressureResourceIntTest.java` to set up my expectations.
+To populate the two remaining charts on the homepage, I needed to fetch the user's blood-pressure readings and weights for the last 30 days. I added a method to `BloodPressureResourceIntTest.java` to set up my expectations.
 
 [source%autofit,java]
 .src/test/java/org/jhipster/health/web/rest/BloodPressureResourceIntTest.java
@@ -1533,13 +1683,13 @@ While gathering this data seemed easy enough, the hard part was figuring out wha
 
 ==== Charts of the last 30 days
 
-Based on my experience writing the first two versions of this book, I looked for an Angular library that integrated with https://d3js.org/[D3.js] and found https://github.com/krispo/ng2-nvd3[ng2-nvd3]. To install ng2-nvd3, I used yarn's `add` command.
+Based on my experience writing the first two versions of this book, I looked for an Angular library that integrated with https://d3js.org/[D3.js] and found https://github.com/krispo/ng2-nvd3[ng2-nvd3]. To install ng2-nvd3, I used Yarn's `add` command.
 
 ----
 yarn add ng2-nvd3
 ----
 
-Then I updated `home.module.ts` to import the `NvD3Module`, as well as others imports I found necessary.
+Then I updated `home.module.ts` to import the `NvD3Module`, as well as other imports I found necessary.
 
 [source,javascript]
 .src/main/webapp/app/home/home.module.ts
@@ -1614,7 +1764,7 @@ export class D3ChartService {
 }
 ----
 
-In `home.component.Ts`, I grabbed the blood pressure readings from the API and morphed them into data that D3 could understand.
+In `home.component.ts`, I grabbed the blood-pressure readings from the API and morphed them into data that D3 could understand.
 
 [source,javascript]
 .src/main/webapp/app/home/home.component.ts
@@ -1716,7 +1866,7 @@ You probably noticed that a lot of the Java code I wrote was for the tests. I fe
 
 I believe TDD (test-driven development) is a great way to write code. However, when developing UIs, I tend to make them work before writing tests. It's usually a very visual activity and, with the aid of Browsersync, there's rarely a delay before you see your changes. I like to write unit tests for my Angular components and directives using https://jasmine.github.io/[Jasmine] and I like to write integration tests with http://www.protractortest.org/#/[Protractor].
 
-I did not write any tests for this project's UI because I was in a time crunch and I was able to visually verify that things worked as I wanted. I plan to write unit and integration tests when I find the time, but didn't think they were necessary for the MVP.
+I did not show any UI tests in this section, but JHipster generated a bunch for me. Running `yarn test --coverage` shows 78.98% of lines are covered in the UI!
 ****
 
 == Deploying to Heroku
@@ -1733,7 +1883,7 @@ The command looks similar when using Maven.
 ./mvnw -Pprod package
 ----
 
-The production profile is used to build an optimized JavaScript client. You can invoke this using Webpack by running `yarn webpack:prod`. The production profile also configures gzip compression with a servlet filter, cache headers, and monitoring via https://github.com/dropwizard/metrics[Metrics]. If you have a http://graphite.wikidot.com/[Graphite] server configured in your `application-prod.yml` file, your application will automatically send metrics data to it.
+The production profile is used to build an optimized JavaScript client. You can invoke this using webpack by running `yarn webpack:prod`. The production profile also configures gzip compression with a servlet filter, cache headers, and monitoring via https://github.com/dropwizard/metrics[Metrics]. If you have a http://graphite.wikidot.com/[Graphite] server configured in your `application-prod.yml` file, your application will automatically send metrics data to it.
 
 To deploy 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-command-line[Heroku CLI] installed.
 
@@ -1905,90 +2055,11 @@ To prove everything was working on Heroku, I tried registering a new user. I rec
   (TransportClientNodesService.java:245)
 ----
 
-I https://github.com/jhipster/generator-jhipster/issues/7810[created an issue] in the JHipster project saying that Elasticsearch doesn't work out-of-the-box with Heroku. I worked with Joe Kutner of Heroku to come up with a solution and fix.
+I https://github.com/jhipster/generator-jhipster/issues/7810[created an issue] in the JHipster project saying that Elasticsearch doesn't work out of the box with Heroku. I worked with Joe Kutner of Heroku to come up with a solution and fix.
 
 The fix for Elasticsearch on Heroku was released in JHipster 5.3.0, so I upgraded using the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator].
 
-ifeval::["{media}" != "prepress"]
-[[jhipster-upgrade-start]]
-.JHipster Upgrade Start
-image::chapter2/jhipster-upgrade-start.png[Running the upgrade sub-generator, 1354, scaledwidth=100%, align=center]
-
-[[jhipster-upgrade-end]]
-.JHipster Upgrade End
-image::chapter2/jhipster-upgrade-end.png[Running the upgrade sub-generator, upgraded, 1354, scaledwidth=100%, align=center]
-endif::[]
-ifeval::["{media}" == "prepress"]
-[source%autofit]
-----
-$ git checkout -b jhipster-v5.3.0
-Switched to a new branch 'jhipster-v5.3.0'
-$ jhipster upgrade
-Using JHipster version installed globally
-Executing jhipster:upgrade
-Options:
-Welcome to the JHipster Upgrade Sub-Generator
-This will upgrade your current application codebase to the latest JHipster version
-Looking for latest generator-jhipster version...
-yarn info v1.9.4
-5.3.0
-Done in 1.24s.
-✔ New generator-jhipster version found: 5.3.0
-     info git rev-parse -q --is-inside-work-tree
-true
-✔ Git repository detected
-     info git status --porcelain
-     info git rev-parse -q --abbrev-ref HEAD
-jhipster-v5.3.0
-     info git rev-parse -q --verify jhipster_upgrade
-d279be92bb9e0481392946e4b2e98d2a4de06cc4
-     info git checkout -q jhipster_upgrade
-✔ Checked out branch "jhipster_upgrade"
-Updating generator-jhipster to 5.3.0 . This might take some time...
-     info yarn add generator-jhipster@5.3.0 --dev --no-lockfile --ignore-scripts
-
-...
-
-✔ Upgraded successfully.
-WARNING! Please fix conflicts listed below and commit!
-README.md
-build.gradle
-gradle.properties
-gradle/sonar.gradle
-gradle/wrapper/gradle-wrapper.properties
-package.json
-src/main/resources/config/application-prod.yml
-src/main/webapp/app/entities/blood-pressure/blood-pressure.route.ts
-src/main/webapp/app/entities/blood-pressure/blood-pressure.service.ts
-src/main/webapp/app/entities/points/points.route.ts
-src/main/webapp/app/entities/points/points.service.ts
-src/main/webapp/app/entities/weight/weight.service.ts
-src/main/webapp/app/home/home.component.html
-src/test/java/org/jhipster/health/web/rest/BloodPressureResourceIntTest.java
-src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
-src/test/java/org/jhipster/health/web/rest/PreferencesResourceIntTest.java
-src/test/java/org/jhipster/health/web/rest/WeightResourceIntTest.java
-src/test/javascript/e2e/account/account.spec.ts
-src/test/javascript/e2e/entities/blood-pressure/blood-pressure.page-object.ts
-src/test/javascript/e2e/entities/blood-pressure/blood-pressure.spec.ts
-src/test/javascript/e2e/entities/points/points.page-object.ts
-src/test/javascript/e2e/entities/points/points.spec.ts
-src/test/javascript/e2e/entities/preferences/preferences.page-object.ts
-src/test/javascript/e2e/entities/preferences/preferences.spec.ts
-src/test/javascript/e2e/entities/weight/weight.page-object.ts
-src/test/javascript/e2e/entities/weight/weight.spec.ts
-src/test/resources/config/application.yml
-webpack/webpack.dev.js
-
-Congratulations, JHipster execution is complete!
-Execution time: 2 min. 23 s.
-----
-endif::[]
-
-
-After the command finished, I resolved conflicts, committed my changes, and ran `git push`. If you're reading this and notice that 21-Points Health is using a version newer than 5.3.0, it's likely because I used this handy sub-generator again.
-
-After upgrading, I tried to deploy to Heroku once more.
+After the command finished, I committed changes to `yarn.lock`, ran `git push`, and deployed to Heroku again using `jhipster heroku`.
 
 === Mail on Heroku
 
@@ -2074,6 +2145,23 @@ That will include the JAR in the slug. Then you'll need to modify your Procfile 
 ----
 web: java -javaagent:newrelic.jar $JAVA_OPTS -Xmx256m -jar build/libs/*.war ...
 ----
+
+== Securing User Data
+
+After running the 5.0 version of 21-Points Health on Heroku for a couple weeks, someone reported https://github.com/mraible/21-points/issues/49[an issue with security on GitHub]. They pointed out that if you searched, you could see another user's data. I also discovered you could edit data based on the URL too.
+
+To fix this data leakage, I enhanced the Java code so it only allowing users that own an entity to edit it. Here's some sudo-code to show the logic:
+
+[source,java]
+----
+Optional<Points> points = pointsRepository.findById(id);
+if (points.isPresent() && <user doesn't match current user>) {
+    return new ResponseEntity<>("error.http.403", HttpStatus.FORBIDDEN);
+}
+return ResponseUtil.wrapOrNotFound(points);
+----
+
+See https://github.com/mraible/21-points/pull/52/files[pull request #52] for all the changes that I needed to make in resource classes and their tests.
 
 == Continuous integration and deployment
 
@@ -2207,17 +2295,102 @@ image::chapter2/jenkins-job-success.png[Jenkins success!, 1619, scaledwidth=100%
 
 When working on this project, I'd start Jenkins and have it running while I checked in code. I did not install it on a server and leave it running continuously. My reason was simple: I was only coding in bursts and didn't need to waste computing cycles or want to pay for a cloud instance to run it.
 
+== Code quality
+
+When I finished developing the app, I wanted to ensure that I had good code quality and that things were well tested. JHipster generates apps with high code quality by default. Code quality is analyzed using Sonar, which is automatically configured by JHipster. The "code quality" metric is determined by the percentage of code that is covered by tests. To see the code quality for my finished app, I started all the Docker containers that the prod profile needs, plus Sonar.
+
+[source]
+----
+docker-compose -f src/main/docker/elasticsearch.yml up -d
+docker-compose -f src/main/docker/postgresql.yml up -d
+docker-compose -f src/main/docker/sonar.yml up -d
+----
+
+Then I ran all the tests and the `sonarqube` task.
+
+[source]
+----
+/gradlew -Pprod clean test sonarqube
+----
+
+Once this process completes, an analysis of the project is available on the Sonar dashboard at http://127.0.0.1:9001. 21-Points Heath is a triple-A-rated app! Not bad, eh?
+
+[[sonar-results]]
+.Sonar results
+image::chapter2/sonar.png[Sonar results, 1500, scaledwidth=100%, align=center]
+
+
+== Progressive web apps
+
+Progressive web apps, aka PWAs, are the best way for developers to make their web apps load faster and perform better. In a nutshell, PWAs are websites that use recent web standards to allow for installation on a user’s computer or device, and deliver an app-like experience to those users.
+
+To be a PWA requires three features:
+
+1. The app must be served over HTTPS.
+2. The app must register a service worker so it can cache requests and work offline.
+3. The app must have a web-app manifest with installation information and icons.
+
+For HTTPS, you can use JHipster's "tls" profile for localhost or (even better) deploy it to production!
+
+TIP: To use HTTPS on localhost with Gradle, run `./gradlew -Ptls` for the back end and `yarn start-tls` for the front end.
+
+Cloud providers like Heroku and Cloud Foundry will provide you with HTTPS out of the box, but they won’t force it. To force HTTPS, I modified `src/main/java/org/jhipster/health/config/SecurityConfiguration.java` and added a rule to force a secure channel when an `X-Forwarded-Proto` header is sent.
+
+[source,java]
+----
+@Override
+public void configure(HttpSecurity http) throws Exception {
+    http
+        ...
+    .and()
+        .apply(securityConfigurerAdapter())
+    .and()
+        .requiresChannel()
+        .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+        .requiresSecure();
+}
+----
+
+The https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin[workbox-webpack-plugin] is configured already for generating a service worker, but it only works when running your app with a production profile. This is nice because it means your data isn’t cached in the browser when you’re developing.
+
+To register a service worker, I modified `src/main/webapp/index.html` and uncommented the following block of code.
+
+[source,html]
+----
+<script>
+   if ('serviceWorker' in navigator) {
+       window.addEventListener('load', function() {
+           navigator.serviceWorker.register('/service-worker.js')
+               .then(function () {
+                   console.log('Service Worker Registered');
+               });
+       });
+   }
+</script>
+----
+
+The final feature — a web-app manifest — is already included at `src/main/webapp/manifest.webapp`. It defines an app name, colors, and icons.
+
+After making these changes, I redeployed 21-Points Health to production and used https://developers.google.com/web/tools/lighthouse/[Lighthouse] to perform an analysis. You can see the results in the screenshot below.
+
+[[lighthouse-analysis]]
+.Lighthouse analysis
+image::chapter2/lighthouse.png[Lighthouse analysis, 1500, scaledwidth=100%, align=center]
+
+
+You can see there's still some performance improvements that need to be made. Rather than address those here, I've https://github.com/mraible/21-points/issues/48/[created an issue] you can subscribe to.
+
 == Source code
 
-After getting this application into a "good enough" state, I moved it from Bitbucket to GitHub and made it available as an open-source project. You can find the source code for 21-Points Health at https://github.com/mraible/21-points.
+After getting this application into a good enough state, I moved it from Bitbucket to GitHub and made it available as an open-source project. You can find the source code for 21-Points Health at https://github.com/mraible/21-points.
 
 == Upgrading 21-Points Health
 
-After I finished developing the MVP of 21-Points Health with JHipster 5.3.0, I wanted to upgrade it to the latest release. I used the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator], and upgraded it to 5.x.x. You can see what changed when I upgraded by taking a look at https://github.com/mraible/21-points/commit/4571d2c1a31fcbeb820417ea0f6d3f2364bb8e7e[the commit on GitHub].
+After I finished developing the MVP of 21-Points Health with JHipster 5.3.0, I wanted to upgrade it to the latest release. I used the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator], and upgraded it to 5.3.4, then again to 5.4.2.
 
-TIP: If the upgrade sub-generator doesn't work for you when upgrading JHipster, you can manually upgraded using http://www.syntevo.com/smartsynchronize/[SmartSynchronize]. I do this by creating a new branch, running `rm -rf *` in my project, then running `jhipster --with-entities`. Then I use SmartSynchronize to compare files and restore my custom code.
+TIP: If the upgrade sub-generator doesn't work for you when upgrading JHipster, you can manually upgrade using http://www.syntevo.com/smartsynchronize/[SmartSynchronize]. You can do this by creating a new branch, running `rm -rf *` in your project, then running `jhipster --with-entities`. Then use SmartSynchronize to compare files and restore your custom code.
 
-If you're reading this and notice that 21-Points Health is using a version newer than 5.x.x, it's likely because I upgraded again.
+If you're reading this and notice that 21-Points Health is using a version newer than 5.4.2, it's likely because I upgraded again.
 
 == Summary
 
@@ -2225,4 +2398,4 @@ This section showed you how I created a health-tracking web application with JHi
 
 After modifying the application to look like my UI mockups, I showed you how to deploy to Heroku and some common issues I encountered along the way. Finally, you learned how to use Jenkins to build, test, and deploy a Gradle-based JHipster project. I highly recommend doing something similar shortly after you've created your project and verified that it passes all tests.
 
-In the next chapter, I'll explain JHipster's UI components in more detail. Angular, Bootstrap, Webpack, Sass, WebSockets, and Browsersync are all packed in a JHipster application, so it's useful to dive in and learn a bit more about these technologies.
+In the next chapter, I'll explain JHipster's UI components in more detail. Angular, Bootstrap, webpack, Sass, WebSockets, and Browsersync are all packed in a JHipster application, so it's useful to dive in and learn a bit more about these technologies.
