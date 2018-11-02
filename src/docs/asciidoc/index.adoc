@@ -6,7 +6,7 @@
 :revdate: {docdate}
 :revyear: 2018
 :subject: JHipster
-:keywords: JHipster, Angular, Bootstrap, Spring Boot, Spring Cloud, Microservices, Docker, Heroku
+:keywords: JHipster, Angular, Bootstrap, Spring Boot, Spring Cloud, Spring Security, Microservices, Docker, Heroku, Security, JWT, OAuth 2.0, OIDC
 :doctype: book
 :media: screen
 ifeval::["{media}" != "prepress"]

@@ -15,6 +15,10 @@ This document provides a high-level view of the changes introduced in the JHipst
 For a detailed view of what has changed, refer to the https://bitbucket.org/mraible/jhipster-book/commits/all[commit history] on Bitbucket.
 
 // tag::compact[]
+== 5.0.0 (2018-11-05) - @mraible
+Changes::
+  * Updated all chapters for JHipster 5. Added sections on PWA, code quality, and securing user data. 
+  
 == 4.5.0 (2018-03-19) - @mraible
 Changes::
   * Added chapter on building a microservice architecture with JHipster.
