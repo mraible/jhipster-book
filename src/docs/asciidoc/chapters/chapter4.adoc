@@ -21,7 +21,7 @@ The primary goals of Spring Boot are:
 * to be opinionated out of the box, but get out of the way quickly as requirements start to diverge from the defaults; and
 * to provide a range of non-functional features that are common to large classes of projects (e.g. embedded servers, security, metrics, health checks, externalized configuration).
 
-Folks who want to use Spring Boot outside of a JHipster application can do so with Spring Initializr, a configurable service for generating Spring projects. It's both a web application and a REST API. You can visit it in your browser at https://start.spring.io or you can call it via `curl`.
+Folks who want to use Spring Boot outside of a JHipster application can do so with Spring Initializr, a configurable service for generating Spring projects. You can visit it in your browser at https://start.spring.io or you can call it via `curl`.
 
 [[img-spring-initializr-web]]
 .Spring Initializr in a browser
@@ -110,9 +110,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DemoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 }
 ----
 
@@ -262,7 +262,7 @@ Spring Boot runs through this specific sequence for `PropertySource` to ensure t
 1. Devtools global settings properties on your home directory (`~/.spring-boot-devtools.properties` when devtools is active).
 2. `@TestPropertySource` annotations on your tests.
 3. `@SpringBootTest#properties` annotation attribute on your tests.
-4. Command line arguments,
+4. Command-line arguments,
 5. Properties from `SPRING_APPLICATION_JSON` (inline JSON embedded in an environment variable or system property).
 6. `ServletConfig` init parameters.
 7. `ServletContext` init parameters.
@@ -270,10 +270,10 @@ Spring Boot runs through this specific sequence for `PropertySource` to ensure t
 9. Java System properties (`System.getProperties()`).
 10. OS environment variables.
 11. A `RandomValuePropertySource` that only has properties in `random.*`.
-12. Profile-specific application properties outside of your packaged jar (`application-{profile}.properties` and YAML variants).
-13. Profile-specific application properties packaged inside your jar (`application-{profile}.properties` and YAML variants).
-14. Application properties outside of your packaged jar (`application.properties` and YAML variants).
-15. Application properties packaged inside your jar (`application.properties` and YAML variants).
+12. Profile-specific application properties outside of your packaged JAR (`application-{profile}.properties` and YAML variants).
+13. Profile-specific application properties packaged inside your JAR (`application-{profile}.properties` and YAML variants).
+14. Application properties outside of your packaged JAR (`application.properties` and YAML variants).
+15. Application properties packaged inside your JAR (`application.properties` and YAML variants).
 16. `@PropertySource` annotations on your `@Configuration` classes.
 17. Default properties (specified using `SpringApplication.setDefaultProperties`).
 
@@ -469,9 +469,7 @@ Spring Boot 2.0 also supports building applications with a reactive stack throug
 
 At the time of this writing, JHipster has experimental support for generating  microservice apps with WebFlux. See https://github.com/jhipster/generator-jhipster/pull/7983[pull request #7983] for more information.
 
-Showing how Spring WebFlux works is outside the scope of this mini-book. If you'd like to learn more about it, I'd suggest you read http://developer.okta.com/blog[Josh Long's Build and Secure a Reactive Spring API].
-
-// todo: Update link to Josh's blog post once it's released (should be before SpringOne 2018
+Showing how Spring WebFlux works is outside the scope of this mini-book. If you'd like to learn more about it, I'd suggest you read Josh Long and my https://developer.okta.com/blog/2018/09/24/reactive-apis-with-spring-webflux[Build Reactive APIs with Spring WebFlux] blog post.
 
 == Maven versus Gradle
 
@@ -602,7 +600,7 @@ There's not much code, but it provides many features:
 * It requires authentication to every URL in your application.
 * It generates a login form for you.
 * It allows user:password to authenticate with form-based authentication.
-* It allows the user to logout.
+* It allows the user to log out.
 * It prevents CSRF attacks.
 * It protects against session fixation.
 * It includes security-header integration with:
@@ -640,7 +638,7 @@ For security reasons, you should change the default passwords in `src/main/resou
 
 A traditional relational-database management system (RDBMS) provides a number of properties that guarantee its transactions are processed reliably: ACID, for atomicity, consistency, isolation, and durability. Databases like MySQL and PostgreSQL provide RDBMS support and have done wonders to reduce the costs of databases. JHipster supports vendors like Oracle and Microsoft as well. If you'd like to use a traditional database, select SQL when creating your JHipster project.
 
-TIP: JHipster's https://www.jhipster.tech/using-oracle/[Using Oracle] guide explains how'll you need an Oracle account to download its proprietary JDBC driver.
+TIP: JHipster's https://www.jhipster.tech/using-oracle/[Using Oracle] guide explains how you need an Oracle account to download its proprietary JDBC driver.
 
 NoSQL databases have helped many web-scale companies achieve high scalability through https://en.wikipedia.org/wiki/Eventual_consistency[eventual consistency]: because a NoSQL database is often distributed across several machines, with some latency, it guarantees only that all instances will eventually be consistent. Eventually consistent services are often called BASE (basically available, soft state, eventual consistency) services in contrast to traditional ACID properties.
 
