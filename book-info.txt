@@ -1,8 +1,8 @@
 Book Abstract:
 
-The JHipster Mini-Book is a guide to getting started with hip technologies today: Angular, Bootstrap and Spring Boot. All of these frameworks are wrapped up in an easy-to-use project called JHipster. JHipster is a Yeoman generator that can be used to a create a project and generate boilerplate code for you. This book shows you how to build an app with JHipster, and guides you through the plethora of tools, techniques and options you can use. Furthermore, it explains the UI and API building blocks so you understand the underpinnings of your great application.
+The JHipster Mini-Book is a guide to getting started with hip technologies today: Angular, Bootstrap and Spring Boot. All of these frameworks are wrapped up in an easy-to-use project called JHipster. JHipster is a development platform to generate, develop and deploy Spring Boot + Angular (or React) web applications and microservices. This book shows you how to build an app with JHipster, and guides you through the plethora of tools, techniques, and options you can use. Furthermore, it explains the UI and API building blocks so you understand the underpinnings of your great application. It also shows you how to use Docker Compose and deploy your microservices to Heroku.
 
-The latest edition (v4.5) includes a brand new chapter on microservices! It also shows you how to use Docker Compose and deploy your microservices to Heroku.
+The latest edition (v5.0) is updated for JHipster 5.x.
 
 You can find the blog for the JHipster Mini-Book at http://www.jhipster-book.com. You can also follow it on Twitter at https://twitter.com/jhipster_book.
 
@@ -69,7 +69,7 @@ About the author
 
 Author Bio:
 
-Matt Raible is a web developer, Java Champion, and Developer Advocate @okta. He loves to architect and build slick-looking UIs using CSS and JavaScript. When he's not evangelizing Okta and open source, he likes to ski with his family, drive his VWs and enjoy craft beer.
+Matt Raible is a web developer, Java Champion, and Developer Advocate @okta. He loves to architect and build slick-looking UIs using CSS and JavaScript. When he's not evangelizing Okta and open source, he likes to ski with his family, drive his VWs, and enjoy craft beer.
 
 https://www.flickr.com/photos/mraible/16900780428
 
