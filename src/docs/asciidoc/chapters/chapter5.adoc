@@ -223,24 +223,26 @@ security:
             user-info-uri: https://{yourOktaDomain}/oauth2/default/v1/userinfo
 ----
 
-You can also use environment variables to override the default values. Using this technique is recommended because 1) you don't need to modify the values in each microservice application and 2) it prevents you from leaking your client secret in a source-code repository.
+You can also use environment variables to override the default values. I recommend using this technique because 1) you don't need to modify the values in each microservice application and 2) it prevents you from leaking your client secrets in a source-code repository. Create `~/.okta.env` and copy the `export` commands below into it. With that file in place, you can run `source ~/.okta.env` to override the default Spring Security settings.
 
 [source%autofit,bash]
 ----
-export SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI="https://{yourOktaDomain}.com/oauth2/default/v1/token"
-export SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI="https://{yourOktaDomain}.com/oauth2/default/v1/authorize"
-export SECURITY_OAUTH2_RESOURCE_USER_INFO_URI="https://{yourOktaDomain}.com/oauth2/default/v1/userinfo"
+export SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI="https://{yourOktaDomain}/oauth2/default/v1/token"
+export SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI="https://{yourOktaDomain}/oauth2/default/v1/authorize"
+export SECURITY_OAUTH2_RESOURCE_USER_INFO_URI="https://{yourOktaDomain}/oauth2/default/v1/userinfo"
 export SECURITY_OAUTH2_CLIENT_CLIENT_ID="{clientId}"
 export SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="{clientSecret}"
 ----
 
-If you're hard-coding your Okta settings in `application.yml`, make sure you update your settings in the blog and store apps too. If you're using environment variable, you don't need to make any changes.
+If you want to make Okta settings the default, you can add `source ~/.okta.env` to `~/.bashrc` (or `~/.zshrc`).
+
+If you're hard-coding your Okta settings in `application.yml`, make sure you update your settings in the blog and store apps too. If you're using environment variables, you don't need to make any changes.
 
 TIP: If you're using Protractor and want to run your tests against Okta, you'll need to add a user to the `ROLE_ADMIN` group on Okta and change the credentials to match that user in `src/test/javascript/e2e/account/account.spec.ts` and `src/test/javascript/e2e/admin/administration.spec.ts`.
 
 == Start JHipster Registry, Keycloak, and MongoDB
 
-You'll need a service discovery server installed before you can start the gateway. You'll also need Keycloak for authentication and MongoDB for your store microservices. The blog application depends on Elasticsearch and PostgreSQL, but only when running in production mode.  Luckily, JHipster creates Docker Compose files for all of the services your apps depend on. You can run the following commands from your root directory to start Docker containers for JHipster Registry, Keycloak, and MongoDB.
+You'll need a service-discovery server installed before you can start the gateway. You'll also need Keycloak for authentication and MongoDB for your store microservices. The blog application depends on Elasticsearch and PostgreSQL, but only when running in production mode. Luckily, JHipster creates Docker Compose files for all of the services your apps depend on. You can run the following commands from your project's root directory to start Docker containers for JHipster Registry, Keycloak, and MongoDB.
 
 ----
 docker-compose -f gateway/src/main/docker/jhipster-registry.yml up -d
@@ -270,15 +272,15 @@ TIP: You can also put these variables in a file and specify an `env_file` settin
 Then you'll need to stop your JHipster Registry (if it's already running), and start it again:
 
 ----
-docker-compose -f src/main/docker/jhipster-registry.yml down
-docker-compose -f src/main/docker/jhipster-registry.yml up -d
+docker-compose -f gateway/src/main/docker/jhipster-registry.yml down
+docker-compose -f gateway/src/main/docker/jhipster-registry.yml up -d
 ----
 
-To login, you'll need to add `http://localhost:8761` as a Login redirect URI in your Okta app.
+To log in, you'll need to add `http://localhost:8761/login` as a login-redirect URI in your Okta app.
 
 == Run your microservices architecture
 
-Open three terminal windows and navigate to each app (`gateway`, `blog`, and `store`). In each window, run Maven to start each app:
+Open three terminal windows and navigate to each app (`gateway`, `blog`, and `store`). In each window, and run Maven to start each app:
 
 [source,java]
 ----
@@ -287,7 +289,7 @@ Open three terminal windows and navigate to each app (`gateway`, `blog`, and `st
 
 TIP: If you already have Maven installed, you can simply use `mvn`.
 
-Open your browser and go to http://localhost:8761[http://localhost:8761]. Log in, and you should see a welcome page that shows that the gateway has been registered.
+Open your browser and go to http://localhost:8761[http://localhost:8761]. Log in, and you should see a welcome page that shows that the gateway and both apps have been registered.
 
 .JHipster Registry with gateway registered
 image::chapter5/jhipster-registry-with-gateway.png[JHipster Registry with gateway registered, 800, scaledwidth=100%, align=center]
@@ -308,7 +310,7 @@ You should be able to navigate to *Entities* &gt; *Blog* and add a new blog reco
 .New blog
 image::chapter5/new-blog.png[New blog, 800, scaledwidth=100%, align=center]
 
-Navigate to *Entities* &gt; *Product* to prove your product microservice is working. Since you added an image as a property, you'll be prompted to upload one when creating a new record.
+Navigate to *Entities* > *Product* to prove your product microservice is working. Since you added an image as a property, you'll be prompted to upload one when creating a new record.
 
 .Add product page
 image::chapter5/add-product-page.png[Add product page, 800, scaledwidth=100%, align=center]
@@ -350,10 +352,8 @@ You'll get a warning that says you need to generate Docker images by running the
 
 [source]
 ----
-./mvnw package -Pprod dockerfile:build
+./mvnw package -Pprod jib:dockerBuild
 ----
-
-NOTE: Building the store will likely fail because of https://github.com/jhipster/generator-jhipster/issues/8313[an issue with the `UserServiceIntTest`]. To work around this issue, skip the tests with `mvn package -Pprod -DskipTests dockerfile:build`.
 
 While you're waiting for things to build, edit `docker-compose/docker-compose.yml` and change the Spring Security settings from being hard-coded to being environment variables. Make this change for all applications and make sure to add the client ID and secret since those aren't included by default.
 
@@ -441,7 +441,7 @@ The founder of JHipster, https://twitter.com/juliendubois[Julien Dubois], wrote 
 
 Heroku and JHipster have configured a JHipster Registry for you, so you just need to click on the button below to start your own JHipster Registry:
 
-image::chapter5/deploy-to-heroku.png[link="https://dashboard.heroku.com/new?&amp;template=https%3A%2F%2Fgithub.com%2Fjhipster%2Fjhipster-registry"]
+image::chapter5/deploy-to-heroku.png[link="https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2Fjhipster%2Fjhipster-registry"]
 
 Enter an app name (I used `okta-jhipster-registry`), add a `JHIPSTER_PASSWORD`, and click *Deploy app*.
 
@@ -452,7 +452,7 @@ In each project, run `jhipster heroku` and answer the questions as follows:
 |===
 |Question |Answer
 
-|Name to deploy as? |`&lt;unique-prefix&gt;-&lt;app-name&gt;` (e.g., okta-gateway, okta-blog, etc.)
+|Name to deploy as? |`<unique-prefix>;-<app-name>` (e.g., okta-gateway, okta-blog, etc.)
 |Which region? |`us`
 |Type of deployment? |`Git`
 | Name of Registry app? |`<unique-prefix>-jhipster-registry`
@@ -462,21 +462,9 @@ In each project, run `jhipster heroku` and answer the questions as follows:
 
 When prompted to overwrite files, type `a`.
 
-NOTE: There is https://github.com/jhipster/generator-jhipster/issues/8373[a duplicate key issue when deploying apps with MongoDB and Elasticsearch to Heroku]. To fix it, modify `src/main/resources/config/application-heroku.yml` to have the following YAML for the `spring.data` key.
-
-[source,yaml]
-----
-spring:
-    data:
-        mongodb:
-            uri: ${MONGODB_URI}?authMode=scram-sha1
-        jest:
-            uri: ${BONSAI_URL}
-----
-
-Run `jhipster heroku` on your store app again. When it prompts you to overwrite `application-heroku.yml`, type `n`.
-
 After each app has finished deploying, you'll want to run the following so they use Okta for authentication.
+
+TIP: Make sure you run `source ~/.okta.env` before running the command below. If you don't have the environment variables set beforehand, you'll see an error that says `did not find property 'jhipster.security.client-authorization.client-id'`.
 
 [source%autofit,bash]
 ----
@@ -488,17 +476,17 @@ heroku config:set \
   SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="$SECURITY_OAUTH2_CLIENT_CLIENT_SECRET"
 ----
 
-Update your Okta app to have a *Login redirect URI* that matches your Heroku app (e.g., `https://okta-gateway.herokuapp.com/`). To do this, log in to your Okta account, go to *Applications* &gt; *JHipster Microservices* &gt; *General* &gt; *Edit*.
+Update your Okta app to have a *Login redirect URI* that matches your Heroku app (e.g., `https://okta-gateway.herokuapp.com/`). To do this, log in to your Okta account, go to *Applications* > *JHipster Microservices* > *General* > *Edit*.
 
-To see if your apps have started correctly, you can run `heroku logs --tail` in each app's directory. You may see a timeout error, but your app should succeed in starting on its next attempt.
+To see if your apps have started correctly, you can run `heroku logs --tail` in each app's directory. You may see a timeout error, but your app should succeed in starting on your next attempt.
 
 If it crashes and doesn't start, trying running `heroku restart`. If that doesn't solve the problem, go to <https://help.heroku.com> and click *Create a ticket* at the top. Click *Running Applications* > *Java*, scroll to the bottom, and click *Create a ticket*. Enter something like the following for the subject and description, select one of your apps, then submit it.
 
 [source]
 ----
-Subject: JHipster Apps Startup Timeout
+Subject: JHipster App Startup Timeout
 
-Description: Hello, I have a JHipster apps that has the following error on startup:
+Description: Hello, I have a JHipster (Spring Boot) app that has the following error on startup:
 
 Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 90 seconds of launch
 
@@ -544,3 +532,4 @@ If you'd like to learn more about microservices, authentication, and JHipster, s
 * "`link:https://developer.okta.com[Secure a Spring Microservices Architecture with Spring Security and OAuth]`"
 * "`link:https://developer.okta.com/blog/2017/06/20/develop-microservices-with-jhipster[Develop and Deploy Microservices with JHipster]`" (uses JWT for authentication)
 * "`link:https://developer.okta.com/blog/2017/10/20/oidc-with-jhipster[Use OpenID Connect Support with JHipster]`"
+* "`link:https://medium.com/@sendilkumarn/hello-istio-%EF%B8%8F-welcome-to-jhipster-b67dc68ecb19[Hello Istio ⛵️, welcome to JHipster]`"
