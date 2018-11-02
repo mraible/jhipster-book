@@ -17,7 +17,7 @@ Now that you've learned how to use Angular, Bootstrap, and Spring Boot with JHip
 
 If you want to learn more, here are some suggestions.
 
-Deepu K Sasidharan and Sendil Kumar N, two prolific committers on the JHipster team wrote https://www.packtpub.com/application-development/full-stack-development-jhipster[Full Stack Development with JHipster] (Packt Publishing, March 2018).
+Deepu K Sasidharan and Sendil Kumar N, two prolific committers on the JHipster team, wrote https://www.packtpub.com/application-development/full-stack-development-jhipster[_Full Stack Development with JHipster_] (Packt Publishing, March 2018).
 
 The definitive book about Spring's JDBC, JPA, and NoSQL support is http://shop.oreilly.com/product/0636920024767.do[_Spring Data: Modern Data Access for Enterprise Java_] by Mark Pollack _et al._ (O'Reilly Media, October 2012).
 

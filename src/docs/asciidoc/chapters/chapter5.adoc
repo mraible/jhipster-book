@@ -20,10 +20,8 @@ A smart team will optimize around this and choose the lesser of two evils: forci
 .Conway's law
 image::chapter5/conways-law.png[Conway's law, 560, scaledwidth=50%, align=center]
 
-> Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the
-> organization's communication structure.
->
-> — Melvyn Conway, 1967
+[quote, Melvyn Conway, 1967]
+Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization's communication structure.
 
 === Microservices architecture philosophy
 
@@ -49,9 +47,8 @@ Platform-as-a-service (PaaS) providers and containers have made it easy to deplo
 
 The consequences of architecture decisions, like adopting microservices, usually only become evident several years after you make them. Microservices have been successful at companies like LinkedIn, Twitter, Facebook, Amazon.com, and Netflix, but that doesn't mean they'll be successful for your organization. Component boundaries are hard to define. If you're not able to create your components cleanly, you're just shifting complexity from inside a component to the connections between components. Also, team capabilities are something to consider. A weak team will always create a weak system.
 
-> You shouldn't start with a microservices architecture. Instead, begin with a monolith, keep it modular, and split it into microservices once the monolith becomes a problem.
->
-> — Martin Fowler
+[quote, Martin Fowler]
+You shouldn't start with a microservices architecture. Instead, begin with a monolith, keep it modular, and split it into microservices once the monolith becomes a problem.
 
 == Microservices with JHipster
 
@@ -69,7 +66,7 @@ image::chapter5/jhipster-microservices-architecture.png[JHipster microservices a
 
 To see what's happening inside your applications, you can use the https://jhipster.github.io/monitoring/#jhipster-console[JHipster Console], a monitoring tool based on the https://www.elastic.co/products[Elastic Stack]. I'll cover JHipster Console in the Docker Compose section.
 
-This tutorial shows you how to build a microservices architecture with https://www.jhipster.tech/2018/09/17/jhipster-release-5.3.4.html[JHipster 5.3.4]. You'll generate a gateway (powered by Netflix Zuul), a blog microservice (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
+This tutorial shows you how to build a microservices architecture with https://www.jhipster.tech/2018/10/07/jhipster-release-5.4.2.html[JHipster 5.4.2]. You'll generate a gateway (powered by Netflix Zuul), a blog microservice (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
 
 == Generate an API gateway and microservice applications
 
@@ -292,7 +289,7 @@ TIP: If you already have Maven installed, you can simply use `mvn`.
 Open your browser and go to http://localhost:8761[http://localhost:8761]. Log in, and you should see a welcome page that shows that the gateway and both apps have been registered.
 
 .JHipster Registry with gateway registered
-image::chapter5/jhipster-registry-with-gateway.png[JHipster Registry with gateway registered, 800, scaledwidth=100%, align=center]
+image::chapter5/jhipster-registry-with-gateway+apps.png[JHipster Registry with gateway registered, 800, scaledwidth=100%, align=center]
 
 Once everything is running, open a browser, go to http://localhost:8080[http://localhost:8080], and click *sign in*. You should be redirected to your Okta tenant to sign in, then back to the gateway once you've entered valid credentials.
 
@@ -476,7 +473,7 @@ heroku config:set \
   SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="$SECURITY_OAUTH2_CLIENT_CLIENT_SECRET"
 ----
 
-Update your Okta app to have a *Login redirect URI* that matches your Heroku app (e.g., `https://okta-gateway.herokuapp.com/`). To do this, log in to your Okta account, go to *Applications* > *JHipster Microservices* > *General* > *Edit*.
+Update your Okta app to have a *Login redirect URI* that matches your Heroku app (e.g., `https://okta-gateway.herokuapp.com/login`). To do this, log in to your Okta account, go to *Applications* > *JHipster Microservices* > *General* > *Edit*.
 
 To see if your apps have started correctly, you can run `heroku logs --tail` in each app's directory. You may see a timeout error, but your app should succeed in starting on your next attempt.
 
