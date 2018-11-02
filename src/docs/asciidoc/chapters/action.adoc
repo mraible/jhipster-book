@@ -11,11 +11,13 @@ I hope you've enjoyed learning how JHipster can help you develop hip web applica
 
 These policies help the project maintain its sharp edge and streamline its development process. If you have features you'd like to add or if you'd like to refine existing features, please follow the project and help with its development and support. We're always looking for help!
 
-Now that you've learned how to use Angular, Bootstrap, and Spring Boot with JHipster, go forth and develop great applications!
+Now that you've learned how to use Angular, Bootstrap, and Spring Boot with JHipster, go forth and develop awesome applications!
 
 == Additional reading
 
 If you want to learn more, here are some suggestions.
+
+Deepu K Sasidharan and Sendil Kumar N, two prolific committers on the JHipster team, wrote https://www.packtpub.com/application-development/full-stack-development-jhipster[_Full Stack Development with JHipster_] (Packt Publishing, March 2018).
 
 The definitive book about Spring's JDBC, JPA, and NoSQL support is http://shop.oreilly.com/product/0636920024767.do[_Spring Data: Modern Data Access for Enterprise Java_] by Mark Pollack _et al._ (O'Reilly Media, October 2012).
 
