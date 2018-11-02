@@ -17,7 +17,7 @@ JHipster supports two UI frameworks: Angular and React. In the first two version
 image::chapter3/angular/indeed-jobs-sep2018.jpg[Jobs on Indeed, 450, scaledwidth=75%]
 [.left]
 [[img-stackoverflow-tags-2018]]
-.Stack Overflow Tags, August 2018
+.Stack Overflow Tags, September 2018
 image::chapter3/angular/stackoverflow-tags-sep2018.jpg[Tags on Stack OverFlow, 450, scaledwidth=75%]
 --
 
@@ -46,9 +46,9 @@ A new syntax was introduced that binds data to element properties, not attribute
 
 In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announcing that they would be using http://www.typescriptlang.org/[TypeScript] over AtScript and that they would provide a migration path for Angular 1.x users. They also adopted semantic versioning and http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html[recommended people call it "Angular" instead of Angular 2.0].
 
-Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. https://www.jhipster.tech/2017/07/06/jhipster-release-4.6.0.html[JHipster 4.6.0] was released July 6, 2017 and was the first release to contain production-ready Angular support. At the time of this writing, JHipster 5 uses Angular 6. Angular's https://angular.io/guide/releases[releases documentation] says Angular 7 will be released in October 2018.
+Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. https://www.jhipster.tech/2017/07/06/jhipster-release-4.6.0.html[JHipster 4.6.0] was released July 6, 2017 and was the first release to contain production-ready Angular support. JHipster 5 uses Angular 6. Angular https://www.infoq.com/news/2018/11/angular-7[released version 7] during the production of this book.
 
-The Angular project is hosted at https://angular.io/[https://angular.io].
+You can find the Angular project at https://angular.io/[https://angular.io].
 
 === Basics
 Creating a component that says "Hello World" with Angular is pretty simple.
@@ -102,7 +102,7 @@ if (environment.production) {
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+  .catch(err => console.error(err));
 ----
 
 Finally, you'll need a basic HTML file that renders the component.
@@ -180,7 +180,7 @@ export class SearchComponent {
 }
 ----
 
-TIP: To see the JavaScript console in Chrome, use kbd:[Command+Option+J] in Mac OS X/MacOS or kbd:[Control+Shift+J] in Windows or Linux.
+TIP: To see the JavaScript console in Chrome, use kbd:[Command+Option+J] in Mac OS X/macOS or kbd:[Control+Shift+J] in Windows or Linux.
 
 To make this component available at a URL, you can use Angular's `Router` and specify the path in the module that includes the component.
 
@@ -250,12 +250,12 @@ export class SearchComponent {
   query: string;
   searchResults: Array<any>;
 
-  constructor(private searchService: SearchService) { <1>
+  constructor(private searchService: SearchService) { // <1>
     console.log('In Search Component...');
   }
 
-  search(): void { <2>
-    this.searchService.search(this.query).subscribe( <3>
+  search(): void { // <2>
+    this.searchService.search(this.query).subscribe( // <3>
       data => {
         this.searchResults = data;
       },
@@ -275,7 +275,7 @@ To make the aforementioned code work, you can generate a new Angular project usi
 npm i -g @angular/cli
 ----
 
-Then generate a new application using `ng new`.
+Then generate a new application using `ng new`. When prompted to install Angular routing, type “Y”. For the stylesheet format, choose “CSS” (the default).
 
 [source,bash]
 ----
@@ -349,7 +349,7 @@ http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the devel
 Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's powerful grid is built with containers, rows, and columns. It's based on the CSS3 flexible box, or flexbox. Flexbox is a layout mode intended to accommodate different screen sizes and different display devices. It's easier than using blocks to do layouts because it doesn't use floats, nor do the flex container's margins collapse with the margins of its content. CSS-Tricks has https://css-tricks.com/snippets/css/a-guide-to-flexbox/[A Complete Guide to Flexbox] that explains its concepts well.
 
 > The main idea behind the flex layout is to give the container the ability to alter its items' width/height (and order)
-> to best fill the available space,mostly to accommodate all kinds of display devices and screen sizes. A flex
+> to best fill the available space, mostly to accommodate all kinds of display devices and screen sizes. A flex
 > container expands items to fill available free space or shrinks them to prevent overflow.
 
 Bootstrap's grid width varies based on viewport width. The table below shows how aspects of the grid system work across different devices.
@@ -480,7 +480,7 @@ Bootstrap's classes for setting the display are names using the following format
 
 The media queries effect screen widths with the given breakpoint or _larger_. For example, `.d-lg-none` sets `display: none` on both `lg` and `xl` screens.
 
-The following example from 21-Points Health shows how to display a shorter heading on mobile, and a larger one on bigger screens.
+The following example from 21-Points Health shows how to display a shorter heading on mobile and a larger one on bigger screens.
 
 [source,html]
 ----
@@ -534,7 +534,7 @@ image::chapter3/bootstrap/buttons.png[Buttons, 754, scaledwidth=90%]
 
 Bootstrap ships with a number of components included. Some require JavaScript; some only require HTML5 markup and CSS classes to work. Its rich set of components have helped make it one of the most popular projects on GitHub. Web developers have always liked components in their frameworks. A framework that offers easy-to-use components often allows developers to write less code. Less code to write means there's less code to maintain!
 
-Some popular Bootstrap components include: dropdowns, button groups, button dropdowns, navbar, breadcrumbs, pagination, alerts, progress bars, and panels. Below is an example of a navbar with a dropdown.
+Popular Bootstrap components include: dropdowns, button groups, button dropdowns, navbar, breadcrumbs, pagination, alerts, progress bars, and panels. Below is an example of a navbar with a dropdown.
 
 [[img-bootstrap-navbar]]
 .Navbar with dropdown
@@ -546,17 +546,14 @@ When rendered on a mobile device, everything collapses into a hamburger menu tha
 .Navbar on mobile
 image::chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 476, scaledwidth=50%]
 
-This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source
-online in link:https://getbootstrap.com/docs/4.1/components/navbar/[Bootstrap's documentation]. A simpler example below
-shows the basic structure.
+This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source online in link:https://getbootstrap.com/docs/4.1/components/navbar/[Bootstrap's documentation]. A simpler example below shows the basic structure.
 
 [source,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/navbar.html[]
 ----
 
-Alerts are useful for displaying feedback to the user. You can invoke differently colored alerts with different classes. You'll need
-to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors.
+Alerts are useful for displaying feedback to the user. You can invoke differently colored alerts with different classes. You'll need to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors.
 
 [source,html]
 ----
@@ -591,7 +588,7 @@ TIP: To make the links in your alerts match the colors of the alerts, use `.aler
 
 Icons have always been a big part of web applications. Showing the user a small image is often sexier and hipper than plain text. Humans are visual beings and icons are a great way to spice things up. In the last several years, font icons have become popular for web development. Font icons are just fonts, but they contain symbols and glyphs instead of text. You can style, scale, and load them quickly because of their small size.
 
-Bootstrap 3.x included the http://glyphicons.com/[Glyphicons] Halflings set of font icons. It’s not normally free, but the font creator made it free for Bootstrap users. One of the https://v4-alpha.getbootstrap.com/migration/[changes] for Bootstrap 4 is that it dropped the Glyphicons icon font. You can use http://fontawesome.io/[Font Awesome] and https://octicons.github.com/[Github Octicons] as a free alternatives to Glyphicons.
+Bootstrap 3.x included the http://glyphicons.com/[Glyphicons] Halflings set of font icons. It’s not normally free, but the font creator made it free for Bootstrap users. One of the https://v4-alpha.getbootstrap.com/migration/[changes] for Bootstrap 4 is that it dropped the Glyphicons icon font. You can use http://fontawesome.io/[Font Awesome] and https://octicons.github.com/[GitHub Octicons] as a free alternatives to Glyphicons.
 
 Font Awesome has 1,341 icons and is included by default in JHipster with https://github.com/FortAwesome/angular-fontawesome[angular-fontawesome]. It is often used to display eye candy on buttons.
 
@@ -612,7 +609,7 @@ image::chapter3/bootstrap/buttons-with-icons.png[Buttons with icons, 262, scaled
 
 If you'd like to override Bootstrap classes in your project, the easiest thing to do is to put the override rule in a CSS file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/content/css/global.css` directly. If you're using Sass to compile `*.scss` files, you can modify `src/main/webapp/content/scss/global.scss` instead. Using Sass results in a much more concise authoring environment. Below is the default `vendor.scss` file that JHipster generates. You can see that it imports Bootstrap and I've added an import for Angular Calendar. Default Bootstrap rules are overridden in `src/main/webapp/content/scss/global.scss`.
 
-[source,css]
+[source,sass]
 .src/main/webapp/scss/vendor.scss
 ----
 /* after changing this file run 'yarn run webpack:build' */
@@ -632,8 +629,7 @@ eg $input-color: red;
 /* jhipster-needle-scss-add-vendor JHipster will add new css style */
 ----
 
-There's also a `src/main/webapp/content/scss/_bootstrap-variable.scss` file. You can modify this file
-to change the default Bootstrap settings like colors, border radius, etc.
+There's also a `src/main/webapp/content/scss/_bootstrap-variable.scss` file. You can modify this file to change the default Bootstrap settings like colors, border radius, etc.
 
 === Angular and Bootstrap
 
@@ -678,7 +674,7 @@ To use i18n in a JHipster project, you simply add a "`jhiTranslate`" attribute w
 
 The key references a JSON document, which will return the translated string. Angular will then replace the "`First Name`" string with the translated version.
 
-JHipster allows you to choose a default language and translations when you first create a project. It stores the JSON documents for these languages in `src/main/webapp/i18n`. You can install additional languages using `yo jhipster:languages`. At the time of this writing, JHipster supports 39 languages. You can also add a new language. To set the default language, modify `src/main/webapp/app/shared/shared-libs.module.ts` and its `defaultI18nLang` setting.
+JHipster allows you to choose a default language and translations when you first create a project. It stores the JSON documents for these languages in `src/main/webapp/i18n`. You can install additional languages using `yo jhipster:languages`. As of October 2018, JHipster supports 42 languages. You can also add a new language. To set the default language, modify `src/main/webapp/app/shared/shared-libs.module.ts` and its `defaultI18nLang` setting.
 
 [source,javascript]
 .src/main/webapp/app/shared/shared-libs.module.ts
@@ -789,9 +785,9 @@ Bootstrap 3.x was written with http://lesscss.org/[Less], a CSS pre-processor wi
 
 JHipster allows you to use Sass by default. To learn more about structuring your CSS and naming classes, read the great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
 
-== webpack
+== Webpack
 
-JHipster 4+ uses https://webpack.github.io/[webpack] for building the client. JHipster 3.x used https://gulpjs.com/[Gulp]. Gulp allows you to perform tasks like minification, concatenation, compilation (e.g. from TypeScript/CoffeeScript to JavaScript), unit testing, and more. webpack is a more modern solution that's become very popular for Angular projects and is included under-the-covers in Angular CLI.
+JHipster 4+ uses https://webpack.github.io/[webpack] for building the client. JHipster 3.x used https://gulpjs.com/[Gulp]. Gulp allows you to perform tasks like minification, concatenation, compilation (e.g. from TypeScript/CoffeeScript to JavaScript), unit testing, and more. webpack is a more modern solution that's become very popular for Angular projects and is included under the covers in Angular CLI.
 
 webpack is a module bundler that recursively builds a dependency graph with every module your application needs. It packages all of these modules into a smaller number of bundles to be loaded by the browser. Its code-splitting abilities make it possible to break up large JavaScript applications into small chunks that can be loaded on demand.
 
@@ -799,10 +795,8 @@ It has four core concepts:
 
 * **Entry:** This tells webpack where to start and follows the graph of dependencies to know what to bundle.
 * **Output:** Once you've bundled all of your assets together, you need to tell webpack *where* to put them.
-* **Loaders:** webpack treats every file (.css, .scss, .ts, .png, .html, etc.) as a module, but only understands JavaScript.
-Loaders transform files into modules as they are added to the dependency graph.
-* **Plugins:** Loaders execute transforms per file. Plugins perform actions and customizations on chunks of your bundled
-modules.
+* **Loaders:** webpack treats every file (.css, .scss, .ts, .png, .html, etc.) as a module, but only understands JavaScript. Loaders transform files into modules as they are added to the dependency graph.
+* **Plugins:** Loaders execute transforms per file. Plugins perform actions and customizations on chunks of your bundled modules.
 
 Below is a basic `webpack.config.js` that shows all four concepts in use.
 
@@ -840,10 +834,8 @@ I tried running this and found it added 20 dependencies to the project's `packag
 * `logo-jhipster.png` is the logo that shows in desktop alerts for build notifications.
 * `utils.js` contains utility functions for finding the project's version and determining external libraries.
 * `webpack.common.js` is the common parent configuration that's extended by each of the following files.
-* `webpack.dev.js` is the configuration used when you run `yarn start`. It enables hot-reloading with Browsersync and desktop
-notifications.
-* `webpack.prod.js` is the configuration used for production. Angular's AOT compilation is used, HTML templates are
-converted to JavaScript, and source maps are created.
+* `webpack.dev.js` is the configuration used when you run `yarn start`. It enables hot-reloading with Browsersync and desktop notifications.
+* `webpack.prod.js` is the configuration used for production. Angular's AOT compilation is used, HTML templates are converted to JavaScript, and source maps are created.
 
 To learn more about webpack, I recommend visiting https://webpack.academy/[https://webpack.academy], which is a site dedicated to teaching webpack. It was created by https://twitter.com/TheLarkInn[Sean Larkin], a member of the webpack core team, the Angular team, and the Angular CLI core team. He's a big reason for the success of webpack, as he's constantly promoting it, providing learning materials around it, and helping open-source projects adopt it.
 
