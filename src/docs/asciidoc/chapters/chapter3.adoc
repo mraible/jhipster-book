@@ -266,7 +266,7 @@ export class SearchComponent {
 ----
 <1> To inject `SearchService` into `SearchComponent`, simply add it as a parameter to the component's constructor. TypeScript automatically makes constructor dependencies available as class variables.
 <2> `search()` is a method that's called from the HTML's `<input>` and `<button>`, wired up using the `(keyup.enter)` and `(click)` event handlers.
-<3> `this.query` is a variable that's wired to `<input>` using the `[(ngModule)]` directive. This syntax provides two-way binding so if you change the value in the component, it changes it in the rendered HTML. You can think of it this way: `[] => component to template` and  `() => template to component`.
+<3> `this.query` is a variable that's wired to `<input>` using the `[(ngModel)]` directive. This syntax provides two-way binding so if you change the value in the component, it changes it in the rendered HTML. You can think of it this way: `[] => component to template` and  `() => template to component`.
 
 To make the aforementioned code work, you can generate a new Angular project using https://cli.angular.io[Angular CLI]. To install Angular CLI, you can use npm.
 
