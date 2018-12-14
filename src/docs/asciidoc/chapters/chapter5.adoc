@@ -66,11 +66,15 @@ image::chapter5/jhipster-microservices-architecture.png[JHipster microservices a
 
 To see what's happening inside your applications, you can use the https://jhipster.github.io/monitoring/#jhipster-console[JHipster Console], a monitoring tool based on the https://www.elastic.co/products[Elastic Stack]. I'll cover JHipster Console in the Docker Compose section.
 
-This tutorial shows you how to build a microservices architecture with https://www.jhipster.tech/2018/10/07/jhipster-release-5.4.2.html[JHipster 5.4.2]. You'll generate a gateway (powered by Netflix Zuul), a blog microservice (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
+This tutorial shows you how to build a microservices architecture with JHipster 5.4.2. You'll generate a gateway (powered by Netflix Zuul), a blog microservice (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
 
 == Generate an API gateway and microservice applications
 
 One of the new features added in JHipster 5.3.x is the ability to generate a full microservices stack using the `import-jdl` command. Open a terminal window, create a directory (e.g., `jhipster-microservices-example`) and create an `apps.jh` file in it. Copy the JDL below into this file.
+
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 
 .apps.jh
 ====
@@ -190,9 +194,9 @@ While you're waiting, you can get started with setting up OAuth with Okta.
 
 === What is OAuth 2.0?
 
-The OAuth implementation in JHipster leverages Spring Boot and its OAuth 2.0 support (an `@EnableOAuthSso` annotation). If you're not sure what OAuth and OpenID Connect (OIDC) are, please see "`link:https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth[What the Heck Is OAuth?]`". OAuth provides single sign-on (SSO) to JHipster applications. "`link:https://developer.okta.com/blog/2018/02/13/secure-spring-microservices-with-oauth[Securing Microservices with Spring Security OAuth]`" shows a bare-bones Spring microservices architecture using OAuth. JHipster uses the same internal setup.
+The OAuth implementation in JHipster leverages Spring Boot and its OAuth 2.0 support (an `@EnableOAuthSso` annotation). OAuth provides single sign-on (SSO) to JHipster applications. "`link:https://developer.okta.com/blog/2018/02/13/secure-spring-microservices-with-oauth[Securing Microservices with Spring Security OAuth]`" shows a bare-bones Spring microservices architecture using OAuth. JHipster uses the same internal setup.
 
-JHipster ships with https://keycloak.org[Keycloak] configured for OAuth by default. This works great for local development. However, if you want to deploy your apps to production, you might want to use an identity provider that's always on, like http://developer.okta.com[Okta]. Okta offers accounts that are forever-free and allow you 1,000 monthly users at no cost.
+JHipster ships with https://keycloak.org[Keycloak] configured for OAuth by default. This works great for local development. However, if you want to deploy your apps to production, you might want to use an identity provider that's always on, like Okta. Okta offers accounts that are forever-free and allow you 1,000 monthly users at no cost.
 
 To configure your apps to work with Okta, you'll first need to https://developer.okta.com/signup/[create a free developer account]. After doing so, you'll get your own Okta domain, which has a name like `https://dev-123456.oktapreview.com`.
 
@@ -200,7 +204,7 @@ image::chapter5/okta-signup.png[Okta Developer Signup, 1200, scaledwidth=100%, a
 
 === Create an OpenID Connect application on Okta
 
-Create an OpenID Connect (OIDC) app in Okta to get a client ID and a secret. This basically means you're "registering" your application with Okta. Log in to your Okta account and navigate to *Applications* &gt; *Add Application*. Click *Web* and click *Next*. Give the app a name you’ll remember (e.g., `JHipster Microservices`), and specify `http://localhost:8080` as a base URI and `http://localhost:8080/login` as a login redirect URI. Click *Done* and make note of your client ID and client secret values.
+Create an OpenID Connect (OIDC) app in Okta to get a client ID and a secret. This basically means you're "registering" your application with Okta. Log in to your Okta account and navigate to *Applications* &gt; *Add Application*. Click *Web* and click *Next*. Give the app a name you’ll remember (e.g., `JHipster Microservices`), and specify `http://localhost:8080/login` as a login redirect URI. Click *Done* and make note of your client ID and client secret values.
 
 In order for the roles coming from Okta to match the default roles in JHipster, you'll need to create them. Create a `ROLE_ADMIN` and `ROLE_USER` group (**Users** &gt; *Groups* &gt; *Add Group*) and add users to them. You can use the account you signed up with, or create a new user (**Users** &gt; *Add Person*). Navigate to *API* &gt; *Authorization Servers*, click the *Authorization Servers* tab and edit the default one. Click the *Claims* tab and *Add Claim*. Name it `roles`, and include it in the ID Token. Set the value type to `Groups` and set the filter to be a Regex of `.*`.
 
@@ -231,7 +235,7 @@ export SECURITY_OAUTH2_CLIENT_CLIENT_ID="{clientId}"
 export SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="{clientSecret}"
 ----
 
-If you want to make Okta settings the default, you can add `source ~/.okta.env` to `~/.bashrc` (or `~/.zshrc`).
+TIP: If you want to make Okta settings the default, you can add `source ~/.okta.env` to `~/.bashrc` (or `~/.zshrc`).
 
 If you're hard-coding your Okta settings in `application.yml`, make sure you update your settings in the blog and store apps too. If you're using environment variables, you don't need to make any changes.
 
@@ -266,11 +270,10 @@ If you want to change it to use Okta, you'll need to modify `gateway/src/main/do
 
 TIP: You can also put these variables in a file and specify an `env_file` setting. See https://docs.docker.com/compose/environment-variables/#the-env-file[Environment variables in Compose] to learn more.
 
-Then you'll need to stop your JHipster Registry (if it's already running), and start it again:
+Then you'll need to restart your JHipster Registry (if it's already running):
 
 ----
-docker-compose -f gateway/src/main/docker/jhipster-registry.yml down
-docker-compose -f gateway/src/main/docker/jhipster-registry.yml up -d
+docker-compose -f gateway/src/main/docker/jhipster-registry.yml restart
 ----
 
 To log in, you'll need to add `http://localhost:8761/login` as a login-redirect URI in your Okta app.
@@ -286,12 +289,12 @@ Open three terminal windows and navigate to each app (`gateway`, `blog`, and `st
 
 TIP: If you already have Maven installed, you can simply use `mvn`.
 
-Open your browser and go to http://localhost:8761[http://localhost:8761]. Log in, and you should see a welcome page that shows that the gateway and both apps have been registered.
+Open your browser and go to http://localhost:8761. Log in, and you should see a welcome page that shows that the gateway and both apps have been registered.
 
 .JHipster Registry with gateway registered
 image::chapter5/jhipster-registry-with-gateway+apps.png[JHipster Registry with gateway registered, 800, scaledwidth=100%, align=center]
 
-Once everything is running, open a browser, go to http://localhost:8080[http://localhost:8080], and click *sign in*. You should be redirected to your Okta tenant to sign in, then back to the gateway once you've entered valid credentials.
+Once everything is running, open a browser, go to http://localhost:8080, and click *sign in*. You should be redirected to your Okta tenant to sign in, then back to the gateway once you've entered valid credentials.
 
 .Welcome, JHipster
 image::chapter5/welcome-jhipster.png["Welcome, JHipster", 1200, scaledwidth=100%, align=center]
@@ -529,4 +532,4 @@ If you'd like to learn more about microservices, authentication, and JHipster, s
 * "`link:https://developer.okta.com[Secure a Spring Microservices Architecture with Spring Security and OAuth]`"
 * "`link:https://developer.okta.com/blog/2017/06/20/develop-microservices-with-jhipster[Develop and Deploy Microservices with JHipster]`" (uses JWT for authentication)
 * "`link:https://developer.okta.com/blog/2017/10/20/oidc-with-jhipster[Use OpenID Connect Support with JHipster]`"
-* "`link:https://medium.com/@sendilkumarn/hello-istio-%EF%B8%8F-welcome-to-jhipster-b67dc68ecb19[Hello Istio ⛵️, welcome to JHipster]`"
+* "`link:https://medium.com/@sendilkumarn/hello-istio-%EF%B8%8F-welcome-to-jhipster-b67dc68ecb19[Hello Istio ⛵, welcome to JHipster]`"

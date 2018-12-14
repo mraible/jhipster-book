@@ -923,7 +923,6 @@ public class PointsResourceIntTest {
              .contentType(TestUtil.APPLICATION_JSON_UTF8)
              .content(TestUtil.convertObjectToJsonBytes(points)))
              .andExpect(status().isCreated());
-
          ....
      }
 }
