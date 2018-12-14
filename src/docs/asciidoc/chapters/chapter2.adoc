@@ -1,137 +1,13 @@
-= Preface
-
-A few years ago, I consulted at several companies that used Spring and Java to develop their back-end systems. On those projects, I introduced Spring Boot to simplify development. DevOps teams often admired its external configuration and its starter dependencies made it easy to develop SOAP and REST APIs.
-
-I used AngularJS for several years as well. For the first project I used AngularJS on, in early 2013, I implemented in 40% of the code that jQuery would've required. I helped that company modernize its UI in a project for which we integrated Bootstrap. I was very impressed with both AngularJS and Bootstrap and have used them ever since. In 2014, I used Ionic on a project to implement a HTML5 UI in a native iOS application. We used AngularJS, Bootstrap, and Spring Boot in that project and they worked very well for us.
-
-When I heard about JHipster, I was motivated to use it right away. It combined my most-often-used frameworks into an easy-to-use package. For the first several months I knew about JHipster, I used it as a learning tool — generating projects and digging into files to see how it coded features. The JHipster project is a goldmine of information and lessons from several years of developer experience.
-
-I wanted to write this book because I knew all the tools in JHipster really well. I wanted to further the knowledge of this wonderful project. I wanted Java developers to see that they can be hip again by leveraging AngularJS and Bootstrap. I wanted to show them how JavaScript web development isn't scary, it's just another powerful platform that can improve your web-development skills.
-
-The first version of this book was released in October 2015, the second in December 2016, and the third (4.x to match Angular) was released in the fall of 2017 after JHipster migrated to Angular. Version 4.5 was released in April 2018 with an additional chapter on microservices. This version is updated for JHipster version 5. I spent a lot of time learning Angular and TypeScript in 2016-2018 and I'm pleased to bring you this book as an active member of the JHipster Development Team.
-
-== What is in an InfoQ mini-book?
-
-InfoQ mini-books are designed to be concise, intending to serve technical architects looking to get a firm conceptual understanding of a new technology or technique in a quick yet in-depth fashion. You can think of these books as covering a topic strategically or essentially. After reading a mini-book, the reader should have a fundamental understanding of a technology, including when and where to apply it, how it relates to other technologies, and an overall feeling that they have assimilated the combined knowledge of other professionals who have already figured out what this technology is about. The reader will then be able to make intelligent decisions about the technology once their projects require it, and can delve into sources of more detailed information (such as larger books or tutorials) at that time.
-
-== Who this book is for
-
-This book is aimed specifically at web developers who want a rapid introduction to Angular, Bootstrap, and Spring Boot by learning JHipster. JHipster 5 adds support for React as well, but I won’t be covering it in this book since Angular is the default. If I added React coverage, this would no longer be a mini-book. 😉
-
-TIP: If you'd like to see a React version of the app developed in this book, check out https://github.com/robmelfi/21-points-react[Roberto Melfi's 21-points-react project].
-
-== What you need for this book
-
-To try code samples in this book, you will need a computer running an up-to-date operating system (Windows, Linux, or Mac OS X/macOS). You will need Node.js and Java installed. The book code was tested against Node.js 8 and JDK 8, but newer versions should also work.
-
-NOTE: It _should_ be possible to run a JHipster app on Java 9+ because it’s possible to use Java 10 with Spring Boot 2.0.1. Java 11 support is in Spring Boot 2.1. However, JHipster depends on many plugins that are not yet Java 9+ compatible. The most common error is `java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException`. For this reason, I recommend using Java 8.
-
-== Conventions
-
-We use a number of typographical conventions within this book that distinguish between different kinds of information.
-
-Code in the text, including commands, variables, file names, CSS class names, and property names are shown as follows.
-
-[example]
-Spring Boot uses a `public static void main` entry-point that launches an embedded web server for you.
-
-A block of code is set out as follows. It may be colored, depending on the format in which you're reading this book.
-
-[source,html]
-.src/app/search/search.component.html
-----
-<form>
- <input type="search" name="query" [(ngModel)]="query" (keyup.enter)="search()">
- <button type="button" (click)="search()">Search</button>
-</form>
-----
-
-[source,java]
-.src/main/java/demo/DemoApplication.java
-----
-@RestController
-class BlogController {
-   private final BlogRepository repository;
-
-   // Yay! No annotations needed for constructor injection in Spring 4.3+.
-   public BlogController(BlogRepository repository) {
-       this.repository = repository;
-   }
-
-   @RequestMapping("/blogs")
-   Collection<Blog> list() {
-       return repository.findAll();
-   }
-}
-----
-
-When we want to draw your attention to certain lines of code, those lines are annotated using numbers accompanied by brief descriptions.
-
-[source,javascript]
-----
-export class SearchComponent {
- constructor(private searchService: SearchService) {} <1>
-
- search(): void { <2>
-   this.searchService.search(this.query).subscribe( <3>
-     data => { this.searchResults = data; },
-     error => console.log(error)
-   );
- }
-}
-----
-<1> To inject `SearchService` into `SearchComponent`, add it as a parameter to the constructors's argument list.
-<2> `search()` is a method that's called from the HTML's `<button>`, wired up using the `(click)` event handler.
-<3> `this.query` is a variable that's wired to `<input>` using two-way binding with `[(ngModel)]="query"`.
-
-
-TIP: Tips are shown using callouts like this.
-
-WARNING: Warnings are shown using callouts like this.
-
-.Sidebar
-****
-Additional information about a certain topic may be displayed in a sidebar like this one.
-****
-
-Finally, this text shows what a quote looks like:
-
-"In the end, it's not the years in your life that count. It's the life in your years."
--- Abraham Lincoln
-
-== Reader feedback
-
-We always welcome feedback from our readers. Let us know what you thought about this book — what you liked or disliked. Reader feedback helps us develop titles that deliver the most value to you.
-
-To send us feedback, email us at feedback@infoq.com, send a tweet to @jhipster_book, or post a question on Stack Overflow using the "`jhipster`" tag.
-
-If you're interested in writing a mini-book for InfoQ, see http://www.infoq.com/minibook-guidelines.
-
-ifeval::["{media}" == "prepress"]
-The most up-to-date version of this book can be downloaded from https://infoq.com/minibooks/jhipster-mini-book.
-endif::[]
-
-= Introduction
-
-JHipster is one of those open-source projects you stumble upon and immediately think, "`Of course!`" It combines three very successful frameworks in web development: Bootstrap, Angular, and Spring Boot. Bootstrap was one of the first dominant web-component frameworks. Its largest appeal was that it only required a bit of HTML and it worked! All the efforts we made in the Java community to develop web components were shown a better path by Bootstrap. It leveled the playing field in HTML/CSS development, much like Apple's Human Interface Guidelines did for iOS apps.
-
-JHipster was started by Julien Dubois in October 2013 (Julien's first commit was on https://github.com/jhipster/generator-jhipster/commit/c8630ab7af7b6a99db880b3b0e2403806b7d2436[October 21, 2013]). The first public release (version 0.3.1) was launched December 7, 2013. Since then, the project has had over 172 releases! It is an open-source, Apache 2.0-licensed project on GitHub. It has a core team of 19 developers and over 430 contributors. You can find its homepage at https://www.jhipster.tech/[https://www.jhipster.tech]. Its https://github.com/jhipster/generator-jhipster[GitHub project] shows it's mostly written in JavaScript (33%), Java (27%), and TypeScript (25%). HTML is trailing in the fourth position with 12%.
-
-At its core, JHipster is a http://yeoman.io/[Yeoman] generator. Yeoman is a code generator that you run with a `yo` command to generate complete applications or useful pieces of an application. Yeoman generators promote what the Yeoman team calls the "`Yeoman workflow`". This is an opinionated client-side stack of tools that can help developers quickly build beautiful web applications. It takes care of providing everything needed to get working without the normal pains associated with a manual setup.
-
-The Yeoman workflow is made up of three types of tools to enhance your productivity and satisfaction when building a web app:
-
-* the scaffolding tool (yo),
-* the build tool (npm/Yarn, webpack, etc.), and
-* the package manager (npm/Yarn).
-
-This book shows you how to build an app with JHipster, and guides you through the plethora of tools, techniques, and options. Furthermore, it explains the UI components and API building blocks so you can understand the underpinnings of a JHipster application.
-
 = Building an app with JHipster
 
 When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating a photo gallery to showcase the 1966 VW Bus I've been working on since 2006. The project was recently finished and I wanted a website to show how things have progressed through the years.
 
-I also thought about creating a blog application. As part of http://raibledesigns.com/rd/entry/getting_hip_with_jhipster_at[my first presentation on JHipster] (at http://www.denverjug.org/[Denver's Java User Group]), I created a blog application that I live-coded in front of the audience. After that presentation, I spent several hours polishing the application and started http://www.jhipster-book.com[The JHipster Mini-Book site] with it.
+ifeval::["{media}" == "screen"]
+I also thought about creating a blog application. As part of http://raibledesigns.com/rd/entry/getting_hip_with_jhipster_at[my first presentation on JHipster] (at the http://www.denverjug.org/[Denver Java Users Group]), I created a blog application that I live-coded in front of the audience. After that presentation, I spent several hours polishing the application and started http://www.jhipster-book.com[The JHipster Mini-Book site] with it.
+endif::[]
+ifeval::["{media}" == "prepress"]
+I also thought about creating a blog application. As part of my first presentation on JHipster (at the Denver Java Users Group), I created a blog application that I live-coded in front of the audience. After that presentation, I spent several hours polishing the application and started http://www.jhipster-book.com[The JHipster Mini-Book site] with it.
+endif::[]
 
 After thinking about the VW Bus Gallery and developing the blog application, I thought to myself, is this hip enough? Shouldn't a book about becoming what the JHipster homepage calls a "`Java Hipster`" show how to build a hip application?
 
@@ -294,7 +170,7 @@ JHipster v5 will only work with an external Elasticsearch instance. In previous 
 docker-compose -f src/main/docker/elasticsearch.yml up -d
 ----
 
-**TIP:** Running Elasticsearch as an embedded instance is the default again in JHipster 5.3.0+ thanks to https://github.com/jhipster/generator-jhipster/pull/8122[this pull-request] that integrates Spring Data Jest.
+TIP: Running Elasticsearch as an embedded instance is the default again in JHipster 5.3.0+ thanks to https://github.com/jhipster/generator-jhipster/pull/8122[this pull-request] that integrates Spring Data Jest.
 
 Next, I started the app using `./gradlew` and then ran the UI integration tests with `yarn e2e`. All tests passed with flying colors.
 
@@ -342,6 +218,7 @@ Wahoo — it worked!
 [sidebar]
 .Using a local PostgreSQL database
 --
+[.text-left]
 You can also use a local PostgreSQL database. To do this on a Mac, I installed http://postgresapp.com/[Postgres.app] and tried creating a local PostgreSQL database with settings from `src/main/resources/config/application-prod.yml`.
 
 ----
@@ -377,7 +254,7 @@ I quickly realized that PostgreSQL is case insensitive, so even though I typed "
 
 === Adding source control
 
-One of the first things I like to do when creating a new project is to add it to a version-control system (VCS). In this particular case, I chose Git and https://bitbucket.org[Bitbucket].
+One of the first things I like to do when creating a new project is to add it to a version-control system (VCS). In this particular case, I chose Git and Bitbucket.
 
 JHipster will initialize Git for your project automatically if you have Git installed. The following commands show how I added a reference to the remote Bitbucket repository, then pushed everything. I created the repository on Bitbucket before executing these commands.
 
@@ -398,7 +275,12 @@ This is how I created a new application with JHipster and checked it into source
 
 == Building the UI and business logic
 
+ifeval::["{media}" == "screen"]
 I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a few years ago, but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the https://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the https://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design] module. Unfortunately, I soon found out it doesn't support JHipster 4+.
+endif::[]
+ifeval::["{media}" == "prepress"]
+I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a few years ago, but now Google's Material Design is growing in popularity. I searched for "material" in the JHipster Marketplace and found the Bootstrap Material Designope module. Unfortunately, I soon found out it doesn't support JHipster 4+.
+endif::[]
 
 In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. To make the default Bootstrap theme look like Material Design, modify `_bootstrap-variables.scss` and replace it with the contents below.
 

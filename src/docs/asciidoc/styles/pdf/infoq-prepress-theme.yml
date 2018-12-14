@@ -206,6 +206,7 @@ outline_list:
   # NOTE item_spacing applies to list items that do not have complex content
   item_spacing: $vertical_rhythm / 2
   #marker_font_color: 404040
+  text_align: left
 table:
   background_color: $page_background_color
   #head_background_color: <hex value>
