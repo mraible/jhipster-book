@@ -279,7 +279,7 @@ ifeval::["{media}" == "screen"]
 I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a few years ago, but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the https://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the https://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design] module. Unfortunately, I soon found out it doesn't support JHipster 4+.
 endif::[]
 ifeval::["{media}" == "prepress"]
-I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a few years ago, but now Google's Material Design is growing in popularity. I searched for "material" in the JHipster Marketplace and found the Bootstrap Material Designope module. Unfortunately, I soon found out it doesn't support JHipster 4+.
+I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a few years ago, but now Google's Material Design is growing in popularity. I searched for "material" in the JHipster Marketplace and found the Bootstrap Material Design module. Unfortunately, I soon found out it doesn't support JHipster 4+.
 endif::[]
 
 In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. To make the default Bootstrap theme look like Material Design, modify `_bootstrap-variables.scss` and replace it with the contents below.
@@ -650,8 +650,8 @@ Below is a consolidated list of changes I made to the HTML to make things look b
 
 * improved layout of tables and buttons,
 * improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`,
-* formatted dates for local timezone with https://angular.io/api/common/DatePipe[Angular's DatePipe]
-  (for example: `{{bloodPressure.timestamp | date:'short': 'UTC'}}`),
+* formatted dates for local timezone with Angular's DatePipe
+  (for example: `{{bloodPressure.timestamp | date:'short'}}`),
 * defaulted to current date on new entries,
 * replaced point metrics with icons on list/detail screens, and
 * replaced point metrics with checkboxes on update screen.
@@ -1882,8 +1882,6 @@ I read the https://devcenter.heroku.com/articles/custom-domains[documentation], 
 
 I also configured a custom resource record with a CNAME to point to `health-by-points.herokuapp.com`.
 
-ifdef::backend-pdf[<<<]
-
 .Custom resource record on Google Domains
 |===
 |Name |Type |TTL |Data
@@ -1969,6 +1967,7 @@ Setting SENDGRID_PASSWORD, SENDGRID_USERNAME and restarting health-by-points... 
 Use `heroku addons:docs sendgrid` to view documentation.
 ----
 
+[.text-left]
 Then I updated `application-prod.yml` to use the configured `SENDGRID_PASSWORD` and `SENDGRID_USERNAME` environment variables for mail, as well as to turn on authentication.
 
 [source,yaml]
@@ -1998,7 +1997,7 @@ After repackaging and redeploying, I used the built-in health-checks feature of 
 
 == Monitoring and analytics
 
-JHipster generates the code necessary for Google Analytics in every application's `src/main/webapp/index.html` file. I chose not to enable this just yet, but I hope to eventually. I already have a http://www.google.com/analytics/[Google Analytics] account, so it's just a matter of creating a new account for www.21-points.com, copying the account number, and modifying the following section of `index.html`:
+JHipster generates the code necessary for Google Analytics in every application's `src/main/webapp/index.html` file. I chose not to enable this just yet, but I hope to eventually. I already have a Google Analytics account, so it's just a matter of creating a new account for www.21-points.com, copying the account number, and modifying the following section of `index.html`:
 
 [source,html]
 .src/main/webapp/index.html
@@ -2195,12 +2194,11 @@ Then I ran all the tests and the `sonarqube` task.
 /gradlew -Pprod clean test sonarqube
 ----
 
-Once this process completes, an analysis of the project is available on the Sonar dashboard at http://127.0.0.1:9001. 21-Points Heath is a triple-A-rated app! Not bad, eh?
+Once this process completed, an analysis of the project was available on the Sonar dashboard at http://127.0.0.1:9001. 21-Points Heath is a triple-A-rated app! Not bad, eh?
 
 [[sonar-results]]
 .Sonar results
 image::chapter2/sonar.png[Sonar results, 1500, scaledwidth=100%, align=center]
-
 
 == Progressive web apps
 
@@ -2270,7 +2268,7 @@ After getting this application into a good enough state, I moved it from Bitbuck
 
 After I finished developing the MVP of 21-Points Health with JHipster 5.3.0, I wanted to upgrade it to the latest release. I used the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator], and upgraded it to 5.3.4, then again to 5.4.2.
 
-TIP: If the upgrade sub-generator doesn't work for you when upgrading JHipster, you can manually upgrade using http://www.syntevo.com/smartsynchronize/[SmartSynchronize]. You can do this by creating a new branch, running `rm -rf *` in your project, then running `jhipster --with-entities`. Then use SmartSynchronize to compare files and restore your custom code.
+TIP: If the upgrade sub-generator doesn't work for you when upgrading JHipster, you can manually upgrade. You'll want to make sure your project is checked into source control first. Then, create a new branch and run `rm -rf *` in your project, followed by `jhipster --with-entities`. After this process completes, use your favorite tool (e.g., IntelliJ IDEA) to compare changed files and restore your custom code.
 
 If you're reading this and notice that 21-Points Health is using a version newer than 5.4.2, it's likely because I upgraded again.
 

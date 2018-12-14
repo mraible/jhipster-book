@@ -9,17 +9,13 @@ This section shows how JHipster includes all of these UI components for you and 
 
 JHipster supports two UI frameworks: Angular and React. In the first two versions of this book, I showed you how to use AngularJS. In the last two versions (4.0 and 4.5), I showed you how to use Angular. Since this is a mini-book, I'm going to stick with showing Angular only. You can see from the following graphs that Angular and React are the most popular among JavaScript frameworks.
 
-[.clearfix]
---
-[.left]
 [[img-angular-jobs-2018]]
 .Jobs on Indeed, September 2018
-image::chapter3/angular/indeed-jobs-sep2018.jpg[Jobs on Indeed, 450, scaledwidth=75%]
-[.left]
+image::chapter3/angular/indeed-jobs-sep2018.jpg[Jobs on Indeed, 450, scaledwidth=75%, align=center]
+
 [[img-stackoverflow-tags-2018]]
 .Stack Overflow Tags, September 2018
-image::chapter3/angular/stackoverflow-tags-sep2018.jpg[Tags on Stack OverFlow, 450, scaledwidth=75%]
---
+image::chapter3/angular/stackoverflow-tags-sep2018.jpg[Tags on Stack OverFlow, 450, scaledwidth=75%, align=center]
 
 Angular is the default UI framework used by JHipster. It's written in TypeScript, compiles to JavaScript, and just using it makes you a hipster! Like Struts in the early 2000s and Rails in the mid-2000s, Angular and other JavaScript frameworks have changed the way developers write web applications. Today, data is exposed via REST APIs and UIs are written in JavaScript (or TypeScript). As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns. It recommended organizing your application into several different components:
 
@@ -44,11 +40,11 @@ A new syntax was introduced that binds data to element properties, not attribute
 <input type="checkbox" [checked]="someProperty">
 ----
 
-In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announcing that they would be using http://www.typescriptlang.org/[TypeScript] over AtScript and that they would provide a migration path for Angular 1.x users. They also adopted semantic versioning and http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html[recommended people call it "Angular" instead of Angular 2.0].
+In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announcing that they would be using TypeScript over AtScript and that they would provide a migration path for Angular 1.x users. They also adopted semantic versioning and http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html[recommended people call it "Angular" instead of Angular 2.0].
 
-Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. https://www.jhipster.tech/2017/07/06/jhipster-release-4.6.0.html[JHipster 4.6.0] was released July 6, 2017 and was the first release to contain production-ready Angular support. JHipster 5 uses Angular 6. Angular https://www.infoq.com/news/2018/11/angular-7[released version 7] during the production of this book.
+Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. JHipster 4.6.0 was released July 6, 2017 and was the first release to contain production-ready Angular support. JHipster 5 uses Angular 6. Angular released version 7 during the production of this book.
 
-You can find the Angular project at https://angular.io/[https://angular.io].
+You can find the Angular project at https://angular.io.
 
 === Basics
 Creating a component that says "Hello World" with Angular is pretty simple.
@@ -228,7 +224,7 @@ In the main entry point of the app, `AppComponent` in this case, you'll need to 
 
 The template for the `SearchComponent` can be as simple as a form with a button.
 
-[source,html]
+[source%autofit,html]
 ----
 <h2>Search</h2>
 <form>
@@ -482,12 +478,13 @@ The media queries effect screen widths with the given breakpoint or _larger_. Fo
 
 The following example from 21-Points Health shows how to display a shorter heading on mobile and a larger one on bigger screens.
 
-[source,html]
+[source%autofit,html]
 ----
 <div class="col-6 text-nowrap">
     <h4 class="mt-1 d-none d-md-inline"
         jhiTranslate="home.bloodPressure.title">Blood Pressure:</h4>
-    <h4 class="mt-1 d-sm-none" jhiTranslate="home.bloodPressure.titleMobile">BP:</h4>
+    <h4 class="mt-1 d-sm-none"
+        jhiTranslate="home.bloodPressure.titleMobile">BP:</h4>
 </div>
 ----
 
@@ -495,7 +492,7 @@ The following example from 21-Points Health shows how to display a shorter headi
 
 When you add Bootstrap's CSS to your web application, chances are it'll quickly start to look better. Typography, margins, and padding will look better by default. However, your forms might look funny, because Bootstrap requires a few classes on your form elements to make them look good. Below is an example of a form element.
 
-[source,html]
+[source%autofit,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
 ----
@@ -506,7 +503,7 @@ image::chapter3/bootstrap/basicelement.png[Basic form element, 712, scaledwidth=
 
 If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
 
-[source,html]
+[source%autofit,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/basicelement-withvalidation.html[]
 ----
@@ -548,7 +545,7 @@ image::chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 476, scaledwidt
 
 This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source online in link:https://getbootstrap.com/docs/4.1/components/navbar/[Bootstrap's documentation]. A simpler example below shows the basic structure.
 
-[source,html]
+[source%autofit,html]
 ----
 include::{sourcedir}/chapter3/bootstrap/navbar.html[]
 ----
@@ -568,7 +565,7 @@ image::chapter3/bootstrap/alerts.png[Alerts, 776, scaledwidth=100%]
 
 To make an alert closeable, you need to add an `.alert-dismissible` class and a close button.
 
-[source,html]
+[source%autofit,html]
 ----
 <div class="alert alert-warning alert-dismissible  fade show" role="alert">
   <strong>Warning!</strong> Better check yourself, you're not looking too good.
@@ -635,7 +632,7 @@ There's also a `src/main/webapp/content/scss/_bootstrap-variable.scss` file. You
 
 JHipster includes https://ng-bootstrap.github.io/[ng-bootstrap] by default. This library provides Bootstrap 4 components that are powered by Angular instead of jQuery.
 
-http://codeseven.github.io/toastr/[Toastr] is a popular non-blocking notification library powered by jQuery. JHipster has an https://github.com/jhipster/ng-jhipster/blob/master/src/service/alert.service.ts[alert.service.ts] that allows you to use Toastr-like alerts.
+http://codeseven.github.io/toastr/[Toastr] is a popular non-blocking notification library powered by jQuery. JHipster has an https://github.com/jhipster/ng-jhipster/blob/master/src/service/alert.service.ts[`alert.service.ts`] that allows you to use Toastr-like alerts.
 
 To use Toastr-like alerts in your project, modify `shared-libs.module.ts` to change `alertAsToast` to `true`.
 
@@ -655,7 +652,7 @@ To use Toastr-like alerts in your project, modify `shared-libs.module.ts` to cha
         CookieModule.forRoot(),
         FontAwesomeModule
     ],
-    exports: [FormsModule, CommonModule, NgbModule, NgJhipsterModule, InfiniteScrollModule, FontAwesomeModule]
+    exports: [ ... ]
 })
 ----
 
@@ -827,7 +824,7 @@ const config = {
 module.exports = config;
 ----
 
-In the Angular section, I mentioned Angular CLI and my https://github.com/mraible/ng-demo[ng-demo] project that shows how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command. To see its webpack config, or to tweak it for your needs, you can _eject_ it from your project by running https://github.com/angular/angular-cli/wiki/eject["`ng eject`"].
+In the Angular section, I mentioned Angular CLI and my https://github.com/mraible/ng-demo[ng-demo] project that shows how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command. To see its webpack config, or to tweak it for your needs, you can _eject_ it from your project by running `ng eject`.
 
 I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js` file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack configuration. JHipster generates a `webpack` directory that contains files for different scenarios: dev mode with hot reload, testing, and preparing for production.
 
