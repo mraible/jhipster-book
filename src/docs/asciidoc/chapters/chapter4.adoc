@@ -3,7 +3,7 @@
 
 JHipster is composed of two main components: a modern UI framework and an API. APIs are the modern data-retrieval mechanisms. Creating great UIs is how you make people smile.
 
-Many APIs today are RESTful APIs. In fact, representational state transfer (REST) is the software architectural style of the World Wide Web. RESTful systems typically communicate over HTTP (Hypertext Transfer Protocol) using verbs (GET, POST, PUT, DELETE, etc.). This is the same way browsers retrieve web pages and send data to remote servers. REST was initially proposed by Roy Fielding in his 2000 Ph.D. dissertation, http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm[_Architectural Styles and the Design of Network-Based Software Architectures_].
+Many APIs today are RESTful APIs. In fact, representational state transfer (REST) is the software architectural style of the World Wide Web. RESTful systems typically communicate over HTTP (Hypertext Transfer Protocol) using verbs (GET, POST, PUT, DELETE, etc.). This is the same way browsers retrieve web pages and send data to remote servers. REST was initially proposed by Roy Fielding in his 2000 Ph.D. dissertation, _Architectural Styles and the Design of Network-Based Software Architectures_.
 
 JHipster leverages Spring MVC and its `@RestController` annotation to create a REST API. Its endpoints publish JSON to and consume JSON from clients. By separating the business logic and data persistence from the client, you can provide data to many different clients (HTML5, iOS, Android, TVs, watches, IoT devices, etc.). This also allows third-party and partner integration capabilities in your application. Spring Boot further complements Spring MVC by simplifying microservices and allowing you to create stand-alone JAR (Java Archive) files.
 
@@ -31,13 +31,13 @@ image::chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1247, 
 .Spring Initializr via `curl`
 image::chapter4/spring-initializr-curl.png[Spring Initializr via `curl`, 1354, scaledwidth=100%]
 
-Spring Initializr is an Apache 2.0-licensed open-source project that you install and customize to generate Spring projects for your company or team. You can find it on GitHub at https://github.com/spring-io/initializr[https://github.com/spring-io/initializr].
+Spring Initializr is an Apache 2.0-licensed open-source project that you install and customize to generate Spring projects for your company or team. You can find it on GitHub at https://github.com/spring-io/initializr.
 
-Spring Initializr is also available in the Eclipse-based https://spring.io/tools/sts[Spring Tool Suite] (STS) and https://www.jetbrains.com/idea/[IntelliJ IDEA].
+Spring Initializr is also available in the Eclipse-based Spring Tool Suite (STS) and IntelliJ IDEA.
 
 .Spring CLI
 ****
-You can also download and install the Spring CLI (also called the Spring Boot CLI). The easiest way to install it is with http://sdkman.io/[SDKMAN!].
+You can also download and install the Spring Boot CLI. The easiest way to install it is with http://sdkman.io/[SDKMAN!]
 
 ----
 curl -s "https://get.sdkman.io" | bash
@@ -64,10 +64,10 @@ To compile and run this application, simply type:
 spring run hello.groovy
 ----
 
-After running this command, you can see the application at http://localhost:8080. For more information about the Spring CLI, see the http://docs.spring.io/spring-boot/docs/current/reference/html/cli-using-the-cli.html[Spring Boot documentation].
+After running this command, you can see the application at http://localhost:8080. For more information about the Spring Boot CLI, see http://docs.spring.io/spring-boot/docs/current/reference/html/cli-using-the-cli.html[its documentation].
 ****
 
-To show you how to create a simple application with Spring Boot, go to https://start.spring.io[https://start.spring.io] and select `Web`, `JPA`, `H2`, and `Actuator` as project dependencies. Click "`Generate Project`" to download a .zip file for your project. Extract it on your hard drive and import it into your favorite IDE.
+To show you how to create a simple application with Spring Boot, go to https://start.spring.io and select `Web`, `JPA`, `H2`, and `Actuator` as project dependencies. Click "`Generate Project`" to download a .zip file for your project. Extract it on your hard drive and import it into your favorite IDE.
 
 This project has only a few files in it, as you can see by running the `tree` command (on *nix).
 
@@ -171,7 +171,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 interface BlogRepository extends JpaRepository<Blog, Long> {}
 ----
 
-Define a `CommandLineRunner` that injects this repository and prints out all the data that's found by calling its `findAll()` method. `CommandLineRunner` is an interface that's used to indicate that a bean should run when it is contained within a http://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html[`SpringApplication`].
+Define a `CommandLineRunner` that injects this repository and prints out all the data that's found by calling its `findAll()` method. `CommandLineRunner` is an interface that's used to indicate that a bean should run when it is contained within a `SpringApplication`.
 
 [source,java]
 .src/main/java/com/example/demo/DemoApplication.java
@@ -197,7 +197,12 @@ class BlogCommandLineRunner implements CommandLineRunner {
 }
 ----
 
+ifeval::["{media}" == "screen"]
 NOTE: Spring 4.3 added https://spring.io/blog/2016/03/04/core-container-refinements-in-spring-framework-4-3[implicit constructor injection], eliminating the need for an `@Autowired` annotation.
+endif::[]
+ifeval::["{media}" == "prepress"]
+NOTE: Spring 4.3 added implicit constructor injection, eliminating the need for an `@Autowired` annotation.
+endif::[]
 
 To provide default data, create `src/main/resources/data.sql` and add a couple of SQL statements to insert data.
 
@@ -210,11 +215,15 @@ insert into blog (name) values ('Second');
 
 Start your application with `mvn spring-boot:run` (or right-click -> "`Run in your IDE`") and you should see this default data show up in your logs.
 
+[source%autofit,shell]
 ----
-2017-08-31 23:09:27.436  INFO 67327 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
-2017-08-31 23:09:27.470  INFO 67327 --- [           main] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2017-08-31 23:09:27.436  INFO 67327 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer :
+  Tomcat started on port(s): 8080 (http)
+2017-08-31 23:09:27.470  INFO 67327 --- [main] o.h.h.i.QueryTranslatorFactoryInitiator  :
+  HHH000397: Using ASTQueryTranslatorFactory
 [Blog{id=1, name='First'}, Blog{id=2, name='Second'}]
-2017-08-31 23:09:27.549  INFO 67327 --- [           main] com.example.demo.DemoApplication         : Started DemoApplication in 3.924 seconds (JVM running for 4.492)
+2017-08-31 23:09:27.549  INFO 67327 --- [main] com.example.demo.DemoApplication         :
+  Started DemoApplication in 3.924 seconds (JVM running for 4.492)
 ----
 
 To publish this data as a REST API, create a `BlogController` class and add a `/blogs` endpoint that returns a list of blogs.
@@ -229,7 +238,7 @@ import java.util.Collection;
 
 @RestController
 class BlogController {
-    private final BlogRespository repository;
+    private final BlogRepository repository;
 
     public BlogController(BlogRepository repository) {
         this.repository = repository;
@@ -279,6 +288,7 @@ Spring Boot runs through this specific sequence for `PropertySource` to ensure t
 
 ==== Application property files
 
+[.text-left]
 By default, `SpringApplication` will load properties from `application.properties` files in the following locations and add them to the Spring `Environment`:
 
 1. a `/config` subdirectory of the current directory,
@@ -286,7 +296,7 @@ By default, `SpringApplication` will load properties from `application.propertie
 3. a classpath `/config` package, and
 4. the classpath root.
 
-TIP: You can also use YAML (`.yml`) files as an alternative to `.properties`. JHipster uses YAML files for its configuration.
+TIP: You can also use YAML (`.yml`) files as an alternative to properties files. JHipster uses YAML files for its configuration.
 
 More information about Spring Boot's external-configuration feature can be found in Spring Boot's http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html["`Externalized Configuration`" reference documentation].
 
@@ -388,6 +398,7 @@ org.springframework.boot.diagnostics.FailureAnalyzer=\
 org.springframework.boot.actuate.autoconfigure.metrics.MissingRequiredConfigurationFailureAnalyzer
 ----
 
+[.text-left]
 These configuration classes will usually contain `@Conditional` annotations to help configure themselves. Developers can use `@ConditionalOnMissingBean` to override the auto-configured defaults. There are several conditional-related annotations you can use when developing Spring Boot plugins:
 
 * `@ConditionalOnClass` and `@ConditionalOnMissingClass`
@@ -548,7 +559,7 @@ I'd recommend starting with the tool that's most familiar to you. If you're usin
 
 IDE stands for "`integrated development environment`". It is the lifeblood of a programmer who likes keyboard shortcuts and typing fast. The good IDEs have code completion that allows you to type a few characters, press tab, and have your code written for you. Furthermore, they provide quick formatting, easy access to documentation, and debugging. You can generate a lot of code with your IDE in statically typed languages like Java, like getters and setters on POJOs and methods in interfaces and classes. You can also easily find references to methods.
 
-The JHipster documentation includes https://www.jhipster.tech/configuring-ide/[guides] for configuring Eclipse, IntelliJ IDEA, Visual Studio Code, and NetBeans. Not only that, but Spring Boot has a https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html[devtools plugin] that's configured by default in a generated JHipster application. This plugin allows hot-reloading of your application when you recompile classes.
+The JHipster documentation includes https://www.jhipster.tech/configuring-ide/[guides] for configuring Eclipse, IntelliJ IDEA, Visual Studio Code, and NetBeans. Not only that, but Spring Boot has a devtools plugin that's configured by default in a generated JHipster application. This plugin allows hot-reloading of your application when you recompile classes.
 
 https://www.jetbrains.com/idea/[IntelliJ IDEA], which brings these same features to Java development, is a truly amazing IDE. If you're only writing JavaScript, their https://www.jetbrains.com/webstorm/[WebStorm IDE] will likely become your best friend. Both IntelliJ products have excellent CSS support and accept plugins for many web languages/frameworks. To make IDEA auto-compile on save, like Eclipse does, perform the following steps:
 
@@ -613,14 +624,13 @@ There's not much code, but it provides many features:
 
 JHipster takes the excellence of Spring Security and uses it to provide the real-world authentication mechanism that applications need. When you create a new JHipster project, it provides you with three authentication options:
 
+* *JWT authentication* — A stateless security mechanism. JSON Web Token (JWT) is an https://tools.ietf.org/html/rfc7519[IETF proposed standard] that uses a compact, URL-safe means of representing claims to be transferred between two parties. JHipster's implementation uses the https://github.com/jwtk/jjwt[Java JWT project].
 * *HTTP Session Authentication* — Uses the HTTP session, so it is a stateful mechanism. Recommended for small applications.
-* *OAuth 2.0 / OIDC Authentication* — A stateless security mechanism. You might prefer it if you want to share your users between several applications.
-* *JWT authentication* — Like OAuth 2.0, a stateless security mechanism. JSON Web Token (JWT) is an https://tools.ietf.org/html/rfc7519[IETF proposed standard] that uses a compact, URL-safe means of representing claims to be transferred between two parties. JHipster's implementation uses the https://github.com/jwtk/jjwt[Java JWT project].
-* *Social Login* - Adds support for logging in with social network credentials. Supports Google, Facebook, and Twitter.
+* *OAuth 2.0 / OIDC Authentication* — A stateful security mechanism, like HTTP Session. You might prefer it if you want to share your users between several applications.
 
 .OAuth 2.0
 ****
-http://oauth.net/2/[OAuth 2.0] is the next version of the OAuth protocol (originally created in 2006). OAuth 2.0 focuses on simplifying client development while supporting web applications, desktop applications, mobile phones, and living-room devices. If you'd like to learn about how OAuth works, see https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth[What the Heck is OAuth?]
+http://oauth.net/2/[OAuth 2.0] is the current version of the OAuth framework (originally created in 2006). OAuth 2.0 focuses on simplifying client development while supporting web applications, desktop applications, mobile phones, and living-room devices. If you'd like to learn about how OAuth works, see https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth[What the Heck is OAuth?]
 ****
 
 In addition to authentication choices, JHipster offers security improvements: improved "`remember me`" (unique tokens stored in database), cookie-theft protection, and CSRF protection.
@@ -705,7 +715,7 @@ This file is loaded by Liquibase when it creates the database schema.
 
 Liquibase supports http://www.liquibase.org/databases.html[most major databases]. If you use MySQL or PostgreSQL, you can use `mvn liquibase:diff` (or `./gradlew generateChangeLog`) to automatically generate a changelog.
 
-https://https://www.jhipster.tech//development/[JHipster's development guide] recommends the following workflow:
+https://www.jhipster.tech/development/[JHipster's development guide] recommends the following workflow:
 
 1. Modify your JPA entity (add a field, a relationship, etc.).
 2. Run `mvn compile liquibase:diff`.
@@ -716,7 +726,7 @@ If you use Gradle, you can use the same workflow by running `./gradlew generateC
 
 == Elasticsearch
 
-Elasticsearch adds searchability to your entities. JHipster's Elasticsearch support requires using a SQL database. Spring Boot uses and configures http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch]. When using JHipster's https://www.jhipster.tech/creating-an-entity/[entity sub-generator], it automatically indexes the entity and creates an endpoint to support searching its properties. Search superpowers are also added to the Angular UI, so you can search in your entity's list screen.
+Elasticsearch adds searchability to your entities. JHipster's Elasticsearch support requires using a SQL database. Spring Boot uses and configures http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch]. When using JHipster's entity sub-generator, it automatically indexes the entity and creates an endpoint to support searching its properties. Search superpowers are also added to the Angular UI, so you can search in your entity's list screen.
 
 When using the (default) "`dev`" profile, the in-memory Elasticsearch instance will store files in the `build/elasticsearch` folder. You can change this by modifying the following setting in `application-dev.yml`.
 
@@ -774,13 +784,18 @@ gradlew -Pprod bootWar
 
 The "`prod`" profile will trigger a `webpack:prod`, which optimizes your static resources. It will combine your JavaScript and CSS files, minify them, and get them production ready. It also updates your HTML (in your `(build|target)/www` directory) to have references to your versioned, combined, and minified files.
 
-A JHipster application can be deployed to your own JVM, https://www.jhipster.tech/cloudfoundry/[Cloud Foundry], https://www.jhipster.tech/heroku/[Heroku], https://https://www.jhipster.tech//kubernetes/[Kubernetes], and https://www.jhipster.tech/aws.html[AWS].
+ifeval::["{media}" == "screen"]
+A JHipster application can be deployed to your own JVM, https://www.jhipster.tech/cloudfoundry/[Cloud Foundry], https://www.jhipster.tech/heroku/[Heroku], https://www.jhipster.tech/kubernetes/[Kubernetes], and https://www.jhipster.tech/aws.html[AWS].
+endif::[]
+ifeval::["{media}" == "prepress"]
+A JHipster application can be deployed to your own JVM, Cloud Foundry, Heroku, Kubernetes, and AWS.
+endif::[]
 
 I've deployed JHipster applications to Heroku, Cloud Foundry, and Google Cloud with Kubernetes.
 
 == Summary
 
-The Spring Framework has one of the best track records for hipness in Javaland. It's remained backwards compatible between many releases and has lived as an open-source project for more than 14 years. Spring Boot has provided a breath of fresh air for people using Spring with its starter dependencies, auto-configuration, and monitoring tools. It's made it easy to build microservices in Java (and Groovy) and deploy them to the cloud.
+The Spring Framework has one of the best track records for hipness in Javaland. It's remained backwards compatible between many releases and has lived as an open-source project for more than 14 years. Spring Boot has provided a breath of fresh air for people using Spring with its starter dependencies, auto-configuration, and monitoring tools. It's made it easy to build microservices on the JVM and deploy them to the cloud.
 
 You've seen some of the cool features of Spring Boot and the build tools you can use to package and run a JHipster application. I've described the power of Spring Security and showed you its many features, which you can enable with only a few lines of code. JHipster supports both relational databases and NoSQL databases, which allows you to choose how you want your data stored. You can choose JPA, MongoDB, or Cassandra when creating a new application.
 

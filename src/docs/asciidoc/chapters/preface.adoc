@@ -18,7 +18,7 @@ InfoQ mini-books are designed to be concise, intending to serve technical archit
 
 This book is aimed specifically at web developers who want a rapid introduction to Angular, Bootstrap, and Spring Boot by learning JHipster. JHipster 5 adds support for React as well, but I won’t be covering it in this book since Angular is the default. If I added React coverage, this would no longer be a mini-book. 😉
 
-If you'd like to see a React version of the app developed in this book, check out https://github.com/robmelfi/21-points-react[Roberto Melfi's 21-points-react project].
+TIP: If you'd like to see a React version of the app developed in this book, check out https://github.com/robmelfi/21-points-react[Roberto Melfi's 21-points-react project].
 
 == What you need for this book
 
@@ -41,7 +41,7 @@ A block of code is set out as follows. It may be colored, depending on the forma
 .src/app/search/search.component.html
 ----
 <form>
-  <input type="search" name="query" [(ngModel)]="query" (keyup.enter)="search()">
+  <input type="search" name="query" [(ngModel)]="query">
   <button type="button" (click)="search()">Search</button>
 </form>
 ----
@@ -103,10 +103,13 @@ Finally, this text shows what a quote looks like:
 
 We always welcome feedback from our readers. Let us know what you thought about this book — what you liked or disliked. Reader feedback helps us develop titles that deliver the most value to you.
 
+[.text-left]
 To send us feedback, email us at feedback@infoq.com, send a tweet to @jhipster_book, or post a question on Stack Overflow using the "`jhipster`" tag.
 
+[.text-left]
 If you're interested in writing a mini-book for InfoQ, see http://www.infoq.com/minibook-guidelines.
 
 ifeval::["{media}" == "prepress"]
+[.text-left]
 The most up-to-date version of this book can be downloaded from https://infoq.com/minibooks/jhipster-mini-book.
 endif::[]
