@@ -15,9 +15,12 @@ This document provides a high-level view of the changes introduced in the JHipst
 For a detailed view of what has changed, refer to the https://bitbucket.org/mraible/jhipster-book/commits/all[commit history] on Bitbucket.
 
 // tag::compact[]
-== 5.0.1 (2018-11-26) - @mraible
+== 5.0.1 (2018-12-19) - @mraible
 Changes::
   * Fixed typo reported by Gregory Gerard (@ggerard). `"[(ngModule)]"` should be `"[(ngModel)]"`.
+  * Removed duplicate preface and introduction.
+  * Changed all lists to align left, as well as some paragraphs with large spaces.
+  * Removed links where no value was added.
 
 == 5.0.0 (2018-11-05) - @mraible
 Changes::
