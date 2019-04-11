@@ -12,7 +12,7 @@
 ifeval::["{media}" != "prepress"]
 :coverfilesuffix: .png
 ifdef::backend-pdf[:coverfilesuffix: .jpg]
-:front-cover-image: image:cover{coverfilesuffix}[Front Cover,1050,1600]ß
+:front-cover-image: image:cover{coverfilesuffix}[Front Cover,1050,1600]
 endif::[]
 :toc:
 :icons: font
