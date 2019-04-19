@@ -22,7 +22,7 @@ apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'com.bluepapa32.watch'
 
-version = '5.0.2'
+version = '5.0.3'
 
 asciidoctorj {
     version = '1.5.7'

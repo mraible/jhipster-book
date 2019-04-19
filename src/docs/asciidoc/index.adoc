@@ -2,7 +2,7 @@
 :book-title: {doctitle}
 :author: Matt Raible
 :email: matt@raibledesigns.com
-:revnumber: 5.0.2
+:revnumber: 5.0.3
 :revdate: {docdate}
 :revyear: 2019
 :subject: JHipster
