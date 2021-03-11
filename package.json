@@ -11,10 +11,15 @@
   "scripts": {
     "build": "bash ./gradlew all",
     "clean": "bash ./gradlew clean",
-    "setup": "npm install && npm run build"
+    "setup": "npm install && npm run build",
+    "build:site": "antora --generator=mini-book-site-generator --html-url-extension-style=indexify site.yml",
+    "watch:site": "node watch-site.js"
   },
   "devDependencies": {
+    "@antora/cli": "^2.3.4",
     "browser-sync": "^2.26.14",
-    "gulp": "4.0.2"
+    "chokidar": "^3.5.1",
+    "gulp": "4.0.2",
+    "mini-book-site-generator": "git+https://github.com/Mogztter/mini-book-site-generator.git#main"
   }
 }

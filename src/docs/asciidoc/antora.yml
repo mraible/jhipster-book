@@ -1,0 +1,14 @@
+name: ROOT
+title: The JHipster Mini-Book
+version: master
+nav:
+  - nav.adoc
+asciidoc:
+  attributes:
+    book-title: The JHipster Mini-Book
+    author: Matt Raible
+    revnumber: 5.0.3
+    revyear: 2019
+    email: matt@raibledesigns.com
+    subject: JHipster
+    keywords: JHipster, Angular, Bootstrap, Spring Boot, Spring Cloud, Spring Security, Microservices, Docker, Heroku, Security, JWT, OAuth 2.0, OIDC
