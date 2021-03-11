@@ -305,7 +305,7 @@ Does your API return data like the following?
 
 [source,json]
 ----
-include::{sourcedir}/chapter3/angular/search-results.json[]
+include::{sourcedir}chapter3/angular/search-results.json[]
 ----
 
 If so, you could display it in the `search.component.html` template with Angular's `*ngFor` directive.
@@ -390,7 +390,7 @@ A basic example of the grid is shown below.
 
 [source,html]
 ----
-include::{sourcedir}/chapter3/bootstrap/grid-basic.html[]
+include::{sourcedir}chapter3/bootstrap/grid-basic.html[]
 ----
 
 When rendered with Bootstrap's CSS, the above HTML looks as follows on a desktop. The minimum width of the container element on the desktop is set to 1200 px.
@@ -417,7 +417,7 @@ Each tier of classes scales up, meaning that if you plan to set the same widths 
 
 [source,html]
 ----
-include::{sourcedir}/chapter3/bootstrap/grid-advanced.html[]
+include::{sourcedir}chapter3/bootstrap/grid-advanced.html[]
 ----
 
 [[img-bootstrap-advanced-grid-desktop]]
@@ -494,7 +494,7 @@ When you add Bootstrap's CSS to your web application, chances are it'll quickly 
 
 [source%autofit,html]
 ----
-include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
+include::{sourcedir}chapter3/bootstrap/basicelement.html[]
 ----
 
 [[img-bootstrap-basic-element]]
@@ -505,7 +505,7 @@ If you'd like to indicate that this form element is not valid, you'll need to mo
 
 [source%autofit,html]
 ----
-include::{sourcedir}/chapter3/bootstrap/basicelement-withvalidation.html[]
+include::{sourcedir}chapter3/bootstrap/basicelement-withvalidation.html[]
 ----
 
 [[img-bootstrap-basic-element-with-validation]]
@@ -520,7 +520,7 @@ To make your buttons look better, Bootstrap provides `btn` and a number of `btn-
 
 [source,html]
 ----
-include::{sourcedir}/chapter3/bootstrap/buttons.html[]
+include::{sourcedir}chapter3/bootstrap/buttons.html[]
 ----
 
 [[img-bootstrap-buttons]]
@@ -547,14 +547,14 @@ This navbar requires quite a bit of HTML markup, not shown here for the sake of 
 
 [source%autofit,html]
 ----
-include::{sourcedir}/chapter3/bootstrap/navbar.html[]
+include::{sourcedir}chapter3/bootstrap/navbar.html[]
 ----
 
 Alerts are useful for displaying feedback to the user. You can invoke differently colored alerts with different classes. You'll need to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors.
 
 [source,html]
 ----
-include::{sourcedir}/chapter3/bootstrap/alerts.html[]
+include::{sourcedir}chapter3/bootstrap/alerts.html[]
 ----
 
 This renders alerts like the following.
@@ -850,7 +850,7 @@ To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSoc
 [source%autofit,javascript]
 .src/main/webapp/app/admin/tracker/tracker.component.ts
 ----
-include::{sourcedir}/chapter3/websockets/tracker.component.ts[]
+include::{sourcedir}chapter3/websockets/tracker.component.ts[]
 ----
 
 The `Tracker` service allows you to send tracking information — for example, to track when someone has authenticated.
@@ -858,7 +858,7 @@ The `Tracker` service allows you to send tracking information — for example, t
 [source%autofit,javascript]
 .src/main/webapp/app/core/tracker/tracker.service.ts
 ----
-include::{sourcedir}/chapter3/websockets/tracker.service.ts[]
+include::{sourcedir}chapter3/websockets/tracker.service.ts[]
 ----
 
 WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. To learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with Spring]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
@@ -878,14 +878,14 @@ To integrate Browsersync in your project, you need a `package.json` and `gulpfil
 
 [source,javascript]
 ----
-include::{sourcedir}/../../../package.json[]
+include::{sourcedir}package.json[]
 ----
 
 The `gulpfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development experience.
 
 [source%autofit,javascript]
 ----
-include::{sourcedir}/../../../gulpfile.browsersync.js[]
+include::{sourcedir}gulpfile.browsersync.js[]
 ----
 
 After you've created these files, you'll need to install https://nodejs.org/[Node.js] and its package manager, npm. This should let you run the following command to install Browsersync and Gulp. You will only need to run this command when dependencies change in `package.json`.
