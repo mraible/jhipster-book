@@ -471,8 +471,8 @@ Bootstrap also includes a number of utility classes that can be used to show and
 
 Bootstrap's classes for setting the display are names using the following format:
 
-* `.d-{value}` for `xs`
-* `.d-{breakpoint}-{value}` for `sm`, `md`, `lg`, and `xl`
+* `.d-\{value}` for `xs`
+* `.d-\{breakpoint}-\{value}` for `sm`, `md`, `lg`, and `xl`
 
 The media queries effect screen widths with the given breakpoint or _larger_. For example, `.d-lg-none` sets `display: none` on both `lg` and `xl` screens.
 

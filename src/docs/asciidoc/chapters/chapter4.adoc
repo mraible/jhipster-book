@@ -279,8 +279,8 @@ Spring Boot runs through this specific sequence for `PropertySource` to ensure t
 9. Java System properties (`System.getProperties()`).
 10. OS environment variables.
 11. A `RandomValuePropertySource` that only has properties in `random.*`.
-12. Profile-specific application properties outside of your packaged JAR (`application-{profile}.properties` and YAML variants).
-13. Profile-specific application properties packaged inside your JAR (`application-{profile}.properties` and YAML variants).
+12. Profile-specific application properties outside of your packaged JAR (`application-\{profile}.properties` and YAML variants).
+13. Profile-specific application properties packaged inside your JAR (`application-\{profile}.properties` and YAML variants).
 14. Application properties outside of your packaged JAR (`application.properties` and YAML variants).
 15. Application properties packaged inside your JAR (`application.properties` and YAML variants).
 16. `@PropertySource` annotations on your `@Configuration` classes.
