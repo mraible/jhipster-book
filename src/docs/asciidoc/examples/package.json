@@ -1,0 +1,15 @@
+{
+  "name": "jhipster-book",
+  "version": "5.0.2",
+  "description": "The JHipster Mini-Book",
+  "author": "Matt Raible <matt@raibledesigns.com>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:mraible/jhipster-book.git"
+  },
+  "devDependencies": {
+    "gulp": "4.0.2",
+    "browser-sync": "2.26.7"
+  }
+}

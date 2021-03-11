@@ -5,6 +5,8 @@ nav:
   - nav.adoc
 asciidoc:
   attributes:
+    page-pagination: '@'
+    sourcedir: 'example$'
     book-title: The JHipster Mini-Book
     author: Matt Raible
     revnumber: 5.0.3

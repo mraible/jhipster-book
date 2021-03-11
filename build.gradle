@@ -37,7 +37,7 @@ asciidoctorj {
 
 import org.asciidoctor.gradle.AsciidoctorTask
 
-def attrs = ['sourcedir'         : '../../../main/webapp',
+def attrs = ['sourcedir'         : '../examples/',
              'epub3-stylesdir'   : './styles/epub',
              // NOTE don't include leading ./ because it messes up paths in the epub files
              'imagesdir'         : 'images',
