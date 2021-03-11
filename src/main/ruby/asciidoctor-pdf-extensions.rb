@@ -3,7 +3,7 @@ require 'asciidoctor-pdf' unless defined? ::Asciidoctor::Pdf
 module AsciidoctorPdfExtensions
   # Override the built-in layout_toc to move colophon before front of table of contents
   # NOTE we assume that the colophon fits on a single page
-  def layout_toc doc, num_levels = 2, toc_page_number = 2, num_front_matter_pages = 0
+  def layout_toc doc, num_levels = 2, toc_page_number = 2, start_y = nil, num_front_matter_pages = 0
     go_to_page toc_page_number unless (page_number == toc_page_number) || scratch?
     if scratch?
       colophon = doc.find_by(context: :section) {|sect| sect.sectname == 'colophon' }
@@ -20,7 +20,7 @@ module AsciidoctorPdfExtensions
       end
     end
     offset = colophon && !@ppbook ? 1 : 0
-    toc_page_numbers = super doc, num_levels, (toc_page_number + offset), num_front_matter_pages
+    toc_page_numbers = super doc, num_levels, (toc_page_number + offset), start_y, num_front_matter_pages
     scratch? ? ((toc_page_numbers.begin - offset)..toc_page_numbers.end) : toc_page_numbers
   end
 
@@ -42,10 +42,10 @@ module AsciidoctorPdfExtensions
       if node.document.attr? 'media', 'prepress'
         move_down 325
       else
-        move_down 450
+        move_down 460
       end
       layout_heading title, size: @theme.base_font_size
-    elsif sect_id.include? 'jhipster' # chapters
+    elsif sect_id.include? 'chapter' # chapters
       #puts 'Processing ' + sect_id + '...'
       # use Akkurat font for all custom headings
       font 'Akkurat' do
@@ -62,12 +62,24 @@ module AsciidoctorPdfExtensions
         move_up 40
 
         part_number = 'ONE'
-        if sect_id.include? 'ui-components'
+        if sect_id.include? 'chapter-2'
           part_number = 'TWO'
-        elsif sect_id.include? 'api'
+        elsif sect_id.include? 'chapter-3'
           part_number = 'THREE'
-        elsif sect_id.include? 'microservices'
-            part_number = 'FOUR'
+        elsif sect_id.include? 'chapter-4'
+          part_number = 'FOUR'
+        elsif sect_id.include? 'chapter-5'
+          part_number = 'FIVE'
+        elsif sect_id.include? 'chapter-6'
+          part_number = 'SIX'
+        elsif sect_id.include? 'chapter-7'
+          part_number = 'SEVEN'
+        elsif sect_id.include? 'chapter-8'
+          part_number = 'EIGHT'
+        elsif sect_id.include? 'chapter-9'
+          part_number = 'NINE'
+        elsif sect_id.include? 'chapter-10'
+          part_number = 'TEN'
         end
         if @ppbook
           layout_heading part_number, align: :right, size: 100, style: :bold

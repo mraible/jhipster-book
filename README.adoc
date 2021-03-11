@@ -2,31 +2,20 @@
 
 This is an awesome book. It's written in AsciiDoc and compiles to HTML, PDF, EPUB, and MOBI using the http://asciidoctor.org/docs/asciidoctor-gradle-plugin/[Asciidoctor Gradle plugin].
 
+== Installing
+
+ $ npm run setup
+
 == Building
 
-To convert this book to HTML, EPUB, and MOBI, run the following command:
+To convert this book to HTML and EPUB, run the following command:
 
-----
-$ build.sh
-----
+ $ npm run build
 
-To convert this book to a 6x9" PDF for printing:
-
-----
-$ generate-pdf.sh
-----
-
-To convert this book to a 8.5x11" PDF for downloading:
-
-----
-$ generate-pdf.sh screen
-----
-
-* Open _build/asciidoc/html5/index.html_ in your browser to see the generated HTML file.
-* Open _build/asciidoc/pdf-prepress/index.pdf_ to see the 6x9" printable PDF file.
-* Open _build/asciidoc/pdf-pdf-screen/index.pdf_ to see the downloadable 8.5x11" PDF file.
-* Open _build/asciidoc/epub3/index.epub_ in iBooks to see the generated EPUB file.
-* Open _build/asciidoc/epub3/index.mobi_ in http://calibre-ebook.com/[Calibre] to see the generated MOBI file.
+* Open build/asciidoc/html5/index.html in your browser to see the generated HTML file.
+* Open build/asciidoc/pdf-prepress/index.pdf to see the 6x9" printable PDF file.
+* Open build/asciidoc/pdf-screen/index.pdf to see the downloadable 8.5x11" PDF file.
+* Open build/asciidoc/epub3/index.epub in iBooks to see the generated EPUB file.
 
 == Sweet Authoring Experience
 
