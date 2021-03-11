@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - '*' # for debugging purposes only, replace by 'main'
   pull_request:
     branches:
       - '*'
