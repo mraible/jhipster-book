@@ -21,7 +21,7 @@ endif::[]
 :experimental:
 :pdf-fontsdir: ./styles/pdf/fonts
 :pdf-stylesdir: ./styles/pdf
-:pdf-style: infoq-screen
+:pdf-style: screen
 ifndef::ebook-format[:leveloffset: 1]
 
 [colophon#colophon%nonfacing]

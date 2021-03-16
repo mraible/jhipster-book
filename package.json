@@ -8,8 +8,13 @@
     "type": "git",
     "url": "git@bitbucket.org:mraible/jhipster-book.git"
   },
+  "scripts": {
+    "build": "bash ./gradlew all",
+    "clean": "bash ./gradlew clean",
+    "setup": "npm install && npm run build"
+  },
   "devDependencies": {
-    "gulp": "4.0.2",
-    "browser-sync": "2.26.7"
+    "browser-sync": "^2.26.14",
+    "gulp": "4.0.2"
   }
 }
