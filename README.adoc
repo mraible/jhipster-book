@@ -1,5 +1,7 @@
 = The JHipster Mini-Book
 
+image:https://github.com/mraible/jhipster-book/actions/workflows/ci.yml/badge.svg[link=https://github.com/mraible/jhipster-book/actions/workflows/ci.yml]
+
 This is an awesome book. It's written in AsciiDoc and compiles to HTML, PDF, EPUB, and MOBI using the http://asciidoctor.org/docs/asciidoctor-gradle-plugin/[Asciidoctor Gradle plugin].
 
 == Installing
