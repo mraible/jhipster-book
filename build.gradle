@@ -10,6 +10,7 @@ buildscript {
         classpath 'org.asciidoctor:asciidoctorj-epub3:1.5.0-alpha.19'
         classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.4'
         classpath 'org.jruby:jruby-complete:9.2.16.0'
+        classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.7.0'
     }
 }
 
@@ -22,6 +23,11 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'com.github.jruby-gradle.base'
+
+dependencies {
+    gems 'rubygems:coderay:1.1.3'
+}
 
 version = '5.0.3'
 
@@ -32,7 +38,6 @@ asciidoctorj {
 import org.asciidoctor.gradle.AsciidoctorTask
 
 def attrs = ['sourcedir'         : '../../../main/webapp',
-             'source-highlighter': 'rouge',
              'epub3-stylesdir'   : './styles/epub',
              // NOTE don't include leading ./ because it messes up paths in the epub files
              'imagesdir'         : 'images',
@@ -41,6 +46,8 @@ def attrs = ['sourcedir'         : '../../../main/webapp',
              'sectanchors'       : '',
              'idprefix'          : '',
              'idseparator'       : '-',
+             'pdf-fontsdir'      : "$projectDir/src/docs/asciidoc/styles/pdf/fonts;GEM_FONTS_DIR;uri:classloader:GEM_FONTS_DIR".toString(),
+             'pdf-stylesdir'     : "$projectDir/src/docs/asciidoc/styles/pdf".toString(),
              'listing-caption'   : 'Listing']
 
 tasks.withType(AsciidoctorTask) { task ->
@@ -56,7 +63,6 @@ task html(type: AsciidoctorTask, description: 'Generates single page HTML') {
 
 task prepress(type: AsciidoctorTask, description: 'Generates PDF for prepress printing') {
     attributes attrs + ['media' : 'prepress', 'pdfmarks': '', 'pdf-theme': 'prepress']
-    attrs.remove('source-highlighter')
     requires file('src/main/ruby/asciidoctor-pdf-extensions.rb')
     backends 'pdf'
     outputDir "$buildDir/asciidoc/pdf-prepress"
@@ -64,7 +70,7 @@ task prepress(type: AsciidoctorTask, description: 'Generates PDF for prepress pr
 }
 
 task pdf(type: AsciidoctorTask, description: 'Generates PDF for download') {
-    attributes attrs + ['pdfmarks': '', 'source-highlighter': 'rouge']
+    attributes attrs + ['pdfmarks': '', 'source-highlighter': 'coderay']
     requires file('src/main/ruby/asciidoctor-pdf-extensions.rb')
     outputDir "$buildDir/asciidoc/pdf-screen"
     backends 'pdf'

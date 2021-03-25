@@ -42,10 +42,10 @@ module AsciidoctorPdfExtensions
       if node.document.attr? 'media', 'prepress'
         move_down 325
       else
-        move_down 460
+        move_down 450
       end
       layout_heading title, size: @theme.base_font_size
-    elsif sect_id.include? 'chapter' # chapters
+    elsif sect_id.include? 'jhipster' # chapters
       #puts 'Processing ' + sect_id + '...'
       # use Akkurat font for all custom headings
       font 'Akkurat' do
@@ -62,24 +62,12 @@ module AsciidoctorPdfExtensions
         move_up 40
 
         part_number = 'ONE'
-        if sect_id.include? 'chapter-2'
+        if sect_id.include? 'ui-components'
           part_number = 'TWO'
-        elsif sect_id.include? 'chapter-3'
+        elsif sect_id.include? 'api'
           part_number = 'THREE'
-        elsif sect_id.include? 'chapter-4'
-          part_number = 'FOUR'
-        elsif sect_id.include? 'chapter-5'
-          part_number = 'FIVE'
-        elsif sect_id.include? 'chapter-6'
-          part_number = 'SIX'
-        elsif sect_id.include? 'chapter-7'
-          part_number = 'SEVEN'
-        elsif sect_id.include? 'chapter-8'
-          part_number = 'EIGHT'
-        elsif sect_id.include? 'chapter-9'
-          part_number = 'NINE'
-        elsif sect_id.include? 'chapter-10'
-          part_number = 'TEN'
+        elsif sect_id.include? 'microservices'
+            part_number = 'FOUR'
         end
         if @ppbook
           layout_heading part_number, align: :right, size: 100, style: :bold
