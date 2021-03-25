@@ -1,5 +1,7 @@
+extends: default-with-fallback-font
 font:
   catalog:
+    merge: true
     Akkurat:
       normal: Akkurat-Light.ttf
       bold: Akkurat-Bold.ttf
