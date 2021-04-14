@@ -20,6 +20,6 @@
     "browser-sync": "^2.26.14",
     "chokidar": "^3.5.1",
     "gulp": "4.0.2",
-    "mini-book-site-generator": "git+https://github.com/Mogztter/mini-book-site-generator.git#main"
+    "mini-book-site-generator": "0.1.0"
   }
 }
