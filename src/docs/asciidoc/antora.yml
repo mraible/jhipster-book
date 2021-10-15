@@ -1,6 +1,6 @@
 name: ROOT
 title: The JHipster Mini-Book
-version: master
+version: main
 nav:
   - nav.adoc
 asciidoc:
