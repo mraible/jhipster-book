@@ -1,6 +1,11 @@
 name: ROOT
 title: The JHipster Mini-Book
-version: main
+# "master" is a reserved value in Antora 2 which indicates that this component is versionless.
+# When upgrading to Antora 3, replace this value by "~" (shorthand for the value null) which has the same effect
+# References:
+# - Antora 2: https://docs.antora.org/antora/2.3/component-with-no-version/#version-master
+# - Antora 3: https://docs.antora.org/antora/3.0/component-with-no-version/#assign-to-the-version-key
+version: master
 nav:
   - nav.adoc
 asciidoc:
