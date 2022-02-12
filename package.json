@@ -16,10 +16,10 @@
     "watch:site": "node watch-site.js"
   },
   "devDependencies": {
-    "@antora/cli": "^2.3.4",
-    "browser-sync": "^2.26.14",
-    "chokidar": "^3.5.1",
+    "@antora/cli": "^3.0.1",
+    "browser-sync": "^2.27.7",
+    "chokidar": "^3.5.3",
     "gulp": "4.0.2",
-    "mini-book-site-generator": "0.1.0"
+    "mini-book-site-generator": "0.1.3"
   }
 }
