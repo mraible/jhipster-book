@@ -2,7 +2,7 @@
 :uri-jhipster: http://www.jhipster.tech
 :uri-jhipster-book-blog: http://www.jhipster-book.com/
 :uri-jhipster-book-download: https://www.infoq.com/minibooks/jhipster-mini-book
-:uri-repo: https://bitbucket.org/mraible/jhipster-book
+:uri-repo: https://github.com/mraible/jhipster-book
 :icons: font
 :star: icon:star[role=red]
 ifndef::icons[]
@@ -12,7 +12,7 @@ endif::[]
 https://jhipster.github.io[JHipster] is a fully open source, widely used application generator. It allows you to create high-quality Spring Boot and Angular projects in minutes. https://www.infoq.com/minibooks/jhipster-mini-book[The JHipster Mini-Book] is a guide to getting started with JHipster.
 
 This document provides a high-level view of the changes introduced in the JHipster Mini-Book by release.
-For a detailed view of what has changed, refer to the https://bitbucket.org/mraible/jhipster-book/commits/all[commit history] on Bitbucket.
+For a detailed view of what has changed, refer to the https://github.com/mraible/jhipster-book/commits/main[commit history] on Bitbucket.
 
 // tag::compact[]
 == 5.0.3 (2018-04-19) - @mraible
@@ -32,8 +32,8 @@ Changes::
 
 == 5.0.0 (2018-11-05) - @mraible
 Changes::
-  * Updated all chapters for JHipster 5. Added sections on PWA, code quality, and securing user data. 
-  
+  * Updated all chapters for JHipster 5. Added sections on PWA, code quality, and securing user data.
+
 == 4.5.0 (2018-03-19) - @mraible
 Changes::
   * Added chapter on building a microservice architecture with JHipster.
