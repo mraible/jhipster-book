@@ -31,18 +31,20 @@ asciidoctorj {
 
 import org.asciidoctor.gradle.AsciidoctorTask
 
-def attrs = ['sourcedir'         : '../../../main/webapp',
-             'epub3-stylesdir'   : './styles/epub',
-             // NOTE don't include leading ./ because it messes up paths in the epub files
-             'imagesdir'         : 'images',
-             'toc'               : 'left',
-             'icons'             : 'font',
-             'sectanchors'       : '',
-             'idprefix'          : '',
-             'idseparator'       : '-',
-             'pdf-fontsdir'      : "$projectDir/src/docs/asciidoc/styles/pdf/fonts;GEM_FONTS_DIR;uri:classloader:GEM_FONTS_DIR".toString(),
-             'pdf-stylesdir'     : "$projectDir/src/docs/asciidoc/styles/pdf".toString(),
-             'listing-caption'   : 'Listing']
+def attrs = [
+    'sourcedir'         : '../../../main/webapp',
+    'source-highlighter': 'rouge',
+    'epub3-stylesdir'   : './styles/epub',
+    // NOTE don't include leading ./ because it messes up paths in the epub files
+    'imagesdir'         : 'images',
+    'toc'               : 'left',
+    'icons'             : 'font',
+    'sectanchors'       : '',
+    'idprefix'          : '',
+    'idseparator'       : '-',
+    'pdf-fontsdir'      : "$projectDir/src/docs/asciidoc/styles/pdf/fonts;GEM_FONTS_DIR;uri:classloader:GEM_FONTS_DIR".toString(),
+    'pdf-stylesdir'     : "$projectDir/src/docs/asciidoc/styles/pdf".toString(),
+    'listing-caption'   : 'Listing']
 
 tasks.withType(AsciidoctorTask) { task ->
     attributes attrs
@@ -56,7 +58,7 @@ task html(type: AsciidoctorTask, description: 'Generates single page HTML') {
 }
 
 task prepress(type: AsciidoctorTask, description: 'Generates PDF for prepress printing') {
-    attributes attrs + ['media' : 'prepress', 'pdfmarks': '', 'pdf-theme': 'prepress']
+    attributes attrs + ['media': 'prepress', 'pdfmarks': '', 'pdf-theme': 'prepress', 'source-highlighter': '']
     requires file('src/main/ruby/asciidoctor-pdf-extensions.rb')
     backends 'pdf'
     outputDir "$buildDir/asciidoc/pdf-prepress"
@@ -64,7 +66,7 @@ task prepress(type: AsciidoctorTask, description: 'Generates PDF for prepress pr
 }
 
 task pdf(type: AsciidoctorTask, description: 'Generates PDF for download') {
-    attributes attrs + ['pdfmarks': '', 'source-highlighter': 'rouge']
+    attributes attrs + ['pdfmarks': '']
     requires file('src/main/ruby/asciidoctor-pdf-extensions.rb')
     outputDir "$buildDir/asciidoc/pdf-screen"
     backends 'pdf'
