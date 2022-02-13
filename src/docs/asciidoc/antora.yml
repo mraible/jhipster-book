@@ -10,6 +10,7 @@ nav:
   - nav.adoc
 asciidoc:
   attributes:
+    page-og-image: https://raw.githubusercontent.com/mraible/jhipster-book/main/book-cover.png
     page-pagination: '@'
     sourcedir: 'example$'
     book-title: The JHipster Mini-Book
