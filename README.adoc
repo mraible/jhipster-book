@@ -1,4 +1,4 @@
-image:https://github.com/mraible/jhipster-book/actions/workflows/ci.yml/badge.svg[link=https://github.com/mraible/jhipster-book/actions/workflows/ci.yml]
+image:https://github.com/mraible/jhipster-book/actions/workflows/Book%20CI/badge.svg[link="https://github.com/mraible/jhipster-book/actions",alt="Actions Status"]
 
 = The JHipster Mini-Book
 
