@@ -14,7 +14,7 @@
     "setup": "npm install && npm run build"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.14",
+    "browser-sync": "^2.27.7",
     "gulp": "4.0.2"
   }
 }
