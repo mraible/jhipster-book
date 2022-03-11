@@ -59,11 +59,18 @@ After running this command, I was prompted to answer questions about how I wante
 [source%autofit]
 ----
 $ jhipster
-
 ...
 
-Welcome to JHipster v5.2.1
-Application files will be generated in folder: /Users/mraible/dev/21-points
+        ██╗ ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ███████╗
+        ██║ ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔═════╝ ██╔═══██╗
+        ██║ ████████║    ██║    ███████╔╝ ╚█████╗     ██║    ██████╗   ███████╔╝
+  ██╗   ██║ ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║
+  ╚██████╔╝ ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗
+   ╚═════╝  ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
+                            https://www.jhipster.tech
+Welcome to JHipster v7.7.0
+
+Application files will be generated in folder: /Users/mraible/Downloads/app
  _______________________________________________________________________________________________________________
 
   Documentation for creating an application is at https://www.jhipster.tech/creating-an-app/
@@ -72,28 +79,34 @@ Application files will be generated in folder: /Users/mraible/dev/21-points
 
 ? Which *type* of application would you like to create? Monolithic application (recommended for simple projects)
 ? What is the base name of your application? TwentyOnePoints
+? Do you want to make it reactive with Spring WebFlux? No
 ? What is your default Java package name? org.jhipster.health
-? Do you want to use the JHipster Registry to configure, monitor and scale your application? No
 ? Which *type* of authentication would you like to use? JWT authentication (stateless, with a token)
-? Which *type* of database would you like to use? SQL (H2, MySQL, MariaDB, PostgreSQL, Oracle, MSSQL)
+? Which *type* of database would you like to use? SQL (H2, PostgreSQL, MySQL, MariaDB, Oracle, MSSQL)
 ? Which *production* database would you like to use? PostgreSQL
 ? Which *development* database would you like to use? H2 with disk-based persistence
-? Do you want to use the Spring cache abstraction? Yes, with the Ehcache implementation (local cache, for a singl
-e node)
+? Which cache do you want to use? (Spring cache abstraction) Ehcache (local cache, for a single node)
 ? Do you want to use Hibernate 2nd level cache? Yes
 ? Would you like to use Maven or Gradle for building the backend? Gradle
-? Which other technologies would you like to use? Search engine using Elasticsearch
-? Which *Framework* would you like to use for the client? Angular 6
-? Would you like to enable *SASS* support using the LibSass stylesheet preprocessor? Yes
+? Do you want to use the JHipster Registry to configure, monitor and scale your application? No
+? Which other technologies would you like to use? Elasticsearch as search engine
+? Which *Framework* would you like to use for the client? Angular
+? Do you want to generate the admin UI? Yes
+? Would you like to use a Bootswatch theme (https://bootswatch.com/)? Default JHipster
 ? Would you like to enable internationalization support? Yes
 ? Please choose the native language of the application English
 ? Please choose additional languages to install French
-? Besides JUnit and Jest, which testing frameworks would you like to use? Gatling, Protractor
+? Besides JUnit and Jest, which testing frameworks would you like to use? Cypress
 ? Would you like to install other generators from the JHipster Marketplace? No
+? Would you like to generate code coverage for Cypress tests? [Experimental] No
+Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 99,999 days
+	for: CN=Java Hipster, OU=Development, O=org.jhipster.health, L=, ST=, C=
 
-Installing languages: en, fr
+KeyStore '/Users/mraible/Downloads/app/src/main/resources/config/tls/keystore.p12' generated successfully.
+
+   create .prettierrc
+   create .prettierignore
    create package.json
-   create README.md
    ...
 ----
 endif::[]
@@ -107,43 +120,48 @@ This process generates a `.yo-rc.json` file that captures all of the choices you
 ----
 {
   "generator-jhipster": {
-    "promptValues": {
-      "packageName": "org.jhipster.health",
-      "nativeLanguage": "en"
-    },
-    "jhipsterVersion": "5.2.1",
     "applicationType": "monolith",
-    "baseName": "TwentyOnePoints",
-    "packageName": "org.jhipster.health",
-    "packageFolder": "org/jhipster/health",
-    "serverPort": "8080",
     "authenticationType": "jwt",
+    "baseName": "TwentyOnePoints",
+    "blueprints": [],
+    "buildTool": "gradle",
     "cacheProvider": "ehcache",
-    "enableHibernateCache": true,
-    "websocket": false,
+    "clientFramework": "angularX",
+    "clientPackageManager": "npm",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "creationTimestamp": 1646979814903,
+    "cypressCoverage": false,
     "databaseType": "sql",
     "devDatabaseType": "h2Disk",
-    "prodDatabaseType": "postgresql",
-    "searchEngine": "elasticsearch",
-    "messageBroker": false,
-    "serviceDiscoveryType": false,
-    "buildTool": "gradle",
+    "devServerPort": 4200,
+    "dtoSuffix": "DTO",
+    "enableGradleEnterprise": false,
+    "enableHibernateCache": true,
     "enableSwaggerCodegen": false,
-    "jwtSecretKey": "43d99bb3ca6ffaa96b33b632e4a82fb45b672d80",
-    "clientFramework": "angularX",
-    "useSass": true,
-    "clientPackageManager": "yarn",
-    "testFrameworks": [
-      "gatling",
-      "protractor"
-    ],
-    "jhiPrefix": "jhi",
     "enableTranslation": true,
+    "entitySuffix": "",
+    "jhiPrefix": "jhi",
+    "jhipsterVersion": "7.7.0",
+    "jwtSecretKey": "MThiZWQ3NTI1NTNmYzg1MTliNzZjNGJkYjk5NzFkNGFlYzIzMDQyZGJmMDQyNDI5M2ZmOWVmMDJkOTgxNmQwOWI1OWE3OTZlNjU0NDg3ODRiZGM0ZGQzNzEyZTgxMTRlOTY3N2Y1NjU0NjFlZmM5NDRiMTdjZTRkZDc4ZGYwZTM=",
+    "languages": ["en", "fr"],
+    "messageBroker": false,
     "nativeLanguage": "en",
-    "languages": [
-      "en",
-      "fr"
-    ]
+    "otherModules": [],
+    "packageName": "org.jhipster.health",
+    "pages": [],
+    "prodDatabaseType": "postgresql",
+    "reactive": false,
+    "searchEngine": "elasticsearch",
+    "serverPort": "8080",
+    "serverSideOptions": ["searchEngine:elasticsearch"],
+    "serviceDiscoveryType": "no",
+    "skipCheckLengthOfIdentifier": false,
+    "skipFakeData": false,
+    "skipUserManagement": false,
+    "testFrameworks": ["cypress"],
+    "websocket": false,
+    "withAdminUi": true
   }
 }
 ----
@@ -173,6 +191,8 @@ docker-compose -f src/main/docker/elasticsearch.yml up -d
 TIP: Running Elasticsearch as an embedded instance is the default again in JHipster 5.3.0+ thanks to https://github.com/jhipster/generator-jhipster/pull/8122[this pull-request] that integrates Spring Data Jest.
 
 Next, I started the app using `./gradlew` and then ran the UI integration tests with `yarn e2e`. All tests passed with flying colors.
+
+// todo: npm run e2e
 
 ----
 $ yarn e2e
