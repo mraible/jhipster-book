@@ -15,6 +15,12 @@ This document provides a high-level view of the changes introduced in the JHipst
 For a detailed view of what has changed, refer to the https://github.com/mraible/jhipster-book/commits/main[commit history] on Bitbucket.
 
 // tag::compact[]
+
+== 7.0.0 (2022) - @mraible
+  * If you're reading these words and this version is released, Matt Raible owes you a beer. Ping him on Twitter at @mraible. 🍻
+Changes::
+  * Updated to use JHipster 7.7 in March 2022.
+
 == 5.0.3 (2018-04-19) - @mraible
 Changes::
   * Change cover image to have "updated for JHipster 5.x" instead of "updated for JHipster 3.x".
