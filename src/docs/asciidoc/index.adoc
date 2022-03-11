@@ -2,9 +2,9 @@
 :book-title: {doctitle}
 :author: Matt Raible
 :email: matt@raibledesigns.com
-:revnumber: 5.0.3
+:revnumber: 7.0.0-SNAPSHOT
 :revdate: {docdate}
-:revyear: 2019
+:revyear: 2022
 :subject: JHipster
 :keywords: JHipster, Angular, Bootstrap, Spring Boot, Spring Cloud, Spring Security, Microservices, Docker, Heroku, Security, JWT, OAuth 2.0, OIDC
 :doctype: book
@@ -37,17 +37,11 @@ include::chapters/acknowledgements.adoc[]
 include::chapters/preface.adoc[]
 
 include::chapters/introduction.adoc[]
-
+include::chapters/chapter1.adoc[]
 include::chapters/chapter2.adoc[]
-
 include::chapters/chapter3.adoc[]
-
 include::chapters/chapter4.adoc[]
-
-include::chapters/chapter5.adoc[]
-
 include::chapters/action.adoc[]
-
 include::chapters/about.adoc[]
 
 //ifdef::backend-pdf,backend-docbook[]

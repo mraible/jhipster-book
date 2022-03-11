@@ -1,909 +1,806 @@
-[[jhipsters-ui-components]]
-= JHipster\'s UI components
+[[jhipsters-api-building-blocks]]
+= JHipster\'s API building blocks
 
-A modern web application has many UI components. It likely has some sort of model-view-controller (MVC) framework as well as a CSS framework, and tooling to simplify the use of these. With a web application, you can have users all over the globe, so translating your application into other languages might be important. If you're developing large amounts of CSS, you'll likely use a CSS pre-processor like Less or Sass. Then you'll need a build tool to refresh your browser, run your pre-processor, run your tests, minify your web assets, and prepare your application for production.
+JHipster is composed of two main components: a modern UI framework and an API. APIs are the modern data-retrieval mechanisms. Creating great UIs is how you make people smile.
 
-This section shows how JHipster includes all of these UI components for you and makes your developer experience a joyous one.
+Many APIs today are RESTful APIs. In fact, representational state transfer (REST) is the software architectural style of the World Wide Web. RESTful systems typically communicate over HTTP (Hypertext Transfer Protocol) using verbs (GET, POST, PUT, DELETE, etc.). This is the same way browsers retrieve web pages and send data to remote servers. REST was initially proposed by Roy Fielding in his 2000 Ph.D. dissertation, _Architectural Styles and the Design of Network-Based Software Architectures_.
 
-== Angular
+JHipster leverages Spring MVC and its `@RestController` annotation to create a REST API. Its endpoints publish JSON to and consume JSON from clients. By separating the business logic and data persistence from the client, you can provide data to many different clients (HTML5, iOS, Android, TVs, watches, IoT devices, etc.). This also allows third-party and partner integration capabilities in your application. Spring Boot further complements Spring MVC by simplifying microservices and allowing you to create stand-alone JAR (Java Archive) files.
 
-JHipster supports two UI frameworks: Angular and React. In the first two versions of this book, I showed you how to use AngularJS. In the last two versions (4.0 and 4.5), I showed you how to use Angular. Since this is a mini-book, I'm going to stick with showing Angular only. You can see from the following graphs that Angular and React are the most popular among JavaScript frameworks.
+== Spring Boot
 
-[[img-angular-jobs-2018]]
-.Jobs on Indeed, September 2018
-image::chapter3/angular/indeed-jobs-sep2018.jpg[Jobs on Indeed, 450, scaledwidth=75%, align=center]
+In August 2013, Phil Webb and Dave Syer, engineers at Pivotal, https://spring.io/blog/2013/08/06/spring-boot-simplifying-spring-for-everyone[announced the first milestone release] of Spring Boot. Spring Boot makes it easy to create Spring applications with minimal effort. It takes an opinionated view of Spring and auto-configures dependencies for you. This allows you to write less code but still harness the power of Spring. The diagram below (from https://spring.io) shows how Spring Boot is the gateway to the larger Spring ecosystem.
 
-[[img-stackoverflow-tags-2018]]
-.Stack Overflow Tags, September 2018
-image::chapter3/angular/stackoverflow-tags-sep2018.jpg[Tags on Stack OverFlow, 450, scaledwidth=75%, align=center]
+[[img-spring-boot-diagram]]
+.Spring Boot 2.0
+image::chapter3/diagram-boot-reactor.svg[Spring Boot 2.0, 600, scaledwidth=100%, align=center]
 
-Angular is the default UI framework used by JHipster. It's written in TypeScript, compiles to JavaScript, and just using it makes you a hipster! Like Struts in the early 2000s and Rails in the mid-2000s, Angular and other JavaScript frameworks have changed the way developers write web applications. Today, data is exposed via REST APIs and UIs are written in JavaScript (or TypeScript). As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns. It recommended organizing your application into several different components:
+The primary goals of Spring Boot are:
 
-* Components: Classes that retrieve data from services and expose it to templates.
-* Services: Classes that make HTTP calls to a JSON API.
-* Templates: HTML pages that display data. Use Angular directives to iterate over collections and show/hide elements.
-* Pipes: Data-manipulation tools that can transform data (e.g. uppercase, lowercase, ordering, and searching).
-* Directives: HTML processors that allow components to be written. Similar to JSP tags.
+* to provide a radically faster and widely accessible "`getting started`" experience for all Spring development;
+* to be opinionated out of the box, but get out of the way quickly as requirements start to diverge from the defaults; and
+* to provide a range of non-functional features that are common to large classes of projects (e.g. embedded servers, security, metrics, health checks, externalized configuration).
 
-=== History
+Folks who want to use Spring Boot outside of a JHipster application can do so with Spring Initializr, a configurable service for generating Spring projects. You can visit it in your browser at https://start.spring.io or you can call it via `curl`.
 
-AngularJS was started by Miško Hevery in 2009. He was working on a project that was using GWT. Three developers had been developing the product for six months, and Miško rewrote the whole thing in AngularJS in three weeks. At that time, AngularJS was a side project he'd created. It didn't require you to write much in JavaScript as you could program most of the logic in HTML. The GWT version of the product contained 17,000 lines of code. The AngularJS version was only 1,000 lines of code!
+[[img-spring-initializr-web]]
+.Spring Initializr in a browser
+image::chapter3/spring-initializr-web.png[Spring Initializr in a browser, 1247, scaledwidth=100%]
 
-In October 2014, the AngularJS team announced they were building http://www.infoq.com/news/2014/10/angular-2-atscript[Angular 2.0]. The announcement led to a bit of upheaval in the Angular developer community. The API for writing Angular applications was going to change and it was to be based on a new language, AtScript. There would be no migration path and users would have to continue using 1.x or rewrite their applications for 2.x.
+[[img-spring-initializr-curl]]
+.Spring Initializr via `curl`
+image::chapter3/spring-initializr-curl.png[Spring Initializr via `curl`, 1354, scaledwidth=100%]
 
-A new syntax was introduced that binds data to element properties, not attributes. The advantage of this syntax is it allows you to use any web component in an Angular app, not just those retrofitted to work with Angular.
+Spring Initializr is an Apache 2.0-licensed open-source project that you install and customize to generate Spring projects for your company or team. You can find it on GitHub at https://github.com/spring-io/initializr.
 
-[source,html]
-----
-<input type="text" [value]="firstName">
-<button (click)="addPerson()">Add</button>
-<input type="checkbox" [checked]="someProperty">
-----
-
-In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announcing that they would be using TypeScript over AtScript and that they would provide a migration path for Angular 1.x users. They also adopted semantic versioning and http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html[recommended people call it "Angular" instead of Angular 2.0].
-
-Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. JHipster 4.6.0 was released July 6, 2017 and was the first release to contain production-ready Angular support. JHipster 5 uses Angular 6. Angular released version 7 during the production of this book.
-
-You can find the Angular project at https://angular.io.
-
-=== Basics
-Creating a component that says "Hello World" with Angular is pretty simple.
-
-[source,javascript]
-----
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'my-app',
-  template: `<h1>Hello {{name}}</h1>`
-})
-export class AppComponent {
-  name = 'World';
-}
-----
-
-In this example, the `name` variable in the component maps to the value displayed in `+{{name}}+`. To make this component render on a page, you'll need a few more files: a module definition, a bootstrapping class, and an HTML file. A basic module definition contains component declarations, imports, providers, and a class to bootstrap.
-
-[source,javascript]
-----
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-----
-
-Then you'll need a bootstrap file, typically named `main.ts`. This file bootstraps the module.
-
-[source,javascript]
-----
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
-
-if (environment.production) {
-  enableProdMode();
-}
-
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
-----
-
-Finally, you'll need a basic HTML file that renders the component.
-
-[source,html]
-----
-<html>
-<head>
-    <title>Howdy</title>
-</head>
-<body>
-    <my-app></my-app>
-    <script src="path/to/compiled/javascript.js"></script>
-</body>
-</html>
-----
-
-The MVC pattern is a common one for web frameworks to implement. With Angular, the model is represented by an object that you create or retrieve from a service. The view is a HTML template and the component is a class that sets variables to be read by the template.
-
-[[img-angular-mvc]]
-.MVC in Angular
-image::chapter3/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth=75%, align=center]
-
-Below is a `SearchService` to fetch search results. It's expected that a JSON endpoint exists at `/api/search` on the same server.
-
-[source,javascript]
-.SearchService
-----
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class SearchService {
-
-  constructor(private http: HttpClient) {}
-
-  search(term): Observable<any> {
-    return this.http.get(`/api/search/${term}`);
-  }
-}
-----
-
-An associated `SearchComponent` can be used to display the results from this service. Notice how you can use constructor injection to get a reference to the service.
-
-[source,javascript]
-.SearchComponent
-----
-import { Component } from '@angular/core';
-import { SearchService } from '../search.service';
-
-@Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
-})
-export class SearchComponent {
-  query: string;
-  searchResults: Array<any>;
-
-  constructor(private searchService: SearchService) {
-    console.log('In Search Component...');
-  }
-
-  search(): void {
-    this.searchService.search(this.query).subscribe(
-      data => {
-        this.searchResults = data;
-      },
-      error => console.log(error)
-    );
-  }
-}
-----
-
-TIP: To see the JavaScript console in Chrome, use kbd:[Command+Option+J] in Mac OS X/macOS or kbd:[Control+Shift+J] in Windows or Linux.
-
-To make this component available at a URL, you can use Angular's `Router` and specify the path in the module that includes the component.
-
-[source,javascript]
-.AppModule
-----
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-
-import { AppComponent } from './app.component';
-import { SearchComponent } from './search/search.component';
-import { Routes, RouterModule } from '@angular/router';
-
-const appRoutes: Routes = [
-  { path: 'search', component: SearchComponent },
-  { path: '', redirectTo: '/search', pathMatch: 'full' }
-];
-
-@NgModule({
-  declarations: [
-    AppComponent,
-    SearchComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    RouterModule.forRoot(appRoutes)
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-----
-
-In the main entry point of the app, `AppComponent` in this case, you'll need to specify the router outlet in a template.
-
-[source,html]
-.app.component.html
-----
-<router-outlet></router-outlet>
-----
-
-The template for the `SearchComponent` can be as simple as a form with a button.
-
-[source%autofit,html]
-----
-<h2>Search</h2>
-<form>
-  <input type="search" name="query" [(ngModel)]="query" (keyup.enter)="search()">
-  <button type="button" (click)="search()">Search</button>
-</form>
-----
-
-Now that you've seen the code, let's look at how everything works in the `SearchComponent`.
-
-[source,javascript]
-----
-@Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
-})
-export class SearchComponent {
-  query: string;
-  searchResults: Array<any>;
-
-  constructor(private searchService: SearchService) { // <1>
-    console.log('In Search Component...');
-  }
-
-  search(): void { // <2>
-    this.searchService.search(this.query).subscribe( // <3>
-      data => {
-        this.searchResults = data;
-      },
-      error => console.log(error)
-    );
-  }
-}
-----
-<1> To inject `SearchService` into `SearchComponent`, simply add it as a parameter to the component's constructor. TypeScript automatically makes constructor dependencies available as class variables.
-<2> `search()` is a method that's called from the HTML's `<input>` and `<button>`, wired up using the `(keyup.enter)` and `(click)` event handlers.
-<3> `this.query` is a variable that's wired to `<input>` using the `[(ngModel)]` directive. This syntax provides two-way binding so if you change the value in the component, it changes it in the rendered HTML. You can think of it this way: `[] => component to template` and  `() => template to component`.
-
-To make the aforementioned code work, you can generate a new Angular project using https://cli.angular.io[Angular CLI]. To install Angular CLI, you can use npm.
-
-[source,bash]
-----
-npm i -g @angular/cli
-----
-
-Then generate a new application using `ng new`. When prompted to install Angular routing, type “Y”. For the stylesheet format, choose “CSS” (the default).
-
-[source,bash]
-----
-ng new ng-demo
-----
-
-This creates all the files you need for a basic app, installs dependencies, and sets up a build system for compiling your TypeScript code to JavaScript.
-
-You can generate the `SearchService` using `ng generate service search` (or `ng g s search`).
-
-[source,bash]
-----
-$ ng g s search
-CREATE src/app/search.service.spec.ts (333 bytes)
-CREATE src/app/search.service.ts (135 bytes)
-----
-
-And you can generate the `SearchComponent` using `ng generate component search` (or `ng g c search`).
-
-[source,bash]
-----
-$ ng g c search
-CREATE src/app/search/search.component.css (0 bytes)
-CREATE src/app/search/search.component.html (25 bytes)
-CREATE src/app/search/search.component.spec.ts (628 bytes)
-CREATE src/app/search/search.component.ts (269 bytes)
-UPDATE src/app/app.module.ts (396 bytes)
-----
-
-Does your API return data like the following?
-
-[source,json]
-----
-include::{sourcedir}/chapter3/angular/search-results.json[]
-----
-
-If so, you could display it in the `search.component.html` template with Angular's `*ngFor` directive.
-
-[source,html]
-----
-<table *ngIf="searchResults">
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th>Phone</th>
-    <th>Address</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let person of searchResults; let i=index">
-    <td><a [routerLink]="['/edit', person.id]">{{person.name}}</a></td>
-    <td>{{person.phone}}</td>
-    <td>{{person.address.street}}<br/>
-      {{person.address.city}}, {{person.address.state}} {{person.address.zip}}
-    </td>
-  </tr>
-  </tbody>
-</table>
-----
-
-To read a more in-depth example (including source code and tests) of building a search/edit application with Angular, see my https://github.com/mraible/ng-demo[Angular and Angular CLI Tutorial].
-
-Now that you've learned a bit about one of the hottest web frameworks on the planet, let's take a look at the most popular CSS framework: Bootstrap.
-
-== Bootstrap
-
-http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides a number of CSS classes and HTML structures that allow you to develop HTML user interfaces that look good by default. Not only that, but it’s responsive by default, which means it works better (or even best) on a mobile device.
-
-=== Bootstrap's grid system
-
-Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's powerful grid is built with containers, rows, and columns. It's based on the CSS3 flexible box, or flexbox. Flexbox is a layout mode intended to accommodate different screen sizes and different display devices. It's easier than using blocks to do layouts because it doesn't use floats, nor do the flex container's margins collapse with the margins of its content. CSS-Tricks has https://css-tricks.com/snippets/css/a-guide-to-flexbox/[A Complete Guide to Flexbox] that explains its concepts well.
-
-> The main idea behind the flex layout is to give the container the ability to alter its items' width/height (and order)
-> to best fill the available space, mostly to accommodate all kinds of display devices and screen sizes. A flex
-> container expands items to fill available free space or shrinks them to prevent overflow.
-
-Bootstrap's grid width varies based on viewport width. The table below shows how aspects of the grid system work across different devices.
-
-[cols="2,1,1,1,1,1", options="header"]
-|===
-|
-|Extra small
-|Small
-|Medium
-|Large
-|Extra large
-
-|**Max container width**
-|None (auto)
-|540px
-|720px
-|960px
-|1140px
-
-|**Class prefix**
-|`.col-`
-|`.col-sm-`
-|`.col-md-`
-|`.col-lg-`
-|`.col-xl-`
-
-|**# of columns**
-5+| 12
-
-|**Gutter width**
-5+| 30px (15px on each side)
-
-|**Nestable**
-5+| Yes
-
-|**Column ordering**
-5+| Yes
-|===
-
-A basic example of the grid is shown below.
-
-[source,html]
-----
-include::{sourcedir}/chapter3/bootstrap/grid-basic.html[]
-----
-
-When rendered with Bootstrap's CSS, the above HTML looks as follows on a desktop. The minimum width of the container element on the desktop is set to 1200 px.
-
-[[img-bootstrap-basic-grid-desktop]]
-.Basic grid on desktop
-image::chapter3/bootstrap/basic-grid-desktop.png[Basic grid on desktop, 991, scaledwidth=100%]
-
-If you squish your browser to less than 1200 px wide or render this same document on a smaller screen, the columns will stack.
-
-[[img-bootstrap-basic-grid-mobile]]
-.Basic grid on a mobile device
-image::chapter3/bootstrap/basic-grid-mobile.png[Basic grid on a mobile device, 768, scaledwidth=75%]
-
-Bootstrap's grid can be used to align and position your application's elements, widgets, and features. It's helpful to understand a few basics if want to use it effectively.
-
-* It's based on 12 columns.
-* Just use "`md`" class and fix as needed.
-* It can be used to size input fields.
-
-Bootstrap's grid system has five tiers of classes: xs (portrait phones), sm (landscape phones), md (tablets), lg (desktops), and xl (large desktops). You can use nearly any combination of these classes to create more dynamic and flexible layouts. Below is an example of a grid that's a little more advanced.
-
-Each tier of classes scales up, meaning that if you plan to set the same widths for xs and sm, you only need to specify xs.
+Spring Initializr is also available in the Eclipse-based Spring Tool Suite (STS) and IntelliJ IDEA.
 
-[source,html]
-----
-include::{sourcedir}/chapter3/bootstrap/grid-advanced.html[]
-----
-
-[[img-bootstrap-advanced-grid-desktop]]
-.Advanced grid
-image::chapter3/bootstrap/advanced-grid-desktop.png[Advanced grid, 983, scaledwidth=100%]
-
-You can use size indicators to specify breakpoints in the columns. Breakpoints indicate where a column wraps onto the next row. In the HTML above, "`xs`" and "`md`" are the size indicators (of course,  "`sm`", "`lg`", and "`xl`" are the other options). Bootstrap uses the following media query ranges.
-
-[source,css]
-----
-// Extra small devices (portrait phones, less than 576 px)
-// No media query since this is the default in Bootstrap
-
-// Small devices (landscape phones, 576 px and up)
-@media (min-width: 576px) { ... }
-
-// Medium devices (tablets, 768 px and up)
-@media (min-width: 768px) { ... }
-
-// Large devices (desktops, 992 px and up)
-@media (min-width: 992px) { ... }
-
-// Extra large devices (large desktops, 1200 px and up)
-@media (min-width: 1200px) { ... }
-----
-
-If you're using Sass, all Bootstrap's media queries are available via Sass mixins:
-
-[source,sass]
-----
-// No media query necessary for xs breakpoint as it's effectively `@media (min-width: 0) { ... }`
-@include media-breakpoint-up(sm) { ... }
-@include media-breakpoint-up(md) { ... }
-@include media-breakpoint-up(lg) { ... }
-@include media-breakpoint-up(xl) { ... }
-
-// Example: Hide starting at `min-width: 0`, and then show at the `sm` breakpoint
-.custom-class {
-  display: none;
-}
-@include media-breakpoint-up(sm) {
-  .custom-class {
-    display: block;
-  }
-}
-----
-
-=== Responsive utility classes
-
-Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size, like `.d-[xs|sm|md|lg]-block` and `.d-[xs|sm|md|lg]-none`. There are no explicit "show" responsive utility classes; you make an element visible by simply not hiding it at that breakpoint size.
-
-Bootstrap's classes for setting the display are names using the following format:
-
-* `.d-{value}` for `xs`
-* `.d-{breakpoint}-{value}` for `sm`, `md`, `lg`, and `xl`
-
-The media queries effect screen widths with the given breakpoint or _larger_. For example, `.d-lg-none` sets `display: none` on both `lg` and `xl` screens.
-
-The following example from 21-Points Health shows how to display a shorter heading on mobile and a larger one on bigger screens.
-
-[source%autofit,html]
-----
-<div class="col-6 text-nowrap">
-    <h4 class="mt-1 d-none d-md-inline"
-        jhiTranslate="home.bloodPressure.title">Blood Pressure:</h4>
-    <h4 class="mt-1 d-sm-none"
-        jhiTranslate="home.bloodPressure.titleMobile">BP:</h4>
-</div>
-----
-
-=== Forms
-
-When you add Bootstrap's CSS to your web application, chances are it'll quickly start to look better. Typography, margins, and padding will look better by default. However, your forms might look funny, because Bootstrap requires a few classes on your form elements to make them look good. Below is an example of a form element.
-
-[source%autofit,html]
-----
-include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
-----
-
-[[img-bootstrap-basic-element]]
-.Basic form element
-image::chapter3/bootstrap/basicelement.png[Basic form element, 712, scaledwidth=90%]
-
-If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
-
-[source%autofit,html]
-----
-include::{sourcedir}/chapter3/bootstrap/basicelement-withvalidation.html[]
-----
-
-[[img-bootstrap-basic-element-with-validation]]
-.Form element with validation
-image::chapter3/bootstrap/basicelement-validation.png[Form element with validation, 712, scaledwidth=90%]
-
-=== CSS
-
-When you add Bootstrap's CSS to a HTML page, the default settings immediately improve the typography. Your `<h1>` and `<h2>` headings become semi-bold and are sized accordingly. Your paragraph margins, body text, and block quotes will look better. If you want to align text in your pages, `text-[left|center|right]` are useful classes. For tables, a `table` class gives them a better look and feel by default.
-
-To make your buttons look better, Bootstrap provides `btn` and a number of `btn-*` classes.
-
-[source,html]
-----
-include::{sourcedir}/chapter3/bootstrap/buttons.html[]
-----
-
-[[img-bootstrap-buttons]]
-.Buttons
-image::chapter3/bootstrap/buttons.png[Buttons, 754, scaledwidth=90%]
-
-=== Components
-
-Bootstrap ships with a number of components included. Some require JavaScript; some only require HTML5 markup and CSS classes to work. Its rich set of components have helped make it one of the most popular projects on GitHub. Web developers have always liked components in their frameworks. A framework that offers easy-to-use components often allows developers to write less code. Less code to write means there's less code to maintain!
-
-Popular Bootstrap components include: dropdowns, button groups, button dropdowns, navbar, breadcrumbs, pagination, alerts, progress bars, and panels. Below is an example of a navbar with a dropdown.
-
-[[img-bootstrap-navbar]]
-.Navbar with dropdown
-image::chapter3/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 956, scaledwidth=100%]
-
-When rendered on a mobile device, everything collapses into a hamburger menu that can expand downward.
-
-[[img-bootstrap-navbar-mobile]]
-.Navbar on mobile
-image::chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 476, scaledwidth=50%]
-
-This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source online in link:https://getbootstrap.com/docs/4.1/components/navbar/[Bootstrap's documentation]. A simpler example below shows the basic structure.
-
-[source%autofit,html]
-----
-include::{sourcedir}/chapter3/bootstrap/navbar.html[]
-----
-
-Alerts are useful for displaying feedback to the user. You can invoke differently colored alerts with different classes. You'll need to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors.
-
-[source,html]
-----
-include::{sourcedir}/chapter3/bootstrap/alerts.html[]
-----
-
-This renders alerts like the following.
+.Spring CLI
+****
+You can also download and install the Spring Boot CLI. The easiest way to install it is with http://sdkman.io/[SDKMAN!]
 
-[[img-bootstrap-alerts]]
-.Alerts
-image::chapter3/bootstrap/alerts.png[Alerts, 776, scaledwidth=100%]
-
-To make an alert closeable, you need to add an `.alert-dismissible` class and a close button.
-
-[source%autofit,html]
-----
-<div class="alert alert-warning alert-dismissible  fade show" role="alert">
-  <strong>Warning!</strong> Better check yourself, you're not looking too good.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-----
-
-[[img-bootstrap-alert-dismissable]]
-.Closeable alert
-image::chapter3/bootstrap/alert-dismissable.png[Closeable alert, 830, scaledwidth=100%]
-
-TIP: To make the links in your alerts match the colors of the alerts, use `.alert-link`.
-
-=== Icons
-
-Icons have always been a big part of web applications. Showing the user a small image is often sexier and hipper than plain text. Humans are visual beings and icons are a great way to spice things up. In the last several years, font icons have become popular for web development. Font icons are just fonts, but they contain symbols and glyphs instead of text. You can style, scale, and load them quickly because of their small size.
-
-Bootstrap 3.x included the http://glyphicons.com/[Glyphicons] Halflings set of font icons. It’s not normally free, but the font creator made it free for Bootstrap users. One of the https://v4-alpha.getbootstrap.com/migration/[changes] for Bootstrap 4 is that it dropped the Glyphicons icon font. You can use http://fontawesome.io/[Font Awesome] and https://octicons.github.com/[GitHub Octicons] as a free alternatives to Glyphicons.
-
-Font Awesome has 1,341 icons and is included by default in JHipster with https://github.com/FortAwesome/angular-fontawesome[angular-fontawesome]. It is often used to display eye candy on buttons.
-
-[source,html]
-----
-<button class="btn btn-info"><fa-icon [icon]="'plus'"></fa-icon> Add</button>
-<button class="btn btn-danger"><fa-icon [icon]="'times'"></fa-icon> Delete</button>
-<button class="btn btn-success"><fa-icon [icon]="'pencil-alt'"></fa-icon> Edit</button>
-----
-
-You can see how the icons change color based on the font color defined for the element that contains them.
-
-[[img-bootstrap-buttons-icons]]
-.Buttons with icons
-image::chapter3/bootstrap/buttons-with-icons.png[Buttons with icons, 262, scaledwidth=25%]
-
-=== Customizing CSS
-
-If you'd like to override Bootstrap classes in your project, the easiest thing to do is to put the override rule in a CSS file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/content/css/global.css` directly. If you're using Sass to compile `*.scss` files, you can modify `src/main/webapp/content/scss/global.scss` instead. Using Sass results in a much more concise authoring environment. Below is the default `vendor.scss` file that JHipster generates. You can see that it imports Bootstrap and I've added an import for Angular Calendar. Default Bootstrap rules are overridden in `src/main/webapp/content/scss/global.scss`.
-
-[source,sass]
-.src/main/webapp/scss/vendor.scss
-----
-/* after changing this file run 'yarn run webpack:build' */
-
-/***************************
-put Sass variables here:
-eg $input-color: red;
-****************************/
-
-// Calendar styles
-@import '~angular-calendar/scss/angular-calendar';
-// Override Boostrap variables
-@import 'bootstrap-variables';
-// Import Bootstrap source files from node_modules
-@import '~bootstrap/scss/bootstrap';
-
-/* jhipster-needle-scss-add-vendor JHipster will add new css style */
-----
-
-There's also a `src/main/webapp/content/scss/_bootstrap-variable.scss` file. You can modify this file to change the default Bootstrap settings like colors, border radius, etc.
-
-=== Angular and Bootstrap
-
-JHipster includes https://ng-bootstrap.github.io/[ng-bootstrap] by default. This library provides Bootstrap 4 components that are powered by Angular instead of jQuery.
-
-http://codeseven.github.io/toastr/[Toastr] is a popular non-blocking notification library powered by jQuery. JHipster has an https://github.com/jhipster/ng-jhipster/blob/master/src/service/alert.service.ts[`alert.service.ts`] that allows you to use Toastr-like alerts.
-
-To use Toastr-like alerts in your project, modify `shared-libs.module.ts` to change `alertAsToast` to `true`.
-
-[source,javascript]
-.src/main/webapp/app/shared/shared-libs.module.ts
 ----
-@NgModule({
-    imports: [
-        NgbModule.forRoot(),
-        NgJhipsterModule.forRoot({
-            // set below to true to make alerts look like toast
-            alertAsToast: true,
-            i18nEnabled: true,
-            defaultI18nLang: 'en'
-        }),
-        InfiniteScrollModule,
-        CookieModule.forRoot(),
-        FontAwesomeModule
-    ],
-    exports: [ ... ]
-})
+curl -s "https://get.sdkman.io" | bash
+sdk install springboot
 ----
 
-Popular alternatives to Bootstrap include https://material.angular.io/[Angular Material] and http://ionicframework.com/[Ionic Framework]. There is no support for these frameworks at this time. To integrate them would require that all templates to rewritten to include their classes instead of Bootstrap's. While possible, it'd be a lot of work to create and maintain.
+Spring CLI is best used for rapid prototyping: when you want to show someone how to do something very quickly, with code you'll likely throw away when you're done. For example, if you want to create a "`Hello World`" web application in Groovy, you can do it with seven lines of code.
 
-== Internationalization (i18n)
-
-Internationalization (also called i18n because the word has 18 letters between "`i`" and "`n`") is a first-class citizen in JHipster. Translating an application to another language is easiest if you put the i18n system in place at the beginning of a project. http://www.ngx-translate.com/[ngx-translate] provides directives that make it easy to translate your application into multiple languages. You won't see this dependency in your JHipster project's `package.json` because it's included in the https://github.com/jhipster/ng-jhipster[ng-jhipster] project and wrapped in a `jhiTranslate` directive.
-
-To use i18n in a JHipster project, you simply add a "`jhiTranslate`" attribute with a key.
-
-[source,html]
-----
-<label for="username" jhiTranslate="global.form.username">Login</label>
-----
-
-The key references a JSON document, which will return the translated string. Angular will then replace the "`First Name`" string with the translated version.
-
-JHipster allows you to choose a default language and translations when you first create a project. It stores the JSON documents for these languages in `src/main/webapp/i18n`. You can install additional languages using `yo jhipster:languages`. As of October 2018, JHipster supports 42 languages. You can also add a new language. To set the default language, modify `src/main/webapp/app/shared/shared-libs.module.ts` and its `defaultI18nLang` setting.
-
-[source,javascript]
-.src/main/webapp/app/shared/shared-libs.module.ts
-----
-imports: [
-    ...
-    NgJhipsterModule.forRoot({
-        // set below to true to make alerts look like toast
-        alertAsToast: false,
-        i18nEnabled: true,
-        defaultI18nLang: 'en'
-    }),
-    ...
-],
-----
-
-== Sass
-
-Sass stands for "`syntactically awesome style sheets`". It's a language for writing CSS with the goodies you're used to using in modern programming languages, such as variables, nesting, mixins, and inheritance. Sass uses the `$` symbol to indicate a variable, which can then be referenced later in your document.
-
-[source,sass]
-----
-$font-stack:    Helvetica, sans-serif
-$primary-color: #333
-
-body
-    font: 100% $font-stack
-    color: $primary-color
-----
-
-Sass 3 introduces a new syntax known as SCSS that is fully compatible with the syntax of CSS3, while still supporting the full power of Sass. It looks more like CSS.
-
-[source,sass]
-----
-$font-stack:    Helvetica, sans-serif;
-$primary-color: #333;
-
-body {
-    font: 100% $font-stack;
-    color: $primary-color;
-}
-----
-
-The code above renders the following CSS.
-
-[source,css]
-----
-body {
-    font: 100% Helvetica, sans-serif;
-    color: #333;
-}
-----
-
-Another powerful feature of Sass is the ability to write nested CSS selectors. When writing HTML, you can often visualize the hierarchy of elements. Sass allows you to bring that hierarchy into your CSS.
-
-[source,sass]
+[source,groovy]
+.hello.groovy
 ----
-nav {
-    ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    li {
-        display: inline-block;
-    }
-
-    a {
-        display: block;
-        padding: 6px 12px;
-        text-decoration: none;
+@RestController
+class WebApplication {
+    @RequestMapping("/")
+    String home() {
+        "Hello World!"
     }
 }
 ----
 
-WARNING: Overly nested rules will result in overqualified CSS that can be hard to maintain.
+To compile and run this application, simply type:
 
-As mentioned, Sass also supports partials, imports, mixins, and inheritance. Mixins can be particularly useful for handling vendor prefixes.
-
-[source,sass]
 ----
-@mixin border-radius($radius) { <1>
-    -webkit-border-radius: $radius;
-       -moz-border-radius: $radius;
-        -ms-border-radius: $radius;
-            border-radius: $radius;
+spring run hello.groovy
+----
+
+After running this command, you can see the application at http://localhost:8080. For more information about the Spring Boot CLI, see http://docs.spring.io/spring-boot/docs/current/reference/html/cli-using-the-cli.html[its documentation].
+****
+
+To show you how to create a simple application with Spring Boot, go to https://start.spring.io and select `Web`, `JPA`, `H2`, and `Actuator` as project dependencies. Click "`Generate Project`" to download a .zip file for your project. Extract it on your hard drive and import it into your favorite IDE.
+
+This project has only a few files in it, as you can see by running the `tree` command (on *nix).
+
+----
+.
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── example
+    │   │           └── demo
+    │   │               └── DemoApplication.java
+    │   └── resources
+    │       ├── application.properties
+    │       ├── static
+    │       └── templates
+    └── test
+        └── java
+            └── com
+                └── example
+                    └── demo
+                        └── DemoApplicationTests.java
+
+14 directories, 6 files
+----
+
+`DemoApplication.java` is the heart of this application; the file and class name are not relevant. What is relevant is the `@SpringBootApplication` annotation and the class's `public static void main` method.
+
+[source,java]
+.src/main/java/com/example/demo/DemoApplication.java
+----
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 }
-
-.box { @include border-radius(10px); } <2>
 ----
-<1> Create a mixin using `@mixin` and give it a name. This uses `$radius` as a variable to set the radius value.
-<2> Use `@include` followed by the name of the mixin.
 
-CSS generated from the above code looks as follows.
+For this application, you'll create an entity, a JPA repository, and a REST endpoint to show data in the browser. To create an entity, add the following code to the `DemoApplication.java` file, outside of the `DemoApplication` class.
 
-[source,css]
+[source,java]
+.src/main/java/demo/com/example/demo/DemoApplication.java
 ----
-.box {
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    border-radius: 10px;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+...
+
+@Entity
+class Blog {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Blog{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
 ----
 
-Bootstrap 3.x was written with http://lesscss.org/[Less], a CSS pre-processor with similar features to Sass. It uses Sass for the 4.0+ versions.
+In the same file, add a `BlogRepository` interface that extends `JpaRepository`. Spring Data JPA makes it really easy to create a CRUD repository for an entity. It automatically creates for you the implementation that talks to the underlying datastore.
 
-JHipster allows you to use Sass by default. To learn more about structuring your CSS and naming classes, read the great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
-
-== Webpack
-
-JHipster 4+ uses https://webpack.github.io/[webpack] for building the client. JHipster 3.x used https://gulpjs.com/[Gulp]. Gulp allows you to perform tasks like minification, concatenation, compilation (e.g. from TypeScript/CoffeeScript to JavaScript), unit testing, and more. webpack is a more modern solution that's become very popular for Angular projects and is included under the covers in Angular CLI.
-
-webpack is a module bundler that recursively builds a dependency graph with every module your application needs. It packages all of these modules into a smaller number of bundles to be loaded by the browser. Its code-splitting abilities make it possible to break up large JavaScript applications into small chunks that can be loaded on demand.
-
-It has four core concepts:
-
-* **Entry:** This tells webpack where to start and follows the graph of dependencies to know what to bundle.
-* **Output:** Once you've bundled all of your assets together, you need to tell webpack *where* to put them.
-* **Loaders:** webpack treats every file (.css, .scss, .ts, .png, .html, etc.) as a module, but only understands JavaScript. Loaders transform files into modules as they are added to the dependency graph.
-* **Plugins:** Loaders execute transforms per file. Plugins perform actions and customizations on chunks of your bundled modules.
-
-Below is a basic `webpack.config.js` that shows all four concepts in use.
-
-[source,javascript]
-.webpack.config.js
+[source,java]
+.src/main/java/com/example/demo/DemoApplication.java
 ----
-const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
-const webpack = require('webpack'); //to access built-in plugins
-const path = require('path');
+import org.springframework.data.jpa.repository.JpaRepository;
+....
 
-const config = {
-  entry: './path/to/my/entry/file.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'my-first-webpack.bundle.js'
-  },
-  module: {
-    rules: [
-      { test: /\.txt$/, use: 'raw-loader' }
-    ]
-  },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin(),
-    new HtmlWebpackPlugin({template: './src/index.html'})
-  ]
-};
-
-module.exports = config;
+interface BlogRepository extends JpaRepository<Blog, Long> {}
 ----
 
-In the Angular section, I mentioned Angular CLI and my https://github.com/mraible/ng-demo[ng-demo] project that shows how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command. To see its webpack config, or to tweak it for your needs, you can _eject_ it from your project by running `ng eject`.
+Define a `CommandLineRunner` that injects this repository and prints out all the data that's found by calling its `findAll()` method. `CommandLineRunner` is an interface that's used to indicate that a bean should run when it is contained within a `SpringApplication`.
 
-I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js` file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack configuration. JHipster generates a `webpack` directory that contains files for different scenarios: dev mode with hot reload, testing, and preparing for production.
-
-* `logo-jhipster.png` is the logo that shows in desktop alerts for build notifications.
-* `utils.js` contains utility functions for finding the project's version and determining external libraries.
-* `webpack.common.js` is the common parent configuration that's extended by each of the following files.
-* `webpack.dev.js` is the configuration used when you run `yarn start`. It enables hot-reloading with Browsersync and desktop notifications.
-* `webpack.prod.js` is the configuration used for production. Angular's AOT compilation is used, HTML templates are converted to JavaScript, and source maps are created.
-
-To learn more about webpack, I recommend visiting https://webpack.academy/[https://webpack.academy], which is a site dedicated to teaching webpack. It was created by https://twitter.com/TheLarkInn[Sean Larkin], a member of the webpack core team, the Angular team, and the Angular CLI core team. He's a big reason for the success of webpack, as he's constantly promoting it, providing learning materials around it, and helping open-source projects adopt it.
-
-== WebSockets
-
-WebSockets are an advanced technology that makes it possible to open an interactive communication channel between the user's browser and a server. With this API, you can send messages to a server and receive event-driven responses without having to poll the server for a reply. WebSockets have been called "`TCP for the Web`".
-
-If you choose "WebSockets using Spring Websocket" as part of the "other technologies" options when creating a JHipster project, you'll get two JavaScript libraries added to your project:
-
-* https://github.com/JSteunou/webstomp-client[webstomp-client]: STOMP stands for "`simple text-oriented messaging protocol`".
-* https://github.com/sockjs/sockjs-client[SockJS]: SockJS provides a WebSocket-like object. If native WebSockets are not available, it falls back to other browser techniques.
-
-To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSockets-enabled project. This displays real-time activity information that's been posted to the `/websocket/tracker` endpoint.
-
-[source%autofit,javascript]
-.src/main/webapp/app/admin/tracker/tracker.component.ts
+[source,java]
+.src/main/java/com/example/demo/DemoApplication.java
 ----
-include::{sourcedir}/chapter3/websockets/tracker.component.ts[]
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+...
+
+@Component
+class BlogCommandLineRunner implements CommandLineRunner {
+
+    private BlogRepository repository;
+
+    public BlogCommandLineRunner(BlogRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public void run(String... strings) throws Exception {
+        System.out.println(repository.findAll());
+    }
+}
 ----
 
-The `Tracker` service allows you to send tracking information — for example, to track when someone has authenticated.
+ifeval::["{media}" == "screen"]
+NOTE: Spring 4.3 added https://spring.io/blog/2016/03/04/core-container-refinements-in-spring-framework-4-3[implicit constructor injection], eliminating the need for an `@Autowired` annotation.
+endif::[]
+ifeval::["{media}" == "prepress"]
+NOTE: Spring 4.3 added implicit constructor injection, eliminating the need for an `@Autowired` annotation.
+endif::[]
 
-[source%autofit,javascript]
-.src/main/webapp/app/core/tracker/tracker.service.ts
+To provide default data, create `src/main/resources/data.sql` and add a couple of SQL statements to insert data.
+
+[source,sql]
+.src/main/resources/data.sql
 ----
-include::{sourcedir}/chapter3/websockets/tracker.service.ts[]
-----
-
-WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. To learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with Spring]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
-
-== Browsersync
-
-http://www.browsersync.io/[Browsersync] is one of those tools that makes you wonder how you ever lived without it. It keeps your assets in sync with your browser. It's also capable of syncing browsers, so you can, for example, scroll in Safari and watch synced windows scroll in Chrome and in Safari running in iOS Simulator. When you save files, it updates your browser windows, saving you an incredible amount of time. As its website says, "`It's wicked-fast and totally free.`"
-
-Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.0 License. It contains a number of slick features:
-
-* Interaction sync: Browsersync mirrors your scroll, click, refresh, and form actions between browsers while you test.
-* File sync: Browsers automatically update as you change HTML, CSS, images, and other project files.
-* URL history: Browsersync records your test URLs so you can push them back out to all devices with a single click.
-* Remote inspector: You can remotely tweak and debug web pages that are running on connected devices.
-
-To integrate Browsersync in your project, you need a `package.json` and `gulpfile.js`. Your `package.json` file only needs to contain a few things, weighing in at a slim 13 lines of JSON.
-
-[source,javascript]
-----
-include::{sourcedir}/../../../package.json[]
+insert into blog (name) values ('First');
+insert into blog (name) values ('Second');
 ----
 
-The `gulpfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development experience.
+Start your application with `mvn spring-boot:run` (or right-click -> "`Run in your IDE`") and you should see this default data show up in your logs.
 
-[source%autofit,javascript]
+[source%autofit,shell]
 ----
-include::{sourcedir}/../../../gulpfile.browsersync.js[]
-----
-
-After you've created these files, you'll need to install https://nodejs.org/[Node.js] and its package manager, npm. This should let you run the following command to install Browsersync and Gulp. You will only need to run this command when dependencies change in `package.json`.
-
-----
-npm install
-----
-
-Then run the following command to create a blissful development environment in which your browser auto-refreshes when files change on your hard drive.
-
-----
-gulp
+2017-08-31 23:09:27.436  INFO 67327 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer :
+  Tomcat started on port(s): 8080 (http)
+2017-08-31 23:09:27.470  INFO 67327 --- [main] o.h.h.i.QueryTranslatorFactoryInitiator  :
+  HHH000397: Using ASTQueryTranslatorFactory
+[Blog{id=1, name='First'}, Blog{id=2, name='Second'}]
+2017-08-31 23:09:27.549  INFO 67327 --- [main] com.example.demo.DemoApplication         :
+  Started DemoApplication in 3.924 seconds (JVM running for 4.492)
 ----
 
-JHipster integrates Browsersync for you, using webpack instead of Gulp. I show a Gulp example here because it so simple. I highly recommend Browsersync for your project. It's useful for determining if your web application can handle a page reload without losing the current user's state.
+To publish this data as a REST API, create a `BlogController` class and add a `/blogs` endpoint that returns a list of blogs.
+
+[source,java]
+.src/main/java/demo/com/example/demo/DemoApplication.java
+----
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.Collection;
+...
+
+@RestController
+class BlogController {
+    private final BlogRepository repository;
+
+    public BlogController(BlogRepository repository) {
+        this.repository = repository;
+    }
+
+    @RequestMapping("/blogs")
+    Collection<Blog> list() {
+        return repository.findAll();
+    }
+}
+----
+
+After adding this code and restarting the application, you can `curl` the endpoint or open it in your favorite browser.
+
+----
+$ curl localhost:8080/blogs
+[{"id":1,"name":"First"},{"id":2,"name":"Second"}]
+----
+
+TIP: https://httpie.org/[HTTPie] is an alternative to cURL that makes many things easier.
+
+Spring has one of the best track records for hipness in Javaland. It is an essential cornerstone of the solid API foundation that makes JHipster awesome. Spring Boot allows you to create stand-alone Spring applications that directly embed Tomcat, Jetty, or Undertow. It provides opinionated starter dependencies that simplify your build configuration, regardless of whether you're using Maven or Gradle.
+
+=== External configuration
+
+You can configure Spring Boot externally, so you can work with the same application code in different environments. You can use properties files, YAML files, environment variables, and command-line arguments to externalize your configuration.
+
+Spring Boot runs through this specific sequence for `PropertySource` to ensure that it overrides values sensibly:
+
+1. Devtools global settings properties on your home directory (`~/.spring-boot-devtools.properties` when devtools is active).
+2. `@TestPropertySource` annotations on your tests.
+3. `@SpringBootTest#properties` annotation attribute on your tests.
+4. Command-line arguments,
+5. Properties from `SPRING_APPLICATION_JSON` (inline JSON embedded in an environment variable or system property).
+6. `ServletConfig` init parameters.
+7. `ServletContext` init parameters.
+8. JNDI attributes from `java:comp/env`.
+9. Java System properties (`System.getProperties()`).
+10. OS environment variables.
+11. A `RandomValuePropertySource` that only has properties in `random.*`.
+12. Profile-specific application properties outside of your packaged JAR (`application-{profile}.properties` and YAML variants).
+13. Profile-specific application properties packaged inside your JAR (`application-{profile}.properties` and YAML variants).
+14. Application properties outside of your packaged JAR (`application.properties` and YAML variants).
+15. Application properties packaged inside your JAR (`application.properties` and YAML variants).
+16. `@PropertySource` annotations on your `@Configuration` classes.
+17. Default properties (specified using `SpringApplication.setDefaultProperties`).
+
+==== Application property files
+
+[.text-left]
+By default, `SpringApplication` will load properties from `application.properties` files in the following locations and add them to the Spring `Environment`:
+
+1. a `/config` subdirectory of the current directory,
+2. the current directory,
+3. a classpath `/config` package, and
+4. the classpath root.
+
+TIP: You can also use YAML (`.yml`) files as an alternative to properties files. JHipster uses YAML files for its configuration.
+
+More information about Spring Boot's external-configuration feature can be found in Spring Boot's http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html["`Externalized Configuration`" reference documentation].
+
+[WARNING]
+====
+If you're using third-party libraries that require external configuration files, you may have issues loading them. These files might be loaded with:
+
+`XXX.class.getResource().toURI().getPath()`
+
+This code does not work when using a Spring Boot executable JAR because the classpath is relative to the JAR itself and not the filesystem. One workaround is to run your application as a WAR in a servlet container. You might also try contacting the maintainer of the third-party library to find a solution.
+====
+
+=== Automatic configuration
+
+Spring Boot is unique in that it automatically configures Spring whenever possible. It does this by peeking into JAR files to see if they're hip. If they are, they contain a `META-INF/spring.factories` that defines configuration classes under the `EnableAutoConfiguration` key. For example, below is what's contained in `spring-boot-actuator-autoconfigure`.
+
+.spring-boot-actuator-autoconfigure-2.0.5.RELEASE.jar!/META-INF/spring.factories
+[%autofit]
+----
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.springframework.boot.actuate.autoconfigure.amqp.RabbitHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.audit.AuditAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.audit.AuditEventsEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.beans.BeansEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.cassandra.CassandraHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.cloudfoundry.servlet.CloudFoundryActuatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.cloudfoundry.reactive.ReactiveCloudFoundryActuatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.condition.ConditionsReportEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.context.properties.ConfigurationPropertiesReportEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.context.ShutdownEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.couchbase.CouchbaseHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.elasticsearch.ElasticsearchHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.endpoint.EndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.endpoint.jmx.JmxEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.env.EnvironmentEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.flyway.FlywayEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.health.HealthEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.health.HealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.info.InfoContributorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.info.InfoEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.jdbc.DataSourceHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.jms.JmsHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.jolokia.JolokiaEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.ldap.LdapHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.liquibase.LiquibaseEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.logging.LogFileWebEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.logging.LoggersEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.mail.MailHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.management.HeapDumpWebEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.management.ThreadDumpEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.CompositeMeterRegistryAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.MetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.MetricsEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.amqp.RabbitMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.cache.CacheMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.atlas.AtlasMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.datadog.DatadogMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.ganglia.GangliaMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.graphite.GraphiteMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.jmx.JmxMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.newrelic.NewRelicMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.prometheus.PrometheusMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.simple.SimpleMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.signalfx.SignalFxMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.statsd.StatsdMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.export.wavefront.WavefrontMetricsExportAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.jdbc.DataSourcePoolMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.web.client.RestTemplateMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.web.reactive.WebFluxMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.web.servlet.WebMvcMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.metrics.web.tomcat.TomcatMetricsAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.mongo.MongoHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.neo4j.Neo4jHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.redis.RedisHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.scheduling.ScheduledTasksEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.session.SessionsEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.solr.SolrHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.system.DiskSpaceHealthIndicatorAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.trace.http.HttpTraceAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.trace.http.HttpTraceEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.mappings.MappingsEndpointAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.reactive.ReactiveManagementContextAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.servlet.ServletManagementContextAutoConfiguration
+org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration=\
+org.springframework.boot.actuate.autoconfigure.endpoint.web.ServletEndpointManagementContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.endpoint.web.reactive.WebFluxEndpointManagementContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.endpoint.web.servlet.WebMvcEndpointManagementContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.endpoint.web.jersey.JerseyWebEndpointManagementContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.jersey.JerseyManagementChildContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.reactive.ReactiveManagementChildContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.servlet.ServletManagementChildContextConfiguration,\
+org.springframework.boot.actuate.autoconfigure.web.servlet.WebMvcEndpointChildContextConfiguration
+
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+org.springframework.boot.actuate.autoconfigure.metrics.MissingRequiredConfigurationFailureAnalyzer
+----
+
+[.text-left]
+These configuration classes will usually contain `@Conditional` annotations to help configure themselves. Developers can use `@ConditionalOnMissingBean` to override the auto-configured defaults. There are several conditional-related annotations you can use when developing Spring Boot plugins:
+
+* `@ConditionalOnClass` and `@ConditionalOnMissingClass`
+* `@ConditionalOnMissingClass` and `@ConditionalOnMissingBean`
+* `@ConditionalOnProperty`
+* `@ConditionalOnResource`
+* `@ConditionalOnWebApplication` and `@ConditionalOnNotWebApplication`
+* `@ConditionalOnExpression`
+
+These annotations are what give Spring Boot its immense power and make it easy to use, configure, and override.
+
+=== Actuator
+
+Spring Boot's Actuator sub-project adds several production-grade services to your application with little effort. You can add the actuator to a Maven-based project by adding the `spring-boot-starter-actuator` dependency.
+
+[source,xml]
+----
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+</dependencies>
+----
+
+If you're using Gradle, you'll save a few lines:
+
+[source,groovy]
+----
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+}
+----
+
+Actuator's main features are endpoints, metrics, auditing, and process monitoring. Actuator auto-creates a number of REST endpoints. By default, Spring Boot will also expose management endpoints as JMX MBeans under the `org.springframework.boot` domain. Actuator REST endpoints include:
+
+* `/auditevents` — Exposes audit events information for the current application.
+* `/beans` — Returns a complete list of all the Spring beans in your application.
+* `/conditions` — Shows the conditions that were evaluated on configuration and auto-configuration classes.
+* `/configprops` — Returns a list of all `@ConfigurationProperties`.
+* `/env` — Returns properties from Spring's `ConfigurableEnvironment`.
+* `/flyway` — Shows any Flyway database migrations that have been applied.
+* `/health` — Returns information about application health.
+* `/httptrace` — Returns trace information (by default, the last 100 HTTP requests).
+* `/info` — Returns basic application info.
+* `/loggers` — Shows and modifies the configuration of loggers in the application.
+* `/liquibase` — Shows any Liquibase database migrations that have been applied.
+* `/metrics` — Returns performance information for the current application.
+* `/mappings` — Returns a  list of all `@RequestMapping` paths.
+* `/scheduledtasks` — Displays the scheduled tasks in your application.
+* `/sessions` — Allows retrieval and deletion of user sessions from a Spring Session-backed session store.
+* `/shutdown` — Shuts the application down gracefully (not enabled by default).
+* `/threaddump` — Performs a thread dump.
+
+JHipster includes a plethora of Spring Boot starter dependencies by default. This allows developers to write less code and worry less about dependencies and configuration. The boot-starter dependencies in the 21-Points Health application are as follows:
+
+// cat build.gradle | grep boot-starter
+----
+spring-boot-starter-cache
+spring-boot-starter-mail
+spring-boot-starter-logging
+spring-boot-starter-actuator
+spring-boot-starter-aop
+spring-boot-starter-data-jpa
+spring-boot-starter-data-elasticsearch
+spring-boot-starter-data-jest
+spring-boot-starter-security
+spring-boot-starter-web
+spring-boot-starter-undertow
+spring-boot-starter-thymeleaf
+spring-boot-starter-test
+----
+
+Spring Boot does a great job of auto-configuring libraries and simplifying Spring. JHipster complements that by integrating the wonderful world of Spring Boot with a modern UI and developer experience.
+
+== Spring WebFlux
+
+Spring Boot 2.0 also supports building applications with a reactive stack through Spring WebFlux. When using WebFlux (instead of Web), your application will be based on the Reactive Streams API and run on non-blocking servers such as Netty, Undertow, and Servlet 3.1+ containers.
+
+At the time of this writing, JHipster has experimental support for generating  microservice apps with WebFlux. See https://github.com/jhipster/generator-jhipster/pull/7983[pull request #7983] for more information.
+
+Showing how Spring WebFlux works is outside the scope of this mini-book. If you'd like to learn more about it, I'd suggest you read Josh Long and my https://developer.okta.com/blog/2018/09/24/reactive-apis-with-spring-webflux[Build Reactive APIs with Spring WebFlux] blog post.
+
+== Maven versus Gradle
+
+Maven and Gradle are the two main build tools used in Java projects today. JHipster allows you to use either one. With Maven, you have one `pom.xml` file that's 1090 lines of XML. With Gradle, you end up with several `*.gradle` files. In the 21-Points project, the Groovy code adds up to only 496 lines.
+
+////
+build.gradle (280)
+gradle.properties (20)
+settings.gradle (1)
+gradle/docker.gradle (29)
+gradle/heroku.gradle (14)
+gradle/profile_dev.gradle (45)
+gradle/profile_prod.gradle (56)
+gradle/sonar.gradle (48)
+gradle/zipkin.gradle (3)
+
+280 + 20 + 1 + 29 + 14 + 45 + 56 + 48 + 3 = 496
+////
+
+Apache calls http://maven.apache.org/[Apache Maven] a "`software project-management and comprehension tool`". Based on the concept of a project object model (POM), Maven can manage a project's build, reporting, and documentation from a central piece of information. Most of Maven's functionality comes through plugins. There are Maven plugins for building, testing, source-control management, running a web server, generating IDE project files, and much more.
+
+https://gradle.org/[Gradle] is a general-purpose build tool. It can build pretty much anything you care to implement in your build script. Out of the box, however, it won't build anything unless you add code to your build script to ask for that. Gradle has a Groovy-based domain-specific language (DSL) instead of the more traditional XML form of declaring the project configuration. Like Maven, Gradle has plugins that allow you to configure tasks for your project. Most plugins add some preconfigured tasks, which together do something useful. For example, Gradle's Java plugin adds tasks to your project that will compile and unit test your Java source code as well as bundle it into a JAR file.
+
+In January 2014, ZeroTurnaround's RebelLabs published a report titled http://zeroturnaround.com/rebellabs/java-build-tools-part-2-a-decision-makers-comparison-of-maven-gradle-and-ant-ivy/[Java Build Tools – Part 2: A Decision Maker's Comparison of Maven, Gradle and Ant + Ivy], which provided a timeline of build tools from 1977 through 2013.
+
+[[img-evolution-of-build-tools-timeline]]
+.The Evolution of Build Tools, 1977-2013
+image::chapter3/evolution-of-build-tools-timeline.jpg[The Evolution of Build Tools, 600, scaledwidth=100%, align=center]
+
+Back then, RebelLabs advised that you experiment with Gradle in your next project.
+
+[, RebelLabs, "Java Build Tools – Part 2: A Decision Maker's Comparison of Maven, Gradle and Ant + Ivy"]
+""
+If we were forced to conclude with any general recommendation, it would be to go with Gradle if you are starting a new project.
+""
+
+I've used both tools for building projects and they've both worked quite well. Maven works for me, but I've used it for over 10 years and recognize that my history and experience with it might contribute to my bias towards it. If you prefer Gradle simply because you are trying to avoid XML, https://github.com/takari/polyglot-maven[Polyglot for Maven] may change your perspective. It supports Atom, Groovy, Clojure, Ruby, Scala, and YAML languages. Ironically, you need to include a XML file to use it. To add support for non-XML languages, create a `+${project}/.mvn/extensions.xml+` file and add the following XML to it.
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<extensions>
+  <extension>
+    <groupId>io.takari.polyglot</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>0.3.0</version>
+  </extension>
+</extensions>
+----
+
+In this example, `+${artifactId}+` should be `polyglot-_language_`, where `_language_` is one of the aforementioned languages.
+
+To convert an existing `pom.xml` file to another format, you can use the following command.
+
+----
+mvn io.takari.polyglot:polyglot-translate-plugin:translate \
+ -Dinput=pom.xml -Doutput=pom.{format}
+----
+
+Supported formats are `rb`, `groovy`, `scala`, `yaml`, `atom`, and of course `xml`. You can even convert back to XML or cross-convert between all supported formats. To learn more about alternate languages with Maven, see https://github.com/takari/polyglot-maven[Polyglot for Maven] on GitHub.
+
+Many Internet resources support the use of Gradle. There's Gradle's own https://gradle.org/maven_vs_gradle/[Gradle vs Maven Feature Comparison]. Benjamin Muschko, a principal engineer at Gradle, wrote a Dr. Dobb's article titled http://www.drdobbs.com/jvm/why-build-your-java-projects-with-gradle/240168608["`Why Build Your Java Projects with Gradle Rather than Ant or Maven?`"] He's also the the author of https://www.manning.com/books/gradle-in-action[_Gradle in Action_].
+
+Gradle is the default build tool for Android development. Android Studio uses a Gradle wrapper to fully integrate the Android plugin for Gradle.
+
+TIP: Both Maven and Gradle provide wrappers that allow you to embed the build tool within your project and source-control system. This allows developers to build or run the project after only installing Java. Since the build tool is embedded, they can type `gradlew` or `mvnw` to use the embedded build tool.
+
+Regardless of which you prefer, Spring Boot supports both Maven and Gradle. You can learn more by visiting their respective documentation pages:
+
+* http://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html[Spring Boot Maven plugin]
+* http://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html[Spring Boot Gradle plugin]
+
+I'd recommend starting with the tool that's most familiar to you. If you're using JHipster for the first time, you'll want to limit the number of new technologies you have to deal with. You can always add some for your next application. JHipster is a great learning tool, and you can also generate your project with a different build tool to see what that looks like.
+
+== IDE support: Running, debugging, and profiling
+
+IDE stands for "`integrated development environment`". It is the lifeblood of a programmer who likes keyboard shortcuts and typing fast. The good IDEs have code completion that allows you to type a few characters, press tab, and have your code written for you. Furthermore, they provide quick formatting, easy access to documentation, and debugging. You can generate a lot of code with your IDE in statically typed languages like Java, like getters and setters on POJOs and methods in interfaces and classes. You can also easily find references to methods.
+
+The JHipster documentation includes https://www.jhipster.tech/configuring-ide/[guides] for configuring Eclipse, IntelliJ IDEA, Visual Studio Code, and NetBeans. Not only that, but Spring Boot has a devtools plugin that's configured by default in a generated JHipster application. This plugin allows hot-reloading of your application when you recompile classes.
+
+https://www.jetbrains.com/idea/[IntelliJ IDEA], which brings these same features to Java development, is a truly amazing IDE. If you're only writing JavaScript, their https://www.jetbrains.com/webstorm/[WebStorm IDE] will likely become your best friend. Both IntelliJ products have excellent CSS support and accept plugins for many web languages/frameworks. To make IDEA auto-compile on save, like Eclipse does, perform the following steps:
+
+* Navigate to File > Settings > Build, Execution, Deployment > Compiler: enable `Make project automatically`
+* Open Registry (Mac: kbd:[Cmd+Shift+A], Linux: kbd:[Ctrl+Shift+A], choose Registry...) and enable `compiler.automake.allow.when.app.running`
+
+https://eclipse.org/downloads/[Eclipse] is a free alternative to IntelliJ IDEA. Its error highlighting (via auto-compile), code assist, and refactoring support is excellent. When I started using it back in 2002, it blew away the competition. It was the first Java IDE that was fast and efficient to use. Unfortunately, it fell behind in the JavaScript MVC era and lacks good support for JavaScript or CSS.
+
+NetBeans has a http://plugins.netbeans.org/plugin/67888/nb-springboot[Spring Boot plugin]. The NetBeans team has been doing a lot of work on web-tools support; they have good JavaScript/AngularJS support and there's a https://chrome.google.com/webstore/detail/netbeans-connector/hafdlehgocfcodbgjnpecfajgkeejnaa?hl=en[NetBeans Connector] plugin for Chrome that allows two-way editing in NetBeans and Chrome.
+
+https://code.visualstudio.com[Visual Studio Code] is an open-source text editor made by Microsoft. It's become a popular editor for TypeScript and has plugins for Java development.
+
+The beauty of Spring Boot is you can run it as a simple Java process. This means you can right-click on your `*Application.java` class and run it (or debug it) from your IDE. When debugging, you'll be able to set breakpoints in your Java classes and see what variables are being set to before a process executes.
+
+To learn about profiling a Java application, I recommend you watch Nitsan Wakart's https://www.youtube.com/watch?v=_6vJyciXkwo["`Java Profiling from the Ground Up!`"] To learn more about memory and JavaScript applications, I recommend Addy Osmani's http://addyosmani.com/blog/video-javascript-memory-management-masterclass/["`JavaScript Memory Management Masterclass`"].
+
+== Security
+
+Spring Boot has excellent security features thanks to its integration with Spring Security. When you create a Spring Boot application with a `spring-boot-starter-security` dependency, you get HTTP Basic authentication out of the box. By default, a user is created with username `user` and the password is printed in the logs when the application starts. To override the generated password, you can define a `spring.security.user.password`. Additional security features of Spring Boot can be found in http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-security.html[Spring Boot's guide to security].
+
+The most basic Spring Security Java configuration creates a servlet `Filter`, which is responsible for all the security (protecting URLs, validating credentials, redirecting to login, etc.). This involves several lines of code, but half of them are class imports.
+
+[source%autofit,java]
+----
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import static org.springframework.security.core.userdetails.User.UserBuilder;
+
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Bean
+    public UserDetailsService userDetailsService() {
+        // ensure the passwords are encoded properly
+        UserBuilder users = User.withDefaultPasswordEncoder();
+        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+        manager.createUser(users.username("user").password("password").roles("USER").build());
+        return manager;
+    }
+}
+----
+
+There's not much code, but it provides many features:
+
+* It requires authentication to every URL in your application.
+* It generates a login form for you.
+* It allows user:password to authenticate with form-based authentication.
+* It allows the user to log out.
+* It prevents CSRF attacks.
+* It protects against session fixation.
+* It includes security-header integration with:
+** HTTP Strict Transport Security for secure requests,
+** X-Content-Type-Options integration,
+** cache control,
+** X-XSS-Protection integration, and
+** X-Frame-Options integration to help prevent clickjacking.
+* It integrates with HttpServletRequest API methods of: `getRemoteUser()`, `getUserPrinciple()`, `isUserInRole(role)`, `login(username, password)`, and `logout()`.
+
+JHipster takes the excellence of Spring Security and uses it to provide the real-world authentication mechanism that applications need. When you create a new JHipster project, it provides you with three authentication options:
+
+* *JWT authentication* — A stateless security mechanism. JSON Web Token (JWT) is an https://tools.ietf.org/html/rfc7519[IETF proposed standard] that uses a compact, URL-safe means of representing claims to be transferred between two parties. JHipster's implementation uses the https://github.com/jwtk/jjwt[Java JWT project].
+* *HTTP Session Authentication* — Uses the HTTP session, so it is a stateful mechanism. Recommended for small applications.
+* *OAuth 2.0 / OIDC Authentication* — A stateful security mechanism, like HTTP Session. You might prefer it if you want to share your users between several applications.
+
+.OAuth 2.0
+****
+http://oauth.net/2/[OAuth 2.0] is the current version of the OAuth framework (originally created in 2006). OAuth 2.0 focuses on simplifying client development while supporting web applications, desktop applications, mobile phones, and living-room devices. If you'd like to learn about how OAuth works, see https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth[What the Heck is OAuth?]
+****
+
+In addition to authentication choices, JHipster offers security improvements: improved "`remember me`" (unique tokens stored in database), cookie-theft protection, and CSRF protection.
+
+By default, JHipster comes with four different users:
+
+* *system* — Used by audit logs when something is done automatically.
+* *anonymousUser* — Anonymous users when they do an action.
+* *user* — A normal user with "`ROLE_USER`" authorization; the default password is "`user`".
+* *admin* — An admin user with "`ROLE_USER`" and "`ROLE_ADMIN`" authorizations; the default password is "`admin`".
+
+For security reasons, you should change the default passwords in `src/main/resources/config/liquibase/users.csv` or through the User Management feature when deployed.
+
+== JPA versus MongoDB versus Cassandra
+
+A traditional relational-database management system (RDBMS) provides a number of properties that guarantee its transactions are processed reliably: ACID, for atomicity, consistency, isolation, and durability. Databases like MySQL and PostgreSQL provide RDBMS support and have done wonders to reduce the costs of databases. JHipster supports vendors like Oracle and Microsoft as well. If you'd like to use a traditional database, select SQL when creating your JHipster project.
+
+TIP: JHipster's https://www.jhipster.tech/using-oracle/[Using Oracle] guide explains how you need an Oracle account to download its proprietary JDBC driver.
+
+NoSQL databases have helped many web-scale companies achieve high scalability through https://en.wikipedia.org/wiki/Eventual_consistency[eventual consistency]: because a NoSQL database is often distributed across several machines, with some latency, it guarantees only that all instances will eventually be consistent. Eventually consistent services are often called BASE (basically available, soft state, eventual consistency) services in contrast to traditional ACID properties.
+
+When you create a new JHipster project, you'll be prompted with the following.
+
+----
+? Which *type* of database would you like to use? (Use arrow keys)
+❯ SQL (H2, MySQL, MariaDB, PostgreSQL, Oracle, MSSQL)
+  MongoDB
+  Couchbase
+  Cassandra
+----
+
+If you're familiar with RDBMS databases, I recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku and MySQL has excellent support on AWS. JHipster's https://www.jhipster.tech/aws/[AWS sub-generator] has a limitation of only working with MySQL.
+
+If your idea is the next Facebook, you might want to consider a NoSQL database that's more concerned with performance than third normal form.
+
+[, MongoDB, 'https://mongodb.com/nosql-explained[NOSQL Database Explained]']
+""
+NoSQL encompasses a wide variety of different database technologies that were developed in response to a rise in the volume of data stored about users, objects, and products, the frequency in which this data is accessed, and performance and processing needs. Relational databases, on the other hand, were not designed to cope with the scale and agility challenges that face modern applications, nor were they built to take advantage of the cheap storage and processing power available today.
+""
+
+MongoDB was founded in 2007 by the folks behind DoubleClick, ShopWiki, and Gilt Groupe. It uses the Apache and GNU-APGL licenses on https://github.com/mongodb/mongo[GitHub]. Its many large customers include Adobe, eBay, and eHarmony.
+
+http://cassandra.apache.org/[Cassandra] is "`a distributed storage system for managing structured data that is designed to scale to a very large size across many commodity servers, with no single point of failure`" (from https://www.facebook.com/notes/facebook-engineering/cassandra-a-structured-storage-system-on-a-p2p-network/24413138919["`Cassandra – A structured storage system on a P2P Network`"] on the Facebook Engineering blog). It was initially developed at Facebook to power its Inbox Search feature. Its creators, Avinash Lakshman (one of the creators of Amazon DynamoDB) and Prashant Malik, released it as an open-source project in July 2008. In March 2009, it became an Apache Incubator project, and graduated to a top-level project in February 2010.
+
+In addition to Facebook, Cassandra helps a number of other companies achieve web scale. It has some impressive numbers about scalability on its homepage.
+
+[, Cassandra, 'http://cassandra.apache.org[Project Homepage]']
+""
+One of the largest production deployments is Apple's, with over 75,000 nodes storing over 10 PB of data. Other large Cassandra installations include Netflix (2,500 nodes, 420 TB, over 1 trillion requests per day), Chinese search engine Easou (270 nodes, 300 TB, over 800 million requests per day), and eBay (over 100 nodes, 250 TB).
+""
+
+JHipster's data support lets you dream big!
+
+.NoSQL with JHipster
+****
+When MongoDB is selected:
+
+* JHipster will use Spring Data MongoDB, similar to Spring Data JPA.
+* JHipster will use https://github.com/mongobee/mongobee[Mongobee] instead of Liquibase to manage database migrations.
+* The entity sub-generator will not ask you about relationships. You can't have relationships with a NoSQL database.
+* `de.flapdoodle.embed.mongo` is used to run an in-memory version of the database for running unit tests.
+****
+
+== Liquibase
+
+http://www.liquibase.org/[Liquibase] is "`source control for your database`". It's an open-source (Apache 2.0) project that allows you to manipulate your database as part of a build or runtime process. It allows you to diff your entities against your database tables and create migration scripts. It even allows you to provide comma-delimited default data! For example, default users are loaded from `src/main/resources/config/liquibase/users.csv`.
+
+This file is loaded by Liquibase when it creates the database schema.
+
+[source%autofit,xml]
+.src/main/resources/config/liquibase/changelog/00000000000000_initial_schema.xml
+----
+<loadData encoding="UTF-8"
+          file="config/liquibase/users.csv"
+          separator=";"
+          tableName="jhi_user">
+    <column name="activated" type="boolean"/>
+    <column name="created_date" type="timestamp"/>
+</loadData>
+<dropDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="datetime"/>
+----
+
+Liquibase supports http://www.liquibase.org/databases.html[most major databases]. If you use MySQL or PostgreSQL, you can use `mvn liquibase:diff` (or `./gradlew generateChangeLog`) to automatically generate a changelog.
+
+https://www.jhipster.tech/development/[JHipster's development guide] recommends the following workflow:
+
+1. Modify your JPA entity (add a field, a relationship, etc.).
+2. Run `mvn compile liquibase:diff`.
+3. A new changelog is created in your `src/main/resources/config/liquibase/changelog` directory.
+4. Review this changelog and add it to your `src/main/resources/config/liquibase/master.xml` file, so it is applied the next time you run your application.
+
+If you use Gradle, you can use the same workflow by running `./gradlew generateChangeLog`.
+
+== Elasticsearch
+
+Elasticsearch adds searchability to your entities. JHipster's Elasticsearch support requires using a SQL database. Spring Boot uses and configures http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch]. When using JHipster's entity sub-generator, it automatically indexes the entity and creates an endpoint to support searching its properties. Search superpowers are also added to the Angular UI, so you can search in your entity's list screen.
+
+When using the (default) "`dev`" profile, the in-memory Elasticsearch instance will store files in the `build/elasticsearch` folder. You can change this by modifying the following setting in `application-dev.yml`.
+
+[source,yaml]
+.src/main/resources/config/application-dev.yml
+----
+data:
+    elasticsearch:
+        properties:
+            path:
+                home: build/elasticsearch
+----
+
+When using the "`prod`" profile, JHipster will use Spring Data Jest to communicate with Elasticsearch's REST API on port `9200`. This setting is configured in `application-prod.yml`.
+
+[source,yaml]
+.src/main/resources/config/application-prod.yml
+----
+data:
+    jest:
+        uri: http://localhost:9200
+----
+
+If you want to run the "`prod`" profile locally, you will need to start an Elasticsearch Docker image first.
+
+----
+docker-compose -f src/main/docker/elasticsearch.yml up -d
+----
+
+Elasticsearch is used by a number of well-known companies: Facebook, GitHub, and Uber among others. The project is backed by https://www.elastic.co/[Elastic], which provides an ecosystem of projects around Elasticsearch. Some examples are:
+
+* https://www.elastic.co/cloud[Elasticsearch as a Service] — "`Hosted and managed Elasticsearch`".
+* https://www.elastic.co/products/logstash[Logstash] — "`Process any data, from any source`".
+* https://www.elastic.co/products/kibana[Kibana] — "`Explore and visualize your data`".
+
+The ELK (Elasticsearch, Logstash, and Kibana) stack is all open-source projects sponsored by Elastic. It's a powerful solution for monitoring your applications and seeing how they're being used.
+
+== Deployment
+
+A JHipster application can be deployed wherever a Java program can be run. Spring Boot uses a `public static void main` entry point that launches an embedded web server for you. Spring Boot applications are embedded in a "`fat JAR`", which includes all necessary dependencies like, for example, the web server and start/stop scripts. You can give anybody this `.jar` and they can easily run your app: no build tool required, no setup, no web-server configuration, etc. It's just `java -jar killerapp.jar`.
+
+TIP: Josh Long's https://spring.io/blog/2014/03/07/deploying-spring-boot-applications["`Deploying Spring Boot Applications`"] is an excellent resource for learning how to customize your application archive. It shows how to change your application to a traditional WAR: extend `SpringBootServletInitializer`, change packaging to `war`, and set `spring-boot-starter-tomcat` as a provided dependency.
+
+To build your JHipster app with the production profile, use the preconfigured "`prod`" Maven profile.
+
+----
+mvn -Pprod package
+----
+
+With Gradle, it's:
+
+----
+gradlew -Pprod bootWar
+----
+
+The "`prod`" profile will trigger a `webpack:prod`, which optimizes your static resources. It will combine your JavaScript and CSS files, minify them, and get them production ready. It also updates your HTML (in your `(build|target)/www` directory) to have references to your versioned, combined, and minified files.
+
+ifeval::["{media}" == "screen"]
+A JHipster application can be deployed to your own JVM, https://www.jhipster.tech/cloudfoundry/[Cloud Foundry], https://www.jhipster.tech/heroku/[Heroku], https://www.jhipster.tech/kubernetes/[Kubernetes], and https://www.jhipster.tech/aws.html[AWS].
+endif::[]
+ifeval::["{media}" == "prepress"]
+A JHipster application can be deployed to your own JVM, Cloud Foundry, Heroku, Kubernetes, and AWS.
+endif::[]
+
+I've deployed JHipster applications to Heroku, Cloud Foundry, and Google Cloud with Kubernetes.
 
 == Summary
 
-This section describes the UI components in a typical JHipster project. It taught you about the extremely popular UI framework called Angular. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application and it showed you how you can use webpack. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
+The Spring Framework has one of the best track records for hipness in Javaland. It's remained backwards compatible between many releases and has lived as an open-source project for more than 14 years. Spring Boot has provided a breath of fresh air for people using Spring with its starter dependencies, auto-configuration, and monitoring tools. It's made it easy to build microservices on the JVM and deploy them to the cloud.
 
-Now that you've learned about many of the UI components in a JHipster project, let's learn about the API side of things.
+You've seen some of the cool features of Spring Boot and the build tools you can use to package and run a JHipster application. I've described the power of Spring Security and showed you its many features, which you can enable with only a few lines of code. JHipster supports both relational databases and NoSQL databases, which allows you to choose how you want your data stored. You can choose JPA, MongoDB, or Cassandra when creating a new application.
+
+Liquibase will create your database schema for you and help you update your database when the need arises. It provides an easy-to-use workflow to adding new properties to your JHipster-generated entities using its diff feature.
+
+You can add rich search capabilities to your JHipster app with Elasticsearch. This is one of the most popular Java projects on GitHub and there's a reason for that: it works really well.
+
+JHipster applications are Spring Boot applications, so you can deploy them wherever Java can be run. You can deploy them in a traditional Java EE (or servlet) container or you can deploy them in the cloud. The sky's the limit!

@@ -1,2280 +1,909 @@
-= Building an app with JHipster
+[[jhipsters-ui-components]]
+= JHipster\'s UI components
 
-When I started writing this book, I had a few different ideas for a sample application. My first idea involved creating a photo gallery to showcase the 1966 VW Bus I've been working on since 2006. The project was recently finished and I wanted a website to show how things have progressed through the years.
+A modern web application has many UI components. It likely has some sort of model-view-controller (MVC) framework as well as a CSS framework, and tooling to simplify the use of these. With a web application, you can have users all over the globe, so translating your application into other languages might be important. If you're developing large amounts of CSS, you'll likely use a CSS pre-processor like Less or Sass. Then you'll need a build tool to refresh your browser, run your pre-processor, run your tests, minify your web assets, and prepare your application for production.
 
-ifeval::["{media}" == "screen"]
-I also thought about creating a blog application. As part of http://raibledesigns.com/rd/entry/getting_hip_with_jhipster_at[my first presentation on JHipster] (at the http://www.denverjug.org/[Denver Java Users Group]), I created a blog application that I live-coded in front of the audience. After that presentation, I spent several hours polishing the application and started http://www.jhipster-book.com[The JHipster Mini-Book site] with it.
-endif::[]
-ifeval::["{media}" == "prepress"]
-I also thought about creating a blog application. As part of my first presentation on JHipster (at the Denver Java Users Group), I created a blog application that I live-coded in front of the audience. After that presentation, I spent several hours polishing the application and started http://www.jhipster-book.com[The JHipster Mini-Book site] with it.
-endif::[]
+This section shows how JHipster includes all of these UI components for you and makes your developer experience a joyous one.
 
-After thinking about the VW Bus Gallery and developing the blog application, I thought to myself, is this hip enough? Shouldn't a book about becoming what the JHipster homepage calls a "`Java Hipster`" show how to build a hip application?
+== Angular
 
-I wrote to Julien Dubois, founder of JHipster, and Dennis Sharpe, the technical editor for this book, and asked them what they thought. We went back and forth on a few ideas: a https://gitter.im[Gitter] clone, a job board for JHipster coders, a shopping-cart app. Then it hit me: there was an idea I'd been wanting to develop for a while.
+JHipster supports two UI frameworks: Angular and React. In the first two versions of this book, I showed you how to use AngularJS. In the last two versions (4.0 and 4.5), I showed you how to use Angular. Since this is a mini-book, I'm going to stick with showing Angular only. You can see from the following graphs that Angular and React are the most popular among JavaScript frameworks.
 
-It's basically an app that you can use to monitor your health. In late September through mid-October 2014, I'd done a sugar detox during which I stopped eating sugar, started exercising regularly, and stopped drinking alcohol. I'd had high blood pressure for over 10 years and was on blood-pressure medication at the time. During the first week of the detox, I ran out of blood-pressure medication. Since a new prescription required a doctor visit, I decided I'd wait until after the detox to get it. After three weeks, not only did I lose 15 pounds, but my blood pressure was at normal levels!
+[[img-angular-jobs-2018]]
+.Jobs on Indeed, September 2018
+image::chapter2/angular/indeed-jobs-sep2018.jpg[Jobs on Indeed, 450, scaledwidth=75%, align=center]
 
-Before I started the detox, I came up with a 21-point system to see how healthy I was being each week. Its rules were simple: you can earn up to three points per day for the following reasons:
+[[img-stackoverflow-tags-2018]]
+.Stack Overflow Tags, September 2018
+image::chapter2/angular/stackoverflow-tags-sep2018.jpg[Tags on Stack OverFlow, 450, scaledwidth=75%, align=center]
 
-1. If you eat healthy, you get a point. Otherwise, zero.
-2. If you exercise, you get a point.
-3. If you don't drink alcohol, you get a point.
+Angular is the default UI framework used by JHipster. It's written in TypeScript, compiles to JavaScript, and just using it makes you a hipster! Like Struts in the early 2000s and Rails in the mid-2000s, Angular and other JavaScript frameworks have changed the way developers write web applications. Today, data is exposed via REST APIs and UIs are written in JavaScript (or TypeScript). As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns. It recommended organizing your application into several different components:
 
-I was surprised to find I got eight points the first week I used this system. During the detox, I got 16 points the first week, 20 the second, and 21 the third. Before the detox, I thought eating healthy meant eating anything except fast food. After the detox, I realized that eating healthy for me meant eating no sugar. I'm also a big lover of craft beer, so I modified the alcohol rule to allow two healthier alcohol drinks (like a greyhound or red wine) per day.
+* Components: Classes that retrieve data from services and expose it to templates.
+* Services: Classes that make HTTP calls to a JSON API.
+* Templates: HTML pages that display data. Use Angular directives to iterate over collections and show/hide elements.
+* Pipes: Data-manipulation tools that can transform data (e.g. uppercase, lowercase, ordering, and searching).
+* Directives: HTML processors that allow components to be written. Similar to JSP tags.
 
-My goal is to earn 15 points per week. I find that if I get more, I'll likely lose weight and have good blood pressure. If I get fewer than 15, I risk getting sick. I've been tracking my health like this since September 2014. I've lost 30 pounds and my blood pressure has returned to and maintained normal levels. I haven't had good blood pressure since my early 20s, so this has been a life changer for me.
+=== History
 
-I thought writing a "`21-Point Health`" application would work because tracking your health is always important. Wearables that can track your health stats might be able to use the APIs or hooks I create to record points for a day. Imagine hooking into http://dailymile.com[dailymile] (where I track my exercise) or https://untappd.com[Untappd] (where I sometimes list the beers I drink). Or even displaying other activities for a day (e.g. showing your blood-pressure score that you keep on http://www.apple.com/ios/health/[iOS Health]).
+AngularJS was started by Miško Hevery in 2009. He was working on a project that was using GWT. Three developers had been developing the product for six months, and Miško rewrote the whole thing in AngularJS in three weeks. At that time, AngularJS was a side project he'd created. It didn't require you to write much in JavaScript as you could program most of the logic in HTML. The GWT version of the product contained 17,000 lines of code. The AngularJS version was only 1,000 lines of code!
 
-I thought my idea would fit nicely with JHipster and Spring Boot from a monitoring standpoint. Spring Boot has lots of health monitors for apps, and now you can use this JHipster app to monitor your health!
+In October 2014, the AngularJS team announced they were building http://www.infoq.com/news/2014/10/angular-2-atscript[Angular 2.0]. The announcement led to a bit of upheaval in the Angular developer community. The API for writing Angular applications was going to change and it was to be based on a new language, AtScript. There would be no migration path and users would have to continue using 1.x or rewrite their applications for 2.x.
 
-== Creating the application
+A new syntax was introduced that binds data to element properties, not attributes. The advantage of this syntax is it allows you to use any web component in an Angular app, not just those retrofitted to work with Angular.
 
-I started using the https://www.jhipster.tech/installation/[Installing JHipster] instructions. I'm a Java developer, so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org] and Yarn using https://yarnpkg.com/en/docs/install[its instructions], then ran the following command to install JHipster.
-
-[source]
+[source,html]
 ----
-npm install -g generator-jhipster
+<input type="text" [value]="firstName">
+<button (click)="addPerson()">Add</button>
+<input type="checkbox" [checked]="someProperty">
 ----
 
-TIP: If you need to install Java, Maven, or Git, please see https://www.jhipster.tech/installation/[JHipster's local installation documentation].
+In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announcing that they would be using TypeScript over AtScript and that they would provide a migration path for Angular 1.x users. They also adopted semantic versioning and http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html[recommended people call it "Angular" instead of Angular 2.0].
 
-Then I proceeded to build my application. Unlike many application generators in Javaland, Yeoman expects you to be in the directory you want to create your project in, rather than creating the directory for you. So I created a `21-points` directory and typed the following command in it to invoke JHipster.
+Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. JHipster 4.6.0 was released July 6, 2017 and was the first release to contain production-ready Angular support. JHipster 5 uses Angular 6. Angular released version 7 during the production of this book.
 
-[source]
+You can find the Angular project at https://angular.io.
+
+=== Basics
+Creating a component that says "Hello World" with Angular is pretty simple.
+
+[source,javascript]
 ----
-jhipster
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'my-app',
+  template: `<h1>Hello {{name}}</h1>`
+})
+export class AppComponent {
+  name = 'World';
+}
 ----
-ifeval::["{media}" != "prepress"]
-After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can see the choices I made in the following screenshot.
 
-[[img-generating-21points]]
-.Generating the application
-image::chapter2/generating-21points.png[Generating the application, 1365, scaledwidth=100%]
-endif::[]
-ifeval::["{media}" == "prepress"]
-After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can see the choices I made from my answers below.
+In this example, the `name` variable in the component maps to the value displayed in `+{{name}}+`. To make this component render on a page, you'll need a few more files: a module definition, a bootstrapping class, and an HTML file. A basic module definition contains component declarations, imports, providers, and a class to bootstrap.
 
-[source%autofit]
+[source,javascript]
 ----
-$ jhipster
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
 
-...
-
-Welcome to JHipster v5.2.1
-Application files will be generated in folder: /Users/mraible/dev/21-points
- _______________________________________________________________________________________________________________
-
-  Documentation for creating an application is at https://www.jhipster.tech/creating-an-app/
-  If you find JHipster useful, consider sponsoring the project at https://opencollective.com/generator-jhipster
- _______________________________________________________________________________________________________________
-
-? Which *type* of application would you like to create? Monolithic application (recommended for simple projects)
-? What is the base name of your application? TwentyOnePoints
-? What is your default Java package name? org.jhipster.health
-? Do you want to use the JHipster Registry to configure, monitor and scale your application? No
-? Which *type* of authentication would you like to use? JWT authentication (stateless, with a token)
-? Which *type* of database would you like to use? SQL (H2, MySQL, MariaDB, PostgreSQL, Oracle, MSSQL)
-? Which *production* database would you like to use? PostgreSQL
-? Which *development* database would you like to use? H2 with disk-based persistence
-? Do you want to use the Spring cache abstraction? Yes, with the Ehcache implementation (local cache, for a singl
-e node)
-? Do you want to use Hibernate 2nd level cache? Yes
-? Would you like to use Maven or Gradle for building the backend? Gradle
-? Which other technologies would you like to use? Search engine using Elasticsearch
-? Which *Framework* would you like to use for the client? Angular 6
-? Would you like to enable *SASS* support using the LibSass stylesheet preprocessor? Yes
-? Would you like to enable internationalization support? Yes
-? Please choose the native language of the application English
-? Please choose additional languages to install French
-? Besides JUnit and Jest, which testing frameworks would you like to use? Gatling, Protractor
-? Would you like to install other generators from the JHipster Marketplace? No
-
-Installing languages: en, fr
-   create package.json
-   create README.md
-   ...
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
 ----
-endif::[]
 
-NOTE: I tried using "21-points" as the application name, but quickly discovered that this caused issues with the generated TypeScript class names. Starting a class name with a number is illegal, just like it is in Java.
+Then you'll need a bootstrap file, typically named `main.ts`. This file bootstraps the module.
 
-This process generates a `.yo-rc.json` file that captures all of the choices you make. You can use this file in an empty directory to create a project with the same settings.
-
-[source,json]
-.yo-rc.json
+[source,javascript]
 ----
-{
-  "generator-jhipster": {
-    "promptValues": {
-      "packageName": "org.jhipster.health",
-      "nativeLanguage": "en"
-    },
-    "jhipsterVersion": "5.2.1",
-    "applicationType": "monolith",
-    "baseName": "TwentyOnePoints",
-    "packageName": "org.jhipster.health",
-    "packageFolder": "org/jhipster/health",
-    "serverPort": "8080",
-    "authenticationType": "jwt",
-    "cacheProvider": "ehcache",
-    "enableHibernateCache": true,
-    "websocket": false,
-    "databaseType": "sql",
-    "devDatabaseType": "h2Disk",
-    "prodDatabaseType": "postgresql",
-    "searchEngine": "elasticsearch",
-    "messageBroker": false,
-    "serviceDiscoveryType": false,
-    "buildTool": "gradle",
-    "enableSwaggerCodegen": false,
-    "jwtSecretKey": "43d99bb3ca6ffaa96b33b632e4a82fb45b672d80",
-    "clientFramework": "angularX",
-    "useSass": true,
-    "clientPackageManager": "yarn",
-    "testFrameworks": [
-      "gatling",
-      "protractor"
-    ],
-    "jhiPrefix": "jhi",
-    "enableTranslation": true,
-    "nativeLanguage": "en",
-    "languages": [
-      "en",
-      "fr"
-    ]
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
+
+if (environment.production) {
+  enableProdMode();
+}
+
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.error(err));
+----
+
+Finally, you'll need a basic HTML file that renders the component.
+
+[source,html]
+----
+<html>
+<head>
+    <title>Howdy</title>
+</head>
+<body>
+    <my-app></my-app>
+    <script src="path/to/compiled/javascript.js"></script>
+</body>
+</html>
+----
+
+The MVC pattern is a common one for web frameworks to implement. With Angular, the model is represented by an object that you create or retrieve from a service. The view is a HTML template and the component is a class that sets variables to be read by the template.
+
+[[img-angular-mvc]]
+.MVC in Angular
+image::chapter2/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth=75%, align=center]
+
+Below is a `SearchService` to fetch search results. It's expected that a JSON endpoint exists at `/api/search` on the same server.
+
+[source,javascript]
+.SearchService
+----
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SearchService {
+
+  constructor(private http: HttpClient) {}
+
+  search(term): Observable<any> {
+    return this.http.get(`/api/search/${term}`);
   }
 }
 ----
 
-You can see that I chose H2 with disk-based persistence for development and PostgreSQL for my production database. I did this because using a non-embedded database offers some important benefits:
-
-* Your data is retained when restarting the application.
-* Your application starts a bit faster.
-* You can use Liquibase to generate a database changelog.
-
-The http://www.liquibase.org/[Liquibase] homepage describes it as source control for your database. It will help create new fields as you add them to your entities. It will also refactor your database, for example creating tables and dropping columns. It also has the ability to undo changes to your database, either automatically or with custom SQL.
-
-After answering all the questions, JHipster created a whole bunch of files, then ran `yarn install`. To prove everything was good to go, I ran the Java unit tests using `./gradlew test`.
-
-[source]
-----
-BUILD SUCCESSFUL in 1m 7s
-10 actionable tasks: 9 executed, 1 up-to-date
-----
-
-JHipster v5 will only work with an external Elasticsearch instance. In previous versions, you could use an embedded Elasticsearch instance, but Elasticsearch has removed this ability in recent releases. The easiest way to run a local Elasticsearch instance is to use Docker Compose. I ran the following command to start Elasticsearch as a daemon. Remove the `-d` option if you don't want it to run as a daemon.
-
-----
-docker-compose -f src/main/docker/elasticsearch.yml up -d
-----
-
-TIP: Running Elasticsearch as an embedded instance is the default again in JHipster 5.3.0+ thanks to https://github.com/jhipster/generator-jhipster/pull/8122[this pull-request] that integrates Spring Data Jest.
-
-Next, I started the app using `./gradlew` and then ran the UI integration tests with `yarn e2e`. All tests passed with flying colors.
-
-----
-$ yarn e2e
-yarn run v1.9.4
-$ protractor src/test/javascript/protractor.conf.js
-(node:30302) [DEP0022] DeprecationWarning: os.tmpDir() is deprecated. Use os.tmpdir() instead.
-[14:45:36] W/configParser - pattern ./e2e/entities/**/*.spec.ts did not match any files.
-[14:45:36] I/launcher - Running 1 instances of WebDriver
-[14:45:36] I/direct - Using ChromeDriver directly...
-Started
-...........
-
-
-11 specs, 0 failures
-Finished in 21.309 seconds
-
-[14:45:59] I/launcher - 0 instance(s) of WebDriver still running
-[14:45:59] I/launcher - chrome #01 passed
-✨  Done in 23.25s.
-----
-
-To prove the `prod` profile worked and I could talk to PostgreSQL, I ran Docker Compose for PostgreSQL.
-
-----
-docker-compose -f src/main/docker/postgresql.yml up -d
-----
-
-Then I restarted the app with the `prod` profile enabled.
-
-----
-$ ./gradlew -Pprod
-...
-----------------------------------------------------------
-        Application 'TwentyOnePoints' is running! Access URLs:
-        Local:          http://localhost:8080
-        External:       http://192.168.105.207:8080
-        Profile(s):     [prod]
-----------------------------------------------------------
-----
-
-Wahoo — it worked!
-
-[sidebar]
-.Using a local PostgreSQL database
---
-[.text-left]
-You can also use a local PostgreSQL database. To do this on a Mac, I installed http://postgresapp.com/[Postgres.app] and tried creating a local PostgreSQL database with settings from `src/main/resources/config/application-prod.yml`.
-
-----
-psql (9.6.10)
-Type "help" for help.
-
-template1=# create user TwentyOnePoints with password '21points';
-CREATE ROLE
-template1=# create database TwentyOnePoints;
-CREATE DATABASE
-template1=# grant all privileges on database TwentyOnePoints to TwentyOnePoints;
-GRANT
-template1=#
-----
-
-I updated `application-prod.yml` to use `21points` for the datasource password. I confirmed I could talk to a PostgreSQL database when running with the `prod` profile. I was greeted with an error saying that things were not set up correctly.
-
-[source%autofit]
-----
-$ ./gradlew -Pprod
-...
-2018-08-27 09:59:32.094 ERROR 5180 --- [           main] com.zaxxer.hikari.pool.HikariPool        :
-HikariPool-1 - Exception during pool initialization.
-
-org.postgresql.util.PSQLException: FATAL: role "TwentyOnePoints" does not exist
-        at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
-        at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2559)
-        at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:133)
-----
-
-I quickly realized that PostgreSQL is case insensitive, so even though I typed "TwentyOnePoints", it configured the database name and username as "twentyonepoints". I updated `application-prod.yml` with the correct case and tried again. This time it worked!
---
-
-=== Adding source control
-
-One of the first things I like to do when creating a new project is to add it to a version-control system (VCS). In this particular case, I chose Git and Bitbucket.
-
-JHipster will initialize Git for your project automatically if you have Git installed. The following commands show how I added a reference to the remote Bitbucket repository, then pushed everything. I created the repository on Bitbucket before executing these commands.
-
-[source]
-----
-$ git remote add origin git@bitbucket.org:mraible/21-points.git
-$ git push origin master
-Delta compression using up to 8 threads.
-Compressing objects: 100% (495/495), done.
-Writing objects: 100% (523/523), 616.70 KiB | 8.94 MiB/s, done.
-Total 523 (delta 61), reused 0 (delta 0)
-remote: Resolving deltas: 100% (61/61), done.
-To bitbucket.org:mraible/21-points.git
- * [new branch]      master -> master
-----
-
-This is how I created a new application with JHipster and checked it into source control. If you're creating an application following similar steps, I believe there are two common approaches for continuing. The first involves developing the application, then testing and deploying. The second option is to set up continuous integration, deploy, then begin development and testing. In a team development environment, I recommend the second option. However, since you're likely reading this as an individual, I'll follow the first approach and get right to coding. If you're interested in setting up continuous integration with Jenkins, please see https://www.jhipster.tech/setting-up-ci-jenkins2/[Setting up Continuous Integration on Jenkins 2].
-
-== Building the UI and business logic
-
-ifeval::["{media}" == "screen"]
-I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a few years ago, but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the https://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the https://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design] module. Unfortunately, I soon found out it doesn't support JHipster 4+.
-endif::[]
-ifeval::["{media}" == "prepress"]
-I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a few years ago, but now Google's Material Design is growing in popularity. I searched for "material" in the JHipster Marketplace and found the Bootstrap Material Design module. Unfortunately, I soon found out it doesn't support JHipster 4+.
-endif::[]
-
-In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. To make the default Bootstrap theme look like Material Design, modify `_bootstrap-variables.scss` and replace it with the contents below.
-
-[source,sass]
-.src/main/webapp/content/scss/_bootstrap-variables.scss
-----
-/*
-* Bootstrap overrides https://getbootstrap.com/docs/4.0/getting-started/theming/
-* All values defined in bootstrap source
-* https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss can be overwritten here
-* Make sure not to add !default to values here
-*/
-
-// Colors:
-// Grayscale and brand colors for use across Bootstrap.
-
-// Customize colors to match Bootstrap Material Theme
-// https://github.com/FezVrasta/bootstrap-material-design/blob/master/sass/_variables.scss
-
-$primary: #009688;
-$success: #4caf50;
-$info: #03a9f4;
-$warning: #ff5722;
-$danger: #f44336;
-$blue: #0275d8;
-
-// Options:
-// Quickly modify global styling by enabling or disabling optional features.
-$enable-rounded: true;
-$enable-shadows: false;
-$enable-gradients: false;
-$enable-transitions: true;
-$enable-hover-media-query: false;
-$enable-grid-classes: true;
-$enable-print-styles: true;
-
-// Components:
-// Define common padding and border radius sizes and more.
-
-$border-radius: 0.15rem;
-$border-radius-lg: 0.125rem;
-$border-radius-sm: 0.1rem;
-
-// Body:
-// Settings for the `<body>` element.
-
-$body-bg: #fff;
-
-// Typography:
-// Font, line-height, and color for body text, headings, and more.
-
-$font-size-base: 0.9rem;
-
-$border-radius: 2px;
-$border-radius-sm: 1px;
-
-$font-family-sans-serif: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-$headings-font-weight: 300;
-
-$link-color: $primary;
-
-$input-focus-border-color: lighten($blue, 25%);
-$input-focus-box-shadow: none;
-----
-
-Then add the following Sass to the bottom of `global.scss`.
-
-[source,sass]
-----
-/* ==========================================================================
-custom styles for 21-Points Health
-==========================================================================*/
-.jh-card {
-    border: none !important;
-}
-
-.jh-navbar {
-    background-color: #009688 !important;
-}
-
-.blockquote {
-    padding: 0.5rem 1rem;
-    margin-bottom: 1rem;
-    font-size: 1rem !important;
-    font-weight: 100;
-    border-left: 0.25rem solid #eceeef;
-}
-
-a {
-    font-weight: normal !important;
-}
-
-.truncate {
-    width: 180px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-
-    &.cal-day-notes {
-        width: 150px;
-    }
-}
-
-.footer {
-    bottom: 0;
-    left: 0;
-    color: #666;
-    background: #eee;
-    border-top: 1px solid silver;
-    position: fixed;
-    width: 100%;
-    padding: 10px;
-    padding-bottom: 0;
-    text-align: center;
-    z-index: 2;
-    font-size: 0.9em;
-
-    p {
-        margin-bottom: 7px;
-    }
-}
-
-.thread-dump-modal-lock {
-    max-width: 450px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* Override Bootstrap's default vertical-align: top */
-.table {
-    th,
-    td {
-        vertical-align: middle !important;
-    }
-}
-----
-
-[sidebar]
-.How to use Bootstrap Material Design with JHipster 5
---
-If you’d like to use https://fezvrasta.github.io/bootstrap-material-design/[Bootstrap Material Design] with JHipster 5, that’s possible too.
-
-Below are the steps necessary to use Bootstrap Material Design and Sass:
-
-. Install bootstrap-material-design:
-+
-[source,bash]
-----
-npm install bootstrap-material-design@4.1.1
-----
-+
-. Remove all variables from `src/main/webapp/content/scss/_bootstrap-variables.scss`.
-. Comment out the import for Bootstrap in `src/main/webapp/content/scss/vendor.scss`:
-+
-[source,sass]
-----
-// Import Bootstrap source files from node_modules
-// @import '~bootstrap/scss/bootstrap';
-----
-+
-. Add the following to import bootstrap-material-design in `src/main/webapp/content/scss/vendor.scss`:
-+
-[source%autofit,sass]
-----
-// Import Bootstrap Material Design
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
-@import '~bootstrap-material-design/scss/bootstrap-material-design';
-----
-+
-. Remove the following styles from `global.scss`:
-+
-[source,sass]
-----
-/* Error highlight on input fields */
-.ng-valid[required],
-.ng-valid.required {
-  border-left: 5px solid green;
-}
-
-.ng-invalid:not(form) {
-  border-left: 5px solid red;
-}
-----
-+
-. Add the following overrides on the dropdown menus so they look good.
-+
-[source,sass]
-----
-.dropdown-menu .dropdown-item.active, .dropdown-menu .dropdown-item:active {
-  color: #fff !important;
-}
-
-.dropdown-menu .dropdown-item {
-  display: inline-block !important;
-  padding: 0.5rem 1.5rem !important;
-  min-height: 2rem !important;
-}
-----
-+
-
-Below is a screenshot taken after these changes.
-
-[[img-bootstrap-angular-material]]
-.JHipster with Bootstrap Angular Material
-image::chapter2/angular-material-theme.png[UI mockup, 1333, scaledwidth=100%, align=center]
---
-
-At this point, I deployed to Heroku for the first time. This is covered in the <<Deploying to Heroku>> section of this chapter.
-
-=== Generating entities
-
-For each entity you want to create, you will need:
-
-* a database table;
-* a Liquibase change set;
-* a JPA entity class;
-* a Spring Data `JpaRepository` interface;
-* a Spring MVC `RestController` class;
-* an Angular router, controller, and service; and
-* a HTML page.
-
-In addition, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In an ideal world, you'd also have unit tests and integration tests for your Angular code.
-
-The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the TypeScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
-
-JHipster supports several methods of code generation. The first uses its https://www.jhipster.tech/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool that prompts you with questions to answer. https://www.jhipster.tech/jdl-studio/[JDL-Studio] is a browser-based tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://www.jhipster.tech/jhipster-uml/[JHipster-UML] is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio], http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose that for this project.
-
-TIP: If you want to see how how easy it is to use JDL-Studio, please see my https://www.youtube.com/watch?v=-VQ_SVkaXbs[Get Started with JHipster 5 Screencast].
-
-At this point, I did some trial-and-error designs with the data model. I generated entities with JHipster, tried the app, and changed to start with a UI-first approach. As a user, I was hoping to easily add daily entries about whether I'd exercised, ate healthy meals, or consumed alcohol. I also wanted to record my weight and blood-pressure metrics when I measured them. When I started using the UI I'd just created, it seemed like it might be able to accomplish these goals, but it also seemed somewhat cumbersome. That's when I decided to create a UI mockup with the main screen and its ancillary screens for data entry. I used https://www.omnigroup.com/omnigraffle[OmniGraffle] and a https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstrap stencil] to create the following UI mockup.
-
-[[img-ui-mockup]]
-.UI mockup
-image::chapter2/ui-mockup.png[UI mockup, 846, scaledwidth=75%, align=center]
-
-After figuring out how I wanted the UI to look, I started to think about the data model. I quickly decided I didn't need to track high-level goals (e.g. lose ten pounds in Q3 2018). I was more concerned with tracking weekly goals and 21-Points Health is all about how many points you get in a week. I created the following diagram as my data model.
-
-[[img-entity-diagram]]
-.21-Points Health entity diagram
-image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=75%, align=center]
-
-I ran `jhipster entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one relationship with `user`. Below is the final output from my answers.
-
-[source%autofit]
-----
-================= Points =================
-Fields
-date (LocalDate) required
-exercise (Integer)
-meals (Integer)
-alcohol (Integer)
-notes (String) maxlength='140'
-
-Relationships
-user (User) many-to-one
-
-? Do you want to use separate service class for your business logic? No, the REST controller should use the repository directly
-? Do you want pagination on your entity? Yes, with pagination links
-
-Everything is configured, generating the entity...
-
-   create .jhipster/Points.json
-   create src/main/resources/config/liquibase/changelog/20180828004742_added_entity_Points.xml
-   create src/main/resources/config/liquibase/changelog/20180828004742_added_entity_constraints_Points.xml
-   create src/main/java/org/jhipster/health/domain/Points.java
-   create src/main/java/org/jhipster/health/repository/PointsRepository.java
-   create src/main/java/org/jhipster/health/web/rest/PointsResource.java
-   create src/main/java/org/jhipster/health/repository/search/PointsSearchRepository.java
-   create src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
-   create src/test/java/org/jhipster/health/repository/search/PointsSearchRepositoryMockConfiguration.java
-   create src/test/gatling/user-files/simulations/PointsGatlingTest.scala
- conflict src/main/resources/config/liquibase/master.xml
-? Overwrite src/main/resources/config/liquibase/master.xml? overwrite this and all others
-    force src/main/resources/config/liquibase/master.xml
-    force src/main/java/org/jhipster/health/config/CacheConfiguration.java
-   create src/main/webapp/app/entities/points/points.component.html
-   create src/main/webapp/app/entities/points/points-detail.component.html
-   create src/main/webapp/app/entities/points/points-update.component.html
-   create src/main/webapp/app/entities/points/points-delete-dialog.component.html
-    force src/main/webapp/app/layouts/navbar/navbar.component.html
-   create src/main/webapp/i18n/en/points.json
-    force src/main/webapp/i18n/en/global.json
-   create src/main/webapp/i18n/fr/points.json
-    force src/main/webapp/i18n/fr/global.json
-   create src/main/webapp/app/entities/points/index.ts
-   create src/main/webapp/app/entities/points/points.module.ts
-   create src/main/webapp/app/entities/points/points.route.ts
-   create src/main/webapp/app/shared/model/points.model.ts
-   create src/main/webapp/app/entities/points/points.component.ts
-   create src/main/webapp/app/entities/points/points-update.component.ts
-   create src/main/webapp/app/entities/points/points-delete-dialog.component.ts
-   create src/main/webapp/app/entities/points/points-detail.component.ts
-   create src/main/webapp/app/entities/points/points.service.ts
-   create src/test/javascript/spec/app/entities/points/points-detail.component.spec.ts
-   create src/test/javascript/spec/app/entities/points/points-update.component.spec.ts
-   create src/test/javascript/spec/app/entities/points/points-delete-dialog.component.spec.ts
-   create src/test/javascript/spec/app/entities/points/points.component.spec.ts
-   create src/test/javascript/spec/app/entities/points/points.service.spec.ts
-   create src/test/javascript/e2e/entities/points/points.page-object.ts
-   create src/test/javascript/e2e/entities/points/points.spec.ts
-    force src/main/webapp/app/entities/entity.module.ts
-
-Running `webpack:build` to update client app
-----
-
-You can see the validation rules for date and notes above, but you don’t see how I created the relationship to user. Here are the questions and answers from that section.
-
-----
-? Do you want to add a relationship to another entity? Yes
-? What is the name of the other entity? user
-? What is the name of the relationship? user
-? What is the type of the relationship? many-to-one
-? When you display this relationship on client-side, which field from 'user' do you want to use? This field will
- be displayed as a String, so it cannot be a Blob login
-? Do you want to add any validation rules to this relationship? No
-----
-
-I had similar answers for the `Weight` and `BloodPressure` entities. Please refer to the entity diagram for the field names in each entity. For `Preferences`, I created a one-to-one relationship with `User`.
-
-To ensure that people use 21-Points Health effectively, I set the weekly goal to a minimum of 10 points and a max of 21. I also made the `weightUnits` property an enum.
-
-----
-================= Preferences =================
-Fields
-weeklyGoal (Integer) required min='10' max='21'
-
-Generating field #2
-
-? Do you want to add a field to your entity? Yes
-? What is the name of your field? weightUnits
-? What is the type of your field? Enumeration (Java enum type)
-? What is the class name of your enumeration? Units
-? What are the values of your enumeration (separated by comma, no spaces)? kg,lb
-? Do you want to add validation rules to your field? Yes
-? Which validation rules do you want to add? Required
-
-================= Preferences =================
-Fields
-weeklyGoal (Integer) required min='10' max='21'
-weightUnits (Units) required
-----
-
-TIP: After generating the `Weight` and `BloodPressure` entities with a `date` property for the date/time field, I decided that `timestamp` was a better property name. To fix this, I modified the respective JSON files in the `.jhipster` directory and ran `jhipster entity` for each entity again. This seemed easier than refactoring with IntelliJ and hoping it caught all the name instances.
-
-When I ran `./gradlew test`, I was pleased to see that all tests passed.
-
-----
-BUILD SUCCESSFUL in 36s
-----
-
-I checked in six changed files and 130 new files generated by the JHipster before continuing to implement my UI mockups.
-
-== Application improvements
-
-To make my new JHipster application into something I could be proud of, I made a number of improvements, described below.
-
-TIP: At this point, I set up continuous testing of this project using https://jenkins-ci.org/[Jenkins]. This is covered in the <<Continuous integration and deployment>> section of this chapter.
-
-=== Improved HTML layout and I18N messages
-
-Of all the code I write, UI code (HTML, JavaScript, and CSS) is my favorite. I like that you can see changes immediately and make progress quickly - especially when you're using dual monitors with
-ifdef::backend-epub3[link:jhipsters-ui-components.xhtml#Browsersync[Browsersync].]
-ifndef::backend-epub3[<<Browsersync>>.]
-Below is a consolidated list of changes I made to the HTML to make things look better:
-
-* improved layout of tables and buttons,
-* improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`,
-* formatted dates for local timezone with Angular's DatePipe
-  (for example: `{{bloodPressure.timestamp | date:'short'}}`),
-* defaulted to current date on new entries,
-* replaced point metrics with icons on list/detail screens, and
-* replaced point metrics with checkboxes on update screen.
-
-The biggest visual improvements are on the list screens. I made the buttons a bit smaller, turned button text into tooltips, and moved add/search buttons to the top right corner. For the points-list screen, I converted the 1 and 0 metric values to icons. Before and after screenshots of the points list illustrate the improved, compact layout.
-
-[[img-points-list-before]]
-.Default Daily Points list
-image::chapter2/points-list-before.png[Default Daily Points list, 1337, scaledwidth=100%, align=center]
-
-[[img-points-list-after]]
-.Default Daily Points list after UI improvements
-image::chapter2/points-list-after.png[Default Daily Points list after UI improvements, 1136, scaledwidth=100%, align=center]
-
-I refactored the HTML at the top of `points.component.html` to put the title, search, and add buttons on the same row. I also removed the button text in favor of a using https://ng-bootstrap.github.io/#/components/tooltip/api[ng-bootstrap's tooltip directive]. The `jhiTranslate` directive you see in the button tooltips is provided by https://github.com/jhipster/ng-jhipster[JHipster's Angular library].
-
-[source%autofit,html]
-.src/main/webapp/app/entities/points/points.component.html
-----
-<div class="row">
-    <div class="col-sm-8">
-        <h2 id="page-heading" jhiTranslate="twentyOnePointsApp.points.home.title">Points</h2>
-    </div>
-    <div class="col-sm-4 text-right">
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-points"
-                [routerLink]="['/points/new']"
-                [ngbTooltip]="addTooltip" placement="bottom">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <ng-template #addTooltip>
-                <span jhiTranslate="twentyOnePointsApp.points.home.createLabel">Add Points</span>
-            </ng-template>
-        </button>
-        <form name="searchForm" class="form-inline">
-            <div class="input-group w-100 mr-1">
-                <input type="text" class="form-control" [(ngModel)]="currentSearch"
-                       id="currentSearch" name="currentSearch"
-                       placeholder="{{ 'twentyOnePointsApp.points.home.search' | translate }}">
-                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                    <fa-icon [icon]="'search'"></fa-icon>
-                </button>
-                <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                    <fa-icon [icon]="'trash-alt'"></fa-icon>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-----
-
-Changing the numbers to icons was pretty easy thanks to Angular's expression language.
-
-[source%autofit,html]
-.src/main/webapp/app/entities/points/points.component.html
-----
-<td class="text-center">
-    <fa-icon [icon]="points.exercise ? 'check' : 'times'" aria-hidden="true"
-             class="{{points.exercise ? 'text-success' : 'text-danger'}}"></fa-icon>
-</td>
-<td class="text-center">
-    <fa-icon [icon]="points.meals ? 'check' : 'times'" aria-hidden="true"
-             class="{{points.meals ? 'text-success' : 'text-danger'}}"></fa-icon>
-</td>
-<td class="text-center">
-    <fa-icon [icon]="points.alcohol ? 'check' : 'times'" aria-hidden="true"
-             class="{{points.alcohol ? 'text-success' : 'text-danger'}}"></fa-icon>
-</td>
-----
-
-After adding this HTML, I saw an error in my browser's developer console.
-
-----
-FontAwesome: Could not find icon with iconName=check and prefix=fas
-----
-
-To fix this, I modified `vendor.ts` and added `faCheck` as an imported icon.
+An associated `SearchComponent` can be used to display the results from this service. Notice how you can use constructor injection to get a reference to the service.
 
 [source,javascript]
-.src/main/webapp/app/vendor.ts
+.SearchComponent
 ----
-library.add(faTimes);
-library.add(faCheck); // add this line
+import { Component } from '@angular/core';
+import { SearchService } from '../search.service';
+
+@Component({
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css']
+})
+export class SearchComponent {
+  query: string;
+  searchResults: Array<any>;
+
+  constructor(private searchService: SearchService) {
+    console.log('In Search Component...');
+  }
+
+  search(): void {
+    this.searchService.search(this.query).subscribe(
+      data => {
+        this.searchResults = data;
+      },
+      error => console.log(error)
+    );
+  }
+}
 ----
 
-Next, I changed the input fields to checkboxes in `points-update.component.html`.
+TIP: To see the JavaScript console in Chrome, use kbd:[Command+Option+J] in Mac OS X/macOS or kbd:[Control+Shift+J] in Windows or Linux.
 
-[source%autofit,html]
-.src/main/webapp/app/entities/points/points-update.component.html
-----
-<div class="form-check">
-    <label class="form-check-label" for="field_exercise">
-        <input type="checkbox" class="form-check-input" name="exercise" id="field_exercise"
-               [(ngModel)]="points.exercise"  />
-        <span jhiTranslate="twentyOnePointsApp.points.exercise" for="field_exercise">Exercise</span>
-    </label>
-</div>
-<div class="form-check">
-    <label class="form-check-label" for="field_meals">
-        <input type="checkbox" class="form-check-input" name="meals" id="field_meals"
-               [(ngModel)]="points.meals"  />
-        <span jhiTranslate="twentyOnePointsApp.points.meals">Meals</span>
-    </label>
-</div>
-<div class="form-check">
-    <label class="form-check-label" for="field_alcohol">
-        <input type="checkbox" class="form-check-input" name="alcohol" id="field_alcohol"
-               [(ngModel)]="points.alcohol"  />
-        <span jhiTranslate="twentyOnePointsApp.points.alcohol" for="field_alcohol">Alcohol</span>
-    </label>
-</div>
-----
-
-In `points-update.component.ts`, I had to modify the `save()` method to convert booleans from each checkbox into integers.
+To make this component available at a URL, you can use Angular's `Router` and specify the path in the module that includes the component.
 
 [source,javascript]
-.src/main/webapp/app/entities/points/points-update.component.ts
-----
-save() {
-    this.isSaving = true;
-
-    // convert booleans to ints
-    this.points.exercise = this.points.exercise ? 1 : 0;
-    this.points.meals = this.points.meals ? 1 : 0;
-    this.points.alcohol = this.points.alcohol ? 1 : 0;
-
-    if (this.points.id !== undefined) {
-        this.subscribeToSaveResponse(this.pointsService.update(this.points));
-    } else {
-        this.subscribeToSaveResponse(this.pointsService.create(this.points));
-    }
-}
-----
-
-After making these changes, modifying a bit of HTML, and tweaking some i18n messages, the "`Add Points`" screen is starting to look like the UI mockup I created.
-
-[[img-add-points-page]]
-.Add Points page
-image::chapter2/add-points-page.png[Add Points page, 1167, scaledwidth=90%, align=center]
-
-Improving the UI was the most fun, but also the most time consuming as it involved lots of little tweaks to multiple screens. The next task was more straightforward: implementing business logic.
-
-=== Added logic so non-admin users only see their own data
-
-I wanted to make several improvements to what users could see, based on their roles. A user should be able to see and modify their data, but nobody else's. I also wanted to ensure that an administrator could see and modify everyone's data.
-
-==== Hide user selection from non-admin users
-
-The default update components for many-to-one relationships allow you to choose the user when you add/edit a record. To make it so only administrators had this ability, I modified the update templates and used the `*jhiHasAnyAuthority` directive. This directive is included with JHipster, in `src/main/webapp/app/shared/auth/has-any-authority.directive.ts`. It allows you to pass in a single role or a list of roles.
-
-[source%autofit,html]
-.src/main/webapp/app/entities/points/points-update.component.html
-----
-<div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN'">
-    <label class="form-control-label" jhiTranslate="twentyOnePointsApp.points.user" for="field_user">User</label>
-    <select class="form-control" id="field_user" name="user" [(ngModel)]="points.user">
-        <option [ngValue]="null"></option>
-        <option [ngValue]="userOption.id === points.user?.id ? points.user : userOption"
-                *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
-    </select>
-</div>
-----
-
-Since the dropdown is hidden from non-admins, I had to modify each `Resource` class to default to the current user when creating a new record. Below is a diff that shows the changes that I needed to make to `PointsResource.java`.
-
-[source%autofit,diff]
-.src/main/java/org/jhipster/health/web/rest/PointsResource.java
-----
-+import org.jhipster.health.repository.UserRepository;
-+import org.jhipster.health.security.AuthoritiesConstants;
-+import org.jhipster.health.security.SecurityUtils;
-
-     private final PointsSearchRepository pointsSearchRepository;
-
--    public PointsResource(PointsRepository pointsRepository, PointsSearchRepository pointsSearchRepository) {
-+    private final UserRepository userRepository;
-+
-+    public PointsResource(PointsRepository pointsRepository, PointsSearchRepository pointsSearchRepository,
-+        UserRepository userRepository) {
-         this.pointsRepository = pointsRepository;
-         this.pointsSearchRepository = pointsSearchRepository;
-+        this.userRepository = userRepository;
-     }
-
-     @PostMapping("/points")
-     @Timed
-     public ResponseEntity<Points> createPoints(@Valid @RequestBody Points points) throws URISyntaxException {
-         log.debug("REST request to save Points : {}", points);
-         if (points.getId() != null) {
-             return ResponseEntity.badRequest().headers(
-                 HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists",
-                     "A new points cannot already have an ID")).body(null);
-         }
-+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
-+            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
-+            points.setUser(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get());
-+        }
-         Points result = pointsRepository.save(points);
-         pointsSearchRepository.save(result);
-         return ResponseEntity.created(new URI("/api/points/" + result.getId()))
-             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-             .body(result);
-----
-
-`SecurityUtils` is a class JHipster provides when you create a project. I had to modify `PointsResourceIntTest.java` to be security-aware after making this change.
-
-Spring MVC Test provides a convenient interface called `RequestPostProcessor` that you can use to modify a request. Spring Security provides a number of `RequestPostProcessor` implementations that simplify testing. In order to use Spring Security’s `RequestPostProcessor` implementations, you can include them all with the following static import.
-
-[source%autofit,java]
-----
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
-----
-
-I then modified `PointsResourceIntTest.java`, creating a new `MockMvc` instance that was security-aware and specified `with(user("user"))` to populate Spring Security's `SecurityContext` with an authenticated user.
-
-ifdef::backend-pdf[<<<]
-
-[source%autofit,diff]
-.src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
-----
-+import org.jhipster.health.domain.User;
-+import org.springframework.web.context.WebApplicationContext;
-+import java.time.DayOfWeek;
-+import java.time.format.DateTimeFormatter;
-+import java.time.temporal.ChronoField;
-+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-
-public class PointsResourceIntTest {
-     ...
-     @Autowired
-     private PointsSearchRepository pointsSearchRepository;
-
-+    @Autowired
-+    private UserRepository userRepository;
-
-     ...
-
-+    @Autowired
-+    private WebApplicationContext context;
-+
-     private MockMvc restPointsMockMvc;
-
-     private Points points;
-
-     @Before
-     public void setup() {
-         MockitoAnnotations.initMocks(this);
--        PointsResource pointsResource = new PointsResource(pointsRepository, pointsSearchRepository);
-+        PointsResource pointsResource = new PointsResource(pointsRepository, pointsSearchRepository, userRepository);
-         this.restPointsMockMvc = MockMvcBuilders.standaloneSetup(pointsResource)
-             .setCustomArgumentResolvers(pageableArgumentResolver)
-             .setControllerAdvice(exceptionTranslator)
-             .setMessageConverters(jacksonMessageConverter).build();
-     }
-
-     ...
-
-     public void createPoints() throws Exception {
-         int databaseSizeBeforeCreate = pointsRepository.findAll().size();
-
-+        // Create security-aware mockMvc
-+        restPointsMockMvc = MockMvcBuilders
-+            .webAppContextSetup(context)
-+            .apply(springSecurity())
-+            .build();
-+
-         // Create the Points
-         restPointsMockMvc.perform(post("/api/points")
-+            .with(user("user"))
-             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-             .content(TestUtil.convertObjectToJsonBytes(points)))
-             .andExpect(status().isCreated());
-         ....
-     }
-}
-----
-
-==== List screen should show only user's data
-
-The next business-logic improvement I wanted was to modify list screens so they'd only show records for current user. Admin users should see all users' data. To facilitate this feature, I modified `PointsResource#getAll` to have a switch based on the user's role. Rather than showing you the diff of method, here’s the whole thing.
-
-[source%autofit,java]
-.src/main/java/org/jhipster/health/web/rest/PointsResource.java
-----
-public ResponseEntity<List<Points>> getAllPoints(@ApiParam Pageable pageable) {
-    log.debug("REST request to get a page of Points");
-    Page<Points> page;
-    if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
-        page = pointsRepository.findAllByOrderByDateDesc(pageable);
-    } else {
-        page = pointsRepository.findByUserIsCurrentUser(pageable);
-    }
-    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/points");
-    return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-}
-----
-
-The `PointsRepository#findByUserIsCurrentUser()` method that JHipster generated contains a custom query that uses Spring Expression Language to grab the user's information from Spring Security. I changed it from returning `List<Points>` to returning `Page<Points>`.
-
-[source%autofit,java]
-.src/main/java/org/jhipster/health/repository/PointsRepository.java
-----
-@Query("select points from Points points where points.user.login = ?#{principal.username}")
-Page<Points> findByUserIsCurrentUser(Pageable pageable);
-----
-
-[sidebar]
-.Ordering by date
---
-Later on, I changed the above query to order by date, so the first records in the list would be the most recent.
-
-[source,java]
-.src/main/java/org/jhipster/health/repository/PointsRepository.java
-----
-@Query("select points from Points points where points.user.login = ?#{principal.username} order by points.date desc")
-----
-
-In addition, I changed the call to `pointsRepository.findAll` to `pointsRepository.findAllByOrderByDateDesc` so the admin user's query would order by date. The query for this is generated dynamically by Spring Data, simply by adding the method to your repository.
-
-[source,java]
-----
-Page<Points> findAllByOrderByDateDesc(Pageable pageable);
-----
---
-
-To make tests pass, I had to update `PointsResourceIntTest#getAllPoints` to use Spring Security Test's `user` post processor.
-
-[source,diff]
-.src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
-----
- @Test
- @Transactional
- public void getAllPoints() throws Exception {
-     // Initialize the database
-     pointsRepository.saveAndFlush(points);
-
-+    // Create security-aware mockMvc
-+    restPointsMockMvc = MockMvcBuilders
-+        .webAppContextSetup(context)
-+        .apply(springSecurity())
-+        .build();
-+
-     // Get all the points
--    restPointsMockMvc.perform(get("/api/points?sort=id,desc"))
-+    restPointsMockMvc.perform(get("/api/points?sort=id,desc")
-+            .with(user("admin").roles("ADMIN")))
-             .andExpect(status().isOk())
-----
-
-=== Implementing the UI mockup
-
-Making the homepage into something resembling my UI mockup required several steps:
-
-. Add buttons to facilitate adding new data from the homepage.
-. Add an API to get points achieved during the current week.
-. Add an API to get blood-pressure readings for the last 30 days.
-. Add an API to get body weights for the last 30 days.
-. Add charts to display points per week and blood pressure/weight for last 30 days.
-
-I started by reusing the update components for entering data that JHipster had created for me. I navigated to the components using Angular's `routerLink` syntax, copied from each entity’s main list page. For example, below is the code for the "Add Points" button.
-
-[source%autofit,html]
-----
-<a [routerLink]="['/points/new']" class="btn btn-primary m-0 mb-1 text-white">Add Points</a>
-----
-
-Then I had to modify `home.component.ts` to listen for the events these components fire when they modify an entity.
-
-[source,javascript]
-.src/main/webapp/app/home/home.component.ts
-----
-import { JhiEventManager } from 'ng-jhipster';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-...
-export class HomeComponent implements OnInit, OnDestroy {
-    ...
-    eventSubscriber: Subscription;
-
-    constructor(..., private eventManager: EventManager) {
-    }
-
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
-    }
-
-    registerAuthenticationSuccess() {
-        this.eventManager.subscribe('authenticationSuccess', () => {
-            this.principal.identity().then((account) => {
-                this.account = account;
-                this.getUserData();
-            });
-        });
-        this.eventSubscriber = this.eventManager
-            .subscribe('pointsListModification', () => this.getUserData());
-        this.eventSubscriber = this.eventManager
-            .subscribe('bloodPressureListModification', () => this.getUserData());
-        this.eventSubscriber = this.eventManager
-            .subscribe('weightListModification', () => this.getUserData());
-    }
-    ...
-}
-----
-
-==== Points this week
-
-To get points achieved in the current week, I started by adding a unit test to `PointsResourceIntTest.java` that would allow me to prove my API was working.
-
-[source,java]
-.src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
-----
-private void createPointsByWeek(LocalDate thisMonday, LocalDate lastMonday) {
-    User user = userRepository.findOneByLogin("user").get();
-    // Create points in two separate weeks
-    points = new Points(thisMonday.plusDays(2), 1, 1, 1, user); // <1>
-    pointsRepository.saveAndFlush(points);
-
-    points = new Points(thisMonday.plusDays(3), 1, 1, 0, user);
-    pointsRepository.saveAndFlush(points);
-
-    points = new Points(lastMonday.plusDays(3), 0, 0, 1, user);
-    pointsRepository.saveAndFlush(points);
-
-    points = new Points(lastMonday.plusDays(4), 1, 1, 0, user);
-    pointsRepository.saveAndFlush(points);
-}
-
-@Test
-@Transactional
-public void getPointsThisWeek() throws Exception {
-    LocalDate today = LocalDate.now();
-    LocalDate thisMonday = today.with(DayOfWeek.MONDAY);
-    LocalDate lastMonday = thisMonday.minusWeeks(1);
-    createPointsByWeek(thisMonday, lastMonday);
-
-    // create security-aware mockMvc
-    restPointsMockMvc = MockMvcBuilders
-        .webAppContextSetup(context)
-        .apply(springSecurity())
-        .build();
-
-    // Get all the points
-    restPointsMockMvc.perform(get("/api/points")
-        .with(user("user").roles("USER")))
-        .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$", hasSize(4)));
-
-    // Get the points for this week only
-    restPointsMockMvc.perform(get("/api/points-this-week")
-        .with(user("user").roles("USER")))
-        .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.week").value(thisMonday.toString()))
-        .andExpect(jsonPath("$.points").value(5));
-}
-----
-<1> To simplify testing, I added a new constructor to `Points.java` that contained the arguments I wanted to set. I continued this pattern for most tests I created.
-
-Of course, this test failed when I first ran it since `/api/points-this-week` didn't exist in `PointsResource.java`. You might notice the points-this-week API expects two return values: a date in the `week` field and the number of points in the `points` field. I created `PointsPerWeek.java` in my project's `rest.vm` package to hold this information.
-
-[source,java]
-.src/main/java/org/jhipster/health/web/rest/vm/PointsPerWeek.java
-----
-package org.jhipster.health.web.rest.vm;
-
-import java.time.LocalDate;
-
-public class PointsPerWeek {
-    private LocalDate week;
-    private Integer points;
-
-    public PointsPerWeek(LocalDate week, Integer points) {
-        this.week = week;
-        this.points = points;
-    }
-
-    public Integer getPoints() {
-        return points;
-    }
-
-    public void setPoints(Integer points) {
-        this.points = points;
-    }
-
-    public LocalDate getWeek() {
-        return week;
-    }
-
-    public void setWeek(LocalDate week) {
-        this.week = week;
-    }
-
-    @Override
-    public String toString() {
-        return "PointsThisWeek{" +
-            "points=" + points +
-            ", week=" + week +
-            '}';
-    }
-}
-----
-
-Spring Data JPA made it easy to find all point entries in a particular week. I added a new method to my `PointsRepository.java` that allowed me to query between two dates.
-
-[source,java]
-.src/main/java/org/jhipster/health/repository/PointsRepository.java
-----
-List<Points> findAllByDateBetweenAndUserLogin(LocalDate firstDate, LocalDate secondDate, String login);
-----
-
-From there, it was just a matter of calculating the beginning and end of the current week and processing the data in `PointsResource.java`.
-
-[source,java]
-.src/main/java/org/jhipster/health/web/rest/PointsResource.java
-----
-/**
- * GET  /points : get all the points for the current week.
- */
-@GetMapping("/points-this-week")
-@Timed
-public ResponseEntity<PointsPerWeek> getPointsThisWeek(
-    @RequestParam(value="tz", required=false) String timezone) {
-
-    // Get current date (with timezone if passed in)
-    LocalDate now = LocalDate.now();
-    if (timezone != null) {
-        now = LocalDate.now(ZoneId.of(timezone));
-    }
-
-    // Get first day of week
-    LocalDate startOfWeek = now.with(DayOfWeek.MONDAY);
-    // Get last day of week
-    LocalDate endOfWeek = now.with(DayOfWeek.SUNDAY);
-    log.debug("Looking for points between: {} and {}", startOfWeek, endOfWeek);
-
-    List<Points> points =
-        pointsRepository.findAllByDateBetweenAndUserLogin(
-            startOfWeek, endOfWeek, SecurityUtils.getCurrentUserLogin());
-    return calculatePoints(startOfWeek, points);
-}
-
-private ResponseEntity<PointsPerWeek> calculatePoints(LocalDate startOfWeek,
-                                                      List<Points> points) {
-    Integer numPoints = points.stream()
-        .mapToInt(p -> p.getExercise() + p.getMeals() + p.getAlcohol())
-        .sum();
-
-    PointsPerWeek count = new PointsPerWeek(startOfWeek, numPoints);
-    return new ResponseEntity<>(count, HttpStatus.OK);
-}
-----
-
-To support this new method on the client, I added a new method to `PointsService` in `src/main/webapp/app/entities/points/points.service.ts`.
-
-[source,javascript]
-.src/main/webapp/app/entities/points/points.service.ts
-----
-thisWeek(): Observable<EntityResponseType> {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    return this.http
-        .get(`api/points-this-week?tz=${tz}`, { observe: 'response' })
-        .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
-}
-----
-
-Then I added the service as a dependency to `home.component.ts` and calculated the data I wanted to display.
-
-[source,javascript]
-.src/main/webapp/app/home/home.component.ts
-----
-import { Account, LoginModalService, Principal } from 'app/core';
-import { PreferencesService } from 'app/entities/preferences';
-import { BloodPressureService } from 'app/entities/blood-pressure';
-import { WeightService } from 'app/entities/weight';
-import { D3ChartService } from './d3-chart.service';
-import { Preferences } from 'app/shared/model/preferences.model';
-
-...
-export class HomeComponent implements OnInit, OnDestroy {
-    account: Account;
-    modalRef: NgbModalRef;
-    pointsThisWeek: any = {};
-    pointsPercentage: number;
-
-    constructor(private principal: Principal,
-                private loginModalService: LoginModalService,
-                private eventManager: EventManager,
-                private pointsService: PointsService) {
-    }
-
-    getUserData() {
-        // Get points for the current week
-        this.pointsService.thisWeek().subscribe((points: any) => {
-            points = points.body;
-            this.pointsThisWeek = points;
-            this.pointsPercentage = (points.points / 21) * 100;
-        });
-    }
-    ...
-}
-----
-
-I added a progress bar to `home.component.html` to show points-this-week progress.
-
-[source,html]
-.src/main/webapp/app/home/home.component.html
-----
-<div class="row">
-    <div class="col-md-11">
-        <ngb-progressbar max="21" [value]="pointsThisWeek.points"
-                         [hidden]="!pointsThisWeek.points" [striped]="true">
-            <span *ngIf="pointsThisWeek.points">
-                {{pointsThisWeek.points}} / Goal: 10
-            </span>
-        </ngb-progressbar>
-        <ngb-alert [dismissible]="false" [hidden]="pointsThisWeek.points">
-            <span jhiTranslate="home.points.getMoving">
-                No points yet this week, better get moving!</span>
-        </ngb-alert>
-    </div>
-</div>
-----
-
-Below is a screenshot of what this progress bar looked like after restarting the server and entering some data for the current user.
-
-[[img-homepage-progress-bar]]
-.Progress bar for points this week
-image::chapter2/homepage-points-this-week.png[Progress bar for points this week, 1330, scaledwidth=100%, align=center]
-
-You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix this, I needed to add the ability to fetch the user's preferences. To make it easier to access a user's preferences, I modified `PreferencesRepository.java` and added a method to retrieve a user's preferences.
-
-[source%autofit,java]
-.src/main/java/org/jhipster/health/repository/PreferencesRepository.java
-----
-public interface PreferencesRepository extends JpaRepository<Preferences, Long> {
-    Optional<Preferences> findOneByUserLogin(String login);
-}
-----
-
-I created a new method in `PreferencesResource.java` to return the user's preferences (or a default weekly goal of 10 points if no preferences are defined).
-
-[source,java]
-.src/main/java/org/jhipster/health/web/rest/PreferencesResource.java
-----
-/**
- * GET  /my-preferences -> get the current user's preferences.
- */
-@GetMapping("/my-preferences")
-@Timed
-public ResponseEntity<Preferences> getUserPreferences() {
-    String username = SecurityUtils.getCurrentUserLogin().get();
-    log.debug("REST request to get Preferences : {}", username);
-    Optional<Preferences> preferences =
-        preferencesRepository.findOneByUserLogin(username);
-
-    if (preferences.isPresent()) {
-        return new ResponseEntity<>(preferences.get(), HttpStatus.OK);
-    } else {
-        Preferences defaultPreferences = new Preferences();
-        defaultPreferences.setWeeklyGoal(10); // default
-        return new ResponseEntity<>(defaultPreferences, HttpStatus.OK);
-    }
-}
-----
-
-To facilitate calling this endpoint, I added a new `user` method to the `PreferencesService` in the client.
-
-[source,javascript]
-.src/main/webapp/app/entities/preferences/preferences.service.ts
-----
-user(): Observable<EntityResponseType> {
-    return this.http.get<IPreferences>('api/my-preferences', { observe: 'response' });
-}
-----
-
-In `home.component.ts`, I added the `PreferencesService` as a dependency and set the preferences in a local `preferences` variable so the HTML template could read it. I also added a listener for `preference` updates and logic to calculate the background color of the progress bar.
-
-[source,javascript]
-.src/main/webapp/app/home/home.component.ts
-----
-export class HomeComponent implements OnInit, OnDestory {
-    ...
-    preferences: Preferences;
-
-    constructor(...
-                private preferencesService: PreferencesService,
-                private pointsService: PointsService) {
-    }
-
-    registerAuthenticationSuccess() {
-        ...
-        this.eventSubscriber = this.eventManager.subscribe(
-            'preferencesListModification', () => this.getUserData());
-    }
-
-    getUserData() {
-        // Get preferences
-        this.preferencesService.user().subscribe((preferences: any) => {
-            this.preferences = preferences.body;
-
-            // Get points for the current week
-            this.pointsService.thisWeek().subscribe((points: any) => {
-                points = points.body;
-                this.pointsThisWeek = points;
-                this.pointsPercentage =
-                    (points.points / this.preferences.weeklyGoal) * 100;
-
-                // calculate success, warning, or danger
-                if (points.points >= preferences.weeklyGoal) {
-                    this.pointsThisWeek.progress = 'success';
-                } else if (points.points < 10) {
-                    this.pointsThisWeek.progress = 'danger';
-                } else if (points.points > 10 &&
-                    points.points < this.preferences.weeklyGoal) {
-                    this.pointsThisWeek.progress = 'warning';
-                }
-            });
-            ...
-        });
-    }
-    ...
-}
-----
-
-Now that a user's preferences were available, I modified `home.component.html` to display the user's weekly goal, as well as to color the progress bar appropriately with a `[type]` attribute.
-
-[source,html]
-.src/main/webapp/app/home/home.component.html
-----
-<ngb-progressbar max="21" [value]="pointsThisWeek.points"
-                 [type]="pointsThisWeek.progress" [striped]="true"
-                 [hidden]="!pointsThisWeek.points">
-    <span *ngIf="pointsThisWeek.points">
-        {{pointsThisWeek.points}} / Goal: {{preferences.weeklyGoal}}
-    </span>a
-</ngb-progressbar>
-<ngb-alert [dismissible]="false" [hidden]="pointsThisWeek.points">
-    <span jhiTranslate="home.points.getMoving">
-        No points yet this week, better get moving!</span>
-</ngb-alert>
-----
-
-To finish things off, I added a link to a component where users could edit their preferences.
-
-[source,html]
-.src/main/webapp/app/home/home.component.html
-----
-<a [routerLink]="['/preferences', preferences.id, 'edit']"
-   class="float-right" jhiTranslate="home.link.preferences">Edit Preferences</a>
-----
-
-==== Blood pressure and weight for the last 30 days
-
-To populate the two remaining charts on the homepage, I needed to fetch the user's blood-pressure readings and weights for the last 30 days. I added a method to `BloodPressureResourceIntTest.java` to set up my expectations.
-
-[source%autofit,java]
-.src/test/java/org/jhipster/health/web/rest/BloodPressureResourceIntTest.java
-----
-private void createBloodPressureByMonth(ZonedDateTime firstDate,
-                                        ZonedDateTime firstDayOfLastMonth) {
-    User user = userRepository.findOneByLogin("user").get();
-
-    bloodPressure = new BloodPressure(firstDate, 120, 80, user);
-    bloodPressureRepository.saveAndFlush(bloodPressure);
-    bloodPressure = new BloodPressure(firstDate.plusDays(10), 125, 75, user);
-    bloodPressureRepository.saveAndFlush(bloodPressure);
-    bloodPressure = new BloodPressure(firstDate.plusDays(20), 100, 69, user);
-    bloodPressureRepository.saveAndFlush(bloodPressure);
-
-    // last month
-    bloodPressure = new BloodPressure(firstDayOfLastMonth, 130, 90, user);
-    bloodPressureRepository.saveAndFlush(bloodPressure);
-    bloodPressure = new BloodPressure(firstDayOfLastMonth.plusDays(11), 135, 85, user);
-    bloodPressureRepository.saveAndFlush(bloodPressure);
-    bloodPressure = new BloodPressure(firstDayOfLastMonth.plusDays(23), 130, 75, user);
-    bloodPressureRepository.saveAndFlush(bloodPressure);
-}
-
-@Test
-@Transactional
-public void getBloodPressureForLast30Days() throws Exception {
-    ZonedDateTime now = ZonedDateTime.now();
-    ZonedDateTime twentyNineDaysAgo = now.minusDays(29);
-    ZonedDateTime firstDayOfLastMonth = now.withDayOfMonth(1).minusMonths(1);
-    createBloodPressureByMonth(twentyNineDaysAgo, firstDayOfLastMonth);
-
-    // create security-aware mockMvc
-    restBloodPressureMockMvc = MockMvcBuilders
-        .webAppContextSetup(context)
-        .apply(springSecurity())
-        .build();
-
-    // Get all the blood pressure readings
-    restBloodPressureMockMvc.perform(get("/api/blood-pressures")
-        .with(user("user").roles("USER")))
-        .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$", hasSize(6)));
-
-    // Get the blood pressure readings for the last 30 days
-    restBloodPressureMockMvc.perform(get("/api/bp-by-days/{days}", 30)
-        .with(user("user").roles("USER")))
-        .andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.period").value("Last 30 Days"))
-        .andExpect(jsonPath("$.readings.[*].systolic").value(hasItem(120)))
-        .andExpect(jsonPath("$.readings.[*].diastolic").value(hasItem(69)));
-}
-----
-
-I created a `BloodPressureByPeriod.java` class to return the results from the API.
-
-[source,java]
-.src/main/java/org/jhipster/health/web/rest/vm/BloodPressureByPeriod.java
-----
-public class BloodPressureByPeriod {
-    private String period;
-    private List<BloodPressure> readings;
-
-    public BloodPressureByPeriod(String period, List<BloodPressure> readings) {
-        this.period = period;
-        this.readings = readings;
-    }
-    ...
-}
-----
-
-Using similar logic that I used for points-this-week, I created a new method in `BloodPressureRepository.java` that allowed me to query between two different dates. I also added "`OrderBy`" logic so the records would be sorted by date entered.
-
-[source,java]
-.src/main/java/org/jhipster/health/repository/BloodPressureRepository.java
-----
-List<BloodPressure> findAllByTimestampBetweenOrderByTimestampDesc(
-    ZonedDateTime firstDate, ZonedDateTime secondDate);
-----
-
-Next, I created a new method in `BloodPressureResource.java` that calculated the first and last days of the current month, executed the query for the current user, and constructed the data to return.
-
-[source%autofit,java]
-.src/main/java/org/jhipster/health/web/rest/BloodPressureResource.java
-----
-/**
- * GET  /bp-by-days : get all the blood pressure readings by last x days.
- */
-@RequestMapping(value = "/bp-by-days/{days}")
-@Timed
-public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
-    ZonedDateTime rightNow = ZonedDateTime.now(ZoneOffset.UTC);
-    ZonedDateTime daysAgo = rightNow.minusDays(days);
-
-    List<BloodPressure> readings =
-        bloodPressureRepository.findAllByTimestampBetweenOrderByTimestampDesc(daysAgo, rightNow);
-    BloodPressureByPeriod response =
-        new BloodPressureByPeriod("Last " + days + " Days", filterByUser(readings));
-    return new ResponseEntity<>(response, HttpStatus.OK);
-}
-
-private List<BloodPressure> filterByUser(List<BloodPressure> readings) {
-    Stream<BloodPressure> userReadings = readings.stream()
-        .filter(bp -> bp.getUser().getLogin().equals(SecurityUtils.getCurrentLogin().get()));
-    return userReadings.collect(Collectors.toList());
-}
-----
-
-.Filtering by method
-****
-I later learned how to do the filtering in the database by adding the following method to `BloodPressureRepository.java`:
-
-[source,java]
-.src/main/java/org/jhipster/health/repository/BloodPressureRepository.java
-----
-List<BloodPressure> findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(
-        ZonedDateTime firstDate, ZonedDateTime secondDate, String login);
-----
-
-Then I was able to remove the `filterByUser` method and change `BloodPressureResource#getByDays` to be:
-
-[source%autofit,java]
-.src/main/java/org/jhipster/health/web/rest/BloodPressureResource.java
-----
-public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
-    ZonedDateTime rightNow = ZonedDateTime.now();
-    ZonedDateTime daysAgo = rightNow.minusDays(days);
-
-    List<BloodPressure> readings =
-        bloodPressureRepository.findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(
-            daysAgo, rightNow, SecurityUtils.getCurrentUserLogin().get());
-    BloodPressureByPeriod response =
-        new BloodPressureByPeriod("Last " + days + " Days", readings);
-    return new ResponseEntity<>(response, HttpStatus.OK);
-}
-----
-****
-
-I added a new method to support this API in `blood-pressure.service.ts`.
-
-[source,javascript]
-.src/main/webapp/app/entities/blood-pressure/blood-pressure.service.ts
-----
-last30Days(): Observable<EntityResponseType> {
-    return this.http
-        .get('api/bp-by-days/30', { observe: 'response' })
-        .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
-}
-----
-
-While gathering this data seemed easy enough, the hard part was figuring out what charting library to use to display it.
-
-==== Charts of the last 30 days
-
-Based on my experience writing the first two versions of this book, I looked for an Angular library that integrated with https://d3js.org/[D3.js] and found https://github.com/krispo/ng2-nvd3[ng2-nvd3]. To install ng2-nvd3, I used Yarn's `add` command.
-
-----
-yarn add ng2-nvd3
-----
-
-Then I updated `home.module.ts` to import the `NvD3Module`, as well as other imports I found necessary.
-
-[source,javascript]
-.src/main/webapp/app/home/home.module.ts
-----
-import { NvD3Module } from 'ng2-nvd3';
-import 'd3';
-import 'nvd3';
+.AppModule
+----
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
+import { AppComponent } from './app.component';
+import { SearchComponent } from './search/search.component';
+import { Routes, RouterModule } from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: 'search', component: SearchComponent },
+  { path: '', redirectTo: '/search', pathMatch: 'full' }
+];
 
 @NgModule({
-    imports: [
-        TwentyOnePointsSharedModule,
-        NvD3Module,
-        ...
-    ],
-    ...
+  declarations: [
+    AppComponent,
+    SearchComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    RouterModule.forRoot(appRoutes)
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
-export class TwentyOnePointsHomeModule {}
+export class AppModule { }
 ----
 
-I modified `home.component.ts` to have the `BloodPressureService` as a dependency and went to work building the data so D3 could render it. I found that charts required a bit of JSON to configure them, so I created a service to contain this configuration.
+In the main entry point of the app, `AppComponent` in this case, you'll need to specify the router outlet in a template.
+
+[source,html]
+.app.component.html
+----
+<router-outlet></router-outlet>
+----
+
+The template for the `SearchComponent` can be as simple as a form with a button.
+
+[source%autofit,html]
+----
+<h2>Search</h2>
+<form>
+  <input type="search" name="query" [(ngModel)]="query" (keyup.enter)="search()">
+  <button type="button" (click)="search()">Search</button>
+</form>
+----
+
+Now that you've seen the code, let's look at how everything works in the `SearchComponent`.
 
 [source,javascript]
-.src/main/webapp/app/home/d3-chart.service.ts
 ----
-declare const d3, nv: any;
+@Component({
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css']
+})
+export class SearchComponent {
+  query: string;
+  searchResults: Array<any>;
 
-/**
- * ChartService to define the chart config for D3
- */
-export class D3ChartService {
+  constructor(private searchService: SearchService) { // <1>
+    console.log('In Search Component...');
+  }
 
-    static getChartConfig() {
-        const today = new Date();
-        const priorDate = new Date().setDate(today.getDate() - 30);
-        return {
-            chart: {
-                type: 'lineChart',
-                height: 200,
-                margin: {
-                    top: 20,
-                    right: 20,
-                    bottom: 40,
-                    left: 55
-                },
-                x(d) {
-                    return d.x;
-                },
-                y(d) {
-                    return d.y;
-                },
-                useInteractiveGuideline: true,
-                dispatch: {},
-                xAxis: {
-                    axisLabel: 'Dates',
-                    showMaxMin: false,
-                    tickFormat(d) {
-                        return d3.time.format('%b %d')(new Date(d));
-                    }
-                },
-                xDomain: [priorDate, today],
-                yAxis: {
-                    axisLabel: '',
-                    axisLabelDistance: 30
-                },
-                transitionDuration: 250
-            },
-            title: {
-                enable: true
-            }
-        };
-    }
+  search(): void { // <2>
+    this.searchService.search(this.query).subscribe( // <3>
+      data => {
+        this.searchResults = data;
+      },
+      error => console.log(error)
+    );
+  }
+}
+----
+<1> To inject `SearchService` into `SearchComponent`, simply add it as a parameter to the component's constructor. TypeScript automatically makes constructor dependencies available as class variables.
+<2> `search()` is a method that's called from the HTML's `<input>` and `<button>`, wired up using the `(keyup.enter)` and `(click)` event handlers.
+<3> `this.query` is a variable that's wired to `<input>` using the `[(ngModel)]` directive. This syntax provides two-way binding so if you change the value in the component, it changes it in the rendered HTML. You can think of it this way: `[] => component to template` and  `() => template to component`.
+
+To make the aforementioned code work, you can generate a new Angular project using https://cli.angular.io[Angular CLI]. To install Angular CLI, you can use npm.
+
+[source,bash]
+----
+npm i -g @angular/cli
+----
+
+Then generate a new application using `ng new`. When prompted to install Angular routing, type “Y”. For the stylesheet format, choose “CSS” (the default).
+
+[source,bash]
+----
+ng new ng-demo
+----
+
+This creates all the files you need for a basic app, installs dependencies, and sets up a build system for compiling your TypeScript code to JavaScript.
+
+You can generate the `SearchService` using `ng generate service search` (or `ng g s search`).
+
+[source,bash]
+----
+$ ng g s search
+CREATE src/app/search.service.spec.ts (333 bytes)
+CREATE src/app/search.service.ts (135 bytes)
+----
+
+And you can generate the `SearchComponent` using `ng generate component search` (or `ng g c search`).
+
+[source,bash]
+----
+$ ng g c search
+CREATE src/app/search/search.component.css (0 bytes)
+CREATE src/app/search/search.component.html (25 bytes)
+CREATE src/app/search/search.component.spec.ts (628 bytes)
+CREATE src/app/search/search.component.ts (269 bytes)
+UPDATE src/app/app.module.ts (396 bytes)
+----
+
+Does your API return data like the following?
+
+[source,json]
+----
+include::{sourcedir}/chapter3/angular/search-results.json[]
+----
+
+If so, you could display it in the `search.component.html` template with Angular's `*ngFor` directive.
+
+[source,html]
+----
+<table *ngIf="searchResults">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Phone</th>
+    <th>Address</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let person of searchResults; let i=index">
+    <td><a [routerLink]="['/edit', person.id]">{{person.name}}</a></td>
+    <td>{{person.phone}}</td>
+    <td>{{person.address.street}}<br/>
+      {{person.address.city}}, {{person.address.state}} {{person.address.zip}}
+    </td>
+  </tr>
+  </tbody>
+</table>
+----
+
+To read a more in-depth example (including source code and tests) of building a search/edit application with Angular, see my https://github.com/mraible/ng-demo[Angular and Angular CLI Tutorial].
+
+Now that you've learned a bit about one of the hottest web frameworks on the planet, let's take a look at the most popular CSS framework: Bootstrap.
+
+== Bootstrap
+
+http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides a number of CSS classes and HTML structures that allow you to develop HTML user interfaces that look good by default. Not only that, but it’s responsive by default, which means it works better (or even best) on a mobile device.
+
+=== Bootstrap's grid system
+
+Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's powerful grid is built with containers, rows, and columns. It's based on the CSS3 flexible box, or flexbox. Flexbox is a layout mode intended to accommodate different screen sizes and different display devices. It's easier than using blocks to do layouts because it doesn't use floats, nor do the flex container's margins collapse with the margins of its content. CSS-Tricks has https://css-tricks.com/snippets/css/a-guide-to-flexbox/[A Complete Guide to Flexbox] that explains its concepts well.
+
+> The main idea behind the flex layout is to give the container the ability to alter its items' width/height (and order)
+> to best fill the available space, mostly to accommodate all kinds of display devices and screen sizes. A flex
+> container expands items to fill available free space or shrinks them to prevent overflow.
+
+Bootstrap's grid width varies based on viewport width. The table below shows how aspects of the grid system work across different devices.
+
+[cols="2,1,1,1,1,1", options="header"]
+|===
+|
+|Extra small
+|Small
+|Medium
+|Large
+|Extra large
+
+|**Max container width**
+|None (auto)
+|540px
+|720px
+|960px
+|1140px
+
+|**Class prefix**
+|`.col-`
+|`.col-sm-`
+|`.col-md-`
+|`.col-lg-`
+|`.col-xl-`
+
+|**# of columns**
+5+| 12
+
+|**Gutter width**
+5+| 30px (15px on each side)
+
+|**Nestable**
+5+| Yes
+
+|**Column ordering**
+5+| Yes
+|===
+
+A basic example of the grid is shown below.
+
+[source,html]
+----
+include::{sourcedir}/chapter3/bootstrap/grid-basic.html[]
+----
+
+When rendered with Bootstrap's CSS, the above HTML looks as follows on a desktop. The minimum width of the container element on the desktop is set to 1200 px.
+
+[[img-bootstrap-basic-grid-desktop]]
+.Basic grid on desktop
+image::chapter2/bootstrap/basic-grid-desktop.png[Basic grid on desktop, 991, scaledwidth=100%]
+
+If you squish your browser to less than 1200 px wide or render this same document on a smaller screen, the columns will stack.
+
+[[img-bootstrap-basic-grid-mobile]]
+.Basic grid on a mobile device
+image::chapter2/bootstrap/basic-grid-mobile.png[Basic grid on a mobile device, 768, scaledwidth=75%]
+
+Bootstrap's grid can be used to align and position your application's elements, widgets, and features. It's helpful to understand a few basics if want to use it effectively.
+
+* It's based on 12 columns.
+* Just use "`md`" class and fix as needed.
+* It can be used to size input fields.
+
+Bootstrap's grid system has five tiers of classes: xs (portrait phones), sm (landscape phones), md (tablets), lg (desktops), and xl (large desktops). You can use nearly any combination of these classes to create more dynamic and flexible layouts. Below is an example of a grid that's a little more advanced.
+
+Each tier of classes scales up, meaning that if you plan to set the same widths for xs and sm, you only need to specify xs.
+
+[source,html]
+----
+include::{sourcedir}/chapter3/bootstrap/grid-advanced.html[]
+----
+
+[[img-bootstrap-advanced-grid-desktop]]
+.Advanced grid
+image::chapter2/bootstrap/advanced-grid-desktop.png[Advanced grid, 983, scaledwidth=100%]
+
+You can use size indicators to specify breakpoints in the columns. Breakpoints indicate where a column wraps onto the next row. In the HTML above, "`xs`" and "`md`" are the size indicators (of course,  "`sm`", "`lg`", and "`xl`" are the other options). Bootstrap uses the following media query ranges.
+
+[source,css]
+----
+// Extra small devices (portrait phones, less than 576 px)
+// No media query since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576 px and up)
+@media (min-width: 576px) { ... }
+
+// Medium devices (tablets, 768 px and up)
+@media (min-width: 768px) { ... }
+
+// Large devices (desktops, 992 px and up)
+@media (min-width: 992px) { ... }
+
+// Extra large devices (large desktops, 1200 px and up)
+@media (min-width: 1200px) { ... }
+----
+
+If you're using Sass, all Bootstrap's media queries are available via Sass mixins:
+
+[source,sass]
+----
+// No media query necessary for xs breakpoint as it's effectively `@media (min-width: 0) { ... }`
+@include media-breakpoint-up(sm) { ... }
+@include media-breakpoint-up(md) { ... }
+@include media-breakpoint-up(lg) { ... }
+@include media-breakpoint-up(xl) { ... }
+
+// Example: Hide starting at `min-width: 0`, and then show at the `sm` breakpoint
+.custom-class {
+  display: none;
+}
+@include media-breakpoint-up(sm) {
+  .custom-class {
+    display: block;
+  }
 }
 ----
 
-In `home.component.ts`, I grabbed the blood-pressure readings from the API and morphed them into data that D3 could understand.
+=== Responsive utility classes
 
-[source,javascript]
-.src/main/webapp/app/home/home.component.ts
-----
-// Get blood pressure readings for the last 30 days
-this.bloodPressureService.last30Days().subscribe((bpReadings: any) => {
-    bpReadings = bpReadings.body;
-    this.bpReadings = bpReadings;
-    this.bpOptions = {... D3ChartService.getChartConfig() };
-    if (bpReadings.readings.length) {
-        this.bpOptions.title.text = bpReadings.period;
-        this.bpOptions.chart.yAxis.axisLabel = 'Blood Pressure';
-        let systolics, diastolics, upperValues, lowerValues;
-        systolics = [];
-        diastolics = [];
-        upperValues = [];
-        lowerValues = [];
-        bpReadings.readings.forEach((item) => {
-            systolics.push({
-                x: new Date(item.timestamp),
-                y: item.systolic
-            });
-            diastolics.push({
-                x: new Date(item.timestamp),
-                y: item.diastolic
-            });
-            upperValues.push(item.systolic);
-            lowerValues.push(item.diastolic);
-        });
-        this.bpData = [{
-            values: systolics,
-            key: 'Systolic',
-            color: '#673ab7'
-        }, {
-            values: diastolics,
-            key: 'Diastolic',
-            color: '#03a9f4'
-        }];
-        // set y scale to be 10 more than max and min
-        this.bpOptions.chart.yDomain =
-          [Math.min.apply(Math, lowerValues) - 10,
-                          Math.max.apply(Math, upperValues) + 10];
-    } else {
-        this.bpReadings.readings = [];
-    }
-});
-----
+Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size, like `.d-[xs|sm|md|lg]-block` and `.d-[xs|sm|md|lg]-none`. There are no explicit "show" responsive utility classes; you make an element visible by simply not hiding it at that breakpoint size.
 
-Finally, I used the "`nvd3`" directive in `home.component.html` to read `bpOptions` and `bpData`, then display a chart.
+Bootstrap's classes for setting the display are names using the following format:
 
-[source,html]
-.src/main/webapp/app/home/home.component.html
+* `.d-{value}` for `xs`
+* `.d-{breakpoint}-{value}` for `sm`, `md`, `lg`, and `xl`
+
+The media queries effect screen widths with the given breakpoint or _larger_. For example, `.d-lg-none` sets `display: none` on both `lg` and `xl` screens.
+
+The following example from 21-Points Health shows how to display a shorter heading on mobile and a larger one on bigger screens.
+
+[source%autofit,html]
 ----
-<div class="row mt-1">
-    <div class="col-md-11 col-xs-12">
-        <span *ngIf="bpReadings.readings && bpReadings.readings.length">
-            <nvd3 [options]="bpOptions" [data]="bpData"
-                  class="with-3d-shadow with-transitions"></nvd3>
-        </span>
-        <ngb-alert [dismissible]="false"
-            [hidden]="bpReadings.readings && bpReadings.readings.length">
-            <span jhiTranslate="home.bloodPressure.noReadings">
-                No blood pressure readings found.
-            </span>
-        </ngb-alert>
-    </div>
+<div class="col-6 text-nowrap">
+    <h4 class="mt-1 d-none d-md-inline"
+        jhiTranslate="home.bloodPressure.title">Blood Pressure:</h4>
+    <h4 class="mt-1 d-sm-none"
+        jhiTranslate="home.bloodPressure.titleMobile">BP:</h4>
 </div>
 ----
 
-After entering some test data, I was quite pleased with the results.
+=== Forms
 
-[[img-homepage-bp-last-30-days]]
-.Chart of blood pressure during the last 30 days
-image::chapter2/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1281, scaledwidth=100%, align=center]
+When you add Bootstrap's CSS to your web application, chances are it'll quickly start to look better. Typography, margins, and padding will look better by default. However, your forms might look funny, because Bootstrap requires a few classes on your form elements to make them look good. Below is an example of a form element.
 
-I made similar changes to display weights for the last 30 days as a chart.
-
-=== Lines of code
-
-After finishing the MVP (minimum viable product) of 21-Points Health, I did some quick calculations to see how many lines of code JHipster produced. You can see from the graph below that I only had to write 2,080 lines of code. JHipster did the rest for me, generating 91.2% of the code in my project!
-
-[[img-21-points-loc]]
-.Project lines of code
-image::chapter2/21-points-loc.png[Project lines of code, 600, scaledwidth=60%, align=center]
-
-To drill down further, I made a graph of the top three languages in the project: Java, TypeScript, and HTML.
-
-[[img-21-points-loc-by-language]]
-.Project lines of code by language
-image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 700, scaledwidth=70%, align=center]
-
-The amount of code I had to write in each language was 561 lines of TypeScript, 687 lines of Java, and 351 lines of HTML. The other 481 lines were JSON (135), XML (187), Sass (80), YAML (54), CSS (12), Markdown (6), Groovy (4), and Bourne Shell (3).
-
-Wahoo! Thanks, JHipster!
-
-.Testing
-****
-You probably noticed that a lot of the Java code I wrote was for the tests. I felt that these tests were essential to prove that the business logic I implemented was correct. It's never easy to work with dates but Java 8's Date-Time API greatly simplified it and Spring Data JPA made it easy to write "`between date`" queries.
-
-I believe TDD (test-driven development) is a great way to write code. However, when developing UIs, I tend to make them work before writing tests. It's usually a very visual activity and, with the aid of Browsersync, there's rarely a delay before you see your changes. I like to write unit tests for my Angular components and directives using https://jasmine.github.io/[Jasmine] and I like to write integration tests with http://www.protractortest.org/#/[Protractor].
-
-I did not show any UI tests in this section, but JHipster generated a bunch for me. Running `yarn test --coverage` shows 78.98% of lines are covered in the UI!
-****
-
-== Deploying to Heroku
-
-JHipster ships with support for deploying to Cloud Foundry, Heroku, Kubernetes, Microsoft Azure, OpenShift, Rancher, AWS, and Boxfuse. I used Heroku to deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for production, it's recommended to use the pre-configured "`prod`" profile. With Gradle, you can package your application by specifying this profile when building.
-
+[source%autofit,html]
 ----
-./gradlew -Pprod bootWar
+include::{sourcedir}/chapter3/bootstrap/basicelement.html[]
 ----
 
-The command looks similar when using Maven.
+[[img-bootstrap-basic-element]]
+.Basic form element
+image::chapter2/bootstrap/basicelement.png[Basic form element, 712, scaledwidth=90%]
 
+If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
+
+[source%autofit,html]
 ----
-./mvnw -Pprod package
-----
-
-The production profile is used to build an optimized JavaScript client. You can invoke this using webpack by running `yarn webpack:prod`. The production profile also configures gzip compression with a servlet filter, cache headers, and monitoring via https://github.com/dropwizard/metrics[Metrics]. If you have a http://graphite.wikidot.com/[Graphite] server configured in your `application-prod.yml` file, your application will automatically send metrics data to it.
-
-To deploy 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-command-line[Heroku CLI] installed.
-
-TIP: I first deployed to Heroku after creating the application, meaning that I had a default JHipster application with no entities.
-
-----
-$ heroku login
-Enter your Heroku credentials.
-Email: matt@raibledesigns.com
-Password (typing will be hidden):
-Authentication successful.
+include::{sourcedir}/chapter3/bootstrap/basicelement-withvalidation.html[]
 ----
 
-I ran `jhipster heroku` as recommended in the https://www.jhipster.tech/heroku/[Deploying to Heroku] documentation. I tried using the name "`21points`" for my application when prompted.
+[[img-bootstrap-basic-element-with-validation]]
+.Form element with validation
+image::chapter2/bootstrap/basicelement-validation.png[Form element with validation, 712, scaledwidth=90%]
 
-----
-$ jhipster heroku
-Heroku configuration is starting
-? Name to deploy as: 21points
-? On which region do you want to deploy ? us
-? Which type of deployment do you want ? Git (compile on Heroku)
+=== CSS
 
-Using existing Git repository
+When you add Bootstrap's CSS to a HTML page, the default settings immediately improve the typography. Your `<h1>` and `<h2>` headings become semi-bold and are sized accordingly. Your paragraph margins, body text, and block quotes will look better. If you want to align text in your pages, `text-[left|center|right]` are useful classes. For tables, a `table` class gives them a better look and feel by default.
 
-Heroku CLI deployment plugin already installed
-
-Creating Heroku application and setting up node environment
-✖ { Error: Command failed: heroku create 21-points
-Creating 21-points... !
- ▸    Name must start with a letter and can only contain lowercase letters,
- ▸    numbers, and dashes.
-----
-
-You can see my first attempt failed for the same reason that creating the initial JHipster app failed: it didn't like that the app name started with a number. I tried again with "`health`", but that failed, too, since a Heroku app with this name already existed. Finally, I settled on "`health-by-points`" as the application name.
-
-----
-$ jhipster heroku
-Using JHipster version installed locally in current project's node_modules
-Executing jhipster:heroku
-Options:
-Heroku configuration is starting
-? Name to deploy as: health-by-points
-? On which region do you want to deploy ? us
-
-Using existing Git repository
-
-Heroku CLI deployment plugin already installed
-
-Creating Heroku application and setting up node environment
-https://health-by-points.herokuapp.com/ | https://git.heroku.com/health-by-points.git
-
-Provisioning addons
-Created Elasticsearch addon
-Created Database addon
-
-Creating Heroku deployment files
-   create src/main/resources/config/bootstrap-heroku.yml
-   create src/main/resources/config/application-heroku.yml
-   create Procfile
-   create gradle/heroku.gradle
- conflict build.gradle
-? Overwrite build.gradle? overwrite this and all others
-    force build.gradle
-
-Skipping build
-
-Updating Git repository
-git add .
-git commit -m "Deploy to Heroku" --allow-empty
-
-Configuring Heroku
-
-Deploying application
-remote: Compressing source files... done.
-remote: Building source:
-...
-
-remote:        BUILD SUCCESSFUL in 4m 30s
-remote:        8 actionable tasks: 7 executed, 1 up-to-date
-remote: -----> Discovering process types
-remote:        Procfile declares types -> web
-remote:
-remote: -----> Compressing...
-remote:        Done: 141.3M
-remote: -----> Launching...
-remote:        Released v6
-remote:        https://health-by-points.herokuapp.com/ deployed to Heroku
-remote:
-remote: Verifying deploy... done.
-To https://git.heroku.com/health-by-points.git
- * [new branch]      HEAD -> master
-----
-
-I was pumped to see that this process worked and that my application was available at http://health-by-points.herokuapp.com. I quickly changed the default passwords for *admin* and *user* to make things more secure.
-
-[[img-deployed-to-heroku]]
-.First deployment to Heroku
-image::chapter2/deployed-to-heroku.png[First deployment to Heroku, 1179, scaledwidth=100%, align=center]
-
-Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for Heroku, I ran `heroku domains:add`.
-
-----
-$ heroku domains:add www.21-points.com
-Adding www.21-points.com to health-by-points... done
-!    Configure your app's DNS provider to point to the DNS Target www.21-points.com
-!    For help, see https://devcenter.heroku.com/articles/custom-domains
-----
-
-I read the https://devcenter.heroku.com/articles/custom-domains[documentation], then went to work configuring DNS settings on Google Domains. I configured a subdomain forward of:
-
-----
-21-points.com → http://www.21-points.com
-----
-
-I also configured a custom resource record with a CNAME to point to `health-by-points.herokuapp.com`.
-
-.Custom resource record on Google Domains
-|===
-|Name |Type |TTL |Data
-
-|*
-|CNAME
-|1h
-|health-by-points.herokuapp.com
-|===
-
-This was all I needed to get my JHipster application running on Heroku. For subsequent deployments, I ran `jhipster heroku` again, or used `git push heroku master`.
-
-[sidebar]
-.JAR Deployments to Heroku
---
-If you use JAR deployments with Heroku, in addition to using `jhipster heroku` you can redeploy your application using https://github.com/heroku/heroku-cli-deploy[heroku-cli-deploy]. Use the following command to install this plugin.
-
-----
-heroku plugins:install heroku-cli-deploy
-----
-
-After that, you can package your JHipster project for production and deploy it. Using Gradle, it looks like this.
-
-----
-./gradlew -Pprod bootWar
-heroku war:deploy build/libs/*war --app health-by-points
-----
-
-With Maven, the commands look slightly different:
-
-----
-./mvnw package -Pprod
-heroku war:deploy target/*war --app health-by-points
-----
---
-
-=== Elasticsearch on Heroku
-
-To prove everything was working on Heroku, I tried registering a new user. I received an error that appeared to come from Elasticsearch.
-
-[source%autofit]
-----
-2018-08-27T21:15:27.588565+00:00 app[web.1]: 2018-08-27 21:15:27.587 ERROR 4 --- [ XNIO-2 task-15]
-  o.z.p.spring.web.advice.AdviceTrait      : Internal Server Error
-2018-08-27T21:15:27.588578+00:00 app[web.1]:
-2018-08-27T21:15:27.588581+00:00 app[web.1]: org.elasticsearch.client.transport.NoNodeAvailableException:
-  None of the configured nodes are available: [{#transport#-1}{7Du0TB4WQ_6crjWFO1iJVQ}{localhost}{127.0.0.1:9300}]
-2018-08-27T21:15:27.588583+00:00 app[web.1]: at org.elasticsearch.client.transport.TransportClientNodesService
-  .ensureNodesAreAvailable(TransportClientNodesService.java:347)
-2018-08-27T21:15:27.588585+00:00 app[web.1]: at org.elasticsearch.client.transport.TransportClientNodesService.execute
-  (TransportClientNodesService.java:245)
-----
-
-I https://github.com/jhipster/generator-jhipster/issues/7810[created an issue] in the JHipster project saying that Elasticsearch doesn't work out of the box with Heroku. I worked with Joe Kutner of Heroku to come up with a solution and fix.
-
-The fix for Elasticsearch on Heroku was released in JHipster 5.3.0, so I upgraded using the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator].
-
-After the command finished, I committed changes to `yarn.lock`, ran `git push`, and deployed to Heroku again using `jhipster heroku`.
-
-=== Mail on Heroku
-
-After making this change, I repackaged and redeployed. This time, when I tried to register, I received an error when my `MailService` tried to send me an activation e-mail.
-
-[source%autofit]
-----
-2018-08-27T21:26:12.193734+00:00 app[web.1]: 2017-08-14 21:26:12.193  WARN 4 --- [ints-Executor-2]
- org.jhipster.health.service.MailService  : Email could not be sent to user 'mraible@gmail.com':
- Mail server connection failed; nested exception is com.sun.mail.util.MailConnectException:
- Couldn't connect to host, port: localhost, 25; timeout -1;
-2018-08-27T21:26:12.193748+00:00 app[web.1]:   nested exception is:
-2018-08-27T21:26:12.193751+00:00 app[web.1]: 	java.net.ConnectException: Connection refused
- (Connection refused). Failed messages: com.sun.mail.util.MailConnectException: Couldn't connect
- to host, port: localhost, 25; timeout -1;
-----
-
-I'd used Heroku's https://addons.heroku.com/sendgrid[SendGrid] for e-mail in the past, so I added it to my project.
-
-----
-$ heroku addons:create sendgrid
-Creating giving-softly-5465... done, (free)
-Adding giving-softly-5465 to health-by-points... done
-Setting SENDGRID_PASSWORD, SENDGRID_USERNAME and restarting health-by-points... done, v17
-Use `heroku addons:docs sendgrid` to view documentation.
-----
-
-[.text-left]
-Then I updated `application-prod.yml` to use the configured `SENDGRID_PASSWORD` and `SENDGRID_USERNAME` environment variables for mail, as well as to turn on authentication.
-
-[source,yaml]
-.src/main/resources/config/application-prod.yml
-----
-mail:
-    host: smtp.sendgrid.net
-    port: 587
-    username: ${SENDGRID_USERNAME}
-    password: ${SENDGRID_PASSWORD}
-    protocol: smtp
-    properties:
-        tls: false
-        auth: true
-----
-
-I also changed the `jhipster.mail.*` properties further down in this file.
-
-[source,yaml]
-----
-mail:
-    from: app@21-points.com
-    base-url: http://www.21-points.com
-----
-
-After repackaging and redeploying, I used the built-in health-checks feature of my application to verify that everything was configured correctly.
-
-== Monitoring and analytics
-
-JHipster generates the code necessary for Google Analytics in every application's `src/main/webapp/index.html` file. I chose not to enable this just yet, but I hope to eventually. I already have a Google Analytics account, so it's just a matter of creating a new account for www.21-points.com, copying the account number, and modifying the following section of `index.html`:
-
-[source,html]
-.src/main/webapp/index.html
-----
-<!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
-<script>
-    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-    function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-    e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-    e.src='//www.google-analytics.com/analytics.js';
-    r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-    ga('create','UA-XXXXX-X');ga('send','pageview');
-</script>-->
-----
-
-I've used http://newrelic.com/[New Relic] to monitor my production applications in the past. There is a free https://addons.heroku.com/newrelic[New Relic add-on] for Heroku. Heroku's https://devcenter.heroku.com/articles/newrelic[New Relic APM] describes how to set things up if you're letting Heroku do the build for you (meaning, you deploy with `git push heroku master`). However, if you're using the heroku-deploy plugin, it's a bit different.
-
-For that, you'll first need to manually download the New Relic agent, as well as a `newrelic.yml` license file, and put them in the root directory of your project. Then you can run a command like:
-
-----
-heroku war:deploy build/libs/*war --includes newrelic.jar:newrelic.yml
-----
-
-That will include the JAR in the slug. Then you'll need to modify your Procfile to include the `javaagent` argument:
-
-----
-web: java -javaagent:newrelic.jar $JAVA_OPTS -Xmx256m -jar build/libs/*.war ...
-----
-
-== Securing user data
-
-After running the 5.0 version of 21-Points Health on Heroku for a couple weeks, someone reported https://github.com/mraible/21-points/issues/49[an issue with security on GitHub]. They pointed out that if you searched, you could see another user's data. I also discovered you could edit data based on the URL too.
-
-To fix this data leakage, I enhanced the Java code so it only allowing users that own an entity to edit it. Here's some sudo-code to show the logic:
-
-[source,java]
-----
-Optional<Points> points = pointsRepository.findById(id);
-if (points.isPresent() && <user doesn't match current user>) {
-    return new ResponseEntity<>("error.http.403", HttpStatus.FORBIDDEN);
-}
-return ResponseUtil.wrapOrNotFound(points);
-----
-
-See https://github.com/mraible/21-points/pull/52/files[pull request #52] for all the changes that I needed to make in resource classes and their tests.
-
-== Continuous integration and deployment
-
-After generating entities for this project, I wanted to configure a continuous-integration (CI) server to build/test/deploy whenever I checked in changes to Git. I chose https://jenkins.io/[Jenkins] for my CI server and used the simplest configuration possible: I downloaded `jenkins.war` to `/opt/tools/jenkins` on my MacBook Pro. I started it with the following command.
-
-----
-java -jar jenkins.war --httpPort=9000
-----
-
-JHipster has good documentation on https://www.jhipster.tech/setting-up-ci-jenkins2/[setting up CI on Jenkins 2] and https://www.jhipster.tech/heroku/[deploying to Heroku]. It also has a handy sub-generator to generate the config files needed for Jenkins. I ran `jhipster ci-cd` and watched the magic happen.
-
-[source%autofit]
-----
-$ jhipster ci-cd
-Using JHipster version installed locally in current project's node_modules
-Executing jhipster:ci-cd
-Options:
-🚀 Welcome to the JHipster CI/CD Sub-Generator 🚀
-? What CI/CD pipeline do you want to generate? Jenkins pipeline
-? Would you like to perform the build in a Docker container ? No
-? Would you like to send build status to GitLab ? No
-? What tasks/integrations do you want to include ? Deploy to *Heroku* (requires HEROKU_API_KEY set on CI service)
-? *Heroku*: name of your Heroku Application ? health-by-points
-   create Jenkinsfile
-   create src/main/docker/jenkins.yml
-   create src/main/resources/idea.gdsl
-----
-
-After I generated these files, I checked them in and pushed to Bitbucket.
-
-[sidebar]
-.Jenkins Options
---
-When choosing Jenkins, you can also select the following options for tasks/integrations:
-
-* Deploy artifact to Artifactory.
-* Analyze code with Sonar.
-* Build and publish a Docker image.
---
-
-To log in to Jenkins, I navigated to http://localhost:9000. I copied the password from the startup log file and pasted into the unlock Jenkins page.
-
-[[unlock-jenkins]]
-.Unlock Jenkins
-image::chapter2/unlock-jenkins.png[Unlock Jenkins, 1124, scaledwidth=100%, align=center]
-
-Next, I chose to install selected plugins and waited while everything installed.
-
-[[customize-jenkins]]
-.Customize Jenkins
-image::chapter2/customize-jenkins.png[Customize Jenkins, 1124, scaledwidth=100%, align=center]
-
-I created a new job called "21-points" with a Pipeline script from SCM. I configured a "`Poll SCM`" build trigger with a schedule of `H/5 * * * *`. After saving the job, I confirmed it ran successfully.
-
-[[jenkins-job1]]
-.Jenkins build #1
-image::chapter2/jenkins-job-1.png[First run of 21-points pipeline, 1380, scaledwidth=100%, align=center]
-
-TIP: It's possible the `deployment` stage will fail for you the first time. If this happens, stop Jenkins, run `heroku login`, then restart Jenkins.
-
-I modified this file to add a `protractor tests` stage to run all the Protractor tests. I checked in my changes to trigger another build.
-
-[source,groovy]
-.Jenkinsfile
-----
-#!/usr/bin/env groovy
-
-node {
-    stage('checkout') {
-        checkout scm
-    }
-
-    stage('check java') {
-        sh "java -version"
-    }
-
-    stage('clean') {
-        sh "chmod +x gradlew"
-        sh "./gradlew clean --no-daemon"
-    }
-
-    stage('install tools') {
-        sh "./gradlew yarn_install -PnodeInstall --no-daemon"
-    }
-
-    stage('backend tests') {
-        try {
-            sh "./gradlew test -PnodeInstall --no-daemon"
-        } catch(err) {
-            throw err
-        } finally {
-            junit '**/build/**/TEST-*.xml'
-        }
-    }
-
-    stage('frontend tests') {
-        try {
-            sh "./gradlew yarn_test -PnodeInstall --no-daemon"
-        } catch(err) {
-            throw err
-        } finally {
-            junit '**/build/test-results/jest/TESTS-*.xml'
-        }
-    }
-
-    stage('protractor tests') {
-        sh '''./gradlew &
-        bootPid=$!
-        sleep 60s
-        yarn e2e
-        kill $bootPid
-        '''
-    }
-
-    stage('packaging') {
-        sh "./gradlew bootWar -x test -Pprod -PnodeInstall --no-daemon"
-        archiveArtifacts artifacts: '**/build/libs/*.war', fingerprint: true
-    }
-
-    stage('deployment') {
-        sh "./gradlew deployHeroku --no-daemon"
-    }
-}
-----
-
-I was pumped to see all the stages in my pipeline pass.
-
-[[jenkins-job-success]]
-.Jenkins success!
-image::chapter2/jenkins-job-success.png[Jenkins success!, 1619, scaledwidth=100%, align=center]
-
-When working on this project, I'd start Jenkins and have it running while I checked in code. I did not install it on a server and leave it running continuously. My reason was simple: I was only coding in bursts and didn't need to waste computing cycles or want to pay for a cloud instance to run it.
-
-== Code quality
-
-When I finished developing the app, I wanted to ensure that I had good code quality and that things were well tested. JHipster generates apps with high code quality by default. Code quality is analyzed using Sonar, which is automatically configured by JHipster. The "code quality" metric is determined by the percentage of code that is covered by tests. To see the code quality for my finished app, I started all the Docker containers that the prod profile needs, plus Sonar.
-
-[source]
-----
-docker-compose -f src/main/docker/elasticsearch.yml up -d
-docker-compose -f src/main/docker/postgresql.yml up -d
-docker-compose -f src/main/docker/sonar.yml up -d
-----
-
-Then I ran all the tests and the `sonarqube` task.
-
-[source]
-----
-/gradlew -Pprod clean test sonarqube
-----
-
-Once this process completed, an analysis of the project was available on the Sonar dashboard at http://127.0.0.1:9001. 21-Points Heath is a triple-A-rated app! Not bad, eh?
-
-[[sonar-results]]
-.Sonar results
-image::chapter2/sonar.png[Sonar results, 1500, scaledwidth=100%, align=center]
-
-== Progressive web apps
-
-Progressive web apps, aka PWAs, are the best way for developers to make their web apps load faster and perform better. In a nutshell, PWAs are websites that use recent web standards to allow for installation on a user’s computer or device, and deliver an app-like experience to those users.
-
-To be a PWA requires three features:
-
-1. The app must be served over HTTPS.
-2. The app must register a service worker so it can cache requests and work offline.
-3. The app must have a web-app manifest with installation information and icons.
-
-For HTTPS, you can use JHipster's "tls" profile for localhost or (even better) deploy it to production!
-
-TIP: To use HTTPS on localhost with Gradle, run `./gradlew -Ptls` for the back end and `yarn start-tls` for the front end.
-
-Cloud providers like Heroku and Cloud Foundry will provide you with HTTPS out of the box, but they won’t force it. To force HTTPS, I modified `src/main/java/org/jhipster/health/config/SecurityConfiguration.java` and added a rule to force a secure channel when an `X-Forwarded-Proto` header is sent.
-
-[source,java]
-----
-@Override
-public void configure(HttpSecurity http) throws Exception {
-    http
-        ...
-    .and()
-        .apply(securityConfigurerAdapter())
-    .and()
-        .requiresChannel()
-        .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-        .requiresSecure();
-}
-----
-
-The https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin[workbox-webpack-plugin] is configured already for generating a service worker, but it only works when running your app with a production profile. This is nice because it means your data isn’t cached in the browser when you’re developing.
-
-To register a service worker, I modified `src/main/webapp/index.html` and uncommented the following block of code.
+To make your buttons look better, Bootstrap provides `btn` and a number of `btn-*` classes.
 
 [source,html]
 ----
-<script>
-   if ('serviceWorker' in navigator) {
-       window.addEventListener('load', function() {
-           navigator.serviceWorker.register('/service-worker.js')
-               .then(function () {
-                   console.log('Service Worker Registered');
-               });
-       });
-   }
-</script>
+include::{sourcedir}/chapter3/bootstrap/buttons.html[]
 ----
 
-The final feature — a web-app manifest — is already included at `src/main/webapp/manifest.webapp`. It defines an app name, colors, and icons.
+[[img-bootstrap-buttons]]
+.Buttons
+image::chapter2/bootstrap/buttons.png[Buttons, 754, scaledwidth=90%]
 
-After making these changes, I redeployed 21-Points Health to production and used https://developers.google.com/web/tools/lighthouse/[Lighthouse] to perform an analysis. You can see the results in the screenshot below.
+=== Components
 
-[[lighthouse-analysis]]
-.Lighthouse analysis
-image::chapter2/lighthouse.png[Lighthouse analysis, 1500, scaledwidth=100%, align=center]
+Bootstrap ships with a number of components included. Some require JavaScript; some only require HTML5 markup and CSS classes to work. Its rich set of components have helped make it one of the most popular projects on GitHub. Web developers have always liked components in their frameworks. A framework that offers easy-to-use components often allows developers to write less code. Less code to write means there's less code to maintain!
 
+Popular Bootstrap components include: dropdowns, button groups, button dropdowns, navbar, breadcrumbs, pagination, alerts, progress bars, and panels. Below is an example of a navbar with a dropdown.
 
-You can see there's still some performance improvements that need to be made. Rather than address those here, I've https://github.com/mraible/21-points/issues/48/[created an issue] you can subscribe to.
+[[img-bootstrap-navbar]]
+.Navbar with dropdown
+image::chapter2/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 956, scaledwidth=100%]
 
-== Source code
+When rendered on a mobile device, everything collapses into a hamburger menu that can expand downward.
 
-After getting this application into a good enough state, I moved it from Bitbucket to GitHub and made it available as an open-source project. You can find the source code for 21-Points Health at https://github.com/mraible/21-points.
+[[img-bootstrap-navbar-mobile]]
+.Navbar on mobile
+image::chapter2/bootstrap/navbar-on-mobile.png[Navbar on mobile, 476, scaledwidth=50%]
 
-== Upgrading 21-Points Health
+This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source online in link:https://getbootstrap.com/docs/4.1/components/navbar/[Bootstrap's documentation]. A simpler example below shows the basic structure.
 
-After I finished developing the MVP of 21-Points Health with JHipster 5.3.0, I wanted to upgrade it to the latest release. I used the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator], and upgraded it to 5.3.4, then again to 5.4.2.
+[source%autofit,html]
+----
+include::{sourcedir}/chapter3/bootstrap/navbar.html[]
+----
 
-TIP: If the upgrade sub-generator doesn't work for you when upgrading JHipster, you can manually upgrade. You'll want to make sure your project is checked into source control first. Then, create a new branch and run `rm -rf *` in your project, followed by `jhipster --with-entities`. After this process completes, use your favorite tool (e.g., IntelliJ IDEA) to compare changed files and restore your custom code.
+Alerts are useful for displaying feedback to the user. You can invoke differently colored alerts with different classes. You'll need to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors.
 
-If you're reading this and notice that 21-Points Health is using a version newer than 5.4.2, it's likely because I upgraded again.
+[source,html]
+----
+include::{sourcedir}/chapter3/bootstrap/alerts.html[]
+----
+
+This renders alerts like the following.
+
+[[img-bootstrap-alerts]]
+.Alerts
+image::chapter2/bootstrap/alerts.png[Alerts, 776, scaledwidth=100%]
+
+To make an alert closeable, you need to add an `.alert-dismissible` class and a close button.
+
+[source%autofit,html]
+----
+<div class="alert alert-warning alert-dismissible  fade show" role="alert">
+  <strong>Warning!</strong> Better check yourself, you're not looking too good.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+----
+
+[[img-bootstrap-alert-dismissable]]
+.Closeable alert
+image::chapter2/bootstrap/alert-dismissable.png[Closeable alert, 830, scaledwidth=100%]
+
+TIP: To make the links in your alerts match the colors of the alerts, use `.alert-link`.
+
+=== Icons
+
+Icons have always been a big part of web applications. Showing the user a small image is often sexier and hipper than plain text. Humans are visual beings and icons are a great way to spice things up. In the last several years, font icons have become popular for web development. Font icons are just fonts, but they contain symbols and glyphs instead of text. You can style, scale, and load them quickly because of their small size.
+
+Bootstrap 3.x included the http://glyphicons.com/[Glyphicons] Halflings set of font icons. It’s not normally free, but the font creator made it free for Bootstrap users. One of the https://v4-alpha.getbootstrap.com/migration/[changes] for Bootstrap 4 is that it dropped the Glyphicons icon font. You can use http://fontawesome.io/[Font Awesome] and https://octicons.github.com/[GitHub Octicons] as a free alternatives to Glyphicons.
+
+Font Awesome has 1,341 icons and is included by default in JHipster with https://github.com/FortAwesome/angular-fontawesome[angular-fontawesome]. It is often used to display eye candy on buttons.
+
+[source,html]
+----
+<button class="btn btn-info"><fa-icon [icon]="'plus'"></fa-icon> Add</button>
+<button class="btn btn-danger"><fa-icon [icon]="'times'"></fa-icon> Delete</button>
+<button class="btn btn-success"><fa-icon [icon]="'pencil-alt'"></fa-icon> Edit</button>
+----
+
+You can see how the icons change color based on the font color defined for the element that contains them.
+
+[[img-bootstrap-buttons-icons]]
+.Buttons with icons
+image::chapter2/bootstrap/buttons-with-icons.png[Buttons with icons, 262, scaledwidth=25%]
+
+=== Customizing CSS
+
+If you'd like to override Bootstrap classes in your project, the easiest thing to do is to put the override rule in a CSS file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/content/css/global.css` directly. If you're using Sass to compile `*.scss` files, you can modify `src/main/webapp/content/scss/global.scss` instead. Using Sass results in a much more concise authoring environment. Below is the default `vendor.scss` file that JHipster generates. You can see that it imports Bootstrap and I've added an import for Angular Calendar. Default Bootstrap rules are overridden in `src/main/webapp/content/scss/global.scss`.
+
+[source,sass]
+.src/main/webapp/scss/vendor.scss
+----
+/* after changing this file run 'yarn run webpack:build' */
+
+/***************************
+put Sass variables here:
+eg $input-color: red;
+****************************/
+
+// Calendar styles
+@import '~angular-calendar/scss/angular-calendar';
+// Override Boostrap variables
+@import 'bootstrap-variables';
+// Import Bootstrap source files from node_modules
+@import '~bootstrap/scss/bootstrap';
+
+/* jhipster-needle-scss-add-vendor JHipster will add new css style */
+----
+
+There's also a `src/main/webapp/content/scss/_bootstrap-variable.scss` file. You can modify this file to change the default Bootstrap settings like colors, border radius, etc.
+
+=== Angular and Bootstrap
+
+JHipster includes https://ng-bootstrap.github.io/[ng-bootstrap] by default. This library provides Bootstrap 4 components that are powered by Angular instead of jQuery.
+
+http://codeseven.github.io/toastr/[Toastr] is a popular non-blocking notification library powered by jQuery. JHipster has an https://github.com/jhipster/ng-jhipster/blob/master/src/service/alert.service.ts[`alert.service.ts`] that allows you to use Toastr-like alerts.
+
+To use Toastr-like alerts in your project, modify `shared-libs.module.ts` to change `alertAsToast` to `true`.
+
+[source,javascript]
+.src/main/webapp/app/shared/shared-libs.module.ts
+----
+@NgModule({
+    imports: [
+        NgbModule.forRoot(),
+        NgJhipsterModule.forRoot({
+            // set below to true to make alerts look like toast
+            alertAsToast: true,
+            i18nEnabled: true,
+            defaultI18nLang: 'en'
+        }),
+        InfiniteScrollModule,
+        CookieModule.forRoot(),
+        FontAwesomeModule
+    ],
+    exports: [ ... ]
+})
+----
+
+Popular alternatives to Bootstrap include https://material.angular.io/[Angular Material] and http://ionicframework.com/[Ionic Framework]. There is no support for these frameworks at this time. To integrate them would require that all templates to rewritten to include their classes instead of Bootstrap's. While possible, it'd be a lot of work to create and maintain.
+
+== Internationalization (i18n)
+
+Internationalization (also called i18n because the word has 18 letters between "`i`" and "`n`") is a first-class citizen in JHipster. Translating an application to another language is easiest if you put the i18n system in place at the beginning of a project. http://www.ngx-translate.com/[ngx-translate] provides directives that make it easy to translate your application into multiple languages. You won't see this dependency in your JHipster project's `package.json` because it's included in the https://github.com/jhipster/ng-jhipster[ng-jhipster] project and wrapped in a `jhiTranslate` directive.
+
+To use i18n in a JHipster project, you simply add a "`jhiTranslate`" attribute with a key.
+
+[source,html]
+----
+<label for="username" jhiTranslate="global.form.username">Login</label>
+----
+
+The key references a JSON document, which will return the translated string. Angular will then replace the "`First Name`" string with the translated version.
+
+JHipster allows you to choose a default language and translations when you first create a project. It stores the JSON documents for these languages in `src/main/webapp/i18n`. You can install additional languages using `yo jhipster:languages`. As of October 2018, JHipster supports 42 languages. You can also add a new language. To set the default language, modify `src/main/webapp/app/shared/shared-libs.module.ts` and its `defaultI18nLang` setting.
+
+[source,javascript]
+.src/main/webapp/app/shared/shared-libs.module.ts
+----
+imports: [
+    ...
+    NgJhipsterModule.forRoot({
+        // set below to true to make alerts look like toast
+        alertAsToast: false,
+        i18nEnabled: true,
+        defaultI18nLang: 'en'
+    }),
+    ...
+],
+----
+
+== Sass
+
+Sass stands for "`syntactically awesome style sheets`". It's a language for writing CSS with the goodies you're used to using in modern programming languages, such as variables, nesting, mixins, and inheritance. Sass uses the `$` symbol to indicate a variable, which can then be referenced later in your document.
+
+[source,sass]
+----
+$font-stack:    Helvetica, sans-serif
+$primary-color: #333
+
+body
+    font: 100% $font-stack
+    color: $primary-color
+----
+
+Sass 3 introduces a new syntax known as SCSS that is fully compatible with the syntax of CSS3, while still supporting the full power of Sass. It looks more like CSS.
+
+[source,sass]
+----
+$font-stack:    Helvetica, sans-serif;
+$primary-color: #333;
+
+body {
+    font: 100% $font-stack;
+    color: $primary-color;
+}
+----
+
+The code above renders the following CSS.
+
+[source,css]
+----
+body {
+    font: 100% Helvetica, sans-serif;
+    color: #333;
+}
+----
+
+Another powerful feature of Sass is the ability to write nested CSS selectors. When writing HTML, you can often visualize the hierarchy of elements. Sass allows you to bring that hierarchy into your CSS.
+
+[source,sass]
+----
+nav {
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    li {
+        display: inline-block;
+    }
+
+    a {
+        display: block;
+        padding: 6px 12px;
+        text-decoration: none;
+    }
+}
+----
+
+WARNING: Overly nested rules will result in overqualified CSS that can be hard to maintain.
+
+As mentioned, Sass also supports partials, imports, mixins, and inheritance. Mixins can be particularly useful for handling vendor prefixes.
+
+[source,sass]
+----
+@mixin border-radius($radius) { <1>
+    -webkit-border-radius: $radius;
+       -moz-border-radius: $radius;
+        -ms-border-radius: $radius;
+            border-radius: $radius;
+}
+
+.box { @include border-radius(10px); } <2>
+----
+<1> Create a mixin using `@mixin` and give it a name. This uses `$radius` as a variable to set the radius value.
+<2> Use `@include` followed by the name of the mixin.
+
+CSS generated from the above code looks as follows.
+
+[source,css]
+----
+.box {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    border-radius: 10px;
+}
+----
+
+Bootstrap 3.x was written with http://lesscss.org/[Less], a CSS pre-processor with similar features to Sass. It uses Sass for the 4.0+ versions.
+
+JHipster allows you to use Sass by default. To learn more about structuring your CSS and naming classes, read the great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
+
+== Webpack
+
+JHipster 4+ uses https://webpack.github.io/[webpack] for building the client. JHipster 3.x used https://gulpjs.com/[Gulp]. Gulp allows you to perform tasks like minification, concatenation, compilation (e.g. from TypeScript/CoffeeScript to JavaScript), unit testing, and more. webpack is a more modern solution that's become very popular for Angular projects and is included under the covers in Angular CLI.
+
+webpack is a module bundler that recursively builds a dependency graph with every module your application needs. It packages all of these modules into a smaller number of bundles to be loaded by the browser. Its code-splitting abilities make it possible to break up large JavaScript applications into small chunks that can be loaded on demand.
+
+It has four core concepts:
+
+* **Entry:** This tells webpack where to start and follows the graph of dependencies to know what to bundle.
+* **Output:** Once you've bundled all of your assets together, you need to tell webpack *where* to put them.
+* **Loaders:** webpack treats every file (.css, .scss, .ts, .png, .html, etc.) as a module, but only understands JavaScript. Loaders transform files into modules as they are added to the dependency graph.
+* **Plugins:** Loaders execute transforms per file. Plugins perform actions and customizations on chunks of your bundled modules.
+
+Below is a basic `webpack.config.js` that shows all four concepts in use.
+
+[source,javascript]
+.webpack.config.js
+----
+const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
+const webpack = require('webpack'); //to access built-in plugins
+const path = require('path');
+
+const config = {
+  entry: './path/to/my/entry/file.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'my-first-webpack.bundle.js'
+  },
+  module: {
+    rules: [
+      { test: /\.txt$/, use: 'raw-loader' }
+    ]
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin(),
+    new HtmlWebpackPlugin({template: './src/index.html'})
+  ]
+};
+
+module.exports = config;
+----
+
+In the Angular section, I mentioned Angular CLI and my https://github.com/mraible/ng-demo[ng-demo] project that shows how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command. To see its webpack config, or to tweak it for your needs, you can _eject_ it from your project by running `ng eject`.
+
+I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js` file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack configuration. JHipster generates a `webpack` directory that contains files for different scenarios: dev mode with hot reload, testing, and preparing for production.
+
+* `logo-jhipster.png` is the logo that shows in desktop alerts for build notifications.
+* `utils.js` contains utility functions for finding the project's version and determining external libraries.
+* `webpack.common.js` is the common parent configuration that's extended by each of the following files.
+* `webpack.dev.js` is the configuration used when you run `yarn start`. It enables hot-reloading with Browsersync and desktop notifications.
+* `webpack.prod.js` is the configuration used for production. Angular's AOT compilation is used, HTML templates are converted to JavaScript, and source maps are created.
+
+To learn more about webpack, I recommend visiting https://webpack.academy/[https://webpack.academy], which is a site dedicated to teaching webpack. It was created by https://twitter.com/TheLarkInn[Sean Larkin], a member of the webpack core team, the Angular team, and the Angular CLI core team. He's a big reason for the success of webpack, as he's constantly promoting it, providing learning materials around it, and helping open-source projects adopt it.
+
+== WebSockets
+
+WebSockets are an advanced technology that makes it possible to open an interactive communication channel between the user's browser and a server. With this API, you can send messages to a server and receive event-driven responses without having to poll the server for a reply. WebSockets have been called "`TCP for the Web`".
+
+If you choose "WebSockets using Spring Websocket" as part of the "other technologies" options when creating a JHipster project, you'll get two JavaScript libraries added to your project:
+
+* https://github.com/JSteunou/webstomp-client[webstomp-client]: STOMP stands for "`simple text-oriented messaging protocol`".
+* https://github.com/sockjs/sockjs-client[SockJS]: SockJS provides a WebSocket-like object. If native WebSockets are not available, it falls back to other browser techniques.
+
+To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSockets-enabled project. This displays real-time activity information that's been posted to the `/websocket/tracker` endpoint.
+
+[source%autofit,javascript]
+.src/main/webapp/app/admin/tracker/tracker.component.ts
+----
+include::{sourcedir}/chapter3/websockets/tracker.component.ts[]
+----
+
+The `Tracker` service allows you to send tracking information — for example, to track when someone has authenticated.
+
+[source%autofit,javascript]
+.src/main/webapp/app/core/tracker/tracker.service.ts
+----
+include::{sourcedir}/chapter3/websockets/tracker.service.ts[]
+----
+
+WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. To learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with Spring]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
+
+== Browsersync
+
+http://www.browsersync.io/[Browsersync] is one of those tools that makes you wonder how you ever lived without it. It keeps your assets in sync with your browser. It's also capable of syncing browsers, so you can, for example, scroll in Safari and watch synced windows scroll in Chrome and in Safari running in iOS Simulator. When you save files, it updates your browser windows, saving you an incredible amount of time. As its website says, "`It's wicked-fast and totally free.`"
+
+Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.0 License. It contains a number of slick features:
+
+* Interaction sync: Browsersync mirrors your scroll, click, refresh, and form actions between browsers while you test.
+* File sync: Browsers automatically update as you change HTML, CSS, images, and other project files.
+* URL history: Browsersync records your test URLs so you can push them back out to all devices with a single click.
+* Remote inspector: You can remotely tweak and debug web pages that are running on connected devices.
+
+To integrate Browsersync in your project, you need a `package.json` and `gulpfile.js`. Your `package.json` file only needs to contain a few things, weighing in at a slim 13 lines of JSON.
+
+[source,javascript]
+----
+include::{sourcedir}/../../../package.json[]
+----
+
+The `gulpfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development experience.
+
+[source%autofit,javascript]
+----
+include::{sourcedir}/../../../gulpfile.browsersync.js[]
+----
+
+After you've created these files, you'll need to install https://nodejs.org/[Node.js] and its package manager, npm. This should let you run the following command to install Browsersync and Gulp. You will only need to run this command when dependencies change in `package.json`.
+
+----
+npm install
+----
+
+Then run the following command to create a blissful development environment in which your browser auto-refreshes when files change on your hard drive.
+
+----
+gulp
+----
+
+JHipster integrates Browsersync for you, using webpack instead of Gulp. I show a Gulp example here because it so simple. I highly recommend Browsersync for your project. It's useful for determining if your web application can handle a page reload without losing the current user's state.
 
 == Summary
 
-This section showed you how I created a health-tracking web application with JHipster. It walked you through upgrading to the latest release of JHipster and how to generate code with `jhipster entity`. You learned how to do test-first development when writing new APIs and how Spring Data JPA makes it easy to add custom queries. You also saw how to reuse existing components on different pages, how to add methods to client services, and how to manipulate data to display pretty charts.
+This section describes the UI components in a typical JHipster project. It taught you about the extremely popular UI framework called Angular. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application and it showed you how you can use webpack. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
 
-After modifying the application to look like my UI mockups, I showed you how to deploy to Heroku and some common issues I encountered along the way. Finally, you learned how to use Jenkins to build, test, and deploy a Gradle-based JHipster project. I highly recommend doing something similar shortly after you've created your project and verified that it passes all tests.
-
-In the next chapter, I'll explain JHipster's UI components in more detail. Angular, Bootstrap, webpack, Sass, WebSockets, and Browsersync are all packed in a JHipster application, so it's useful to dive in and learn a bit more about these technologies.
+Now that you've learned about many of the UI components in a JHipster project, let's learn about the API side of things.
