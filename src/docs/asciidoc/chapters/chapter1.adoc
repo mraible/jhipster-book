@@ -31,7 +31,7 @@ I thought my idea would fit nicely with JHipster and Spring Boot from a monitori
 
 == Creating the application
 
-I started using the https://www.jhipster.tech/installation/[Installing JHipster] instructions. I'm a Java developer, so I already had Java 8 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org] and Yarn using https://yarnpkg.com/en/docs/install[its instructions], then ran the following command to install JHipster.
+I started using the https://www.jhipster.tech/installation/[Installing JHipster] instructions. I'm a Java developer, so I already had Java 11 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org] and Yarn using https://yarnpkg.com/en/docs/install[its instructions], then ran the following command to install JHipster.
 
 [source]
 ----
@@ -51,7 +51,7 @@ After running this command, I was prompted to answer questions about how I wante
 
 [[img-generating-21points]]
 .Generating the application
-image::chapter2/generating-21points.png[Generating the application, 1365, scaledwidth=100%]
+image::chapter1/generating-21points.png[Generating the application, 1365, scaledwidth=100%]
 endif::[]
 ifeval::["{media}" == "prepress"]
 After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can see the choices I made from my answers below.
@@ -59,11 +59,18 @@ After running this command, I was prompted to answer questions about how I wante
 [source%autofit]
 ----
 $ jhipster
-
 ...
 
-Welcome to JHipster v5.2.1
-Application files will be generated in folder: /Users/mraible/dev/21-points
+        ██╗ ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ███████╗
+        ██║ ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔═════╝ ██╔═══██╗
+        ██║ ████████║    ██║    ███████╔╝ ╚█████╗     ██║    ██████╗   ███████╔╝
+  ██╗   ██║ ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║
+  ╚██████╔╝ ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗
+   ╚═════╝  ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
+                            https://www.jhipster.tech
+Welcome to JHipster v7.7.0
+
+Application files will be generated in folder: /Users/mraible/Downloads/app
  _______________________________________________________________________________________________________________
 
   Documentation for creating an application is at https://www.jhipster.tech/creating-an-app/
@@ -72,28 +79,34 @@ Application files will be generated in folder: /Users/mraible/dev/21-points
 
 ? Which *type* of application would you like to create? Monolithic application (recommended for simple projects)
 ? What is the base name of your application? TwentyOnePoints
+? Do you want to make it reactive with Spring WebFlux? No
 ? What is your default Java package name? org.jhipster.health
-? Do you want to use the JHipster Registry to configure, monitor and scale your application? No
 ? Which *type* of authentication would you like to use? JWT authentication (stateless, with a token)
-? Which *type* of database would you like to use? SQL (H2, MySQL, MariaDB, PostgreSQL, Oracle, MSSQL)
+? Which *type* of database would you like to use? SQL (H2, PostgreSQL, MySQL, MariaDB, Oracle, MSSQL)
 ? Which *production* database would you like to use? PostgreSQL
 ? Which *development* database would you like to use? H2 with disk-based persistence
-? Do you want to use the Spring cache abstraction? Yes, with the Ehcache implementation (local cache, for a singl
-e node)
+? Which cache do you want to use? (Spring cache abstraction) Ehcache (local cache, for a single node)
 ? Do you want to use Hibernate 2nd level cache? Yes
 ? Would you like to use Maven or Gradle for building the backend? Gradle
-? Which other technologies would you like to use? Search engine using Elasticsearch
-? Which *Framework* would you like to use for the client? Angular 6
-? Would you like to enable *SASS* support using the LibSass stylesheet preprocessor? Yes
+? Do you want to use the JHipster Registry to configure, monitor and scale your application? No
+? Which other technologies would you like to use? Elasticsearch as search engine
+? Which *Framework* would you like to use for the client? Angular
+? Do you want to generate the admin UI? Yes
+? Would you like to use a Bootswatch theme (https://bootswatch.com/)? Default JHipster
 ? Would you like to enable internationalization support? Yes
 ? Please choose the native language of the application English
 ? Please choose additional languages to install French
-? Besides JUnit and Jest, which testing frameworks would you like to use? Gatling, Protractor
+? Besides JUnit and Jest, which testing frameworks would you like to use? Cypress
 ? Would you like to install other generators from the JHipster Marketplace? No
+? Would you like to generate code coverage for Cypress tests? [Experimental] No
+Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 99,999 days
+	for: CN=Java Hipster, OU=Development, O=org.jhipster.health, L=, ST=, C=
 
-Installing languages: en, fr
+KeyStore '/Users/mraible/Downloads/app/src/main/resources/config/tls/keystore.p12' generated successfully.
+
+   create .prettierrc
+   create .prettierignore
    create package.json
-   create README.md
    ...
 ----
 endif::[]
@@ -107,43 +120,48 @@ This process generates a `.yo-rc.json` file that captures all of the choices you
 ----
 {
   "generator-jhipster": {
-    "promptValues": {
-      "packageName": "org.jhipster.health",
-      "nativeLanguage": "en"
-    },
-    "jhipsterVersion": "5.2.1",
     "applicationType": "monolith",
-    "baseName": "TwentyOnePoints",
-    "packageName": "org.jhipster.health",
-    "packageFolder": "org/jhipster/health",
-    "serverPort": "8080",
     "authenticationType": "jwt",
+    "baseName": "TwentyOnePoints",
+    "blueprints": [],
+    "buildTool": "gradle",
     "cacheProvider": "ehcache",
-    "enableHibernateCache": true,
-    "websocket": false,
+    "clientFramework": "angularX",
+    "clientPackageManager": "npm",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "creationTimestamp": 1646979814903,
+    "cypressCoverage": false,
     "databaseType": "sql",
     "devDatabaseType": "h2Disk",
-    "prodDatabaseType": "postgresql",
-    "searchEngine": "elasticsearch",
-    "messageBroker": false,
-    "serviceDiscoveryType": false,
-    "buildTool": "gradle",
+    "devServerPort": 4200,
+    "dtoSuffix": "DTO",
+    "enableGradleEnterprise": false,
+    "enableHibernateCache": true,
     "enableSwaggerCodegen": false,
-    "jwtSecretKey": "43d99bb3ca6ffaa96b33b632e4a82fb45b672d80",
-    "clientFramework": "angularX",
-    "useSass": true,
-    "clientPackageManager": "yarn",
-    "testFrameworks": [
-      "gatling",
-      "protractor"
-    ],
-    "jhiPrefix": "jhi",
     "enableTranslation": true,
+    "entitySuffix": "",
+    "jhiPrefix": "jhi",
+    "jhipsterVersion": "7.7.0",
+    "jwtSecretKey": "MThiZWQ3NTI1NTNmYzg1MTliNzZjNGJkYjk5NzFkNGFlYzIzMDQyZGJmMDQyNDI5M2ZmOWVmMDJkOTgxNmQwOWI1OWE3OTZlNjU0NDg3ODRiZGM0ZGQzNzEyZTgxMTRlOTY3N2Y1NjU0NjFlZmM5NDRiMTdjZTRkZDc4ZGYwZTM=",
+    "languages": ["en", "fr"],
+    "messageBroker": false,
     "nativeLanguage": "en",
-    "languages": [
-      "en",
-      "fr"
-    ]
+    "otherModules": [],
+    "packageName": "org.jhipster.health",
+    "pages": [],
+    "prodDatabaseType": "postgresql",
+    "reactive": false,
+    "searchEngine": "elasticsearch",
+    "serverPort": "8080",
+    "serverSideOptions": ["searchEngine:elasticsearch"],
+    "serviceDiscoveryType": "no",
+    "skipCheckLengthOfIdentifier": false,
+    "skipFakeData": false,
+    "skipUserManagement": false,
+    "testFrameworks": ["cypress"],
+    "websocket": false,
+    "withAdminUi": true
   }
 }
 ----
@@ -173,6 +191,8 @@ docker-compose -f src/main/docker/elasticsearch.yml up -d
 TIP: Running Elasticsearch as an embedded instance is the default again in JHipster 5.3.0+ thanks to https://github.com/jhipster/generator-jhipster/pull/8122[this pull-request] that integrates Spring Data Jest.
 
 Next, I started the app using `./gradlew` and then ran the UI integration tests with `yarn e2e`. All tests passed with flying colors.
+
+// todo: npm run e2e
 
 ----
 $ yarn e2e
@@ -487,7 +507,7 @@ Below is a screenshot taken after these changes.
 
 [[img-bootstrap-angular-material]]
 .JHipster with Bootstrap Angular Material
-image::chapter2/angular-material-theme.png[UI mockup, 1333, scaledwidth=100%, align=center]
+image::chapter1/angular-material-theme.png[UI mockup, 1333, scaledwidth=100%, align=center]
 --
 
 At this point, I deployed to Heroku for the first time. This is covered in the <<Deploying to Heroku>> section of this chapter.
@@ -516,13 +536,13 @@ At this point, I did some trial-and-error designs with the data model. I generat
 
 [[img-ui-mockup]]
 .UI mockup
-image::chapter2/ui-mockup.png[UI mockup, 846, scaledwidth=75%, align=center]
+image::chapter1/ui-mockup.png[UI mockup, 846, scaledwidth=75%, align=center]
 
 After figuring out how I wanted the UI to look, I started to think about the data model. I quickly decided I didn't need to track high-level goals (e.g. lose ten pounds in Q3 2018). I was more concerned with tracking weekly goals and 21-Points Health is all about how many points you get in a week. I created the following diagram as my data model.
 
 [[img-entity-diagram]]
 .21-Points Health entity diagram
-image::chapter2/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=75%, align=center]
+image::chapter1/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=75%, align=center]
 
 I ran `jhipster entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one relationship with `user`. Below is the final output from my answers.
 
@@ -660,11 +680,11 @@ The biggest visual improvements are on the list screens. I made the buttons a bi
 
 [[img-points-list-before]]
 .Default Daily Points list
-image::chapter2/points-list-before.png[Default Daily Points list, 1337, scaledwidth=100%, align=center]
+image::chapter1/points-list-before.png[Default Daily Points list, 1337, scaledwidth=100%, align=center]
 
 [[img-points-list-after]]
 .Default Daily Points list after UI improvements
-image::chapter2/points-list-after.png[Default Daily Points list after UI improvements, 1136, scaledwidth=100%, align=center]
+image::chapter1/points-list-after.png[Default Daily Points list after UI improvements, 1136, scaledwidth=100%, align=center]
 
 I refactored the HTML at the top of `points.component.html` to put the title, search, and add buttons on the same row. I also removed the button text in favor of a using https://ng-bootstrap.github.io/#/components/tooltip/api[ng-bootstrap's tooltip directive]. The `jhiTranslate` directive you see in the button tooltips is provided by https://github.com/jhipster/ng-jhipster[JHipster's Angular library].
 
@@ -788,7 +808,7 @@ After making these changes, modifying a bit of HTML, and tweaking some i18n mess
 
 [[img-add-points-page]]
 .Add Points page
-image::chapter2/add-points-page.png[Add Points page, 1167, scaledwidth=90%, align=center]
+image::chapter1/add-points-page.png[Add Points page, 1167, scaledwidth=90%, align=center]
 
 Improving the UI was the most fun, but also the most time consuming as it involved lots of little tweaks to multiple screens. The next task was more straightforward: implementing business logic.
 
@@ -1280,7 +1300,7 @@ Below is a screenshot of what this progress bar looked like after restarting the
 
 [[img-homepage-progress-bar]]
 .Progress bar for points this week
-image::chapter2/homepage-points-this-week.png[Progress bar for points this week, 1330, scaledwidth=100%, align=center]
+image::chapter1/homepage-points-this-week.png[Progress bar for points this week, 1330, scaledwidth=100%, align=center]
 
 You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix this, I needed to add the ability to fetch the user's preferences. To make it easier to access a user's preferences, I modified `PreferencesRepository.java` and added a method to retrieve a user's preferences.
 
@@ -1719,7 +1739,7 @@ After entering some test data, I was quite pleased with the results.
 
 [[img-homepage-bp-last-30-days]]
 .Chart of blood pressure during the last 30 days
-image::chapter2/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1281, scaledwidth=100%, align=center]
+image::chapter1/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1281, scaledwidth=100%, align=center]
 
 I made similar changes to display weights for the last 30 days as a chart.
 
@@ -1729,13 +1749,13 @@ After finishing the MVP (minimum viable product) of 21-Points Health, I did some
 
 [[img-21-points-loc]]
 .Project lines of code
-image::chapter2/21-points-loc.png[Project lines of code, 600, scaledwidth=60%, align=center]
+image::chapter1/21-points-loc.png[Project lines of code, 600, scaledwidth=60%, align=center]
 
 To drill down further, I made a graph of the top three languages in the project: Java, TypeScript, and HTML.
 
 [[img-21-points-loc-by-language]]
 .Project lines of code by language
-image::chapter2/21-points-loc-by-language.png[Project lines of code by language, 700, scaledwidth=70%, align=center]
+image::chapter1/21-points-loc-by-language.png[Project lines of code by language, 700, scaledwidth=70%, align=center]
 
 The amount of code I had to write in each language was 561 lines of TypeScript, 687 lines of Java, and 351 lines of HTML. The other 481 lines were JSON (135), XML (187), Sass (80), YAML (54), CSS (12), Markdown (6), Groovy (4), and Bourne Shell (3).
 
@@ -1862,7 +1882,7 @@ I was pumped to see that this process worked and that my application was availab
 
 [[img-deployed-to-heroku]]
 .First deployment to Heroku
-image::chapter2/deployed-to-heroku.png[First deployment to Heroku, 1179, scaledwidth=100%, align=center]
+image::chapter1/deployed-to-heroku.png[First deployment to Heroku, 1179, scaledwidth=100%, align=center]
 
 Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for Heroku, I ran `heroku domains:add`.
 
@@ -2030,7 +2050,7 @@ web: java -javaagent:newrelic.jar $JAVA_OPTS -Xmx256m -jar build/libs/*.war ...
 
 After running the 5.0 version of 21-Points Health on Heroku for a couple weeks, someone reported https://github.com/mraible/21-points/issues/49[an issue with security on GitHub]. They pointed out that if you searched, you could see another user's data. I also discovered you could edit data based on the URL too.
 
-To fix this data leakage, I enhanced the Java code so it only allowing users that own an entity to edit it. Here's some sudo-code to show the logic:
+To fix this data leakage, I enhanced the Java code so it only allowing users that own an entity to edit it. Here's some pseudocode to show the logic:
 
 [source,java]
 ----
@@ -2086,19 +2106,19 @@ To log in to Jenkins, I navigated to http://localhost:9000. I copied the passwor
 
 [[unlock-jenkins]]
 .Unlock Jenkins
-image::chapter2/unlock-jenkins.png[Unlock Jenkins, 1124, scaledwidth=100%, align=center]
+image::chapter1/unlock-jenkins.png[Unlock Jenkins, 1124, scaledwidth=100%, align=center]
 
 Next, I chose to install selected plugins and waited while everything installed.
 
 [[customize-jenkins]]
 .Customize Jenkins
-image::chapter2/customize-jenkins.png[Customize Jenkins, 1124, scaledwidth=100%, align=center]
+image::chapter1/customize-jenkins.png[Customize Jenkins, 1124, scaledwidth=100%, align=center]
 
 I created a new job called "21-points" with a Pipeline script from SCM. I configured a "`Poll SCM`" build trigger with a schedule of `H/5 * * * *`. After saving the job, I confirmed it ran successfully.
 
 [[jenkins-job1]]
 .Jenkins build #1
-image::chapter2/jenkins-job-1.png[First run of 21-points pipeline, 1380, scaledwidth=100%, align=center]
+image::chapter1/jenkins-job-1.png[First run of 21-points pipeline, 1380, scaledwidth=100%, align=center]
 
 TIP: It's possible the `deployment` stage will fail for you the first time. If this happens, stop Jenkins, run `heroku login`, then restart Jenkins.
 
@@ -2171,7 +2191,7 @@ I was pumped to see all the stages in my pipeline pass.
 
 [[jenkins-job-success]]
 .Jenkins success!
-image::chapter2/jenkins-job-success.png[Jenkins success!, 1619, scaledwidth=100%, align=center]
+image::chapter1/jenkins-job-success.png[Jenkins success!, 1619, scaledwidth=100%, align=center]
 
 When working on this project, I'd start Jenkins and have it running while I checked in code. I did not install it on a server and leave it running continuously. My reason was simple: I was only coding in bursts and didn't need to waste computing cycles or want to pay for a cloud instance to run it.
 
@@ -2197,7 +2217,7 @@ Once this process completed, an analysis of the project was available on the Son
 
 [[sonar-results]]
 .Sonar results
-image::chapter2/sonar.png[Sonar results, 1500, scaledwidth=100%, align=center]
+image::chapter1/sonar.png[Sonar results, 1500, scaledwidth=100%, align=center]
 
 == Progressive web apps
 
@@ -2254,7 +2274,7 @@ After making these changes, I redeployed 21-Points Health to production and used
 
 [[lighthouse-analysis]]
 .Lighthouse analysis
-image::chapter2/lighthouse.png[Lighthouse analysis, 1500, scaledwidth=100%, align=center]
+image::chapter1/lighthouse.png[Lighthouse analysis, 1500, scaledwidth=100%, align=center]
 
 
 You can see there's still some performance improvements that need to be made. Rather than address those here, I've https://github.com/mraible/21-points/issues/48/[created an issue] you can subscribe to.

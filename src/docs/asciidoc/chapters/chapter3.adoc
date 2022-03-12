@@ -13,7 +13,7 @@ In August 2013, Phil Webb and Dave Syer, engineers at Pivotal, https://spring.io
 
 [[img-spring-boot-diagram]]
 .Spring Boot 2.0
-image::chapter4/diagram-boot-reactor.svg[Spring Boot 2.0, 600, scaledwidth=100%, align=center]
+image::chapter3/diagram-boot-reactor.svg[Spring Boot 2.0, 600, scaledwidth=100%, align=center]
 
 The primary goals of Spring Boot are:
 
@@ -25,11 +25,11 @@ Folks who want to use Spring Boot outside of a JHipster application can do so wi
 
 [[img-spring-initializr-web]]
 .Spring Initializr in a browser
-image::chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1247, scaledwidth=100%]
+image::chapter3/spring-initializr-web.png[Spring Initializr in a browser, 1247, scaledwidth=100%]
 
 [[img-spring-initializr-curl]]
 .Spring Initializr via `curl`
-image::chapter4/spring-initializr-curl.png[Spring Initializr via `curl`, 1354, scaledwidth=100%]
+image::chapter3/spring-initializr-curl.png[Spring Initializr via `curl`, 1354, scaledwidth=100%]
 
 Spring Initializr is an Apache 2.0-licensed open-source project that you install and customize to generate Spring projects for your company or team. You can find it on GitHub at https://github.com/spring-io/initializr.
 
@@ -279,8 +279,8 @@ Spring Boot runs through this specific sequence for `PropertySource` to ensure t
 9. Java System properties (`System.getProperties()`).
 10. OS environment variables.
 11. A `RandomValuePropertySource` that only has properties in `random.*`.
-12. Profile-specific application properties outside of your packaged JAR (`application-\{profile}.properties` and YAML variants).
-13. Profile-specific application properties packaged inside your JAR (`application-\{profile}.properties` and YAML variants).
+12. Profile-specific application properties outside of your packaged JAR (`application-{profile}.properties` and YAML variants).
+13. Profile-specific application properties packaged inside your JAR (`application-{profile}.properties` and YAML variants).
 14. Application properties outside of your packaged JAR (`application.properties` and YAML variants).
 15. Application properties packaged inside your JAR (`application.properties` and YAML variants).
 16. `@PropertySource` annotations on your `@Configuration` classes.
@@ -508,7 +508,7 @@ In January 2014, ZeroTurnaround's RebelLabs published a report titled http://zer
 
 [[img-evolution-of-build-tools-timeline]]
 .The Evolution of Build Tools, 1977-2013
-image::chapter4/evolution-of-build-tools-timeline.jpg[The Evolution of Build Tools, 600, scaledwidth=100%, align=center]
+image::chapter3/evolution-of-build-tools-timeline.jpg[The Evolution of Build Tools, 600, scaledwidth=100%, align=center]
 
 Back then, RebelLabs advised that you experiment with Gradle in your next project.
 

@@ -18,7 +18,7 @@ Technology has traditionally been organized into technology layers: UI team, dat
 A smart team will optimize around this and choose the lesser of two evils: forcing the logic into whichever application they have access to. This is an example of http://www.melconway.com/Home/Conways_Law.html[Conway's law] in action.
 
 .Conway's law
-image::chapter5/conways-law.png[Conway's law, 560, scaledwidth=50%, align=center]
+image::chapter4/conways-law.png[Conway's law, 560, scaledwidth=50%, align=center]
 
 [quote, Melvyn Conway, 1967]
 Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization's communication structure.
@@ -62,7 +62,7 @@ In this example, I'll show you how to build a microservices architecture with JH
 You can see how these components fit in the diagram below.
 
 .JHipster microservices architecture
-image::chapter5/jhipster-microservices-architecture.png[JHipster microservices architecture, 1378, scaledwidth=100%, align=center]
+image::chapter4/jhipster-microservices-architecture.png[JHipster microservices architecture, 1378, scaledwidth=100%, align=center]
 
 To see what's happening inside your applications, you can use the https://jhipster.github.io/monitoring/#jhipster-console[JHipster Console], a monitoring tool based on the https://www.elastic.co/products[Elastic Stack]. I'll cover JHipster Console in the Docker Compose section.
 
@@ -200,7 +200,7 @@ JHipster ships with https://keycloak.org[Keycloak] configured for OAuth by defau
 
 To configure your apps to work with Okta, you'll first need to https://developer.okta.com/signup/[create a free developer account]. After doing so, you'll get your own Okta domain, which has a name like `https://dev-123456.oktapreview.com`.
 
-image::chapter5/okta-signup.png[Okta Developer Signup, 1200, scaledwidth=100%, align=center]
+image::chapter4/okta-signup.png[Okta Developer Signup, 1200, scaledwidth=100%, align=center]
 
 === Create an OpenID Connect application on Okta
 
@@ -292,33 +292,33 @@ TIP: If you already have Maven installed, you can simply use `mvn`.
 Open your browser and go to http://localhost:8761. Log in, and you should see a welcome page that shows that the gateway and both apps have been registered.
 
 .JHipster Registry with gateway registered
-image::chapter5/jhipster-registry-with-gateway+apps.png[JHipster Registry with gateway registered, 800, scaledwidth=100%, align=center]
+image::chapter4/jhipster-registry-with-gateway+apps.png[JHipster Registry with gateway registered, 800, scaledwidth=100%, align=center]
 
 Once everything is running, open a browser, go to http://localhost:8080, and click *sign in*. You should be redirected to your Okta tenant to sign in, then back to the gateway once you've entered valid credentials.
 
 .Welcome, JHipster
-image::chapter5/welcome-jhipster.png["Welcome, JHipster", 1200, scaledwidth=100%, align=center]
+image::chapter4/welcome-jhipster.png["Welcome, JHipster", 1200, scaledwidth=100%, align=center]
 
 .Okta sign-in
-image::chapter5/okta-sign-in.png[Okta sign-in, 1200, scaledwidth=100%, align=center]
+image::chapter4/okta-sign-in.png[Okta sign-in, 1200, scaledwidth=100%, align=center]
 
 .JHipster after Okta SSO
-image::chapter5/jhipster-logged-in.png[JHipster after Okta SSO, 800, scaledwidth=100%, align=center]
+image::chapter4/jhipster-logged-in.png[JHipster after Okta SSO, 800, scaledwidth=100%, align=center]
 
 You should be able to navigate to *Entities* &gt; *Blog* and add a new blog record to your blog microservice.
 
 .New blog
-image::chapter5/new-blog.png[New blog, 800, scaledwidth=100%, align=center]
+image::chapter4/new-blog.png[New blog, 800, scaledwidth=100%, align=center]
 
 Navigate to *Entities* > *Product* to prove your product microservice is working. Since you added an image as a property, you'll be prompted to upload one when creating a new record.
 
 .Add product page
-image::chapter5/add-product-page.png[Add product page, 800, scaledwidth=100%, align=center]
+image::chapter4/add-product-page.png[Add product page, 800, scaledwidth=100%, align=center]
 
 Click *Save* and you'll know, based on the generated ID, that it's correctly using MongoDB.
 
 .New Product
-image::chapter5/new-product.png[New Product, 800, scaledwidth=100%, align=center]
+image::chapter4/new-product.png[New Product, 800, scaledwidth=100%, align=center]
 
 === Use Docker Compose to run everything
 
@@ -417,7 +417,7 @@ When everything has finished building, run `docker-compose up -d` from the `dock
 TIP: Before you start everything, make sure you’ve provided adequate CPUs and memory to Docker. It defaults to one CPU and 2 GB of memory — not quite enough for 14 containers!
 
 .New Product
-image::chapter5/kitematic.png[Kitematic, 800, scaledwidth=100%, align=center]
+image::chapter4/kitematic.png[Kitematic, 800, scaledwidth=100%, align=center]
 
 After you've verified everything works, you can stop all your Docker containers using the following command:
 
@@ -441,7 +441,7 @@ The founder of JHipster, https://twitter.com/juliendubois[Julien Dubois], wrote 
 
 Heroku and JHipster have configured a JHipster Registry for you, so you just need to click on the button below to start your own JHipster Registry:
 
-image::chapter5/deploy-to-heroku.png[link="https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2Fjhipster%2Fjhipster-registry"]
+image::chapter4/deploy-to-heroku.png[link="https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2Fjhipster%2Fjhipster-registry"]
 
 Enter an app name (I used `okta-jhipster-registry`), add a `JHIPSTER_PASSWORD`, and click *Deploy app*.
 
@@ -502,19 +502,19 @@ Thanks!
 Below are screenshots to prove everything worked after I deployed to Heroku. 😊
 
 .JHipster Registry on Heroku
-image::chapter5/heroku-registry.png[JHipster Registry on Heroku, 1200, scaledwidth=100%, align=center]
+image::chapter4/heroku-registry.png[JHipster Registry on Heroku, 1200, scaledwidth=100%, align=center]
 
 .Successful login on Heroku
-image::chapter5/heroku-welcome.png[Successful login on Heroku, 1200, scaledwidth=100%, align=center]
+image::chapter4/heroku-welcome.png[Successful login on Heroku, 1200, scaledwidth=100%, align=center]
 
 .Heroku gateway routes
-image::chapter5/heroku-gateway-routes.png[Heroku gateway routes, 1200, scaledwidth=100%, align=center]
+image::chapter4/heroku-gateway-routes.png[Heroku gateway routes, 1200, scaledwidth=100%, align=center]
 
 .Blog on Heroku
-image::chapter5/heroku-blog.png[Blog on Heroku, 1200, scaledwidth=100%, align=center]
+image::chapter4/heroku-blog.png[Blog on Heroku, 1200, scaledwidth=100%, align=center]
 
 .Store on Heroku
-image::chapter5/heroku-store.png[Store on Heroku, 1200, scaledwidth=100%, align=center]
+image::chapter4/heroku-store.png[Store on Heroku, 1200, scaledwidth=100%, align=center]
 
 TIP: If you're interested in deploying to Google Cloud using Kubernetes, you might enjoy my blog post and screencast on how to "`link:http://www.jhipster-book.com/#!/news/entry/build-jhipster-microservices-and-deploy-to-google-cloud-with-kubernetes[Build JHipster Microservices and Deploy to Google Cloud with Kubernetes]`".
 

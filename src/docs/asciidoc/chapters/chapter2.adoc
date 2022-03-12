@@ -11,11 +11,11 @@ JHipster supports two UI frameworks: Angular and React. In the first two version
 
 [[img-angular-jobs-2018]]
 .Jobs on Indeed, September 2018
-image::chapter3/angular/indeed-jobs-sep2018.jpg[Jobs on Indeed, 450, scaledwidth=75%, align=center]
+image::chapter2/angular/indeed-jobs-sep2018.jpg[Jobs on Indeed, 450, scaledwidth=75%, align=center]
 
 [[img-stackoverflow-tags-2018]]
 .Stack Overflow Tags, September 2018
-image::chapter3/angular/stackoverflow-tags-sep2018.jpg[Tags on Stack OverFlow, 450, scaledwidth=75%, align=center]
+image::chapter2/angular/stackoverflow-tags-sep2018.jpg[Tags on Stack OverFlow, 450, scaledwidth=75%, align=center]
 
 Angular is the default UI framework used by JHipster. It's written in TypeScript, compiles to JavaScript, and just using it makes you a hipster! Like Struts in the early 2000s and Rails in the mid-2000s, Angular and other JavaScript frameworks have changed the way developers write web applications. Today, data is exposed via REST APIs and UIs are written in JavaScript (or TypeScript). As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns. It recommended organizing your application into several different components:
 
@@ -120,7 +120,7 @@ The MVC pattern is a common one for web frameworks to implement. With Angular, t
 
 [[img-angular-mvc]]
 .MVC in Angular
-image::chapter3/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth=75%, align=center]
+image::chapter2/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth=75%, align=center]
 
 Below is a `SearchService` to fetch search results. It's expected that a JSON endpoint exists at `/api/search` on the same server.
 
@@ -305,7 +305,7 @@ Does your API return data like the following?
 
 [source,json]
 ----
-include::{sourcedir}chapter3/angular/search-results.json[]
+include::{sourcedir}/chapter2/angular/search-results.json[]
 ----
 
 If so, you could display it in the `search.component.html` template with Angular's `*ngFor` directive.
@@ -390,20 +390,20 @@ A basic example of the grid is shown below.
 
 [source,html]
 ----
-include::{sourcedir}chapter3/bootstrap/grid-basic.html[]
+include::{sourcedir}/chapter2/bootstrap/grid-basic.html[]
 ----
 
 When rendered with Bootstrap's CSS, the above HTML looks as follows on a desktop. The minimum width of the container element on the desktop is set to 1200 px.
 
 [[img-bootstrap-basic-grid-desktop]]
 .Basic grid on desktop
-image::chapter3/bootstrap/basic-grid-desktop.png[Basic grid on desktop, 991, scaledwidth=100%]
+image::chapter2/bootstrap/basic-grid-desktop.png[Basic grid on desktop, 991, scaledwidth=100%]
 
 If you squish your browser to less than 1200 px wide or render this same document on a smaller screen, the columns will stack.
 
 [[img-bootstrap-basic-grid-mobile]]
 .Basic grid on a mobile device
-image::chapter3/bootstrap/basic-grid-mobile.png[Basic grid on a mobile device, 768, scaledwidth=75%]
+image::chapter2/bootstrap/basic-grid-mobile.png[Basic grid on a mobile device, 768, scaledwidth=75%]
 
 Bootstrap's grid can be used to align and position your application's elements, widgets, and features. It's helpful to understand a few basics if want to use it effectively.
 
@@ -417,12 +417,12 @@ Each tier of classes scales up, meaning that if you plan to set the same widths 
 
 [source,html]
 ----
-include::{sourcedir}chapter3/bootstrap/grid-advanced.html[]
+include::{sourcedir}/chapter2/bootstrap/grid-advanced.html[]
 ----
 
 [[img-bootstrap-advanced-grid-desktop]]
 .Advanced grid
-image::chapter3/bootstrap/advanced-grid-desktop.png[Advanced grid, 983, scaledwidth=100%]
+image::chapter2/bootstrap/advanced-grid-desktop.png[Advanced grid, 983, scaledwidth=100%]
 
 You can use size indicators to specify breakpoints in the columns. Breakpoints indicate where a column wraps onto the next row. In the HTML above, "`xs`" and "`md`" are the size indicators (of course,  "`sm`", "`lg`", and "`xl`" are the other options). Bootstrap uses the following media query ranges.
 
@@ -471,8 +471,8 @@ Bootstrap also includes a number of utility classes that can be used to show and
 
 Bootstrap's classes for setting the display are names using the following format:
 
-* `.d-\{value}` for `xs`
-* `.d-\{breakpoint}-\{value}` for `sm`, `md`, `lg`, and `xl`
+* `.d-{value}` for `xs`
+* `.d-{breakpoint}-{value}` for `sm`, `md`, `lg`, and `xl`
 
 The media queries effect screen widths with the given breakpoint or _larger_. For example, `.d-lg-none` sets `display: none` on both `lg` and `xl` screens.
 
@@ -494,23 +494,23 @@ When you add Bootstrap's CSS to your web application, chances are it'll quickly 
 
 [source%autofit,html]
 ----
-include::{sourcedir}chapter3/bootstrap/basicelement.html[]
+include::{sourcedir}/chapter2/bootstrap/basicelement.html[]
 ----
 
 [[img-bootstrap-basic-element]]
 .Basic form element
-image::chapter3/bootstrap/basicelement.png[Basic form element, 712, scaledwidth=90%]
+image::chapter2/bootstrap/basicelement.png[Basic form element, 712, scaledwidth=90%]
 
 If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
 
 [source%autofit,html]
 ----
-include::{sourcedir}chapter3/bootstrap/basicelement-withvalidation.html[]
+include::{sourcedir}/chapter2/bootstrap/basicelement-withvalidation.html[]
 ----
 
 [[img-bootstrap-basic-element-with-validation]]
 .Form element with validation
-image::chapter3/bootstrap/basicelement-validation.png[Form element with validation, 712, scaledwidth=90%]
+image::chapter2/bootstrap/basicelement-validation.png[Form element with validation, 712, scaledwidth=90%]
 
 === CSS
 
@@ -520,12 +520,12 @@ To make your buttons look better, Bootstrap provides `btn` and a number of `btn-
 
 [source,html]
 ----
-include::{sourcedir}chapter3/bootstrap/buttons.html[]
+include::{sourcedir}/chapter2/bootstrap/buttons.html[]
 ----
 
 [[img-bootstrap-buttons]]
 .Buttons
-image::chapter3/bootstrap/buttons.png[Buttons, 754, scaledwidth=90%]
+image::chapter2/bootstrap/buttons.png[Buttons, 754, scaledwidth=90%]
 
 === Components
 
@@ -535,33 +535,33 @@ Popular Bootstrap components include: dropdowns, button groups, button dropdowns
 
 [[img-bootstrap-navbar]]
 .Navbar with dropdown
-image::chapter3/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 956, scaledwidth=100%]
+image::chapter2/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 956, scaledwidth=100%]
 
 When rendered on a mobile device, everything collapses into a hamburger menu that can expand downward.
 
 [[img-bootstrap-navbar-mobile]]
 .Navbar on mobile
-image::chapter3/bootstrap/navbar-on-mobile.png[Navbar on mobile, 476, scaledwidth=50%]
+image::chapter2/bootstrap/navbar-on-mobile.png[Navbar on mobile, 476, scaledwidth=50%]
 
 This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source online in link:https://getbootstrap.com/docs/4.1/components/navbar/[Bootstrap's documentation]. A simpler example below shows the basic structure.
 
 [source%autofit,html]
 ----
-include::{sourcedir}chapter3/bootstrap/navbar.html[]
+include::{sourcedir}/chapter2/bootstrap/navbar.html[]
 ----
 
 Alerts are useful for displaying feedback to the user. You can invoke differently colored alerts with different classes. You'll need to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors.
 
 [source,html]
 ----
-include::{sourcedir}chapter3/bootstrap/alerts.html[]
+include::{sourcedir}/chapter2/bootstrap/alerts.html[]
 ----
 
 This renders alerts like the following.
 
 [[img-bootstrap-alerts]]
 .Alerts
-image::chapter3/bootstrap/alerts.png[Alerts, 776, scaledwidth=100%]
+image::chapter2/bootstrap/alerts.png[Alerts, 776, scaledwidth=100%]
 
 To make an alert closeable, you need to add an `.alert-dismissible` class and a close button.
 
@@ -577,7 +577,7 @@ To make an alert closeable, you need to add an `.alert-dismissible` class and a 
 
 [[img-bootstrap-alert-dismissable]]
 .Closeable alert
-image::chapter3/bootstrap/alert-dismissable.png[Closeable alert, 830, scaledwidth=100%]
+image::chapter2/bootstrap/alert-dismissable.png[Closeable alert, 830, scaledwidth=100%]
 
 TIP: To make the links in your alerts match the colors of the alerts, use `.alert-link`.
 
@@ -600,7 +600,7 @@ You can see how the icons change color based on the font color defined for the e
 
 [[img-bootstrap-buttons-icons]]
 .Buttons with icons
-image::chapter3/bootstrap/buttons-with-icons.png[Buttons with icons, 262, scaledwidth=25%]
+image::chapter2/bootstrap/buttons-with-icons.png[Buttons with icons, 262, scaledwidth=25%]
 
 === Customizing CSS
 
@@ -850,7 +850,7 @@ To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSoc
 [source%autofit,javascript]
 .src/main/webapp/app/admin/tracker/tracker.component.ts
 ----
-include::{sourcedir}chapter3/websockets/tracker.component.ts[]
+include::{sourcedir}/chapter2/websockets/tracker.component.ts[]
 ----
 
 The `Tracker` service allows you to send tracking information — for example, to track when someone has authenticated.
@@ -858,7 +858,7 @@ The `Tracker` service allows you to send tracking information — for example, t
 [source%autofit,javascript]
 .src/main/webapp/app/core/tracker/tracker.service.ts
 ----
-include::{sourcedir}chapter3/websockets/tracker.service.ts[]
+include::{sourcedir}/chapter2/websockets/tracker.service.ts[]
 ----
 
 WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. To learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with Spring]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
@@ -878,14 +878,14 @@ To integrate Browsersync in your project, you need a `package.json` and `gulpfil
 
 [source,javascript]
 ----
-include::{sourcedir}package.json[]
+include::{sourcedir}/../../../package.json[]
 ----
 
 The `gulpfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development experience.
 
 [source%autofit,javascript]
 ----
-include::{sourcedir}gulpfile.browsersync.js[]
+include::{sourcedir}/../../main/build/gulpfile.browsersync.js[]
 ----
 
 After you've created these files, you'll need to install https://nodejs.org/[Node.js] and its package manager, npm. This should let you run the following command to install Browsersync and Gulp. You will only need to run this command when dependencies change in `package.json`.
