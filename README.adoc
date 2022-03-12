@@ -1,4 +1,4 @@
-image:https://github.com/mraible/jhipster-book/actions/workflows/Book%20CI/badge.svg[link="https://github.com/mraible/jhipster-book/actions",alt="Actions Status"]
+image::https://github.com/mraible/jhipster-book/workflows/Book%20CI/badge.svg[link="https://github.com/mraible/jhipster-book/actions",alt="Actions Status"]
 
 = The JHipster Mini-Book
 
@@ -80,3 +80,7 @@ To deploy to https://www.netlify.com/[Netlify], create an account and log in.
 . Click **Deploy site**
 
 Your site should take less than a minute to deploy, depending on the size of your book.
+
+== Netlify Preview
+
+This repository is using a `netlify.toml` configuration file to build and publish the static site to Netlify. You can see the result at https://jhipster-mini-book.netlify.app.
