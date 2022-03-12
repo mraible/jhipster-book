@@ -31,20 +31,20 @@ include::chapters/colophon.adoc[]
 include::chapters/dedication.adoc[]
 
 [%nonfacing]
-include::chapters/acknowledgements.adoc[]
+include::chapters/acknowledgments.adoc[]
 
 [preface]
 include::chapters/preface.adoc[]
 
 include::chapters/introduction.adoc[]
 
+include::chapters/chapter1.adoc[]
+
 include::chapters/chapter2.adoc[]
 
 include::chapters/chapter3.adoc[]
 
 include::chapters/chapter4.adoc[]
-
-include::chapters/chapter5.adoc[]
 
 include::chapters/action.adoc[]
 

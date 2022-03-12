@@ -1,0 +1,22 @@
+name: ROOT
+title: The JHipster Mini-Book
+# "master" is a reserved value in Antora 2 which indicates that this component is versionless.
+# When upgrading to Antora 3, replace this value by "~" (shorthand for the value null) which has the same effect
+# References:
+# - Antora 2: https://docs.antora.org/antora/2.3/component-with-no-version/#version-master
+# - Antora 3: https://docs.antora.org/antora/3.0/component-with-no-version/#assign-to-the-version-key
+version: master
+nav:
+  - nav.adoc
+asciidoc:
+  attributes:
+    page-og-image: https://raw.githubusercontent.com/mraible/jhipster-book/main/book-cover.png
+    page-pagination: '@'
+    sourcedir: 'example$'
+    book-title: The JHipster Mini-Book
+    author: Matt Raible
+    revnumber: 5.0.3
+    revyear: 2019
+    email: matt@raibledesigns.com
+    subject: JHipster
+    keywords: JHipster, Angular, Bootstrap, Spring Boot, Spring Cloud, Spring Security, Microservices, Docker, Heroku, Security, JWT, OAuth 2.0, OIDC

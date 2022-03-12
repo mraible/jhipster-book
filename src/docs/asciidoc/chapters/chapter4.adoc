@@ -1,806 +1,535 @@
-[[jhipsters-api-building-blocks]]
-= JHipster\'s API building blocks
+[[microservices-with-jhipster]]
+= Microservices with JHipster
 
-JHipster is composed of two main components: a modern UI framework and an API. APIs are the modern data-retrieval mechanisms. Creating great UIs is how you make people smile.
+Adopting a microservice architecture provides unique opportunities to add failover and resiliency to your systems, so your components can handle load spikes and errors gracefully. Microservices make change less expensive, too. They can also be a good idea when you have a large team working on a single product. You can likely break up your project into components that can function independently of one another. Once components can function independently, they can be built, tested, and deployed independently. This gives an organization and its teams the agility to develop and deploy very quickly.
 
-Many APIs today are RESTful APIs. In fact, representational state transfer (REST) is the software architectural style of the World Wide Web. RESTful systems typically communicate over HTTP (Hypertext Transfer Protocol) using verbs (GET, POST, PUT, DELETE, etc.). This is the same way browsers retrieve web pages and send data to remote servers. REST was initially proposed by Roy Fielding in his 2000 Ph.D. dissertation, _Architectural Styles and the Design of Network-Based Software Architectures_.
+Before we dive into the code tutorial, I'd like to talk a bit about microservices, their history, and why you should (or should not) consider a microservices architecture for your next project.
 
-JHipster leverages Spring MVC and its `@RestController` annotation to create a REST API. Its endpoints publish JSON to and consume JSON from clients. By separating the business logic and data persistence from the client, you can provide data to many different clients (HTML5, iOS, Android, TVs, watches, IoT devices, etc.). This also allows third-party and partner integration capabilities in your application. Spring Boot further complements Spring MVC by simplifying microservices and allowing you to create stand-alone JAR (Java Archive) files.
+== History of microservices
 
-== Spring Boot
+According to https://en.wikipedia.org/wiki/Microservices#History[Wikipedia], the term "microservice" was first used as a common architecture style at a workshop of software architects near Venice in May 2011. In May 2012, the same group decided "microservices" was a more appropriate name.
 
-In August 2013, Phil Webb and Dave Syer, engineers at Pivotal, https://spring.io/blog/2013/08/06/spring-boot-simplifying-spring-for-everyone[announced the first milestone release] of Spring Boot. Spring Boot makes it easy to create Spring applications with minimal effort. It takes an opinionated view of Spring and auto-configures dependencies for you. This allows you to write less code but still harness the power of Spring. The diagram below (from https://spring.io) shows how Spring Boot is the gateway to the larger Spring ecosystem.
+https://www.linkedin.com/in/adriancockcroft[Adrian Cockcroft], who was at Netflix at the time, described this architecture as "fine-grained SOA". Martin Fowler and James Lewis wrote an article titled simply "`link:http://martinfowler.com/articles/microservices.html[Microservices]`" on March 25, 2014. Years later, this is still considered the definitive article for microservices.
 
-[[img-spring-boot-diagram]]
-.Spring Boot 2.0
-image::chapter4/diagram-boot-reactor.svg[Spring Boot 2.0, 600, scaledwidth=100%, align=center]
+=== Organizations and Conway's law
 
-The primary goals of Spring Boot are:
+Technology has traditionally been organized into technology layers: UI team, database team, operations team. When teams are separated along these lines, even simple changes can lead to a cross-team project consuming huge chunks of time and budget.
 
-* to provide a radically faster and widely accessible "`getting started`" experience for all Spring development;
-* to be opinionated out of the box, but get out of the way quickly as requirements start to diverge from the defaults; and
-* to provide a range of non-functional features that are common to large classes of projects (e.g. embedded servers, security, metrics, health checks, externalized configuration).
+A smart team will optimize around this and choose the lesser of two evils: forcing the logic into whichever application they have access to. This is an example of http://www.melconway.com/Home/Conways_Law.html[Conway's law] in action.
 
-Folks who want to use Spring Boot outside of a JHipster application can do so with Spring Initializr, a configurable service for generating Spring projects. You can visit it in your browser at https://start.spring.io or you can call it via `curl`.
+.Conway's law
+image::chapter5/conways-law.png[Conway's law, 560, scaledwidth=50%, align=center]
 
-[[img-spring-initializr-web]]
-.Spring Initializr in a browser
-image::chapter4/spring-initializr-web.png[Spring Initializr in a browser, 1247, scaledwidth=100%]
+[quote, Melvyn Conway, 1967]
+Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization's communication structure.
 
-[[img-spring-initializr-curl]]
-.Spring Initializr via `curl`
-image::chapter4/spring-initializr-curl.png[Spring Initializr via `curl`, 1354, scaledwidth=100%]
+=== Microservices architecture philosophy
 
-Spring Initializr is an Apache 2.0-licensed open-source project that you install and customize to generate Spring projects for your company or team. You can find it on GitHub at https://github.com/spring-io/initializr.
+The philosophy of a microservices architecture is essentially equal to the Unix philosophy of "do one thing and do it well". The characteristics of a microservices architecture are as follows:
 
-Spring Initializr is also available in the Eclipse-based Spring Tool Suite (STS) and IntelliJ IDEA.
+* componentization via services,
+* organized around business capabilities,
+* products not projects,
+* smart endpoints and dumb pipes,
+* decentralized governance,
+* decentralized data management,
+* infrastructure automation,
+* design for failure, and
+* evolutionary design.
 
-.Spring CLI
-****
-You can also download and install the Spring Boot CLI. The easiest way to install it is with http://sdkman.io/[SDKMAN!]
+== Why microservices?
 
-----
-curl -s "https://get.sdkman.io" | bash
-sdk install springboot
-----
+For most developers, dev teams, and organizations, it's easier to work on small, "do one thing well" services. No single program represents the whole application, so services can change frameworks (or even languages) without a massive cost. As long as the services use a language-agnostic protocol (HTTP or lightweight messaging), applications can be written in several different platforms — Java, Ruby, Node, Go, .NET, etc. — without issue.
 
-Spring CLI is best used for rapid prototyping: when you want to show someone how to do something very quickly, with code you'll likely throw away when you're done. For example, if you want to create a "`Hello World`" web application in Groovy, you can do it with seven lines of code.
+Platform-as-a-service (PaaS) providers and containers have made it easy to deploy microservices. All the technologies needed to support a monolith (e.g., load balancing, discovery, process monitoring) are provided by the PaaS, outside of your container. Deployment effort comes close to zero.
 
-[source,groovy]
-.hello.groovy
-----
-@RestController
-class WebApplication {
-    @RequestMapping("/")
-    String home() {
-        "Hello World!"
-    }
-}
-----
+=== Are microservices the future?
 
-To compile and run this application, simply type:
+The consequences of architecture decisions, like adopting microservices, usually only become evident several years after you make them. Microservices have been successful at companies like LinkedIn, Twitter, Facebook, Amazon.com, and Netflix, but that doesn't mean they'll be successful for your organization. Component boundaries are hard to define. If you're not able to create your components cleanly, you're just shifting complexity from inside a component to the connections between components. Also, team capabilities are something to consider. A weak team will always create a weak system.
 
-----
-spring run hello.groovy
-----
+[quote, Martin Fowler]
+You shouldn't start with a microservices architecture. Instead, begin with a monolith, keep it modular, and split it into microservices once the monolith becomes a problem.
 
-After running this command, you can see the application at http://localhost:8080. For more information about the Spring Boot CLI, see http://docs.spring.io/spring-boot/docs/current/reference/html/cli-using-the-cli.html[its documentation].
-****
+== Microservices with JHipster
 
-To show you how to create a simple application with Spring Boot, go to https://start.spring.io and select `Web`, `JPA`, `H2`, and `Actuator` as project dependencies. Click "`Generate Project`" to download a .zip file for your project. Extract it on your hard drive and import it into your favorite IDE.
+In this example, I'll show you how to build a microservices architecture with JHipster. As part of this process, you'll be generating three applications and running several others.
 
-This project has only a few files in it, as you can see by running the `tree` command (on *nix).
+* Generate a gateway.
+* Generate a blog microservice.
+* Generate a store microservice.
+* Run the JHipster Registry, Keycloak, and MongoDB.
 
-----
-.
-├── mvnw
-├── mvnw.cmd
-├── pom.xml
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── com
-    │   │       └── example
-    │   │           └── demo
-    │   │               └── DemoApplication.java
-    │   └── resources
-    │       ├── application.properties
-    │       ├── static
-    │       └── templates
-    └── test
-        └── java
-            └── com
-                └── example
-                    └── demo
-                        └── DemoApplicationTests.java
+You can see how these components fit in the diagram below.
 
-14 directories, 6 files
-----
+.JHipster microservices architecture
+image::chapter5/jhipster-microservices-architecture.png[JHipster microservices architecture, 1378, scaledwidth=100%, align=center]
 
-`DemoApplication.java` is the heart of this application; the file and class name are not relevant. What is relevant is the `@SpringBootApplication` annotation and the class's `public static void main` method.
+To see what's happening inside your applications, you can use the https://jhipster.github.io/monitoring/#jhipster-console[JHipster Console], a monitoring tool based on the https://www.elastic.co/products[Elastic Stack]. I'll cover JHipster Console in the Docker Compose section.
 
-[source,java]
-.src/main/java/com/example/demo/DemoApplication.java
-----
-package com.example.demo;
+This tutorial shows you how to build a microservices architecture with JHipster 5.4.2. You'll generate a gateway (powered by Netflix Zuul), a blog microservice (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+== Generate an API gateway and microservice applications
 
-@SpringBootApplication
-public class DemoApplication {
+One of the new features added in JHipster 5.3.x is the ability to generate a full microservices stack using the `import-jdl` command. Open a terminal window, create a directory (e.g., `jhipster-microservices-example`) and create an `apps.jh` file in it. Copy the JDL below into this file.
 
-    public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
-    }
-}
-----
-
-For this application, you'll create an entity, a JPA repository, and a REST endpoint to show data in the browser. To create an entity, add the following code to the `DemoApplication.java` file, outside of the `DemoApplication` class.
-
-[source,java]
-.src/main/java/demo/com/example/demo/DemoApplication.java
-----
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-...
-
-@Entity
-class Blog {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-    private String name;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Blog{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-}
-----
-
-In the same file, add a `BlogRepository` interface that extends `JpaRepository`. Spring Data JPA makes it really easy to create a CRUD repository for an entity. It automatically creates for you the implementation that talks to the underlying datastore.
-
-[source,java]
-.src/main/java/com/example/demo/DemoApplication.java
-----
-import org.springframework.data.jpa.repository.JpaRepository;
-....
-
-interface BlogRepository extends JpaRepository<Blog, Long> {}
-----
-
-Define a `CommandLineRunner` that injects this repository and prints out all the data that's found by calling its `findAll()` method. `CommandLineRunner` is an interface that's used to indicate that a bean should run when it is contained within a `SpringApplication`.
-
-[source,java]
-.src/main/java/com/example/demo/DemoApplication.java
-----
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
-
-...
-
-@Component
-class BlogCommandLineRunner implements CommandLineRunner {
-
-    private BlogRepository repository;
-
-    public BlogCommandLineRunner(BlogRepository repository) {
-        this.repository = repository;
-    }
-
-    @Override
-    public void run(String... strings) throws Exception {
-        System.out.println(repository.findAll());
-    }
-}
-----
-
-ifeval::["{media}" == "screen"]
-NOTE: Spring 4.3 added https://spring.io/blog/2016/03/04/core-container-refinements-in-spring-framework-4-3[implicit constructor injection], eliminating the need for an `@Autowired` annotation.
-endif::[]
 ifeval::["{media}" == "prepress"]
-NOTE: Spring 4.3 added implicit constructor injection, eliminating the need for an `@Autowired` annotation.
+<<<
 endif::[]
 
-To provide default data, create `src/main/resources/data.sql` and add a couple of SQL statements to insert data.
-
-[source,sql]
-.src/main/resources/data.sql
-----
-insert into blog (name) values ('First');
-insert into blog (name) values ('Second');
-----
-
-Start your application with `mvn spring-boot:run` (or right-click -> "`Run in your IDE`") and you should see this default data show up in your logs.
-
-[source%autofit,shell]
-----
-2017-08-31 23:09:27.436  INFO 67327 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer :
-  Tomcat started on port(s): 8080 (http)
-2017-08-31 23:09:27.470  INFO 67327 --- [main] o.h.h.i.QueryTranslatorFactoryInitiator  :
-  HHH000397: Using ASTQueryTranslatorFactory
-[Blog{id=1, name='First'}, Blog{id=2, name='Second'}]
-2017-08-31 23:09:27.549  INFO 67327 --- [main] com.example.demo.DemoApplication         :
-  Started DemoApplication in 3.924 seconds (JVM running for 4.492)
-----
-
-To publish this data as a REST API, create a `BlogController` class and add a `/blogs` endpoint that returns a list of blogs.
-
-[source,java]
-.src/main/java/demo/com/example/demo/DemoApplication.java
-----
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.Collection;
-...
-
-@RestController
-class BlogController {
-    private final BlogRepository repository;
-
-    public BlogController(BlogRepository repository) {
-        this.repository = repository;
-    }
-
-    @RequestMapping("/blogs")
-    Collection<Blog> list() {
-        return repository.findAll();
-    }
-}
-----
-
-After adding this code and restarting the application, you can `curl` the endpoint or open it in your favorite browser.
-
-----
-$ curl localhost:8080/blogs
-[{"id":1,"name":"First"},{"id":2,"name":"Second"}]
-----
-
-TIP: https://httpie.org/[HTTPie] is an alternative to cURL that makes many things easier.
-
-Spring has one of the best track records for hipness in Javaland. It is an essential cornerstone of the solid API foundation that makes JHipster awesome. Spring Boot allows you to create stand-alone Spring applications that directly embed Tomcat, Jetty, or Undertow. It provides opinionated starter dependencies that simplify your build configuration, regardless of whether you're using Maven or Gradle.
-
-=== External configuration
-
-You can configure Spring Boot externally, so you can work with the same application code in different environments. You can use properties files, YAML files, environment variables, and command-line arguments to externalize your configuration.
-
-Spring Boot runs through this specific sequence for `PropertySource` to ensure that it overrides values sensibly:
-
-1. Devtools global settings properties on your home directory (`~/.spring-boot-devtools.properties` when devtools is active).
-2. `@TestPropertySource` annotations on your tests.
-3. `@SpringBootTest#properties` annotation attribute on your tests.
-4. Command-line arguments,
-5. Properties from `SPRING_APPLICATION_JSON` (inline JSON embedded in an environment variable or system property).
-6. `ServletConfig` init parameters.
-7. `ServletContext` init parameters.
-8. JNDI attributes from `java:comp/env`.
-9. Java System properties (`System.getProperties()`).
-10. OS environment variables.
-11. A `RandomValuePropertySource` that only has properties in `random.*`.
-12. Profile-specific application properties outside of your packaged JAR (`application-{profile}.properties` and YAML variants).
-13. Profile-specific application properties packaged inside your JAR (`application-{profile}.properties` and YAML variants).
-14. Application properties outside of your packaged JAR (`application.properties` and YAML variants).
-15. Application properties packaged inside your JAR (`application.properties` and YAML variants).
-16. `@PropertySource` annotations on your `@Configuration` classes.
-17. Default properties (specified using `SpringApplication.setDefaultProperties`).
-
-==== Application property files
-
-[.text-left]
-By default, `SpringApplication` will load properties from `application.properties` files in the following locations and add them to the Spring `Environment`:
-
-1. a `/config` subdirectory of the current directory,
-2. the current directory,
-3. a classpath `/config` package, and
-4. the classpath root.
-
-TIP: You can also use YAML (`.yml`) files as an alternative to properties files. JHipster uses YAML files for its configuration.
-
-More information about Spring Boot's external-configuration feature can be found in Spring Boot's http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html["`Externalized Configuration`" reference documentation].
-
-[WARNING]
+.apps.jh
 ====
-If you're using third-party libraries that require external configuration files, you may have issues loading them. These files might be loaded with:
+[source]
+----
+application { // <1>
+  config {
+    baseName gateway,
+    packageName com.okta.developer.gateway,
+    applicationType gateway,
+    authenticationType oauth2, // <2>
+    prodDatabaseType postgresql,
+    searchEngine elasticsearch, // <3>
+    serviceDiscoveryType eureka, // <4>
+    testFrameworks [protractor] // <5>
+  }
+  entities Blog, Post, Tag, Product
+}
 
-`XXX.class.getResource().toURI().getPath()`
+application {
+  config {
+    baseName blog,
+    packageName com.okta.developer.blog,
+    applicationType microservice, // <6>
+    authenticationType oauth2, // <7>
+    prodDatabaseType postgresql,
+    searchEngine elasticsearch,
+    serverPort 8081, // <8>
+    serviceDiscoveryType eureka
+  }
+  entities Blog, Post, Tag
+}
 
-This code does not work when using a Spring Boot executable JAR because the classpath is relative to the JAR itself and not the filesystem. One workaround is to run your application as a WAR in a servlet container. You might also try contacting the maintainer of the third-party library to find a solution.
+application {
+  config {
+    baseName store,
+    packageName com.okta.developer.store,
+    applicationType microservice,
+    authenticationType oauth2,
+    databaseType mongodb, // <9>
+    devDatabaseType mongodb,
+    prodDatabaseType mongodb,
+    enableHibernateCache false,
+    searchEngine elasticsearch,
+    serverPort 8082,
+    serviceDiscoveryType eureka
+  }
+  entities Product
+}
+
+// <10>
+entity Blog {
+  name String required minlength(3),
+  handle String required minlength(2)
+}
+
+entity Post {
+  title String required,
+  content TextBlob required,
+  date Instant required
+}
+
+entity Tag {
+  name String required minlength(2)
+}
+
+entity Product {
+  title String required,
+  price BigDecimal required min(0),
+  image ImageBlob
+}
+
+// <11>
+relationship ManyToOne {
+  Blog{user(login)} to User,
+  Post{blog(name)} to Blog
+}
+
+relationship ManyToMany {
+  Post{tag(name)} to Tag{post}
+}
+
+// <12>
+paginate Post, Tag with infinite-scroll
+paginate Product with pagination
+
+// <13>
+microservice Product with store
+microservice Blog, Post, Tag with blog
+----
+<1> JDL supports full stack definitions in v3.0!
+<2> The authentication type for the gateway is OAuth 2.0.
+<3> Specifying `elasticsearch` on the gateway is necessary for JHipster to generate the proper client code for microservices that use Elasticsearch.
+<4> You must specify `eureka` as the service discovery type for the gateway and all microservice apps.
+<5> Including Protractor on the gateway allows you to test everything with `npm run e2e`.
+<6> For the microservice apps, you need to specify an application type of `microservice`.
+<7> The microservice app's authentication type must match the gateway.
+<8> The default server port is 8080. You must specify different ports for each app.
+<9> The store app uses MongoDB for its database. You must use the same databases for dev and prod when using NoSQL options.
+<10> Entity definitions live outside of your application definitions. You can validate your JDL using https://start.jhipster.tech/jdl-studio/[JDL-Studio].
+<11> Relationships between entities can be defined in JDL!
+<12> If you want pagination on your list screens, you can use infinite scrolling or page links.
+<13> You need to specify which microservices contain which entities, or API classes will be generated on your gateway rather than in the microservice.
 ====
 
-=== Automatic configuration
+TIP: You can also find this file http://bit.ly/jhipster-ms-oauth[on GitHub].
 
-Spring Boot is unique in that it automatically configures Spring whenever possible. It does this by peeking into JAR files to see if they're hip. If they are, they contain a `META-INF/spring.factories` that defines configuration classes under the `EnableAutoConfiguration` key. For example, below is what's contained in `spring-boot-actuator-autoconfigure`.
-
-.spring-boot-actuator-autoconfigure-2.0.5.RELEASE.jar!/META-INF/spring.factories
-[%autofit]
-----
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.springframework.boot.actuate.autoconfigure.amqp.RabbitHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.audit.AuditAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.audit.AuditEventsEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.beans.BeansEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.cassandra.CassandraHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.cloudfoundry.servlet.CloudFoundryActuatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.cloudfoundry.reactive.ReactiveCloudFoundryActuatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.condition.ConditionsReportEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.context.properties.ConfigurationPropertiesReportEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.context.ShutdownEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.couchbase.CouchbaseHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.elasticsearch.ElasticsearchHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.endpoint.EndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.endpoint.jmx.JmxEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.env.EnvironmentEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.flyway.FlywayEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.health.HealthEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.health.HealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.influx.InfluxDbHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.info.InfoContributorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.info.InfoEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.jdbc.DataSourceHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.jms.JmsHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.jolokia.JolokiaEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.ldap.LdapHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.liquibase.LiquibaseEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.logging.LogFileWebEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.logging.LoggersEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.mail.MailHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.management.HeapDumpWebEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.management.ThreadDumpEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.CompositeMeterRegistryAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.MetricsAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.MetricsEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.amqp.RabbitMetricsAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.cache.CacheMetricsAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.export.atlas.AtlasMetricsExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.export.datadog.DatadogMetricsExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.export.ganglia.GangliaMetricsExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.export.graphite.GraphiteMetricsExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.export.influx.InfluxMetricsExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.export.jmx.JmxMetricsExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.export.newrelic.NewRelicMetricsExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.export.prometheus.PrometheusMetricsExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.export.simple.SimpleMetricsExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.export.signalfx.SignalFxMetricsExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.export.statsd.StatsdMetricsExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.export.wavefront.WavefrontMetricsExportAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.jdbc.DataSourcePoolMetricsAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.web.client.RestTemplateMetricsAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.web.reactive.WebFluxMetricsAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.web.servlet.WebMvcMetricsAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.metrics.web.tomcat.TomcatMetricsAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.mongo.MongoHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.neo4j.Neo4jHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.redis.RedisHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.scheduling.ScheduledTasksEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.session.SessionsEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.solr.SolrHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.system.DiskSpaceHealthIndicatorAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.trace.http.HttpTraceAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.trace.http.HttpTraceEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.web.mappings.MappingsEndpointAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.web.reactive.ReactiveManagementContextAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration,\
-org.springframework.boot.actuate.autoconfigure.web.servlet.ServletManagementContextAutoConfiguration
-org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration=\
-org.springframework.boot.actuate.autoconfigure.endpoint.web.ServletEndpointManagementContextConfiguration,\
-org.springframework.boot.actuate.autoconfigure.endpoint.web.reactive.WebFluxEndpointManagementContextConfiguration,\
-org.springframework.boot.actuate.autoconfigure.endpoint.web.servlet.WebMvcEndpointManagementContextConfiguration,\
-org.springframework.boot.actuate.autoconfigure.endpoint.web.jersey.JerseyWebEndpointManagementContextConfiguration,\
-org.springframework.boot.actuate.autoconfigure.web.jersey.JerseyManagementChildContextConfiguration,\
-org.springframework.boot.actuate.autoconfigure.web.reactive.ReactiveManagementChildContextConfiguration,\
-org.springframework.boot.actuate.autoconfigure.web.servlet.ServletManagementChildContextConfiguration,\
-org.springframework.boot.actuate.autoconfigure.web.servlet.WebMvcEndpointChildContextConfiguration
-
-org.springframework.boot.diagnostics.FailureAnalyzer=\
-org.springframework.boot.actuate.autoconfigure.metrics.MissingRequiredConfigurationFailureAnalyzer
-----
-
-[.text-left]
-These configuration classes will usually contain `@Conditional` annotations to help configure themselves. Developers can use `@ConditionalOnMissingBean` to override the auto-configured defaults. There are several conditional-related annotations you can use when developing Spring Boot plugins:
-
-* `@ConditionalOnClass` and `@ConditionalOnMissingClass`
-* `@ConditionalOnMissingClass` and `@ConditionalOnMissingBean`
-* `@ConditionalOnProperty`
-* `@ConditionalOnResource`
-* `@ConditionalOnWebApplication` and `@ConditionalOnNotWebApplication`
-* `@ConditionalOnExpression`
-
-These annotations are what give Spring Boot its immense power and make it easy to use, configure, and override.
-
-=== Actuator
-
-Spring Boot's Actuator sub-project adds several production-grade services to your application with little effort. You can add the actuator to a Maven-based project by adding the `spring-boot-starter-actuator` dependency.
-
-[source,xml]
-----
-<dependencies>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
-</dependencies>
-----
-
-If you're using Gradle, you'll save a few lines:
-
-[source,groovy]
-----
-dependencies {
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-}
-----
-
-Actuator's main features are endpoints, metrics, auditing, and process monitoring. Actuator auto-creates a number of REST endpoints. By default, Spring Boot will also expose management endpoints as JMX MBeans under the `org.springframework.boot` domain. Actuator REST endpoints include:
-
-* `/auditevents` — Exposes audit events information for the current application.
-* `/beans` — Returns a complete list of all the Spring beans in your application.
-* `/conditions` — Shows the conditions that were evaluated on configuration and auto-configuration classes.
-* `/configprops` — Returns a list of all `@ConfigurationProperties`.
-* `/env` — Returns properties from Spring's `ConfigurableEnvironment`.
-* `/flyway` — Shows any Flyway database migrations that have been applied.
-* `/health` — Returns information about application health.
-* `/httptrace` — Returns trace information (by default, the last 100 HTTP requests).
-* `/info` — Returns basic application info.
-* `/loggers` — Shows and modifies the configuration of loggers in the application.
-* `/liquibase` — Shows any Liquibase database migrations that have been applied.
-* `/metrics` — Returns performance information for the current application.
-* `/mappings` — Returns a  list of all `@RequestMapping` paths.
-* `/scheduledtasks` — Displays the scheduled tasks in your application.
-* `/sessions` — Allows retrieval and deletion of user sessions from a Spring Session-backed session store.
-* `/shutdown` — Shuts the application down gracefully (not enabled by default).
-* `/threaddump` — Performs a thread dump.
-
-JHipster includes a plethora of Spring Boot starter dependencies by default. This allows developers to write less code and worry less about dependencies and configuration. The boot-starter dependencies in the 21-Points Health application are as follows:
-
-// cat build.gradle | grep boot-starter
-----
-spring-boot-starter-cache
-spring-boot-starter-mail
-spring-boot-starter-logging
-spring-boot-starter-actuator
-spring-boot-starter-aop
-spring-boot-starter-data-jpa
-spring-boot-starter-data-elasticsearch
-spring-boot-starter-data-jest
-spring-boot-starter-security
-spring-boot-starter-web
-spring-boot-starter-undertow
-spring-boot-starter-thymeleaf
-spring-boot-starter-test
-----
-
-Spring Boot does a great job of auto-configuring libraries and simplifying Spring. JHipster complements that by integrating the wonderful world of Spring Boot with a modern UI and developer experience.
-
-== Spring WebFlux
-
-Spring Boot 2.0 also supports building applications with a reactive stack through Spring WebFlux. When using WebFlux (instead of Web), your application will be based on the Reactive Streams API and run on non-blocking servers such as Netty, Undertow, and Servlet 3.1+ containers.
-
-At the time of this writing, JHipster has experimental support for generating  microservice apps with WebFlux. See https://github.com/jhipster/generator-jhipster/pull/7983[pull request #7983] for more information.
-
-Showing how Spring WebFlux works is outside the scope of this mini-book. If you'd like to learn more about it, I'd suggest you read Josh Long and my https://developer.okta.com/blog/2018/09/24/reactive-apis-with-spring-webflux[Build Reactive APIs with Spring WebFlux] blog post.
-
-== Maven versus Gradle
-
-Maven and Gradle are the two main build tools used in Java projects today. JHipster allows you to use either one. With Maven, you have one `pom.xml` file that's 1090 lines of XML. With Gradle, you end up with several `*.gradle` files. In the 21-Points project, the Groovy code adds up to only 496 lines.
-
-////
-build.gradle (280)
-gradle.properties (20)
-settings.gradle (1)
-gradle/docker.gradle (29)
-gradle/heroku.gradle (14)
-gradle/profile_dev.gradle (45)
-gradle/profile_prod.gradle (56)
-gradle/sonar.gradle (48)
-gradle/zipkin.gradle (3)
-
-280 + 20 + 1 + 29 + 14 + 45 + 56 + 48 + 3 = 496
-////
-
-Apache calls http://maven.apache.org/[Apache Maven] a "`software project-management and comprehension tool`". Based on the concept of a project object model (POM), Maven can manage a project's build, reporting, and documentation from a central piece of information. Most of Maven's functionality comes through plugins. There are Maven plugins for building, testing, source-control management, running a web server, generating IDE project files, and much more.
-
-https://gradle.org/[Gradle] is a general-purpose build tool. It can build pretty much anything you care to implement in your build script. Out of the box, however, it won't build anything unless you add code to your build script to ask for that. Gradle has a Groovy-based domain-specific language (DSL) instead of the more traditional XML form of declaring the project configuration. Like Maven, Gradle has plugins that allow you to configure tasks for your project. Most plugins add some preconfigured tasks, which together do something useful. For example, Gradle's Java plugin adds tasks to your project that will compile and unit test your Java source code as well as bundle it into a JAR file.
-
-In January 2014, ZeroTurnaround's RebelLabs published a report titled http://zeroturnaround.com/rebellabs/java-build-tools-part-2-a-decision-makers-comparison-of-maven-gradle-and-ant-ivy/[Java Build Tools – Part 2: A Decision Maker's Comparison of Maven, Gradle and Ant + Ivy], which provided a timeline of build tools from 1977 through 2013.
-
-[[img-evolution-of-build-tools-timeline]]
-.The Evolution of Build Tools, 1977-2013
-image::chapter4/evolution-of-build-tools-timeline.jpg[The Evolution of Build Tools, 600, scaledwidth=100%, align=center]
-
-Back then, RebelLabs advised that you experiment with Gradle in your next project.
-
-[, RebelLabs, "Java Build Tools – Part 2: A Decision Maker's Comparison of Maven, Gradle and Ant + Ivy"]
-""
-If we were forced to conclude with any general recommendation, it would be to go with Gradle if you are starting a new project.
-""
-
-I've used both tools for building projects and they've both worked quite well. Maven works for me, but I've used it for over 10 years and recognize that my history and experience with it might contribute to my bias towards it. If you prefer Gradle simply because you are trying to avoid XML, https://github.com/takari/polyglot-maven[Polyglot for Maven] may change your perspective. It supports Atom, Groovy, Clojure, Ruby, Scala, and YAML languages. Ironically, you need to include a XML file to use it. To add support for non-XML languages, create a `+${project}/.mvn/extensions.xml+` file and add the following XML to it.
-
-[source,xml]
-----
-<?xml version="1.0" encoding="UTF-8"?>
-<extensions>
-  <extension>
-    <groupId>io.takari.polyglot</groupId>
-    <artifactId>${artifactId}</artifactId>
-    <version>0.3.0</version>
-  </extension>
-</extensions>
-----
-
-In this example, `+${artifactId}+` should be `polyglot-_language_`, where `_language_` is one of the aforementioned languages.
-
-To convert an existing `pom.xml` file to another format, you can use the following command.
+Run JHipster's `import-jdl` command to import this microservices architecture definition.
 
 ----
-mvn io.takari.polyglot:polyglot-translate-plugin:translate \
- -Dinput=pom.xml -Doutput=pom.{format}
+jhipster import-jdl apps.jh
 ----
 
-Supported formats are `rb`, `groovy`, `scala`, `yaml`, `atom`, and of course `xml`. You can even convert back to XML or cross-convert between all supported formats. To learn more about alternate languages with Maven, see https://github.com/takari/polyglot-maven[Polyglot for Maven] on GitHub.
+The project generation process will take a minute or two to run, depending on your internet connection speed and hardware.
 
-Many Internet resources support the use of Gradle. There's Gradle's own https://gradle.org/maven_vs_gradle/[Gradle vs Maven Feature Comparison]. Benjamin Muschko, a principal engineer at Gradle, wrote a Dr. Dobb's article titled http://www.drdobbs.com/jvm/why-build-your-java-projects-with-gradle/240168608["`Why Build Your Java Projects with Gradle Rather than Ant or Maven?`"] He's also the the author of https://www.manning.com/books/gradle-in-action[_Gradle in Action_].
+While you're waiting, you can get started with setting up OAuth with Okta.
 
-Gradle is the default build tool for Android development. Android Studio uses a Gradle wrapper to fully integrate the Android plugin for Gradle.
+=== What is OAuth 2.0?
 
-TIP: Both Maven and Gradle provide wrappers that allow you to embed the build tool within your project and source-control system. This allows developers to build or run the project after only installing Java. Since the build tool is embedded, they can type `gradlew` or `mvnw` to use the embedded build tool.
+The OAuth implementation in JHipster leverages Spring Boot and its OAuth 2.0 support (an `@EnableOAuthSso` annotation). OAuth provides single sign-on (SSO) to JHipster applications. "`link:https://developer.okta.com/blog/2018/02/13/secure-spring-microservices-with-oauth[Securing Microservices with Spring Security OAuth]`" shows a bare-bones Spring microservices architecture using OAuth. JHipster uses the same internal setup.
 
-Regardless of which you prefer, Spring Boot supports both Maven and Gradle. You can learn more by visiting their respective documentation pages:
+JHipster ships with https://keycloak.org[Keycloak] configured for OAuth by default. This works great for local development. However, if you want to deploy your apps to production, you might want to use an identity provider that's always on, like Okta. Okta offers accounts that are forever-free and allow you 1,000 monthly users at no cost.
 
-* http://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html[Spring Boot Maven plugin]
-* http://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html[Spring Boot Gradle plugin]
+To configure your apps to work with Okta, you'll first need to https://developer.okta.com/signup/[create a free developer account]. After doing so, you'll get your own Okta domain, which has a name like `https://dev-123456.oktapreview.com`.
 
-I'd recommend starting with the tool that's most familiar to you. If you're using JHipster for the first time, you'll want to limit the number of new technologies you have to deal with. You can always add some for your next application. JHipster is a great learning tool, and you can also generate your project with a different build tool to see what that looks like.
+image::chapter5/okta-signup.png[Okta Developer Signup, 1200, scaledwidth=100%, align=center]
 
-== IDE support: Running, debugging, and profiling
+=== Create an OpenID Connect application on Okta
 
-IDE stands for "`integrated development environment`". It is the lifeblood of a programmer who likes keyboard shortcuts and typing fast. The good IDEs have code completion that allows you to type a few characters, press tab, and have your code written for you. Furthermore, they provide quick formatting, easy access to documentation, and debugging. You can generate a lot of code with your IDE in statically typed languages like Java, like getters and setters on POJOs and methods in interfaces and classes. You can also easily find references to methods.
+Create an OpenID Connect (OIDC) app in Okta to get a client ID and a secret. This basically means you're "registering" your application with Okta. Log in to your Okta account and navigate to *Applications* &gt; *Add Application*. Click *Web* and click *Next*. Give the app a name you’ll remember (e.g., `JHipster Microservices`), and specify `http://localhost:8080/login` as a login redirect URI. Click *Done* and make note of your client ID and client secret values.
 
-The JHipster documentation includes https://www.jhipster.tech/configuring-ide/[guides] for configuring Eclipse, IntelliJ IDEA, Visual Studio Code, and NetBeans. Not only that, but Spring Boot has a devtools plugin that's configured by default in a generated JHipster application. This plugin allows hot-reloading of your application when you recompile classes.
+In order for the roles coming from Okta to match the default roles in JHipster, you'll need to create them. Create a `ROLE_ADMIN` and `ROLE_USER` group (**Users** &gt; *Groups* &gt; *Add Group*) and add users to them. You can use the account you signed up with, or create a new user (**Users** &gt; *Add Person*). Navigate to *API* &gt; *Authorization Servers*, click the *Authorization Servers* tab and edit the default one. Click the *Claims* tab and *Add Claim*. Name it `roles`, and include it in the ID Token. Set the value type to `Groups` and set the filter to be a Regex of `.*`.
 
-https://www.jetbrains.com/idea/[IntelliJ IDEA], which brings these same features to Java development, is a truly amazing IDE. If you're only writing JavaScript, their https://www.jetbrains.com/webstorm/[WebStorm IDE] will likely become your best friend. Both IntelliJ products have excellent CSS support and accept plugins for many web languages/frameworks. To make IDEA auto-compile on save, like Eclipse does, perform the following steps:
+Modify `gateway/src/main/resources/config/application.yml` to have the following values:
 
-* Navigate to File > Settings > Build, Execution, Deployment > Compiler: enable `Make project automatically`
-* Open Registry (Mac: kbd:[Cmd+Shift+A], Linux: kbd:[Ctrl+Shift+A], choose Registry...) and enable `compiler.automake.allow.when.app.running`
-
-https://eclipse.org/downloads/[Eclipse] is a free alternative to IntelliJ IDEA. Its error highlighting (via auto-compile), code assist, and refactoring support is excellent. When I started using it back in 2002, it blew away the competition. It was the first Java IDE that was fast and efficient to use. Unfortunately, it fell behind in the JavaScript MVC era and lacks good support for JavaScript or CSS.
-
-NetBeans has a http://plugins.netbeans.org/plugin/67888/nb-springboot[Spring Boot plugin]. The NetBeans team has been doing a lot of work on web-tools support; they have good JavaScript/AngularJS support and there's a https://chrome.google.com/webstore/detail/netbeans-connector/hafdlehgocfcodbgjnpecfajgkeejnaa?hl=en[NetBeans Connector] plugin for Chrome that allows two-way editing in NetBeans and Chrome.
-
-https://code.visualstudio.com[Visual Studio Code] is an open-source text editor made by Microsoft. It's become a popular editor for TypeScript and has plugins for Java development.
-
-The beauty of Spring Boot is you can run it as a simple Java process. This means you can right-click on your `*Application.java` class and run it (or debug it) from your IDE. When debugging, you'll be able to set breakpoints in your Java classes and see what variables are being set to before a process executes.
-
-To learn about profiling a Java application, I recommend you watch Nitsan Wakart's https://www.youtube.com/watch?v=_6vJyciXkwo["`Java Profiling from the Ground Up!`"] To learn more about memory and JavaScript applications, I recommend Addy Osmani's http://addyosmani.com/blog/video-javascript-memory-management-masterclass/["`JavaScript Memory Management Masterclass`"].
-
-== Security
-
-Spring Boot has excellent security features thanks to its integration with Spring Security. When you create a Spring Boot application with a `spring-boot-starter-security` dependency, you get HTTP Basic authentication out of the box. By default, a user is created with username `user` and the password is printed in the logs when the application starts. To override the generated password, you can define a `spring.security.user.password`. Additional security features of Spring Boot can be found in http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-security.html[Spring Boot's guide to security].
-
-The most basic Spring Security Java configuration creates a servlet `Filter`, which is responsible for all the security (protecting URLs, validating credentials, redirecting to login, etc.). This involves several lines of code, but half of them are class imports.
-
-[source%autofit,java]
+[source%autofit,yaml]
 ----
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
-import static org.springframework.security.core.userdetails.User.UserBuilder;
-
-@EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Bean
-    public UserDetailsService userDetailsService() {
-        // ensure the passwords are encoded properly
-        UserBuilder users = User.withDefaultPasswordEncoder();
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(users.username("user").password("password").roles("USER").build());
-        return manager;
-    }
-}
+security:
+    oauth2:
+        client:
+            access-token-uri: https://{yourOktaDomain}/oauth2/default/v1/token
+            user-authorization-uri: https://{yourOktaDomain}/oauth2/default/v1/authorize
+            client-id: {clientId}
+            client-secret: {clientSecret}
+            scope: openid profile email
+        resource:
+            user-info-uri: https://{yourOktaDomain}/oauth2/default/v1/userinfo
 ----
 
-There's not much code, but it provides many features:
+You can also use environment variables to override the default values. I recommend using this technique because 1) you don't need to modify the values in each microservice application and 2) it prevents you from leaking your client secrets in a source-code repository. Create `~/.okta.env` and copy the `export` commands below into it. With that file in place, you can run `source ~/.okta.env` to override the default Spring Security settings.
 
-* It requires authentication to every URL in your application.
-* It generates a login form for you.
-* It allows user:password to authenticate with form-based authentication.
-* It allows the user to log out.
-* It prevents CSRF attacks.
-* It protects against session fixation.
-* It includes security-header integration with:
-** HTTP Strict Transport Security for secure requests,
-** X-Content-Type-Options integration,
-** cache control,
-** X-XSS-Protection integration, and
-** X-Frame-Options integration to help prevent clickjacking.
-* It integrates with HttpServletRequest API methods of: `getRemoteUser()`, `getUserPrinciple()`, `isUserInRole(role)`, `login(username, password)`, and `logout()`.
-
-JHipster takes the excellence of Spring Security and uses it to provide the real-world authentication mechanism that applications need. When you create a new JHipster project, it provides you with three authentication options:
-
-* *JWT authentication* — A stateless security mechanism. JSON Web Token (JWT) is an https://tools.ietf.org/html/rfc7519[IETF proposed standard] that uses a compact, URL-safe means of representing claims to be transferred between two parties. JHipster's implementation uses the https://github.com/jwtk/jjwt[Java JWT project].
-* *HTTP Session Authentication* — Uses the HTTP session, so it is a stateful mechanism. Recommended for small applications.
-* *OAuth 2.0 / OIDC Authentication* — A stateful security mechanism, like HTTP Session. You might prefer it if you want to share your users between several applications.
-
-.OAuth 2.0
-****
-http://oauth.net/2/[OAuth 2.0] is the current version of the OAuth framework (originally created in 2006). OAuth 2.0 focuses on simplifying client development while supporting web applications, desktop applications, mobile phones, and living-room devices. If you'd like to learn about how OAuth works, see https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth[What the Heck is OAuth?]
-****
-
-In addition to authentication choices, JHipster offers security improvements: improved "`remember me`" (unique tokens stored in database), cookie-theft protection, and CSRF protection.
-
-By default, JHipster comes with four different users:
-
-* *system* — Used by audit logs when something is done automatically.
-* *anonymousUser* — Anonymous users when they do an action.
-* *user* — A normal user with "`ROLE_USER`" authorization; the default password is "`user`".
-* *admin* — An admin user with "`ROLE_USER`" and "`ROLE_ADMIN`" authorizations; the default password is "`admin`".
-
-For security reasons, you should change the default passwords in `src/main/resources/config/liquibase/users.csv` or through the User Management feature when deployed.
-
-== JPA versus MongoDB versus Cassandra
-
-A traditional relational-database management system (RDBMS) provides a number of properties that guarantee its transactions are processed reliably: ACID, for atomicity, consistency, isolation, and durability. Databases like MySQL and PostgreSQL provide RDBMS support and have done wonders to reduce the costs of databases. JHipster supports vendors like Oracle and Microsoft as well. If you'd like to use a traditional database, select SQL when creating your JHipster project.
-
-TIP: JHipster's https://www.jhipster.tech/using-oracle/[Using Oracle] guide explains how you need an Oracle account to download its proprietary JDBC driver.
-
-NoSQL databases have helped many web-scale companies achieve high scalability through https://en.wikipedia.org/wiki/Eventual_consistency[eventual consistency]: because a NoSQL database is often distributed across several machines, with some latency, it guarantees only that all instances will eventually be consistent. Eventually consistent services are often called BASE (basically available, soft state, eventual consistency) services in contrast to traditional ACID properties.
-
-When you create a new JHipster project, you'll be prompted with the following.
-
+[source%autofit,bash]
 ----
-? Which *type* of database would you like to use? (Use arrow keys)
-❯ SQL (H2, MySQL, MariaDB, PostgreSQL, Oracle, MSSQL)
-  MongoDB
-  Couchbase
-  Cassandra
+export SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI="https://{yourOktaDomain}/oauth2/default/v1/token"
+export SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI="https://{yourOktaDomain}/oauth2/default/v1/authorize"
+export SECURITY_OAUTH2_RESOURCE_USER_INFO_URI="https://{yourOktaDomain}/oauth2/default/v1/userinfo"
+export SECURITY_OAUTH2_CLIENT_CLIENT_ID="{clientId}"
+export SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="{clientSecret}"
 ----
 
-If you're familiar with RDBMS databases, I recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku and MySQL has excellent support on AWS. JHipster's https://www.jhipster.tech/aws/[AWS sub-generator] has a limitation of only working with MySQL.
+TIP: If you want to make Okta settings the default, you can add `source ~/.okta.env` to `~/.bashrc` (or `~/.zshrc`).
 
-If your idea is the next Facebook, you might want to consider a NoSQL database that's more concerned with performance than third normal form.
+If you're hard-coding your Okta settings in `application.yml`, make sure you update your settings in the blog and store apps too. If you're using environment variables, you don't need to make any changes.
 
-[, MongoDB, 'https://mongodb.com/nosql-explained[NOSQL Database Explained]']
-""
-NoSQL encompasses a wide variety of different database technologies that were developed in response to a rise in the volume of data stored about users, objects, and products, the frequency in which this data is accessed, and performance and processing needs. Relational databases, on the other hand, were not designed to cope with the scale and agility challenges that face modern applications, nor were they built to take advantage of the cheap storage and processing power available today.
-""
+TIP: If you're using Protractor and want to run your tests against Okta, you'll need to add a user to the `ROLE_ADMIN` group on Okta and change the credentials to match that user in `src/test/javascript/e2e/account/account.spec.ts` and `src/test/javascript/e2e/admin/administration.spec.ts`.
 
-MongoDB was founded in 2007 by the folks behind DoubleClick, ShopWiki, and Gilt Groupe. It uses the Apache and GNU-APGL licenses on https://github.com/mongodb/mongo[GitHub]. Its many large customers include Adobe, eBay, and eHarmony.
+== Start JHipster Registry, Keycloak, and MongoDB
 
-http://cassandra.apache.org/[Cassandra] is "`a distributed storage system for managing structured data that is designed to scale to a very large size across many commodity servers, with no single point of failure`" (from https://www.facebook.com/notes/facebook-engineering/cassandra-a-structured-storage-system-on-a-p2p-network/24413138919["`Cassandra – A structured storage system on a P2P Network`"] on the Facebook Engineering blog). It was initially developed at Facebook to power its Inbox Search feature. Its creators, Avinash Lakshman (one of the creators of Amazon DynamoDB) and Prashant Malik, released it as an open-source project in July 2008. In March 2009, it became an Apache Incubator project, and graduated to a top-level project in February 2010.
+You'll need a service-discovery server installed before you can start the gateway. You'll also need Keycloak for authentication and MongoDB for your store microservices. The blog application depends on Elasticsearch and PostgreSQL, but only when running in production mode. Luckily, JHipster creates Docker Compose files for all of the services your apps depend on. You can run the following commands from your project's root directory to start Docker containers for JHipster Registry, Keycloak, and MongoDB.
 
-In addition to Facebook, Cassandra helps a number of other companies achieve web scale. It has some impressive numbers about scalability on its homepage.
-
-[, Cassandra, 'http://cassandra.apache.org[Project Homepage]']
-""
-One of the largest production deployments is Apple's, with over 75,000 nodes storing over 10 PB of data. Other large Cassandra installations include Netflix (2,500 nodes, 420 TB, over 1 trillion requests per day), Chinese search engine Easou (270 nodes, 300 TB, over 800 million requests per day), and eBay (over 100 nodes, 250 TB).
-""
-
-JHipster's data support lets you dream big!
-
-.NoSQL with JHipster
-****
-When MongoDB is selected:
-
-* JHipster will use Spring Data MongoDB, similar to Spring Data JPA.
-* JHipster will use https://github.com/mongobee/mongobee[Mongobee] instead of Liquibase to manage database migrations.
-* The entity sub-generator will not ask you about relationships. You can't have relationships with a NoSQL database.
-* `de.flapdoodle.embed.mongo` is used to run an in-memory version of the database for running unit tests.
-****
-
-== Liquibase
-
-http://www.liquibase.org/[Liquibase] is "`source control for your database`". It's an open-source (Apache 2.0) project that allows you to manipulate your database as part of a build or runtime process. It allows you to diff your entities against your database tables and create migration scripts. It even allows you to provide comma-delimited default data! For example, default users are loaded from `src/main/resources/config/liquibase/users.csv`.
-
-This file is loaded by Liquibase when it creates the database schema.
-
-[source%autofit,xml]
-.src/main/resources/config/liquibase/changelog/00000000000000_initial_schema.xml
 ----
-<loadData encoding="UTF-8"
-          file="config/liquibase/users.csv"
-          separator=";"
-          tableName="jhi_user">
-    <column name="activated" type="boolean"/>
-    <column name="created_date" type="timestamp"/>
-</loadData>
-<dropDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="datetime"/>
+docker-compose -f gateway/src/main/docker/jhipster-registry.yml up -d
+docker-compose -f gateway/src/main/docker/keycloak.yml up -d
+docker-compose -f store/src/main/docker/mongodb.yml up -d
 ----
 
-Liquibase supports http://www.liquibase.org/databases.html[most major databases]. If you use MySQL or PostgreSQL, you can use `mvn liquibase:diff` (or `./gradlew generateChangeLog`) to automatically generate a changelog.
+By default, the JHipster Registry will use Keycloak when running with Docker Compose. For everything to work properly, you'll need to add an entry to your `hosts` file for Keycloak.
 
-https://www.jhipster.tech/development/[JHipster's development guide] recommends the following workflow:
+----
+127.0.0.1       keycloak
+----
 
-1. Modify your JPA entity (add a field, a relationship, etc.).
-2. Run `mvn compile liquibase:diff`.
-3. A new changelog is created in your `src/main/resources/config/liquibase/changelog` directory.
-4. Review this changelog and add it to your `src/main/resources/config/liquibase/master.xml` file, so it is applied the next time you run your application.
+If you want to change it to use Okta, you'll need to modify `gateway/src/main/docker/jhipster-registry.yml` and change the default Keycloak settings to use your Okta settings, or environment variables (recommended).
 
-If you use Gradle, you can use the same workflow by running `./gradlew generateChangeLog`.
+[source%autofit,yaml]
+----
+- SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI=${SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI}
+- SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI=${SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI}
+- SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
+- SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
+- SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
+----
 
-== Elasticsearch
+TIP: You can also put these variables in a file and specify an `env_file` setting. See https://docs.docker.com/compose/environment-variables/#the-env-file[Environment variables in Compose] to learn more.
 
-Elasticsearch adds searchability to your entities. JHipster's Elasticsearch support requires using a SQL database. Spring Boot uses and configures http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-nosql.html#boot-features-elasticsearch[Spring Data Elasticsearch]. When using JHipster's entity sub-generator, it automatically indexes the entity and creates an endpoint to support searching its properties. Search superpowers are also added to the Angular UI, so you can search in your entity's list screen.
+Then you'll need to restart your JHipster Registry (if it's already running):
 
-When using the (default) "`dev`" profile, the in-memory Elasticsearch instance will store files in the `build/elasticsearch` folder. You can change this by modifying the following setting in `application-dev.yml`.
+----
+docker-compose -f gateway/src/main/docker/jhipster-registry.yml restart
+----
+
+To log in, you'll need to add `http://localhost:8761/login` as a login-redirect URI in your Okta app.
+
+== Run your microservices architecture
+
+Open three terminal windows and navigate to each app (`gateway`, `blog`, and `store`). In each window, and run Maven to start each app:
+
+[source,java]
+----
+./mvnw
+----
+
+TIP: If you already have Maven installed, you can simply use `mvn`.
+
+Open your browser and go to http://localhost:8761. Log in, and you should see a welcome page that shows that the gateway and both apps have been registered.
+
+.JHipster Registry with gateway registered
+image::chapter5/jhipster-registry-with-gateway+apps.png[JHipster Registry with gateway registered, 800, scaledwidth=100%, align=center]
+
+Once everything is running, open a browser, go to http://localhost:8080, and click *sign in*. You should be redirected to your Okta tenant to sign in, then back to the gateway once you've entered valid credentials.
+
+.Welcome, JHipster
+image::chapter5/welcome-jhipster.png["Welcome, JHipster", 1200, scaledwidth=100%, align=center]
+
+.Okta sign-in
+image::chapter5/okta-sign-in.png[Okta sign-in, 1200, scaledwidth=100%, align=center]
+
+.JHipster after Okta SSO
+image::chapter5/jhipster-logged-in.png[JHipster after Okta SSO, 800, scaledwidth=100%, align=center]
+
+You should be able to navigate to *Entities* &gt; *Blog* and add a new blog record to your blog microservice.
+
+.New blog
+image::chapter5/new-blog.png[New blog, 800, scaledwidth=100%, align=center]
+
+Navigate to *Entities* > *Product* to prove your product microservice is working. Since you added an image as a property, you'll be prompted to upload one when creating a new record.
+
+.Add product page
+image::chapter5/add-product-page.png[Add product page, 800, scaledwidth=100%, align=center]
+
+Click *Save* and you'll know, based on the generated ID, that it's correctly using MongoDB.
+
+.New Product
+image::chapter5/new-product.png[New Product, 800, scaledwidth=100%, align=center]
+
+=== Use Docker Compose to run everything
+
+Rather than individually starting all your services, you can start them all at once using https://docs.docker.com/compose/[Docker Compose]. To learn more about Docker Compose, see "`link:https://developer.okta.com/blog/2017/10/11/developers-guide-to-docker-part-3[A Developer's Guide to Docker Compose]`".
+
+Create a `docker-compose` directory in the root directory (`jhipster-microservices-example`) and run JHipster's Docker Compose subgenerator.
+
+[source]
+----
+mkdir docker-compose
+cd docker-compose
+jhipster docker-compose
+----
+
+Answer as follows when prompted:
+
+|===
+|Question |Answer
+
+|Type of application? |`Microservice application`
+|Type of gateway? |`JHipster gateway`
+|Directory location? |`../`
+|Applications to include? |`&lt;select all&gt;`
+|Applications with clustered databases? |`&lt;blank&gt;`
+|Setup monitoring? |`Yes, with JHipster Console`
+|Additional technologies? |`Zipkin`
+|Admin password |`&lt;choose your own&gt;`
+|===
+
+You'll get a warning that says you need to generate Docker images by running the following command in the `blog`, `gateway`, and `store` directories. Stop all your running processes and build your Docker images before proceeding.
+
+[source]
+----
+./mvnw package -Pprod jib:dockerBuild
+----
+
+While you're waiting for things to build, edit `docker-compose/docker-compose.yml` and change the Spring Security settings from being hard-coded to being environment variables. Make this change for all applications and make sure to add the client ID and secret since those aren't included by default.
+
+[source%autofit,yaml]
+----
+services:
+    blog-app:
+        image: blog
+        environment:
+            - SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
+            - SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
+            - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
+    ...
+    gateway-app:
+        image: gateway
+        environment:
+            - SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI=${SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI}
+            - SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI=${SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI}
+            - SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
+            - SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
+            - SECURITY_OAUTH2_CLIENT_SCOPE=openid profile email
+            - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
+    ....
+    store-app:
+        image: store
+        environment:
+            - SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
+            - SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
+            - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
+----
+
+You can remove Keycloak from `docker-compose/docker-compose.yml` since it won't be used with this configuration.
 
 [source,yaml]
-.src/main/resources/config/application-dev.yml
 ----
-data:
-    elasticsearch:
-        properties:
-            path:
-                home: build/elasticsearch
+keycloak:
+    extends:
+        file: keycloak.yml
+        service: keycloak
 ----
 
-When using the "`prod`" profile, JHipster will use Spring Data Jest to communicate with Elasticsearch's REST API on port `9200`. This setting is configured in `application-prod.yml`.
+You'll need to edit `docker-compose/jhipster-registry.yml` as well.
 
-[source,yaml]
-.src/main/resources/config/application-prod.yml
+[source%autofit,yaml]
 ----
-data:
-    jest:
-        uri: http://localhost:9200
-----
-
-If you want to run the "`prod`" profile locally, you will need to start an Elasticsearch Docker image first.
-
-----
-docker-compose -f src/main/docker/elasticsearch.yml up -d
-----
-
-Elasticsearch is used by a number of well-known companies: Facebook, GitHub, and Uber among others. The project is backed by https://www.elastic.co/[Elastic], which provides an ecosystem of projects around Elasticsearch. Some examples are:
-
-* https://www.elastic.co/cloud[Elasticsearch as a Service] — "`Hosted and managed Elasticsearch`".
-* https://www.elastic.co/products/logstash[Logstash] — "`Process any data, from any source`".
-* https://www.elastic.co/products/kibana[Kibana] — "`Explore and visualize your data`".
-
-The ELK (Elasticsearch, Logstash, and Kibana) stack is all open-source projects sponsored by Elastic. It's a powerful solution for monitoring your applications and seeing how they're being used.
-
-== Deployment
-
-A JHipster application can be deployed wherever a Java program can be run. Spring Boot uses a `public static void main` entry point that launches an embedded web server for you. Spring Boot applications are embedded in a "`fat JAR`", which includes all necessary dependencies like, for example, the web server and start/stop scripts. You can give anybody this `.jar` and they can easily run your app: no build tool required, no setup, no web-server configuration, etc. It's just `java -jar killerapp.jar`.
-
-TIP: Josh Long's https://spring.io/blog/2014/03/07/deploying-spring-boot-applications["`Deploying Spring Boot Applications`"] is an excellent resource for learning how to customize your application archive. It shows how to change your application to a traditional WAR: extend `SpringBootServletInitializer`, change packaging to `war`, and set `spring-boot-starter-tomcat` as a provided dependency.
-
-To build your JHipster app with the production profile, use the preconfigured "`prod`" Maven profile.
-
-----
-mvn -Pprod package
+services:
+    jhipster-registry:
+        ...
+        environment:
+            - SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI=${SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI}
+            - SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI=${SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI}
+            - SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
+            - SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
+            - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
 ----
 
-With Gradle, it's:
+TIP: You can run `docker-compose config` to verify that the environment variables are substituted properly.
 
+When everything has finished building, run `docker-compose up -d` from the `docker-compose` directory. It can take a while to start all 14 containers, so now might be a good time to take a break or get some exercise. You can use Docker's Kitematic to watch the status of your images as they start.
+
+TIP: Before you start everything, make sure you’ve provided adequate CPUs and memory to Docker. It defaults to one CPU and 2 GB of memory — not quite enough for 14 containers!
+
+.New Product
+image::chapter5/kitematic.png[Kitematic, 800, scaledwidth=100%, align=center]
+
+After you've verified everything works, you can stop all your Docker containers using the following command:
+
+[source,bash]
 ----
-gradlew -Pprod bootWar
+docker stop $(docker ps -a -q)
 ----
 
-The "`prod`" profile will trigger a `webpack:prod`, which optimizes your static resources. It will combine your JavaScript and CSS files, minify them, and get them production ready. It also updates your HTML (in your `(build|target)/www` directory) to have references to your versioned, combined, and minified files.
+If you'd like to remove the images too, you can run:
 
-ifeval::["{media}" == "screen"]
-A JHipster application can be deployed to your own JVM, https://www.jhipster.tech/cloudfoundry/[Cloud Foundry], https://www.jhipster.tech/heroku/[Heroku], https://www.jhipster.tech/kubernetes/[Kubernetes], and https://www.jhipster.tech/aws.html[AWS].
-endif::[]
-ifeval::["{media}" == "prepress"]
-A JHipster application can be deployed to your own JVM, Cloud Foundry, Heroku, Kubernetes, and AWS.
-endif::[]
+[source,bash]
+----
+docker rm $(docker ps -a -q)
+----
 
-I've deployed JHipster applications to Heroku, Cloud Foundry, and Google Cloud with Kubernetes.
+== Deploy to Heroku
+
+The founder of JHipster, https://twitter.com/juliendubois[Julien Dubois], wrote a blog post on the Heroku blog titled "`link:https://blog.heroku.com/bootstrapping_your_microservices_architecture_with_jhipster_and_spring[Bootstrapping Your Microservices Architecture with JHipster and Spring]`". Here's an abbreviated set of steps to deploy all your apps to Heroku.
+
+=== Deploy the JHipster Registry
+
+Heroku and JHipster have configured a JHipster Registry for you, so you just need to click on the button below to start your own JHipster Registry:
+
+image::chapter5/deploy-to-heroku.png[link="https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2Fjhipster%2Fjhipster-registry"]
+
+Enter an app name (I used `okta-jhipster-registry`), add a `JHIPSTER_PASSWORD`, and click *Deploy app*.
+
+=== Deploy your gateway and apps to Heroku
+
+In each project, run `jhipster heroku` and answer the questions as follows:
+
+|===
+|Question |Answer
+
+|Name to deploy as? |`<unique-prefix>;-<app-name>` (e.g., okta-gateway, okta-blog, etc.)
+|Which region? |`us`
+|Type of deployment? |`Git`
+| Name of Registry app? |`<unique-prefix>-jhipster-registry`
+| JHipster Registry username |`admin`
+| JHipster Registry password |`<JHIPSTER_PASSWORD from Registry>`
+|===
+
+When prompted to overwrite files, type `a`.
+
+After each app has finished deploying, you'll want to run the following so they use Okta for authentication.
+
+TIP: Make sure you run `source ~/.okta.env` before running the command below. If you don't have the environment variables set beforehand, you'll see an error that says `did not find property 'jhipster.security.client-authorization.client-id'`.
+
+[source%autofit,bash]
+----
+heroku config:set \
+  SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI="$SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI" \
+  SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI="$SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI" \
+  SECURITY_OAUTH2_RESOURCE_USER_INFO_URI="$SECURITY_OAUTH2_RESOURCE_USER_INFO_URI" \
+  SECURITY_OAUTH2_CLIENT_CLIENT_ID="$SECURITY_OAUTH2_CLIENT_CLIENT_ID" \
+  SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="$SECURITY_OAUTH2_CLIENT_CLIENT_SECRET"
+----
+
+Update your Okta app to have a *Login redirect URI* that matches your Heroku app (e.g., `https://okta-gateway.herokuapp.com/login`). To do this, log in to your Okta account, go to *Applications* > *JHipster Microservices* > *General* > *Edit*.
+
+To see if your apps have started correctly, you can run `heroku logs --tail` in each app's directory. You may see a timeout error, but your app should succeed in starting on your next attempt.
+
+If it crashes and doesn't start, trying running `heroku restart`. If that doesn't solve the problem, go to <https://help.heroku.com> and click *Create a ticket* at the top. Click *Running Applications* > *Java*, scroll to the bottom, and click *Create a ticket*. Enter something like the following for the subject and description, select one of your apps, then submit it.
+
+[source]
+----
+Subject: JHipster App Startup Timeout
+
+Description: Hello, I have a JHipster (Spring Boot) app that has the following error on startup:
+
+Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 90 seconds of launch
+
+The URL is:
+
+* https://<your-app>-store.herokuapp.com/
+
+Can you please increase the timeout on this app?
+
+Thanks!
+----
+
+Below are screenshots to prove everything worked after I deployed to Heroku. 😊
+
+.JHipster Registry on Heroku
+image::chapter5/heroku-registry.png[JHipster Registry on Heroku, 1200, scaledwidth=100%, align=center]
+
+.Successful login on Heroku
+image::chapter5/heroku-welcome.png[Successful login on Heroku, 1200, scaledwidth=100%, align=center]
+
+.Heroku gateway routes
+image::chapter5/heroku-gateway-routes.png[Heroku gateway routes, 1200, scaledwidth=100%, align=center]
+
+.Blog on Heroku
+image::chapter5/heroku-blog.png[Blog on Heroku, 1200, scaledwidth=100%, align=center]
+
+.Store on Heroku
+image::chapter5/heroku-store.png[Store on Heroku, 1200, scaledwidth=100%, align=center]
+
+TIP: If you're interested in deploying to Google Cloud using Kubernetes, you might enjoy my blog post and screencast on how to "`link:http://www.jhipster-book.com/#!/news/entry/build-jhipster-microservices-and-deploy-to-google-cloud-with-kubernetes[Build JHipster Microservices and Deploy to Google Cloud with Kubernetes]`".
+
+== Source code
+
+You can find the source code for this microservices example at https://github.com/oktadeveloper/okta-jhipster-microservices-oauth-example.
 
 == Summary
 
-The Spring Framework has one of the best track records for hipness in Javaland. It's remained backwards compatible between many releases and has lived as an open-source project for more than 14 years. Spring Boot has provided a breath of fresh air for people using Spring with its starter dependencies, auto-configuration, and monitoring tools. It's made it easy to build microservices on the JVM and deploy them to the cloud.
+I hope you've enjoyed this whirlwind tour of how to create a microservices architecture with JHipster. Just because JHipster makes microservices easy doesn't mean you should use them. Using a microservices architecture is a great way to scale development teams, but if you don't have a large team, a "`link:https://m.signalvnoise.com/the-majestic-monolith-29166d022228[Majestic Monolith]`" might work better.
 
-You've seen some of the cool features of Spring Boot and the build tools you can use to package and run a JHipster application. I've described the power of Spring Security and showed you its many features, which you can enable with only a few lines of code. JHipster supports both relational databases and NoSQL databases, which allows you to choose how you want your data stored. You can choose JPA, MongoDB, or Cassandra when creating a new application.
+If you'd like to learn more about microservices, authentication, and JHipster, see the following resources.
 
-Liquibase will create your database schema for you and help you update your database when the need arises. It provides an easy-to-use workflow to adding new properties to your JHipster-generated entities using its diff feature.
-
-You can add rich search capabilities to your JHipster app with Elasticsearch. This is one of the most popular Java projects on GitHub and there's a reason for that: it works really well.
-
-JHipster applications are Spring Boot applications, so you can deploy them wherever Java can be run. You can deploy them in a traditional Java EE (or servlet) container or you can deploy them in the cloud. The sky's the limit!
+* "`link:https://developer.okta.com/blog/2017/06/15/build-microservices-architecture-spring-boot[Build a Microservices Architecture for Microbrews with Spring Boot]`"
+* "`link:https://developer.okta.com[Secure a Spring Microservices Architecture with Spring Security and OAuth]`"
+* "`link:https://developer.okta.com/blog/2017/06/20/develop-microservices-with-jhipster[Develop and Deploy Microservices with JHipster]`" (uses JWT for authentication)
+* "`link:https://developer.okta.com/blog/2017/10/20/oidc-with-jhipster[Use OpenID Connect Support with JHipster]`"
+* "`link:https://medium.com/@sendilkumarn/hello-istio-%EF%B8%8F-welcome-to-jhipster-b67dc68ecb19[Hello Istio ⛵, welcome to JHipster]`"

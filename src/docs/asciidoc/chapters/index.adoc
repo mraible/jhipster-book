@@ -1,0 +1,4 @@
+:page-title: Home
+:page-pagination: next
+
+xref:dedication.adoc[image:cover.jpg[]]
