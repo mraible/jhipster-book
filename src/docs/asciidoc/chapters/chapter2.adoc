@@ -885,7 +885,7 @@ The `gulpfile.js` utilizes the tools specified in `package.json` to enable Brows
 
 [source%autofit,javascript]
 ----
-include::{sourcedir}/../../../gulpfile.browsersync.js[]
+include::{sourcedir}/../../main/build/gulpfile.browsersync.js[]
 ----
 
 After you've created these files, you'll need to install https://nodejs.org/[Node.js] and its package manager, npm. This should let you run the following command to install Browsersync and Gulp. You will only need to run this command when dependencies change in `package.json`.
