@@ -2,12 +2,12 @@
 
 JHipster is one of those open-source projects you stumble upon and immediately think, "`Of course!`" It combines three very successful frameworks in web development: Bootstrap, Angular, and Spring Boot. Bootstrap was one of the first dominant web-component frameworks. Its largest appeal was that it only required a bit of HTML and it worked! All the efforts we made in the Java community to develop web components were shown a better path by Bootstrap. It leveled the playing field in HTML/CSS development, much like Apple's Human Interface Guidelines did for iOS apps.
 
-JHipster was started by Julien Dubois in October 2013 (Julien's first commit was on https://github.com/jhipster/generator-jhipster/commit/c8630ab7af7b6a99db880b3b0e2403806b7d2436[October 21, 2013]). The first public release (version 0.3.1) was launched December 7, 2013. Since then, the project has had over 238 releases! It is an open-source, Apache 2.0-licensed project on GitHub. It has a core team of 38 developers and over 100 contributors. You can find its homepage at https://www.jhipster.tech/[https://www.jhipster.tech]. Its https://github.com/jhipster/generator-jhipster[GitHub project] shows it's mostly written in JavaScript (54%), TypeScript (19%), and TypeScript (16%). EJS is trailing in the fourth position with 8%.
+JHipster was started by Julien Dubois in October 2013 (Julien's first commit was on https://github.com/jhipster/generator-jhipster/commit/c8630ab7af7b6a99db880b3b0e2403806b7d2436[October 21, 2013]). The first public release (version 0.3.1) was launched December 7, 2013. Since then, the project has had over 238 releases! It is an open-source, Apache 2.0-licensed project on GitHub. It has a core team of 38 developers and over 636 contributors. You can find its homepage at https://www.jhipster.tech/[https://www.jhipster.tech]. Its https://github.com/jhipster/generator-jhipster[GitHub project] shows it's mostly written in JavaScript (54%), TypeScript (19%), and TypeScript (16%). EJS is trailing in the fourth position with 8%.
 
 // releases: $('.page-content-wrapper .col-lg-12 ul li').length
 // team: $('.team-member').length - retired members
 // todo: total releases is 238. I said "over" 238 because I expect more releases before publishing
-// todo: contributors is currently 99, check if we're over 100 before publishing
+// todo: contributors is currently 636, check if we're over that number before publishing
 
 At its core, JHipster is a http://yeoman.io/[Yeoman] generator. Yeoman is a code generator that you run with a `yo` command to generate complete applications or useful pieces of an application. Yeoman generators promote what the Yeoman team calls the "`Yeoman workflow`". This is an opinionated client-side stack of tools that can help developers quickly build beautiful web applications. It takes care of providing everything needed to get working without the normal pains associated with a manual setup.
 
