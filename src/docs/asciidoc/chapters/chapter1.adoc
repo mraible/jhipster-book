@@ -31,11 +31,11 @@ I thought my idea would fit nicely with JHipster and Spring Boot from a monitori
 
 == Creating the application
 
-I started using the https://www.jhipster.tech/installation/[Installing JHipster] instructions. I'm a Java developer, so I already had Java 11 installed, as well as Maven and Git. I installed Node.js from https://nodejs.org/[Nodejs.org] and Yarn using https://yarnpkg.com/en/docs/install[its instructions], then ran the following command to install JHipster.
+I started using the https://www.jhipster.tech/installation/[Installing JHipster] instructions. I'm a Java developer, so I already had Java 11 installed, as well as Maven and Git. I installed Node.js 16 from https://nodejs.org/[Nodejs.org], then ran the following command to install JHipster.
 
 [source]
 ----
-npm install -g generator-jhipster
+npm install -g generator-jhipster@7
 ----
 
 TIP: If you need to install Java, Maven, or Git, please see https://www.jhipster.tech/installation/[JHipster's local installation documentation].
@@ -111,7 +111,7 @@ KeyStore '/Users/mraible/Downloads/app/src/main/resources/config/tls/keystore.p1
 ----
 endif::[]
 
-NOTE: I tried using "21-points" as the application name, but quickly discovered that this caused issues with the generated TypeScript class names. Starting a class name with a number is illegal, just like it is in Java.
+NOTE: I tried using "21-points" as the application name, but quickly discovered JHipster prevents this with a validation error: `Your base name cannot contain special characters or a blank space`.
 
 This process generates a `.yo-rc.json` file that captures all of the choices you make. You can use this file in an empty directory to create a project with the same settings.
 
@@ -188,9 +188,7 @@ JHipster v5 will only work with an external Elasticsearch instance. In previous 
 docker-compose -f src/main/docker/elasticsearch.yml up -d
 ----
 
-TIP: Running Elasticsearch as an embedded instance is the default again in JHipster 5.3.0+ thanks to https://github.com/jhipster/generator-jhipster/pull/8122[this pull-request] that integrates Spring Data Jest.
-
-Next, I started the app using `./gradlew` and then ran the UI integration tests with `yarn e2e`. All tests passed with flying colors.
+Next, I started the app using `./gradlew` and then ran the UI integration tests with `npm run e2e`. All tests passed with flying colors.
 
 // todo: npm run e2e
 
