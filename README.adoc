@@ -66,3 +66,17 @@ To update the dependencies in `package.json`, install https://www.npmjs.com/pack
 npm i -g npm-check-updates
 ncu
 ----
+
+== Deploy to Netlify
+
+To deploy to https://www.netlify.com/[Netlify], create an account and log in.
+
+. Select **New site from Git**
+. Select your Git provider
+. Select your repository
+. Select the branch to deploy
+. Build command: `npm run build:site`
+. Publish directory: `public/`
+. Click **Deploy site**
+
+Your site should take less than a minute to deploy, depending on the size of your book.
