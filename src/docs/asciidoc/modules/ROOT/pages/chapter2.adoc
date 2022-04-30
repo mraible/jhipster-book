@@ -876,7 +876,7 @@ Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.
 
 To integrate Browsersync in your project, you need a `package.json` and `gulpfile.js`. Your `package.json` file only needs to contain a few things, weighing in at a slim 13 lines of JSON.
 
-[source,javascript]
+[source,json]
 ----
 include::{sourcedir}/package.json[]
 ----
