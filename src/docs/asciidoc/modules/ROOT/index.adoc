@@ -19,30 +19,30 @@ endif::[]
 :lang: en
 :language: javadocript
 :experimental:
-:pdf-fontsdir: ./styles/pdf/fonts
-:pdf-stylesdir: ./styles/pdf
-:pdf-style: screen
+:pdf-fontsdir: {docdir}/styles/pdf/fonts
+:pdf-themesdir: {docdir}/styles/pdf
+:pdf-theme: screen
 ifndef::ebook-format[:leveloffset: 1]
 
 [colophon#colophon%nonfacing]
-include::chapters/colophon.adoc[]
+include::pages/colophon.adoc[]
 
 [dedication]
-include::chapters/dedication.adoc[]
+include::pages/dedication.adoc[]
 
 [%nonfacing]
-include::chapters/acknowledgements.adoc[]
+include::pages/acknowledgments.adoc[]
 
 [preface]
-include::chapters/preface.adoc[]
+include::pages/preface.adoc[]
 
-include::chapters/introduction.adoc[]
-include::chapters/chapter1.adoc[]
-include::chapters/chapter2.adoc[]
-include::chapters/chapter3.adoc[]
-include::chapters/chapter4.adoc[]
-include::chapters/action.adoc[]
-include::chapters/about.adoc[]
+include::pages/introduction.adoc[]
+include::pages/chapter1.adoc[]
+include::pages/chapter2.adoc[]
+include::pages/chapter3.adoc[]
+include::pages/chapter4.adoc[]
+include::pages/action.adoc[]
+include::pages/about.adoc[]
 
 //ifdef::backend-pdf,backend-docbook[]
 //[index]

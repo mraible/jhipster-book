@@ -18,25 +18,25 @@
   ],
   "scripts": {
     "build": "bash ./gradlew all",
+    "build:site": "antora --html-url-extension-style=indexify site.yml",
     "clean": "bash ./gradlew clean",
     "serve": "npm run watch:all",
-    "build:site": "antora --generator=mini-book-site-generator --html-url-extension-style=indexify site.yml",
-    "watch:site": "node watch-site.js",
     "setup": "npm install && npm run build",
     "start": "npm run setup && npm run watch",
     "watch": "npm run watch:all",
     "watch:adoc": "bash ./gradlew --continuous html",
     "watch:html": "nodemon ./watch.js",
+    "watch:site": "node watch-site.js",
     "watch:all": "concurrently --kill-others \"npm run watch:adoc\" \"npm run watch:html\"",
     "release": "release-it"
   },
   "devDependencies": {
-    "@antora/cli": "^3.0.1",
+    "@antora/cli": "~3.0",
+    "@antora/site-generator": "^3.0.1",
+    "@release-it/bumper": "4.0.0",
     "browser-sync": "2.27.9",
+    "chokidar": "3.5.3",
     "concurrently": "7.1.0",
-    "mini-book-site-generator": "0.1.3",
-    "nodemon": "2.0.15",
-    "release-it": "14.14.2",
-    "@release-it/bumper": "3.0.1"
+    "nodemon": "2.0.16"
   }
 }

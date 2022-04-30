@@ -1,13 +1,13 @@
-image::https://github.com/mraible/jhipster-book/workflows/Book%20CI/badge.svg[link="https://github.com/mraible/jhipster-book/actions",alt="Actions Status"]
-
 = The JHipster Mini-Book
+
+image::https://github.com/mraible/jhipster-book/workflows/Book%20CI/badge.svg[link="https://github.com/mraible/jhipster-book/actions",alt="Actions Status"]
 
 This is an awesome book. It's written in AsciiDoc and compiles to HTML, PDF, and EPUB using the http://asciidoctor.org/docs/asciidoctor-gradle-plugin/[Asciidoctor Gradle plugin].
 
 == Installing
 
 ----
-npm start
+npm run setup
 ----
 
 == Building
@@ -23,10 +23,14 @@ npm run build
 * Open _build/asciidoc/pdf-screen/index.pdf_ to see the downloadable 8.5x11" PDF file.
 * Open _build/asciidoc/epub3/index.epub_ in iBooks to see the generated EPUB file.
 
+To generate a static site using Antora, run the following command:
+
+ npm run build:site
+
 == Sweet Authoring Experience
 
-If you'd like a very pleasant authoring experience, the project provides build files that make it possible. First,
-you'll need to run `gradlew` once. After it finishes, you can run `./gradlew watch` to watch for any changes and
+If you'd like a very pleasant authoring experience, the project provides build files that make it possible. First of all,
+you'll need to run `gradlew` once. After running it once, you can run `./gradlew watch` to watch for any changes and
 recompile files as you save them.
 
 To have a similar awesome experience (watch and auto-reload) in your browser, install https://nodejs.org/[Node.js] on your machine.
@@ -42,7 +46,7 @@ TIP: You will only need to run this command when dependencies change in `package
 Now you can run the following command:
 
 ----
-npm start
+npm run watch
 ----
 
 This will start two daemons:
@@ -51,6 +55,10 @@ This will start two daemons:
 . BrowserSync, which will serve the updated HTML version all of the time and make it available over HTTP
 
 Thanks to this, you'll have a constantly up to date HTML version available in your browser while editing.
+
+Similarly, you can run the following command to continuously watch the file system and rebuild the static site:
+
+ npm run watch:site
 
 == Update Dependencies
 
@@ -67,9 +75,23 @@ npm i -g npm-check-updates
 ncu
 ----
 
+== Releasing/Publishing
+
+This project includes GitHub action workflows to build and publish the book (PDF, EPUB, HTML). To trigger this, you have two options:
+
+* Run the following script: `npm run release`
+* Use GitHub's UI to create the release from your book repository
+
+Once completed, the publish workflow will attach the generated files to the release page.
+
+The benefit of the release npm script is that the version will be updated automatically in the `package.json` and `version.txt` files. The version will be reflected in the generated files because the version in `version.txt` is used as the Gradle project version when building the book.
+
+Note that in order for the release npm script to work, you'll need to make sure that a `GITHUB_TOKEN` environment variable is available, as explained in https://github.com/release-it/release-it/blob/master/docs/environment-variables.md[release-it's documentation].
+
+
 == Deploy to Netlify
 
-To deploy to https://www.netlify.com/[Netlify], create an account and log in.
+To deploy this repository to https://www.netlify.com/[Netlify], create an account and log in.
 
 . Select **New site from Git**
 . Select your Git provider
