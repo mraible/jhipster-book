@@ -18,10 +18,9 @@
   ],
   "scripts": {
     "build": "bash ./gradlew all",
+    "build:site": "antora --html-url-extension-style=indexify site.yml",
     "clean": "bash ./gradlew clean",
     "serve": "npm run watch:all",
-    "build:site": "antora --html-url-extension-style=indexify site.yml",
-    "watch:site": "node watch-site.js",
     "setup": "npm install && npm run build",
     "start": "npm run setup && npm run watch",
     "watch": "npm run watch:all",
@@ -32,12 +31,12 @@
     "release": "release-it"
   },
   "devDependencies": {
-    "@antora/cli": "^3.0.1",
+    "@antora/cli": "~3.0",
     "@antora/site-generator": "^3.0.1",
-    "@release-it/bumper": "3.0.1",
-    "browser-sync": "2.27.7",
+    "@release-it/bumper": "4.0.0",
+    "browser-sync": "2.27.9",
     "chokidar": "3.5.3",
-    "concurrently": "7.0.0",
-    "nodemon": "2.0.15"
+    "concurrently": "7.1.0",
+    "nodemon": "2.0.16"
   }
 }

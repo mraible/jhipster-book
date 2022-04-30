@@ -1,12 +1,37 @@
-extends: default-with-fallback-font
 font:
   catalog:
-    merge: true
     Akkurat:
       normal: Akkurat-Light.ttf
       bold: Akkurat-Bold.ttf
       italic: Akkurat-Normal-Italic.ttf
       bold_italic: Akkurat-Bold-Italic.ttf
+    # Noto Serif supports Latin, Latin-1 Supplement, Latin Extended-A, Greek, Cyrillic, Vietnamese & an assortment of symbols
+    Noto Serif:
+      normal: notoserif-regular-subset.ttf
+      bold: notoserif-bold-subset.ttf
+      italic: notoserif-italic-subset.ttf
+      bold_italic: notoserif-bold_italic-subset.ttf
+    # M+ 1mn supports ASCII and the circled numbers used for conums
+    M+ 1mn:
+      normal: mplus1mn-regular-ascii-conums.ttf
+      bold: mplus1mn-bold-ascii.ttf
+      italic: mplus1mn-italic-ascii.ttf
+      bold_italic: mplus1mn-bold_italic-ascii.ttf
+    # M+ 1p supports Latin, Latin-1 Supplement, Latin Extended, Greek, Cyrillic, Vietnamese, Japanese & an assortment of symbols
+    # It also provides arrows for ->, <-, => and <= replacements in case these glyphs are missing from font
+    M+ 1p Fallback:
+      normal: mplus1p-regular-fallback.ttf
+      bold: mplus1p-regular-fallback.ttf
+      italic: mplus1p-regular-fallback.ttf
+      bold_italic: mplus1p-regular-fallback.ttf
+    Emoji:
+      normal: OpenSansEmoji.ttf
+      bold: OpenSansEmoji.ttf
+      italic: OpenSansEmoji.ttf
+      bold_italic: OpenSansEmoji.ttf
+  fallbacks:
+    - M+ 1p Fallback
+    - Emoji
 page:
   background_color: ffffff
   layout: portrait
@@ -79,22 +104,23 @@ heading:
   margin_bottom: $vertical_rhythm * 0.8
 title_page:
   align: center
-  # hide text by default
-  font_color: ffffff
   font_family: Akkurat
   font_style: bold
+  font_color: 181818
+  logo:
+    image: image:jhipster.png[pdfwidth=40%]
+    top: 30%
   title:
-    top: 4%
-    font_size: $heading_h1_font_size * 1.75
-    font_color: 181818
-    text_transform: uppercase
+    top: 20%
+    font_size: $heading_h1_font_size * 1.1
     line_height: 1.25
   authors:
-    margin_top: 390.0
-    font_size: $heading_h1_font_size
-    font_color: 181818
+    margin_top: 170
+    font_size: $heading_h2_font_size * 1.2
   revision:
-    margin_top: 0
+    delimiter: '  |  '
+    margin_top: 10
+    font_size: $heading_h3_font_size
 block:
   margin_top: 0
   margin_bottom: $vertical_rhythm

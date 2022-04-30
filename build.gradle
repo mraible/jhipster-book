@@ -50,8 +50,6 @@ def attrs = [
     'sectanchors'       : '',
     'idprefix'          : '',
     'idseparator'       : '-',
-    'pdf-fontsdir'      : "$projectDir/src/docs/asciidoc/styles/pdf/fonts;GEM_FONTS_DIR;uri:classloader:GEM_FONTS_DIR".toString(),
-    'pdf-stylesdir'     : "$projectDir/src/docs/asciidoc/styles/pdf".toString(),
     'listing-caption'   : 'Listing']
 
 tasks.withType(AsciidoctorTask) { task ->

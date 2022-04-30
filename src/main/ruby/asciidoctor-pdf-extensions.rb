@@ -1,6 +1,8 @@
-require 'asciidoctor-pdf' unless defined? ::Asciidoctor::Pdf
+require 'asciidoctor-pdf' unless Asciidoctor::Converter.for 'pdf'
 
-module AsciidoctorPdfExtensions
+class AsciidoctorPDFExtensions < (Asciidoctor::Converter.for 'pdf')
+  register_for 'pdf'
+
   # Override the built-in layout_toc to move colophon before front of table of contents
   # NOTE we assume that the colophon fits on a single page
   def layout_toc doc, num_levels = 2, toc_page_number = 2, start_y = nil, num_front_matter_pages = 0
@@ -35,14 +37,14 @@ module AsciidoctorPdfExtensions
   end
 
   def layout_chapter_title node, title, opts = {}
-    if (sect_id = node.id) == 'dedication' || sect_id == 'acknowledgements'
+    #puts 'Processing ' + node.id + '...'
+    if (sect_id = node.id) == 'dedication' || sect_id == 'acknowledgments'
       layout_heading_custom title, align: :center
     elsif sect_id == 'colophon'
-      #puts 'Processing ' + node.sectname + '...'
       if node.document.attr? 'media', 'prepress'
         move_down 325
       else
-        move_down 450
+        move_down 420
       end
       layout_heading title, size: @theme.base_font_size
     elsif sect_id.include? 'jhipster' # chapters
@@ -109,5 +111,3 @@ module AsciidoctorPdfExtensions
     move_down 20
   end
 end
-
-Asciidoctor::Pdf::Converter.prepend AsciidoctorPdfExtensions
