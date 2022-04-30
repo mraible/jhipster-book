@@ -874,7 +874,7 @@ Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.
 * URL history: Browsersync records your test URLs so you can push them back out to all devices with a single click.
 * Remote inspector: You can remotely tweak and debug web pages that are running on connected devices.
 
-To integrate Browsersync in your project, you need a `package.json` and `gulpfile.js`. Your `package.json` file only needs to contain a few things, weighing in at a slim 13 lines of JSON.
+To integrate Browsersync in your project, you need `package.json` and `gulpfile.js` files. Your `package.json` file only needs to contain a few things, weighing in at a slim 13 lines of JSON.
 
 [source,json]
 ----
