@@ -102,6 +102,8 @@ Desktop.ini
 /build/**
 /bin/**
 /deploy/**
+dist/
+/public/
 
 ######################
 # Logs

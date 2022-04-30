@@ -874,18 +874,18 @@ Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.
 * URL history: Browsersync records your test URLs so you can push them back out to all devices with a single click.
 * Remote inspector: You can remotely tweak and debug web pages that are running on connected devices.
 
-To integrate Browsersync in your project, you need a `package.json` and `gulpfile.js`. Your `package.json` file only needs to contain a few things, weighing in at a slim 13 lines of JSON.
+To integrate Browsersync in your project, you need `package.json` and `gulpfile.js` files. Your `package.json` file only needs to contain a few things, weighing in at a slim 13 lines of JSON.
 
-[source,javascript]
+[source,json]
 ----
-include::{sourcedir}/../../../package.json[]
+include::{sourcedir}/package.json[]
 ----
 
 The `gulpfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development experience.
 
 [source%autofit,javascript]
 ----
-include::{sourcedir}/../../main/build/gulpfile.browsersync.js[]
+include::{sourcedir}/gulpfile.browsersync.js[]
 ----
 
 After you've created these files, you'll need to install https://nodejs.org/[Node.js] and its package manager, npm. This should let you run the following command to install Browsersync and Gulp. You will only need to run this command when dependencies change in `package.json`.
