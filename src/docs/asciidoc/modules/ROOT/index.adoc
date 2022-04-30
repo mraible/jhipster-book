@@ -31,7 +31,7 @@ include::pages/colophon.adoc[]
 include::pages/dedication.adoc[]
 
 [%nonfacing]
-include::pages/acknowledgements.adoc[]
+include::pages/acknowledgments.adoc[]
 
 [preface]
 include::pages/preface.adoc[]
