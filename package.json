@@ -20,7 +20,7 @@
     "build": "bash ./gradlew all",
     "clean": "bash ./gradlew clean",
     "serve": "npm run watch:all",
-    "build:site": "antora --generator=mini-book-site-generator --html-url-extension-style=indexify site.yml",
+    "build:site": "antora --html-url-extension-style=indexify site.yml",
     "watch:site": "node watch-site.js",
     "setup": "npm install && npm run build",
     "start": "npm run setup && npm run watch",
