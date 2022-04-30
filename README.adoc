@@ -1,6 +1,6 @@
-image::https://github.com/mraible/jhipster-book/workflows/Book%20CI/badge.svg[link="https://github.com/mraible/jhipster-book/actions",alt="Actions Status"]
-
 = The JHipster Mini-Book
+
+image::https://github.com/mraible/jhipster-book/workflows/Book%20CI/badge.svg[link="https://github.com/mraible/jhipster-book/actions",alt="Actions Status"]
 
 This is an awesome book. It's written in AsciiDoc and compiles to HTML, PDF, and EPUB using the http://asciidoctor.org/docs/asciidoctor-gradle-plugin/[Asciidoctor Gradle plugin].
 
@@ -22,6 +22,10 @@ npm run build
 * Open _build/asciidoc/pdf-prepress/index.pdf_ to see the 6x9" printable PDF file.
 * Open _build/asciidoc/pdf-screen/index.pdf_ to see the downloadable 8.5x11" PDF file.
 * Open _build/asciidoc/epub3/index.epub_ in iBooks to see the generated EPUB file.
+
+To generate a static site using Antora, run the following command:
+
+ npm run build:site
 
 == Sweet Authoring Experience
 
@@ -51,6 +55,10 @@ This will start two daemons:
 . BrowserSync, which will serve the updated HTML version all of the time and make it available over HTTP
 
 Thanks to this, you'll have a constantly up to date HTML version available in your browser while editing.
+
+Similarly, you can run the following command to continuously watch the file system and rebuild the static site:
+
+ npm run watch:site
 
 == Update Dependencies
 
