@@ -68,9 +68,9 @@ $ jhipster
   ╚██████╔╝ ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗
    ╚═════╝  ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
                             https://www.jhipster.tech
-Welcome to JHipster v7.7.0
+Welcome to JHipster v7.8.1
 
-Application files will be generated in folder: /Users/mraible/Downloads/app
+Application files will be generated in folder: /Users/mraible/dev/21-points
  _______________________________________________________________________________________________________________
 
   Documentation for creating an application is at https://www.jhipster.tech/creating-an-app/
@@ -102,7 +102,7 @@ Application files will be generated in folder: /Users/mraible/Downloads/app
 Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 99,999 days
 	for: CN=Java Hipster, OU=Development, O=org.jhipster.health, L=, ST=, C=
 
-KeyStore '/Users/mraible/Downloads/app/src/main/resources/config/tls/keystore.p12' generated successfully.
+KeyStore '/Users/mraible/dev/21-points/src/main/resources/config/tls//keystore.p12' generated successfully.
 
    create .prettierrc
    create .prettierignore
@@ -130,7 +130,7 @@ This process generates a `.yo-rc.json` file that captures all of the choices you
     "clientPackageManager": "npm",
     "clientTheme": "none",
     "clientThemeVariant": "",
-    "creationTimestamp": 1646979814903,
+    "creationTimestamp": 1651363424551,
     "cypressCoverage": false,
     "databaseType": "sql",
     "devDatabaseType": "h2Disk",
@@ -142,8 +142,8 @@ This process generates a `.yo-rc.json` file that captures all of the choices you
     "enableTranslation": true,
     "entitySuffix": "",
     "jhiPrefix": "jhi",
-    "jhipsterVersion": "7.7.0",
-    "jwtSecretKey": "MThiZWQ3NTI1NTNmYzg1MTliNzZjNGJkYjk5NzFkNGFlYzIzMDQyZGJmMDQyNDI5M2ZmOWVmMDJkOTgxNmQwOWI1OWE3OTZlNjU0NDg3ODRiZGM0ZGQzNzEyZTgxMTRlOTY3N2Y1NjU0NjFlZmM5NDRiMTdjZTRkZDc4ZGYwZTM=",
+    "jhipsterVersion": "7.8.1",
+    "jwtSecretKey": "NWRjNTgyZDc4NmM3Y2E3ZGU2MmNiMGU1ODg1YjI3Y2U2NDE1MDQyM2M3MGIzOTYzMWI0NGJhNTViNzNmYWE4ZTE5NTQyYzBiNTAyYjFkMmJkMDUwY2Y5OTllOGQ0ZGYxZWIzNTA5Y2FhN2UwMjRiMzEyZmYzYTRiNGZjMGY1MWM=",
     "languages": ["en", "fr"],
     "messageBroker": false,
     "nativeLanguage": "en",
@@ -178,11 +178,11 @@ After answering all the questions, JHipster created a whole bunch of files, then
 
 [source]
 ----
-BUILD SUCCESSFUL in 1m 7s
-10 actionable tasks: 9 executed, 1 up-to-date
+BUILD SUCCESSFUL in 2m 13s
+15 actionable tasks: 13 executed, 2 up-to-date
 ----
 
-JHipster v5 will only work with an external Elasticsearch instance. In previous versions, you could use an embedded Elasticsearch instance, but Elasticsearch has removed this ability in recent releases. The easiest way to run a local Elasticsearch instance is to use Docker Compose. I ran the following command to start Elasticsearch as a daemon. Remove the `-d` option if you don't want it to run as a daemon.
+JHipster v7 will only work with an external Elasticsearch instance. In previous versions, you could use an embedded Elasticsearch instance, but Elasticsearch has removed this ability in recent releases. The easiest way to run a local Elasticsearch instance is to use Docker Compose. I ran the following command to start Elasticsearch as a daemon. Remove the `-d` option if you don't want it to run as a daemon.
 
 ----
 docker-compose -f src/main/docker/elasticsearch.yml up -d
@@ -190,26 +190,38 @@ docker-compose -f src/main/docker/elasticsearch.yml up -d
 
 Next, I started the app using `./gradlew` and then ran the UI integration tests with `npm run e2e`. All tests passed with flying colors.
 
-// todo: npm run e2e
-
 ----
-$ yarn e2e
-yarn run v1.9.4
-$ protractor src/test/javascript/protractor.conf.js
-(node:30302) [DEP0022] DeprecationWarning: os.tmpDir() is deprecated. Use os.tmpdir() instead.
-[14:45:36] W/configParser - pattern ./e2e/entities/**/*.spec.ts did not match any files.
-[14:45:36] I/launcher - Running 1 instances of WebDriver
-[14:45:36] I/direct - Using ChromeDriver directly...
-Started
-...........
+$ npm run e2e
 
+> twenty-one-points@0.0.1-SNAPSHOT e2e
+> npm run e2e:cypress:headed --
 
-11 specs, 0 failures
-Finished in 21.309 seconds
+> twenty-one-points@0.0.1-SNAPSHOT e2e:cypress:headed
+> npm run e2e:cypress -- --headed
 
-[14:45:59] I/launcher - 0 instance(s) of WebDriver still running
-[14:45:59] I/launcher - chrome #01 passed
-✨  Done in 23.25s.
+> twenty-one-points@0.0.1-SNAPSHOT e2e:cypress
+> cypress run --browser chrome --record ${CYPRESS_ENABLE_RECORD:-false} "--headed"
+
+...
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  account/login-page.spec.ts               00:05        5        5        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  account/password-page.spec.ts            00:07        6        6        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  account/register-page.spec.ts            00:09        9        9        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  account/reset-password-page.spec.ts      00:02        2        2        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  account/settings-page.spec.ts            00:08        5        5        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  administration/administration.spec.      00:06        6        6        -        -        - │
+  │    ts                                                                                          │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✔  All specs passed!                        00:41       33       33        -        -        -
+
+Execution time: 1 min. 10 s.
 ----
 
 To prove the `prod` profile worked and I could talk to PostgreSQL, I ran Docker Compose for PostgreSQL.
@@ -217,6 +229,8 @@ To prove the `prod` profile worked and I could talk to PostgreSQL, I ran Docker 
 ----
 docker-compose -f src/main/docker/postgresql.yml up -d
 ----
+
+// todo: start from here once https://github.com/jhipster/generator-jhipster/issues/18531 is fixed
 
 Then I restarted the app with the `prod` profile enabled.
 
