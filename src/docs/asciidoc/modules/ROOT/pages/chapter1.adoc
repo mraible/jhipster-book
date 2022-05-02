@@ -336,17 +336,17 @@ In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its defa
 .src/main/webapp/content/scss/_bootstrap-variables.scss
 ----
 /*
-* Bootstrap overrides https://getbootstrap.com/docs/4.0/getting-started/theming/
+* Customize Bootstrap https://getbootstrap.com/docs/5.1/customize/sass/
 * All values defined in bootstrap source
-* https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss can be overwritten here
+* https://github.com/twbs/bootstrap/blob/main/scss/_variables.scss can be overwritten here
 * Make sure not to add !default to values here
 */
 
 // Colors:
 // Grayscale and brand colors for use across Bootstrap.
 
-// Customize colors to match Bootstrap Material Theme
-// https://github.com/FezVrasta/bootstrap-material-design/blob/master/sass/_variables.scss
+// Customize colors to match Bootstrap Material Theme from https://mdbootstrap.com/docs/standard/
+// https://github.com/mdbootstrap/mdb-ui-kit/blob/master/src/scss/bootstrap/_variables.scss
 
 $primary: #009688;
 $success: #4caf50;
@@ -402,84 +402,84 @@ Then add the following Sass to the bottom of `global.scss`.
 custom styles for 21-Points Health
 ==========================================================================*/
 .jh-card {
-    border: none !important;
+  border: none !important;
 }
 
 .jh-navbar {
-    background-color: #009688 !important;
+  background-color: #009688 !important;
 }
 
 .blockquote {
-    padding: 0.5rem 1rem;
-    margin-bottom: 1rem;
-    font-size: 1rem !important;
-    font-weight: 100;
-    border-left: 0.25rem solid #eceeef;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem !important;
+  font-weight: 100;
+  border-left: 0.25rem solid #eceeef;
 }
 
 a {
-    font-weight: normal !important;
+  font-weight: normal !important;
 }
 
 .truncate {
-    width: 180px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
+  width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
 
-    &.cal-day-notes {
-        width: 150px;
-    }
+  &.cal-day-notes {
+    width: 150px;
+  }
 }
 
 .footer {
-    bottom: 0;
-    left: 0;
-    color: #666;
-    background: #eee;
-    border-top: 1px solid silver;
-    position: fixed;
-    width: 100%;
-    padding: 10px;
-    padding-bottom: 0;
-    text-align: center;
-    z-index: 2;
-    font-size: 0.9em;
+  bottom: 0;
+  left: 0;
+  color: #666;
+  background: #eee;
+  border-top: 1px solid silver;
+  position: fixed;
+  width: 100%;
+  padding: 10px;
+  padding-bottom: 0;
+  text-align: center;
+  z-index: 2;
+  font-size: 0.9em;
 
-    p {
-        margin-bottom: 7px;
-    }
+  p {
+    margin-bottom: 7px;
+  }
 }
 
 .thread-dump-modal-lock {
-    max-width: 450px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  max-width: 450px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Override Bootstrap's default vertical-align: top */
 .table {
-    th,
-    td {
-        vertical-align: middle !important;
-    }
+  th,
+  td {
+    vertical-align: middle !important;
+  }
 }
 ----
 
 [sidebar]
-.How to use Bootstrap Material Design with JHipster 5
+.How to use Material Design for Bootstrap 5 with JHipster 7
 --
-If you’d like to use https://fezvrasta.github.io/bootstrap-material-design/[Bootstrap Material Design] with JHipster 5, that’s possible too.
+If you'd like to use https://fezvrasta.github.io/bootstrap-material-design/[Material Design for Bootstrap 5] with JHipster 7, that's possible too.
 
-Below are the steps necessary to use Bootstrap Material Design and Sass:
+Below are the steps necessary to use Material Design for Bootstrap 5 and Sass:
 
 . Install bootstrap-material-design:
 +
 [source,bash]
 ----
-npm install bootstrap-material-design@4.1.1
+npm i mdb-ui-kit
 ----
 +
 . Remove all variables from `src/main/webapp/content/scss/_bootstrap-variables.scss`.
@@ -529,7 +529,6 @@ npm install bootstrap-material-design@4.1.1
   min-height: 2rem !important;
 }
 ----
-+
 
 Below is a screenshot taken after these changes.
 
@@ -558,7 +557,7 @@ The good news is JHipster can generate all of this code for you, including integ
 
 JHipster supports several methods of code generation. The first uses its https://www.jhipster.tech/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool that prompts you with questions to answer. https://www.jhipster.tech/jdl-studio/[JDL-Studio] is a browser-based tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://www.jhipster.tech/jhipster-uml/[JHipster-UML] is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio], http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose that for this project.
 
-TIP: If you want to see how how easy it is to use JDL-Studio, please see my https://www.youtube.com/watch?v=-VQ_SVkaXbs[Get Started with JHipster 5 Screencast].
+TIP: If you want to see how how easy it is to use JDL-Studio, please see my https://www.youtube.com/watch?v=6lf64CctDAQ[Get Started with JHipster 7 Screencast].
 
 At this point, I did some trial-and-error designs with the data model. I generated entities with JHipster, tried the app, and changed to start with a UI-first approach. As a user, I was hoping to easily add daily entries about whether I'd exercised, ate healthy meals, or consumed alcohol. I also wanted to record my weight and blood-pressure metrics when I measured them. When I started using the UI I'd just created, it seemed like it might be able to accomplish these goals, but it also seemed somewhat cumbersome. That's when I decided to create a UI mockup with the main screen and its ancillary screens for data entry. I used https://www.omnigroup.com/omnigraffle[OmniGraffle] and a https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstrap stencil] to create the following UI mockup.
 
@@ -636,7 +635,7 @@ Everything is configured, generating the entity...
 Running `webpack:build` to update client app
 ----
 
-You can see the validation rules for date and notes above, but you don’t see how I created the relationship to user. Here are the questions and answers from that section.
+You can see the validation rules for date and notes above, but you don't see how I created the relationship to user. Here are the questions and answers from that section.
 
 ----
 ? Do you want to add a relationship to another entity? Yes
@@ -904,7 +903,7 @@ Since the dropdown is hidden from non-admins, I had to modify each `Resource` cl
 
 `SecurityUtils` is a class JHipster provides when you create a project. I had to modify `PointsResourceIntTest.java` to be security-aware after making this change.
 
-Spring MVC Test provides a convenient interface called `RequestPostProcessor` that you can use to modify a request. Spring Security provides a number of `RequestPostProcessor` implementations that simplify testing. In order to use Spring Security’s `RequestPostProcessor` implementations, you can include them all with the following static import.
+Spring MVC Test provides a convenient interface called `RequestPostProcessor` that you can use to modify a request. Spring Security provides a number of `RequestPostProcessor` implementations that simplify testing. In order to use Spring Security's `RequestPostProcessor` implementations, you can include them all with the following static import.
 
 [source%autofit,java]
 ----
@@ -978,7 +977,7 @@ public class PointsResourceIntTest {
 
 ==== List screen should show only user's data
 
-The next business-logic improvement I wanted was to modify list screens so they'd only show records for current user. Admin users should see all users' data. To facilitate this feature, I modified `PointsResource#getAll` to have a switch based on the user's role. Rather than showing you the diff of method, here’s the whole thing.
+The next business-logic improvement I wanted was to modify list screens so they'd only show records for current user. Admin users should see all users' data. To facilitate this feature, I modified `PointsResource#getAll` to have a switch based on the user's role. Rather than showing you the diff of method, here's the whole thing.
 
 [source%autofit,java]
 .src/main/java/org/jhipster/health/web/rest/PointsResource.java
@@ -1058,7 +1057,7 @@ Making the homepage into something resembling my UI mockup required several step
 . Add an API to get body weights for the last 30 days.
 . Add charts to display points per week and blood pressure/weight for last 30 days.
 
-I started by reusing the update components for entering data that JHipster had created for me. I navigated to the components using Angular's `routerLink` syntax, copied from each entity’s main list page. For example, below is the code for the "Add Points" button.
+I started by reusing the update components for entering data that JHipster had created for me. I navigated to the components using Angular's `routerLink` syntax, copied from each entity's main list page. For example, below is the code for the "Add Points" button.
 
 [source%autofit,html]
 ----
@@ -2251,7 +2250,7 @@ image::chapter1/sonar.png[Sonar results, 1500, scaledwidth=100%, align=center]
 
 == Progressive web apps
 
-Progressive web apps, aka PWAs, are the best way for developers to make their web apps load faster and perform better. In a nutshell, PWAs are websites that use recent web standards to allow for installation on a user’s computer or device, and deliver an app-like experience to those users.
+Progressive web apps, aka PWAs, are the best way for developers to make their web apps load faster and perform better. In a nutshell, PWAs are websites that use recent web standards to allow for installation on a user's computer or device, and deliver an app-like experience to those users.
 
 To be a PWA requires three features:
 
@@ -2263,7 +2262,7 @@ For HTTPS, you can use JHipster's "tls" profile for localhost or (even better) d
 
 TIP: To use HTTPS on localhost with Gradle, run `./gradlew -Ptls` for the back end and `yarn start-tls` for the front end.
 
-Cloud providers like Heroku and Cloud Foundry will provide you with HTTPS out of the box, but they won’t force it. To force HTTPS, I modified `src/main/java/org/jhipster/health/config/SecurityConfiguration.java` and added a rule to force a secure channel when an `X-Forwarded-Proto` header is sent.
+Cloud providers like Heroku and Cloud Foundry will provide you with HTTPS out of the box, but they won't force it. To force HTTPS, I modified `src/main/java/org/jhipster/health/config/SecurityConfiguration.java` and added a rule to force a secure channel when an `X-Forwarded-Proto` header is sent.
 
 [source,java]
 ----
@@ -2280,7 +2279,7 @@ public void configure(HttpSecurity http) throws Exception {
 }
 ----
 
-The https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin[workbox-webpack-plugin] is configured already for generating a service worker, but it only works when running your app with a production profile. This is nice because it means your data isn’t cached in the browser when you’re developing.
+The https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin[workbox-webpack-plugin] is configured already for generating a service worker, but it only works when running your app with a production profile. This is nice because it means your data isn't cached in the browser when you're developing.
 
 To register a service worker, I modified `src/main/webapp/index.html` and uncommented the following block of code.
 
