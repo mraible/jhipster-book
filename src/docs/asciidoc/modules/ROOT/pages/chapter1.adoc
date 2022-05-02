@@ -46,6 +46,7 @@ Then I proceeded to build my application. Unlike many application generators in 
 ----
 jhipster
 ----
+// todo: update screenshot and text for JHipster 7.8.2 (where ./gradlew -Pprod works)
 ifeval::["{media}" != "prepress"]
 After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can see the choices I made in the following screenshot.
 
@@ -114,7 +115,7 @@ endif::[]
 NOTE: I tried using "21-points" as the application name, but quickly discovered JHipster prevents this with a validation error: `Your base name cannot contain special characters or a blank space`.
 
 This process generates a `.yo-rc.json` file that captures all of the choices you make. You can use this file in an empty directory to create a project with the same settings.
-
+// todo: update for 7.8.2
 [source,json]
 .yo-rc.json
 ----
@@ -174,21 +175,25 @@ You can see that I chose H2 with disk-based persistence for development and Post
 
 The http://www.liquibase.org/[Liquibase] homepage describes it as source control for your database. It will help create new fields as you add them to your entities. It will also refactor your database, for example creating tables and dropping columns. It also has the ability to undo changes to your database, either automatically or with custom SQL.
 
-After answering all the questions, JHipster created a whole bunch of files, then ran `yarn install`. To prove everything was good to go, I ran the Java unit tests using `./gradlew test`.
+After answering all the questions, JHipster created a whole bunch of files, then ran `npm install`. To prove everything was good to go, I ran the Java unit tests using `./gradlew test`.
 
 [source]
 ----
-BUILD SUCCESSFUL in 2m 13s
-15 actionable tasks: 13 executed, 2 up-to-date
+// Intel
+// BUILD SUCCESSFUL in 2m 13s
+// 15 actionable tasks: 13 executed, 2 up-to-date
+// M1 is below
+BUILD SUCCESSFUL in 1m 17s
+13 actionable tasks: 11 executed, 2 up-to-date
 ----
 
-JHipster v7 will only work with an external Elasticsearch instance. In previous versions, you could use an embedded Elasticsearch instance, but Elasticsearch has removed this ability in recent releases. The easiest way to run a local Elasticsearch instance is to use Docker Compose. I ran the following command to start Elasticsearch as a daemon. Remove the `-d` option if you don't want it to run as a daemon.
+JHipster 5+ will only work with an external Elasticsearch instance. In previous versions, you could use an embedded Elasticsearch instance, but Elasticsearch has removed this ability in recent releases. The easiest way to run a local Elasticsearch instance is to use Docker Compose. I ran the following command to start Elasticsearch as a daemon. Remove the `-d` option if you don't want it to run as a daemon.
 
 ----
 docker-compose -f src/main/docker/elasticsearch.yml up -d
 ----
 
-Next, I started the app using `./gradlew` and then ran the UI integration tests with `npm run e2e`. All tests passed with flying colors.
+Next, I started the app using `./gradlew` and then ran the UI integration tests in another terminal with `npm run e2e`. All tests passed with flying colors.
 
 ----
 $ npm run e2e
@@ -222,6 +227,7 @@ $ npm run e2e
     ✔  All specs passed!                        00:41       33       33        -        -        -
 
 Execution time: 1 min. 10 s.
+// M1 Execution time: 3 min. 47 s. because https://github.com/cypress-io/cypress/issues/19908
 ----
 
 To prove the `prod` profile worked and I could talk to PostgreSQL, I ran Docker Compose for PostgreSQL.
@@ -230,8 +236,6 @@ To prove the `prod` profile worked and I could talk to PostgreSQL, I ran Docker 
 docker-compose -f src/main/docker/postgresql.yml up -d
 ----
 
-// todo: start from here once https://github.com/jhipster/generator-jhipster/issues/18531 is fixed
-
 Then I restarted the app with the `prod` profile enabled.
 
 ----
@@ -239,8 +243,8 @@ $ ./gradlew -Pprod
 ...
 ----------------------------------------------------------
         Application 'TwentyOnePoints' is running! Access URLs:
-        Local:          http://localhost:8080
-        External:       http://192.168.105.207:8080
+        Local:          http://localhost:8080/
+        External:       http://127.0.0.1:8080/
         Profile(s):     [prod]
 ----------------------------------------------------------
 ----
@@ -254,7 +258,7 @@ Wahoo — it worked!
 You can also use a local PostgreSQL database. To do this on a Mac, I installed http://postgresapp.com/[Postgres.app] and tried creating a local PostgreSQL database with settings from `src/main/resources/config/application-prod.yml`.
 
 ----
-psql (9.6.10)
+psql (14.2)
 Type "help" for help.
 
 template1=# create user TwentyOnePoints with password '21points';
@@ -263,44 +267,54 @@ template1=# create database TwentyOnePoints;
 CREATE DATABASE
 template1=# grant all privileges on database TwentyOnePoints to TwentyOnePoints;
 GRANT
-template1=#
+template1=# \q
 ----
 
-I updated `application-prod.yml` to use `21points` for the datasource password. I confirmed I could talk to a PostgreSQL database when running with the `prod` profile. I was greeted with an error saying that things were not set up correctly.
+I updated `application-prod.yml` to use `21points` for the datasource password. I shutdown the Docker image running PostgreSQL.
+
+[source,shell]
+----
+docker-compose -f src/main/docker/postgresql.yml down
+----
+
+I confirmed I could talk to a PostgreSQL database when running with the `prod` profile. I was greeted with an error saying that things were not set up correctly.
 
 [source%autofit]
 ----
 $ ./gradlew -Pprod
 ...
-2018-08-27 09:59:32.094 ERROR 5180 --- [           main] com.zaxxer.hikari.pool.HikariPool        :
-HikariPool-1 - Exception during pool initialization.
+2022-05-01 21:15:02.117 ERROR 20608 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : Hikari - Exception during pool initialization.
 
 org.postgresql.util.PSQLException: FATAL: role "TwentyOnePoints" does not exist
-        at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
-        at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2559)
-        at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:133)
 ----
 
-I quickly realized that PostgreSQL is case insensitive, so even though I typed "TwentyOnePoints", it configured the database name and username as "twentyonepoints". I updated `application-prod.yml` with the correct case and tried again. This time it worked!
+I quickly realized that PostgreSQL is case-insensitive, so even though I typed "TwentyOnePoints", it configured the database name and username as "twentyonepoints". I updated `application-prod.yml` with the correct case and tried again. This time it worked!
 --
 
 === Adding source control
 
-One of the first things I like to do when creating a new project is to add it to a version-control system (VCS). In this particular case, I chose Git and Bitbucket.
+One of the first things I like to do when creating a new project is to add it to a version-control system (VCS). In this particular case, I chose Git and GitHub.
 
-JHipster will initialize Git for your project automatically if you have Git installed. The following commands show how I added a reference to the remote Bitbucket repository, then pushed everything. I created the repository on Bitbucket before executing these commands.
+JHipster will initialize Git for your project automatically if you have Git installed. The following commands show how I added a reference to the remote GitHub repository, then pushed everything. I created the repository on GitHub before executing these commands.
 
 [source]
 ----
-$ git remote add origin git@bitbucket.org:mraible/21-points.git
-$ git push origin master
-Delta compression using up to 8 threads.
-Compressing objects: 100% (495/495), done.
-Writing objects: 100% (523/523), 616.70 KiB | 8.94 MiB/s, done.
-Total 523 (delta 61), reused 0 (delta 0)
-remote: Resolving deltas: 100% (61/61), done.
-To bitbucket.org:mraible/21-points.git
- * [new branch]      master -> master
+git remote add origin git@github.com:mraible/21-points.git
+git branch -M main
+git push -u origin main
+----
+
+The response should indicate success:
+
+----
+Delta compression using up to 10 threads
+Compressing objects: 100% (614/614), done.
+Writing objects: 100% (648/648), 937.84 KiB | 12.50 MiB/s, done.
+Total 648 (delta 82), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (82/82), done.
+To github.com:mraible/21-point.git
+ * [new branch]      main -> main
+Branch 'main' set up to track remote branch 'main' from 'origin'.
 ----
 
 This is how I created a new application with JHipster and checked it into source control. If you're creating an application following similar steps, I believe there are two common approaches for continuing. The first involves developing the application, then testing and deploying. The second option is to set up continuous integration, deploy, then begin development and testing. In a team development environment, I recommend the second option. However, since you're likely reading this as an individual, I'll follow the first approach and get right to coding. If you're interested in setting up continuous integration with Jenkins, please see https://www.jhipster.tech/setting-up-ci-jenkins2/[Setting up Continuous Integration on Jenkins 2].
@@ -308,13 +322,15 @@ This is how I created a new application with JHipster and checked it into source
 == Building the UI and business logic
 
 ifeval::["{media}" == "screen"]
-I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a few years ago, but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the https://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the https://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design] module. Unfortunately, I soon found out it doesn't support JHipster 4+.
+I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage several years ago, but now Google's https://material.io/[Material Design] is growing in popularity. I searched for "material" in the https://www.jhipster.tech/modules/marketplace/[JHipster Marketplace] and found the https://www.jhipster.tech/modules/marketplace/#/details/generator-jhipster-bootstrap-material-design[Bootstrap Material Design] module. Unfortunately, I soon found out it doesn't support JHipster 4+.
 endif::[]
 ifeval::["{media}" == "prepress"]
 I wanted 21-Points Health to be a bit more hip than a stock JHipster application. Bootstrap was all the rage a few years ago, but now Google's Material Design is growing in popularity. I searched for "material" in the JHipster Marketplace and found the Bootstrap Material Design module. Unfortunately, I soon found out it doesn't support JHipster 4+.
 endif::[]
 
 In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. To make the default Bootstrap theme look like Material Design, modify `_bootstrap-variables.scss` and replace it with the contents below.
+
+// todo: start from here - git@github.com:mraible/21-points-v7.git
 
 [source,sass]
 .src/main/webapp/content/scss/_bootstrap-variables.scss
@@ -1596,10 +1612,10 @@ While gathering this data seemed easy enough, the hard part was figuring out wha
 
 ==== Charts of the last 30 days
 
-Based on my experience writing the first two versions of this book, I looked for an Angular library that integrated with https://d3js.org/[D3.js] and found https://github.com/krispo/ng2-nvd3[ng2-nvd3]. To install ng2-nvd3, I used Yarn's `add` command.
+Based on my experience writing the first two versions of this book, I looked for an Angular library that integrated with https://d3js.org/[D3.js] and found https://github.com/krispo/ng2-nvd3[ng2-nvd3]. To install ng2-nvd3, I used npm.
 
 ----
-yarn add ng2-nvd3
+npm install ng2-nvd3
 ----
 
 Then I updated `home.module.ts` to import the `NvD3Module`, as well as other imports I found necessary.
@@ -1779,7 +1795,7 @@ You probably noticed that a lot of the Java code I wrote was for the tests. I fe
 
 I believe TDD (test-driven development) is a great way to write code. However, when developing UIs, I tend to make them work before writing tests. It's usually a very visual activity and, with the aid of Browsersync, there's rarely a delay before you see your changes. I like to write unit tests for my Angular components and directives using https://jasmine.github.io/[Jasmine] and I like to write integration tests with http://www.protractortest.org/#/[Protractor].
 
-I did not show any UI tests in this section, but JHipster generated a bunch for me. Running `yarn test --coverage` shows 78.98% of lines are covered in the UI!
+I did not show any UI tests in this section, but JHipster generated a bunch for me. Running `npm test --coverage` shows 78.98% of lines are covered in the UI!
 ****
 
 == Deploying to Heroku
@@ -1796,7 +1812,7 @@ The command looks similar when using Maven.
 ./mvnw -Pprod package
 ----
 
-The production profile is used to build an optimized JavaScript client. You can invoke this using webpack by running `yarn webpack:prod`. The production profile also configures gzip compression with a servlet filter, cache headers, and monitoring via https://github.com/dropwizard/metrics[Metrics]. If you have a http://graphite.wikidot.com/[Graphite] server configured in your `application-prod.yml` file, your application will automatically send metrics data to it.
+The production profile is used to build an optimized JavaScript client. You can invoke this using webpack by running `npm run webpack:prod`. The production profile also configures gzip compression with a servlet filter, cache headers, and monitoring via https://github.com/dropwizard/metrics[Metrics]. If you have a http://graphite.wikidot.com/[Graphite] server configured in your `application-prod.yml` file, your application will automatically send metrics data to it.
 
 To deploy 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-command-line[Heroku CLI] installed.
 
@@ -1949,6 +1965,7 @@ heroku war:deploy target/*war --app health-by-points
 ----
 --
 
+////
 === Elasticsearch on Heroku
 
 To prove everything was working on Heroku, I tried registering a new user. I received an error that appeared to come from Elasticsearch.
@@ -1970,7 +1987,8 @@ I https://github.com/jhipster/generator-jhipster/issues/7810[created an issue] i
 
 The fix for Elasticsearch on Heroku was released in JHipster 5.3.0, so I upgraded using the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator].
 
-After the command finished, I committed changes to `yarn.lock`, ran `git push`, and deployed to Heroku again using `jhipster heroku`.
+After the command finished, I committed changes to `package-lock.lock`, ran `git push`, and deployed to Heroku again using `jhipster heroku`.*/
+////
 
 === Mail on Heroku
 
