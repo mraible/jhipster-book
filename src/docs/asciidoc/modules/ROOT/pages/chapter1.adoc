@@ -330,17 +330,15 @@ endif::[]
 
 In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme; changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. To make the default Bootstrap theme look like Material Design, modify `_bootstrap-variables.scss` and replace it with the contents below.
 
-// todo: start from here - git@github.com:mraible/21-points-v7.git
-
 [source,sass]
 .src/main/webapp/content/scss/_bootstrap-variables.scss
 ----
 /*
-* Customize Bootstrap https://getbootstrap.com/docs/5.1/customize/sass/
-* All values defined in bootstrap source
-* https://github.com/twbs/bootstrap/blob/main/scss/_variables.scss can be overwritten here
-* Make sure not to add !default to values here
-*/
+ * Bootstrap overrides https://getbootstrap.com/docs/5.1/customize/sass/
+ * All values defined in bootstrap source
+ * https://github.com/twbs/bootstrap/blob/v5.1.3/scss/_variables.scss can be overwritten here
+ * Make sure not to add !default to values here
+ */
 
 // Colors:
 // Grayscale and brand colors for use across Bootstrap.
@@ -469,17 +467,15 @@ a {
 ----
 
 [sidebar]
-.How to use Material Design for Bootstrap 5 with JHipster 7
+.How to use Material Design for Bootstrap and Angular with JHipster
 --
-If you'd like to use https://fezvrasta.github.io/bootstrap-material-design/[Material Design for Bootstrap 5] with JHipster 7, that's possible too.
+If you'd like to use https://mdbootstrap.com/docs/b5/angular/[Material Design for Bootstrap & Angular] with JHipster, that's possible too.
 
-Below are the steps necessary to use Material Design for Bootstrap 5 and Sass:
-
-. Install bootstrap-material-design:
+. Install The MDB Angular UI KIT:
 +
 [source,bash]
 ----
-npm i mdb-ui-kit
+npm i mdb-angular-ui-kit
 ----
 +
 . Remove all variables from `src/main/webapp/content/scss/_bootstrap-variables.scss`.
@@ -491,15 +487,23 @@ npm i mdb-ui-kit
 // @import '~bootstrap/scss/bootstrap';
 ----
 +
-. Add the following to import bootstrap-material-design in `src/main/webapp/content/scss/vendor.scss`:
+. Add the following to import MDB stylesheet in `src/main/webapp/content/scss/vendor.scss`:
 +
 [source%autofit,sass]
 ----
-// Import Bootstrap Material Design
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
-@import '~bootstrap-material-design/scss/bootstrap-material-design';
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+@import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 ----
 +
+. Add `https://fonts.googleapis.com` and `https://fonts.gstatic.com` to the `style-src` and `font-src` content security policy rules in `src/main/resources/config/application.yml`.
++
+[source,yaml]
+----
+jhipster:
+  ...
+  security:
+    content-security-policy: "... style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; ... font-src 'self' data: https://fonts.gstatic.com"
+----
 . Remove the following styles from `global.scss`:
 +
 [source,sass]
@@ -515,18 +519,13 @@ npm i mdb-ui-kit
 }
 ----
 +
-. Add the following overrides on the dropdown menus so they look good.
+. Modify the `.dropdown-menu` rule to set the display to `none`.
 +
 [source,sass]
 ----
-.dropdown-menu .dropdown-item.active, .dropdown-menu .dropdown-item:active {
-  color: #fff !important;
-}
-
-.dropdown-menu .dropdown-item {
-  display: inline-block !important;
-  padding: 0.5rem 1.5rem !important;
-  min-height: 2rem !important;
+.dropdown-menu {
+  padding-left: 0;
+  display: none;
 }
 ----
 
@@ -536,6 +535,8 @@ Below is a screenshot taken after these changes.
 .JHipster with Bootstrap Angular Material
 image::chapter1/angular-material-theme.png[UI mockup, 1333, scaledwidth=100%, align=center]
 --
+
+// todo: start from here - git@github.com:mraible/21-points-v7.git
 
 At this point, I deployed to Heroku for the first time. This is covered in the <<Deploying to Heroku>> section of this chapter.
 
