@@ -1800,54 +1800,58 @@ I did not show any UI tests in this section, but JHipster generated a bunch for 
 
 == Deploying to Heroku
 
-JHipster ships with support for deploying to Cloud Foundry, Heroku, Kubernetes, Microsoft Azure, OpenShift, Rancher, AWS, and Boxfuse. I used Heroku to deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for production, it's recommended to use the pre-configured "`prod`" profile. With Gradle, you can package your application by specifying this profile when building.
+JHipster ships with support for deploying to Google App Engine, Heroku, and Kubernetes including Microsoft Azure, AWS, and Google Cloud. I used Heroku to deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for production, it's recommended to use the pre-configured "`prod`" profile. With Gradle, you can package your application by specifying this profile when building.
 
 ----
-./gradlew -Pprod bootWar
+./gradle bootJar -Pprod
 ----
 
 The command looks similar when using Maven.
 
 ----
-./mvnw -Pprod package
+./mvnw package -Pprod
 ----
 
-The production profile is used to build an optimized JavaScript client. You can invoke this using webpack by running `npm run webpack:prod`. The production profile also configures gzip compression with a servlet filter, cache headers, and monitoring via https://github.com/dropwizard/metrics[Metrics]. If you have a http://graphite.wikidot.com/[Graphite] server configured in your `application-prod.yml` file, your application will automatically send metrics data to it.
+The production profile is used to build an optimized JavaScript client. You can invoke this using webpack by running `npm run webapp:build:prod`. The production profile also configures gzip compression with a servlet filter, cache headers, and monitoring via https://micrometer.io/[Micrometer]. If you have a https://prometheus.io/[Prometheus] server configured in your `application-prod.yml` file, your application will automatically send metrics data to it.
 
-To deploy 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-command-line[Heroku CLI] installed.
+To deploy 21-Points Health, I logged in to my Heroku account. I already had the https://devcenter.heroku.com/articles/heroku-cli[Heroku CLI] installed.
 
 TIP: I first deployed to Heroku after creating the application, meaning that I had a default JHipster application with no entities.
 
 ----
 $ heroku login
-Enter your Heroku credentials.
-Email: matt@raibledesigns.com
-Password (typing will be hidden):
-Authentication successful.
+heroku: Press any key to open up the browser to login or q to exit:
+Opening browser to https://cli-auth.heroku.com/auth/cli/browser/06ab4e96...
+Logging in... done
+Logged in as matt@raibledesigns.com
 ----
 
 I ran `jhipster heroku` as recommended in the https://www.jhipster.tech/heroku/[Deploying to Heroku] documentation. I tried using the name "`21points`" for my application when prompted.
 
 ----
 $ jhipster heroku
+...
 Heroku configuration is starting
 ? Name to deploy as: 21points
 ? On which region do you want to deploy ? us
 ? Which type of deployment do you want ? Git (compile on Heroku)
+? Which Java version would you like to use to build and run your app ? 11
 
 Using existing Git repository
 
-Heroku CLI deployment plugin already installed
+Installing Heroku CLI deployment plugin
 
 Creating Heroku application and setting up node environment
-✖ { Error: Command failed: heroku create 21-points
+✖ Error: Command failed: heroku create 21-points
 Creating 21-points... !
- ▸    Name must start with a letter and can only contain lowercase letters,
- ▸    numbers, and dashes.
+ ▸    Name must start with a letter, end with a letter or digit and can only
+ ▸    contain lowercase letters, digits, and dashes.
 ----
 
 You can see my first attempt failed for the same reason that creating the initial JHipster app failed: it didn't like that the app name started with a number. I tried again with "`health`", but that failed, too, since a Heroku app with this name already existed. Finally, I settled on "`health-by-points`" as the application name.
 
+I ran `git checkout .yo-rc.json` to revert the changes the Heroku sub-generator made, then tried again. I typed "`a`" when prompted to overwrite `build.gradle`.
+// todo: start here once ES on Heroku is fixed
 ----
 $ jhipster heroku
 Using JHipster version installed locally in current project's node_modules
@@ -1953,15 +1957,15 @@ heroku plugins:install heroku-cli-deploy
 After that, you can package your JHipster project for production and deploy it. Using Gradle, it looks like this.
 
 ----
-./gradlew -Pprod bootWar
-heroku war:deploy build/libs/*war --app health-by-points
+./gradlew bootJar -Pprod
+heroku jar:deploy build/libs/*.jar --app health-by-points
 ----
 
 With Maven, the commands look slightly different:
 
 ----
 ./mvnw package -Pprod
-heroku war:deploy target/*war --app health-by-points
+heroku jar:deploy target/*.jar --app health-by-points
 ----
 --
 
