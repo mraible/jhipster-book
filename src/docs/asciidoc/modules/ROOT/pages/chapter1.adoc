@@ -46,7 +46,7 @@ Then I proceeded to build my application. Unlike many application generators in 
 ----
 jhipster
 ----
-// todo: update screenshot and text for JHipster 7.8.2 (where ./gradlew -Pprod works)
+// todo: update screenshot and text for JHipster 7.9.3
 ifeval::["{media}" != "prepress"]
 After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can see the choices I made in the following screenshot.
 
@@ -115,7 +115,7 @@ endif::[]
 NOTE: I tried using "21-points" as the application name, but quickly discovered JHipster prevents this with a validation error: `Your base name cannot contain special characters or a blank space`.
 
 This process generates a `.yo-rc.json` file that captures all of the choices you make. You can use this file in an empty directory to create a project with the same settings.
-// todo: update for 7.8.2
+// todo: update for 7.9.3
 [source,json]
 .yo-rc.json
 ----
@@ -255,10 +255,17 @@ Wahoo — it worked!
 .Using a local PostgreSQL database
 --
 [.text-left]
-You can also use a local PostgreSQL database. To do this on a Mac, I installed http://postgresapp.com/[Postgres.app] and tried creating a local PostgreSQL database with settings from `src/main/resources/config/application-prod.yml`.
+You can also use a local PostgreSQL database. To do this on a Mac, I installed http://postgresapp.com/[Postgres.app]. I shut down the Docker image running PostgreSQL.
+
+[source,shell]
+----
+docker-compose -f src/main/docker/postgresql.yml down
+----
+
+Then, I tried creating a local PostgreSQL database with settings from `src/main/resources/config/application-prod.yml`.
 
 ----
-psql (14.2)
+psql (14.5)
 Type "help" for help.
 
 template1=# create user TwentyOnePoints with password '21points';
@@ -270,12 +277,7 @@ GRANT
 template1=# \q
 ----
 
-I updated `application-prod.yml` to use `21points` for the datasource password. I shutdown the Docker image running PostgreSQL.
-
-[source,shell]
-----
-docker-compose -f src/main/docker/postgresql.yml down
-----
+I updated `application-prod.yml` to use `21points` for the datasource password.
 
 I confirmed I could talk to a PostgreSQL database when running with the `prod` profile. I was greeted with an error saying that things were not set up correctly.
 
@@ -2244,7 +2246,7 @@ Then I ran all the tests and the `sonarqube` task.
 
 [source]
 ----
-/gradlew -Pprod clean test sonarqube
+./gradlew -Pprod clean check jacocoTestReport sonarqube
 ----
 
 Once this process completed, an analysis of the project was available on the Sonar dashboard at http://127.0.0.1:9001. 21-Points Heath is a triple-A-rated app! Not bad, eh?
