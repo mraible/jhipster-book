@@ -46,7 +46,7 @@ Then I proceeded to build my application. Unlike many application generators in 
 ----
 jhipster
 ----
-// todo: update screenshot and text for JHipster 7.9.3
+
 ifeval::["{media}" != "prepress"]
 After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can see the choices I made in the following screenshot.
 
@@ -69,7 +69,7 @@ $ jhipster
   ╚██████╔╝ ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗
    ╚═════╝  ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
                             https://www.jhipster.tech
-Welcome to JHipster v7.8.1
+Welcome to JHipster v7.9.3
 
 Application files will be generated in folder: /Users/mraible/dev/21-points
  _______________________________________________________________________________________________________________
@@ -100,6 +100,7 @@ Application files will be generated in folder: /Users/mraible/dev/21-points
 ? Besides JUnit and Jest, which testing frameworks would you like to use? Cypress
 ? Would you like to install other generators from the JHipster Marketplace? No
 ? Would you like to generate code coverage for Cypress tests? [Experimental] No
+? Would you like to audit Cypress tests? No
 Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 99,999 days
 	for: CN=Java Hipster, OU=Development, O=org.jhipster.health, L=, ST=, C=
 
@@ -115,7 +116,7 @@ endif::[]
 NOTE: I tried using "21-points" as the application name, but quickly discovered JHipster prevents this with a validation error: `Your base name cannot contain special characters or a blank space`.
 
 This process generates a `.yo-rc.json` file that captures all of the choices you make. You can use this file in an empty directory to create a project with the same settings.
-// todo: update for 7.9.3
+
 [source,json]
 .yo-rc.json
 ----
@@ -131,7 +132,8 @@ This process generates a `.yo-rc.json` file that captures all of the choices you
     "clientPackageManager": "npm",
     "clientTheme": "none",
     "clientThemeVariant": "",
-    "creationTimestamp": 1651363424551,
+    "creationTimestamp": 1662997089611,
+    "cypressAudit": false,
     "cypressCoverage": false,
     "databaseType": "sql",
     "devDatabaseType": "h2Disk",
@@ -143,10 +145,12 @@ This process generates a `.yo-rc.json` file that captures all of the choices you
     "enableTranslation": true,
     "entitySuffix": "",
     "jhiPrefix": "jhi",
-    "jhipsterVersion": "7.8.1",
-    "jwtSecretKey": "NWRjNTgyZDc4NmM3Y2E3ZGU2MmNiMGU1ODg1YjI3Y2U2NDE1MDQyM2M3MGIzOTYzMWI0NGJhNTViNzNmYWE4ZTE5NTQyYzBiNTAyYjFkMmJkMDUwY2Y5OTllOGQ0ZGYxZWIzNTA5Y2FhN2UwMjRiMzEyZmYzYTRiNGZjMGY1MWM=",
+    "jhipsterVersion": "7.9.3",
+    "jwtSecretKey": "Delete this line so this value is regenerated",
     "languages": ["en", "fr"],
     "messageBroker": false,
+    "microfrontend": false,
+    "microfrontends": [],
     "nativeLanguage": "en",
     "otherModules": [],
     "packageName": "org.jhipster.health",
@@ -158,6 +162,7 @@ This process generates a `.yo-rc.json` file that captures all of the choices you
     "serverSideOptions": ["searchEngine:elasticsearch"],
     "serviceDiscoveryType": "no",
     "skipCheckLengthOfIdentifier": false,
+    "skipClient": false,
     "skipFakeData": false,
     "skipUserManagement": false,
     "testFrameworks": ["cypress"],
@@ -179,12 +184,8 @@ After answering all the questions, JHipster created a whole bunch of files, then
 
 [source]
 ----
-// Intel
-// BUILD SUCCESSFUL in 2m 13s
-// 15 actionable tasks: 13 executed, 2 up-to-date
-// M1 is below
-BUILD SUCCESSFUL in 1m 17s
-13 actionable tasks: 11 executed, 2 up-to-date
+BUILD SUCCESSFUL in 1m 12s
+15 actionable tasks: 13 executed, 2 up-to-date
 ----
 
 JHipster 5+ will only work with an external Elasticsearch instance. In previous versions, you could use an embedded Elasticsearch instance, but Elasticsearch has removed this ability in recent releases. The easiest way to run a local Elasticsearch instance is to use Docker Compose. I ran the following command to start Elasticsearch as a daemon. Remove the `-d` option if you don't want it to run as a daemon.
@@ -205,30 +206,29 @@ $ npm run e2e
 > npm run e2e:cypress -- --headed
 
 > twenty-one-points@0.0.1-SNAPSHOT e2e:cypress
-> cypress run --browser chrome --record ${CYPRESS_ENABLE_RECORD:-false} "--headed"
+> cypress run --e2e --browser chrome --record ${CYPRESS_ENABLE_RECORD:-false}
 
 ...
 
        Spec                                              Tests  Passing  Failing  Pending  Skipped
   ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ ✔  account/login-page.spec.ts               00:05        5        5        -        -        - │
+  │ ✔  login-page.cy.ts                         00:04        5        5        -        -        - │
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✔  account/password-page.spec.ts            00:07        6        6        -        -        - │
+  │ ✔  password-page.cy.ts                      00:06        6        6        -        -        - │
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✔  account/register-page.spec.ts            00:09        9        9        -        -        - │
+  │ ✔  register-page.cy.ts                      00:07        9        9        -        -        - │
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✔  account/reset-password-page.spec.ts      00:02        2        2        -        -        - │
+  │ ✔  reset-password-page.cy.ts                00:02        2        2        -        -        - │
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✔  account/settings-page.spec.ts            00:08        5        5        -        -        - │
+  │ ✔  settings-page.cy.ts                      00:06        5        5        -        -        - │
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✔  administration/administration.spec.      00:06        6        6        -        -        - │
-  │    ts                                                                                          │
+  │ ✔  administration.cy.ts                     00:04        6        6        -        -        - │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
-    ✔  All specs passed!                        00:41       33       33        -        -        -
+    ✔  All specs passed!                        00:30       33       33        -        -        -
 
-Execution time: 1 min. 10 s.
-// M1 Execution time: 3 min. 47 s. because https://github.com/cypress-io/cypress/issues/19908
+Execution time: 41 s.
 ----
+// todo: remove table above if doesn't look good in PDF
 
 To prove the `prod` profile worked and I could talk to PostgreSQL, I ran Docker Compose for PostgreSQL.
 
@@ -285,7 +285,7 @@ I confirmed I could talk to a PostgreSQL database when running with the `prod` p
 ----
 $ ./gradlew -Pprod
 ...
-2022-05-01 21:15:02.117 ERROR 20608 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : Hikari - Exception during pool initialization.
+2022-09-12T09:23:39.948-07:00 ERROR 91406 --- [           main] com.zaxxer.hikari.pool.HikariPool        : Hikari - Exception during pool initialization.
 
 org.postgresql.util.PSQLException: FATAL: role "TwentyOnePoints" does not exist
 ----
@@ -309,12 +309,14 @@ git push -u origin main
 The response should indicate success:
 
 ----
+Enumerating objects: 652, done.
+Counting objects: 100% (652/652), done.
 Delta compression using up to 10 threads
-Compressing objects: 100% (614/614), done.
-Writing objects: 100% (648/648), 937.84 KiB | 12.50 MiB/s, done.
-Total 648 (delta 82), reused 0 (delta 0), pack-reused 0
-remote: Resolving deltas: 100% (82/82), done.
-To github.com:mraible/21-point.git
+Compressing objects: 100% (618/618), done.
+Writing objects: 100% (652/652), 952.77 KiB | 11.34 MiB/s, done.
+Total 652 (delta 79), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (79/79), done.
+To github.com:mraible/21-points-v7.git
  * [new branch]      main -> main
 Branch 'main' set up to track remote branch 'main' from 'origin'.
 ----
@@ -478,6 +480,8 @@ If you'd like to use https://mdbootstrap.com/docs/b5/angular/[Material Design fo
 [source,bash]
 ----
 npm i mdb-angular-ui-kit
+// todo: try again when Angular 14 version is released
+// https://github.com/mdbootstrap/mdb-angular-ui-kit/issues/153
 ----
 +
 . Remove all variables from `src/main/webapp/content/scss/_bootstrap-variables.scss`.
@@ -494,7 +498,7 @@ npm i mdb-angular-ui-kit
 [source%autofit,sass]
 ----
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
-@import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
+@import '~mdb-angular-ui-kit/assets/scss/mdb.scss';
 ----
 +
 . Add `https://fonts.googleapis.com` and `https://fonts.gstatic.com` to the `style-src` and `font-src` content security policy rules in `src/main/resources/config/application.yml`.
@@ -526,7 +530,7 @@ jhipster:
 [source,sass]
 ----
 .dropdown-menu {
-  padding-left: 0;
+  padding-left: 0px;
   display: none;
 }
 ----
@@ -537,8 +541,6 @@ Below is a screenshot taken after these changes.
 .JHipster with Bootstrap Angular Material
 image::chapter1/angular-material-theme.png[UI mockup, 1333, scaledwidth=100%, align=center]
 --
-
-// todo: start from here - git@github.com:mraible/21-points-v7.git
 
 At this point, I deployed to Heroku for the first time. This is covered in the <<Deploying to Heroku>> section of this chapter.
 
@@ -1802,7 +1804,7 @@ I did not show any UI tests in this section, but JHipster generated a bunch for 
 
 == Deploying to Heroku
 
-JHipster ships with support for deploying to Google App Engine, Heroku, and Kubernetes including Microsoft Azure, AWS, and Google Cloud. I used Heroku to deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for production, it's recommended to use the pre-configured "`prod`" profile. With Gradle, you can package your application by specifying this profile when building.
+JHipster ships with support for deploying to Google App Engine, Heroku, and Kubernetes including Microsoft Azure, AWS, Google Cloud, and Digital Ocean. I used Heroku to deploy my application to the cloud because I'd worked with it before. When you prepare a JHipster application for production, it's recommended to use the pre-configured "`prod`" profile. With Gradle, you can package your application by specifying this profile when building.
 
 ----
 ./gradle bootJar -Pprod
@@ -1823,7 +1825,7 @@ TIP: I first deployed to Heroku after creating the application, meaning that I h
 ----
 $ heroku login
 heroku: Press any key to open up the browser to login or q to exit:
-Opening browser to https://cli-auth.heroku.com/auth/cli/browser/06ab4e96...
+Opening browser to https://cli-auth.heroku.com/auth/cli/browser/57c43ff8...
 Logging in... done
 Logged in as matt@raibledesigns.com
 ----
@@ -1853,15 +1855,15 @@ Creating 21-points... !
 You can see my first attempt failed for the same reason that creating the initial JHipster app failed: it didn't like that the app name started with a number. I tried again with "`health`", but that failed, too, since a Heroku app with this name already existed. Finally, I settled on "`health-by-points`" as the application name.
 
 I ran `git checkout .yo-rc.json` to revert the changes the Heroku sub-generator made, then tried again. I typed "`a`" when prompted to overwrite `build.gradle`.
-// todo: start here once ES on Heroku is fixed
+
 ----
 $ jhipster heroku
-Using JHipster version installed locally in current project's node_modules
-Executing jhipster:heroku
-Options:
+...
 Heroku configuration is starting
 ? Name to deploy as: health-by-points
 ? On which region do you want to deploy ? us
+? Which type of deployment do you want ? Git (compile on Heroku)
+? Which Java version would you like to use to build and run your app ? 11
 
 Using existing Git repository
 
@@ -1871,23 +1873,31 @@ Creating Heroku application and setting up node environment
 https://health-by-points.herokuapp.com/ | https://git.heroku.com/health-by-points.git
 
 Provisioning addons
-Created Elasticsearch addon
-Created Database addon
+
+Provisioning bonsai elasticsearch addon
+Provisioning database addon heroku-postgresql --as DATABASE
+No suitable cache addon for cacheprovider ehcache available.
 
 Creating Heroku deployment files
-   create src/main/resources/config/bootstrap-heroku.yml
-   create src/main/resources/config/application-heroku.yml
+    force .yo-rc-global.json
+    force .yo-rc.json
    create Procfile
+   create system.properties
    create gradle/heroku.gradle
  conflict build.gradle
+? Overwrite build.gradle? (ynarxdeiH) a
 ? Overwrite build.gradle? overwrite this and all others
     force build.gradle
+   create src/main/resources/config/bootstrap-heroku.yml
+   create src/main/resources/config/application-heroku.yml
 
 Skipping build
 
 Updating Git repository
 git add .
 git commit -m "Deploy to Heroku" --allow-empty
+
+...
 
 Configuring Heroku
 
@@ -1896,20 +1906,20 @@ remote: Compressing source files... done.
 remote: Building source:
 ...
 
-remote:        BUILD SUCCESSFUL in 4m 30s
-remote:        8 actionable tasks: 7 executed, 1 up-to-date
+remote:        BUILD SUCCESSFUL in 3m 29s
+remote:        12 actionable tasks: 12 executed
 remote: -----> Discovering process types
 remote:        Procfile declares types -> web
 remote:
 remote: -----> Compressing...
-remote:        Done: 141.3M
+remote:        Done: 197.8M
 remote: -----> Launching...
-remote:        Released v6
+remote:        Released v7
 remote:        https://health-by-points.herokuapp.com/ deployed to Heroku
-remote:
+...
 remote: Verifying deploy... done.
 To https://git.heroku.com/health-by-points.git
- * [new branch]      HEAD -> master
+ * [new branch]      HEAD -> main
 ----
 
 I was pumped to see that this process worked and that my application was available at http://health-by-points.herokuapp.com. I quickly changed the default passwords for *admin* and *user* to make things more secure.
@@ -1970,6 +1980,8 @@ With Maven, the commands look slightly different:
 heroku jar:deploy target/*.jar --app health-by-points
 ----
 --
+
+// todo: start from here
 
 ////
 === Elasticsearch on Heroku
