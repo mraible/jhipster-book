@@ -475,13 +475,13 @@ a {
 --
 If you'd like to use https://mdbootstrap.com/docs/b5/angular/[Material Design for Bootstrap & Angular] with JHipster, that's possible too.
 
+// note: the code below is in the 'mdb' branch in 21-points
+
 . Install The MDB Angular UI KIT:
 +
 [source,bash]
 ----
-npm i mdb-angular-ui-kit
-// todo: try again when Angular 14 version is released
-// https://github.com/mdbootstrap/mdb-angular-ui-kit/issues/153
+npm i mdb-angular-ui-kit @angular/cdk
 ----
 +
 . Remove all variables from `src/main/webapp/content/scss/_bootstrap-variables.scss`.
@@ -493,7 +493,7 @@ npm i mdb-angular-ui-kit
 // @import '~bootstrap/scss/bootstrap';
 ----
 +
-. Add the following to import MDB stylesheet in `src/main/webapp/content/scss/vendor.scss`:
+. Add the following to import the MDB stylesheet in `src/main/webapp/content/scss/vendor.scss`:
 +
 [source%autofit,sass]
 ----
@@ -560,9 +560,9 @@ In addition, you should have integration tests to verify that everything works a
 
 The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the TypeScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
 
-JHipster supports several methods of code generation. The first uses its https://www.jhipster.tech/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool that prompts you with questions to answer. https://www.jhipster.tech/jdl-studio/[JDL-Studio] is a browser-based tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://www.jhipster.tech/jhipster-uml/[JHipster-UML] is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio], http://www.umldesigner.org/[UML Designer], https://www.genmymodel.com/[GenMyModel] and http://www.visual-paradigm.com/[Visual Paradigm]. Because the entity sub-generator is one of the simplest to use, I chose that for this project.
+JHipster supports several methods of code generation. The first uses its https://www.jhipster.tech/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool that prompts you with questions to answer. https://www.jhipster.tech/jdl-studio/[JDL-Studio] is a browser-based tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://www.jhipster.tech/jhipster-uml/[JHipster-UML] is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio], http://www.umldesigner.org/[UML Designer], and https://www.genmymodel.com/[GenMyModel]. Because the entity sub-generator is one of the simplest to use, I chose that for this project.
 
-TIP: If you want to see how how easy it is to use JDL-Studio, please see my https://www.youtube.com/watch?v=6lf64CctDAQ[Get Started with JHipster 7 Screencast].
+TIP: If you want to see how easy it is to use JDL-Studio, please see my https://www.youtube.com/watch?v=6lf64CctDAQ[Get Started with JHipster 7 Screencast].
 
 At this point, I did some trial-and-error designs with the data model. I generated entities with JHipster, tried the app, and changed to start with a UI-first approach. As a user, I was hoping to easily add daily entries about whether I'd exercised, ate healthy meals, or consumed alcohol. I also wanted to record my weight and blood-pressure metrics when I measured them. When I started using the UI I'd just created, it seemed like it might be able to accomplish these goals, but it also seemed somewhat cumbersome. That's when I decided to create a UI mockup with the main screen and its ancillary screens for data entry. I used https://www.omnigroup.com/omnigraffle[OmniGraffle] and a https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstrap stencil] to create the following UI mockup.
 
@@ -570,13 +570,15 @@ At this point, I did some trial-and-error designs with the data model. I generat
 .UI mockup
 image::chapter1/ui-mockup.png[UI mockup, 846, scaledwidth=75%, align=center]
 
-After figuring out how I wanted the UI to look, I started to think about the data model. I quickly decided I didn't need to track high-level goals (e.g. lose ten pounds in Q3 2018). I was more concerned with tracking weekly goals and 21-Points Health is all about how many points you get in a week. I created the following diagram as my data model.
+After figuring out how I wanted the UI to look, I started to think about the data model. I quickly decided I didn't need to track high-level goals (e.g. lose ten pounds in Q1 2023). I was more concerned with tracking weekly goals and 21-Points Health is all about how many points you get in a week. I created the following diagram as my data model.
 
 [[img-entity-diagram]]
 .21-Points Health entity diagram
 image::chapter1/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=75%, align=center]
 
 I ran `jhipster entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one relationship with `user`. Below is the final output from my answers.
+
+// todo: start from here
 
 [source%autofit]
 ----
