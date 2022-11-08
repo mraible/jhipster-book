@@ -481,7 +481,7 @@ If you'd like to use https://mdbootstrap.com/docs/b5/angular/[Material Design fo
 +
 [source,bash]
 ----
-npm i mdb-angular-ui-kit @angular/cdk
+npm i mdb-angular-ui-kit@3 @angular/cdk@14
 ----
 +
 . Remove all variables from `src/main/webapp/content/scss/_bootstrap-variables.scss`.
@@ -558,7 +558,7 @@ For each entity you want to create, you will need:
 
 In addition, you should have integration tests to verify that everything works and performance tests to verify that it runs fast. In an ideal world, you'd also have unit tests and integration tests for your Angular code.
 
-The good news is JHipster can generate all of this code for you, including integration tests and performance tests. In addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the TypeScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
+The good news is JHipster can generate all of this code for you, including integration tests, and performance tests. In addition, if you have entities with relationships, it will generate the necessary schema to support them (with foreign keys), and the TypeScript and HTML code to manage them. You can also set up validation to require certain fields as well as control their length.
 
 JHipster supports several methods of code generation. The first uses its https://www.jhipster.tech/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool that prompts you with questions to answer. https://www.jhipster.tech/jdl-studio/[JDL-Studio] is a browser-based tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://www.jhipster.tech/jhipster-uml/[JHipster-UML] is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio], http://www.umldesigner.org/[UML Designer], and https://www.genmymodel.com/[GenMyModel]. Because the entity sub-generator is one of the simplest to use, I chose that for this project.
 
@@ -578,8 +578,6 @@ image::chapter1/entity-diagram.png[21-Points Health entity diagram, 684, scaledw
 
 I ran `jhipster entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one relationship with `user`. Below is the final output from my answers.
 
-// todo: start from here
-
 [source%autofit]
 ----
 ================= Points =================
@@ -593,64 +591,74 @@ notes (String) maxlength='140'
 Relationships
 user (User) many-to-one
 
-? Do you want to use separate service class for your business logic? No, the REST controller should use the repository directly
-? Do you want pagination on your entity? Yes, with pagination links
+? Do you want to use separate service class for your business logic? No, the REST controller should use the repository
+directly
+? Is this entity read-only? No
+? Do you want pagination and sorting on your entity? Yes, with pagination links and sorting headers
 
-Everything is configured, generating the entity...
-
-   create .jhipster/Points.json
-   create src/main/resources/config/liquibase/changelog/20180828004742_added_entity_Points.xml
-   create src/main/resources/config/liquibase/changelog/20180828004742_added_entity_constraints_Points.xml
-   create src/main/java/org/jhipster/health/domain/Points.java
-   create src/main/java/org/jhipster/health/repository/PointsRepository.java
+     info Creating changelog for entities Points
+WARNING! Error at 'Points' definitions: 'otherEntityRelationshipName' is set with value 'points' at relationship 'user' but no back-reference was found at 'user'
+    force .yo-rc-global.json
+    force .yo-rc.json
+    force .jhipster/Points.json
+   create src/test/java/org/jhipster/health/domain/PointsTest.java
+   create src/test/java/org/jhipster/health/web/rest/PointsResourceIT.java
    create src/main/java/org/jhipster/health/web/rest/PointsResource.java
+   create src/main/webapp/app/entities/points/points.model.ts
+   create src/main/java/org/jhipster/health/repository/PointsRepository.java
    create src/main/java/org/jhipster/health/repository/search/PointsSearchRepository.java
-   create src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
-   create src/test/java/org/jhipster/health/repository/search/PointsSearchRepositoryMockConfiguration.java
-   create src/test/gatling/user-files/simulations/PointsGatlingTest.scala
- conflict src/main/resources/config/liquibase/master.xml
-? Overwrite src/main/resources/config/liquibase/master.xml? overwrite this and all others
-    force src/main/resources/config/liquibase/master.xml
-    force src/main/java/org/jhipster/health/config/CacheConfiguration.java
-   create src/main/webapp/app/entities/points/points.component.html
-   create src/main/webapp/app/entities/points/points-detail.component.html
-   create src/main/webapp/app/entities/points/points-update.component.html
-   create src/main/webapp/app/entities/points/points-delete-dialog.component.html
-    force src/main/webapp/app/layouts/navbar/navbar.component.html
-   create src/main/webapp/i18n/en/points.json
-    force src/main/webapp/i18n/en/global.json
-   create src/main/webapp/i18n/fr/points.json
-    force src/main/webapp/i18n/fr/global.json
-   create src/main/webapp/app/entities/points/index.ts
    create src/main/webapp/app/entities/points/points.module.ts
-   create src/main/webapp/app/entities/points/points.route.ts
-   create src/main/webapp/app/shared/model/points.model.ts
-   create src/main/webapp/app/entities/points/points.component.ts
-   create src/main/webapp/app/entities/points/points-update.component.ts
-   create src/main/webapp/app/entities/points/points-delete-dialog.component.ts
-   create src/main/webapp/app/entities/points/points-detail.component.ts
-   create src/main/webapp/app/entities/points/points.service.ts
-   create src/test/javascript/spec/app/entities/points/points-detail.component.spec.ts
-   create src/test/javascript/spec/app/entities/points/points-update.component.spec.ts
-   create src/test/javascript/spec/app/entities/points/points-delete-dialog.component.spec.ts
-   create src/test/javascript/spec/app/entities/points/points.component.spec.ts
-   create src/test/javascript/spec/app/entities/points/points.service.spec.ts
-   create src/test/javascript/e2e/entities/points/points.page-object.ts
-   create src/test/javascript/e2e/entities/points/points.spec.ts
-    force src/main/webapp/app/entities/entity.module.ts
+   create src/main/webapp/app/entities/points/list/points.component.html
+   create src/main/webapp/app/entities/points/points.test-samples.ts
+   create src/main/webapp/app/entities/points/detail/points-detail.component.html
+   create src/main/webapp/app/entities/points/list/points.component.ts
+   create src/main/webapp/app/entities/points/route/points-routing.module.ts
+   create src/main/webapp/app/entities/points/detail/points-detail.component.ts
+   create src/main/webapp/app/entities/points/route/points-routing-resolve.service.ts
+   create src/main/webapp/app/entities/points/service/points.service.ts
+   create src/main/webapp/app/entities/points/update/points-form.service.ts
+   create src/main/webapp/app/entities/points/update/points-form.service.spec.ts
+   create src/main/webapp/app/entities/points/update/points-update.component.html
+   create src/main/webapp/app/entities/points/update/points-update.component.ts
+   create src/main/webapp/app/entities/points/delete/points-delete-dialog.component.html
+   create src/main/webapp/app/entities/points/detail/points-detail.component.spec.ts
+   create src/main/webapp/app/entities/points/delete/points-delete-dialog.component.ts
+   create src/main/webapp/app/entities/points/list/points.component.spec.ts
+   create src/main/webapp/app/entities/points/route/points-routing-resolve.service.spec.ts
+   create src/main/webapp/app/entities/points/service/points.service.spec.ts
+   create src/main/webapp/app/entities/points/update/points-update.component.spec.ts
+   create src/main/webapp/app/entities/points/delete/points-delete-dialog.component.spec.ts
+   create src/main/webapp/i18n/en/points.json
+   create src/main/webapp/i18n/fr/points.json
+   create src/test/javascript/cypress/e2e/entity/points.cy.ts
+ conflict src/main/webapp/i18n/en/global.json
+? Overwrite src/main/webapp/i18n/en/global.json? overwrite this and all others
+    force src/main/webapp/i18n/en/global.json
+   create src/main/resources/config/liquibase/changelog/20221108000520_added_entity_Points.xml
+   create src/main/resources/config/liquibase/changelog/20221108000520_added_entity_constraints_Points.xml
+   create src/main/resources/config/liquibase/fake-data/points.csv
+   create src/main/java/org/jhipster/health/domain/Points.java
+    force src/main/webapp/i18n/fr/global.json
+    force src/main/java/org/jhipster/health/config/CacheConfiguration.java
+    force src/main/webapp/app/entities/entity-routing.module.ts
+    force src/main/resources/config/liquibase/master.xml
+    force src/main/webapp/app/layouts/navbar/navbar.component.html
+    force .yo-rc.json
+    force .jhipster/Points.json
 
-Running `webpack:build` to update client app
+No change to package.json was detected. No package manager install will be executed.
+Entity Points generated successfully.
+
+Running `webapp:build` to update client app
 ----
 
 You can see the validation rules for date and notes above, but you don't see how I created the relationship to user. Here are the questions and answers from that section.
 
 ----
 ? Do you want to add a relationship to another entity? Yes
-? What is the name of the other entity? user
+? What is the name of the other entity? User
 ? What is the name of the relationship? user
 ? What is the type of the relationship? many-to-one
-? When you display this relationship on client-side, which field from 'user' do you want to use? This field will
- be displayed as a String, so it cannot be a Blob login
 ? Do you want to add any validation rules to this relationship? No
 ----
 
@@ -684,10 +692,10 @@ TIP: After generating the `Weight` and `BloodPressure` entities with a `date` pr
 When I ran `./gradlew test`, I was pleased to see that all tests passed.
 
 ----
-BUILD SUCCESSFUL in 36s
+BUILD SUCCESSFUL in 1m 25s
 ----
 
-I checked in six changed files and 130 new files generated by the JHipster before continuing to implement my UI mockups.
+I checked in seven changed files and 144 new files generated by the JHipster before continuing to implement my UI mockups.
 
 == Application improvements
 
@@ -1957,7 +1965,7 @@ I also configured a custom resource record with a CNAME to point to `health-by-p
 |health-by-points.herokuapp.com
 |===
 
-This was all I needed to get my JHipster application running on Heroku. For subsequent deployments, I ran `jhipster heroku` again, or used `git push heroku master`.
+This was all I needed to get my JHipster application running on Heroku. For subsequent deployments, I ran `jhipster heroku` again, or used `git push heroku main`.
 
 [sidebar]
 .JAR Deployments to Heroku
@@ -2100,7 +2108,7 @@ web: java -javaagent:newrelic.jar $JAVA_OPTS -Xmx256m -jar build/libs/*.war ...
 
 After running the 5.0 version of 21-Points Health on Heroku for a couple weeks, someone reported https://github.com/mraible/21-points/issues/49[an issue with security on GitHub]. They pointed out that if you searched, you could see another user's data. I also discovered you could edit data based on the URL too.
 
-To fix this data leakage, I enhanced the Java code so it only allowing users that own an entity to edit it. Here's some pseudocode to show the logic:
+To fix this data leakage, I enhanced the Java code so it only allows users that own an entity to edit it. Here's some pseudocode to show the logic:
 
 [source,java]
 ----
@@ -2126,9 +2134,7 @@ JHipster has good documentation on https://www.jhipster.tech/setting-up-ci-jenki
 [source%autofit]
 ----
 $ jhipster ci-cd
-Using JHipster version installed locally in current project's node_modules
-Executing jhipster:ci-cd
-Options:
+...
 🚀 Welcome to the JHipster CI/CD Sub-Generator 🚀
 ? What CI/CD pipeline do you want to generate? Jenkins pipeline
 ? Would you like to perform the build in a Docker container ? No
@@ -2136,23 +2142,26 @@ Options:
 ? What tasks/integrations do you want to include ? Deploy to *Heroku* (requires HEROKU_API_KEY set on CI service)
 ? *Heroku*: name of your Heroku Application ? health-by-points
    create Jenkinsfile
-   create src/main/docker/jenkins.yml
    create src/main/resources/idea.gdsl
+    force .yo-rc-global.json
+    force .yo-rc.json
+   create src/main/docker/jenkins.yml
 ----
 
-After I generated these files, I checked them in and pushed to Bitbucket.
+After I generated these files, I checked them in and pushed to GitHub.
 
 [sidebar]
 .Jenkins Options
 --
 When choosing Jenkins, you can also select the following options for tasks/integrations:
 
-* Deploy artifact to Artifactory.
+* Deploy artifact to an Artifactory.
 * Analyze code with Sonar.
 * Build and publish a Docker image.
+* Add Snyk dependency scanning for security vulnerabilities.
 --
 
-To log in to Jenkins, I navigated to http://localhost:9000. I copied the password from the startup log file and pasted into the unlock Jenkins page.
+To log in to Jenkins, I navigated to http://localhost:9000. I copied the password from the startup log file and pasted it in the unlock Jenkins page.
 
 [[unlock-jenkins]]
 .Unlock Jenkins
@@ -2170,9 +2179,16 @@ I created a new job called "21-points" with a Pipeline script from SCM. I config
 .Jenkins build #1
 image::chapter1/jenkins-job-1.png[First run of 21-points pipeline, 1380, scaledwidth=100%, align=center]
 
-TIP: It's possible the `deployment` stage will fail for you the first time. If this happens, stop Jenkins, run `heroku login`, then restart Jenkins.
+TIP: It's possible the `deployment` stage will fail for you the first time (like it did for me above). If this happens, stop Jenkins, run `heroku login`, then restart Jenkins.
 
-I modified this file to add a `protractor tests` stage to run all the Protractor tests. I checked in my changes to trigger another build.
+I modified `Jenkinsfile` to add a `e2e tests` stage to run all the Cypress tests. Before I checked it in, I started the app in one terminal and ran `npm run e2e` in another. I discovered the footer covered the bottom of the points edit form. I had to adjust `src/test/javascript/cypress/e2e/entity/points.cy.ts` to force button clicks on lines 121 and 131.
+
+[source,ts]
+----
+cy.get(entityCreateCancelButtonSelector).click({force: true});
+----
+
+I checked in my changes to trigger another build.
 
 [source,groovy]
 .Jenkinsfile
@@ -2193,13 +2209,17 @@ node {
         sh "./gradlew clean --no-daemon"
     }
 
-    stage('install tools') {
-        sh "./gradlew yarn_install -PnodeInstall --no-daemon"
+    stage('nohttp') {
+        sh "./gradlew checkstyleNohttp --no-daemon"
+    }
+
+    stage('npm install') {
+        sh "./gradlew npm_install -PnodeInstall --no-daemon"
     }
 
     stage('backend tests') {
         try {
-            sh "./gradlew test -PnodeInstall --no-daemon"
+            sh "./gradlew test integrationTest -PnodeInstall --no-daemon"
         } catch(err) {
             throw err
         } finally {
@@ -2209,26 +2229,26 @@ node {
 
     stage('frontend tests') {
         try {
-            sh "./gradlew yarn_test -PnodeInstall --no-daemon"
+            sh "./gradlew npm_run_test -PnodeInstall --no-daemon"
         } catch(err) {
             throw err
         } finally {
-            junit '**/build/test-results/jest/TESTS-*.xml'
+            junit '**/build/test-results/TESTS-*.xml'
         }
     }
 
-    stage('protractor tests') {
+    stage('e2e tests') {
         sh '''./gradlew &
         bootPid=$!
-        sleep 60s
-        yarn e2e
+        sleep 30
+        npm run e2e
         kill $bootPid
         '''
     }
 
     stage('packaging') {
-        sh "./gradlew bootWar -x test -Pprod -PnodeInstall --no-daemon"
-        archiveArtifacts artifacts: '**/build/libs/*.war', fingerprint: true
+        sh "./gradlew bootJar -x test -Pprod -PnodeInstall --no-daemon"
+        archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
     }
 
     stage('deployment') {
