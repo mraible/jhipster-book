@@ -1936,7 +1936,7 @@ I was pumped to see that this process worked and that my application was availab
 
 [[img-deployed-to-heroku]]
 .First deployment to Heroku
-image::chapter1/deployed-to-heroku.png[First deployment to Heroku, 1179, scaledwidth=100%, align=center]
+image::chapter1/deployed-to-heroku.png[First deployment to Heroku, 1225, scaledwidth=100%, align=center]
 
 Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for Heroku, I ran `heroku domains:add`.
 
@@ -1991,86 +1991,141 @@ heroku jar:deploy target/*.jar --app health-by-points
 ----
 --
 
-// todo: start from here
-
-////
 === Elasticsearch on Heroku
 
 To prove everything was working on Heroku, I tried registering a new user. I received an error that appeared to come from Elasticsearch.
 
 [source%autofit]
 ----
-2018-08-27T21:15:27.588565+00:00 app[web.1]: 2018-08-27 21:15:27.587 ERROR 4 --- [ XNIO-2 task-15]
-  o.z.p.spring.web.advice.AdviceTrait      : Internal Server Error
-2018-08-27T21:15:27.588578+00:00 app[web.1]:
-2018-08-27T21:15:27.588581+00:00 app[web.1]: org.elasticsearch.client.transport.NoNodeAvailableException:
-  None of the configured nodes are available: [{#transport#-1}{7Du0TB4WQ_6crjWFO1iJVQ}{localhost}{127.0.0.1:9300}]
-2018-08-27T21:15:27.588583+00:00 app[web.1]: at org.elasticsearch.client.transport.TransportClientNodesService
-  .ensureNodesAreAvailable(TransportClientNodesService.java:347)
-2018-08-27T21:15:27.588585+00:00 app[web.1]: at org.elasticsearch.client.transport.TransportClientNodesService.execute
-  (TransportClientNodesService.java:245)
+2022-11-08T05:17:22.489474+00:00 app[web.1]: 2022-11-08T05:17:22.488Z ERROR 4 --- [  XNIO-1 task-3]
+  o.z.problem.spring.common.AdviceTraits   : Internal Server Error
+2022-11-08T05:17:22.489493+00:00 app[web.1]:
+2022-11-08T05:17:22.489494+00:00 app[web.1]: org.springframework.web.util.NestedServletException:
+  Handler dispatch failed; nested exception is java.lang.NoSuchFieldError: INDEX_CONTENT_TYPE
 ----
 
-I https://github.com/jhipster/generator-jhipster/issues/7810[created an issue] in the JHipster project saying that Elasticsearch doesn't work out of the box with Heroku. I worked with Joe Kutner of Heroku to come up with a solution and fix.
+I https://github.com/jhipster/generator-jhipster/issues/20315[created an issue] in the JHipster project saying that Elasticsearch doesn't work out of the box with Heroku. I contacted the Elastic team to determine the best solution. They recommended https://cloud.elastic.co/registration?elektra=home[starting a free trial] on Elastic Cloud. After logging in, I created a deployment called *21-Points Health*. I used the default settings, selected *7.17.7* as the version, and pressed *Create deployment*.
 
-The fix for Elasticsearch on Heroku was released in JHipster 5.3.0, so I upgraded using the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator].
+[[img-elastic-cloud-settings]]
+.Elastic Cloud settings
+image::chapter1/elastic-cloud-settings.png[Elastic Cloud settings, 781, scaledwidth=100%, align=center]
 
-After the command finished, I committed changes to `package-lock.lock`, ran `git push`, and deployed to Heroku again using `jhipster heroku`.*/
-////
+NOTE: I tried the latest version, but it resulted in a "Unable to parse response body" error.
+
+I downloaded my credentials from the following screen and clicked *Continue*. Next, I selected *Manage this deployment* from the menu and copied the Elasticsearch endpoint.
+
+I set the credentials and endpoint URL as a new `ELASTIC_URL` environment variable on Heroku.
+
+[source,shell]
+----
+heroku config:set ELASTIC_URL=https://elastic:<my-password>@points-health.es.us-central1.gcp.cloud.es.io
+----
+
+To fix my JHipster app, so it'd recognize this variable, I modified `heroku.gradle` to remove the workaround for Bansai (that no longer works):
+
+[source,groovy]
+.gradle/heroku.gradle
+----
+// force dependency version as used bonsai add-on as of now only supports 7.10.x
+// https://github.com/jhipster/generator-jhipster/issues/18650
+def bonsaiElasticSearchVersion = "7.10.2"
+if (System.getenv("DYNO") != null) {
+    configurations {
+        all {
+            resolutionStrategy {
+                force "org.elasticsearch.client:elasticsearch-rest-client:${bonsaiElasticSearchVersion}"
+                force "org.elasticsearch.client:elasticsearch-rest-high-level-client:${bonsaiElasticSearchVersion}"
+                force "org.elasticsearch:elasticsearch:${bonsaiElasticSearchVersion}"
+                force "org.elasticsearch.plugin:transport-netty4-client:${bonsaiElasticSearchVersion}"
+            }
+        }
+    }
+}
+----
+
+And I updated `application-heroku.yml` to use `ELASTIC_URL`.
+
+[source,yaml]
+.src/main/resources/config/application-heroku.yml
+----
+spring:
+  ...
+  elasticsearch:
+    uris: ${ELASTIC_URL}
+----
+
+I committed these changes and ran `git push heroku main` to redeploy the application.
 
 === Mail on Heroku
 
-After making this change, I repackaged and redeployed. This time, when I tried to register, I received an error when my `MailService` tried to send me an activation e-mail.
+This time, when I tried to register, I received an error when my `MailService` tried to send me an activation e-mail.
 
 [source%autofit]
 ----
-2018-08-27T21:26:12.193734+00:00 app[web.1]: 2017-08-14 21:26:12.193  WARN 4 --- [ints-Executor-2]
- org.jhipster.health.service.MailService  : Email could not be sent to user 'mraible@gmail.com':
- Mail server connection failed; nested exception is com.sun.mail.util.MailConnectException:
- Couldn't connect to host, port: localhost, 25; timeout -1;
-2018-08-27T21:26:12.193748+00:00 app[web.1]:   nested exception is:
-2018-08-27T21:26:12.193751+00:00 app[web.1]: 	java.net.ConnectException: Connection refused
- (Connection refused). Failed messages: com.sun.mail.util.MailConnectException: Couldn't connect
- to host, port: localhost, 25; timeout -1;
+2022-11-27T22:05:47.068322+00:00 app[web.1]: 2022-11-27T22:05:47.067Z  WARN 4 --- [e-points-task-2]
+  org.jhipster.health.service.MailService  : Email could not be sent to user 'mraible@gmail.com'
+2022-11-27T22:05:47.068339+00:00 app[web.1]:
+2022-11-27T22:05:47.068341+00:00 app[web.1]: org.springframework.mail.MailSendException:
+  Mail server connection failed; nested exception is com.sun.mail.util.MailConnectException:
+  Couldn't connect to host, port: localhost, 25; timeout -1;
+2022-11-27T22:05:47.068342+00:00 app[web.1]: nested exception is:
+2022-11-27T22:05:47.068343+00:00 app[web.1]: java.net.ConnectException: Connection refused
+  (Connection refused). Failed messages: com.sun.mail.util.MailConnectException:
+  Couldn't connect to host, port: localhost, 25; timeout -1;
 ----
 
 I'd used Heroku's https://addons.heroku.com/sendgrid[SendGrid] for e-mail in the past, so I added it to my project.
 
 ----
 $ heroku addons:create sendgrid
-Creating giving-softly-5465... done, (free)
-Adding giving-softly-5465 to health-by-points... done
-Setting SENDGRID_PASSWORD, SENDGRID_USERNAME and restarting health-by-points... done, v17
-Use `heroku addons:docs sendgrid` to view documentation.
+Creating sendgrid on ⬢ health-by-points... free
+Created sendgrid-spherical-88389 as SENDGRID_PASSWORD, SENDGRID_USERNAME
+Use heroku addons:docs sendgrid to view documentation
 ----
 
-[.text-left]
-Then I updated `application-prod.yml` to use the configured `SENDGRID_PASSWORD` and `SENDGRID_USERNAME` environment variables for mail, as well as to turn on authentication.
+Then I updated `application-prod.yml` to use `SENDGRID_API_USER` and `SENDGRID_API_KEY` environment variables for mail, as well as to turn on authentication.
 
 [source,yaml]
 .src/main/resources/config/application-prod.yml
 ----
-mail:
+spring:
+  ...
+  mail:
     host: smtp.sendgrid.net
     port: 587
-    username: ${SENDGRID_USERNAME}
-    password: ${SENDGRID_PASSWORD}
+    username: ${SENDGRID_API_USER}
+    password: ${SENDGRID_API_KEY}
     protocol: smtp
     properties:
-        tls: false
-        auth: true
+      tls: false
+      auth: true
 ----
 
 I also changed the `jhipster.mail.*` properties further down in this file.
 
 [source,yaml]
 ----
-mail:
-    from: app@21-points.com
+jhipster:
+  ...
+  mail: # specific JHipster mail property, for standard properties see MailProperties
     base-url: http://www.21-points.com
+    from: app@21-points.com
 ----
 
-After repackaging and redeploying, I used the built-in health-checks feature of my application to verify that everything was configured correctly.
+The `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` variables will not work to send email. You need to create an API Key instead. You can do this by navigating to your app in Heroku's dashboard. Then, select *Resources* > *Twilio SendGrid* and then the *Setup Guide* at the bottom. Create a sender identity that matches the `from` value above. Then, create an API key using the https://app.sendgrid.com/guide/integrate/langs/smtp[SMTP Relay integration].
+
+[[img-sendgrid-api-key]]
+.Create SendGrid API key
+image::chapter1/sendgrid-api-key.png[Create SendGrid API key, 854, scaledwidth=100%, align=center]
+
+Once you have an API key, set the user and password for SendGrid on Heroku:
+
+[source,shell]
+----
+heroku config:set SENDGRID_API_USER=apikey SENDGRID_API_KEY=SG...
+----
+
+After redeploying, I logged in to my Heroku app with administrator credentials and deleted the user I'd tried to add previously. I added the user again and was smiled when I received the activation email.
 
 == Monitoring and analytics
 
@@ -2081,32 +2136,43 @@ JHipster generates the code necessary for Google Analytics in every application'
 ----
 <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
 <script>
-    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-    function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-    e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-    e.src='//www.google-analytics.com/analytics.js';
-    r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-    ga('create','UA-XXXXX-X');ga('send','pageview');
+  (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+  function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+  e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+  e.src='//www.google-analytics.com/analytics.js';
+  r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+  ga('create','UA-XXXXX-X');ga('send','pageview');
 </script>-->
 ----
 
-I've used http://newrelic.com/[New Relic] to monitor my production applications in the past. There is a free https://addons.heroku.com/newrelic[New Relic add-on] for Heroku. Heroku's https://devcenter.heroku.com/articles/newrelic[New Relic APM] describes how to set things up if you're letting Heroku do the build for you (meaning, you deploy with `git push heroku master`). However, if you're using the heroku-deploy plugin, it's a bit different.
+I've used http://newrelic.com/[New Relic] to monitor my production applications in the past. There is a free https://addons.heroku.com/newrelic[New Relic add-on] for Heroku. Heroku's https://devcenter.heroku.com/articles/newrelic[New Relic APM] describes how to set things up if you're letting Heroku do the build for you (meaning, you deploy with `git push heroku main`). However, if you're using the heroku-deploy plugin, it's a bit different.
 
-For that, you'll first need to manually download the New Relic agent, as well as a `newrelic.yml` license file, and put them in the root directory of your project. Then you can run a command like:
+For that, you'll first need to manually download the New Relic agent, as well as a `newrelic.yml` license file, and put them in the root directory of your project. Then you can run commands like:
 
 ----
-heroku war:deploy build/libs/*war --includes newrelic.jar:newrelic.yml
+./gradlew bootJar -Pheroku,prod
+heroku buildpacks:clear
+heroku jar:deploy build/libs/*.jar --includes newrelic-agent.jar:newrelic.yml
 ----
 
 That will include the JAR in the slug. Then you'll need to modify your Procfile to include the `javaagent` argument:
 
 ----
-web: java -javaagent:newrelic.jar $JAVA_OPTS -Xmx256m -jar build/libs/*.war ...
+web: java -javaagent:newrelic-agent.jar $JAVA_OPTS -Xmx256m -jar build/libs/*.jar ...
+----
+
+NOTE: If you want to deploy using `git push heroku main` after using the heroku-deploy plugin, you'll have to run `heroku buildpacks:clear`.
+
+To ensure `newrelic-agent.jar` is included when running `git push`, you'll need to modify your `.gitignore` to allow it and add it to Git with `git add newrelic.jar`.
+
+----
+*.jar
+!newrelic-agent.jar
 ----
 
 == Securing user data
 
-After running the 5.0 version of 21-Points Health on Heroku for a couple weeks, someone reported https://github.com/mraible/21-points/issues/49[an issue with security on GitHub]. They pointed out that if you searched, you could see another user's data. I also discovered you could edit data based on the URL too.
+After running the 5.0 version of 21-Points Health on Heroku for a couple of weeks, someone reported https://github.com/mraible/21-points/issues/49[an issue with security on GitHub]. They pointed out that if you searched, you could see another user's data. I also discovered you could edit data based on the URL too.
 
 To fix this data leakage, I enhanced the Java code so it only allows users that own an entity to edit it. Here's some pseudocode to show the logic:
 
@@ -2119,6 +2185,7 @@ if (points.isPresent() && <user doesn't match current user>) {
 return ResponseUtil.wrapOrNotFound(points);
 ----
 
+// todo: create a new pull request that shows this change
 See https://github.com/mraible/21-points/pull/52/files[pull request #52] for all the changes that I needed to make in resource classes and their tests.
 
 == Continuous integration and deployment
@@ -2181,9 +2248,10 @@ image::chapter1/jenkins-job-1.png[First run of 21-points pipeline, 1380, scaledw
 
 TIP: It's possible the `deployment` stage will fail for you the first time (like it did for me above). If this happens, stop Jenkins, run `heroku login`, then restart Jenkins.
 
-I modified `Jenkinsfile` to add a `e2e tests` stage to run all the Cypress tests. Before I checked it in, I started the app in one terminal and ran `npm run e2e` in another. I discovered the footer covered the bottom of the points edit form. I had to adjust `src/test/javascript/cypress/e2e/entity/points.cy.ts` to force button clicks on lines 121 and 131.
+I modified `Jenkinsfile` to add a `e2e tests` stage to run all the Cypress tests. Before I checked it in, I started the app in one terminal and ran `npm run e2e` in another. I discovered the footer covered the bottom of the points edit form. I had to adjust `points.cy.ts` to force button clicks on lines 121 and 131.
 
 [source,ts]
+.src/test/javascript/cypress/e2e/entity/points.cy.ts
 ----
 cy.get(entityCreateCancelButtonSelector).click({force: true});
 ----
