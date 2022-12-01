@@ -1573,7 +1573,7 @@ In the first three versions of this book, I looked for an Angular library that i
 
 [source,shell]
 ----
-npm install ng2-charts@4.0.0
+npm install -E ng2-charts@4.0.0
 ----
 
 Then I updated `home.module.ts` to import the `NgChartsModule`.
