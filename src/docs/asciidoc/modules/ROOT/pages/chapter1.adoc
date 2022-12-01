@@ -446,7 +446,7 @@ a {
   padding: 10px;
   padding-bottom: 0;
   text-align: center;
-  z-index: 2;
+  z-index: 3;
   font-size: 0.9em;
 
   p {
@@ -710,10 +710,9 @@ ifdef::backend-epub3[link:jhipsters-ui-components.xhtml#Browsersync[Browsersync]
 ifndef::backend-epub3[<<Browsersync>>.]
 Below is a consolidated list of changes I made to the HTML to make things look better:
 
-* improved layout of tables and buttons,
+* improved layout of tables and forms,
 * improved titles and button labels by editing generated JSON files in `src/main/webapp/i18n/en`,
-* formatted dates for local timezone with Angular's DatePipe
-  (for example: `{{bloodPressure.timestamp | date:'short'}}`),
+* adjusted date format in custom DatePipe's to use `MMM D, YYYY` instead of `D MMM YYYY`,
 * defaulted to current date on new entries,
 * replaced point metrics with icons on list/detail screens, and
 * replaced point metrics with checkboxes on update screen.
@@ -731,118 +730,131 @@ image::chapter1/points-list-after.png[Default Daily Points list after UI improve
 I refactored the HTML at the top of `points.component.html` to put the title, search, and add buttons on the same row. I also removed the button text in favor of a using https://ng-bootstrap.github.io/#/components/tooltip/api[ng-bootstrap's tooltip directive]. The `jhiTranslate` directive you see in the button tooltips is provided by https://github.com/jhipster/ng-jhipster[JHipster's Angular library].
 
 [source%autofit,html]
-.src/main/webapp/app/entities/points/points.component.html
+.src/main/webapp/app/entities/points/list/points.component.html
 ----
 <div class="row">
-    <div class="col-sm-8">
-        <h2 id="page-heading" jhiTranslate="twentyOnePointsApp.points.home.title">Points</h2>
-    </div>
-    <div class="col-sm-4 text-right">
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-points"
-                [routerLink]="['/points/new']"
-                [ngbTooltip]="addTooltip" placement="bottom">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <ng-template #addTooltip>
-                <span jhiTranslate="twentyOnePointsApp.points.home.createLabel">Add Points</span>
-            </ng-template>
+  <jhi-alert-error></jhi-alert-error>
+  <jhi-alert></jhi-alert>
+
+  <div class="col-md-8 col-sm-4">
+    <h2 id="page-heading" data-cy="PointsHeading">
+      <span jhiTranslate="twentyOnePointsApp.points.home.title">Points</span>
+    </h2>
+  </div>
+  <div class="col-md-4 col-sm-8 text-right d-flex flex-row-reverse">
+    <button class="btn btn-info ms-2" (click)="load()" [disabled]="isLoading"
+            [ngbTooltip]="refreshTooltip" placement="bottom">
+      <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+      <ng-template #refreshTooltip>
+        <span jhiTranslate="twentyOnePointsApp.points.home.refreshListLabel">Refresh list</span>
+      </ng-template>
+    </button>
+
+    <button
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-points ms-2"
+      [routerLink]="['/points/new']"
+      [ngbTooltip]="addTooltip"
+      placement="bottom"
+    >
+      <fa-icon icon="plus"></fa-icon>
+      <ng-template #addTooltip>
+        <span class="hidden-sm-down" jhiTranslate="twentyOnePointsApp.points.home.createLabel">Add Points</span>
+      </ng-template>
+    </button>
+    <form name="searchForm" class="w-100">
+      <div class="input-group h-100">
+        <label class="visually-hidden" for="currentSearch"
+               jhiTranslate="twentyOnePointsApp.points.home.search">Search for Points</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="currentSearch"
+          id="currentSearch"
+          name="currentSearch"
+          placeholder="{{ 'twentyOnePointsApp.points.home.search' | translate }}"
+        />
+
+        <button class="btn btn-info" (click)="search(currentSearch)">
+          <fa-icon icon="search"></fa-icon>
         </button>
-        <form name="searchForm" class="form-inline">
-            <div class="input-group w-100 mr-1">
-                <input type="text" class="form-control" [(ngModel)]="currentSearch"
-                       id="currentSearch" name="currentSearch"
-                       placeholder="{{ 'twentyOnePointsApp.points.home.search' | translate }}">
-                <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
-                    <fa-icon [icon]="'search'"></fa-icon>
-                </button>
-                <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                    <fa-icon [icon]="'trash-alt'"></fa-icon>
-                </button>
-            </div>
-        </form>
-    </div>
+
+        <button class="btn btn-danger" (click)="search('')" *ngIf="currentSearch">
+          <fa-icon icon="trash-alt"></fa-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  ...
 </div>
 ----
 
 Changing the numbers to icons was pretty easy thanks to Angular's expression language.
 
 [source%autofit,html]
-.src/main/webapp/app/entities/points/points.component.html
+.src/main/webapp/app/entities/points/list/points.component.html
 ----
 <td class="text-center">
-    <fa-icon [icon]="points.exercise ? 'check' : 'times'" aria-hidden="true"
-             class="{{points.exercise ? 'text-success' : 'text-danger'}}"></fa-icon>
+  <fa-icon [icon]="points.exercise ? 'check' : 'times'" aria-hidden="true"
+           class="{{points.exercise ? 'text-success' : 'text-danger'}}"></fa-icon>
 </td>
 <td class="text-center">
-    <fa-icon [icon]="points.meals ? 'check' : 'times'" aria-hidden="true"
-             class="{{points.meals ? 'text-success' : 'text-danger'}}"></fa-icon>
+  <fa-icon [icon]="points.meals ? 'check' : 'times'" aria-hidden="true"
+           class="{{points.meals ? 'text-success' : 'text-danger'}}"></fa-icon>
 </td>
 <td class="text-center">
-    <fa-icon [icon]="points.alcohol ? 'check' : 'times'" aria-hidden="true"
-             class="{{points.alcohol ? 'text-success' : 'text-danger'}}"></fa-icon>
+  <fa-icon [icon]="points.alcohol ? 'check' : 'times'" aria-hidden="true"
+           class="{{points.alcohol ? 'text-success' : 'text-danger'}}"></fa-icon>
 </td>
-----
-
-After adding this HTML, I saw an error in my browser's developer console.
-
-----
-FontAwesome: Could not find icon with iconName=check and prefix=fas
-----
-
-To fix this, I modified `vendor.ts` and added `faCheck` as an imported icon.
-
-[source,javascript]
-.src/main/webapp/app/vendor.ts
-----
-library.add(faTimes);
-library.add(faCheck); // add this line
 ----
 
 Next, I changed the input fields to checkboxes in `points-update.component.html`.
 
 [source%autofit,html]
-.src/main/webapp/app/entities/points/points-update.component.html
+.src/main/webapp/app/entities/points/update/points-update.component.html
 ----
 <div class="form-check">
-    <label class="form-check-label" for="field_exercise">
-        <input type="checkbox" class="form-check-input" name="exercise" id="field_exercise"
-               [(ngModel)]="points.exercise"  />
-        <span jhiTranslate="twentyOnePointsApp.points.exercise" for="field_exercise">Exercise</span>
-    </label>
+  <label class="form-check-label" jhiTranslate="twentyOnePointsApp.points.exercise"
+         for="field_exercise">Exercise</label>
+  <input type="checkbox" class="form-check-input" name="exercise" id="field_exercise"
+         data-cy="exercise" formControlName="exercise"/>
 </div>
 <div class="form-check">
-    <label class="form-check-label" for="field_meals">
-        <input type="checkbox" class="form-check-input" name="meals" id="field_meals"
-               [(ngModel)]="points.meals"  />
-        <span jhiTranslate="twentyOnePointsApp.points.meals">Meals</span>
-    </label>
+  <label class="form-check-label" jhiTranslate="twentyOnePointsApp.points.meals"
+         for="field_meals">Meals</label>
+  <input type="checkbox" class="form-check-input" name="meals" id="field_meals"
+         data-cy="meals" formControlName="meals" />
 </div>
-<div class="form-check">
-    <label class="form-check-label" for="field_alcohol">
-        <input type="checkbox" class="form-check-input" name="alcohol" id="field_alcohol"
-               [(ngModel)]="points.alcohol"  />
-        <span jhiTranslate="twentyOnePointsApp.points.alcohol" for="field_alcohol">Alcohol</span>
-    </label>
+<div class="form-check mb-3">
+  <label class="form-check-label" jhiTranslate="twentyOnePointsApp.points.alcohol"
+         for="field_alcohol">Alcohol</label>
+  <input type="checkbox" class="form-check-input" name="alcohol" id="field_alcohol"
+         data-cy="alcohol" formControlName="alcohol" />
 </div>
 ----
 
 In `points-update.component.ts`, I had to modify the `save()` method to convert booleans from each checkbox into integers.
 
 [source,javascript]
-.src/main/webapp/app/entities/points/points-update.component.ts
+.src/main/webapp/app/entities/points/update/points-update.component.ts
 ----
-save() {
-    this.isSaving = true;
+save(): void {
+  this.isSaving = true;
+  const points = this.pointsFormService.getPoints(this.editForm);
 
-    // convert booleans to ints
-    this.points.exercise = this.points.exercise ? 1 : 0;
-    this.points.meals = this.points.meals ? 1 : 0;
-    this.points.alcohol = this.points.alcohol ? 1 : 0;
+  // convert booleans to ints
+  points.exercise = points.exercise ? 1 : 0;
+  points.meals = points.meals ? 1 : 0;
+  points.alcohol = points.alcohol ? 1 : 0;
 
-    if (this.points.id !== undefined) {
-        this.subscribeToSaveResponse(this.pointsService.update(this.points));
-    } else {
-        this.subscribeToSaveResponse(this.pointsService.create(this.points));
-    }
+  if (points.id !== null) {
+    this.subscribeToSaveResponse(this.pointsService.update(points));
+  } else {
+    this.subscribeToSaveResponse(this.pointsService.create(points));
+  }
 }
 ----
 
@@ -850,9 +862,9 @@ After making these changes, modifying a bit of HTML, and tweaking some i18n mess
 
 [[img-add-points-page]]
 .Add Points page
-image::chapter1/add-points-page.png[Add Points page, 1167, scaledwidth=90%, align=center]
+image::chapter1/add-points-page.png[Add Points page, 1095, scaledwidth=90%, align=center]
 
-Improving the UI was the most fun, but also the most time consuming as it involved lots of little tweaks to multiple screens. The next task was more straightforward: implementing business logic.
+Improving the UI was the most fun, but also the most time-consuming as it involved lots of little tweaks to multiple screens. The next task was more straightforward: implementing business logic.
 
 === Added logic so non-admin users only see their own data
 
@@ -866,12 +878,12 @@ The default update components for many-to-one relationships allow you to choose 
 .src/main/webapp/app/entities/points/points-update.component.html
 ----
 <div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN'">
-    <label class="form-control-label" jhiTranslate="twentyOnePointsApp.points.user" for="field_user">User</label>
-    <select class="form-control" id="field_user" name="user" [(ngModel)]="points.user">
-        <option [ngValue]="null"></option>
-        <option [ngValue]="userOption.id === points.user?.id ? points.user : userOption"
-                *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
-    </select>
+  <label class="form-label" jhiTranslate="twentyOnePointsApp.points.user" for="field_user">User</label>
+  <select class="form-control" id="field_user" data-cy="user" name="user"
+          formControlName="user" [compareWith]="compareUser">
+    <option [ngValue]="null"></option>
+    <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.login }}</option>
+  </select>
 </div>
 ----
 
@@ -890,109 +902,37 @@ Since the dropdown is hidden from non-admins, I had to modify each `Resource` cl
 +    private final UserRepository userRepository;
 +
 +    public PointsResource(PointsRepository pointsRepository, PointsSearchRepository pointsSearchRepository,
-+        UserRepository userRepository) {
++                          UserRepository userRepository) {
          this.pointsRepository = pointsRepository;
          this.pointsSearchRepository = pointsSearchRepository;
 +        this.userRepository = userRepository;
      }
 
      @PostMapping("/points")
-     @Timed
      public ResponseEntity<Points> createPoints(@Valid @RequestBody Points points) throws URISyntaxException {
          log.debug("REST request to save Points : {}", points);
          if (points.getId() != null) {
-             return ResponseEntity.badRequest().headers(
-                 HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists",
-                     "A new points cannot already have an ID")).body(null);
+             throw new BadRequestAlertException("A new points cannot already have an ID", ENTITY_NAME, "idexists");
          }
-+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
++        if (!SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
 +            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
-+            points.setUser(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get());
++            String username = SecurityUtils.getCurrentUserLogin().get();
++            points.setUser(userRepository.findOneByLogin(username).get());
 +        }
          Points result = pointsRepository.save(points);
-         pointsSearchRepository.save(result);
-         return ResponseEntity.created(new URI("/api/points/" + result.getId()))
-             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+         pointsSearchRepository.index(result);
+         return ResponseEntity
+             .created(new URI("/api/points/" + result.getId()))
+             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
              .body(result);
-----
-
-`SecurityUtils` is a class JHipster provides when you create a project. I had to modify `PointsResourceIntTest.java` to be security-aware after making this change.
-
-Spring MVC Test provides a convenient interface called `RequestPostProcessor` that you can use to modify a request. Spring Security provides a number of `RequestPostProcessor` implementations that simplify testing. In order to use Spring Security's `RequestPostProcessor` implementations, you can include them all with the following static import.
-
-[source%autofit,java]
-----
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
-----
-
-I then modified `PointsResourceIntTest.java`, creating a new `MockMvc` instance that was security-aware and specified `with(user("user"))` to populate Spring Security's `SecurityContext` with an authenticated user.
-
-ifdef::backend-pdf[<<<]
-
-[source%autofit,diff]
-.src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
-----
-+import org.jhipster.health.domain.User;
-+import org.springframework.web.context.WebApplicationContext;
-+import java.time.DayOfWeek;
-+import java.time.format.DateTimeFormatter;
-+import java.time.temporal.ChronoField;
-+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-
-public class PointsResourceIntTest {
-     ...
-     @Autowired
-     private PointsSearchRepository pointsSearchRepository;
-
-+    @Autowired
-+    private UserRepository userRepository;
-
-     ...
-
-+    @Autowired
-+    private WebApplicationContext context;
-+
-     private MockMvc restPointsMockMvc;
-
-     private Points points;
-
-     @Before
-     public void setup() {
-         MockitoAnnotations.initMocks(this);
--        PointsResource pointsResource = new PointsResource(pointsRepository, pointsSearchRepository);
-+        PointsResource pointsResource = new PointsResource(pointsRepository, pointsSearchRepository, userRepository);
-         this.restPointsMockMvc = MockMvcBuilders.standaloneSetup(pointsResource)
-             .setCustomArgumentResolvers(pageableArgumentResolver)
-             .setControllerAdvice(exceptionTranslator)
-             .setMessageConverters(jacksonMessageConverter).build();
      }
-
-     ...
-
-     public void createPoints() throws Exception {
-         int databaseSizeBeforeCreate = pointsRepository.findAll().size();
-
-+        // Create security-aware mockMvc
-+        restPointsMockMvc = MockMvcBuilders
-+            .webAppContextSetup(context)
-+            .apply(springSecurity())
-+            .build();
-+
-         // Create the Points
-         restPointsMockMvc.perform(post("/api/points")
-+            .with(user("user"))
-             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-             .content(TestUtil.convertObjectToJsonBytes(points)))
-             .andExpect(status().isCreated());
-         ....
-     }
-}
 ----
+
+`SecurityUtils` is a class JHipster provides when you create a project. The integration test for this class, `PointsResourceIT.java`, has a `@WithMockUser` annotation on it. This means it's security-aware, and its tests will pass without changes.
 
 ==== List screen should show only user's data
 
-The next business-logic improvement I wanted was to modify list screens so they'd only show records for current user. Admin users should see all users' data. To facilitate this feature, I modified `PointsResource#getAll` to have a switch based on the user's role. Rather than showing you the diff of method, here's the whole thing.
+The next business-logic improvement I wanted was to modify list screens, so they'd only show records for current user. Admin users should see all users' data. To facilitate this feature, I modified `PointsResource#getAllPoints()` to have a switch based on the user's role. Rather than showing you the diff of method, here's the whole thing.
 
 [source%autofit,java]
 .src/main/java/org/jhipster/health/web/rest/PointsResource.java
@@ -1038,28 +978,15 @@ Page<Points> findAllByOrderByDateDesc(Pageable pageable);
 ----
 --
 
-To make tests pass, I had to update `PointsResourceIntTest#getAllPoints` to use Spring Security Test's `user` post processor.
+To make tests pass, I had to add `@WithMockUser` to `PointsResourceIT#getAllPoints()` to run the test as an administrator.
 
-[source,diff]
-.src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
+[source,java]
+.src/test/java/org/jhipster/health/web/rest/PointsResourceIT.java
 ----
- @Test
- @Transactional
- public void getAllPoints() throws Exception {
-     // Initialize the database
-     pointsRepository.saveAndFlush(points);
-
-+    // Create security-aware mockMvc
-+    restPointsMockMvc = MockMvcBuilders
-+        .webAppContextSetup(context)
-+        .apply(springSecurity())
-+        .build();
-+
-     // Get all the points
--    restPointsMockMvc.perform(get("/api/points?sort=id,desc"))
-+    restPointsMockMvc.perform(get("/api/points?sort=id,desc")
-+            .with(user("admin").roles("ADMIN")))
-             .andExpect(status().isOk())
+@Test
+@Transactional
+@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+void getAllPoints() throws Exception { ... }
 ----
 
 === Implementing the UI mockup
@@ -1079,51 +1006,14 @@ I started by reusing the update components for entering data that JHipster had c
 <a [routerLink]="['/points/new']" class="btn btn-primary m-0 mb-1 text-white">Add Points</a>
 ----
 
-Then I had to modify `home.component.ts` to listen for the events these components fire when they modify an entity.
-
-[source,javascript]
-.src/main/webapp/app/home/home.component.ts
-----
-import { JhiEventManager } from 'ng-jhipster';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-...
-export class HomeComponent implements OnInit, OnDestroy {
-    ...
-    eventSubscriber: Subscription;
-
-    constructor(..., private eventManager: EventManager) {
-    }
-
-    ngOnDestroy() {
-        this.eventManager.destroy(this.eventSubscriber);
-    }
-
-    registerAuthenticationSuccess() {
-        this.eventManager.subscribe('authenticationSuccess', () => {
-            this.principal.identity().then((account) => {
-                this.account = account;
-                this.getUserData();
-            });
-        });
-        this.eventSubscriber = this.eventManager
-            .subscribe('pointsListModification', () => this.getUserData());
-        this.eventSubscriber = this.eventManager
-            .subscribe('bloodPressureListModification', () => this.getUserData());
-        this.eventSubscriber = this.eventManager
-            .subscribe('weightListModification', () => this.getUserData());
-    }
-    ...
-}
-----
+Because `home.component.html` already contains `<jhi-alert></jhi-alert>`, I didn't have to do anything else to get success messages to show up on the homepage.
 
 ==== Points this week
 
-To get points achieved in the current week, I started by adding a unit test to `PointsResourceIntTest.java` that would allow me to prove my API was working.
+To get points achieved in the current week, I started by adding a unit test to `PointsResourceIT.java` that would allow me to prove my API was working.
 
 [source,java]
-.src/test/java/org/jhipster/health/web/rest/PointsResourceIntTest.java
+.src/test/java/org/jhipster/health/web/rest/PointsResourceIT.java
 ----
 private void createPointsByWeek(LocalDate thisMonday, LocalDate lastMonday) {
     User user = userRepository.findOneByLogin("user").get();
@@ -1227,17 +1117,19 @@ List<Points> findAllByDateBetweenAndUserLogin(LocalDate firstDate, LocalDate sec
 
 From there, it was just a matter of calculating the beginning and end of the current week and processing the data in `PointsResource.java`.
 
+// todo: check line length
 [source,java]
 .src/main/java/org/jhipster/health/web/rest/PointsResource.java
 ----
 /**
- * GET  /points : get all the points for the current week.
+ * {@code GET  /points-this-week} : get all the points for the current week
+ *
+ * @param timezone the user's timezone
+ * @return the {@link ResponseEntity} with status {@code 200 (OK)} and a count of points in body.
  */
 @GetMapping("/points-this-week")
 @Timed
-public ResponseEntity<PointsPerWeek> getPointsThisWeek(
-    @RequestParam(value="tz", required=false) String timezone) {
-
+public ResponseEntity<PointsPerWeek> getPointsThisWeek(@RequestParam(value = "tz", required = false) String timezone) {
     // Get current date (with timezone if passed in)
     LocalDate now = LocalDate.now();
     if (timezone != null) {
@@ -1250,33 +1142,57 @@ public ResponseEntity<PointsPerWeek> getPointsThisWeek(
     LocalDate endOfWeek = now.with(DayOfWeek.SUNDAY);
     log.debug("Looking for points between: {} and {}", startOfWeek, endOfWeek);
 
-    List<Points> points =
-        pointsRepository.findAllByDateBetweenAndUserLogin(
-            startOfWeek, endOfWeek, SecurityUtils.getCurrentUserLogin());
+    List<Points> points = pointsRepository.findAllByDateBetweenAndUserLogin(
+        startOfWeek,
+        endOfWeek,
+        SecurityUtils.getCurrentUserLogin().get()
+    );
     return calculatePoints(startOfWeek, points);
 }
 
-private ResponseEntity<PointsPerWeek> calculatePoints(LocalDate startOfWeek,
-                                                      List<Points> points) {
-    Integer numPoints = points.stream()
-        .mapToInt(p -> p.getExercise() + p.getMeals() + p.getAlcohol())
-        .sum();
+private ResponseEntity<PointsPerWeek> calculatePoints(LocalDate startOfWeek, List<Points> points) {
+    Integer numPoints = points.stream().mapToInt(p -> p.getExercise() + p.getMeals() + p.getAlcohol()).sum();
 
     PointsPerWeek count = new PointsPerWeek(startOfWeek, numPoints);
     return new ResponseEntity<>(count, HttpStatus.OK);
 }
 ----
 
-To support this new method on the client, I added a new method to `PointsService` in `src/main/webapp/app/entities/points/points.service.ts`.
+To support this new method on the client, I added a new `IPointsPerWeek` interface in `points.model.ts`:
 
-[source,javascript]
-.src/main/webapp/app/entities/points/points.service.ts
+// todo: check typescript vs javascript
+[source,typescript]
+.src/main/webapp/app/entities/points/points.model.ts
 ----
-thisWeek(): Observable<EntityResponseType> {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    return this.http
-        .get(`api/points-this-week?tz=${tz}`, { observe: 'response' })
-        .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+export interface IPointsPerWeek {
+  week?: dayjs.Dayjs;
+  points: number;
+}
+----
+
+I imported it into `points.service.ts` and added a few new methods:
+
+// todo: it'd be cool if thisWeek() could be one method, but I was unable to figure out how to do it.
+[source,javascript]
+.src/main/webapp/app/entities/points/service/points.service.ts
+----
+thisWeek(): Observable<HttpResponse<IPointsPerWeek>> {
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  return this.http.get<IPointsPerWeek>(`api/points-this-week?tz=${tz}`, { observe: 'response' })
+    .pipe(map(res => this.convertWeekResponseFromServer(res)));
+}
+
+protected convertWeekResponseFromServer(res: HttpResponse<IPointsPerWeek>): HttpResponse<IPointsPerWeek> {
+  return res.clone({
+    body: res.body ? this.convertWeekDateFromServer(res.body) : null,
+  });
+}
+
+protected convertWeekDateFromServer(pointsPerWeek: IPointsPerWeek): IPointsPerWeek {
+  return {
+    ...pointsPerWeek,
+    week: dayjs(pointsPerWeek.week),
+  };
 }
 ----
 
@@ -1285,35 +1201,42 @@ Then I added the service as a dependency to `home.component.ts` and calculated t
 [source,javascript]
 .src/main/webapp/app/home/home.component.ts
 ----
-import { Account, LoginModalService, Principal } from 'app/core';
-import { PreferencesService } from 'app/entities/preferences';
-import { BloodPressureService } from 'app/entities/blood-pressure';
-import { WeightService } from 'app/entities/weight';
-import { D3ChartService } from './d3-chart.service';
-import { Preferences } from 'app/shared/model/preferences.model';
+import { PointsService } from 'app/entities/points/service/points.service';
+import { IPointsPerWeek } from 'app/entities/points/points.model';
 
 ...
 export class HomeComponent implements OnInit, OnDestroy {
-    account: Account;
-    modalRef: NgbModalRef;
-    pointsThisWeek: any = {};
-    pointsPercentage: number;
+  account: Account | null = null;
+  pointsThisWeek: IPointsPerWeek = { points: 0 };
+  pointsPercentage?: number;
 
-    constructor(private principal: Principal,
-                private loginModalService: LoginModalService,
-                private eventManager: EventManager,
-                private pointsService: PointsService) {
-    }
+  private readonly destroy$ = new Subject<void>();
 
-    getUserData() {
-        // Get points for the current week
-        this.pointsService.thisWeek().subscribe((points: any) => {
-            points = points.body;
-            this.pointsThisWeek = points;
-            this.pointsPercentage = (points.points / 21) * 100;
-        });
-    }
-    ...
+  constructor(private accountService: AccountService, private router: Router,
+              private pointsService: PointsService) {
+  }
+
+  ngOnInit(): void {
+    this.accountService
+      .getAuthenticationState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(account => {
+        this.account = account;
+        this.getUserData(); // this line is new
+      });
+  }
+
+  getUserData(): void {
+    // Get points for the current week
+    this.pointsService.thisWeek().subscribe(response => {
+        if (response.body) {
+          this.pointsThisWeek = response.body;
+          this.pointsPercentage = (this.pointsThisWeek.points / 21) * 100;
+        }
+      }
+    );
+  }
+  ...
 }
 ----
 
@@ -1323,18 +1246,18 @@ I added a progress bar to `home.component.html` to show points-this-week progres
 .src/main/webapp/app/home/home.component.html
 ----
 <div class="row">
-    <div class="col-md-11">
-        <ngb-progressbar max="21" [value]="pointsThisWeek.points"
-                         [hidden]="!pointsThisWeek.points" [striped]="true">
-            <span *ngIf="pointsThisWeek.points">
-                {{pointsThisWeek.points}} / Goal: 10
-            </span>
-        </ngb-progressbar>
-        <ngb-alert [dismissible]="false" [hidden]="pointsThisWeek.points">
-            <span jhiTranslate="home.points.getMoving">
-                No points yet this week, better get moving!</span>
-        </ngb-alert>
-    </div>
+  <div class="col-md-11 col-xs-12 mt-1">
+    <ngb-progressbar [max]="21" [value]="pointsThisWeek.points"
+                     [hidden]="!pointsThisWeek.points" [striped]="true">
+      <span *ngIf="pointsThisWeek.points" class="fw-bolder">
+          {{pointsThisWeek.points}} / Goal: 10
+      </span>
+    </ngb-progressbar>
+    <ngb-alert [dismissible]="false" [hidden]="pointsThisWeek.points">
+      <span jhiTranslate="home.points.getMoving">
+        No points yet this week, better get moving!</span>
+    </ngb-alert>
+  </div>
 </div>
 ----
 
@@ -1342,7 +1265,9 @@ Below is a screenshot of what this progress bar looked like after restarting the
 
 [[img-homepage-progress-bar]]
 .Progress bar for points this week
-image::chapter1/homepage-points-this-week.png[Progress bar for points this week, 1330, scaledwidth=100%, align=center]
+image::chapter1/homepage-points-this-week.png[Progress bar for points this week, 1188, scaledwidth=100%, align=center]
+
+// <img src="https://via.placeholder.com/800x200.png?text=Blood Pressure Graph" width="100%" />
 
 You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix this, I needed to add the ability to fetch the user's preferences. To make it easier to access a user's preferences, I modified `PreferencesRepository.java` and added a method to retrieve a user's preferences.
 
@@ -1350,6 +1275,8 @@ You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix 
 .src/main/java/org/jhipster/health/repository/PreferencesRepository.java
 ----
 public interface PreferencesRepository extends JpaRepository<Preferences, Long> {
+    ...
+
     Optional<Preferences> findOneByUserLogin(String login);
 }
 ----
@@ -1360,7 +1287,9 @@ I created a new method in `PreferencesResource.java` to return the user's prefer
 .src/main/java/org/jhipster/health/web/rest/PreferencesResource.java
 ----
 /**
- * GET  /my-preferences -> get the current user's preferences.
+ * {@code GET  /my-preferences} : get the current user's preferences
+ *
+ * @return the preferences or default (weeklyGoal: 10) if none exist.
  */
 @GetMapping("/my-preferences")
 @Timed
@@ -1380,63 +1309,66 @@ public ResponseEntity<Preferences> getUserPreferences() {
 }
 ----
 
-To facilitate calling this endpoint, I added a new `user` method to the `PreferencesService` in the client.
+To facilitate calling this endpoint, I added a new `user` method to `preferences.service.ts` in the client.
 
 [source,javascript]
-.src/main/webapp/app/entities/preferences/preferences.service.ts
+.src/main/webapp/app/entities/preferences/service/preferences.service.ts
 ----
 user(): Observable<EntityResponseType> {
     return this.http.get<IPreferences>('api/my-preferences', { observe: 'response' });
 }
 ----
 
-In `home.component.ts`, I added the `PreferencesService` as a dependency and set the preferences in a local `preferences` variable so the HTML template could read it. I also added a listener for `preference` updates and logic to calculate the background color of the progress bar.
+In `home.component.ts`, I added the `PreferencesService` as a dependency and set the preferences in a local `preferences` variable so the HTML template could read it. I also added logic to calculate the background color of the progress bar.
 
 [source,javascript]
 .src/main/webapp/app/home/home.component.ts
 ----
-export class HomeComponent implements OnInit, OnDestory {
-    ...
-    preferences: Preferences;
+export class HomeComponent implements OnInit, OnDestroy {
+  account: Account | null = null;
+  pointsThisWeek: IPointsPerWeek = {points: 0};
+  pointsPercentage?: number;
+  preferences!: IPreferences;
 
-    constructor(...
-                private preferencesService: PreferencesService,
-                private pointsService: PointsService) {
-    }
+  private readonly destroy$ = new Subject<void>();
 
-    registerAuthenticationSuccess() {
-        ...
-        this.eventSubscriber = this.eventManager.subscribe(
-            'preferencesListModification', () => this.getUserData());
-    }
+  constructor(private accountService: AccountService, private router: Router,
+              private pointsService: PointsService,
+              private preferencesService: PreferencesService) {
+  }
 
-    getUserData() {
-        // Get preferences
-        this.preferencesService.user().subscribe((preferences: any) => {
-            this.preferences = preferences.body;
+  ngOnInit(): void { ... }
 
-            // Get points for the current week
-            this.pointsService.thisWeek().subscribe((points: any) => {
-                points = points.body;
-                this.pointsThisWeek = points;
-                this.pointsPercentage =
-                    (points.points / this.preferences.weeklyGoal) * 100;
+  getUserData(): void {
+    // Get preferences
+    this.preferencesService.user().subscribe((preferences: any) => {
+      this.preferences = preferences.body;
 
-                // calculate success, warning, or danger
-                if (points.points >= preferences.weeklyGoal) {
-                    this.pointsThisWeek.progress = 'success';
-                } else if (points.points < 10) {
-                    this.pointsThisWeek.progress = 'danger';
-                } else if (points.points > 10 &&
-                    points.points < this.preferences.weeklyGoal) {
-                    this.pointsThisWeek.progress = 'warning';
-                }
-            });
-            ...
-        });
-    }
-    ...
+      // Get points for the current week
+      this.pointsService.thisWeek().subscribe(response => {
+          if (response.body) {
+            this.pointsThisWeek = response.body;
+            this.pointsPercentage =
+              (this.pointsThisWeek.points / 21) * 100;
+
+            // calculate success, warning, or danger
+            if (this.pointsThisWeek.points >= preferences.weeklyGoal) {
+              this.pointsThisWeek.progress = 'success';
+            } else if (this.pointsThisWeek.points < 10) {
+              this.pointsThisWeek.progress = 'danger';
+            } else if (this.pointsThisWeek.points > 10 &&
+              this.pointsThisWeek.points < preferences.weeklyGoal) {
+              this.pointsThisWeek.progress = 'warning';
+            }
+          }
+        }
+      );
+    });
+  }
+
+  ...
 }
+
 ----
 
 Now that a user's preferences were available, I modified `home.component.html` to display the user's weekly goal, as well as to color the progress bar appropriately with a `[type]` attribute.
@@ -1444,16 +1376,15 @@ Now that a user's preferences were available, I modified `home.component.html` t
 [source,html]
 .src/main/webapp/app/home/home.component.html
 ----
-<ngb-progressbar max="21" [value]="pointsThisWeek.points"
-                 [type]="pointsThisWeek.progress" [striped]="true"
-                 [hidden]="!pointsThisWeek.points">
-    <span *ngIf="pointsThisWeek.points">
-        {{pointsThisWeek.points}} / Goal: {{preferences.weeklyGoal}}
-    </span>a
+<ngb-progressbar [max]="21" [value]="pointsThisWeek.points"
+                 [hidden]="!pointsThisWeek.points" [striped]="true">
+  <span *ngIf="pointsThisWeek.points" class="fw-bolder">
+    {{ pointsThisWeek.points }} / Goal: {{ preferences.weeklyGoal }}
+  </span>
 </ngb-progressbar>
 <ngb-alert [dismissible]="false" [hidden]="pointsThisWeek.points">
-    <span jhiTranslate="home.points.getMoving">
-        No points yet this week, better get moving!</span>
+  <span jhiTranslate="home.points.getMoving">
+    No points yet this week, better get moving!</span>
 </ngb-alert>
 ----
 
@@ -1462,16 +1393,17 @@ To finish things off, I added a link to a component where users could edit their
 [source,html]
 .src/main/webapp/app/home/home.component.html
 ----
-<a [routerLink]="['/preferences', preferences.id, 'edit']"
-   class="float-right" jhiTranslate="home.link.preferences">Edit Preferences</a>
+<a [routerLink]="['/preferences' +
+   (preferences && preferences.id ? '/' + preferences.id + '/edit' : '/new')]"
+   class="float-end" jhiTranslate="home.link.preferences">Edit Preferences</a>
 ----
 
 ==== Blood pressure and weight for the last 30 days
 
-To populate the two remaining charts on the homepage, I needed to fetch the user's blood-pressure readings and weights for the last 30 days. I added a method to `BloodPressureResourceIntTest.java` to set up my expectations.
+To populate the two remaining charts on the homepage, I needed to fetch the user's blood-pressure readings and weights for the last 30 days. I added a method to `BloodPressureResourceIT.java` to set up my expectations.
 
 [source%autofit,java]
-.src/test/java/org/jhipster/health/web/rest/BloodPressureResourceIntTest.java
+.src/test/java/org/jhipster/health/web/rest/BloodPressureResourceIT.java
 ----
 private void createBloodPressureByMonth(ZonedDateTime firstDate,
                                         ZonedDateTime firstDayOfLastMonth) {
@@ -1501,22 +1433,14 @@ public void getBloodPressureForLast30Days() throws Exception {
     ZonedDateTime firstDayOfLastMonth = now.withDayOfMonth(1).minusMonths(1);
     createBloodPressureByMonth(twentyNineDaysAgo, firstDayOfLastMonth);
 
-    // create security-aware mockMvc
-    restBloodPressureMockMvc = MockMvcBuilders
-        .webAppContextSetup(context)
-        .apply(springSecurity())
-        .build();
-
     // Get all the blood pressure readings
-    restBloodPressureMockMvc.perform(get("/api/blood-pressures")
-        .with(user("user").roles("USER")))
+    restBloodPressureMockMvc.perform(get("/api/blood-pressures"))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$", hasSize(6)));
 
     // Get the blood pressure readings for the last 30 days
-    restBloodPressureMockMvc.perform(get("/api/bp-by-days/{days}", 30)
-        .with(user("user").roles("USER")))
+    restBloodPressureMockMvc.perform(get("/api/bp-by-days/{days}", 30))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -1539,7 +1463,8 @@ public class BloodPressureByPeriod {
         this.period = period;
         this.readings = readings;
     }
-    ...
+
+    // getters and setters and toString() generated by IntelliJ
 }
 ----
 
@@ -1558,7 +1483,10 @@ Next, I created a new method in `BloodPressureResource.java` that calculated the
 .src/main/java/org/jhipster/health/web/rest/BloodPressureResource.java
 ----
 /**
- * GET  /bp-by-days : get all the blood pressure readings by last x days.
+ * {@code GET  /bp-by-days/:days} : get all the blood pressure readings by last x days.
+ *
+ * @param days the number of days.
+ * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the {@link BloodPressureByPeriod}.
  */
 @RequestMapping(value = "/bp-by-days/{days}")
 @Timed
@@ -1575,7 +1503,7 @@ public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
 
 private List<BloodPressure> filterByUser(List<BloodPressure> readings) {
     Stream<BloodPressure> userReadings = readings.stream()
-        .filter(bp -> bp.getUser().getLogin().equals(SecurityUtils.getCurrentLogin().get()));
+        .filter(bp -> bp.getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get()));
     return userReadings.collect(Collectors.toList());
 }
 ----
@@ -1587,11 +1515,11 @@ I later learned how to do the filtering in the database by adding the following 
 [source,java]
 .src/main/java/org/jhipster/health/repository/BloodPressureRepository.java
 ----
-List<BloodPressure> findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(
+List<BloodPressure> findAllByTimestampBetweenAndUserLoginOrderByTimestampAsc(
         ZonedDateTime firstDate, ZonedDateTime secondDate, String login);
 ----
 
-Then I was able to remove the `filterByUser` method and change `BloodPressureResource#getByDays` to be:
+Then I was able to remove the `filterByUser()` method and change `BloodPressureResource#getByDays()` to be:
 
 [source%autofit,java]
 .src/main/java/org/jhipster/health/web/rest/BloodPressureResource.java
@@ -1601,7 +1529,7 @@ public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
     ZonedDateTime daysAgo = rightNow.minusDays(days);
 
     List<BloodPressure> readings =
-        bloodPressureRepository.findAllByTimestampBetweenAndUserLoginOrderByTimestampDesc(
+        bloodPressureRepository.findAllByTimestampBetweenAndUserLoginOrderByTimestampAsc(
             daysAgo, rightNow, SecurityUtils.getCurrentUserLogin().get());
     BloodPressureByPeriod response =
         new BloodPressureByPeriod("Last " + days + " Days", readings);
@@ -1613,167 +1541,147 @@ public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
 I added a new method to support this API in `blood-pressure.service.ts`.
 
 [source,javascript]
-.src/main/webapp/app/entities/blood-pressure/blood-pressure.service.ts
+.src/main/webapp/app/entities/blood-pressure/service/blood-pressure.service.ts
 ----
-last30Days(): Observable<EntityResponseType> {
-    return this.http
-        .get('api/bp-by-days/30', { observe: 'response' })
-        .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+last30Days(): Observable<HttpResponse<IBloodPressureByPeriod>> {
+  return this.http.get<IBloodPressureByPeriod>('api/bp-by-days/30', { observe: 'response' });
+}
+----
+
+This required adding a new `IBloodPressureByPeriod` interface in `blood-pressure.model.ts` and importing it in `blood-pressure.service.ts`:
+
+// todo: check syntax highlighting vs javascript
+[source,typescript]
+.src/main/webapp/app/entities/blood-pressure/blood-pressure.model.ts
+----
+export interface IBloodPressureByPeriod {
+  period: string;
+  readings: Array<IBloodPressure>;
 }
 ----
 
 While gathering this data seemed easy enough, the hard part was figuring out what charting library to use to display it.
 
+// todo: Add steps to add Google Fonts for Material theme
+
 ==== Charts of the last 30 days
 
-Based on my experience writing the first two versions of this book, I looked for an Angular library that integrated with https://d3js.org/[D3.js] and found https://github.com/krispo/ng2-nvd3[ng2-nvd3]. To install ng2-nvd3, I used npm.
+In the first three versions of this book, I looked for an Angular library that integrated with https://d3js.org/[D3.js] and found https://github.com/krispo/ng2-nvd3[ng2-nvd3]. However, this library is no longer maintained. I chose https://www.chartjs.org/[Chart.js] and http://valor-software.github.io/ng2-charts/[ng2-charts] for Angular integration.
 
 ----
-npm install ng2-nvd3
+npm install ng2-charts@4.0.0
 ----
 
-Then I updated `home.module.ts` to import the `NvD3Module`, as well as other imports I found necessary.
+Then I updated `home.module.ts` to import the `NgChartsModule`.
 
 [source,javascript]
 .src/main/webapp/app/home/home.module.ts
 ----
-import { NvD3Module } from 'ng2-nvd3';
-import 'd3';
-import 'nvd3';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
-    imports: [
-        TwentyOnePointsSharedModule,
-        NvD3Module,
-        ...
-    ],
-    ...
+  imports: [..., NgChartsModule],
+  declarations: [HomeComponent],
 })
-export class TwentyOnePointsHomeModule {}
+export class HomeModule {}
 ----
 
-I modified `home.component.ts` to have the `BloodPressureService` as a dependency and went to work building the data so D3 could render it. I found that charts required a bit of JSON to configure them, so I created a service to contain this configuration.
+I modified `home.component.ts` to have the `BloodPressureService` as a dependency and went to work building the data so Chart.js could render it. ----
 
-[source,javascript]
-.src/main/webapp/app/home/d3-chart.service.ts
-----
-declare const d3, nv: any;
-
-/**
- * ChartService to define the chart config for D3
- */
-export class D3ChartService {
-
-    static getChartConfig() {
-        const today = new Date();
-        const priorDate = new Date().setDate(today.getDate() - 30);
-        return {
-            chart: {
-                type: 'lineChart',
-                height: 200,
-                margin: {
-                    top: 20,
-                    right: 20,
-                    bottom: 40,
-                    left: 55
-                },
-                x(d) {
-                    return d.x;
-                },
-                y(d) {
-                    return d.y;
-                },
-                useInteractiveGuideline: true,
-                dispatch: {},
-                xAxis: {
-                    axisLabel: 'Dates',
-                    showMaxMin: false,
-                    tickFormat(d) {
-                        return d3.time.format('%b %d')(new Date(d));
-                    }
-                },
-                xDomain: [priorDate, today],
-                yAxis: {
-                    axisLabel: '',
-                    axisLabelDistance: 30
-                },
-                transitionDuration: 250
-            },
-            title: {
-                enable: true
-            }
-        };
-    }
-}
-----
-
-In `home.component.ts`, I grabbed the blood-pressure readings from the API and morphed them into data that D3 could understand.
+In `home.component.ts`, I grabbed the blood-pressure readings from the API and morphed them into data that Chart.js could understand.
 
 [source,javascript]
 .src/main/webapp/app/home/home.component.ts
 ----
 // Get blood pressure readings for the last 30 days
 this.bloodPressureService.last30Days().subscribe((bpReadings: any) => {
-    bpReadings = bpReadings.body;
-    this.bpReadings = bpReadings;
-    this.bpOptions = {... D3ChartService.getChartConfig() };
-    if (bpReadings.readings.length) {
-        this.bpOptions.title.text = bpReadings.period;
-        this.bpOptions.chart.yAxis.axisLabel = 'Blood Pressure';
-        let systolics, diastolics, upperValues, lowerValues;
-        systolics = [];
-        diastolics = [];
-        upperValues = [];
-        lowerValues = [];
-        bpReadings.readings.forEach((item) => {
-            systolics.push({
-                x: new Date(item.timestamp),
-                y: item.systolic
-            });
-            diastolics.push({
-                x: new Date(item.timestamp),
-                y: item.diastolic
-            });
-            upperValues.push(item.systolic);
-            lowerValues.push(item.diastolic);
-        });
-        this.bpData = [{
-            values: systolics,
-            key: 'Systolic',
-            color: '#673ab7'
-        }, {
-            values: diastolics,
-            key: 'Diastolic',
-            color: '#03a9f4'
-        }];
-        // set y scale to be 10 more than max and min
-        this.bpOptions.chart.yDomain =
-          [Math.min.apply(Math, lowerValues) - 10,
-                          Math.max.apply(Math, upperValues) + 10];
-    } else {
-        this.bpReadings.readings = [];
-    }
+  bpReadings = bpReadings.body;
+  this.bpReadings = bpReadings;
+
+  if (bpReadings.readings.length) {
+    this.bpOptions = {
+      plugins: {
+        legend: { display: true },
+        title: {
+          display: true,
+          text: bpReadings.period,
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+        },
+        x: {
+          beginAtZero: false,
+        },
+      },
+    };
+    const labels: any = [];
+    const systolics: any = [];
+    const diastolics: any = [];
+    const upperValues: any = [];
+    const lowerValues: any = [];
+    bpReadings.readings.forEach((item: IBloodPressure) => {
+      const timestamp = dayjs(item.timestamp).format('MMM DD');
+      labels.push(timestamp);
+      systolics.push({
+        x: timestamp,
+        y: item.systolic,
+      });
+      diastolics.push({
+        x: timestamp,
+        y: item.diastolic,
+      });
+      upperValues.push(item.systolic);
+      lowerValues.push(item.diastolic);
+    });
+    const datasets = [
+      {
+        data: systolics,
+        label: 'Systolic',
+      },
+      {
+        data: diastolics,
+        label: 'Diastolic',
+      },
+    ];
+    this.bpData = {
+      labels,
+      datasets,
+    };
+    // set y scale to be 10 more than max and min
+    this.bpOptions.scales = {
+      y: {
+        max: Math.max(...upperValues) + 10,
+        min: Math.min(...lowerValues) - 10,
+      },
+    };
+  } else {
+    this.bpReadings.readings = [];
+  }
 });
 ----
 
-Finally, I used the "`nvd3`" directive in `home.component.html` to read `bpOptions` and `bpData`, then display a chart.
+Finally, I used a `<canvas>` element with a "`baseChart`" attribute in `home.component.html` to read `bpOptions` and `bpData`, then display a chart.
 
 [source,html]
 .src/main/webapp/app/home/home.component.html
 ----
 <div class="row mt-1">
-    <div class="col-md-11 col-xs-12">
-        <span *ngIf="bpReadings.readings && bpReadings.readings.length">
-            <nvd3 [options]="bpOptions" [data]="bpData"
-                  class="with-3d-shadow with-transitions"></nvd3>
-        </span>
-        <ngb-alert [dismissible]="false"
-            [hidden]="bpReadings.readings && bpReadings.readings.length">
-            <span jhiTranslate="home.bloodPressure.noReadings">
-                No blood pressure readings found.
-            </span>
-        </ngb-alert>
-    </div>
+  <div class="col-md-11 col-xs-12">
+    <canvas
+      baseChart
+      *ngIf="bpReadings?.readings && bpReadings?.readings?.length"
+      height="125"
+      [type]="'line'"
+      [data]="bpData"
+      [options]="bpOptions"
+    >
+    </canvas>
+    <ngb-alert [dismissible]="false" [hidden]="bpReadings.readings && bpReadings.readings.length">
+      <span jhiTranslate="home.bloodPressure.noReadings">No blood pressure readings found.</span>
+    </ngb-alert>
+  </div>
 </div>
 ----
 
@@ -1781,35 +1689,42 @@ After entering some test data, I was quite pleased with the results.
 
 [[img-homepage-bp-last-30-days]]
 .Chart of blood pressure during the last 30 days
-image::chapter1/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1281, scaledwidth=100%, align=center]
+image::chapter1/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1190, scaledwidth=100%, align=center]
 
 I made similar changes to display weights for the last 30 days as a chart.
 
 === Lines of code
 
-After finishing the MVP (minimum viable product) of 21-Points Health, I did some quick calculations to see how many lines of code JHipster produced. You can see from the graph below that I only had to write 2,080 lines of code. JHipster did the rest for me, generating 91.2% of the code in my project!
+After finishing the MVP (minimum viable product) of 21-Points Health, I did some quick calculations to see how many lines of code JHipster produced. You can see from the graph below that I only had to write 1,291 lines of code. JHipster did the rest for me, generating 98.3% of the code in my project!
 
+// 98.3% calculated as lines of code I had to write / total LOC - i18n
+// from Dropbox > Get Hip with JHipster.key
 [[img-21-points-loc]]
 .Project lines of code
 image::chapter1/21-points-loc.png[Project lines of code, 600, scaledwidth=60%, align=center]
 
-To drill down further, I made a graph of the top three languages in the project: Java, TypeScript, and HTML.
+To drill down further, I made a graph of the top three languages in the project: TypeScript, Java, and HTML.
 
 [[img-21-points-loc-by-language]]
 .Project lines of code by language
 image::chapter1/21-points-loc-by-language.png[Project lines of code by language, 700, scaledwidth=70%, align=center]
 
-The amount of code I had to write in each language was 561 lines of TypeScript, 687 lines of Java, and 351 lines of HTML. The other 481 lines were JSON (135), XML (187), Sass (80), YAML (54), CSS (12), Markdown (6), Groovy (4), and Bourne Shell (3).
+// TypeScript: 12812 - 12581 = 231
+// Java: 9956 - 9388 = 568
+// HTML: 3855 - 3657 = 198
+// Rest: 1291 - (231 + 568 + 198) = 294
+
+The amount of code I had to write in each language was 231 lines of TypeScript, 568 lines of Java, and 351 lines of HTML. The other 294 lines were a mix of various other files.
 
 Wahoo! Thanks, JHipster!
 
 .Testing
 ****
-You probably noticed that a lot of the Java code I wrote was for the tests. I felt that these tests were essential to prove that the business logic I implemented was correct. It's never easy to work with dates but Java 8's Date-Time API greatly simplified it and Spring Data JPA made it easy to write "`between date`" queries.
+You probably noticed that a lot of the Java code I wrote was for the tests. I felt that these tests were essential to prove that the business logic I implemented was correct. It's never easy to work with dates but Java Date-Time API greatly simplified it and Spring Data JPA made it easy to write "`between date`" queries.
 
-I believe TDD (test-driven development) is a great way to write code. However, when developing UIs, I tend to make them work before writing tests. It's usually a very visual activity and, with the aid of Browsersync, there's rarely a delay before you see your changes. I like to write unit tests for my Angular components and directives using https://jasmine.github.io/[Jasmine] and I like to write integration tests with http://www.protractortest.org/#/[Protractor].
+I believe TDD (test-driven development) is a great way to write code. However, when developing UIs, I tend to make them work before writing tests. It's usually a very visual activity and, with the aid of Browsersync, there's rarely a delay before you see your changes. I like to write unit tests for my Angular components and directives using https://jasmine.github.io/[Jasmine] and I like to write integration tests with https://www.cypress.io/[Cypress].
 
-I did not show any UI tests in this section, but JHipster generated a bunch for me. Running `npm test --coverage` shows 78.98% of lines are covered in the UI!
+I did not show any UI tests in this section, but JHipster generated a bunch for me. Running `npm test` shows 87.35% of lines are covered in the UI!
 ****
 
 == Deploying to Heroku
@@ -2010,7 +1925,7 @@ I https://github.com/jhipster/generator-jhipster/issues/20315[created an issue] 
 .Elastic Cloud settings
 image::chapter1/elastic-cloud-settings.png[Elastic Cloud settings, 781, scaledwidth=100%, align=center]
 
-NOTE: I tried the latest version, but it resulted in a "Unable to parse response body" error.
+NOTE: I tried the latest version, but it resulted in an "Unable to parse response body" error.
 
 I downloaded my credentials from the following screen and clicked *Continue*. Next, I selected *Manage this deployment* from the menu and copied the Elasticsearch endpoint.
 
@@ -2179,14 +2094,14 @@ To fix this data leakage, I enhanced the Java code so it only allows users that 
 [source,java]
 ----
 Optional<Points> points = pointsRepository.findById(id);
-if (points.isPresent() && <user doesn't match current user>) {
+if (<user not admin> && points.isPresent() && <user doesn't match current user>) {
     return new ResponseEntity<>("error.http.403", HttpStatus.FORBIDDEN);
 }
 return ResponseUtil.wrapOrNotFound(points);
 ----
 
-// todo: create a new pull request that shows this change
-See https://github.com/mraible/21-points/pull/52/files[pull request #52] for all the changes that I needed to make in resource classes and their tests.
+// todo: create a new pull request in 21-points repo that shows this change
+See https://github.com/mraible/21-points-v7/pull/3[21-points#3] for all the changes that I needed to make in resource classes and their tests.
 
 == Continuous integration and deployment
 
@@ -2335,14 +2250,26 @@ When working on this project, I'd start Jenkins and have it running while I chec
 
 == Code quality
 
-When I finished developing the app, I wanted to ensure that I had good code quality and that things were well tested. JHipster generates apps with high code quality by default. Code quality is analyzed using Sonar, which is automatically configured by JHipster. The "code quality" metric is determined by the percentage of code that is covered by tests. To see the code quality for my finished app, I started all the Docker containers that the prod profile needs, plus Sonar.
+When I finished developing the app, I wanted to ensure that I had good code quality and that things were well tested. JHipster generates apps with high code quality by default. Code quality is analyzed using Sonar, which is automatically configured by JHipster. The "code quality" metric is determined by the percentage of code that is covered by tests. To see the code quality for my finished app, I started Sonar.
 
 [source]
 ----
-docker-compose -f src/main/docker/elasticsearch.yml up -d
-docker-compose -f src/main/docker/postgresql.yml up -d
-docker-compose -f src/main/docker/sonar.yml up -d
+docker-compose -f src/main/docker/sonar.yml up
 ----
+
+[CAUTION]
+.SonarQube 9.6.0 on Apple Silicon (M1)
+====
+SonarQube does not work with Apple Silicon using official images, a native image is not provided, and it fails in compatibility mode. You can build the Docker image locally to solve the problem:
+
+[source,shell]
+----
+git clone https://github.com/SonarSource/docker-sonarqube.git
+cd docker-sonarqube/9/community
+git checkout 9.6.0
+docker build -t sonarqube:9.6.0-community .
+----
+====
 
 Then I ran all the tests and the `sonarqube` task.
 
@@ -2355,7 +2282,7 @@ Once this process completed, an analysis of the project was available on the Son
 
 [[sonar-results]]
 .Sonar results
-image::chapter1/sonar.png[Sonar results, 1500, scaledwidth=100%, align=center]
+image::chapter1/sonar.png[Sonar results, 691, scaledwidth=100%, align=center]
 
 == Progressive web apps
 
@@ -2369,18 +2296,16 @@ To be a PWA requires three features:
 
 For HTTPS, you can use JHipster's "tls" profile for localhost or (even better) deploy it to production!
 
-TIP: To use HTTPS on localhost with Gradle, run `./gradlew -Ptls` for the back end and `yarn start-tls` for the front end.
+TIP: To use HTTPS on localhost with Gradle, run `./gradlew -Ptls` for the back end and `npm run start-tls` for the front end.
 
 Cloud providers like Heroku and Cloud Foundry will provide you with HTTPS out of the box, but they won't force it. To force HTTPS, I modified `src/main/java/org/jhipster/health/config/SecurityConfiguration.java` and added a rule to force a secure channel when an `X-Forwarded-Proto` header is sent.
 
 [source,java]
 ----
-@Override
-public void configure(HttpSecurity http) throws Exception {
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         ...
-    .and()
-        .apply(securityConfigurerAdapter())
     .and()
         .requiresChannel()
         .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
@@ -2388,39 +2313,33 @@ public void configure(HttpSecurity http) throws Exception {
 }
 ----
 
-The https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin[workbox-webpack-plugin] is configured already for generating a service worker, but it only works when running your app with a production profile. This is nice because it means your data isn't cached in the browser when you're developing.
+JHipster ships with PWA support for Angular. It's turned off by default. One of the main components of a PWA is a service worker. To enable it, adjust the code in `src/main/webapp/app/app.module.ts`:
 
-To register a service worker, I modified `src/main/webapp/index.html` and uncommented the following block of code.
-
-[source,html]
-----
-<script>
-   if ('serviceWorker' in navigator) {
-       window.addEventListener('load', function() {
-           navigator.serviceWorker.register('/service-worker.js')
-               .then(function () {
-                   console.log('Service Worker Registered');
-               });
-       });
-   }
-</script>
-----
+```typescript
+// Set this to true to enable service worker (PWA)
+ServiceWorkerModule.register('ngsw-worker.js', { enabled: true }),
+```
 
 The final feature — a web-app manifest — is already included at `src/main/webapp/manifest.webapp`. It defines an app name, colors, and icons.
 
-After making these changes, I redeployed 21-Points Health to production and used https://developers.google.com/web/tools/lighthouse/[Lighthouse] to perform an analysis. You can see the results in the screenshot below.
+After making these changes, I redeployed 21-Points Health to production and used https://developer.chrome.com/docs/lighthouse/[Lighthouse] in Chrome to perform an analysis. You can see the results in the screenshot below.
 
 [[lighthouse-analysis]]
 .Lighthouse analysis
-image::chapter1/lighthouse.png[Lighthouse analysis, 1500, scaledwidth=100%, align=center]
+image::chapter1/lighthouse-desktop.png[Lighthouse analysis, 1500, scaledwidth=100%, align=center]
 
+// lighthouse-mobile.png has the mobile scores:
+// { performance: 76, accessibility: 95, best practices: 92, SEO: 89 }
 
+////
 You can see there's still some performance improvements that need to be made. Rather than address those here, I've https://github.com/mraible/21-points/issues/48/[created an issue] you can subscribe to.
+////
 
 == Source code
 
-After getting this application into a good enough state, I moved it from Bitbucket to GitHub and made it available as an open-source project. You can find the source code for 21-Points Health at https://github.com/mraible/21-points.
+After getting this application into a good enough state, I pushed it to GitHub and made it available as an open-source project. You can find the source code for 21-Points Health at https://github.com/mraible/21-points.
 
+////
 == Upgrading 21-Points Health
 
 After I finished developing the MVP of 21-Points Health with JHipster 5.3.0, I wanted to upgrade it to the latest release. I used the https://www.jhipster.tech/upgrading-an-application/[upgrade sub-generator], and upgraded it to 5.3.4, then again to 5.4.2.
@@ -2428,6 +2347,8 @@ After I finished developing the MVP of 21-Points Health with JHipster 5.3.0, I w
 TIP: If the upgrade sub-generator doesn't work for you when upgrading JHipster, you can manually upgrade. You'll want to make sure your project is checked into source control first. Then, create a new branch and run `rm -rf *` in your project, followed by `jhipster --with-entities`. After this process completes, use your favorite tool (e.g., IntelliJ IDEA) to compare changed files and restore your custom code.
 
 If you're reading this and notice that 21-Points Health is using a version newer than 5.4.2, it's likely because I upgraded again.
+////
+
 
 == Summary
 
