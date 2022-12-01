@@ -146,7 +146,6 @@ This process generates a `.yo-rc.json` file that captures all of the choices you
     "entitySuffix": "",
     "jhiPrefix": "jhi",
     "jhipsterVersion": "7.9.3",
-    "jwtSecretKey": "Delete this line so this value is regenerated",
     "languages": ["en", "fr"],
     "messageBroker": false,
     "microfrontend": false,
