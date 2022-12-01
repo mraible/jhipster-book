@@ -65,7 +65,7 @@ class BlogController {
 
 When we want to draw your attention to certain lines of code, those lines are annotated using numbers accompanied by brief descriptions.
 
-[source,javascript]
+[source,ts]
 ----
 export class SearchComponent {
   constructor(private searchService: SearchService) {} <1>
@@ -78,7 +78,7 @@ export class SearchComponent {
   }
 }
 ----
-<1> To inject `SearchService` into `SearchComponent`, add it as a parameter to the constructors's argument list.
+<1> To inject `SearchService` into `SearchComponent`, add it as a parameter to the constructor's argument list.
 <2> `search()` is a method that's called from the HTML's `<button>`, wired up using the `(click)` event handler.
 <3> `this.query` is a variable that's wired to `<input>` using two-way binding with `[(ngModel)]="query"`.
 
