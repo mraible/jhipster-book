@@ -769,11 +769,11 @@ It has four core concepts:
 
 Below is a basic `webpack.config.js` that shows all four concepts in use.
 
-[source,typescript]
+[source,javascript]
 .webpack.config.js
 ----
-const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
-const webpack = require('webpack'); //to access built-in plugins
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // installed via npm
+const webpack = require('webpack'); // to access built-in plugins
 const path = require('path');
 
 const config = {
