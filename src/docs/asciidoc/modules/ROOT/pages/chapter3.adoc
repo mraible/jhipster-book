@@ -39,31 +39,42 @@ Spring Initializr is also available in the Eclipse-based Spring Tool Suite (STS)
 ****
 You can also download and install the Spring Boot CLI. The easiest way to install it is with http://sdkman.io/[SDKMAN!]
 
+[source,shell]
 ----
 curl -s "https://get.sdkman.io" | bash
 sdk install springboot
 ----
 
-Spring CLI is best used for rapid prototyping: when you want to show someone how to do something very quickly, with code you'll likely throw away when you're done. For example, if you want to create a "`Hello World`" web application in Groovy, you can do it with seven lines of code.
+Spring CLI is best used for rapid prototyping: when you want to show someone how to do something very quickly, with code you'll likely throw away when you're done. For example, if you want to create a "`Hello World`" web application, you can create it with the following command.
 
-[source,groovy]
-.hello.groovy
+[source,shell]
 ----
+spring init -d=web
+----
+
+This will create a Spring Boot project with the Spring Web dependency. Expand the `demo.zip` it downloads and add a `HelloController` in the same package as `DemoApplication`.
+
+[source,java]
+.HelloController.java
+----
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 @RestController
-class WebApplication {
+class HelloController {
     @RequestMapping("/")
     String home() {
-        "Hello World!"
+        return "Hello World!";
     }
 }
 ----
 
 To compile and run this application, simply type:
 
-// todo: this doesn't work. Fix it or figure out the new command.
-
 ----
-spring run hello.groovy
+./gradlew bootRun
 ----
 
 After running this command, you can see the application at http://localhost:8080. For more information about the Spring Boot CLI, see https://docs.spring.io/spring-boot/docs/current/reference/html/cli.html#cli.using-the-cli[its documentation].
@@ -71,13 +82,21 @@ After running this command, you can see the application at http://localhost:8080
 
 To show you how to create a simple application with Spring Boot, go to https://start.spring.io and select `Web`, `JPA`, `H2`, and `Actuator` as project dependencies. Click "`Generate Project`" to download a .zip file for your project. Extract it on your hard drive and import it into your favorite IDE.
 
+TIP: The Spring CLI's command for creating this same app is `spring init -d=web,jpa,h2,actuator`.
+
 This project has only a few files in it, as you can see by running the `tree` command (on *nix).
 
 ----
 .
-├── mvnw
-├── mvnw.cmd
-├── pom.xml
+├── HELP.md
+├── build.gradle
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+├── settings.gradle
 └── src
     ├── main
     │   ├── java
@@ -96,7 +115,7 @@ This project has only a few files in it, as you can see by running the `tree` co
                     └── demo
                         └── DemoApplicationTests.java
 
-14 directories, 6 files
+16 directories, 10 files
 ----
 
 `DemoApplication.java` is the heart of this application; the file and class name are not relevant. What is relevant is the `@SpringBootApplication` annotation and the class's `public static void main` method.
@@ -211,23 +230,26 @@ To provide default data, create `src/main/resources/data.sql` and add a couple o
 [source,sql]
 .src/main/resources/data.sql
 ----
-insert into blog (name) values ('First');
-insert into blog (name) values ('Second');
+insert into blog (id, name) values (1, 'First');
+insert into blog (id, name) values (2, 'Second');
 ----
 
-Start your application with `mvn spring-boot:run` (or right-click -> "`Run in your IDE`") and you should see this default data show up in your logs.
+And add the following property to `src/main/resources/application.properties` so H2 initializes properly.
 
-// todo: update timestamps and logs
+[source,properties]
+----
+spring.jpa.defer-datasource-initialization=true
+----
+
+Start your application with `gradle spring-boot:run` (or right-click -> "`Run in your IDE`") and you should see this default data show up in your logs.
 
 [source%autofit,shell]
 ----
-2022-12-15 23:09:27.436  INFO 67327 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer :
-  Tomcat started on port(s): 8080 (http)
-2022-12-15 23:09:27.470  INFO 67327 --- [main] o.h.h.i.QueryTranslatorFactoryInitiator  :
-  HHH000397: Using ASTQueryTranslatorFactory
+2022-12-16T11:24:05.941-07:00  INFO 65838 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer
+  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-12-16T11:24:05.949-07:00  INFO 65838 --- [           main] com.example.demo.DemoApplication
+  : Started DemoApplication in 1.742 seconds (process running for 1.913)
 [Blog{id=1, name='First'}, Blog{id=2, name='Second'}]
-2022-12-15 23:09:27.549  INFO 67327 --- [main] com.example.demo.DemoApplication         :
-  Started DemoApplication in 3.924 seconds (JVM running for 4.492)
 ----
 
 To publish this data as a REST API, create a `BlogController` class and add a `/blogs` endpoint that returns a list of blogs.
