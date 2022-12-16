@@ -414,6 +414,8 @@ image::chapter2/bootstrap/advanced-grid-desktop.png[Advanced grid, 734, scaledwi
 
 You can use size indicators to specify breakpoints in the columns. Breakpoints indicate where a column wraps onto the next row. In the HTML above, "`xs`" and "`md`" are the size indicators (of course,  "`sm`", "`lg`", and "`xl`" are the other options). Bootstrap uses the following media query ranges.
 
+// todo: look at CSS formatting. It looks kinda funny in HTML.
+
 [source,css]
 ----
 // Extra small devices (portrait phones, less than 576 px)
@@ -472,10 +474,10 @@ The following example from 21-Points Health shows how to display a shorter headi
 [source%autofit,html]
 ----
 <div class="col-6 text-nowrap">
-    <h4 class="mt-1 d-none d-md-inline"
-        jhiTranslate="home.bloodPressure.title">Blood Pressure:</h4>
-    <h4 class="mt-1 d-sm-none"
-        jhiTranslate="home.bloodPressure.titleMobile">BP:</h4>
+  <h4 class="mt-1 d-none d-md-inline"
+    jhiTranslate="home.bloodPressure.title">Blood Pressure:</h4>
+  <h4 class="mt-1 d-sm-none"
+    jhiTranslate="home.bloodPressure.titleMobile">BP:</h4>
 </div>
 ----
 
@@ -605,6 +607,8 @@ image::chapter2/bootstrap/buttons-with-icons.png[Buttons with icons, 265, scaled
 === Customizing CSS
 
 If you'd like to override Bootstrap classes in your project, the easiest thing to do is to put the override rule in a CSS file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/content/scss/global.scss` directly. Using Sass results in a much more concise authoring environment. Below is the default `vendor.scss` file that JHipster generates. You can see that it imports Bootstrap, and I've added an import for Angular Calendar. Default Bootstrap rules are overridden in the aforementioned `global.scss`.
+
+// todo: look at Sass formatting. It looks kinda funny in HTML.
 
 [source,sass]
 .src/main/webapp/scss/vendor.scss
@@ -752,7 +756,7 @@ CSS generated from the above code looks as follows.
 
 Bootstrap 3.x was written with http://lesscss.org/[Less], a CSS pre-processor with similar features to Sass. It uses Sass for the 4.0+ versions.
 
-JHipster 7 uses Sass by default. To learn more about structuring your CSS and naming classes, read the great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
+JHipster 7 uses Sass by default. To learn more about structuring your CSS and naming classes, read the great http://smacss.com/[_Scalable and Modular Architecture for CSS_].
 
 == Webpack
 
