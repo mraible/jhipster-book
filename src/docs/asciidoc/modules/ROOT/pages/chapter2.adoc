@@ -817,7 +817,7 @@ If you choose "WebSockets using Spring Websocket" as part of the "other technolo
 
 To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSockets-enabled project. This displays real-time activity information that's been posted to the `/websocket/tracker` endpoint.
 
-[source%autofit,javascript]
+[source%autofit,typescript]
 .src/main/webapp/app/admin/tracker/tracker.component.ts
 ----
 include::{sourcedir}/chapter2/websockets/tracker.component.ts[]
@@ -825,7 +825,7 @@ include::{sourcedir}/chapter2/websockets/tracker.component.ts[]
 
 The `Tracker` service allows you to send tracking information — for example, to track when someone has authenticated.
 
-[source%autofit,javascript]
+[source%autofit,typescript]
 .src/main/webapp/app/core/tracker/tracker.service.ts
 ----
 include::{sourcedir}/chapter2/websockets/tracker.service.ts[]
@@ -853,7 +853,7 @@ include::{sourcedir}/package.json[]
 
 The `gulpfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development experience.
 
-[source%autofit,javascript]
+[source%autofit,typescript]
 ----
 include::{sourcedir}/gulpfile.js[]
 ----
