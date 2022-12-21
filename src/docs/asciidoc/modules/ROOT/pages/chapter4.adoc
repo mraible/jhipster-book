@@ -56,7 +56,7 @@ Spring Boot 2.0 introduced a new web framework called Spring WebFlux. Previous v
 
 [[img-spring-boot-2]]
 .Spring Boot 2.0
-image::chapter4/diagram-boot-reactor.svg[Spring Boot 2.0, 700, scaledwidth=100%, align=center]
+image::chapter4/diagram-boot-reactor.svg[Spring Boot 2.0, 700, scaledwidth=75%, align=center]
 
 Reactive programming isn't for every app. The general rule of thumb is it won't help you if you have < 500 requests/second. Chances are Spring MVC will perform as well as Spring WebFlux up to that point. When your traffic takes off, or if you need to process things faster than 500 requests/second, you should take a look at Spring WebFlux.
 
