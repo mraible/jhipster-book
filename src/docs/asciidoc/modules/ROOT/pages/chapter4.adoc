@@ -50,90 +50,166 @@ The consequences of architecture decisions, like adopting microservices, usually
 [quote, Martin Fowler]
 You shouldn't start with a microservices architecture. Instead, begin with a monolith, keep it modular, and split it into microservices once the monolith becomes a problem.
 
+== Reactive Java microservices
+
+Spring Boot 2.0 introduced a new web framework called Spring WebFlux. Previous versions of Spring Boot only shipped with Spring MVC as an option. WebFlux offers a way for developers to do _reactive programming_. This means you can write your code with familiar syntax and, as a result, your app will use fewer resources and scale better.
+
+[[img-spring-boot-2]]
+.Spring Boot 2.0
+image::chapter4/diagram-boot-reactor.svg[Spring Boot 2.0, 700, scaledwidth=100%, align=center]
+
+Reactive programming isn't for every app. The general rule of thumb is it won't help you if you have < 500 requests/second. Chances are Spring MVC will perform as well as Spring WebFlux up to that point. When your traffic takes off, or if you need to process things faster than 500 requests/second, you should take a look at Spring WebFlux.
+
+JHipster 7 introduced support for Spring WebFlux. This means you can generate a reactive microservice architecture with Spring Cloud Gateway and Spring Boot quickly and easily. This is a great way to get started with reactive programming.
+
+Spring WebFlux's API has a similar syntax to Spring MVC. For example, here's the Spring MVC code for creating a new `Points` entity in a JHipster app created with `jhipster jdl 21-points.jh`.
+
+[source%autofit,java]
+----
+@PostMapping("/points")
+public ResponseEntity<Points> createPoints(@Valid @RequestBody Points points) throws URISyntaxException {
+    log.debug("REST request to save Points : {}", points);
+    if (points.getId() != null) {
+        throw new BadRequestAlertException("A new points cannot already have an ID", ENTITY_NAME, "idexists");
+    }
+    Points result = pointsRepository.save(points);
+    pointsSearchRepository.index(result);
+    return ResponseEntity
+        .created(new URI("/api/points/" + result.getId()))
+        .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+        .body(result);
+}
+----
+
+The same functionality when implemented with Spring WebFlux returns a `Mono` and uses a more functional, streaming style to avoid blocking.
+
+[source%autofit,java]
+----
+@PostMapping("/points")
+public Mono<ResponseEntity<Points>> createPoints(@Valid @RequestBody Points points) throws URISyntaxException {
+    log.debug("REST request to save Points : {}", points);
+    if (points.getId() != null) {
+        throw new BadRequestAlertException("A new points cannot already have an ID", ENTITY_NAME, "idexists");
+    }
+    return pointsRepository
+        .save(points)
+        .flatMap(pointsSearchRepository::save)
+        .map(result -> {
+            try {
+                return ResponseEntity
+                    .created(new URI("/api/points/" + result.getId()))
+                    .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                    .body(result);
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        });
+}
+----
+
+The code above was created by running `jhipster jdl 21-points.jh --reactive`.
+
 == Microservices with JHipster
 
-In this example, I'll show you how to build a microservices architecture with JHipster. As part of this process, you'll be generating three applications and running several others.
+In this example, I'll show you how to build a reactive microservices architecture with JHipster. As part of this process, you'll be generating three applications and running several others.
 
 * Generate a gateway.
 * Generate a blog microservice.
 * Generate a store microservice.
-* Run the JHipster Registry, Keycloak, and MongoDB.
+* Run Consul, Keycloak, Neo4j, and MongoDB.
+
+=== Introducing Micro Frontends
+
+Before JHipster 7.9.0, if you generated a microservice architecture with a UI, the gateway would be a monolithic UI. This means the gateway would contain all the Angular, React, or Vue files. This creates a tight-coupling between the gateway and the microservices it routes to. If you want to change the UI for a microservice, you have to redeploy the gateway too. This is a problem because you should be able to deploy your microservices independently.
+
+You can solve this problem with micro frontends. Micro frontends are a way to break up your UI into smaller, independent pieces. JHipster added support for micro-frontends in 7.9.0. Microfrontends provide a way for you to remotely load and execute code at runtime so your microservice's UI can live in the same artifact without being coupled to the gateway!
+
+NOTE: In the previous paragraph, you might notice I spelled micro frontends three different ways. The current literature is https://twitter.com/mraible/status/1499098253920460802[all over the place] on this one! I'm going to use "micro frontends" for the remainder of this chapter since that's what https://twitter.com/thecamjackson[Cam Jackson] used in his https://martinfowler.com/articles/micro-frontends.html[Micro Frontends article] on Martin Fowler's blog.
 
 You can see how these components fit in the diagram below.
 
 .JHipster microservices architecture
-image::chapter4/jhipster-microservices-architecture.png[JHipster microservices architecture, 1378, scaledwidth=100%, align=center]
+image::chapter4/jhipster-microfrontends.png[JHipster microservices architecture, 1562, scaledwidth=100%, align=center]
 
-To see what's happening inside your applications, you can use the https://jhipster.github.io/monitoring/#jhipster-console[JHipster Console], a monitoring tool based on the https://www.elastic.co/products[Elastic Stack]. I'll cover JHipster Console in the Docker Compose section.
-
-This tutorial shows you how to build a microservices architecture with JHipster 5.4.2. You'll generate a gateway (powered by Netflix Zuul), a blog microservice (that talks to PostgreSQL), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. Then you'll deploy it all to Heroku.
+This tutorial shows you how to build a microservices architecture with JHipster 7.9.3. You'll generate a gateway (powered by Spring Cloud Gateway), a blog microservice (that talks to Neo4j), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. I'll also provide some pointers on how to deploy it with Kubernetes.
 
 == Generate an API gateway and microservice applications
 
-One of the new features added in JHipster 5.3.x is the ability to generate a full microservices stack using the `import-jdl` command. Open a terminal window, create a directory (e.g., `jhipster-microservices-example`) and create an `apps.jh` file in it. Copy the JDL below into this file.
+Open a terminal window, create a directory (e.g., `jhipster-microservices-example`) and create an `apps.jdl` file in it. Copy the JDL below into this file. You can also download this file https://github.com/jhipster/jdl-samples/blob/main/reactive-mf.jdl[from GitHub].
 
 ifeval::["{media}" == "prepress"]
 <<<
 endif::[]
 
-.apps.jh
+.apps.jdl
 ====
 [source]
 ----
-application { // <1>
+application {
   config {
-    baseName gateway,
-    packageName com.okta.developer.gateway,
-    applicationType gateway,
-    authenticationType oauth2, // <2>
-    prodDatabaseType postgresql,
-    searchEngine elasticsearch, // <3>
-    serviceDiscoveryType eureka, // <4>
-    testFrameworks [protractor] // <5>
+    baseName gateway
+    reactive true // <.>
+    packageName com.okta.developer.gateway
+    applicationType gateway
+    authenticationType oauth2 // <.>
+    buildTool gradle
+    clientFramework react // <.>
+    prodDatabaseType postgresql
+    serviceDiscoveryType consul // <.>
+    testFrameworks [cypress] // <.>
+    microfrontends [blog, store] // <.>
   }
-  entities Blog, Post, Tag, Product
 }
 
 application {
   config {
-    baseName blog,
-    packageName com.okta.developer.blog,
-    applicationType microservice, // <6>
-    authenticationType oauth2, // <7>
-    prodDatabaseType postgresql,
-    searchEngine elasticsearch,
-    serverPort 8081, // <8>
-    serviceDiscoveryType eureka
+    baseName blog
+    reactive true
+    packageName com.okta.developer.blog
+    applicationType microservice // <.>
+    authenticationType oauth2 // <.>
+    buildTool gradle
+    clientFramework react // <.>
+    databaseType neo4j // <.>
+    devDatabaseType neo4j
+    prodDatabaseType neo4j
+    enableHibernateCache false
+    serverPort 8081 // <.>
+    serviceDiscoveryType consul
+    testFrameworks [cypress] // <.>
   }
   entities Blog, Post, Tag
 }
 
 application {
   config {
-    baseName store,
-    packageName com.okta.developer.store,
-    applicationType microservice,
-    authenticationType oauth2,
-    databaseType mongodb, // <9>
-    devDatabaseType mongodb,
-    prodDatabaseType mongodb,
-    enableHibernateCache false,
-    searchEngine elasticsearch,
-    serverPort 8082,
-    serviceDiscoveryType eureka
+    baseName store
+    reactive true
+    packageName com.okta.developer.store
+    applicationType microservice
+    authenticationType oauth2
+    buildTool gradle
+    clientFramework react
+    databaseType mongodb // <.>
+    devDatabaseType mongodb
+    prodDatabaseType mongodb
+    enableHibernateCache false
+    serverPort 8082
+    serviceDiscoveryType consul
+    testFrameworks [cypress]
   }
   entities Product
 }
 
-// <10>
+// <.>
 entity Blog {
-  name String required minlength(3),
+  name String required minlength(3)
   handle String required minlength(2)
 }
 
 entity Post {
-  title String required,
-  content TextBlob required,
+  title String required
+  content TextBlob required
   date Instant required
 }
 
@@ -142,14 +218,14 @@ entity Tag {
 }
 
 entity Product {
-  title String required,
-  price BigDecimal required min(0),
+  title String required
+  price BigDecimal required min(0)
   image ImageBlob
 }
 
-// <11>
+// <.>
 relationship ManyToOne {
-  Blog{user(login)} to User,
+  Blog{user(login)} to User
   Post{blog(name)} to Blog
 }
 
@@ -157,379 +233,521 @@ relationship ManyToMany {
   Post{tag(name)} to Tag{post}
 }
 
-// <12>
+// <.>
 paginate Post, Tag with infinite-scroll
 paginate Product with pagination
 
-// <13>
-microservice Product with store
-microservice Blog, Post, Tag with blog
+// <.>
+deployment {
+  deploymentType docker-compose
+  serviceDiscoveryType consul
+  appsFolders [gateway, blog, store]
+  dockerRepositoryName "mraible"
+}
+
+// <.>
+deployment {
+  deploymentType kubernetes
+  appsFolders [gateway, blog, store]
+  clusteredDbApps [store]
+  kubernetesNamespace demo
+  kubernetesUseDynamicStorage true
+  kubernetesStorageClassName ""
+  serviceDiscoveryType consul
+  dockerRepositoryName "mraible"
+}
 ----
-<1> JDL supports full stack definitions in v3.0!
-<2> The authentication type for the gateway is OAuth 2.0.
-<3> Specifying `elasticsearch` on the gateway is necessary for JHipster to generate the proper client code for microservices that use Elasticsearch.
-<4> You must specify `eureka` as the service discovery type for the gateway and all microservice apps.
-<5> Including Protractor on the gateway allows you to test everything with `npm run e2e`.
-<6> For the microservice apps, you need to specify an application type of `microservice`.
-<7> The microservice app's authentication type must match the gateway.
-<8> The default server port is 8080. You must specify different ports for each app.
-<9> The store app uses MongoDB for its database. You must use the same databases for dev and prod when using NoSQL options.
-<10> Entity definitions live outside of your application definitions. You can validate your JDL using https://start.jhipster.tech/jdl-studio/[JDL-Studio].
-<11> Relationships between entities can be defined in JDL!
-<12> If you want pagination on your list screens, you can use infinite scrolling or page links.
-<13> You need to specify which microservices contain which entities, or API classes will be generated on your gateway rather than in the microservice.
+<.> Enable reactive support. You cannot set this to `false` for a gateway. This is because Spring Cloud Gateway is reactive-only. There is an https://github.com/spring-cloud/spring-cloud-gateway/issues/36[open issue] for Spring MVC support.
+<.> The authentication type for the gateway is OAuth 2.0.
+<.> The client framework used is React.
+<.> You must specify `consul` as the service discovery type for the gateway and all microservice apps. You can also use `eureka`, but I prefer `consul` because it'll be the default in JHipster 8.
+<.> Including Cypress allows you to test the UI with `npm run e2e`.
+<.> Micro frontends are enabled for the gateway and entities will be pulled in from the blog and store microservices.
+<.> For the microservice apps, you need to specify an application type of `microservice`.
+<.> The microservice app's authentication type must match the gateway.
+<.> The client framework must be the same for all apps.
+<.> The blog app uses Neo4j as its database. You must use the same databases for dev and prod when using NoSQL options.
+<.> The default server port is 8080. You must specify different ports for each app.
+<.> If you want to test the UI of your micro frontend, you need to include Cypress.
+<.> The store app uses MongoDB for its database.
+<.> Entity definitions live outside your application definitions. You can validate your JDL using https://start.jhipster.tech/jdl-studio/[JDL-Studio] or the https://plugins.jetbrains.com/plugin/19697-jhipster-jdl[JHipster JDL Plugin].
+<.> Relationships between entities can be defined in JDL!
+<.> If you want pagination on your list screens, you can use infinite scrolling or page links.
+<.> Creates Docker Compose files for all apps and a `docker-compose.yml` file that will start them.
+<.> Creates Kubernetes manifests for all apps and scripts to deploy them.
 ====
 
-TIP: You can also find this file http://bit.ly/jhipster-ms-oauth[on GitHub].
+=== Micro frontend options: Angular, React, and Vue
 
-Run JHipster's `import-jdl` command to import this microservices architecture definition.
+JHipster has support for the big three JavaScript frameworks: Angular, React, and Vue. All are implemented using TypeScript, and a newly generated app should have around 70% code coverage, both on the backend and frontend.
 
+There is also a https://github.com/jhipster/generator-jhipster-svelte[Svelte blueprint], but it does not support micro frontends at the time of this writing.
+
+Run JHipster's `jdl` command to import this microservices architecture definition.
+
+[source,shell]
 ----
-jhipster import-jdl apps.jh
+jhipster jdl apps.jdl --monorepository --workspaces
 ----
 
 The project generation process will take a minute or two to run, depending on your internet connection speed and hardware.
 
-While you're waiting, you can get started with setting up OAuth with Okta.
+The last two arguments are optional, but I expect you to use them for this tutorial. Without the `monorepository` flag, the gateway and microservices would have their own Git repos. The `workspaces` flag enables https://docs.npmjs.com/cli/v8/using-npm/workspaces[npm workspaces], which are kinda like having an aggregator `pom.xml` that allows you to execute commands across projects. It also makes it so there's only one `node_modules` in the root directory. To learn more, I recommend egghead's https://egghead.io/courses/introduction-to-monorepos-with-npm-workspaces-c03f500b[Introduction to Monorepos with NPM Workspaces].
 
-=== What is OAuth 2.0?
+If you want to use Angular, append `--client-framework angularX` to the command above to override the JDL value:
 
-The OAuth implementation in JHipster leverages Spring Boot and its OAuth 2.0 support (an `@EnableOAuthSso` annotation). OAuth provides single sign-on (SSO) to JHipster applications. "`link:https://developer.okta.com/blog/2018/02/13/secure-spring-microservices-with-oauth[Securing Microservices with Spring Security OAuth]`" shows a bare-bones Spring microservices architecture using OAuth. JHipster uses the same internal setup.
-
-JHipster ships with https://keycloak.org[Keycloak] configured for OAuth by default. This works great for local development. However, if you want to deploy your apps to production, you might want to use an identity provider that's always on, like Okta. Okta offers accounts that are forever-free and allow you 1,000 monthly users at no cost.
-
-To configure your apps to work with Okta, you'll first need to https://developer.okta.com/signup/[create a free developer account]. After doing so, you'll get your own Okta domain, which has a name like `https://dev-123456.oktapreview.com`.
-
-image::chapter4/okta-signup.png[Okta Developer Signup, 1200, scaledwidth=100%, align=center]
-
-=== Create an OpenID Connect application on Okta
-
-Create an OpenID Connect (OIDC) app in Okta to get a client ID and a secret. This basically means you're "registering" your application with Okta. Log in to your Okta account and navigate to *Applications* &gt; *Add Application*. Click *Web* and click *Next*. Give the app a name you’ll remember (e.g., `JHipster Microservices`), and specify `http://localhost:8080/login` as a login redirect URI. Click *Done* and make note of your client ID and client secret values.
-
-In order for the roles coming from Okta to match the default roles in JHipster, you'll need to create them. Create a `ROLE_ADMIN` and `ROLE_USER` group (**Users** &gt; *Groups* &gt; *Add Group*) and add users to them. You can use the account you signed up with, or create a new user (**Users** &gt; *Add Person*). Navigate to *API* &gt; *Authorization Servers*, click the *Authorization Servers* tab and edit the default one. Click the *Claims* tab and *Add Claim*. Name it `roles`, and include it in the ID Token. Set the value type to `Groups` and set the filter to be a Regex of `.*`.
-
-Modify `gateway/src/main/resources/config/application.yml` to have the following values:
-
-[source%autofit,yaml]
+[source,shell]
 ----
-security:
-    oauth2:
-        client:
-            access-token-uri: https://{yourOktaDomain}/oauth2/default/v1/token
-            user-authorization-uri: https://{yourOktaDomain}/oauth2/default/v1/authorize
-            client-id: {clientId}
-            client-secret: {clientSecret}
-            scope: openid profile email
-        resource:
-            user-info-uri: https://{yourOktaDomain}/oauth2/default/v1/userinfo
+--client-framework angularX
 ----
 
-You can also use environment variables to override the default values. I recommend using this technique because 1) you don't need to modify the values in each microservice application and 2) it prevents you from leaking your client secrets in a source-code repository. Create `~/.okta.env` and copy the `export` commands below into it. With that file in place, you can run `source ~/.okta.env` to override the default Spring Security settings.
+IMPORTANT: `angularX` is a legacy JDL value from back when JHipster supported AngularJS and Angular 2. We will change it to `angular` in v8.
 
-[source%autofit,bash]
+If you'd rather try out Vue, use the following:
+
+[source,shell]
 ----
-export SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI="https://{yourOktaDomain}/oauth2/default/v1/token"
-export SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI="https://{yourOktaDomain}/oauth2/default/v1/authorize"
-export SECURITY_OAUTH2_RESOURCE_USER_INFO_URI="https://{yourOktaDomain}/oauth2/default/v1/userinfo"
-export SECURITY_OAUTH2_CLIENT_CLIENT_ID="{clientId}"
-export SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="{clientSecret}"
+--client-framework vue
 ----
-
-TIP: If you want to make Okta settings the default, you can add `source ~/.okta.env` to `~/.bashrc` (or `~/.zshrc`).
-
-If you're hard-coding your Okta settings in `application.yml`, make sure you update your settings in the blog and store apps too. If you're using environment variables, you don't need to make any changes.
-
-TIP: If you're using Protractor and want to run your tests against Okta, you'll need to add a user to the `ROLE_ADMIN` group on Okta and change the credentials to match that user in `src/test/javascript/e2e/account/account.spec.ts` and `src/test/javascript/e2e/admin/administration.spec.ts`.
-
-== Start JHipster Registry, Keycloak, and MongoDB
-
-You'll need a service-discovery server installed before you can start the gateway. You'll also need Keycloak for authentication and MongoDB for your store microservices. The blog application depends on Elasticsearch and PostgreSQL, but only when running in production mode. Luckily, JHipster creates Docker Compose files for all of the services your apps depend on. You can run the following commands from your project's root directory to start Docker containers for JHipster Registry, Keycloak, and MongoDB.
-
-----
-docker-compose -f gateway/src/main/docker/jhipster-registry.yml up -d
-docker-compose -f gateway/src/main/docker/keycloak.yml up -d
-docker-compose -f store/src/main/docker/mongodb.yml up -d
-----
-
-By default, the JHipster Registry will use Keycloak when running with Docker Compose. For everything to work properly, you'll need to add an entry to your `hosts` file for Keycloak.
-
-----
-127.0.0.1       keycloak
-----
-
-If you want to change it to use Okta, you'll need to modify `gateway/src/main/docker/jhipster-registry.yml` and change the default Keycloak settings to use your Okta settings, or environment variables (recommended).
-
-[source%autofit,yaml]
-----
-- SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI=${SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI}
-- SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI=${SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI}
-- SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
-- SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
-- SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
-----
-
-TIP: You can also put these variables in a file and specify an `env_file` setting. See https://docs.docker.com/compose/environment-variables/#the-env-file[Environment variables in Compose] to learn more.
-
-Then you'll need to restart your JHipster Registry (if it's already running):
-
-----
-docker-compose -f gateway/src/main/docker/jhipster-registry.yml restart
-----
-
-To log in, you'll need to add `http://localhost:8761/login` as a login-redirect URI in your Okta app.
 
 == Run your microservices architecture
 
-Open three terminal windows and navigate to each app (`gateway`, `blog`, and `store`). In each window, and run Maven to start each app:
+When the process is complete, cd into the `gateway` directory and start Keycloak and Consul using Docker Compose.
 
-[source,java]
+[source,shell]
 ----
-./mvnw
+cd gateway
+docker compose -f src/main/docker/keycloak.yml up -d
+docker compose -f src/main/docker/consul.yml up -d
 ----
 
-TIP: If you already have Maven installed, you can simply use `mvn`.
+Then, run `./gradlew` (or `npm run app:start` if you prefer npm commands). When the startup process completes, open your favorite browser to `\http://localhost:8080`, and log in with the credentials displayed on the page.
 
-Open your browser and go to http://localhost:8761. Log in, and you should see a welcome page that shows that the gateway and both apps have been registered.
+You'll be redirected back to the gateway, but the **Entities** menu won't have any links because the micro frontends it tries to load are unavailable.
 
-.JHipster Registry with gateway registered
-image::chapter4/jhipster-registry-with-gateway+apps.png[JHipster Registry with gateway registered, 800, scaledwidth=100%, align=center]
+.The gateway's entities are unavailable
+image::chapter4/gateway-entities-unavailable.png[JHipster microservices architecture, 1155, scaledwidth=100%, align=center]
 
-Once everything is running, open a browser, go to http://localhost:8080, and click *sign in*. You should be redirected to your Okta tenant to sign in, then back to the gateway once you've entered valid credentials.
+Start the `blog` by opening a terminal and navigating to its directory. Then, start its database with Docker and the app with Gradle.
 
-.Welcome, JHipster
-image::chapter4/welcome-jhipster.png["Welcome, JHipster", 1200, scaledwidth=100%, align=center]
-
-.Okta sign-in
-image::chapter4/okta-sign-in.png[Okta sign-in, 1200, scaledwidth=100%, align=center]
-
-.JHipster after Okta SSO
-image::chapter4/jhipster-logged-in.png[JHipster after Okta SSO, 800, scaledwidth=100%, align=center]
-
-You should be able to navigate to *Entities* &gt; *Blog* and add a new blog record to your blog microservice.
-
-.New blog
-image::chapter4/new-blog.png[New blog, 800, scaledwidth=100%, align=center]
-
-Navigate to *Entities* > *Product* to prove your product microservice is working. Since you added an image as a property, you'll be prompted to upload one when creating a new record.
-
-.Add product page
-image::chapter4/add-product-page.png[Add product page, 800, scaledwidth=100%, align=center]
-
-Click *Save* and you'll know, based on the generated ID, that it's correctly using MongoDB.
-
-.New Product
-image::chapter4/new-product.png[New Product, 800, scaledwidth=100%, align=center]
-
-=== Use Docker Compose to run everything
-
-Rather than individually starting all your services, you can start them all at once using https://docs.docker.com/compose/[Docker Compose]. To learn more about Docker Compose, see "`link:https://developer.okta.com/blog/2017/10/11/developers-guide-to-docker-part-3[A Developer's Guide to Docker Compose]`".
-
-Create a `docker-compose` directory in the root directory (`jhipster-microservices-example`) and run JHipster's Docker Compose subgenerator.
-
-[source]
+[source,shell]
 ----
-mkdir docker-compose
+npm run docker:db:up
+./gradlew
+----
+
+Open a new terminal and do the same for the `store` microservice.
+
+You can verify everything is started using Consul at `\http://localhost:8500`.
+
+.Consul services
+image::chapter4/consul-services.png[Consul services, 1184, scaledwidth=100%, align=center]
+
+Refresh the gateway app; you should see menu items to navigate to the microservices now.
+
+.Gateway entities available
+image::chapter4/gateway-entities-available.png[Consul services, 1132, scaledwidth=100%, align=center]
+
+=== Zero turnaround development that sparks joy
+
+At this point, I've only shown you how to run the Spring Boot backends with their packaged React apps. What if you want to work on the UI and have zero turnaround that sparks joy? ✨🤗
+
+In the gateway app, run `npm start`. This command will run the UI on a web server, open a browser window to `\http://localhost:9000`, and use https://browsersync.io/[Browsersync] to keep your browser in sync with your code.
+
+Modify the code in `gateway/src/main/webapp/app/modules/home/home.tsx` to make a quick change. For example, add the following HTML below the `<h2>`.
+
+[source,html]
+----
+<h3 className="text-primary">
+  Hi, I'm a quick edit!
+</h3>
+----
+
+You'll see this change immediately appear within your browser.
+
+.Gateway quick edit
+image::chapter4/gateway-quick-edit.png[Gateway quick edit, 1132, scaledwidth=100%, align=center]
+
+Remove it, and it'll disappear right away too.
+
+Now, open another terminal and navigate into the `store` directory. Run `npm start`, and you'll have a similar zero-turnaround experience when modifying files in the `store` app. The app will start a webserver on `\http://localhost:9002`, and there will only be one menu item for product. Modify files in the `store/src/main/webapp/app/entities/store/product` directory, and you'll see the changes in your browser immediately. For example, change the wrapper `<div>` in `product.tsx` to have a background color:
+
+[source,html]
+----
+<div className="bg-info">
+----
+
+The UI will change before you can kbd:[Cmd+Tab] back to your browser.
+
+.Store edit
+image::chapter4/store-edit.png[alt=Store edit, width=1119, scaledwidth=100%, align=center]
+
+The backend has quick turnaround abilities too, thanks to https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools[Spring Boot devtools]. If you modify a backend class, recompiling it will cause Spring Boot to reload your component lickety-split. It's pretty slick!
+
+=== A look under the hood of micro frontends
+
+When you're learning concepts like micro frontends, it's often helpful to look at the code that makes things work.
+
+The gateway's `webpack.microfrontend.js` handles setting up the `@blog` and `@store` remotes and specifying the shared dependencies and components between apps.
+
+.`gateway/webpack/webpack.microfrontend.js`
+[source%autofit,js]
+----
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+
+const packageJson = require('../package.json');
+const appVersion = packageJson.version;
+
+module.exports = ({ serve }) => {
+  return {
+    optimization: {
+      moduleIds: 'named',
+      chunkIds: 'named',
+      runtimeChunk: false,
+    },
+    plugins: [
+      new ModuleFederationPlugin({
+        shareScope: 'default',
+        remotes: {
+          '@blog': `blog@/services/blog/remoteEntry.js`,
+          '@store': `store@/services/store/remoteEntry.js`,
+        },
+        shared: {
+          ...Object.fromEntries(
+            Object.entries(packageJson.dependencies).map(([module, version]) => [
+              module,
+              { requiredVersion: version, singleton: true, shareScope: 'default' },
+            ])
+          ),
+          'app/config/constants': {
+            singleton: true,
+            import: 'app/config/constants',
+            requiredVersion: appVersion,
+          },
+          'app/config/store': {
+            singleton: true,
+            import: 'app/config/store',
+            requiredVersion: appVersion,
+          },
+          'app/shared/error/error-boundary-routes': {
+            singleton: true,
+            import: 'app/shared/error/error-boundary-routes',
+            requiredVersion: appVersion,
+          },
+          'app/shared/layout/menus/menu-components': {
+            singleton: true,
+            import: 'app/shared/layout/menus/menu-components',
+            requiredVersion: appVersion,
+          },
+          'app/shared/layout/menus/menu-item': {
+            singleton: true,
+            import: 'app/shared/layout/menus/menu-item',
+            requiredVersion: appVersion,
+          },
+          'app/shared/reducers': {
+            singleton: true,
+            import: 'app/shared/reducers',
+            requiredVersion: appVersion,
+          },
+          'app/shared/reducers/locale': {
+            singleton: true,
+            import: 'app/shared/reducers/locale',
+            requiredVersion: appVersion,
+          },
+          'app/shared/reducers/reducer.utils': {
+            singleton: true,
+            import: 'app/shared/reducers/reducer.utils',
+            requiredVersion: appVersion,
+          },
+          'app/shared/util/date-utils': {
+            singleton: true,
+            import: 'app/shared/util/date-utils',
+            requiredVersion: appVersion,
+          },
+          'app/shared/util/entity-utils': {
+            singleton: true,
+            import: 'app/shared/util/entity-utils',
+            requiredVersion: appVersion,
+          },
+        },
+      }),
+    ],
+    output: {
+      publicPath: 'auto',
+    },
+  };
+};
+----
+
+The blog's `webpack.microfrontend.js` looks similar, except that it exposes its `remoteEntry.js`, menu items, and routes.
+
+.`blog/webpack/webpack.microfrontend.js`
+[source%autofit,js]
+----
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const { DefinePlugin } = require('webpack');
+
+const packageJson = require('../package.json');
+const appVersion = packageJson.version;
+
+module.exports = ({ serve }) => {
+  return {
+    optimization: {
+      moduleIds: 'named',
+      chunkIds: 'named',
+      runtimeChunk: false,
+    },
+    plugins: [
+      new ModuleFederationPlugin({
+        name: 'blog',
+        filename: 'remoteEntry.js',
+        shareScope: 'default',
+        exposes: {
+          './entities-menu': './src/main/webapp/app/entities/menu',
+          './entities-routes': './src/main/webapp/app/entities/routes',
+        },
+        shared: {
+          ...Object.fromEntries(
+            Object.entries(packageJson.dependencies).map(([module, version]) => [
+              module,
+              { requiredVersion: version, singleton: true, shareScope: 'default' },
+            ])
+          ),
+          'app/config/constants': {
+            singleton: true,
+            import: 'app/config/constants',
+            requiredVersion: appVersion,
+          },
+          'app/config/store': {
+            singleton: true,
+            import: 'app/config/store',
+            requiredVersion: appVersion,
+          },
+          'app/shared/error/error-boundary-routes': {
+            singleton: true,
+            import: 'app/shared/error/error-boundary-routes',
+            requiredVersion: appVersion,
+          },
+          'app/shared/layout/menus/menu-components': {
+            singleton: true,
+            import: 'app/shared/layout/menus/menu-components',
+            requiredVersion: appVersion,
+          },
+          'app/shared/layout/menus/menu-item': {
+            singleton: true,
+            import: 'app/shared/layout/menus/menu-item',
+            requiredVersion: appVersion,
+          },
+          'app/shared/reducers': {
+            singleton: true,
+            import: 'app/shared/reducers',
+            requiredVersion: appVersion,
+          },
+          'app/shared/reducers/locale': {
+            singleton: true,
+            import: 'app/shared/reducers/locale',
+            requiredVersion: appVersion,
+          },
+          'app/shared/reducers/reducer.utils': {
+            singleton: true,
+            import: 'app/shared/reducers/reducer.utils',
+            requiredVersion: appVersion,
+          },
+          'app/shared/util/date-utils': {
+            singleton: true,
+            import: 'app/shared/util/date-utils',
+            requiredVersion: appVersion,
+          },
+          'app/shared/util/entity-utils': {
+            singleton: true,
+            import: 'app/shared/util/entity-utils',
+            requiredVersion: appVersion,
+          },
+        },
+      }),
+      new DefinePlugin({
+        BLOG_I18N_RESOURCES_PREFIX: JSON.stringify(''),
+      }),
+    ],
+    output: {
+      publicPath: 'auto',
+    },
+  };
+};
+----
+
+== Build and run with Docker
+
+To build Docker images for each application, run the following command from the root directory.
+
+[source,shell]
+----
+npm run java:docker
+----
+
+The command is slightly different if you're using a Mac with Apple Silicon.
+
+[source,shell]
+----
+npm run java:docker:arm64
+----
+
+TIP: You can see all npm scripts with `npm run`.
+
+Then, navigate to the `docker-compose` directory, stop the existing containers, and start all the containers.
+
+[source,shell]
+----
 cd docker-compose
-jhipster docker-compose
+docker stop $(docker ps -a -q);
+docker compose up
 ----
 
-Answer as follows when prompted:
+This command will start and run all the apps, their databases, Consul, and Keycloak. To make Keycloak work, you must add the following line to your hosts file (`/etc/hosts` on Mac/Linux, `c:\Windows\System32\Drivers\etc\hosts` on Windows).
 
-|===
-|Question |Answer
-
-|Type of application? |`Microservice application`
-|Type of gateway? |`JHipster gateway`
-|Directory location? |`../`
-|Applications to include? |`&lt;select all&gt;`
-|Applications with clustered databases? |`&lt;blank&gt;`
-|Setup monitoring? |`Yes, with JHipster Console`
-|Additional technologies? |`Zipkin`
-|Admin password |`&lt;choose your own&gt;`
-|===
-
-You'll get a warning that says you need to generate Docker images by running the following command in the `blog`, `gateway`, and `store` directories. Stop all your running processes and build your Docker images before proceeding.
-
-[source]
 ----
-./mvnw package -Pprod jib:dockerBuild
+127.0.0.1  keycloak
 ----
 
-While you're waiting for things to build, edit `docker-compose/docker-compose.yml` and change the Spring Security settings from being hard-coded to being environment variables. Make this change for all applications and make sure to add the client ID and secret since those aren't included by default.
+This is because you will access your application with a browser on your machine (where the name is localhost, or `127.0.0.1`), but inside Docker it will run in its own container, where the name is `keycloak`.
+
+If you want to prove everything works, ensure everything is started at `\http://localhost:8500`, then run `npm run e2e -ws` from the root project directory. This command will run the Cypress tests that JHipster generates in your browser.
+
+== Switch identity providers
+
+JHipster ships with Keycloak when you choose OAuth 2.0 / OIDC as the authentication type. However, you can easily change it to another identity provider, like Auth0!
+
+First, you'll need to register a regular web application. Log in to your Auth0 account (or https://auth0.com/signup[sign up] if you don't have an account). You should have a unique domain like `dev-xxx.us.auth0.com`.
+
+Select *Create Application* in the https://manage.auth0.com/#/applications[Applications section]. Use a name like `Micro Frontends`, select *Regular Web Applications*, and click *Create*.
+
+Switch to the *Settings* tab and configure your application settings:
+
+- Allowed Callback URLs: `\http://localhost:8080/login/oauth2/code/oidc`
+- Allowed Logout URLs: `\http://localhost:8080/`
+
+Scroll to the bottom and click *Save Changes*.
+
+In the https://manage.auth0.com/#/roles[roles] section, create new roles named `ROLE_ADMIN` and `ROLE_USER`.
+
+Create a new user account in the https://manage.auth0.com/#/users[users] section. Click the *Role* tab to assign the roles you just created to the new account.
+
+_Make sure your new user's email is verified before attempting to log in!_
+
+Next, head to **Actions** > **Flows** and select **Login**. Create a new action named `Add Roles` and use the default trigger and runtime. Change the `onExecutePostLogin` handler to be as follows:
+
+[source%autofit,js]
+----
+exports.onExecutePostLogin = async (event, api) => {
+  const namespace = 'https://www.jhipster.tech';
+  if (event.authorization) {
+    api.idToken.setCustomClaim('preferred_username', event.user.email);
+    api.idToken.setCustomClaim(`${namespace}/roles`, event.authorization.roles);
+    api.accessToken.setCustomClaim(`${namespace}/roles`, event.authorization.roles);
+  }
+}
+----
+
+This code adds the user's roles to a custom claim (prefixed with `\https://www.jhipster.tech/roles`). This claim is mapped to Spring Security authorities in `SecurityUtils.java` in the gateway app.
+
+Select **Deploy** and drag the `Add Roles` action to your Login flow.
+
+Edit `docker-compose/central-server-config/application.yml` and append the following YAML block to add your Auth0 settings.
 
 [source%autofit,yaml]
 ----
-services:
-    blog-app:
-        image: blog
-        environment:
-            - SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
-            - SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
-            - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
+jhipster:
+  security:
     ...
-    gateway-app:
-        image: gateway
-        environment:
-            - SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI=${SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI}
-            - SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI=${SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI}
-            - SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
-            - SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
-            - SECURITY_OAUTH2_CLIENT_SCOPE=openid profile email
-            - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
-    ....
-    store-app:
-        image: store
-        environment:
-            - SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
-            - SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
-            - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
+    oauth2:
+      audience: https://<your-auth0-domain>/api/v2/
+
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          oidc:
+            issuer-uri: https://<your-auth0-domain>/ # make sure to include the trailing slash!
+        registration:
+          oidc:
+            client-id: <your-client-id>
+            client-secret: <your-client-secret>
 ----
 
-You can remove Keycloak from `docker-compose/docker-compose.yml` since it won't be used with this configuration.
+NOTE: Want to have all these steps automated for you? Vote for https://github.com/auth0/auth0-cli/issues/351[issue #351] in the Auth0 CLI project.
 
-[source,yaml]
-----
-keycloak:
-    extends:
-        file: keycloak.yml
-        service: keycloak
-----
+Stop all your Docker containers with kbd:[Ctrl+C] and start them again.
 
-You'll need to edit `docker-compose/jhipster-registry.yml` as well.
-
-[source%autofit,yaml]
+[source,shell]
 ----
-services:
-    jhipster-registry:
-        ...
-        environment:
-            - SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI=${SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI}
-            - SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI=${SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI}
-            - SECURITY_OAUTH2_CLIENT_CLIENT_ID=${SECURITY_OAUTH2_CLIENT_CLIENT_ID}
-            - SECURITY_OAUTH2_CLIENT_CLIENT_SECRET=${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}
-            - SECURITY_OAUTH2_RESOURCE_USER_INFO_URI=${SECURITY_OAUTH2_RESOURCE_USER_INFO_URI}
+docker compose up
 ----
 
-TIP: You can run `docker-compose config` to verify that the environment variables are substituted properly.
+Now, Spring Security will be configured to use Auth0, and Consul will distribute these settings to all your microservices. When everything is started, navigate to `\http://localhost:8080` and click **sign in**. You will be prompted for your Auth0 credentials.
 
-When everything has finished building, run `docker-compose up -d` from the `docker-compose` directory. It can take a while to start all 14 containers, so now might be a good time to take a break or get some exercise. You can use Docker's Kitematic to watch the status of your images as they start.
+.Auth0 login
+image::chapter4/auth0-login.png[alt=Auth0 login, width=1143, scaledwidth=100%, align=center]
 
-TIP: Before you start everything, make sure you’ve provided adequate CPUs and memory to Docker. It defaults to one CPU and 2 GB of memory — not quite enough for 14 containers!
+After entering your credentials, you'll be redirected back to the gateway, and your username will be displayed.
 
-.New Product
-image::chapter4/kitematic.png[Kitematic, 800, scaledwidth=100%, align=center]
+.Auth0 login success
+image::chapter4/auth0-login-success.png[alt=Auth0 login success, width=1143, scaledwidth=100%, align=center]
 
-After you've verified everything works, you can stop all your Docker containers using the following command:
+You should be able to add, edit, and delete blogs, posts, tags, and products, proving that your microservices and micro frontends can talk to each other.
 
-[source,bash]
+If you'd like to use Okta for your identity provider, see https://www.jhipster.tech/security/#okta[JHipster's documentation].
+
+[TIP]
+====
+You can configure JHipster quickly with the https://cli.okta.com[Okta CLI]:
+
+[source,shell]
 ----
-docker stop $(docker ps -a -q)
+okta apps create jhipster
 ----
+====
 
-If you'd like to remove the images too, you can run:
+== Deploy with Kubernetes
 
-[source,bash]
+The JDL you used to generate this microservices stack has a section at the bottom for deploying to Kubernetes.
+
 ----
-docker rm $(docker ps -a -q)
-----
-
-== Deploy to Heroku
-
-The founder of JHipster, https://twitter.com/juliendubois[Julien Dubois], wrote a blog post on the Heroku blog titled "`link:https://blog.heroku.com/bootstrapping_your_microservices_architecture_with_jhipster_and_spring[Bootstrapping Your Microservices Architecture with JHipster and Spring]`". Here's an abbreviated set of steps to deploy all your apps to Heroku.
-
-=== Deploy the JHipster Registry
-
-Heroku and JHipster have configured a JHipster Registry for you, so you just need to click on the button below to start your own JHipster Registry:
-
-image::chapter4/deploy-to-heroku.png[link="https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2Fjhipster%2Fjhipster-registry"]
-
-Enter an app name (I used `okta-jhipster-registry`), add a `JHIPSTER_PASSWORD`, and click *Deploy app*.
-
-=== Deploy your gateway and apps to Heroku
-
-In each project, run `jhipster heroku` and answer the questions as follows:
-
-|===
-|Question |Answer
-
-|Name to deploy as? |`<unique-prefix>;-<app-name>` (e.g., okta-gateway, okta-blog, etc.)
-|Which region? |`us`
-|Type of deployment? |`Git`
-| Name of Registry app? |`<unique-prefix>-jhipster-registry`
-| JHipster Registry username |`admin`
-| JHipster Registry password |`<JHIPSTER_PASSWORD from Registry>`
-|===
-
-When prompted to overwrite files, type `a`.
-
-After each app has finished deploying, you'll want to run the following so they use Okta for authentication.
-
-TIP: Make sure you run `source ~/.okta.env` before running the command below. If you don't have the environment variables set beforehand, you'll see an error that says `did not find property 'jhipster.security.client-authorization.client-id'`.
-
-[source%autofit,bash]
-----
-heroku config:set \
-  SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI="$SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI" \
-  SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI="$SECURITY_OAUTH2_CLIENT_USER_AUTHORIZATION_URI" \
-  SECURITY_OAUTH2_RESOURCE_USER_INFO_URI="$SECURITY_OAUTH2_RESOURCE_USER_INFO_URI" \
-  SECURITY_OAUTH2_CLIENT_CLIENT_ID="$SECURITY_OAUTH2_CLIENT_CLIENT_ID" \
-  SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="$SECURITY_OAUTH2_CLIENT_CLIENT_SECRET"
+deployment {
+  deploymentType kubernetes
+  appsFolders [gateway, blog, store]
+  clusteredDbApps [store]
+  kubernetesNamespace demo
+  kubernetesUseDynamicStorage true
+  kubernetesStorageClassName ""
+  serviceDiscoveryType consul
+  dockerRepositoryName "mraible"
+}
 ----
 
-Update your Okta app to have a *Login redirect URI* that matches your Heroku app (e.g., `https://okta-gateway.herokuapp.com/login`). To do this, log in to your Okta account, go to *Applications* > *JHipster Microservices* > *General* > *Edit*.
+The `jhipster jdl` command generates a `kubernetes` directory with this information and configures all your apps, databases, and Consul to be Kubernetes-ready. If you have a Kubernetes cluster created, you can deploy to its `demo` namespace using the following command.
 
-To see if your apps have started correctly, you can run `heroku logs --tail` in each app's directory. You may see a timeout error, but your app should succeed in starting on your next attempt.
-
-If it crashes and doesn't start, trying running `heroku restart`. If that doesn't solve the problem, go to <https://help.heroku.com> and click *Create a ticket* at the top. Click *Running Applications* > *Java*, scroll to the bottom, and click *Create a ticket*. Enter something like the following for the subject and description, select one of your apps, then submit it.
-
-[source]
+[source,shell]
 ----
-Subject: JHipster App Startup Timeout
-
-Description: Hello, I have a JHipster (Spring Boot) app that has the following error on startup:
-
-Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 90 seconds of launch
-
-The URL is:
-
-* https://<your-app>-store.herokuapp.com/
-
-Can you please increase the timeout on this app?
-
-Thanks!
+./kubectl-apply.sh -f
 ----
 
-Below are screenshots to prove everything worked after I deployed to Heroku. 😊
+It also generates files for Kustomize and Skaffold if you'd prefer to use those tools. See the https://github.com/oktadev/auth0-micro-frontends-jhipster-example/blob/main/kubernetes/K8S-README.md[`kubernetes/K8S-README.md`] file for more information.
 
-.JHipster Registry on Heroku
-image::chapter4/heroku-registry.png[JHipster Registry on Heroku, 1200, scaledwidth=100%, align=center]
+I won't go into the nitty-gritty details of deploying a JHipster microservices stack to cloud providers with K8s, mainly because it's covered in other guides. The first one below shows how to run Minikube locally, encrypt your secrets, and deploy to Google Cloud.
 
-.Successful login on Heroku
-image::chapter4/heroku-welcome.png[Successful login on Heroku, 1200, scaledwidth=100%, align=center]
-
-.Heroku gateway routes
-image::chapter4/heroku-gateway-routes.png[Heroku gateway routes, 1200, scaledwidth=100%, align=center]
-
-.Blog on Heroku
-image::chapter4/heroku-blog.png[Blog on Heroku, 1200, scaledwidth=100%, align=center]
-
-.Store on Heroku
-image::chapter4/heroku-store.png[Store on Heroku, 1200, scaledwidth=100%, align=center]
-
-TIP: If you're interested in deploying to Google Cloud using Kubernetes, you might enjoy my blog post and screencast on how to "`link:http://www.jhipster-book.com/#!/news/entry/build-jhipster-microservices-and-deploy-to-google-cloud-with-kubernetes[Build JHipster Microservices and Deploy to Google Cloud with Kubernetes]`".
+- https://dev.to/jhipster/deploy-jhipster-microservices-to-gcp-with-kubernetes-kk3[Deploy JHipster Microservices to GCP with Kubernetes]
+- https://dev.to/jhipster/create-a-kubernetes-microservices-on-azure-with-cosmos-db-26i2[Create Kubernetes Microservices on Azure with Cosmos DB]
+- https://dev.to/jhipster/run-microservices-on-digitalocean-with-kubernetes-3epj[Run Microservices on DigitalOcean with Kubernetes]
+- https://dev.to/jhipster/how-to-deploy-jhipster-microservices-on-amazon-eks-using-terraform-and-kubernetes-49a5[How to Deploy JHipster Microservices on Amazon EKS Using Terraform and Kubernetes]
+- https://dev.to/jhipster/cicd-java-microservices-with-circleci-and-spinnaker-4ho8[CI/CD Java Microservices with CircleCI and Spinnaker]
 
 == Source code
 
-You can find the source code for this microservices example at https://github.com/oktadeveloper/okta-jhipster-microservices-oauth-example.
+You can find the source code for this microservices example at https://github.com/oktadev/auth0-micro-frontends-jhipster-example[@oktadev/auth0-micro-frontends-jhipster-example].
 
 == Summary
 
-I hope you've enjoyed this whirlwind tour of how to create a microservices architecture with JHipster. Just because JHipster makes microservices easy doesn't mean you should use them. Using a microservices architecture is a great way to scale development teams, but if you don't have a large team, a "`link:https://m.signalvnoise.com/the-majestic-monolith-29166d022228[Majestic Monolith]`" might work better.
+I hope you enjoyed this overview of how to use micro frontends within a Java microservices architecture. I like how micro frontends allow each microservice application to be self-contained and deployable, independent of the other microservices. It's also pretty neat how JHipster generates Docker and Kubernetes configuration for you. Cloud-native FTW!
 
-If you'd like to learn more about microservices, authentication, and JHipster, see the following resources.
-
-* "`link:https://developer.okta.com/blog/2017/06/15/build-microservices-architecture-spring-boot[Build a Microservices Architecture for Microbrews with Spring Boot]`"
-* "`link:https://developer.okta.com[Secure a Spring Microservices Architecture with Spring Security and OAuth]`"
-* "`link:https://developer.okta.com/blog/2017/06/20/develop-microservices-with-jhipster[Develop and Deploy Microservices with JHipster]`" (uses JWT for authentication)
-* "`link:https://developer.okta.com/blog/2017/10/20/oidc-with-jhipster[Use OpenID Connect Support with JHipster]`"
-* "`link:https://medium.com/@sendilkumarn/hello-istio-%EF%B8%8F-welcome-to-jhipster-b67dc68ecb19[Hello Istio ⛵, welcome to JHipster]`"
+I'd also like you to remember that just because JHipster makes microservices easy doesn't mean you should use them. Using a microservices architecture is a great way to scale development teams, but if you don't have a large team, a "`link:https://m.signalvnoise.com/the-majestic-monolith-29166d022228[Majestic Monolith]`" might work better.
