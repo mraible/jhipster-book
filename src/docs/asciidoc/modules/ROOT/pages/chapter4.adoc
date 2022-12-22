@@ -137,10 +137,6 @@ This tutorial shows you how to build a microservices architecture with JHipster 
 
 Open a terminal window, create a directory (e.g., `jhipster-microservices-example`) and create an `apps.jdl` file in it. Copy the JDL below into this file. You can also download this file https://github.com/jhipster/jdl-samples/blob/main/reactive-mf.jdl[from GitHub].
 
-ifeval::["{media}" == "prepress"]
-<<<
-endif::[]
-
 .apps.jdl
 ====
 [source]
@@ -378,6 +374,8 @@ Now, open another terminal and navigate into the `store` directory. Run `npm sta
 ----
 
 The UI will change before you can kbd:[Cmd+Tab] back to your browser.
+
+// todo: this keyboard macro doesn't seem to work in the PDF
 
 .Store edit
 image::chapter4/store-edit.png[alt=Store edit, width=1119, scaledwidth=100%, align=center]
@@ -658,7 +656,6 @@ Edit `docker-compose/central-server-config/application.yml` and append the follo
 ----
 jhipster:
   security:
-    ...
     oauth2:
       audience: https://<your-auth0-domain>/api/v2/
 
