@@ -118,7 +118,7 @@ This project has only a few files, as you can see by running the `tree` command 
 16 directories, 10 files
 ----
 
-`DemoApplication.java` is the heart of this application; the file and class name are irrelevant. What is relevant is the `@SpringBootApplication` annotation and the class's `public static void main` method.
+`DemoApplication.java` is the heart of this application; the file and class name are irrelevant. What is relevant is the `@SpringBootApplication` annotation and the class's `public static void main` method, colloquially known as the main method.
 
 [source,java]
 .src/main/java/com/example/demo/DemoApplication.java
