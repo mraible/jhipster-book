@@ -1,28 +1,29 @@
 [[action]]
 = Action!
 
-I hope you've enjoyed learning how JHipster can help you develop hip web applications! It's a nifty project, with an easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows five simple https://www.jhipster.tech/policies/[policies], paraphrased here:
+I hope you've enjoyed learning how JHipster can help you develop hip web applications! It's a nifty project, with an easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows six simple https://www.jhipster.tech/policies/[policies], paraphrased here:
 
-1. The development team votes on policies.
-2. JHipster uses technologies with their default configurations as much as possible.
-3. Only add options when there is sufficient added value in the generated code.
-4. For the Java code, follow the default IntelliJ IDEA formatting and coding guidelines.
-5. Use strict versions for third-party libraries.
+. The development team votes on policies.
+. Use technologies with their default configuration and best practices as much as possible.
+. Only add options when there is sufficient added value in the generated code.
+. Use strict versions for third-party libraries.
+. Provide similar user/developer experience across different options as much as possible.
+. Developer experience can take precedence over above policies.
 
 These policies help the project maintain its sharp edge and streamline its development process. If you have features you'd like to add or if you'd like to refine existing features, please follow the project and help with its development and support. We're always looking for help!
 
-Now that you've learned how to use Angular, Bootstrap, and Spring Boot with JHipster, go forth and develop awesome applications!
+Now that you've learned how to use Angular, Bootstrap, Spring Boot, and microservices with JHipster, go forth and develop awesome applications!
 
 == Additional reading
 
 If you want to learn more, here are some suggestions.
 
-Deepu K Sasidharan and Sendil Kumar N, two prolific committers on the JHipster team, wrote https://www.packtpub.com/application-development/full-stack-development-jhipster[_Full Stack Development with JHipster_] (Packt Publishing, March 2018).
+I wrote https://www.infoq.com/minibooks/angular-mini-book[_The Angular Mini-Book_] (InfoQ, February 2022) as a bare-bones guide to using Angular. It's a good place to start if you're new to Angular. It also includes extensive Spring Boot coverage, security best practices, and cloud deployment options.
 
-The definitive book about Spring's JDBC, JPA, and NoSQL support is http://shop.oreilly.com/product/0636920024767.do[_Spring Data: Modern Data Access for Enterprise Java_] by Mark Pollack _et al._ (O'Reilly Media, October 2012).
+Deepu K Sasidharan and Sendil Kumar N, two prolific committers on the JHipster team, wrote https://www.packtpub.com/product/full-stack-development-with-jhipster-second-edition/9781838824983[_Full Stack Development with JHipster - Second Edition_] (Packt Publishing, January 2020). This book covers JHipster 6.
 
-Learn how to use Spring Boot to build apps faster than ever before with https://www.packtpub.com/application-development/learning-spring-boot-20-second-edition[_Spring Boot: Up and Running_] by Mark Heckler (O'Reilly Media, February 2021).
+Learn how to use Spring Boot to be productive and build mission-critical applications with https://www.oreilly.com/library/view/spring-boot-up/9781492076971/[_Spring Boot: Up and Running_] (O'Reilly Media, February 2021) by Mark Heckler.
 
-An in-depth and up-to-date book on Angular is https://www.newline.co/ng-book/2/[_ng-book: The Complete Book on Angular_] by Nathan Murray, Felipe Coury, Ari Lerner, and Carlos Taborda) (Fullstack.io, November 2018).
+Josh Long's https://reactivespring.io/[Reactive Spring] (self-published, February 2022) provides an introduction to reactive programming and its implementation in the Spring ecosystem. If you're looking to learn more about WebFlux, this is a great place to start.
 
-Learn how to develop cloud-ready JVM applications and microservices across a variety of environments with http://shop.oreilly.com/product/0636920038252.do[_Cloud Native Java: Designing Resilient Systems with Spring Boot, Spring Cloud, and Cloud Foundry_] by Josh Long and Kenny Bastani (O'Reilly Media, August 2017).
+One of the most complete books I've read on Angular is https://www.ng-book.com/2/[_ng-book: The Complete Book on Angular_] by Nathan Murray, Felipe Coury, Ari Lerner, and Carlos Taborda) (Fullstack.io, continuously updated).
