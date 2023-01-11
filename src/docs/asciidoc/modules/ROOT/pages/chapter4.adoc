@@ -131,7 +131,7 @@ You can see how these components fit in the diagram below.
 .JHipster microservices architecture
 image::chapter4/jhipster-microfrontends.png[JHipster microservices architecture, 1562, scaledwidth=100%, align=center]
 
-This tutorial shows you how to build a microservices architecture with JHipster 7.9.3. You'll generate a gateway (powered by Spring Cloud Gateway), a blog microservice (that talks to Neo4j), a store microservice (that uses MongoDB), and use Docker Compose to make sure it all runs locally. I'll also provide some pointers on how to deploy it with Kubernetes.
+This tutorial shows you how to build a microservices architecture with JHipster 7.9.3. You'll generate a gateway (powered by Spring Cloud Gateway), a blog microservice (that talks to Neo4j), and a store microservice (that uses MongoDB). The gateway will contain a React shell app that loads the blog and store micro frontends. You'll use Docker Compose to make sure it all runs locally. I'll also provide some pointers on how to deploy it with Kubernetes.
 
 == Generate an API gateway and microservice applications
 
@@ -346,7 +346,7 @@ image::chapter4/gateway-entities-available.png[Consul services, 1132, scaledwidt
 
 === Zero turnaround development that sparks joy
 
-At this point, I've only shown you how to run the Spring Boot backends with their packaged React apps. What if you want to work on the UI and have zero turnaround that sparks joy? ✨🤗
+At this point, I've only shown you how to run the Spring Boot backends with their packaged React micro frontends. What if you want to work on the UI and have zero turnaround that sparks joy? ✨🤗
 
 In the gateway app, run `npm start`. This command will run the UI on a web server, open a browser window to `\http://localhost:9000`, and use https://browsersync.io/[Browsersync] to keep your browser in sync with your code.
 
