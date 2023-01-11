@@ -10,8 +10,6 @@ asciidoc:
     sourcedir: 'example$'
     book-title: The JHipster Mini-Book
     author: Matt Raible
-    revnumber: 7.0.0-SNAPSHOT
-    revyear: 2022
     email: matt@raibledesigns.com
     subject: JHipster
     keywords: JHipster, Angular, Bootstrap, Spring Boot, Spring Cloud, Spring Security, Microservices, Docker, Heroku, Security, JWT, OAuth 2.0, OIDC
