@@ -234,7 +234,7 @@ insert into blog (id, name) values (1, 'First');
 insert into blog (id, name) values (2, 'Second');
 ----
 
-And add the following property to `src/main/resources/application.properties` so H2 initializes properly.
+And add the following property to `src/main/resources/application.properties`:
 
 [source,properties]
 ----
