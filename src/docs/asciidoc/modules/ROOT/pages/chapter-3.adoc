@@ -13,7 +13,7 @@ In August 2013, Phil Webb and Dave Syer, engineers at Pivotal, https://spring.io
 
 [[img-spring-boot-diagram]]
 .Spring Boot 2.0
-image::chapter3/diagram-boot-reactor.svg[Spring Boot 2.0, 600, scaledwidth=100%, align=center]
+image::chapter-3/diagram-boot-reactor.svg[Spring Boot 2.0, 600, scaledwidth=100%, align=center]
 
 The primary goals of Spring Boot are:
 
@@ -25,11 +25,11 @@ Folks who want to use Spring Boot outside a JHipster application can do so with 
 
 [[img-spring-initializr-web]]
 .Spring Initializr in a browser
-image::chapter3/spring-initializr-web.png[Spring Initializr in a browser, 1187, scaledwidth=100%]
+image::chapter-3/spring-initializr-web.png[Spring Initializr in a browser, 1187, scaledwidth=100%]
 
 [[img-spring-initializr-curl]]
 .Spring Initializr via `curl`
-image::chapter3/spring-initializr-curl.png[Spring Initializr via `curl`, 1354, scaledwidth=100%]
+image::chapter-3/spring-initializr-curl.png[Spring Initializr via `curl`, 1354, scaledwidth=100%]
 
 Spring Initializr is an Apache 2.0-licensed open-source project that you install and customize to generate Spring projects for your company or team. You can find it on GitHub at https://github.com/spring-io/initializr.
 

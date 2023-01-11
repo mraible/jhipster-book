@@ -18,7 +18,7 @@ Technology has traditionally been organized into technology layers: UI team, dat
 A smart team will optimize around this and choose the lesser of two evils: forcing the logic into whichever application they have access to. This is an example of http://www.melconway.com/Home/Conways_Law.html[Conway's law] in action.
 
 .Conway's law
-image::chapter4/conways-law.png[Conway's law, 560, scaledwidth=50%, align=center]
+image::chapter-4/conways-law.png[Conway's law, 560, scaledwidth=50%, align=center]
 
 [quote, Melvyn Conway, 1967]
 Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization's communication structure.
@@ -56,7 +56,7 @@ Spring Boot 2.0 introduced a new web framework called Spring WebFlux. Previous v
 
 [[img-spring-boot-2]]
 .Spring Boot 2.0
-image::chapter4/diagram-boot-reactor.svg[Spring Boot 2.0, 700, scaledwidth=75%, align=center]
+image::chapter-4/diagram-boot-reactor.svg[Spring Boot 2.0, 700, scaledwidth=75%, align=center]
 
 Reactive programming isn't for every app. The general rule of thumb is it won't help you if you have < 500 requests/second. Chances are Spring MVC will perform as well as Spring WebFlux up to that point. When your traffic takes off, or if you need to process things faster than 500 requests/second, you should take a look at Spring WebFlux.
 
@@ -129,7 +129,7 @@ NOTE: In the previous paragraph, you might notice I spelled micro frontends thre
 You can see how these components fit in the diagram below.
 
 .JHipster microservices architecture
-image::chapter4/jhipster-microfrontends.png[JHipster microservices architecture, 1562, scaledwidth=100%, align=center]
+image::chapter-4/jhipster-microfrontends.png[JHipster microservices architecture, 1562, scaledwidth=100%, align=center]
 
 This tutorial shows you how to build a microservices architecture with JHipster 7.9.3. You'll generate a gateway (powered by Spring Cloud Gateway), a blog microservice (that talks to Neo4j), and a store microservice (that uses MongoDB). The gateway will contain a React shell app that loads the blog and store micro frontends. You'll use Docker Compose to make sure it all runs locally. I'll also provide some pointers on how to deploy it with Kubernetes.
 
@@ -322,7 +322,7 @@ Then, run `./gradlew` (or `npm run app:start` if you prefer npm commands). When 
 You'll be redirected back to the gateway, but the **Entities** menu won't have any links because the micro frontends it tries to load are unavailable.
 
 .The gateway's entities are unavailable
-image::chapter4/gateway-entities-unavailable.png[JHipster microservices architecture, 1155, scaledwidth=100%, align=center]
+image::chapter-4/gateway-entities-unavailable.png[JHipster microservices architecture, 1155, scaledwidth=100%, align=center]
 
 Start the `blog` by opening a terminal and navigating to its directory. Then, start its database with Docker and the app with Gradle.
 
@@ -337,12 +337,12 @@ Open a new terminal and do the same for the `store` microservice.
 You can verify everything is started using Consul at `\http://localhost:8500`.
 
 .Consul services
-image::chapter4/consul-services.png[Consul services, 1184, scaledwidth=100%, align=center]
+image::chapter-4/consul-services.png[Consul services, 1184, scaledwidth=100%, align=center]
 
 Refresh the gateway app; you should see menu items to navigate to the microservices now.
 
 .Gateway entities available
-image::chapter4/gateway-entities-available.png[Consul services, 1132, scaledwidth=100%, align=center]
+image::chapter-4/gateway-entities-available.png[Consul services, 1132, scaledwidth=100%, align=center]
 
 === Zero turnaround development that sparks joy
 
@@ -362,7 +362,7 @@ Modify the code in `gateway/src/main/webapp/app/modules/home/home.tsx` to make a
 You'll see this change immediately appear within your browser.
 
 .Gateway quick edit
-image::chapter4/gateway-quick-edit.png[Gateway quick edit, 1132, scaledwidth=100%, align=center]
+image::chapter-4/gateway-quick-edit.png[Gateway quick edit, 1132, scaledwidth=100%, align=center]
 
 Remove it, and it'll disappear right away too.
 
@@ -378,7 +378,7 @@ The UI will change before you can kbd:[Cmd+Tab] back to your browser.
 // todo: this keyboard macro doesn't seem to work in the PDF
 
 .Store edit
-image::chapter4/store-edit.png[alt=Store edit, width=1119, scaledwidth=100%, align=center]
+image::chapter-4/store-edit.png[alt=Store edit, width=1119, scaledwidth=100%, align=center]
 
 The backend has quick turnaround abilities too, thanks to https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools[Spring Boot devtools]. If you modify a backend class, recompiling it will cause Spring Boot to reload your component lickety-split. It's pretty slick!
 
@@ -684,12 +684,12 @@ docker compose up
 Now, Spring Security will be configured to use Auth0, and Consul will distribute these settings to all your microservices. When everything is started, navigate to `\http://localhost:8080` and click **sign in**. You will be prompted for your Auth0 credentials.
 
 .Auth0 login
-image::chapter4/auth0-login.png[alt=Auth0 login, width=1143, scaledwidth=100%, align=center]
+image::chapter-4/auth0-login.png[alt=Auth0 login, width=1143, scaledwidth=100%, align=center]
 
 After entering your credentials, you'll be redirected back to the gateway, and your username will be displayed.
 
 .Auth0 login success
-image::chapter4/auth0-login-success.png[alt=Auth0 login success, width=1143, scaledwidth=100%, align=center]
+image::chapter-4/auth0-login-success.png[alt=Auth0 login success, width=1143, scaledwidth=100%, align=center]
 
 You should be able to add, edit, and delete blogs, posts, tags, and products, proving that your microservices and micro frontends can talk to each other.
 

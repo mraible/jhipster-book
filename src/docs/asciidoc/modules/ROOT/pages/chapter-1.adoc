@@ -52,7 +52,7 @@ After running this command, I was prompted to answer questions about how I wante
 
 [[img-generating-21points]]
 .Generating the application
-image::chapter1/generating-21points.png[Generating the application, 1365, scaledwidth=100%]
+image::chapter-1/generating-21points.png[Generating the application, 1365, scaledwidth=100%]
 endif::[]
 ifeval::["{media}" == "prepress"]
 After running this command, I was prompted to answer questions about how I wanted my application to be generated. You can see the choices I made from my answers below.
@@ -528,7 +528,7 @@ Below is a screenshot taken after these changes.
 
 [[img-bootstrap-angular-material]]
 .JHipster with Bootstrap Angular Material
-image::chapter1/angular-material-theme.png[UI mockup, 1333, scaledwidth=100%, align=center]
+image::chapter-1/angular-material-theme.png[UI mockup, 1333, scaledwidth=100%, align=center]
 --
 
 At this point, I deployed to Heroku for the first time. This is covered in the <<Deploying to Heroku>> section of this chapter.
@@ -557,13 +557,13 @@ At this point, I did some trial-and-error designs with the data model. I generat
 
 [[img-ui-mockup]]
 .UI mockup
-image::chapter1/ui-mockup.png[UI mockup, 846, scaledwidth=75%, align=center]
+image::chapter-1/ui-mockup.png[UI mockup, 846, scaledwidth=75%, align=center]
 
 After figuring out how I wanted the UI to look, I started to think about the data model. I quickly decided I didn't need to track high-level goals (e.g. lose ten pounds in Q1 2023). I was more concerned with tracking weekly goals and 21-Points Health is all about how many points you get in a week. I created the following diagram as my data model.
 
 [[img-entity-diagram]]
 .21-Points Health entity diagram
-image::chapter1/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=60%, align=center]
+image::chapter-1/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=60%, align=center]
 
 I ran `jhipster entity points`. I added the appropriate fields and their validation rules, and specified a many-to-one relationship with `user`. Below is the final output from my answers.
 
@@ -711,11 +711,11 @@ The biggest visual improvements are on the list screens. I made the buttons a bi
 
 [[img-points-list-before]]
 .Default Daily Points list
-image::chapter1/points-list-before.png[Default Daily Points list, 1337, scaledwidth=100%, align=center]
+image::chapter-1/points-list-before.png[Default Daily Points list, 1337, scaledwidth=100%, align=center]
 
 [[img-points-list-after]]
 .Default Daily Points list after UI improvements
-image::chapter1/points-list-after.png[Default Daily Points list after UI improvements, 1136, scaledwidth=100%, align=center]
+image::chapter-1/points-list-after.png[Default Daily Points list after UI improvements, 1136, scaledwidth=100%, align=center]
 
 I refactored the HTML at the top of `points.component.html` to put the title, search, and add buttons on the same row. I also removed the button text in favor of a using https://ng-bootstrap.github.io/#/components/tooltip/api[ng-bootstrap's tooltip directive]. The `jhiTranslate` directive you see in the button tooltips is provided by https://github.com/jhipster/ng-jhipster[JHipster's Angular library].
 
@@ -853,7 +853,7 @@ After making these changes, modifying a bit of HTML, and tweaking some i18n mess
 
 [[img-add-points-page]]
 .Add Points page
-image::chapter1/add-points-page.png[Add Points page, 1095, scaledwidth=100%, align=center]
+image::chapter-1/add-points-page.png[Add Points page, 1095, scaledwidth=100%, align=center]
 
 Improving the UI was the most fun, but also the most time-consuming as it involved lots of little tweaks to multiple screens. The next task was more straightforward: implementing business logic.
 
@@ -1266,7 +1266,7 @@ Below is a screenshot of what this progress bar looked like after restarting the
 
 [[img-homepage-progress-bar]]
 .Progress bar for points this week
-image::chapter1/homepage-points-this-week.png[Progress bar for points this week, 1188, scaledwidth=100%, align=center]
+image::chapter-1/homepage-points-this-week.png[Progress bar for points this week, 1188, scaledwidth=100%, align=center]
 
 // <img src="https://via.placeholder.com/800x200.png?text=Blood Pressure Graph" width="100%" />
 
@@ -1695,7 +1695,7 @@ After entering some test data, I was quite pleased with the results.
 
 [[img-homepage-bp-last-30-days]]
 .Chart of blood pressure during the last 30 days
-image::chapter1/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1190, scaledwidth=100%, align=center]
+image::chapter-1/homepage-bp-last-30-days.png[Chart of blood pressure during the last 30 days, 1190, scaledwidth=100%, align=center]
 
 I made similar changes to display weights for the last 30 days as a chart.
 
@@ -1707,13 +1707,13 @@ After finishing the MVP (minimum viable product) of 21-Points Health, I did some
 // from Dropbox > Get Hip with JHipster.key
 [[img-21-points-loc]]
 .Project lines of code
-image::chapter1/21-points-loc.png[Project lines of code, 600, scaledwidth=60%, align=center]
+image::chapter-1/21-points-loc.png[Project lines of code, 600, scaledwidth=60%, align=center]
 
 To drill down further, I made a graph of the top three languages in the project: TypeScript, Java, and HTML.
 
 [[img-21-points-loc-by-language]]
 .Project lines of code by language
-image::chapter1/21-points-loc-by-language.png[Project lines of code by language, 700, scaledwidth=70%, align=center]
+image::chapter-1/21-points-loc-by-language.png[Project lines of code by language, 700, scaledwidth=70%, align=center]
 
 // TypeScript: 12812 - 12581 = 231
 // Java: 9956 - 9388 = 568
@@ -1863,7 +1863,7 @@ I was pumped to see that this process worked and that my application was availab
 
 [[img-deployed-to-heroku]]
 .First deployment to Heroku
-image::chapter1/deployed-to-heroku.png[First deployment to Heroku, 1225, scaledwidth=100%, align=center]
+image::chapter-1/deployed-to-heroku.png[First deployment to Heroku, 1225, scaledwidth=100%, align=center]
 
 Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for Heroku, I ran `heroku domains:add`.
 
@@ -1939,7 +1939,7 @@ I https://github.com/jhipster/generator-jhipster/issues/20315[created an issue] 
 
 [[img-elastic-cloud-settings]]
 .Elastic Cloud settings
-image::chapter1/elastic-cloud-settings.png[Elastic Cloud settings, 781, scaledwidth=75%, align=center]
+image::chapter-1/elastic-cloud-settings.png[Elastic Cloud settings, 781, scaledwidth=75%, align=center]
 
 NOTE: I tried the latest version, but it resulted in an "Unable to parse response body" error.
 
@@ -2042,7 +2042,7 @@ The `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` variables will not work to send 
 
 [[img-sendgrid-api-key]]
 .Create SendGrid API key
-image::chapter1/sendgrid-api-key.png[Create SendGrid API key, 854, scaledwidth=90%, align=center]
+image::chapter-1/sendgrid-api-key.png[Create SendGrid API key, 854, scaledwidth=90%, align=center]
 
 Once you have an API key, set the user and password for SendGrid on Heroku:
 
@@ -2161,19 +2161,19 @@ To log in to Jenkins, I navigated to http://localhost:9000. I copied the passwor
 
 [[unlock-jenkins]]
 .Unlock Jenkins
-image::chapter1/unlock-jenkins.png[Unlock Jenkins, 1124, scaledwidth=100%, align=center]
+image::chapter-1/unlock-jenkins.png[Unlock Jenkins, 1124, scaledwidth=100%, align=center]
 
 Next, I chose to install selected plugins and waited while everything installed.
 
 [[customize-jenkins]]
 .Customize Jenkins
-image::chapter1/customize-jenkins.png[Customize Jenkins, 1124, scaledwidth=100%, align=center]
+image::chapter-1/customize-jenkins.png[Customize Jenkins, 1124, scaledwidth=100%, align=center]
 
 I created a new job called "21-points" with a Pipeline script from SCM. I configured a "`Poll SCM`" build trigger with a schedule of `H/5 * * * *`. After saving the job, I confirmed it ran successfully.
 
 [[jenkins-job1]]
 .Jenkins build #1
-image::chapter1/jenkins-job-1.png[First run of 21-points pipeline, 1380, scaledwidth=100%, align=center]
+image::chapter-1/jenkins-job-1.png[First run of 21-points pipeline, 1380, scaledwidth=100%, align=center]
 
 TIP: It's possible the `deployment` stage will fail for you the first time (like it did for me above). If this happens, stop Jenkins, run `heroku login`, then restart Jenkins.
 
@@ -2258,7 +2258,7 @@ I was pumped to see all the stages in my pipeline pass.
 
 [[jenkins-job-success]]
 .Jenkins success!
-image::chapter1/jenkins-job-success.png[Jenkins success!, 1619, scaledwidth=100%, align=center]
+image::chapter-1/jenkins-job-success.png[Jenkins success!, 1619, scaledwidth=100%, align=center]
 
 When working on this project, I'd start Jenkins and have it running while I checked in code. I did not install it on a server and leave it running continuously. My reason was simple: I was only coding in bursts and didn't need to waste computing cycles or want to pay for a cloud instance to run it.
 
@@ -2296,7 +2296,7 @@ Once this process completed, an analysis of the project was available on the Son
 
 [[sonar-results]]
 .Sonar results
-image::chapter1/sonar.png[Sonar results, 691, scaledwidth=100%, align=center]
+image::chapter-1/sonar.png[Sonar results, 691, scaledwidth=100%, align=center]
 
 == Progressive web apps
 
@@ -2341,7 +2341,7 @@ After making these changes, I redeployed 21-Points Health to production and used
 
 [[lighthouse-analysis]]
 .Lighthouse analysis
-image::chapter1/lighthouse-desktop.png[Lighthouse analysis, 733, scaledwidth=90%, align=center]
+image::chapter-1/lighthouse-desktop.png[Lighthouse analysis, 733, scaledwidth=90%, align=center]
 
 // lighthouse-mobile.png has the mobile scores:
 // { performance: 76, accessibility: 95, best practices: 92, SEO: 89 }
