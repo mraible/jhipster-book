@@ -11,11 +11,11 @@ JHipster supports three UI frameworks: Angular, React, and Vue. In the first two
 
 [[img-angular-jobs-2022]]
 .Jobs on Indeed, December 2022
-image::chapter2/angular/indeed-jobs-202212.png[Jobs on Indeed, 450, scaledwidth=75%, align=center]
+image::chapter-2/angular/indeed-jobs-202212.png[Jobs on Indeed, 450, scaledwidth=75%, align=center]
 
 [[img-stackoverflow-tags-2022]]
 .Stack Overflow Tags, December 2022
-image::chapter2/angular/stackoverflow-tags-202212.png[Tags on Stack OverFlow, 450, scaledwidth=75%, align=center]
+image::chapter-2/angular/stackoverflow-tags-202212.png[Tags on Stack OverFlow, 450, scaledwidth=75%, align=center]
 
 Angular is the default UI framework used by JHipster. It's written in TypeScript, compiles to JavaScript, and just using it makes you a hipster! Like Struts in the early 2000s and Rails in the mid-2000s, Angular and other JavaScript frameworks have changed the way developers write web applications. Today, data is exposed via REST APIs and UIs are written in JavaScript (or TypeScript). As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns. It recommended organizing your application into several components:
 
@@ -115,7 +115,7 @@ The MVC pattern is a common one for web frameworks to implement. With Angular, t
 
 [[img-angular-mvc]]
 .MVC in Angular
-image::chapter2/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth=75%, align=center]
+image::chapter-2/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth=75%, align=center]
 
 Below is a `SearchService` to fetch search results. It's expected that a JSON endpoint exists at `/api/search` on the same server.
 
@@ -300,7 +300,7 @@ Does your API return data like the following?
 
 [source,json]
 ----
-include::{sourcedir}/chapter2/angular/search-results.json[]
+include::{sourcedir}/chapter-2/angular/search-results.json[]
 ----
 
 If so, you could display it in the `search.component.html` template with Angular's `*ngFor` directive.
@@ -378,20 +378,20 @@ A basic example of the grid is shown below.
 
 [source,html]
 ----
-include::{sourcedir}/chapter2/bootstrap/grid-basic.html[]
+include::{sourcedir}/chapter-2/bootstrap/grid-basic.html[]
 ----
 
 When rendered with Bootstrap's CSS, the above HTML looks as follows on a desktop. The minimum width of the container element on the desktop is set to 1200 px.
 
 [[img-bootstrap-basic-grid-desktop]]
 .Basic grid on desktop
-image::chapter2/bootstrap/basic-grid-desktop.png[Basic grid on desktop, 732, scaledwidth=100%]
+image::chapter-2/bootstrap/basic-grid-desktop.png[Basic grid on desktop, 732, scaledwidth=100%]
 
 If you squish your browser to less than 1200 px wide or render this same document on a smaller screen, the columns will stack.
 
 [[img-bootstrap-basic-grid-mobile]]
 .Basic grid on a mobile device
-image::chapter2/bootstrap/basic-grid-mobile.png[Basic grid on a mobile device, 552, scaledwidth=75%]
+image::chapter-2/bootstrap/basic-grid-mobile.png[Basic grid on a mobile device, 552, scaledwidth=75%]
 
 Bootstrap's grid can be used to align and position your application's elements, widgets, and features. It's helpful to understand a few basics if want to use it effectively.
 
@@ -405,12 +405,12 @@ Each tier of classes scales up, meaning that if you plan to set the same widths 
 
 [source,html]
 ----
-include::{sourcedir}/chapter2/bootstrap/grid-advanced.html[]
+include::{sourcedir}/chapter-2/bootstrap/grid-advanced.html[]
 ----
 
 [[img-bootstrap-advanced-grid-desktop]]
 .Advanced grid
-image::chapter2/bootstrap/advanced-grid-desktop.png[Advanced grid, 734, scaledwidth=100%]
+image::chapter-2/bootstrap/advanced-grid-desktop.png[Advanced grid, 734, scaledwidth=100%]
 
 You can use size indicators to specify breakpoints in the columns. Breakpoints indicate where a column wraps onto the next row. In the HTML above, "`xs`" and "`md`" are the size indicators (of course,  "`sm`", "`lg`", and "`xl`" are the other options). Bootstrap uses the following media query ranges.
 
@@ -487,23 +487,23 @@ When you add Bootstrap's CSS to your web application, chances are it'll quickly 
 
 [source%autofit,html]
 ----
-include::{sourcedir}/chapter2/bootstrap/basicelement.html[]
+include::{sourcedir}/chapter-2/bootstrap/basicelement.html[]
 ----
 
 [[img-bootstrap-basic-element]]
 .Basic form element
-image::chapter2/bootstrap/basicelement.png[Basic form element, 534, scaledwidth=90%]
+image::chapter-2/bootstrap/basicelement.png[Basic form element, 534, scaledwidth=90%]
 
 If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
 
 [source%autofit,html]
 ----
-include::{sourcedir}/chapter2/bootstrap/basicelement-withvalidation.html[]
+include::{sourcedir}/chapter-2/bootstrap/basicelement-withvalidation.html[]
 ----
 
 [[img-bootstrap-basic-element-with-validation]]
 .Form element with validation
-image::chapter2/bootstrap/basicelement-validation.png[Form element with validation, 536, scaledwidth=90%]
+image::chapter-2/bootstrap/basicelement-validation.png[Form element with validation, 536, scaledwidth=90%]
 
 === CSS
 
@@ -513,12 +513,12 @@ To make your buttons look better, Bootstrap provides `btn` and a number of `btn-
 
 [source,html]
 ----
-include::{sourcedir}/chapter2/bootstrap/buttons.html[]
+include::{sourcedir}/chapter-2/bootstrap/buttons.html[]
 ----
 
 [[img-bootstrap-buttons]]
 .Buttons
-image::chapter2/bootstrap/buttons.png[Buttons, 706, scaledwidth=90%]
+image::chapter-2/bootstrap/buttons.png[Buttons, 706, scaledwidth=90%]
 
 === Components
 
@@ -528,33 +528,33 @@ Popular Bootstrap components include: dropdowns, button groups, button dropdowns
 
 [[img-bootstrap-navbar]]
 .Navbar with dropdown
-image::chapter2/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 991, scaledwidth=100%]
+image::chapter-2/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 991, scaledwidth=100%]
 
 When rendered on a mobile device, everything collapses into a hamburger menu that can expand downward.
 
 [[img-bootstrap-navbar-mobile]]
 .Navbar on mobile
-image::chapter2/bootstrap/navbar-on-mobile.png[Navbar on mobile, 527, scaledwidth=50%]
+image::chapter-2/bootstrap/navbar-on-mobile.png[Navbar on mobile, 527, scaledwidth=50%]
 
 This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source online in link:https://getbootstrap.com/docs/5.2/components/navbar/[Bootstrap's documentation]. An example without ARIA attributes below shows the basic structure.
 
 [source%autofit,html]
 ----
-include::{sourcedir}/chapter2/bootstrap/navbar.html[]
+include::{sourcedir}/chapter-2/bootstrap/navbar.html[]
 ----
 
 Alerts are useful for displaying feedback to the user. You can invoke differently colored alerts with different classes. You'll need to add an `alert` class, plus `alert-[success|info|warning|danger]` to indicate the colors.
 
 [source,html]
 ----
-include::{sourcedir}/chapter2/bootstrap/alerts.html[]
+include::{sourcedir}/chapter-2/bootstrap/alerts.html[]
 ----
 
 This renders alerts like the following.
 
 [[img-bootstrap-alerts]]
 .Alerts
-image::chapter2/bootstrap/alerts.png[Alerts, 770, scaledwidth=100%]
+image::chapter-2/bootstrap/alerts.png[Alerts, 770, scaledwidth=100%]
 
 To make an alert closeable, you need to add an `.alert-dismissible` class and a close button.
 
@@ -568,7 +568,7 @@ To make an alert closeable, you need to add an `.alert-dismissible` class and a 
 
 [[img-bootstrap-alert-dismissable]]
 .Closeable alert
-image::chapter2/bootstrap/alert-dismissable.png[Closeable alert, 768, scaledwidth=100%]
+image::chapter-2/bootstrap/alert-dismissable.png[Closeable alert, 768, scaledwidth=100%]
 
 TIP: To make the links in your alerts match the colors of the alerts, use `.alert-link`.
 
@@ -602,7 +602,7 @@ You can see how the icons change color based on the font color defined for the e
 
 [[img-bootstrap-buttons-icons]]
 .Buttons with icons
-image::chapter2/bootstrap/buttons-with-icons.png[Buttons with icons, 265, scaledwidth=25%]
+image::chapter-2/bootstrap/buttons-with-icons.png[Buttons with icons, 265, scaledwidth=25%]
 
 === Customizing CSS
 
@@ -824,7 +824,7 @@ To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSoc
 [source%autofit,typescript]
 .src/main/webapp/app/admin/tracker/tracker.component.ts
 ----
-include::{sourcedir}/chapter2/websockets/tracker.component.ts[]
+include::{sourcedir}/chapter-2/websockets/tracker.component.ts[]
 ----
 
 The `Tracker` service allows you to send tracking information — for example, to track when someone has authenticated.
@@ -832,7 +832,7 @@ The `Tracker` service allows you to send tracking information — for example, t
 [source%autofit,typescript]
 .src/main/webapp/app/core/tracker/tracker.service.ts
 ----
-include::{sourcedir}/chapter2/websockets/tracker.service.ts[]
+include::{sourcedir}/chapter-2/websockets/tracker.service.ts[]
 ----
 
 WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. To learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with Spring]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
