@@ -6,10 +6,10 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:mraible/jhipster-book.git"
+    "url": "git@github.com:mraible/jhipster-book.git"
   },
   "devDependencies": {
     "gulp": "4.0.2",
-    "browser-sync": "2.27.9"
+    "browser-sync": "2.27.10"
   }
 }

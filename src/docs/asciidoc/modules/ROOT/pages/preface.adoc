@@ -8,7 +8,7 @@ When I heard about JHipster, I was motivated to use it right away. It combined m
 
 I wanted to write this book because I knew all the tools in JHipster really well. I wanted to further the knowledge of this wonderful project. I wanted Java developers to see that they can be hip again by leveraging AngularJS and Bootstrap. I wanted to show them how JavaScript web development isn't scary, it's just another powerful platform that can improve your web-development skills.
 
-The first version of this book was released in October 2015, the second in December 2016, and the third (4.x to match Angular) was released in the fall of 2017 after JHipster migrated to Angular. Version 4.5 was released in April 2018 with an additional chapter on microservices. This version is updated for JHipster version 5. I spent a lot of time learning Angular and TypeScript in 2016-2018 and I'm pleased to bring you this book as an active member of the JHipster Development Team.
+The first version of this book was released in October 2015, the second in December 2016, and the third (4.x to match Angular) was released in the fall of 2017 after JHipster migrated to Angular. Version 4.5 was released in April 2018 with an additional chapter on microservices. Version 5 for JHipster v5 was released in November 2018. This version is updated for JHipster version 7. I'm pleased to bring you this book as an active member of the JHipster Development Team.
 
 == What is in an InfoQ mini-book?
 
@@ -22,9 +22,7 @@ TIP: If you'd like to see a React version of the app developed in this book, che
 
 == What you need for this book
 
-To try code samples in this book, you will need a computer running an up-to-date operating system (Windows, Linux, or Mac OS X/macOS). You will need Node.js and Java installed. The book code was tested against Node.js 8 and JDK 8, but newer versions should also work.
-
-NOTE: It _should_ be possible to run a JHipster app on Java 9+ because it’s possible to use Java 10 with Spring Boot 2.0.1. Java 11 support is in Spring Boot 2.1. However, JHipster depends on many plugins that are not yet Java 9+ compatible. The most common error is `java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException`. For this reason, I recommend using Java 8.
+To try code samples in this book, you will need a computer running an up-to-date operating system (Windows, Linux, or Mac OS X/macOS). You will need Node.js and Java installed. The book code was tested against Node.js 16 and Java 11, but newer versions should also work.
 
 == Conventions
 
@@ -67,7 +65,7 @@ class BlogController {
 
 When we want to draw your attention to certain lines of code, those lines are annotated using numbers accompanied by brief descriptions.
 
-[source,javascript]
+[source,ts]
 ----
 export class SearchComponent {
   constructor(private searchService: SearchService) {} <1>
@@ -80,7 +78,7 @@ export class SearchComponent {
   }
 }
 ----
-<1> To inject `SearchService` into `SearchComponent`, add it as a parameter to the constructors's argument list.
+<1> To inject `SearchService` into `SearchComponent`, add it as a parameter to the constructor's argument list.
 <2> `search()` is a method that's called from the HTML's `<button>`, wired up using the `(click)` event handler.
 <3> `this.query` is a variable that's wired to `<input>` using two-way binding with `[(ngModel)]="query"`.
 

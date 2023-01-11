@@ -100,7 +100,6 @@ Desktop.ini
 ######################
 /asciidoctor-pdf/
 /build/**
-/bin/**
 /deploy/**
 dist/
 /public/

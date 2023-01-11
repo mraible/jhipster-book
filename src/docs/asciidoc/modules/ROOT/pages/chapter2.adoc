@@ -7,17 +7,17 @@ This section shows how JHipster includes all of these UI components for you and 
 
 == Angular
 
-JHipster supports two UI frameworks: Angular and React. In the first two versions of this book, I showed you how to use AngularJS. In the last two versions (4.0 and 4.5), I showed you how to use Angular. Since this is a mini-book, I'm going to stick with showing Angular only. You can see from the following graphs that Angular and React are the most popular among JavaScript frameworks.
+JHipster supports three UI frameworks: Angular, React, and Vue. In the first two versions of this book, I showed you how to use AngularJS. In the last three versions (4.0, 4.5, and 5.0), I showed you how to use Angular. Since this is a mini-book, I'm going to stick with showing Angular only. You can see from the following graphs that React and Angular are the most popular among JavaScript frameworks.
 
-[[img-angular-jobs-2018]]
-.Jobs on Indeed, September 2018
-image::chapter2/angular/indeed-jobs-sep2018.jpg[Jobs on Indeed, 450, scaledwidth=75%, align=center]
+[[img-angular-jobs-2022]]
+.Jobs on Indeed, December 2022
+image::chapter2/angular/indeed-jobs-202212.png[Jobs on Indeed, 450, scaledwidth=75%, align=center]
 
-[[img-stackoverflow-tags-2018]]
-.Stack Overflow Tags, September 2018
-image::chapter2/angular/stackoverflow-tags-sep2018.jpg[Tags on Stack OverFlow, 450, scaledwidth=75%, align=center]
+[[img-stackoverflow-tags-2022]]
+.Stack Overflow Tags, December 2022
+image::chapter2/angular/stackoverflow-tags-202212.png[Tags on Stack OverFlow, 450, scaledwidth=75%, align=center]
 
-Angular is the default UI framework used by JHipster. It's written in TypeScript, compiles to JavaScript, and just using it makes you a hipster! Like Struts in the early 2000s and Rails in the mid-2000s, Angular and other JavaScript frameworks have changed the way developers write web applications. Today, data is exposed via REST APIs and UIs are written in JavaScript (or TypeScript). As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns. It recommended organizing your application into several different components:
+Angular is the default UI framework used by JHipster. It's written in TypeScript, compiles to JavaScript, and just using it makes you a hipster! Like Struts in the early 2000s and Rails in the mid-2000s, Angular and other JavaScript frameworks have changed the way developers write web applications. Today, data is exposed via REST APIs and UIs are written in JavaScript (or TypeScript). As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns. It recommended organizing your application into several components:
 
 * Components: Classes that retrieve data from services and expose it to templates.
 * Services: Classes that make HTTP calls to a JSON API.
@@ -42,14 +42,16 @@ A new syntax was introduced that binds data to element properties, not attribute
 
 In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announcing that they would be using TypeScript over AtScript and that they would provide a migration path for Angular 1.x users. They also adopted semantic versioning and http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html[recommended people call it "Angular" instead of Angular 2.0].
 
-Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. JHipster 4.6.0 was released July 6, 2017 and was the first release to contain production-ready Angular support. JHipster 5 uses Angular 6. Angular released version 7 during the production of this book.
+Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. JHipster 4.6.0 was released July 6, 2017 and was the first release to contain production-ready Angular support. JHipster 7 uses Angular 14. Angular released version 15 during the production of this book.
 
 You can find the Angular project at https://angular.io.
 
 === Basics
 Creating a component that says "Hello World" with Angular is pretty simple.
 
-[source,javascript]
+todo: TypeScript syntax highlighting works in HTML and PDF, but not in EPUB. Need to fix this.
+
+[source,typescript]
 ----
 import { Component } from '@angular/core';
 
@@ -64,7 +66,7 @@ export class AppComponent {
 
 In this example, the `name` variable in the component maps to the value displayed in `+{{name}}+`. To make this component render on a page, you'll need a few more files: a module definition, a bootstrapping class, and an HTML file. A basic module definition contains component declarations, imports, providers, and a class to bootstrap.
 
-[source,javascript]
+[source,typescript]
 ----
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -85,17 +87,10 @@ export class AppModule { }
 
 Then you'll need a bootstrap file, typically named `main.ts`. This file bootstraps the module.
 
-[source,javascript]
+[source,typescript]
 ----
-import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
 import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
-
-if (environment.production) {
-  enableProdMode();
-}
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
@@ -124,7 +119,7 @@ image::chapter2/angular/angular-mvc.png[MVC in Angular, 500, scaledwidth=75%, al
 
 Below is a `SearchService` to fetch search results. It's expected that a JSON endpoint exists at `/api/search` on the same server.
 
-[source,javascript]
+[source,typescript]
 .SearchService
 ----
 import { Injectable } from '@angular/core';
@@ -146,7 +141,7 @@ export class SearchService {
 
 An associated `SearchComponent` can be used to display the results from this service. Notice how you can use constructor injection to get a reference to the service.
 
-[source,javascript]
+[source,typescript]
 .SearchComponent
 ----
 import { Component } from '@angular/core';
@@ -158,20 +153,20 @@ import { SearchService } from '../search.service';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
-  query: string;
-  searchResults: Array<any>;
+  query: string = '';
+  searchResults: Array<any> = [];
 
   constructor(private searchService: SearchService) {
     console.log('In Search Component...');
   }
 
   search(): void {
-    this.searchService.search(this.query).subscribe(
-      data => {
+    this.searchService.search(this.query).subscribe({
+      next: (data: any) => {
         this.searchResults = data;
       },
-      error => console.log(error)
-    );
+      error: error => console.log(error)
+    });
   }
 }
 ----
@@ -180,13 +175,13 @@ TIP: To see the JavaScript console in Chrome, use kbd:[Command+Option+J] in Mac 
 
 To make this component available at a URL, you can use Angular's `Router` and specify the path in the module that includes the component.
 
-[source,javascript]
+[source,typescript]
 .AppModule
 ----
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
@@ -205,7 +200,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [],
@@ -235,7 +230,7 @@ The template for the `SearchComponent` can be as simple as a form with a button.
 
 Now that you've seen the code, let's look at how everything works in the `SearchComponent`.
 
-[source,javascript]
+[source,typescript]
 ----
 @Component({
   selector: 'app-search',
@@ -243,20 +238,20 @@ Now that you've seen the code, let's look at how everything works in the `Search
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
-  query: string;
-  searchResults: Array<any>;
+  query: string = '';
+  searchResults: Array<any> = [];
 
   constructor(private searchService: SearchService) { // <1>
     console.log('In Search Component...');
   }
 
   search(): void { // <2>
-    this.searchService.search(this.query).subscribe( // <3>
-      data => {
+    this.searchService.search(this.query).subscribe({ // <3>
+      next: (data: any) => {
         this.searchResults = data;
       },
-      error => console.log(error)
-    );
+      error: error => console.log(error)
+    });
   }
 }
 ----
@@ -285,7 +280,7 @@ You can generate the `SearchService` using `ng generate service search` (or `ng 
 [source,bash]
 ----
 $ ng g s search
-CREATE src/app/search.service.spec.ts (333 bytes)
+CREATE src/app/search.service.spec.ts (357 bytes)
 CREATE src/app/search.service.ts (135 bytes)
 ----
 
@@ -295,10 +290,10 @@ And you can generate the `SearchComponent` using `ng generate component search` 
 ----
 $ ng g c search
 CREATE src/app/search/search.component.css (0 bytes)
-CREATE src/app/search/search.component.html (25 bytes)
-CREATE src/app/search/search.component.spec.ts (628 bytes)
-CREATE src/app/search/search.component.ts (269 bytes)
-UPDATE src/app/app.module.ts (396 bytes)
+CREATE src/app/search/search.component.html (21 bytes)
+CREATE src/app/search/search.component.spec.ts (599 bytes)
+CREATE src/app/search/search.component.ts (202 bytes)
+UPDATE src/app/app.module.ts (475 bytes)
 ----
 
 Does your API return data like the following?
@@ -312,7 +307,7 @@ If so, you could display it in the `search.component.html` template with Angular
 
 [source,html]
 ----
-<table *ngIf="searchResults">
+<table *ngIf="searchResults.length">
   <thead>
   <tr>
     <th>Name</th>
@@ -338,7 +333,7 @@ Now that you've learned a bit about one of the hottest web frameworks on the pla
 
 == Bootstrap
 
-http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides a number of CSS classes and HTML structures that allow you to develop HTML user interfaces that look good by default. Not only that, but it’s responsive by default, which means it works better (or even best) on a mobile device.
+http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides a number of CSS classes and HTML structures that allow you to develop HTML user interfaces that look good. Not only that, but it’s responsive by default, which means it works better (or even best) on a mobile device.
 
 === Bootstrap's grid system
 
@@ -350,7 +345,9 @@ Most CSS frameworks provide a grid system that allows you to position columns an
 
 Bootstrap's grid width varies based on viewport width. The table below shows how aspects of the grid system work across different devices.
 
-[cols="2,1,1,1,1,1", options="header"]
+// https://getbootstrap.com/docs/5.2/layout/breakpoints/
+
+[cols="2,1,1,1,1,1,1", options="header"]
 |===
 |
 |Extra small
@@ -358,13 +355,15 @@ Bootstrap's grid width varies based on viewport width. The table below shows how
 |Medium
 |Large
 |Extra large
+|Extra extra large
 
 |**Max container width**
-|None (auto)
-|540px
-|720px
-|960px
-|1140px
+|<576px
+|≥576px
+|≥768px
+|≥992px
+|≥1200px
+|≥1400px
 
 |**Class prefix**
 |`.col-`
@@ -372,18 +371,7 @@ Bootstrap's grid width varies based on viewport width. The table below shows how
 |`.col-md-`
 |`.col-lg-`
 |`.col-xl-`
-
-|**# of columns**
-5+| 12
-
-|**Gutter width**
-5+| 30px (15px on each side)
-
-|**Nestable**
-5+| Yes
-
-|**Column ordering**
-5+| Yes
+|`.col-xxl-`
 |===
 
 A basic example of the grid is shown below.
@@ -397,13 +385,13 @@ When rendered with Bootstrap's CSS, the above HTML looks as follows on a desktop
 
 [[img-bootstrap-basic-grid-desktop]]
 .Basic grid on desktop
-image::chapter2/bootstrap/basic-grid-desktop.png[Basic grid on desktop, 991, scaledwidth=100%]
+image::chapter2/bootstrap/basic-grid-desktop.png[Basic grid on desktop, 732, scaledwidth=100%]
 
 If you squish your browser to less than 1200 px wide or render this same document on a smaller screen, the columns will stack.
 
 [[img-bootstrap-basic-grid-mobile]]
 .Basic grid on a mobile device
-image::chapter2/bootstrap/basic-grid-mobile.png[Basic grid on a mobile device, 768, scaledwidth=75%]
+image::chapter2/bootstrap/basic-grid-mobile.png[Basic grid on a mobile device, 552, scaledwidth=75%]
 
 Bootstrap's grid can be used to align and position your application's elements, widgets, and features. It's helpful to understand a few basics if want to use it effectively.
 
@@ -422,9 +410,11 @@ include::{sourcedir}/chapter2/bootstrap/grid-advanced.html[]
 
 [[img-bootstrap-advanced-grid-desktop]]
 .Advanced grid
-image::chapter2/bootstrap/advanced-grid-desktop.png[Advanced grid, 983, scaledwidth=100%]
+image::chapter2/bootstrap/advanced-grid-desktop.png[Advanced grid, 734, scaledwidth=100%]
 
 You can use size indicators to specify breakpoints in the columns. Breakpoints indicate where a column wraps onto the next row. In the HTML above, "`xs`" and "`md`" are the size indicators (of course,  "`sm`", "`lg`", and "`xl`" are the other options). Bootstrap uses the following media query ranges.
+
+// todo: look at CSS formatting. It looks kinda funny in HTML.
 
 [source,css]
 ----
@@ -442,6 +432,9 @@ You can use size indicators to specify breakpoints in the columns. Breakpoints i
 
 // Extra large devices (large desktops, 1200 px and up)
 @media (min-width: 1200px) { ... }
+
+// Extra extra large devices (extra large desktops, 1400 px and up)
+@media (min-width: 1400px) { ... }
 ----
 
 If you're using Sass, all Bootstrap's media queries are available via Sass mixins:
@@ -467,24 +460,24 @@ If you're using Sass, all Bootstrap's media queries are available via Sass mixin
 
 === Responsive utility classes
 
-Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size, like `.d-[xs|sm|md|lg]-block` and `.d-[xs|sm|md|lg]-none`. There are no explicit "show" responsive utility classes; you make an element visible by simply not hiding it at that breakpoint size.
+Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size, like `.d-[xs|sm|md|lg|xl|xxl]-block` and `.d-[xs|sm|md|lg|xl|xxl]-none`. There are no explicit "show" responsive utility classes; you make an element visible by simply not hiding it at that breakpoint size.
 
 Bootstrap's classes for setting the display are names using the following format:
 
 * `.d-{value}` for `xs`
-* `.d-{breakpoint}-{value}` for `sm`, `md`, `lg`, and `xl`
+* `.d-{breakpoint}-{value}` for `sm`, `md`, `lg`, `xl`, and `xxl
 
-The media queries effect screen widths with the given breakpoint or _larger_. For example, `.d-lg-none` sets `display: none` on both `lg` and `xl` screens.
+The media queries effect screen widths with the given breakpoint or _larger_. For example, `.d-lg-none` sets `display: none` on both `lg`, `xl`, and `xxl` screens.
 
 The following example from 21-Points Health shows how to display a shorter heading on mobile and a larger one on bigger screens.
 
 [source%autofit,html]
 ----
 <div class="col-6 text-nowrap">
-    <h4 class="mt-1 d-none d-md-inline"
-        jhiTranslate="home.bloodPressure.title">Blood Pressure:</h4>
-    <h4 class="mt-1 d-sm-none"
-        jhiTranslate="home.bloodPressure.titleMobile">BP:</h4>
+  <h4 class="mt-1 d-none d-md-inline"
+    jhiTranslate="home.bloodPressure.title">Blood Pressure:</h4>
+  <h4 class="mt-1 d-sm-none"
+    jhiTranslate="home.bloodPressure.titleMobile">BP:</h4>
 </div>
 ----
 
@@ -499,7 +492,7 @@ include::{sourcedir}/chapter2/bootstrap/basicelement.html[]
 
 [[img-bootstrap-basic-element]]
 .Basic form element
-image::chapter2/bootstrap/basicelement.png[Basic form element, 712, scaledwidth=90%]
+image::chapter2/bootstrap/basicelement.png[Basic form element, 534, scaledwidth=90%]
 
 If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
 
@@ -510,7 +503,7 @@ include::{sourcedir}/chapter2/bootstrap/basicelement-withvalidation.html[]
 
 [[img-bootstrap-basic-element-with-validation]]
 .Form element with validation
-image::chapter2/bootstrap/basicelement-validation.png[Form element with validation, 712, scaledwidth=90%]
+image::chapter2/bootstrap/basicelement-validation.png[Form element with validation, 536, scaledwidth=90%]
 
 === CSS
 
@@ -525,7 +518,7 @@ include::{sourcedir}/chapter2/bootstrap/buttons.html[]
 
 [[img-bootstrap-buttons]]
 .Buttons
-image::chapter2/bootstrap/buttons.png[Buttons, 754, scaledwidth=90%]
+image::chapter2/bootstrap/buttons.png[Buttons, 706, scaledwidth=90%]
 
 === Components
 
@@ -535,15 +528,15 @@ Popular Bootstrap components include: dropdowns, button groups, button dropdowns
 
 [[img-bootstrap-navbar]]
 .Navbar with dropdown
-image::chapter2/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 956, scaledwidth=100%]
+image::chapter2/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 991, scaledwidth=100%]
 
 When rendered on a mobile device, everything collapses into a hamburger menu that can expand downward.
 
 [[img-bootstrap-navbar-mobile]]
 .Navbar on mobile
-image::chapter2/bootstrap/navbar-on-mobile.png[Navbar on mobile, 476, scaledwidth=50%]
+image::chapter2/bootstrap/navbar-on-mobile.png[Navbar on mobile, 527, scaledwidth=50%]
 
-This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source online in link:https://getbootstrap.com/docs/4.1/components/navbar/[Bootstrap's documentation]. A simpler example below shows the basic structure.
+This navbar requires quite a bit of HTML markup, not shown here for the sake of brevity. You can view this source online in link:https://getbootstrap.com/docs/5.2/components/navbar/[Bootstrap's documentation]. An example without ARIA attributes below shows the basic structure.
 
 [source%autofit,html]
 ----
@@ -561,23 +554,21 @@ This renders alerts like the following.
 
 [[img-bootstrap-alerts]]
 .Alerts
-image::chapter2/bootstrap/alerts.png[Alerts, 776, scaledwidth=100%]
+image::chapter2/bootstrap/alerts.png[Alerts, 770, scaledwidth=100%]
 
 To make an alert closeable, you need to add an `.alert-dismissible` class and a close button.
 
 [source%autofit,html]
 ----
-<div class="alert alert-warning alert-dismissible  fade show" role="alert">
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
   <strong>Warning!</strong> Better check yourself, you're not looking too good.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 ----
 
 [[img-bootstrap-alert-dismissable]]
 .Closeable alert
-image::chapter2/bootstrap/alert-dismissable.png[Closeable alert, 830, scaledwidth=100%]
+image::chapter2/bootstrap/alert-dismissable.png[Closeable alert, 768, scaledwidth=100%]
 
 TIP: To make the links in your alerts match the colors of the alerts, use `.alert-link`.
 
@@ -585,31 +576,44 @@ TIP: To make the links in your alerts match the colors of the alerts, use `.aler
 
 Icons have always been a big part of web applications. Showing the user a small image is often sexier and hipper than plain text. Humans are visual beings and icons are a great way to spice things up. In the last several years, font icons have become popular for web development. Font icons are just fonts, but they contain symbols and glyphs instead of text. You can style, scale, and load them quickly because of their small size.
 
-Bootstrap 3.x included the http://glyphicons.com/[Glyphicons] Halflings set of font icons. It’s not normally free, but the font creator made it free for Bootstrap users. One of the https://v4-alpha.getbootstrap.com/migration/[changes] for Bootstrap 4 is that it dropped the Glyphicons icon font. You can use http://fontawesome.io/[Font Awesome] and https://octicons.github.com/[GitHub Octicons] as a free alternatives to Glyphicons.
+Bootstrap Icons is an icon library created by the Bootstrap team. You can install them using `npm i bootstrap-icons`. You can use them as SVGs, SVG sprites, or web fonts.
 
-Font Awesome has 1,341 icons and is included by default in JHipster with https://github.com/FortAwesome/angular-fontawesome[angular-fontawesome]. It is often used to display eye candy on buttons.
+Font Awesome has 2,018 icons and is included by default in JHipster with https://github.com/FortAwesome/angular-fontawesome[angular-fontawesome]. It is often used to display eye candy on buttons.
 
 [source,html]
 ----
-<button class="btn btn-info"><fa-icon [icon]="'plus'"></fa-icon> Add</button>
-<button class="btn btn-danger"><fa-icon [icon]="'times'"></fa-icon> Delete</button>
-<button class="btn btn-success"><fa-icon [icon]="'pencil-alt'"></fa-icon> Edit</button>
+<button class="btn btn-info"><fa-icon icon="plus"></fa-icon> Add</button>
+<button class="btn btn-danger"><fa-icon icon="times"></fa-icon> Delete</button>
+<button class="btn btn-success"><fa-icon icon="pencil-alt"></fa-icon> Edit</button>
 ----
+
+////
+StackBlitz example to get screenshot below:
+
+<script src="https://kit.fontawesome.com/66b13fb7c0.js" crossorigin="anonymous"></script>
+
+<button class="btn btn-info"><i class="fa-solid fa-plus"></i> Add</button>
+<button class="btn btn-danger"><i class="fa-solid fa-times"></i> Delete</button>
+<button class="btn btn-success"><i class="fa-solid fa-pencil-alt"></i> Edit</button>
+////
+
 
 You can see how the icons change color based on the font color defined for the element that contains them.
 
 [[img-bootstrap-buttons-icons]]
 .Buttons with icons
-image::chapter2/bootstrap/buttons-with-icons.png[Buttons with icons, 262, scaledwidth=25%]
+image::chapter2/bootstrap/buttons-with-icons.png[Buttons with icons, 265, scaledwidth=25%]
 
 === Customizing CSS
 
-If you'd like to override Bootstrap classes in your project, the easiest thing to do is to put the override rule in a CSS file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/content/css/global.css` directly. If you're using Sass to compile `*.scss` files, you can modify `src/main/webapp/content/scss/global.scss` instead. Using Sass results in a much more concise authoring environment. Below is the default `vendor.scss` file that JHipster generates. You can see that it imports Bootstrap and I've added an import for Angular Calendar. Default Bootstrap rules are overridden in `src/main/webapp/content/scss/global.scss`.
+If you'd like to override Bootstrap classes in your project, the easiest thing to do is to put the override rule in a CSS file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/content/scss/global.scss` directly. Using Sass results in a much more concise authoring environment. Below is the default `vendor.scss` file that JHipster generates. You can see that it imports Bootstrap, and I've added an import for Angular Calendar. Default Bootstrap rules are overridden in the aforementioned `global.scss`.
+
+// todo: look at Sass formatting. It looks kinda funny in HTML.
 
 [source,sass]
 .src/main/webapp/scss/vendor.scss
 ----
-/* after changing this file run 'yarn run webpack:build' */
+/* after changing this file run 'npm run webapp:build' */
 
 /***************************
 put Sass variables here:
@@ -618,7 +622,7 @@ eg $input-color: red;
 
 // Calendar styles
 @import '~angular-calendar/scss/angular-calendar';
-// Override Boostrap variables
+// Override Bootstrap variables
 @import 'bootstrap-variables';
 // Import Bootstrap source files from node_modules
 @import '~bootstrap/scss/bootstrap';
@@ -630,37 +634,13 @@ There's also a `src/main/webapp/content/scss/_bootstrap-variable.scss` file. You
 
 === Angular and Bootstrap
 
-JHipster includes https://ng-bootstrap.github.io/[ng-bootstrap] by default. This library provides Bootstrap 4 components that are powered by Angular instead of jQuery.
-
-http://codeseven.github.io/toastr/[Toastr] is a popular non-blocking notification library powered by jQuery. JHipster has an https://github.com/jhipster/ng-jhipster/blob/master/src/service/alert.service.ts[`alert.service.ts`] that allows you to use Toastr-like alerts.
-
-To use Toastr-like alerts in your project, modify `shared-libs.module.ts` to change `alertAsToast` to `true`.
-
-[source,javascript]
-.src/main/webapp/app/shared/shared-libs.module.ts
-----
-@NgModule({
-    imports: [
-        NgbModule.forRoot(),
-        NgJhipsterModule.forRoot({
-            // set below to true to make alerts look like toast
-            alertAsToast: true,
-            i18nEnabled: true,
-            defaultI18nLang: 'en'
-        }),
-        InfiniteScrollModule,
-        CookieModule.forRoot(),
-        FontAwesomeModule
-    ],
-    exports: [ ... ]
-})
-----
+JHipster includes https://ng-bootstrap.github.io/[ng-bootstrap] by default. This library provides Bootstrap 5 components that are powered by Angular instead of jQuery.
 
 Popular alternatives to Bootstrap include https://material.angular.io/[Angular Material] and http://ionicframework.com/[Ionic Framework]. There is no support for these frameworks at this time. To integrate them would require that all templates to rewritten to include their classes instead of Bootstrap's. While possible, it'd be a lot of work to create and maintain.
 
 == Internationalization (i18n)
 
-Internationalization (also called i18n because the word has 18 letters between "`i`" and "`n`") is a first-class citizen in JHipster. Translating an application to another language is easiest if you put the i18n system in place at the beginning of a project. http://www.ngx-translate.com/[ngx-translate] provides directives that make it easy to translate your application into multiple languages. You won't see this dependency in your JHipster project's `package.json` because it's included in the https://github.com/jhipster/ng-jhipster[ng-jhipster] project and wrapped in a `jhiTranslate` directive.
+Internationalization (also called i18n because the word has 18 letters between "`i`" and "`n`") is a first-class citizen in JHipster. Translating an application to another language is easiest if you put the i18n system in place at the beginning of a project. http://www.ngx-translate.com/[ngx-translate] provides directives that make it easy to translate your application into multiple languages. It also provides a service that allows changing the language at runtime.
 
 To use i18n in a JHipster project, you simply add a "`jhiTranslate`" attribute with a key.
 
@@ -671,21 +651,17 @@ To use i18n in a JHipster project, you simply add a "`jhiTranslate`" attribute w
 
 The key references a JSON document, which will return the translated string. Angular will then replace the "`First Name`" string with the translated version.
 
-JHipster allows you to choose a default language and translations when you first create a project. It stores the JSON documents for these languages in `src/main/webapp/i18n`. You can install additional languages using `yo jhipster:languages`. As of October 2018, JHipster supports 42 languages. You can also add a new language. To set the default language, modify `src/main/webapp/app/shared/shared-libs.module.ts` and its `defaultI18nLang` setting.
+JHipster allows you to choose a default language and translations when you first create a project. It stores the JSON documents for these languages in `src/main/webapp/i18n`. You can install additional languages using `jhipster languages`. As of December 2022, JHipster supports 47 languages. You can also add a new language. To set the default language, modify `translation.module.ts` and its `setDefaultLang()` setting.
 
-[source,javascript]
-.src/main/webapp/app/shared/shared-libs.module.ts
+[source,typescript]
+.src/main/webapp/app/shared/language/translation.module.ts
 ----
-imports: [
+export class TranslationModule {
+  constructor(...) {
+    translateService.setDefaultLang('en');
     ...
-    NgJhipsterModule.forRoot({
-        // set below to true to make alerts look like toast
-        alertAsToast: false,
-        i18nEnabled: true,
-        defaultI18nLang: 'en'
-    }),
-    ...
-],
+  }
+}
 ----
 
 == Sass
@@ -694,24 +670,24 @@ Sass stands for "`syntactically awesome style sheets`". It's a language for writ
 
 [source,sass]
 ----
-$font-stack:    Helvetica, sans-serif
+$font-stack: Helvetica, sans-serif
 $primary-color: #333
 
 body
-    font: 100% $font-stack
-    color: $primary-color
+  font: 100% $font-stack
+  color: $primary-color
 ----
 
 Sass 3 introduces a new syntax known as SCSS that is fully compatible with the syntax of CSS3, while still supporting the full power of Sass. It looks more like CSS.
 
 [source,sass]
 ----
-$font-stack:    Helvetica, sans-serif;
+$font-stack: Helvetica, sans-serif;
 $primary-color: #333;
 
 body {
-    font: 100% $font-stack;
-    color: $primary-color;
+  font: 100% $font-stack;
+  color: $primary-color;
 }
 ----
 
@@ -720,8 +696,8 @@ The code above renders the following CSS.
 [source,css]
 ----
 body {
-    font: 100% Helvetica, sans-serif;
-    color: #333;
+  font: 100% Helvetica, sans-serif;
+  color: #333;
 }
 ----
 
@@ -730,21 +706,21 @@ Another powerful feature of Sass is the ability to write nested CSS selectors. W
 [source,sass]
 ----
 nav {
-    ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 
-    li {
-        display: inline-block;
-    }
+  li {
+    display: inline-block;
+  }
 
-    a {
-        display: block;
-        padding: 6px 12px;
-        text-decoration: none;
-    }
+  a {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+  }
 }
 ----
 
@@ -771,16 +747,16 @@ CSS generated from the above code looks as follows.
 [source,css]
 ----
 .box {
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  border-radius: 10px;
 }
 ----
 
 Bootstrap 3.x was written with http://lesscss.org/[Less], a CSS pre-processor with similar features to Sass. It uses Sass for the 4.0+ versions.
 
-JHipster allows you to use Sass by default. To learn more about structuring your CSS and naming classes, read the great https://smacss.com/[_Scalable and Modular Architecture for CSS_].
+JHipster 7 uses Sass by default. To learn more about structuring your CSS and naming classes, read the great http://smacss.com/[_Scalable and Modular Architecture for CSS_].
 
 == Webpack
 
@@ -800,8 +776,8 @@ Below is a basic `webpack.config.js` that shows all four concepts in use.
 [source,javascript]
 .webpack.config.js
 ----
-const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
-const webpack = require('webpack'); //to access built-in plugins
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // installed via npm
+const webpack = require('webpack'); // to access built-in plugins
 const path = require('path');
 
 const config = {
@@ -829,12 +805,10 @@ In the Angular section, I mentioned Angular CLI and my https://github.com/mraibl
 I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js` file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack configuration. JHipster generates a `webpack` directory that contains files for different scenarios: dev mode with hot reload, testing, and preparing for production.
 
 * `logo-jhipster.png` is the logo that shows in desktop alerts for build notifications.
-* `utils.js` contains utility functions for finding the project's version and determining external libraries.
-* `webpack.common.js` is the common parent configuration that's extended by each of the following files.
-* `webpack.dev.js` is the configuration used when you run `yarn start`. It enables hot-reloading with Browsersync and desktop notifications.
-* `webpack.prod.js` is the configuration used for production. Angular's AOT compilation is used, HTML templates are converted to JavaScript, and source maps are created.
+* `environment.js` specifies the project's version, i18n hash, and server API URL.
+* `webpack.custom.js` is main configuration file that defines a `development` and a `production` mode. Dev mode enables hot-reloading with Browsersync and desktop notifications. For production, HTML templates are converted to JavaScript, and source maps are created.
 
-To learn more about webpack, I recommend visiting https://webpack.academy/[https://webpack.academy], which is a site dedicated to teaching webpack. It was created by https://twitter.com/TheLarkInn[Sean Larkin], a member of the webpack core team, the Angular team, and the Angular CLI core team. He's a big reason for the success of webpack, as he's constantly promoting it, providing learning materials around it, and helping open-source projects adopt it.
+To learn more about webpack, I recommend visiting its https://webpack.js.org/guides/getting-started/[getting started guide].
 
 == WebSockets
 
@@ -842,12 +816,12 @@ WebSockets are an advanced technology that makes it possible to open an interact
 
 If you choose "WebSockets using Spring Websocket" as part of the "other technologies" options when creating a JHipster project, you'll get two JavaScript libraries added to your project:
 
-* https://github.com/JSteunou/webstomp-client[webstomp-client]: STOMP stands for "`simple text-oriented messaging protocol`".
+* https://github.com/stomp-js/rx-stomp[RxStomp]: STOMP stands for "`simple text-oriented messaging protocol`".
 * https://github.com/sockjs/sockjs-client[SockJS]: SockJS provides a WebSocket-like object. If native WebSockets are not available, it falls back to other browser techniques.
 
 To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSockets-enabled project. This displays real-time activity information that's been posted to the `/websocket/tracker` endpoint.
 
-[source%autofit,javascript]
+[source%autofit,typescript]
 .src/main/webapp/app/admin/tracker/tracker.component.ts
 ----
 include::{sourcedir}/chapter2/websockets/tracker.component.ts[]
@@ -855,7 +829,7 @@ include::{sourcedir}/chapter2/websockets/tracker.component.ts[]
 
 The `Tracker` service allows you to send tracking information — for example, to track when someone has authenticated.
 
-[source%autofit,javascript]
+[source%autofit,typescript]
 .src/main/webapp/app/core/tracker/tracker.service.ts
 ----
 include::{sourcedir}/chapter2/websockets/tracker.service.ts[]
@@ -883,10 +857,23 @@ include::{sourcedir}/package.json[]
 
 The `gulpfile.js` utilizes the tools specified in `package.json` to enable Browsersync and create a magical web-development experience.
 
-[source%autofit,javascript]
+[source%autofit,typescript]
 ----
-include::{sourcedir}/gulpfile.browsersync.js[]
+include::{sourcedir}/gulpfile.js[]
 ----
+
+////
+To make sure Browsersync works, use the following in `gulpfile.js`:
+
+gulp.task('serve', function () {
+  browserSync.init({
+    server: '.'
+  });
+
+  gulp.watch(['*.html', 'css/*.css'])
+    .on('change', browserSync.reload);
+});
+////
 
 After you've created these files, you'll need to install https://nodejs.org/[Node.js] and its package manager, npm. This should let you run the following command to install Browsersync and Gulp. You will only need to run this command when dependencies change in `package.json`.
 
@@ -900,10 +887,10 @@ Then run the following command to create a blissful development environment in w
 gulp
 ----
 
-JHipster integrates Browsersync for you, using webpack instead of Gulp. I show a Gulp example here because it so simple. I highly recommend Browsersync for your project. It's useful for determining if your web application can handle a page reload without losing the current user's state.
+JHipster integrates Browsersync for you, using webpack instead of Gulp. I show a Gulp example here because it's so simple. I highly recommend Browsersync for your project. It's useful for determining if your web application can handle a page reload without losing the current user's state.
 
 == Summary
 
-This section describes the UI components in a typical JHipster project. It taught you about the extremely popular UI framework called Angular. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application and it showed you how you can use webpack. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
+This section describes the UI components in a typical JHipster project. It taught you about the extremely popular UI framework called Angular. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application, and it showed you how you can use webpack. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
 
 Now that you've learned about many of the UI components in a JHipster project, let's learn about the API side of things.

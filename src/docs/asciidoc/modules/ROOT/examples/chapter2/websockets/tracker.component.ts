@@ -1,41 +1,48 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, Vue } from 'vue-property-decorator';
+import { Subscription } from 'rxjs';
 
-import { JhiTrackerService } from 'app/core';
+import TrackerService from './tracker.service';
 
-@Component({
-    selector: 'jhi-tracker',
-    templateUrl: './tracker.component.html'
-})
-export class JhiTrackerComponent implements OnInit, OnDestroy {
-    activities: any[] = [];
+@Component
+export default class JhiTrackerComponent extends Vue {
 
-    constructor(private trackerService: JhiTrackerService) {}
+  public activities: any[] = [];
+  private subscription?: Subscription;
 
-    showActivity(activity: any) {
-        let existingActivity = false;
-        for (let index = 0; index < this.activities.length; index++) {
-            if (this.activities[index].sessionId === activity.sessionId) {
-                existingActivity = true;
-                if (activity.page === 'logout') {
-                    this.activities.splice(index, 1);
-                } else {
-                    this.activities[index] = activity;
-                }
-            }
+  @Inject('trackerService') private trackerService: () => TrackerService;
+
+  public mounted(): void {
+    this.init();
+  }
+
+  public destroyed(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = undefined;
+    }
+  }
+
+  public init(): void {
+    this.subscription = this.trackerService().subscribe(activity => {
+      this.showActivity(activity);
+    });
+  }
+
+  public showActivity(activity: any): void {
+    let existingActivity = false;
+    for (let index = 0; index < this.activities.length; index++) {
+      if (this.activities[index].sessionId === activity.sessionId) {
+        existingActivity = true;
+        if (activity.page === 'logout') {
+          this.activities.splice(index, 1);
+        } else {
+          this.activities.splice(index, 1);
+          this.activities.push(activity);
         }
-        if (!existingActivity && activity.page !== 'logout') {
-            this.activities.push(activity);
-        }
+      }
     }
-
-    ngOnInit() {
-        this.trackerService.subscribe();
-        this.trackerService.receive().subscribe(activity => {
-            this.showActivity(activity);
-        });
+    if (!existingActivity && activity.page !== 'logout') {
+      this.activities.push(activity);
     }
-
-    ngOnDestroy() {
-        this.trackerService.unsubscribe();
-    }
+  }
 }
