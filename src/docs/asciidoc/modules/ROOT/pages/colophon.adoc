@@ -1,6 +1,6 @@
 = {book-title}
 
-(C) {revyear} {author}. All rights reserved. Version {revnumber}.
+(C) 2015-{revyear} {author}. All rights reserved. Version {revnumber}.
 
 Published by C4Media, publisher of InfoQ.com.
 
