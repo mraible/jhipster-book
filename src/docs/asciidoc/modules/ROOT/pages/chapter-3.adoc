@@ -337,7 +337,7 @@ This code does not work when using a Spring Boot executable JAR because the clas
 
 === Automatic configuration
 
-Spring Boot is unique in that it automatically configures Spring whenever possible. It does this by peeking into JAR files to see if they're "'hip'". If they are, they contain a `META-INF/spring.factories` that defines configuration classes under the `EnableAutoConfiguration` key. For example, below is what's contained in `spring-boot-actuator-autoconfigure`.
+Spring Boot is unique in that it automatically configures Spring whenever possible. It does this by peeking into JAR files to see if they're "`hip`". If they are, they contain a `META-INF/spring.factories` that defines configuration classes under the `EnableAutoConfiguration` key. For example, below is what's contained in `spring-boot-actuator-autoconfigure`.
 
 .spring-boot-actuator-autoconfigure-2.7.3.RELEASE.jar!/META-INF/spring.factories
 [%autofit]
