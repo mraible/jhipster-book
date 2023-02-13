@@ -1,19 +1,19 @@
 [[microservices-with-jhipster]]
 = Microservices with JHipster
 
-Adopting a microservice architecture provides unique opportunities to add failover and resiliency to your systems, so your components can handle load spikes and errors gracefully. Microservices make change less expensive, too. They can also be a good idea when you have a large team working on a single product. You can likely break up your project into components that can function independently of one another. Once components can function independently, they can be built, tested, and deployed independently. This gives an organization and its teams the agility to develop and deploy very quickly.
+Adopting a microservices architecture provides unique opportunities to add failover and resiliency to your systems, so your components can handle load spikes and errors gracefully. Microservices make change less expensive, too. They can also be a good idea when you have a large team working on a single product. You can break up your project into components that can function independently. Once components can function independently, they can be built, tested, and deployed independently. This gives an organization and its teams the agility to develop and deploy quickly.
 
-Before we dive into the code tutorial, I'd like to talk a bit about microservices, their history, and why you should (or should not) consider a microservices architecture for your next project.
+Before we dive into the code tutorial, I'd like to talk about microservices, their history, and why you should (or should not) consider a microservices architecture for your next project.
 
 == History of microservices
 
 According to https://en.wikipedia.org/wiki/Microservices#History[Wikipedia], the term "microservice" was first used as a common architecture style at a workshop of software architects near Venice in May 2011. In May 2012, the same group decided "microservices" was a more appropriate name.
 
-https://www.linkedin.com/in/adriancockcroft[Adrian Cockcroft], who was at Netflix at the time, described this architecture as "fine-grained SOA". Martin Fowler and James Lewis wrote an article titled simply "`link:http://martinfowler.com/articles/microservices.html[Microservices]`" on March 25, 2014. Years later, this is still considered the definitive article for microservices.
+https://www.linkedin.com/in/adriancockcroft[Adrian Cockcroft], who was at Netflix then, described this architecture as "fine-grained SOA". Martin Fowler and James Lewis wrote an article titled "`link:http://martinfowler.com/articles/microservices.html[Microservices]`" on March 25, 2014. Years later, this is still considered the definitive article for microservices.
 
 === Organizations and Conway's law
 
-Technology has traditionally been organized into technology layers: UI team, database team, operations team. When teams are separated along these lines, even simple changes can lead to a cross-team project consuming huge chunks of time and budget.
+Technology has traditionally been organized into technology layers: UI team, database team, operations team, etc. When teams are separated along these lines, even simple changes can lead to a cross-team project consuming huge chunks of time and budget.
 
 A smart team will optimize around this and choose the lesser of two evils: forcing the logic into whichever application they have access to. This is an example of http://www.melconway.com/Home/Conways_Law.html[Conway's law] in action.
 
@@ -25,42 +25,42 @@ Any organization that designs a system (defined broadly) will produce a design w
 
 === Microservices architecture philosophy
 
-The philosophy of a microservices architecture is essentially equal to the Unix philosophy of "do one thing and do it well". The characteristics of a microservices architecture are as follows:
+The philosophy of a microservices architecture essentially equals the Unix philosophy of "do one thing and do it well". The characteristics of a microservices architecture are as follows:
 
-* componentization via services,
-* organized around business capabilities,
-* products not projects,
-* smart endpoints and dumb pipes,
-* decentralized governance,
-* decentralized data management,
-* infrastructure automation,
-* design for failure, and
-* evolutionary design.
+* componentization via services
+* organized around business capabilities
+* products not projects
+* smart endpoints and dumb pipes
+* decentralized governance
+* decentralized data management
+* infrastructure automation
+* design for failure
+* evolutionary design
 
 == Why microservices?
 
-For most developers, dev teams, and organizations, it's easier to work on small, "do one thing well" services. No single program represents the whole application, so services can change frameworks (or even languages) without a massive cost. As long as the services use a language-agnostic protocol (HTTP or lightweight messaging), applications can be written in several different platforms — Java, Ruby, Node, Go, .NET, etc. — without issue.
+For most developers, dev teams, and organizations, it's easier to work on small "do one thing well" services. No single program represents the whole application, so services can change frameworks (or even languages) without a massive cost. As long as the services use a language-agnostic protocol (HTTP or lightweight messaging), you can write applications in several different platforms—Java, Ruby, Node, Go, .NET, etc.—without issue.
 
-Platform-as-a-service (PaaS) providers and containers have made it easy to deploy microservices. All the technologies needed to support a monolith (e.g., load balancing, discovery, process monitoring) are provided by the PaaS, outside of your container. Deployment effort comes close to zero.
+Platform-as-a-Service (PaaS) providers and containers have made it easy to deploy microservices. All the technologies needed to support a monolith (e.g., load balancing, discovery, process monitoring) are provided by the PaaS outside of your container. Deployment effort comes close to zero.
 
 === Are microservices the future?
 
-The consequences of architecture decisions, like adopting microservices, usually only become evident several years after you make them. Microservices have been successful at companies like LinkedIn, Twitter, Facebook, Amazon.com, and Netflix, but that doesn't mean they'll be successful for your organization. Component boundaries are hard to define. If you're not able to create your components cleanly, you're just shifting complexity from inside a component to the connections between components. Also, team capabilities are something to consider. A weak team will always create a weak system.
+The consequences of architecture decisions, like adopting microservices, usually only become evident several years after you make them. Microservices have been successful at companies like LinkedIn, Twitter, Facebook, Amazon.com, and Netflix, but that doesn't mean they'll be successful for your organization. Component boundaries are hard to define. If you're unable to create your components cleanly, you're just shifting the complexity from inside a component to the connections between components. Also, team capabilities are something to consider. A weak team will always create a weak system.
 
 [quote, Martin Fowler]
 You shouldn't start with a microservices architecture. Instead, begin with a monolith, keep it modular, and split it into microservices once the monolith becomes a problem.
 
 == Reactive Java microservices
 
-Spring Boot 2.0 introduced a new web framework called Spring WebFlux. Previous versions of Spring Boot only shipped with Spring MVC as an option. WebFlux offers a way for developers to do _reactive programming_. This means you can write your code with familiar syntax and, as a result, your app will use fewer resources and scale better.
+Spring Boot 2.0 introduced a new web framework called Spring WebFlux. Previous versions of Spring Boot only shipped with Spring MVC as an option. WebFlux offers a way for developers to do _reactive programming_. This means you can write your code with familiar syntax, and, as a result, your app will use fewer resources and scale better.
 
 [[img-spring-boot-2]]
 .Spring Boot 2.0
 image::chapter-4/diagram-boot-reactor.svg[Spring Boot 2.0, 700, scaledwidth=75%, align=center]
 
-Reactive programming isn't for every app. The general rule of thumb is it won't help you if you have < 500 requests/second. Chances are Spring MVC will perform as well as Spring WebFlux up to that point. When your traffic takes off, or if you need to process things faster than 500 requests/second, you should take a look at Spring WebFlux.
+Reactive programming isn't for every app. The general rule of thumb is it won't help you if you have < 500 requests/second. Chances are Spring MVC will perform as well as Spring WebFlux up to that point. When your traffic takes off, or if you need to process things faster than 500 requests/second, you should look at Spring WebFlux.
 
-JHipster 7 introduced support for Spring WebFlux. This means you can generate a reactive microservice architecture with Spring Cloud Gateway and Spring Boot quickly and easily. This is a great way to get started with reactive programming.
+JHipster 7 introduced support for Spring WebFlux. This means you can generate a reactive microservices architecture with Spring Cloud Gateway and Spring Boot quickly and easily. This is a great way to get started with reactive programming.
 
 Spring WebFlux's API has a similar syntax to Spring MVC. For example, here's the Spring MVC code for creating a new `Points` entity in a JHipster app created with `jhipster jdl 21-points.jh`.
 
@@ -111,7 +111,7 @@ The code above was created by running `jhipster jdl 21-points.jh --reactive`.
 
 == Microservices with JHipster
 
-In this example, I'll show you how to build a reactive microservices architecture with JHipster. As part of this process, you'll be generating three applications and running several others.
+In this example, I'll show you how to build a reactive microservices architecture with JHipster. As part of this process, you'll generate three applications and run several others.
 
 * Generate a gateway.
 * Generate a blog microservice.
@@ -120,11 +120,11 @@ In this example, I'll show you how to build a reactive microservices architectur
 
 === Introducing Micro Frontends
 
-Before JHipster 7.9.0, if you generated a microservice architecture with a UI, the gateway would be a monolithic UI. This means the gateway would contain all the Angular, React, or Vue files. This creates a tight-coupling between the gateway and the microservices it routes to. If you want to change the UI for a microservice, you have to redeploy the gateway too. This is a problem because you should be able to deploy your microservices independently.
+Before JHipster 7.9.0, if you generated a microservices architecture with a UI, the gateway would be a monolithic UI. This means the gateway would contain all the Angular, React, or Vue files. This creates a tight coupling between the gateway and the microservices it routes to. If you want to change the UI for a microservice, you must also redeploy the gateway. This is a problem because you should be able to deploy your microservices independently.
 
-You can solve this problem with micro frontends. Micro frontends are a way to break up your UI into smaller, independent pieces. JHipster added support for micro-frontends in 7.9.0. Microfrontends provide a way for you to remotely load and execute code at runtime so your microservice's UI can live in the same artifact without being coupled to the gateway!
+You can solve this problem with micro frontends. Micro frontends are a way to break up your UI into smaller, independent pieces. JHipster added support for micro-frontends in 7.9.0. Microfrontends provide a way to remotely load and execute code at runtime so your microservice's UI can live in the same artifact without being coupled to the gateway!
 
-NOTE: In the previous paragraph, you might notice I spelled micro frontends three different ways. The current literature is https://twitter.com/mraible/status/1499098253920460802[all over the place] on this one! I'm going to use "micro frontends" for the remainder of this chapter since that's what https://twitter.com/thecamjackson[Cam Jackson] used in his https://martinfowler.com/articles/micro-frontends.html[Micro Frontends article] on Martin Fowler's blog.
+NOTE: In the previous paragraph, I spelled micro frontends three different ways. The current literature is https://twitter.com/mraible/status/1499098253920460802[all over the place] on this one! I'm going to use "micro frontends" for the remainder of this chapter since that's what https://twitter.com/thecamjackson[Cam Jackson] used in his https://martinfowler.com/articles/micro-frontends.html[Micro Frontends article] on Martin Fowler's blog.
 
 You can see how these components fit in the diagram below.
 
@@ -135,7 +135,7 @@ This tutorial shows you how to build a microservices architecture with JHipster 
 
 == Generate an API gateway and microservice applications
 
-Open a terminal window, create a directory (e.g., `jhipster-microservices-example`) and create an `apps.jdl` file in it. Copy the JDL below into this file. You can also download this file https://github.com/jhipster/jdl-samples/blob/main/reactive-mf.jdl[from GitHub].
+Open a terminal window, create a directory (e.g., `jhipster-microservices-example`), and create an `apps.jdl` file in it. Copy the JDL below into this file. You can also download this file https://github.com/jhipster/jdl-samples/blob/main/reactive-mf.jdl[from GitHub].
 
 .apps.jdl
 ====
@@ -258,7 +258,7 @@ deployment {
 <.> The client framework used is React.
 <.> You must specify `consul` as the service discovery type for the gateway and all microservice apps. You can also use `eureka`, but I prefer `consul` because it'll be the default in JHipster 8.
 <.> Including Cypress allows you to test the UI with `npm run e2e`.
-<.> Micro frontends are enabled for the gateway and entities will be pulled in from the blog and store microservices.
+<.> Micro frontends are enabled for the gateway, and entities will be pulled in from the blog and store microservices.
 <.> For the microservice apps, you need to specify an application type of `microservice`.
 <.> The microservice app's authentication type must match the gateway.
 <.> The client framework must be the same for all apps.
@@ -286,9 +286,9 @@ Run JHipster's `jdl` command to import this microservices architecture definitio
 jhipster jdl apps.jdl --monorepository --workspaces
 ----
 
-The project generation process will take a minute or two to run, depending on your internet connection speed and hardware.
+The project generation process will take a minute or two, depending on your internet connection speed and hardware.
 
-The last two arguments are optional, but I expect you to use them for this tutorial. Without the `monorepository` flag, the gateway and microservices would have their own Git repos. The `workspaces` flag enables https://docs.npmjs.com/cli/v8/using-npm/workspaces[npm workspaces], which are kinda like having an aggregator `pom.xml` that allows you to execute commands across projects. It also makes it so there's only one `node_modules` in the root directory. To learn more, I recommend egghead's https://egghead.io/courses/introduction-to-monorepos-with-npm-workspaces-c03f500b[Introduction to Monorepos with NPM Workspaces].
+The last two arguments are optional, but I expect you to use them for this tutorial. Without the `monorepository` flag, the gateway and microservices would have their own Git repos. The `workspaces` flag enables https://docs.npmjs.com/cli/v8/using-npm/workspaces[npm workspaces], which are similar to having an aggregator `pom.xml` that allows you to execute commands across projects. It also makes it so there's only one `node_modules` in the root directory. To learn more, I recommend egghead's https://egghead.io/courses/introduction-to-monorepos-with-npm-workspaces-c03f500b[Introduction to Monorepos with NPM Workspaces].
 
 If you want to use Angular, append `--client-framework angularX` to the command above to override the JDL value:
 
@@ -375,12 +375,12 @@ Now, open another terminal and navigate into the `store` directory. Run `npm sta
 
 The UI will change before you can kbd:[Cmd+Tab] back to your browser.
 
-// todo: this keyboard macro doesn't seem to work in the PDF
+// todo: this keyboard macro doesn't work in the PDF
 
 .Store edit
 image::chapter-4/store-edit.png[alt=Store edit, width=1119, scaledwidth=100%, align=center]
 
-The backend has quick turnaround abilities too, thanks to https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools[Spring Boot devtools]. If you modify a backend class, recompiling it will cause Spring Boot to reload your component lickety-split. It's pretty slick!
+The backend has quick turnaround abilities, too, thanks to https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools[Spring Boot devtools]. If you modify a backend class, recompiling it will cause Spring Boot to reload your component lickety-split. It's pretty slick!
 
 === A look under the hood of micro frontends
 
@@ -607,7 +607,7 @@ This command will start and run all the apps, their databases, Consul, and Keycl
 127.0.0.1  keycloak
 ----
 
-This is because you will access your application with a browser on your machine (where the name is localhost, or `127.0.0.1`), but inside Docker it will run in its own container, where the name is `keycloak`.
+This is because you will access your application with a browser on your machine (where the name is localhost, or `127.0.0.1`), but inside Docker, it will run in its own container, where the name is `keycloak`.
 
 If you want to prove everything works, ensure everything is started at `\http://localhost:8500`, then run `npm run e2e -ws` from the root project directory. This command will run the Cypress tests that JHipster generates in your browser.
 
@@ -630,9 +630,9 @@ In the https://manage.auth0.com/#/roles[roles] section, create new roles named `
 
 Create a new user account in the https://manage.auth0.com/#/users[users] section. Click the *Role* tab to assign the roles you just created to the new account.
 
-_Make sure your new user's email is verified before attempting to log in!_
+_Make sure your new user's email is verified before logging in!_
 
-Next, head to **Actions** > **Flows** and select **Login**. Create a new action named `Add Roles` and use the default trigger and runtime. Change the `onExecutePostLogin` handler to be as follows:
+Next, head to **Actions** > **Flows** and select **Login**. Create a new action named `Add Roles` and use the default trigger and runtime. Change the `onExecutePostLogin` handler to:
 
 [source%autofit,js]
 ----
@@ -745,6 +745,6 @@ You can find the source code for this microservices example at https://github.co
 
 == Summary
 
-I hope you enjoyed this overview of how to use micro frontends within a Java microservices architecture. I like how micro frontends allow each microservice application to be self-contained and deployable, independent of the other microservices. It's also pretty neat how JHipster generates Docker and Kubernetes configuration for you. Cloud-native FTW!
+I hope you enjoyed this overview of how to use micro frontends within a Java microservices architecture. I like how micro frontends allow each microservice application to be self-contained and deployable; independent of the other microservices. It's also neat how JHipster generates Docker and Kubernetes configurations for you. Cloud-native FTW!
 
-I'd also like you to remember that just because JHipster makes microservices easy doesn't mean you should use them. Using a microservices architecture is a great way to scale development teams, but if you don't have a large team, a "`link:https://m.signalvnoise.com/the-majestic-monolith-29166d022228[Majestic Monolith]`" might work better.
+Just because JHipster makes microservices easy doesn't mean you should use them. Using a microservices architecture is a great way to scale development teams, but if you don't have a large team, a "`link:https://m.signalvnoise.com/the-majestic-monolith-29166d022228[Majestic Monolith]`" might work better.

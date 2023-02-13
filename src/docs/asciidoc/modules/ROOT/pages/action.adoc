@@ -1,7 +1,7 @@
 [[action]]
 = Action!
 
-I hope you've enjoyed learning how JHipster can help you develop hip web applications! It's a nifty project, with an easy-to-use entity generator, a pretty UI and many Spring Boot best-practice patterns. The project team follows six simple https://www.jhipster.tech/policies/[policies], paraphrased here:
+I hope you've enjoyed learning how JHipster can help you develop hip web applications! It's a nifty project with an easy-to-use entity generator, a pretty UI, and many Spring Boot best-practice patterns. The project team follows six simple https://www.jhipster.tech/policies/[policies], paraphrased here:
 
 . The development team votes on policies.
 . Use technologies with their default configuration and best practices as much as possible.
@@ -20,10 +20,10 @@ If you want to learn more, here are some suggestions.
 
 I wrote https://www.infoq.com/minibooks/angular-mini-book[_The Angular Mini-Book_] (InfoQ, February 2022) as a bare-bones guide to using Angular. It's a good place to start if you're new to Angular. It also includes extensive Spring Boot coverage, security best practices, and cloud deployment options.
 
-Deepu K Sasidharan and Sendil Kumar N, two prolific committers on the JHipster team, wrote https://www.packtpub.com/product/full-stack-development-with-jhipster-second-edition/9781838824983[_Full Stack Development with JHipster - Second Edition_] (Packt Publishing, January 2020). This book covers JHipster 6.
+Deepu K Sasidharan and Sendil Kumar N, two prolific committers on the JHipster team, wrote https://www.packtpub.com/product/full-stack-development-with-jhipster-second-edition/9781838824983[_Full Stack Development with JHipster: Second Edition_] (Packt Publishing, January 2020). This book covers JHipster 6.
 
 Learn how to use Spring Boot to be productive and build mission-critical applications with https://www.oreilly.com/library/view/spring-boot-up/9781492076971/[_Spring Boot: Up and Running_] (O'Reilly Media, February 2021) by Mark Heckler.
 
-Josh Long's https://reactivespring.io/[Reactive Spring] (self-published, February 2022) provides an introduction to reactive programming and its implementation in the Spring ecosystem. If you're looking to learn more about WebFlux, this is a great place to start.
+Josh Long's https://reactivespring.io/[Reactive Spring] (self-published, February 2022) introduces reactive programming and its implementation in the Spring ecosystem. If you want to learn more about WebFlux, this is a great place to start.
 
-One of the most complete books I've read on Angular is https://www.ng-book.com/2/[_ng-book: The Complete Book on Angular_] by Nathan Murray, Felipe Coury, Ari Lerner, and Carlos Taborda) (Fullstack.io, continuously updated).
+One of the most comprehensive books I've read on Angular is https://www.ng-book.com/2/[_ng-book: The Complete Book on Angular_] by Nathan Murray, Felipe Coury, Ari Lerner, and Carlos Taborda) (Fullstack.io, continuously updated).
