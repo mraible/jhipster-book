@@ -6,7 +6,7 @@ I used AngularJS for several years as well. In early 2013, I first used AngularJ
 
 When I heard about JHipster, I was motivated to use it immediately. It combined my most-often-used frameworks into an easy-to-use package. For the first several months I knew about JHipster, I used it as a learning tool—generating projects and digging into files to see how it coded features. The JHipster project is a goldmine of information and lessons from several years of developer experience.
 
-I wanted to write this book because I knew all the tools in JHipster well. I wanted to further my knowledge of this wonderful project and show Java developers that they could be hip again by leveraging AngularJS and Bootstrap. JavaScript web development isn't scary—it's just another powerful platform that can improve your web-development skills.
+I wanted to write this book because I knew all the tools in JHipster well. I wanted to further my knowledge of this wonderful project and show Java developers that they could be hip again by leveraging Angular and Bootstrap. JavaScript web development isn't scary—it's just another powerful platform that can improve your web-development skills.
 
 The first version of this book was released in October 2015, the second in December 2016, and the third (4.x to match Angular) was released in the fall of 2017 after JHipster migrated to Angular. Version 4.5 was released in April 2018 with an additional chapter on microservices. Version 5 for JHipster v5 was released in November 2018. This version is updated for JHipster version 7. I'm pleased to bring you this book as an active member of the JHipster Development Team.
 
