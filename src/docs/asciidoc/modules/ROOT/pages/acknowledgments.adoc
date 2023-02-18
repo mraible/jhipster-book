@@ -1,4 +1,4 @@
-co= Acknowledgments
+= Acknowledgments
 
 I'm extremely grateful to my family for putting up with my late nights and extended screen time while I worked on this book.
 
