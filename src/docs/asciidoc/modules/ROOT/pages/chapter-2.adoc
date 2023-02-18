@@ -1,13 +1,13 @@
 [[jhipsters-ui-components]]
 = JHipster\'s UI components
 
-A modern web application has many UI components. It likely has some sort of model-view-controller (MVC) framework as well as a CSS framework, and tooling to simplify the use of these. With a web application, you can have users all over the globe, so translating your application into other languages might be important. If you're developing large amounts of CSS, you'll likely use a CSS pre-processor like Less or Sass. Then you'll need a build tool to refresh your browser, run your pre-processor, run your tests, minify your web assets, and prepare your application for production.
+A modern web application has many UI components. It likely has some sort of model-view-controller (MVC) framework as well as a CSS framework and tooling to simplify the use of these. With a web application, you can have users all over the globe, so translating your application into other languages might be important. If you're developing large amounts of CSS, you'll likely use a CSS pre-processor like Less or Sass. Then you'll need a build tool to refresh your browser, run your pre-processor, run your tests, minify your web assets, and prepare your application for production.
 
 This section shows how JHipster includes all of these UI components for you and makes your developer experience a joyous one.
 
 == Angular
 
-JHipster supports three UI frameworks: Angular, React, and Vue. In the first two versions of this book, I showed you how to use AngularJS. In the last three versions (4.0, 4.5, and 5.0), I showed you how to use Angular. Since this is a mini-book, I'm going to stick with showing Angular only. You can see from the following graphs that React and Angular are the most popular among JavaScript frameworks.
+JHipster supports three UI frameworks: Angular, React, and Vue. In the first two versions of this book, I showed you how to use AngularJS. In the last three versions (4.0, 4.5, and 5.0), I showed you how to use Angular. Since this is a mini-book, I'm going to stick with showing Angular only. You can see from the following graphs that React and Angular are the most popular JavaScript frameworks.
 
 [[img-angular-jobs-2022]]
 .Jobs on Indeed, December 2022
@@ -17,21 +17,21 @@ image::chapter-2/angular/indeed-jobs-202212.png[Jobs on Indeed, 450, scaledwidth
 .Stack Overflow Tags, December 2022
 image::chapter-2/angular/stackoverflow-tags-202212.png[Tags on Stack OverFlow, 450, scaledwidth=75%, align=center]
 
-Angular is the default UI framework used by JHipster. It's written in TypeScript, compiles to JavaScript, and just using it makes you a hipster! Like Struts in the early 2000s and Rails in the mid-2000s, Angular and other JavaScript frameworks have changed the way developers write web applications. Today, data is exposed via REST APIs and UIs are written in JavaScript (or TypeScript). As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns. It recommended organizing your application into several components:
+Angular is the default UI framework used by JHipster. It's written in TypeScript, compiles to JavaScript, and just using it makes you a hipster! Like Struts in the early 2000s and Rails in the mid-2000s, Angular and other JavaScript frameworks have changed how developers write web applications. Today, data is exposed via REST APIs, and UIs are written in JavaScript (or TypeScript). As a Java developer, I was immediately attracted to Angular when I saw its separation of concerns. It recommended organizing your application into several components:
 
 * Components: Classes that retrieve data from services and expose it to templates.
 * Services: Classes that make HTTP calls to a JSON API.
 * Templates: HTML pages that display data. Use Angular directives to iterate over collections and show/hide elements.
-* Pipes: Data-manipulation tools that can transform data (e.g. uppercase, lowercase, ordering, and searching).
+* Pipes: Data-manipulation tools that can transform data (e.g., uppercase, lowercase, ordering, and searching).
 * Directives: HTML processors that allow components to be written. Similar to JSP tags.
 
 === History
 
-AngularJS was started by Miško Hevery in 2009. He was working on a project that was using GWT. Three developers had been developing the product for six months, and Miško rewrote the whole thing in AngularJS in three weeks. At that time, AngularJS was a side project he'd created. It didn't require you to write much in JavaScript as you could program most of the logic in HTML. The GWT version of the product contained 17,000 lines of code. The AngularJS version was only 1,000 lines of code!
+AngularJS was started by Miško Hevery in 2009. He was working on a project that was using GWT. Three developers had been developing the product for six months, and Miško rewrote the whole thing in AngularJS in three weeks. At that time, AngularJS was a side project he'd created. It didn't require you to write much in JavaScript, as you could program most of the logic in HTML. The GWT version of the product contained 17,000 lines of code. The AngularJS version was only 1,000 lines of code!
 
-In October 2014, the AngularJS team announced they were building http://www.infoq.com/news/2014/10/angular-2-atscript[Angular 2.0]. The announcement led to a bit of upheaval in the Angular developer community. The API for writing Angular applications was going to change and it was to be based on a new language, AtScript. There would be no migration path and users would have to continue using 1.x or rewrite their applications for 2.x.
+In October 2014, the AngularJS team announced they were building http://www.infoq.com/news/2014/10/angular-2-atscript[Angular 2.0]. The announcement led to a bit of upheaval in the Angular developer community. The API for writing Angular applications was going to change, and it was to be based on a new language, AtScript. There would be no migration path, and users would have to continue using 1.x or rewrite their applications for 2.x.
 
-A new syntax was introduced that binds data to element properties, not attributes. The advantage of this syntax is it allows you to use any web component in an Angular app, not just those retrofitted to work with Angular.
+A new syntax was introduced that binds data to element properties, not attributes. This syntax allows you to use any web component in an Angular app, not just those retrofitted to work with Angular.
 
 [source,html]
 ----
@@ -40,16 +40,14 @@ A new syntax was introduced that binds data to element properties, not attribute
 <input type="checkbox" [checked]="someProperty">
 ----
 
-In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announcing that they would be using TypeScript over AtScript and that they would provide a migration path for Angular 1.x users. They also adopted semantic versioning and http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html[recommended people call it "Angular" instead of Angular 2.0].
+In March 2015, the Angular team http://www.infoq.com/news/2015/03/angular-2-concerns-addressed[addressed community concerns], announced they would be using TypeScript over AtScript and that they would provide a migration path for Angular 1.x users. They also adopted semantic versioning and http://angularjs.blogspot.com/2017/01/branding-guidelines-for-angular-and.html[recommended people call it "Angular" instead of Angular 2.0].
 
-Angular 2.0 was released September 2016. Angular 4.0 was released March 2017. JHipster 4.6.0 was released July 6, 2017 and was the first release to contain production-ready Angular support. JHipster 7 uses Angular 14. Angular released version 15 during the production of this book.
+Angular 2.0 was released in September 2016. Angular 4.0 was released in March 2017. JHipster 4.6.0 was released on July 6, 2017, and was the first release to contain production-ready Angular support. JHipster 7 uses Angular 14. Angular released version 15 during the production of this book.
 
 You can find the Angular project at https://angular.io.
 
 === Basics
 Creating a component that says "Hello World" with Angular is pretty simple.
-
-todo: TypeScript syntax highlighting works in HTML and PDF, but not in EPUB. Need to fix this.
 
 [source,typescript]
 ----
@@ -64,7 +62,7 @@ export class AppComponent {
 }
 ----
 
-In this example, the `name` variable in the component maps to the value displayed in `+{{name}}+`. To make this component render on a page, you'll need a few more files: a module definition, a bootstrapping class, and an HTML file. A basic module definition contains component declarations, imports, providers, and a class to bootstrap.
+In this example, the `name` variable in the component maps to the value displayed in `+{{name}}+`. To render this component on a page, you'll need a few more files: a module definition, a bootstrapping class, and an HTML file. A basic module definition contains component declarations, imports, providers, and a class to bootstrap.
 
 [source,typescript]
 ----
@@ -111,7 +109,7 @@ Finally, you'll need a basic HTML file that renders the component.
 </html>
 ----
 
-The MVC pattern is a common one for web frameworks to implement. With Angular, the model is represented by an object that you create or retrieve from a service. The view is a HTML template and the component is a class that sets variables to be read by the template.
+The MVC pattern is a common one for web frameworks to implement. With Angular, the model is represented by an object you create or retrieve from a service. The view is an HTML template, and the component is a class that sets variables to be read by the template.
 
 [[img-angular-mvc]]
 .MVC in Angular
@@ -209,7 +207,7 @@ const appRoutes: Routes = [
 export class AppModule { }
 ----
 
-In the main entry point of the app, `AppComponent` in this case, you'll need to specify the router outlet in a template.
+In the app's main entry point, `AppComponent` in this case, you'll need to specify the router outlet in a template.
 
 [source,html]
 .app.component.html
@@ -257,7 +255,7 @@ export class SearchComponent {
 ----
 <1> To inject `SearchService` into `SearchComponent`, simply add it as a parameter to the component's constructor. TypeScript automatically makes constructor dependencies available as class variables.
 <2> `search()` is a method that's called from the HTML's `<input>` and `<button>`, wired up using the `(keyup.enter)` and `(click)` event handlers.
-<3> `this.query` is a variable that's wired to `<input>` using the `[(ngModel)]` directive. This syntax provides two-way binding so if you change the value in the component, it changes it in the rendered HTML. You can think of it this way: `[] => component to template` and  `() => template to component`.
+<3> `this.query` is a variable that's wired to `<input>` using the `[(ngModel)]` directive. This syntax provides two-way binding, so if you change the value in the component, it changes it in the rendered HTML. You can think of it this way: `[] => component to template` and  `() => template to component`.
 
 To make the aforementioned code work, you can generate a new Angular project using https://cli.angular.io[Angular CLI]. To install Angular CLI, you can use npm.
 
@@ -333,17 +331,17 @@ Now that you've learned a bit about one of the hottest web frameworks on the pla
 
 == Bootstrap
 
-http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides a number of CSS classes and HTML structures that allow you to develop HTML user interfaces that look good. Not only that, but it’s responsive by default, which means it works better (or even best) on a mobile device.
+http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the development of web applications. It provides many CSS classes and HTML structures that allow you to develop HTML user interfaces that look good. Not only that, but it’s responsive by default, which means it works better (or even best) on a mobile device.
 
 === Bootstrap's grid system
 
-Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's powerful grid is built with containers, rows, and columns. It's based on the CSS3 flexible box, or flexbox. Flexbox is a layout mode intended to accommodate different screen sizes and different display devices. It's easier than using blocks to do layouts because it doesn't use floats, nor do the flex container's margins collapse with the margins of its content. CSS-Tricks has https://css-tricks.com/snippets/css/a-guide-to-flexbox/[A Complete Guide to Flexbox] that explains its concepts well.
+Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's powerful grid is built with containers, rows, and columns. It's based on the CSS3 flexible box, or flexbox. Flexbox is a layout mode that accommodates different screen sizes and display devices. It's easier than using blocks to do layouts because it doesn't use floats, nor do the flex container's margins collapse with the margins of its content. CSS-Tricks has https://css-tricks.com/snippets/css/a-guide-to-flexbox/[A Complete Guide to Flexbox] that explains its concepts well.
 
-> The main idea behind the flex layout is to give the container the ability to alter its items' width/height (and order)
-> to best fill the available space, mostly to accommodate all kinds of display devices and screen sizes. A flex
+> The main idea behind the flex layout is to allow the container to alter its items' width/height (and order)
+> to fill the available space best, mostly to accommodate all kinds of display devices and screen sizes. A flex
 > container expands items to fill available free space or shrinks them to prevent overflow.
 
-Bootstrap's grid width varies based on viewport width. The table below shows how aspects of the grid system work across different devices.
+Bootstrap's grid width varies based on the viewport width. The table below shows how aspects of the grid system work across different devices.
 
 // https://getbootstrap.com/docs/5.2/layout/breakpoints/
 
@@ -393,7 +391,7 @@ If you squish your browser to less than 1200 px wide or render this same documen
 .Basic grid on a mobile device
 image::chapter-2/bootstrap/basic-grid-mobile.png[Basic grid on a mobile device, 552, scaledwidth=75%]
 
-Bootstrap's grid can be used to align and position your application's elements, widgets, and features. It's helpful to understand a few basics if want to use it effectively.
+Bootstrap's grid can be used to align and position your application's elements, widgets, and features. Understanding a few basics is helpful if you want to use it effectively.
 
 * It's based on 12 columns.
 * Just use "`md`" class and fix as needed.
@@ -414,7 +412,7 @@ image::chapter-2/bootstrap/advanced-grid-desktop.png[Advanced grid, 734, scaledw
 
 You can use size indicators to specify breakpoints in the columns. Breakpoints indicate where a column wraps onto the next row. In the HTML above, "`xs`" and "`md`" are the size indicators (of course,  "`sm`", "`lg`", and "`xl`" are the other options). Bootstrap uses the following media query ranges.
 
-// todo: look at CSS formatting. It looks kinda funny in HTML.
+// todo: look at CSS formatting. It looks rather funny in HTML.
 
 [source,css]
 ----
@@ -460,14 +458,14 @@ If you're using Sass, all Bootstrap's media queries are available via Sass mixin
 
 === Responsive utility classes
 
-Bootstrap also includes a number of utility classes that can be used to show and hide elements based on browser size, like `.d-[xs|sm|md|lg|xl|xxl]-block` and `.d-[xs|sm|md|lg|xl|xxl]-none`. There are no explicit "show" responsive utility classes; you make an element visible by simply not hiding it at that breakpoint size.
+Bootstrap also includes several utility classes that can be used to show and hide elements based on the browser size, like `.d-[xs|sm|md|lg|xl|xxl]-block` and `.d-[xs|sm|md|lg|xl|xxl]-none`. There are no explicit "show" responsive utility classes; you make an element visible by simply not hiding it at that breakpoint size.
 
 Bootstrap's classes for setting the display are names using the following format:
 
 * `.d-{value}` for `xs`
 * `.d-{breakpoint}-{value}` for `sm`, `md`, `lg`, `xl`, and `xxl
 
-The media queries effect screen widths with the given breakpoint or _larger_. For example, `.d-lg-none` sets `display: none` on both `lg`, `xl`, and `xxl` screens.
+The media queries affect screen widths with the given breakpoint or _larger_. For example, `.d-lg-none` sets `display: none` on both `lg`, `xl`, and `xxl` screens.
 
 The following example from 21-Points Health shows how to display a shorter heading on mobile and a larger one on bigger screens.
 
@@ -483,7 +481,7 @@ The following example from 21-Points Health shows how to display a shorter headi
 
 === Forms
 
-When you add Bootstrap's CSS to your web application, chances are it'll quickly start to look better. Typography, margins, and padding will look better by default. However, your forms might look funny, because Bootstrap requires a few classes on your form elements to make them look good. Below is an example of a form element.
+When you add Bootstrap's CSS to your web application, it'll quickly start to look better. Typography, margins, and padding will look better by default. However, your forms might look funny because Bootstrap requires a few classes on your form elements to make them look good. Below is an example of a form element.
 
 [source%autofit,html]
 ----
@@ -494,7 +492,7 @@ include::{sourcedir}/chapter-2/bootstrap/basicelement.html[]
 .Basic form element
 image::chapter-2/bootstrap/basicelement.png[Basic form element, 534, scaledwidth=90%]
 
-If you'd like to indicate that this form element is not valid, you'll need to modify the above HTML to display validation warnings.
+If you'd like to indicate that this form element is invalid, you'll need to modify the above HTML to display validation warnings.
 
 [source%autofit,html]
 ----
@@ -507,9 +505,9 @@ image::chapter-2/bootstrap/basicelement-validation.png[Form element with validat
 
 === CSS
 
-When you add Bootstrap's CSS to a HTML page, the default settings immediately improve the typography. Your `<h1>` and `<h2>` headings become semi-bold and are sized accordingly. Your paragraph margins, body text, and block quotes will look better. If you want to align text in your pages, `text-[left|center|right]` are useful classes. For tables, a `table` class gives them a better look and feel by default.
+When you add Bootstrap's CSS to an HTML page, the default settings immediately improve the typography. Your `<h1>` and `<h2>` headings become semi-bold and are sized accordingly. Your paragraph margins, body text, and block quotes will look better. If you want to align text in your pages, `text-[left|center|right]` are useful classes. For tables, a `table` class gives them a better look and feel by default.
 
-To make your buttons look better, Bootstrap provides `btn` and a number of `btn-*` classes.
+To make your buttons look better, Bootstrap provides `btn` and several `btn-*` classes.
 
 [source,html]
 ----
@@ -522,9 +520,9 @@ image::chapter-2/bootstrap/buttons.png[Buttons, 706, scaledwidth=90%]
 
 === Components
 
-Bootstrap ships with a number of components included. Some require JavaScript; some only require HTML5 markup and CSS classes to work. Its rich set of components have helped make it one of the most popular projects on GitHub. Web developers have always liked components in their frameworks. A framework that offers easy-to-use components often allows developers to write less code. Less code to write means there's less code to maintain!
+Bootstrap ships with several components included. Some require JavaScript; some only require HTML5 markup and CSS classes. Its rich set of components has helped make it one of the most popular projects on GitHub. Web developers have always liked components in their frameworks. A framework that offers easy-to-use components often allows developers to write less code. Less code to write means there's less code to maintain!
 
-Popular Bootstrap components include: dropdowns, button groups, button dropdowns, navbar, breadcrumbs, pagination, alerts, progress bars, and panels. Below is an example of a navbar with a dropdown.
+Popular Bootstrap components include dropdowns, button groups, button dropdowns, navbar, breadcrumbs, pagination, alerts, progress bars, and panels. Below is an example of a navbar with a dropdown.
 
 [[img-bootstrap-navbar]]
 .Navbar with dropdown
@@ -574,7 +572,7 @@ TIP: To make the links in your alerts match the colors of the alerts, use `.aler
 
 === Icons
 
-Icons have always been a big part of web applications. Showing the user a small image is often sexier and hipper than plain text. Humans are visual beings and icons are a great way to spice things up. In the last several years, font icons have become popular for web development. Font icons are just fonts, but they contain symbols and glyphs instead of text. You can style, scale, and load them quickly because of their small size.
+Icons have always been a big part of web applications. Showing the user a small image is often sexier and hipper than plain text. Humans are visual beings, and icons are a great way to spice things up. In the last several years, font icons have become popular for web development. Font icons are just fonts but contain symbols and glyphs instead of text. Because of their small size, you can style, scale, and load them quickly.
 
 Bootstrap Icons is an icon library created by the Bootstrap team. You can install them using `npm i bootstrap-icons`. You can use them as SVGs, SVG sprites, or web fonts.
 
@@ -606,9 +604,9 @@ image::chapter-2/bootstrap/buttons-with-icons.png[Buttons with icons, 265, scale
 
 === Customizing CSS
 
-If you'd like to override Bootstrap classes in your project, the easiest thing to do is to put the override rule in a CSS file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/content/scss/global.scss` directly. Using Sass results in a much more concise authoring environment. Below is the default `vendor.scss` file that JHipster generates. You can see that it imports Bootstrap, and I've added an import for Angular Calendar. Default Bootstrap rules are overridden in the aforementioned `global.scss`.
+If you'd like to override Bootstrap classes in your project, just put the override rule in a CSS file that comes after Bootstrap's CSS. Or you can modify `src/main/webapp/content/scss/global.scss` directly. Using Sass results in a much more concise authoring environment. Below is the default `vendor.scss` file that JHipster generates. You can see that it imports Bootstrap, and I've added an import for Angular Calendar. Default Bootstrap rules are overridden in the aforementioned `global.scss`.
 
-// todo: look at Sass formatting. It looks kinda funny in HTML.
+// todo: look at Sass formatting. It looks rather funny in HTML.
 
 [source,sass]
 .src/main/webapp/scss/vendor.scss
@@ -634,13 +632,13 @@ There's also a `src/main/webapp/content/scss/_bootstrap-variable.scss` file. You
 
 === Angular and Bootstrap
 
-JHipster includes https://ng-bootstrap.github.io/[ng-bootstrap] by default. This library provides Bootstrap 5 components that are powered by Angular instead of jQuery.
+JHipster includes https://ng-bootstrap.github.io/[ng-bootstrap] by default. This library provides Bootstrap 5 components powered by Angular instead of jQuery.
 
-Popular alternatives to Bootstrap include https://material.angular.io/[Angular Material] and http://ionicframework.com/[Ionic Framework]. There is no support for these frameworks at this time. To integrate them would require that all templates to rewritten to include their classes instead of Bootstrap's. While possible, it'd be a lot of work to create and maintain.
+Popular alternatives to Bootstrap include https://material.angular.io/[Angular Material] and http://ionicframework.com/[Ionic Framework]. There is no support for these frameworks at this time. Integrating them would require that all templates be rewritten to include their classes instead of Bootstrap's. While possible, it'd be a lot of work to create and maintain.
 
 == Internationalization (i18n)
 
-Internationalization (also called i18n because the word has 18 letters between "`i`" and "`n`") is a first-class citizen in JHipster. Translating an application to another language is easiest if you put the i18n system in place at the beginning of a project. http://www.ngx-translate.com/[ngx-translate] provides directives that make it easy to translate your application into multiple languages. It also provides a service that allows changing the language at runtime.
+Internationalization (also called i18n because the word has 18 letters between "`i`" and "`n`") is a first-class citizen in JHipster. Translating an application to another language is easiest if you put the i18n system in place at the beginning of a project. http://www.ngx-translate.com/[ngx-translate] provides directives that make translating your application into multiple languages easy. It also provides a service that allows changing the language at runtime.
 
 To use i18n in a JHipster project, you simply add a "`jhiTranslate`" attribute with a key.
 
@@ -666,7 +664,7 @@ export class TranslationModule {
 
 == Sass
 
-Sass stands for "`syntactically awesome style sheets`". It's a language for writing CSS with the goodies you're used to using in modern programming languages, such as variables, nesting, mixins, and inheritance. Sass uses the `$` symbol to indicate a variable, which can then be referenced later in your document.
+Sass stands for "`syntactically awesome style sheets`". It's a language for writing CSS with the goodies you're used to using in modern programming languages, such as variables, nesting, mixins, and inheritance. Sass uses the `$` symbol to indicate a variable, which can be referenced later in your document.
 
 [source,sass]
 ----
@@ -760,15 +758,15 @@ JHipster 7 uses Sass by default. To learn more about structuring your CSS and na
 
 == Webpack
 
-JHipster 4+ uses https://webpack.github.io/[webpack] for building the client. JHipster 3.x used https://gulpjs.com/[Gulp]. Gulp allows you to perform tasks like minification, concatenation, compilation (e.g. from TypeScript/CoffeeScript to JavaScript), unit testing, and more. webpack is a more modern solution that's become very popular for Angular projects and is included under the covers in Angular CLI.
+JHipster 4+ uses https://webpack.github.io/[webpack] for building the client. JHipster 3.x used https://gulpjs.com/[Gulp]. Gulp allows you to perform tasks like minification, concatenation, compilation (e.g., from TypeScript/CoffeeScript to JavaScript), unit testing, and more. webpack is a more modern solution that's become very popular for Angular projects and is included under the covers in Angular CLI.
 
-webpack is a module bundler that recursively builds a dependency graph with every module your application needs. It packages all of these modules into a smaller number of bundles to be loaded by the browser. Its code-splitting abilities make it possible to break up large JavaScript applications into small chunks that can be loaded on demand.
+webpack is a module bundler that recursively builds a dependency graph with every module your application needs. It packages all of these modules into smaller bundles to be loaded by the browser. Its code-splitting abilities make it possible to break up large JavaScript applications into small chunks to be loaded on demand.
 
 It has four core concepts:
 
 * **Entry:** This tells webpack where to start and follows the graph of dependencies to know what to bundle.
 * **Output:** Once you've bundled all of your assets together, you need to tell webpack *where* to put them.
-* **Loaders:** webpack treats every file (.css, .scss, .ts, .png, .html, etc.) as a module, but only understands JavaScript. Loaders transform files into modules as they are added to the dependency graph.
+* **Loaders:** webpack treats every file (.css, .scss, .ts, .png, .html, etc.) as a module but only understands JavaScript. Loaders transform files into modules as they are added to the dependency graph.
 * **Plugins:** Loaders execute transforms per file. Plugins perform actions and customizations on chunks of your bundled modules.
 
 Below is a basic `webpack.config.js` that shows all four concepts in use.
@@ -800,26 +798,26 @@ const config = {
 module.exports = config;
 ----
 
-In the Angular section, I mentioned Angular CLI and my https://github.com/mraible/ng-demo[ng-demo] project that shows how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command. To see its webpack config, or to tweak it for your needs, you can _eject_ it from your project by running `ng eject`.
+In the Angular section, I mentioned Angular CLI and my https://github.com/mraible/ng-demo[ng-demo] project that shows how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command. To see its webpack config or to tweak it for your needs, you can _eject_ it from your project by running `ng eject`.
 
-I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js` file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack configuration. JHipster generates a `webpack` directory that contains files for different scenarios: dev mode with hot reload, testing, and preparing for production.
+I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js` file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack configuration. JHipster generates a `webpack` directory containing files for different scenarios: dev mode with hot reload, testing, and production optimizations.
 
 * `logo-jhipster.png` is the logo that shows in desktop alerts for build notifications.
 * `environment.js` specifies the project's version, i18n hash, and server API URL.
-* `webpack.custom.js` is main configuration file that defines a `development` and a `production` mode. Dev mode enables hot-reloading with Browsersync and desktop notifications. For production, HTML templates are converted to JavaScript, and source maps are created.
+* `webpack.custom.js` is the main configuration file that defines a `development` and a `production` mode. Dev mode enables hot-reloading with Browsersync and desktop notifications. HTML templates are converted to JavaScript, and source maps are created for production.
 
 To learn more about webpack, I recommend visiting its https://webpack.js.org/guides/getting-started/[getting started guide].
 
 == WebSockets
 
-WebSockets are an advanced technology that makes it possible to open an interactive communication channel between the user's browser and a server. With this API, you can send messages to a server and receive event-driven responses without having to poll the server for a reply. WebSockets have been called "`TCP for the Web`".
+The WebSocket API (aka WebSockets) is an advanced technology that makes it possible to open an interactive communication channel between the user's browser and a server. With this API, you can send messages to a server and receive event-driven responses without polling the server for a reply. WebSockets have been called "`TCP for the Web`".
 
 If you choose "WebSockets using Spring Websocket" as part of the "other technologies" options when creating a JHipster project, you'll get two JavaScript libraries added to your project:
 
 * https://github.com/stomp-js/rx-stomp[RxStomp]: STOMP stands for "`simple text-oriented messaging protocol`".
-* https://github.com/sockjs/sockjs-client[SockJS]: SockJS provides a WebSocket-like object. If native WebSockets are not available, it falls back to other browser techniques.
+* https://github.com/sockjs/sockjs-client[SockJS]: SockJS provides a WebSocket-like object. If native WebSockets are unavailable, they fall back to other browser techniques.
 
-To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSockets-enabled project. This displays real-time activity information that's been posted to the `/websocket/tracker` endpoint.
+To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSockets-enabled project. This displays real-time activity information posted to the `/websocket/tracker` endpoint.
 
 [source%autofit,typescript]
 .src/main/webapp/app/admin/tracker/tracker.component.ts
@@ -827,7 +825,7 @@ To see how WebSockets work, take a look at the `JhiTrackerComponent` in a WebSoc
 include::{sourcedir}/chapter-2/websockets/tracker.component.ts[]
 ----
 
-The `Tracker` service allows you to send tracking information — for example, to track when someone has authenticated.
+The `Tracker` service allows you to send tracking information—for example, to track when someone has authenticated.
 
 [source%autofit,typescript]
 .src/main/webapp/app/core/tracker/tracker.service.ts
@@ -835,18 +833,18 @@ The `Tracker` service allows you to send tracking information — for example, t
 include::{sourcedir}/chapter-2/websockets/tracker.service.ts[]
 ----
 
-WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. To learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with Spring]. The next section shows how a developer productivity tool that uses WebSockets implements something very cool.
+WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. To learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with Spring]. The following section shows how a developer productivity tool that uses WebSockets implements something very cool.
 
 == Browsersync
 
-http://www.browsersync.io/[Browsersync] is one of those tools that makes you wonder how you ever lived without it. It keeps your assets in sync with your browser. It's also capable of syncing browsers, so you can, for example, scroll in Safari and watch synced windows scroll in Chrome and in Safari running in iOS Simulator. When you save files, it updates your browser windows, saving you an incredible amount of time. As its website says, "`It's wicked-fast and totally free.`"
+http://www.browsersync.io/[Browsersync] is one of those tools that makes you wonder how you ever lived without it. It keeps your assets in sync with your browser. It's also capable of syncing browsers, so you can, for example, scroll in Safari and watch both windows scroll in Chrome and in Safari. When you save files, it updates your browser windows, saving you an incredible amount of time. As its website says, "`It's wicked-fast and totally free.`"
 
-Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.0 License. It contains a number of slick features:
+Browsersync is free to run and reuse, as guaranteed by its open-source Apache 2.0 License. It contains many slick features:
 
 * Interaction sync: Browsersync mirrors your scroll, click, refresh, and form actions between browsers while you test.
 * File sync: Browsers automatically update as you change HTML, CSS, images, and other project files.
 * URL history: Browsersync records your test URLs so you can push them back out to all devices with a single click.
-* Remote inspector: You can remotely tweak and debug web pages that are running on connected devices.
+* Remote inspector: You can remotely tweak and debug web pages running on connected devices.
 
 To integrate Browsersync in your project, you need `package.json` and `gulpfile.js` files. Your `package.json` file only needs to contain a few things, weighing in at a slim 13 lines of JSON.
 
@@ -891,6 +889,6 @@ JHipster integrates Browsersync for you, using webpack instead of Gulp. I show a
 
 == Summary
 
-This section describes the UI components in a typical JHipster project. It taught you about the extremely popular UI framework called Angular. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application, and it showed you how you can use webpack. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
+This section describes the UI components in a typical JHipster project. It taught you about the prevalent UI framework called Angular. It showed you how to author HTML pages and use Bootstrap to make things look pretty. A build tool is essential for building a modern web application, and this section showed you how you could use webpack. Finally, it showed you how WebSockets work and described the beauty of Browsersync.
 
-Now that you've learned about many of the UI components in a JHipster project, let's learn about the API side of things.
+Now that you've learned about many UI components in a JHipster project, let's learn about the API side.
