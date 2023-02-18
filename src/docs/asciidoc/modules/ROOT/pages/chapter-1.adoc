@@ -857,7 +857,7 @@ image::chapter-1/add-points-page.png[Add Points page, 1095, scaledwidth=100%, al
 
 Improving the UI was the most fun but also the most time-consuming as it involved lots of little tweaks to multiple screens. The next task was more straightforward: implementing business logic.
 
-=== Added logic, so non-admin users only see their data
+=== Added logic so non-admin users only see their data
 
 I wanted to make several improvements to what users could see based on their roles. Users should be able to see and modify their data, but nobody else's. I also wanted to ensure that an administrator could see and modify everyone's data.
 
