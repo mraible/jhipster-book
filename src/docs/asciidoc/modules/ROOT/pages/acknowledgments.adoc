@@ -1,4 +1,4 @@
-= Acknowledgments
+co= Acknowledgments
 
 I'm extremely grateful to my family for putting up with my late nights and extended screen time while I worked on this book.
 
@@ -6,6 +6,6 @@ To Rod Johnson and Juergen Hoeller, thanks for inventing Spring and changing the
 
 I'd like to thank this book's tech editors, Dennis Sharpe and Jeet Gajjar. Their real-world experience with JHipster made the code sections a lot more bulletproof.
 
-This book's copy editor, Lawrence Nyveen, was a tremendous help in correcting my words and making this book easier to read. Thanks Laurie!
+This book's copy editors, Lawrence Nyveen and Maureen Spencer, were a tremendous help in correcting my words and making this book easier to read. Thanks, Laurie and Maureen!
 
 Finally, kudos to Julien Dubois and Deepu K. Sasidharan for creating and improving JHipster. They've done a helluva job in turning it into a widely used and successful open-source project.
