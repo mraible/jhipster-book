@@ -800,7 +800,7 @@ module.exports = config;
 
 In the Angular section, I mentioned Angular CLI and my https://github.com/mraible/ng-demo[ng-demo] project that shows how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command. To see its webpack config or to tweak it for your needs, you can _eject_ it from your project by running `ng eject`.
 
-I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js` file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack configuration. JHipster generates a `webpack` directory containing files for different scenarios: dev mode with hot reload, testing, and production preparation.
+I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js` file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack configuration. JHipster generates a `webpack` directory containing files for different scenarios: dev mode with hot reload, testing, and production optimizations.
 
 * `logo-jhipster.png` is the logo that shows in desktop alerts for build notifications.
 * `environment.js` specifies the project's version, i18n hash, and server API URL.
