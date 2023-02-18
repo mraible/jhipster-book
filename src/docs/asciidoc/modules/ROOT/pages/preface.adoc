@@ -82,7 +82,7 @@ export class SearchComponent {
 
 TIP: Tips are shown using callouts like this.
 
-WARNING: Warnings are shown using callouts like this:
+WARNING: Warnings are shown using callouts like this.
 
 .Sidebar
 ****
