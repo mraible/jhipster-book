@@ -49,8 +49,6 @@ You can find the Angular project at https://angular.io.
 === Basics
 Creating a component that says "Hello World" with Angular is pretty simple.
 
-todo: TypeScript syntax highlighting works in HTML and PDF but not in EPUB. Need to fix this.
-
 [source,typescript]
 ----
 import { Component } from '@angular/core';
