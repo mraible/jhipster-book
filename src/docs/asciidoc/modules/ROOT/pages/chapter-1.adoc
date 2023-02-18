@@ -1161,7 +1161,6 @@ private ResponseEntity<PointsPerWeek> calculatePoints(LocalDate startOfWeek, Lis
 
 To support this new method on the client, I added a new `IPointsPerWeek` interface in `points.model.ts`:
 
-// todo: check typescript vs. javascript
 [source,typescript]
 .src/main/webapp/app/entities/points/points.model.ts
 ----
