@@ -77,12 +77,12 @@ https://www.flickr.com/photos/mraible/16900780428
 
 Back Cover:
 
-The things you need to do to set up a new software project can be daunting. First, you must select the back-end framework to create your API, choose your database, set up security, and select your build tool. Then you have to choose the tools to develop your front end: select a UI framework, configure a build tool, set up Sass processing, configure your browser to auto-refresh when you make changes, and configure the client and server, so they work in unison. If you’re building a new application using Spring Boot and Angular, you can save days using JHipster.
+The things you need to do to set up a new software project can be daunting. First, you must select the backend framework to create your API, choose your database, set up security, and select your build tool. Then you have to choose the tools to develop your frontend: select a UI framework, configure a build tool, set up Sass processing, configure your browser to auto-refresh when you make changes, and configure the client and server, so they work in unison. If you’re building a new application using Spring Boot and Angular, you can save days using JHipster.
 
 JHipster generates a complete and modern web app, unifying:
 
 * A high-performance and robust Java stack on the server side with Spring Boot
-* A sleek, modern, mobile-first front-end with Angular and Bootstrap
+* A sleek, modern, mobile-first frontend with Angular and Bootstrap
 * A robust microservice architecture with support for Spring Cloud, Micro Frontends, Docker, and Kubernetes
 * A powerful workflow to build your application with Webpack and Maven/Gradle
 
