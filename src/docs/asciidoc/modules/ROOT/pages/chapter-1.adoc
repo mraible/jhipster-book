@@ -1674,7 +1674,7 @@ Finally, I used a `<canvas>` element with a "`baseChart`" attribute in `home.com
   <div class="col-md-11 col-xs-12">
     <canvas
       baseChart
-      *ngIf="bpReadings?.readings && bpReadings?.readings?.length"
+      *ngIf="bpReadings && bpReadings.readings.length"
       height="125"
       [type]="'line'"
       [data]="bpData"
@@ -1682,7 +1682,7 @@ Finally, I used a `<canvas>` element with a "`baseChart`" attribute in `home.com
     >
     </canvas>
     <ngb-alert [dismissible]="false"
-               [hidden]="bpReadings.readings && bpReadings.readings.length">
+               [hidden]="bpReadings && bpReadings.readings.length">
       <span jhiTranslate="home.bloodPressure.noReadings">
         No blood pressure readings found.</span>
     </ngb-alert>
