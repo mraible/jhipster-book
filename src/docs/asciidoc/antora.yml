@@ -16,3 +16,7 @@ asciidoc:
     email: matt@raibledesigns.com
     subject: JHipster
     keywords: JHipster, Angular, Bootstrap, Spring Boot, Spring Cloud, Spring Security, Microservices, Docker, Heroku, Security, JWT, OAuth 2.0, OIDC
+    page-downloadable-asset-title: Download from
+    page-downloadable-asset-keys: infoq
+    page-downloadable-asset-infoq-link: https://infoq.com/minibooks/jhipster-mini-book
+    page-downloadable-asset-infoq-icon: infoq

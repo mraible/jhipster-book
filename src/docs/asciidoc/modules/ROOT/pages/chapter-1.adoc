@@ -305,7 +305,7 @@ Compressing objects: 100% (618/618), done.
 Writing objects: 100% (652/652), 952.77 KiB | 11.34 MiB/s, done.
 Total 652 (delta 79), reused 0 (delta 0), pack-reused 0
 remote: Resolving deltas: 100% (79/79), done.
-To github.com:mraible/21-points-v7.git
+To github.com:mraible/21-points.git
  * [new branch]      main -> main
 Branch 'main' set up to track remote branch 'main' from 'origin'.
 ----
@@ -1659,6 +1659,11 @@ this.bloodPressureService.last30Days().subscribe((bpReadings: any) => {
         min: Math.min(...lowerValues) - 10,
       },
     };
+    // show both systolic and diastolic on hover
+    this.bpOptions.interaction = {
+      mode: 'index',
+      intersect: false,
+    };
   } else {
     this.bpReadings.readings = [];
   }
@@ -1674,7 +1679,7 @@ Finally, I used a `<canvas>` element with a "`baseChart`" attribute in `home.com
   <div class="col-md-11 col-xs-12">
     <canvas
       baseChart
-      *ngIf="bpReadings?.readings && bpReadings?.readings?.length"
+      *ngIf="bpReadings && bpReadings.readings.length"
       height="125"
       [type]="'line'"
       [data]="bpData"
@@ -1682,7 +1687,7 @@ Finally, I used a `<canvas>` element with a "`baseChart`" attribute in `home.com
     >
     </canvas>
     <ngb-alert [dismissible]="false"
-               [hidden]="bpReadings.readings && bpReadings.readings.length">
+               [hidden]="bpReadings && bpReadings.readings.length">
       <span jhiTranslate="home.bloodPressure.noReadings">
         No blood pressure readings found.</span>
     </ngb-alert>
@@ -2112,8 +2117,7 @@ if ((user not admin) && (points.user not current user)) {
 return ResponseUtil.wrapOrNotFound(points);
 ----
 
-// todo: create a new pull request in 21-points repo that shows this change
-See https://github.com/mraible/21-points-v7/pull/3[21-points#3] for all the changes that I needed to make in resource classes and their tests.
+See https://github.com/mraible/21-points/pull/106[21-points#106] for all the changes that I needed to make in resource classes, search repositories, and their tests.
 
 == Continuous integration and deployment
 
