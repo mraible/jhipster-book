@@ -2117,7 +2117,7 @@ if ((user not admin) && (points.user not current user)) {
 return ResponseUtil.wrapOrNotFound(points);
 ----
 
-See https://github.com/mraible/21-points/pull/106[21-points#106] for all the changes that I needed to make in resource classes and their tests.
+See https://github.com/mraible/21-points/pull/106[21-points#106] for all the changes that I needed to make in resource classes, search repositories, and their tests.
 
 == Continuous integration and deployment
 
