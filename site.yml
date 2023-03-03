@@ -7,10 +7,11 @@ content:
     - url: '.'
       branches: HEAD
       start_path: src/docs/asciidoc
+      edit_url: '{web_url}/edit/main/{path}'
 ui:
   bundle:
-    url: https://github.com/Mogztter/mini-book-default-ui/releases/download/v0.2.2/ui-bundle.zip
+    url: https://github.com/Mogztter/mini-book-default-ui/releases/download/v0.3.2/ui-bundle.zip
     snapshot: true
-  supplemental_files: ./supplemental-ui
+  supplemental_files: ./src/docs/supplemental-ui
 output:
   dir: ./public
