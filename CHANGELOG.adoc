@@ -16,7 +16,7 @@ For a detailed view of what has changed, refer to the https://github.com/mraible
 
 // tag::compact[]
 
-== 7.0.0 (2023-02-21) - @mraible
+== 7.0.0 (2023-03-06) - @mraible
 Changes::
   * Updated all chapters to use JHipster 7.9.3. Added micro frontends and switched to Auth0 for microservices chapter.
 
