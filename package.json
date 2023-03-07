@@ -1,6 +1,6 @@
 {
   "name": "jhipster-book",
-  "version": "7.0.0-SNAPSHOT",
+  "version": "7.0.0",
   "description": "The JHipster Mini-Book",
   "author": "Matt Raible (@mraible)",
   "license": "Apache-2.0",
