@@ -1,23 +1,23 @@
 Book Abstract:
 
-The JHipster Mini-Book is a guide to getting started with hip technologies today: Angular, Bootstrap and Spring Boot. All of these frameworks are wrapped up in an easy-to-use project called JHipster. JHipster is a development platform to generate, develop and deploy Spring Boot + Angular (or React) web applications and microservices. This book shows you how to build an app with JHipster, and guides you through the plethora of tools, techniques, and options you can use. Furthermore, it explains the UI and API building blocks so you understand the underpinnings of your great application. It also shows you how to use Docker Compose and deploy your microservices to Heroku.
+The JHipster Mini-Book is a guide to getting started with hip technologies today: Angular, Bootstrap, and Spring Boot. All of these frameworks are wrapped up in an easy-to-use project called JHipster. JHipster is a development platform to generate, develop and deploy Spring Boot + Angular (or React/Vue) web applications and microservices. This book shows you how to build an app with JHipster, and guides you through the plethora of tools, techniques, and options you can use. Then, it shows you how to secure your data and deploy your app to Heroku. Furthermore, it explains the UI and API building blocks so you understand the underpinnings of your great application.
 
-The latest edition (v5.0) is updated for JHipster 5. This edition includes new sections on progressive web apps (PWA), code quality, and securing user data.
+The latest edition (v7.0) is updated for JHipster 7. This edition includes an updated microservices section that features WebFlux and micro frontends with React.
 
 You can find the blog for the JHipster Mini-Book at http://www.jhipster-book.com. You can also follow it on Twitter at https://twitter.com/jhipster_book.
 
 Purpose of the book:
 
-To provide free information to the JHipster community. I've used many of the frameworks that JHipster supports and I like how it integrates them. I think building web and mobile applications with Angular, Bootstrap and Spring Boot is a great experience and I'd like to encourage more developers to try it.
+To provide free information to the JHipster community. I've used many of the frameworks that JHipster supports, and I like how it integrates them. Building web and mobile applications with Angular, Bootstrap, and Spring Boot is a great experience. I want to encourage more developers to try it.
 
 Table of Contents:
 
 The JHipster Mini-Book
 Dedication
-Acknowledgements
+Acknowledgments
 Preface
     What is in an InfoQ mini-book?
-    Who this book is for
+    Who is this book for?
     What you need for this book
     Conventions
     Reader feedback
@@ -33,7 +33,6 @@ Building an app with JHipster
     Code quality
     Progressive web apps
     Source code
-    Upgrading 21-Points Health
     Summary
 JHipster's UI components
     Angular
@@ -58,11 +57,12 @@ JHipster's API building blocks
 Microservices with JHipster
     History of microservices
     Why microservices?
-    Microservices with JHipster
+    Reactive Java microservices with JHipster
     Generate an API gateway and microservice applications
-    Start JHipster Registry, Keycloak, and MongoDB
     Run your microservices architecture
-    Deploy to Heroku
+    Build and run with Docker
+    Switch identity providers
+    Deploy with Kubernetes
     Source code
     Summary
 Action!
@@ -71,19 +71,19 @@ About the author
 
 Author Bio:
 
-Matt Raible is a web developer, Java Champion, and developer advocate @oktadev with a passion for skiing, mountain biking, classic VWs, and good 🍺. He drives a '66 21-window and a '90 Syncro Westy. He's made in Montana and resides in Centennial, Colorado with his fabulous family.
+Matt Raible is a web developer, Java Champion, and developer advocate @oktadev with a passion for skiing, mountain biking, classic VWs, and good 🍺. He drives a '66 21-window and a '90 Syncro Westy. He's made in Montana and resides in Centennial, Colorado, with his fabulous family.
 
 https://www.flickr.com/photos/mraible/16900780428
 
 Back Cover:
 
-The things you need to do to set up a new software project can be daunting. First, you have to select the back-end framework to create your API, choose your database, set up security, and choose your build tool. Then you have to choose the tools to create your front end: select a UI framework, configure a build tool, set up Sass processing, configure your browser to auto-refresh when you make changes, and configure the client and server so they work in unison. If you’re building a new application using Spring Boot and Angular, you can save days by using JHipster. 
+The things you need to do to set up a new software project can be daunting. First, you must select the backend framework to create your API, choose your database, set up security, and select your build tool. Then you have to choose the tools to develop your frontend: select a UI framework, configure a build tool, set up Sass processing, configure your browser to auto-refresh when you make changes, and configure the client and server, so they work in unison. If you’re building a new application using Spring Boot and Angular, you can save days using JHipster.
 
 JHipster generates a complete and modern web app, unifying:
 
 * A high-performance and robust Java stack on the server side with Spring Boot
-* A sleek, modern, mobile-first front-end with Angular and Bootstrap
-* A robust microservice architecture with the JHipster Registry, Netflix OSS, the ELK stack, and Docker
-* A powerful workflow to build your application with Yeoman, Webpack, and Maven/Gradle
+* A sleek, modern, mobile-first frontend with Angular and Bootstrap
+* A robust microservice architecture with support for Spring Cloud, Micro Frontends, Docker, and Kubernetes
+* A powerful workflow to build your application with Webpack and Maven/Gradle
 
-JHipster is a treasure trove of information of how to build modern web applications and microservice architectures. It can turn any curious and willing developer into a Java Hipster!
+JHipster is a treasure trove of information on how to build modern web applications and microservice architectures. It can turn any curious and willing developer into a high-performing Java Hipster!

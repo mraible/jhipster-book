@@ -1129,7 +1129,6 @@ From there, it was just a matter of calculating the beginning and end of the cur
 *          and a count of points in body.
  */
 @GetMapping("/points-this-week")
-@Timed
 public ResponseEntity<PointsPerWeek> getPointsThisWeek(@RequestParam(value = "tz", required = false) String timezone) {
     // Get current date (with timezone if passed in)
     LocalDate now = LocalDate.now();
@@ -1292,7 +1291,6 @@ I created a new method in `PreferencesResource.java` to return the user's prefer
  * @return the preferences or default (weeklyGoal: 10) if none exist.
  */
 @GetMapping("/my-preferences")
-@Timed
 public ResponseEntity<Preferences> getUserPreferences() {
     String username = SecurityUtils.getCurrentUserLogin().get();
     log.debug("REST request to get Preferences : {}", username);
@@ -1490,7 +1488,6 @@ Next, I created a new method in `BloodPressureResource.java` that calculated the
  *         and with body the {@link BloodPressureByPeriod}.
  */
 @RequestMapping(value = "/bp-by-days/{days}")
-@Timed
 public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
     ZonedDateTime rightNow = ZonedDateTime.now(ZoneOffset.UTC);
     ZonedDateTime daysAgo = rightNow.minusDays(days);

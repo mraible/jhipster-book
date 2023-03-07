@@ -5,13 +5,13 @@ nav:
   - modules/ROOT/nav.adoc
 asciidoc:
   attributes:
-    page-og-image: https://raw.githubusercontent.com/mraible/jhipster-book/main/book-cover.png
+    page-og-image: https://raw.githubusercontent.com/mraible/jhipster-book/main/book-cover.jpg
     page-pagination: '@'
     sourcedir: 'example$'
     book-title: The JHipster Mini-Book
     author: Matt Raible
     # These variables are used by the website version of the book
-    revnumber: 7.0.0-SNAPSHOT
+    revnumber: 7.0.0
     revyear: 2023
     email: matt@raibledesigns.com
     subject: JHipster
