@@ -62,13 +62,6 @@ After running this command, I was prompted to answer questions about how I wante
 $ jhipster
 ...
 
-        ██╗ ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ███████╗
-        ██║ ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔═════╝ ██╔═══██╗
-        ██║ ████████║    ██║    ███████╔╝ ╚█████╗     ██║    ██████╗   ███████╔╝
-  ██╗   ██║ ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║
-  ╚██████╔╝ ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗
-   ╚═════╝  ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
-                            https://www.jhipster.tech
 Welcome to JHipster v7.9.3
 
 Application files will be generated in folder: /Users/mraible/dev/21-points
@@ -211,7 +204,12 @@ $ npm run e2e
 
 ...
 
+ifndef::backend-pdf[]
     ✔  All specs passed!
+endif::[]
+ifdef::backend-pdf[]
+    -  All specs passed!
+endif::[]
 
 Execution time: 41 s.
 ----
@@ -1782,10 +1780,18 @@ Using existing Git repository
 Installing Heroku CLI deployment plugin
 
 Creating Heroku application and setting up node environment
+ifndef::backend-pdf[]
 ✖ Error: Command failed: heroku create 21-points
 Creating 21-points... !
  ▸    Name must start with a letter, end with a letter or digit and can only
  ▸    contain lowercase letters, digits, and dashes.
+endif::[]
+ifdef::backend-pdf[]
+ - Error: Command failed: heroku create 21-points
+Creating 21-points... !
+ -    Name must start with a letter, end with a letter or digit and can only
+ -    contain lowercase letters, digits, and dashes.
+endif::[]
 ----
 
 You can see my first attempt failed for the same reason that creating the initial JHipster app failed: it didn't like the app name to start with a number. I tried again with "`health`", but that failed, too, since a Heroku app with this name already existed. Finally, I settled on "`health-by-points`" as the application name.
@@ -2004,7 +2010,12 @@ I'd used Heroku's https://addons.heroku.com/sendgrid[SendGrid] for e-mail in the
 [source,shell]
 ----
 $ heroku addons:create sendgrid
+ifndef::backend-pdf[]
 Creating sendgrid on ⬢ health-by-points... free
+endif::[]
+ifdef::backend-pdf[]
+Creating sendgrid on health-by-points... free
+endif::[]
 Created sendgrid-spherical-88389 as SENDGRID_PASSWORD, SENDGRID_USERNAME
 Use heroku addons:docs sendgrid to view documentation
 ----
@@ -2127,11 +2138,17 @@ java -jar jenkins.war --httpPort=9000
 
 JHipster has good documentation on https://www.jhipster.tech/setting-up-ci-jenkins2/[setting up CI on Jenkins 2] and https://www.jhipster.tech/heroku/[deploying to Heroku]. It also has a handy sub-generator to generate the config files needed for Jenkins. I ran `jhipster ci-cd` and watched the magic happen.
 
-[source%autofit] // adding shell only colors a few words
+// adding shell only colors a few words
+[source%autofit]
 ----
 $ jhipster ci-cd
 ...
+ifndef::backend-pdf[]
 🚀 Welcome to the JHipster CI/CD Sub-Generator 🚀
+endif::[]
+ifdef::backend-pdf[]
+Welcome to the JHipster CI/CD Sub-Generator
+endif::[]
 ? What CI/CD pipeline do you want to generate? Jenkins pipeline
 ? Would you like to perform the build in a Docker container ? No
 ? Would you like to send build status to GitLab ? No
