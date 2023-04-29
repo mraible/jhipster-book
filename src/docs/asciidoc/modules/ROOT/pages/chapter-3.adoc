@@ -575,7 +575,12 @@ When you create a new JHipster project, you'll be prompted with the following.
 
 ----
 ? Which *type* of database would you like to use? (Use arrow keys)
+ifndef::backend-pdf[]
 ❯ SQL (H2, PostgreSQL, MySQL, MariaDB, Oracle, MSSQL)
+endif::[]
+ifdef::backend-pdf[]
+> SQL (H2, PostgreSQL, MySQL, MariaDB, Oracle, MSSQL)
+endif::[]
   MongoDB
   Cassandra
   [BETA] Couchbase

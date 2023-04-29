@@ -346,9 +346,12 @@ image::chapter-4/gateway-entities-available.png[Consul services, 1132, scaledwid
 
 === Zero turnaround development that sparks joy
 
-At this point, I've only shown you how to run the Spring Boot backends with their packaged React micro frontends. What if you want to work on the UI and have zero turnaround that sparks joy? ✨🤗
+At this point, I've only shown you how to run the Spring Boot backends with their packaged React micro frontends. What if you want to work on the UI and have zero turnaround that sparks joy?
+ifndef::backend-pdf[]
+✨🤗
+endif::[]
 
-In the gateway app, run `npm start`. This command will run the UI on a web server, open a browser window to `\http://localhost:9000`, and use https://browsersync.io/[Browsersync] to keep your browser in sync with your code.
+In the gateway app, run `npm start`. This command will run the UI on a web server, open a browser window to `\http://localhost:9000`, and use Browsersync to keep your browser in sync with your code.
 
 Modify the code in `gateway/src/main/webapp/app/modules/home/home.tsx` to make a quick change. For example, add the following HTML below the `<h2>`.
 
