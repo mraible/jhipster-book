@@ -11,7 +11,7 @@ asciidoc:
     book-title: The JHipster Mini-Book
     author: Matt Raible
     # These variables are used by the website version of the book
-    revnumber: 7.0.0
+    revnumber: 7.0.1
     revyear: 2023
     email: matt@raibledesigns.com
     subject: JHipster
