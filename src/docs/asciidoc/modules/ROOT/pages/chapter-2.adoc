@@ -7,7 +7,7 @@ This section shows how JHipster includes all of these UI components for you and 
 
 == Angular
 
-JHipster supports three UI frameworks: Angular, React, and Vue. In the first two versions of this book, I showed you how to use AngularJS. In the last three versions (4.0, 4.5, and 5.0), I showed you how to use Angular. Since this is a mini-book, I'm going to stick with showing Angular only. You can see from the following graphs that React and Angular are the most popular JavaScript frameworks.
+JHipster supports three UI frameworks: Angular, React, and Vue. Since this is a mini-book, I'm going to stick with showing Angular only. You can see from the following graphs that React and Angular are the most popular JavaScript frameworks.
 
 [[img-angular-jobs-2022]]
 .Jobs on Indeed, December 2022
@@ -335,7 +335,12 @@ http://getbootstrap.com/[Bootstrap] is a CSS framework that simplifies the devel
 
 === Bootstrap's grid system
 
-Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's powerful grid is built with containers, rows, and columns. It's based on the CSS3 flexible box, or flexbox. Flexbox is a layout mode that accommodates different screen sizes and display devices. It's easier than using blocks to do layouts because it doesn't use floats, nor do the flex container's margins collapse with the margins of its content. CSS-Tricks has https://css-tricks.com/snippets/css/a-guide-to-flexbox/[A Complete Guide to Flexbox] that explains its concepts well.
+Most CSS frameworks provide a grid system that allows you to position columns and cells in a respectable way. Bootstrap's powerful grid is built with containers, rows, and columns. It's based on the CSS3 flexible box, or flexbox. Flexbox is a layout mode that accommodates different screen sizes and display devices. It's easier than using blocks to do layouts because it doesn't use floats, nor do the flex container's margins collapse with the margins of its content.
+
+ifeval::["{media}" == "screen"]
+<<<
+endif::[]
+CSS-Tricks has https://css-tricks.com/snippets/css/a-guide-to-flexbox/[A Complete Guide to Flexbox] that explains its concepts well.
 
 > The main idea behind the flex layout is to allow the container to alter its items' width/height (and order)
 > to fill the available space best, mostly to accommodate all kinds of display devices and screen sizes. A flex
@@ -481,7 +486,12 @@ The following example from 21-Points Health shows how to display a shorter headi
 
 === Forms
 
-When you add Bootstrap's CSS to your web application, it'll quickly start to look better. Typography, margins, and padding will look better by default. However, your forms might look funny because Bootstrap requires a few classes on your form elements to make them look good. Below is an example of a form element.
+When you add Bootstrap's CSS to your web application, it'll quickly start to look better. Typography, margins, and padding will look better by default. However, your forms might look funny because Bootstrap requires a few classes on your form elements to make them look good.
+
+ifdef::backend-pdf[]
+<<<
+endif::[]
+Below is an example of a form element.
 
 [source%autofit,html]
 ----
@@ -528,6 +538,9 @@ Popular Bootstrap components include dropdowns, button groups, button dropdowns,
 .Navbar with dropdown
 image::chapter-2/bootstrap/navbar-with-dropdown.png[Navbar with dropdown, 991, scaledwidth=100%]
 
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 When rendered on a mobile device, everything collapses into a hamburger menu that can expand downward.
 
 [[img-bootstrap-navbar-mobile]]
@@ -798,7 +811,7 @@ const config = {
 module.exports = config;
 ----
 
-In the Angular section, I mentioned Angular CLI and my https://github.com/mraible/ng-demo[ng-demo] project that shows how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command. To see its webpack config or to tweak it for your needs, you can _eject_ it from your project by running `ng eject`.
+In the Angular section, I mentioned Angular CLI and my ng-demo project that shows how to use it. Angular CLI uses webpack internally, but you never see it because it wraps everything in its `ng` command. To see its webpack config or to tweak it for your needs, you can _eject_ it from your project by running `ng eject`.
 
 I tried running this and found it added 20 dependencies to the project's `package.json` and generated a `webpack.config.js` file that's over 450 lines of code! This is roughly equivalent to the lines of code in a JHipster project's webpack configuration. JHipster generates a `webpack` directory containing files for different scenarios: dev mode with hot reload, testing, and production optimizations.
 
@@ -827,7 +840,7 @@ include::{sourcedir}/chapter-2/websockets/tracker.component.ts[]
 
 The `Tracker` service allows you to send tracking information—for example, to track when someone has authenticated.
 
-[source%autofit,typescript]
+[source,typescript]
 .src/main/webapp/app/core/tracker/tracker.service.ts
 ----
 include::{sourcedir}/chapter-2/websockets/tracker.service.ts[]

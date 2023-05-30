@@ -38,6 +38,7 @@ I started using the https://www.jhipster.tech/installation/[Installing JHipster]
 npm install -g generator-jhipster@7
 ----
 
+[.text-left]
 TIP: If you need to install Java, Maven, or Git, please see https://www.jhipster.tech/installation/[JHipster's local installation documentation].
 
 Then I proceeded to build my application. Unlike many application generators in Javaland, Yeoman expects you to be in the directory you want to create your project in, rather than creating the directory for you. So I created a `21-points` directory and typed the following command in it to invoke JHipster.
@@ -522,6 +523,9 @@ jhipster:
 }
 ----
 
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 Below is a screenshot taken after these changes.
 
 [[img-bootstrap-angular-material]]
@@ -549,7 +553,8 @@ The good news is JHipster can generate all of this code for you, including integ
 
 JHipster supports several methods of code generation. The first uses its https://www.jhipster.tech/creating-an-entity/[entity sub-generator]. The entity sub-generator is a command-line tool that prompts you with questions to answer. https://www.jhipster.tech/jdl-studio/[JDL-Studio] is a browser-based tool for defining your domain model with JHipster Domain Language (JDL). Finally, https://www.jhipster.tech/jhipster-uml/[JHipster-UML] is an option for those that like UML. Supported UML editors include https://www.modeliosoft.com/[Modelio], http://www.umldesigner.org/[UML Designer], and https://www.genmymodel.com/[GenMyModel]. Because the entity sub-generator is one of the simplest to use, I chose that for this project.
 
-TIP: If you want to see how easy it is to use JDL-Studio, please see my https://www.youtube.com/watch?v=6lf64CctDAQ[Get Started with JHipster 7 Screencast].
+[.text-left]
+TIP: If you want to see how easy it is to use JDL-Studio, please see my https://www.youtube.com/watch?v=6lf64CctDAQ[Get Started with JHipster 7 screencast].
 
 At this point, I did some trial-and-error designs with the data model. I generated entities with JHipster, tried the app, and changed to start with a UI-first approach. As a user, I was hoping to easily add daily entries about whether I'd exercised, eaten healthy meals, or consumed alcohol. I also wanted to record my weight and blood pressure metrics when I measured them. When I started using the UI I'd just created, it seemed like it might be able to accomplish these goals, but it also seemed somewhat cumbersome. I decided to create a UI mockup with the main screen and its ancillary screens for data entry. I used https://www.omnigroup.com/omnigraffle[OmniGraffle] and a https://viget.com/inspire/twitter-bootstrap-3.0-stencils-for-omnigraffle[Bootstrap stencil] to create the following UI mockup.
 
@@ -561,7 +566,7 @@ After figuring out how I wanted the UI to look, I started to think about the dat
 
 [[img-entity-diagram]]
 .21-Points Health entity diagram
-image::chapter-1/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=60%, align=center]
+image::chapter-1/entity-diagram.png[21-Points Health entity diagram, 684, scaledwidth=80%, align=center]
 
 I ran `jhipster entity points`. I added the appropriate fields and their validation rules and specified a many-to-one relationship with `user`. Below is the final output from my answers.
 
@@ -867,18 +872,20 @@ The default update components for many-to-one relationships allow you to choose 
 .src/main/webapp/app/entities/points/points-update.component.html
 ----
 <div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN'">
-  <label class="form-label" jhiTranslate="twentyOnePointsApp.points.user" for="field_user">User</label>
+  <label class="form-label" jhiTranslate="twentyOnePointsApp.points.user"
+         for="field_user">User</label>
   <select class="form-control" id="field_user" data-cy="user" name="user"
           formControlName="user" [compareWith]="compareUser">
     <option [ngValue]="null"></option>
-    <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{userOption.login}}</option>
+    <option [ngValue]="userOption"
+            *ngFor="let userOption of usersSharedCollection">{{userOption.login}}</option>
   </select>
 </div>
 ----
 
 Since the dropdown is hidden from non-admins, I had to modify each `Resource` class to default to the current user when creating a new record. Below is a diff that shows the changes I needed to make to `PointsResource.java`.
 
-[source%autofit,diff]
+[source%diff]
 .src/main/java/org/jhipster/health/web/rest/PointsResource.java
 ----
 +import org.jhipster.health.repository.UserRepository;
@@ -999,9 +1006,10 @@ Making the homepage into something resembling my UI mockup required several step
 
 I started by reusing the update components for entering data that JHipster had created for me. I navigated to the components using Angular's `routerLink` syntax, copied from each entity's main list page. For example, below is the code for the "Add Points" button.
 
-[source%autofit,html]
+[source,html]
 ----
-<a [routerLink]="['/points/new']" class="btn btn-primary m-0 mb-1 text-white">Add Points</a>
+<a [routerLink]="['/points/new']"
+   class="btn btn-primary m-0 mb-1 text-white">Add Points</a>
 ----
 
 Because `home.component.html` already contains `<jhi-alert></jhi-alert>`, I didn't have to do anything else to get success messages to show up on the homepage.
@@ -1107,10 +1115,11 @@ public class PointsPerWeek {
 
 Spring Data JPA made it easy to find all point entries in a particular week. I added a new method to my `PointsRepository.java` that allowed me to query between two dates.
 
-[source,java]
+[source%autofit,java]
 .src/main/java/org/jhipster/health/repository/PointsRepository.java
 ----
-List<Points> findAllByDateBetweenAndUserLogin(LocalDate firstDate, LocalDate secondDate, String login);
+List<Points> findAllByDateBetweenAndUserLogin(LocalDate firstDate,
+                                              LocalDate secondDate, String login);
 ----
 
 From there, it was just a matter of calculating the beginning and end of the current week and processing the data in `PointsResource.java`.
@@ -1170,22 +1179,25 @@ export interface IPointsPerWeek {
 I imported it into `points.service.ts` and added a few new methods:
 
 // todo: it'd be cool if thisWeek() could be one method, but I was unable to figure out how to do it.
-[source%autofit,typescript]
+[source,typescript]
 .src/main/webapp/app/entities/points/service/points.service.ts
 ----
 thisWeek(): Observable<HttpResponse<IPointsPerWeek>> {
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return this.http.get<IPointsPerWeek>(`api/points-this-week?tz=${tz}`, { observe: 'response' })
+  return this.http.get<IPointsPerWeek>(`api/points-this-week?tz=${tz}`,
+    { observe: 'response' })
     .pipe(map(res => this.convertWeekResponseFromServer(res)));
 }
 
-protected convertWeekResponseFromServer(res: HttpResponse<IPointsPerWeek>): HttpResponse<IPointsPerWeek> {
+protected convertWeekResponseFromServer(res: HttpResponse<IPointsPerWeek>):
+  HttpResponse<IPointsPerWeek> {
   return res.clone({
     body: res.body ? this.convertWeekDateFromServer(res.body) : null,
   });
 }
 
-protected convertWeekDateFromServer(pointsPerWeek: IPointsPerWeek): IPointsPerWeek {
+protected convertWeekDateFromServer(pointsPerWeek: IPointsPerWeek):
+  IPointsPerWeek {
   return {
     ...pointsPerWeek,
     week: dayjs(pointsPerWeek.week),
@@ -1268,7 +1280,7 @@ image::chapter-1/homepage-points-this-week.png[Progress bar for points this week
 
 You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix this, I needed to add the ability to fetch the user's preferences. To make accessing a user's preferences easier, I modified `PreferencesRepository.java` and added a method to retrieve a user's preferences.
 
-[source%autofit,java]
+[source,java]
 .src/main/java/org/jhipster/health/repository/PreferencesRepository.java
 ----
 public interface PreferencesRepository extends JpaRepository<Preferences, Long> {
@@ -1311,7 +1323,8 @@ To facilitate calling this endpoint, I added a new `user` method to `preferences
 .src/main/webapp/app/entities/preferences/service/preferences.service.ts
 ----
 user(): Observable<EntityResponseType> {
-    return this.http.get<IPreferences>('api/my-preferences', { observe: 'response' });
+    return this.http.get<IPreferences>('api/my-preferences',
+                                       { observe: 'response' });
 }
 ----
 
@@ -1538,11 +1551,12 @@ public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
 
 I added a new method to support this API in `blood-pressure.service.ts`.
 
-[source%autofit,typescript]
+[source,typescript]
 .src/main/webapp/app/entities/blood-pressure/service/blood-pressure.service.ts
 ----
 last30Days(): Observable<HttpResponse<IBloodPressureByPeriod>> {
-  return this.http.get<IBloodPressureByPeriod>('api/bp-by-days/30', { observe: 'response' });
+  return this.http.get<IBloodPressureByPeriod>('api/bp-by-days/30',
+                                               { observe: 'response' });
 }
 ----
 
@@ -1872,7 +1886,7 @@ I was pumped to see that this process worked and that my application was availab
 .First deployment to Heroku
 image::chapter-1/deployed-to-heroku.png[First deployment to Heroku, 1225, scaledwidth=100%, align=center]
 
-Next, I bought the 21-points.com domain from https://domains.google.com[Google Domains]. To configure this domain for Heroku, I ran `heroku domains:add`.
+Next, I bought the 21-points.com domain from Google Domains. To configure this domain for Heroku, I ran `heroku domains:add`.
 
 // not shell because ' messes up coloring
 ----
@@ -1933,11 +1947,10 @@ heroku jar:deploy target/*.jar --app health-by-points
 
 To prove everything was working on Heroku, I tried registering a new user. I received an error that appeared to come from Elasticsearch.
 
-[source%autofit]
+[source]
 ----
-2022-11-08T05:17:22.489474+00:00 app[web.1]: 2022-11-08T05:17:22.488Z ERROR 4 --- [  XNIO-1 task-3]
+2022-11-08T05:17:22.489474+00:00 app[web.1]: 2022-11-08T05:17:22.488Z ERROR 4
   o.z.problem.spring.common.AdviceTraits   : Internal Server Error
-2022-11-08T05:17:22.489493+00:00 app[web.1]:
 2022-11-08T05:17:22.489494+00:00 app[web.1]: org.springframework.web.util.NestedServletException:
   Handler dispatch failed; nested exception is java.lang.NoSuchFieldError: INDEX_CONTENT_TYPE
 ----
@@ -1946,7 +1959,7 @@ I https://github.com/jhipster/generator-jhipster/issues/20315[created an issue] 
 
 [[img-elastic-cloud-settings]]
 .Elastic Cloud settings
-image::chapter-1/elastic-cloud-settings.png[Elastic Cloud settings, 781, scaledwidth=75%, align=center]
+image::chapter-1/elastic-cloud-settings.png[Elastic Cloud settings, 781, scaledwidth=100%, align=center]
 
 NOTE: I tried the latest version, but it resulted in an "Unable to parse response body" error.
 
@@ -2045,7 +2058,7 @@ I also changed the `jhipster.mail.*` properties further down in this file.
 ----
 jhipster:
   ...
-  mail: # specific JHipster mail property, for standard properties see MailProperties
+  mail:
     base-url: http://www.21-points.com
     from: app@21-points.com
 ----
@@ -2129,7 +2142,7 @@ See https://github.com/mraible/21-points/pull/106[21-points#106] for all the cha
 
 == Continuous integration and deployment
 
-After generating entities for this project, I wanted to configure a continuous-integration (CI) server to build/test/deploy whenever I checked in changes to Git. I chose https://jenkins.io/[Jenkins] for my CI server and used the simplest configuration possible: I downloaded `jenkins.war` to `/opt/tools/jenkins` on my MacBook Pro. I started it with the following command.
+After generating entities for this project, I wanted to configure a continuous-integration (CI) server to build/test/deploy whenever I checked in changes to Git. I chose Jenkins for my CI server and used the simplest configuration possible: I downloaded `jenkins.war` to `/opt/tools/jenkins` on my MacBook Pro. I started it with the following command.
 
 [source,shell]
 ----
@@ -2347,10 +2360,11 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 JHipster ships with PWA support for Angular. It's turned off by default. One of the main components of a PWA is a service worker. To enable it, adjust the code in `src/main/webapp/app/app.module.ts`:
 
-```typescript
+[source,typescript]
+----
 // Set this to true to enable service worker (PWA)
 ServiceWorkerModule.register('ngsw-worker.js', { enabled: true }),
-```
+----
 
 The final feature—a web-app manifest—is already included at `src/main/webapp/manifest.webapp`. It defines an app name, colors, and icons.
 
@@ -2382,7 +2396,9 @@ TIP: If the upgrade sub-generator doesn't work for you when upgrading JHipster, 
 If you're reading this and notice that 21-Points Health is using a version newer than 5.4.2, it's likely because I upgraded again.
 ////
 
-
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 == Summary
 
 This section showed how I created a health-tracking web application with JHipster. It walked you through upgrading to the latest release of JHipster and how to generate code with `jhipster entity`. You learned how to do test-first development when writing new APIs and how Spring Data JPA makes it easy to add custom queries. You also saw how to reuse existing components on different pages, add methods to client services, and manipulate data to display pretty charts.

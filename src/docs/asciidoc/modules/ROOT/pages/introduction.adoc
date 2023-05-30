@@ -1,13 +1,54 @@
 = Introduction
 
-JHipster is one of those open-source projects you stumble upon and immediately think, "`Of course!`" It combines three very successful frameworks in web development: Bootstrap, Angular, and Spring Boot. According to the https://insights.stackoverflow.com/survey/2021#most-popular-technologies-webframe-prof[2021 Stack Overflow Developer Survey], Spring and Angular were among the top 10 web frameworks used by professional developers. In 2022, Angular ranked as the https://survey.stackoverflow.co/2022/#most-popular-technologies-webframe-prof[fifth most used web framework], while Spring moved to an _other frameworks_ category and https://survey.stackoverflow.co/2022/#most-popular-technologies-misc-tech-prof[ranked fourth].
+JHipster is one of those open-source projects you stumble upon and immediately think, "`Of course!`" It combines three very successful frameworks in web development: Bootstrap, Angular, and Spring Boot. According to the
+ifeval::["{media}" != "prepress"]
+https://insights.stackoverflow.com/survey/2021#most-popular-technologies-webframe-prof[2021 Stack Overflow Developer Survey],
+endif::[]
+ifeval::["{media}" == "prepress"]
+2021 Stack Overflow Developer Survey,
+endif::[]
+Spring and Angular were among the top 10 web frameworks used by professional developers. In 2022, Angular ranked as the
+ifeval::["{media}" != "prepress"]
+https://survey.stackoverflow.co/2022/#most-popular-technologies-webframe-prof[fifth most used web framework],
+endif::[]
+ifeval::["{media}" == "prepress"]
+fifth most used web framework,
+endif::[]
+while Spring moved to an _other frameworks_ category and
+ifeval::["{media}" != "prepress"]
+https://survey.stackoverflow.co/2022/#most-popular-technologies-misc-tech-prof[ranked fourth].
+endif::[]
+ifeval::["{media}" == "prepress"]
+ranked fourth.
+endif::[]
 
-Julien Dubois started JHipster in October 2013 (Julien's first commit was on https://github.com/jhipster/generator-jhipster/commit/c8630ab7af7b6a99db880b3b0e2403806b7d2436[October 21, 2013]). The first public release (version 0.3.1) launched on December 7, 2013. Since then, the project has had over 240 releases! It is an open-source, Apache 2.0-licensed project on GitHub. It has a core team of 38 developers and over 660 contributors. You can find its homepage at https://www.jhipster.tech/[www.jhipster.tech]. Its https://github.com/jhipster/generator-jhipster[GitHub project] shows it's mostly written in JavaScript (53%), TypeScript (19%), and Java (17%). EJS is trailing in the fourth position with 8%.
+Julien Dubois started JHipster in October 2013 (Julien's first commit was on
+ifeval::["{media}" != "prepress"]
+https://github.com/jhipster/generator-jhipster/commit/c8630ab7af7b6a99db880b3b0e2403806b7d2436[October 21, 2013]).
+endif::[]
+ifeval::["{media}" == "prepress"]
+October 21, 2013).
+endif::[]
+The first public release (version 0.3.1) launched on December 7, 2013. Since then, the project has had over 240 releases! It is an open-source, Apache 2.0-licensed project on GitHub. It has a core team of 38 developers and over 660 contributors. You can find its homepage at
+ifeval::["{media}" != "prepress"]
+https://www.jhipster.tech/[www.jhipster.tech].
+endif::[]
+ifeval::["{media}" == "prepress"]
+www.jhipster.tech.
+endif::[]
+Its https://github.com/jhipster/generator-jhipster[GitHub project] shows it's mostly written in JavaScript (53%), TypeScript (19%), and Java (17%). EJS is trailing in the fourth position with 8%.
 
 // https://www.jhipster.tech/releases: $('.page-content-wrapper .col-lg-12 ul li').length
 // https://www.jhipster.tech/team: $('.team-member').length - retired members
 
-JHipster started as a http://yeoman.io/[Yeoman] generator. Yeoman is a code generator that you run with a `yo` command to generate complete applications or useful pieces of an application. Yeoman generators promote what the Yeoman team calls the "`Yeoman workflow`". This is an opinionated client-side stack of tools that can help developers quickly build beautiful web applications. It provides everything needed to begin working without the normal pains associated with a manual setup.
+JHipster started as a
+ifeval::["{media}" != "prepress"]
+http://yeoman.io/[Yeoman]
+endif::[]
+ifeval::["{media}" == "prepress"]
+Yeoman
+endif::[]
+generator. Yeoman is a code generator that you run with a `yo` command to generate complete applications or useful pieces of an application. Yeoman generators promote what the Yeoman team calls the "`Yeoman workflow`". This is an opinionated client-side stack of tools that can help developers quickly build beautiful web applications. It provides everything needed to begin working without the normal pains associated with a manual setup.
 
 The Yeoman workflow is made up of three types of tools to enhance your productivity and satisfaction when building a web app:
 
