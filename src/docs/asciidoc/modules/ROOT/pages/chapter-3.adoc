@@ -86,6 +86,9 @@ TIP: The Spring CLI's command for creating this same app is `spring init -d=web,
 
 This project has only a few files, as you can see by running the `tree` command (on *nix).
 
+ifeval::["{media}" == "screen"]
+<<<
+endif::[]
 ----
 .
 ├── HELP.md
@@ -218,13 +221,6 @@ class BlogCommandLineRunner implements CommandLineRunner {
 }
 ----
 
-ifeval::["{media}" == "screen"]
-NOTE: Spring 4.3 added https://spring.io/blog/2016/03/04/core-container-refinements-in-spring-framework-4-3[implicit constructor injection], eliminating the need for an `@Autowired` annotation.
-endif::[]
-ifeval::["{media}" == "prepress"]
-NOTE: Spring 4.3 added implicit constructor injection, eliminating the need for an `@Autowired` annotation.
-endif::[]
-
 To provide default data, create `src/main/resources/data.sql` and add a couple of SQL statements to insert data.
 
 [source,sql]
@@ -234,6 +230,7 @@ insert into blog (id, name) values (1, 'First');
 insert into blog (id, name) values (2, 'Second');
 ----
 
+[.text-left]
 And add the following property to `src/main/resources/application.properties`:
 
 [source,properties]
@@ -243,11 +240,11 @@ spring.jpa.defer-datasource-initialization=true
 
 Start your application with `gradle bootRun` (or right-click -> "`Run in your IDE`"), and you should see this default data show up in your logs.
 
-[source%autofit,shell]
+[source,shell]
 ----
-2022-12-16T11:24:05.941-07:00  INFO 65838 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer
+INFO 65838 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer
   : Tomcat started on port(s): 8080 (http) with context path ''
-2022-12-16T11:24:05.949-07:00  INFO 65838 --- [           main] com.example.demo.DemoApplication
+INFO 65838 --- [           main] com.example.demo.DemoApplication
   : Started DemoApplication in 1.742 seconds (process running for 1.913)
 [Blog{id=1, name='First'}, Blog{id=2, name='Second'}]
 ----
@@ -467,6 +464,9 @@ Regardless of which you prefer, Spring Boot supports both Maven and Gradle. You 
 
 I'd recommend starting with the tool that's most familiar to you. If you're using JHipster for the first time, you'll want to limit the number of new technologies you have to deal with. You can always add some for your next application. JHipster is a great learning tool, and you can also generate your project with a different build tool to see what that looks like.
 
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 == IDE support: Running, debugging, and profiling
 
 IDE stands for "`integrated development environment`". It is the lifeblood of a programmer who likes keyboard shortcuts and typing fast. Good IDEs have code completion that allows you to type a few characters, press tab, and have your code written for you. Furthermore, they provide quick formatting, easy access to documentation, and debugging. You can generate a lot of code with your IDE in statically typed languages like Java, like getters and setters on POJOs and methods in interfaces and classes. You can also easily find references to methods.
@@ -480,7 +480,14 @@ https://www.jetbrains.com/idea/[IntelliJ IDEA], which brings these same features
 
 https://eclipse.org/downloads/[Eclipse] is a free alternative to IntelliJ IDEA. Its error highlighting (via auto-compile), code assist, and refactoring support are excellent. When I started using it in 2002, it blew away the competition. It was the first Java IDE that was fast and efficient to use. Unfortunately, it fell behind in the JavaScript MVC era and needs better support for JavaScript or CSS.
 
-NetBeans has a https://github.com/AlexFalappa/nb-springboot[Spring Boot plugin]. The NetBeans team has been doing a lot of work on web tools support; they have good JavaScript/TypeScript support, and there's a https://chrome.google.com/webstore/detail/netbeans-connector/hafdlehgocfcodbgjnpecfajgkeejnaa?hl=en[NetBeans Connector] plugin for Chrome that allows two-way editing in NetBeans and Chrome.
+NetBeans has a https://github.com/AlexFalappa/nb-springboot[Spring Boot plugin]. The NetBeans team has been doing a lot of work on web tools support; they have good JavaScript/TypeScript support, and there's a
+ifeval::["{media}" != "prepress"]
+https://chrome.google.com/webstore/detail/netbeans-connector/hafdlehgocfcodbgjnpecfajgkeejnaa?hl=en[NetBeans Connector]
+endif::[]
+ifeval::["{media}" == "prepress"]
+NetBeans Connector
+endif::[]
+plugin for Chrome that allows two-way editing in NetBeans and Chrome.
 
 https://code.visualstudio.com[Visual Studio Code] is an open-source text editor made by Microsoft. It's become a popular editor for TypeScript and has plugins for Java development.
 
@@ -563,11 +570,12 @@ By default, JHipster comes with four different users:
 
 For security reasons, you should change the default passwords in `src/main/resources/config/liquibase/users.csv` or through the User Management feature when deployed.
 
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 == JPA versus MongoDB versus Cassandra
 
 A traditional relational database management system (RDBMS) provides several properties that guarantee its transactions are processed reliably: ACID, for atomicity, consistency, isolation, and durability. Databases like MySQL and PostgreSQL provide RDBMS support and have done wonders to reduce the costs of databases. JHipster supports vendors like Oracle and Microsoft as well. If you'd like to use a traditional database, select SQL when creating your JHipster project.
-
-TIP: JHipster's https://www.jhipster.tech/using-oracle/[Using Oracle] guide explains how you need an Oracle account to download its proprietary JDBC driver.
 
 NoSQL databases have helped many web-scale companies achieve high scalability through https://en.wikipedia.org/wiki/Eventual_consistency[eventual consistency]: because a NoSQL database is often distributed across several machines, with some latency, it guarantees only that all instances will eventually be consistent. Eventually consistent services are often called BASE (basically available, soft state, eventual consistency) services in contrast to traditional ACID properties.
 
@@ -590,23 +598,29 @@ endif::[]
 
 If you're familiar with RDBMS databases, I recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku, and MySQL has excellent support on AWS. JHipster's https://www.jhipster.tech/aws/[AWS sub-generator] only works with SQL databases (but not Oracle or Microsoft SQL Server).
 
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 If your idea is the next Facebook, you might want to consider a NoSQL database that's more concerned with performance than third normal form.
 
 [, MongoDB, 'https://mongodb.com/nosql-explained[NOSQL Database Explained]']
-""
+____
 NoSQL encompasses a wide variety of different database technologies that were developed in response to a rise in the volume of data stored about users, objects, and products, the frequency in which this data is accessed, and performance and processing needs. Relational databases, on the other hand, were not designed to cope with the scale and agility challenges that face modern applications, nor were they built to take advantage of the cheap storage and processing power available today.
-""
+____
 
 MongoDB was founded in 2007 by the folks behind DoubleClick, ShopWiki, and Gilt Groupe. It uses the Apache and GNU-APGL licenses on https://github.com/mongodb/mongo[GitHub]. Its many large customers include Adobe, eBay, and eHarmony.
 
 http://cassandra.apache.org/[Cassandra] is "`a distributed storage system for managing structured data that is designed to scale to a very large size across many commodity servers, with no single point of failure`" (from https://www.facebook.com/notes/facebook-engineering/cassandra-a-structured-storage-system-on-a-p2p-network/24413138919["`Cassandra—A structured storage system on a P2P Network`"] on the Facebook Engineering blog). It was initially developed at Facebook to power its Inbox Search feature. Its creators, Avinash Lakshman (one of the creators of Amazon DynamoDB) and Prashant Malik released it as an open-source project in July 2008. In March 2009, it became an Apache Incubator project and graduated to a top-level project in February 2010.
 
+ifdef::backend-pdf[]
+<<<
+endif::[]
 In addition to Facebook, Cassandra helps many other companies achieve web scale. It has some impressive numbers about scalability on its homepage.
 
 [, Cassandra, 'http://cassandra.apache.org[Project Homepage]']
-""
+____
 One of the largest production deployments is Apple's, with over 75,000 nodes storing over 10 PB of data. Other large Cassandra installations include Netflix (2,500 nodes, 420 TB, over 1 trillion requests per day), Chinese search engine Easou (270 nodes, 300 TB, over 800 million requests per day), and eBay (over 100 nodes, 250 TB).
-""
+____
 
 JHipster's data support lets you dream big!
 
@@ -640,9 +654,21 @@ This file is loaded by Liquibase when it creates the database schema.
 <dropDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="${datetimeType}"/>
 ----
 
-Liquibase supports http://www.liquibase.org/databases.html[most major databases]. If you use MySQL or PostgreSQL, you can use `mvn liquibase:diff` (or `./gradlew generateChangeLog`) to automatically generate a changelog.
+Liquibase supports
+ifeval::["{media}" != "prepress"]
+http://www.liquibase.org/databases.html[most major databases].
+endif::[]
+ifeval::["{media}" == "prepress"]
+most major databases.
+endif::[]
+If you use MySQL or PostgreSQL, you can use `mvn liquibase:diff` (or `./gradlew generateChangeLog`) to automatically generate a changelog.
 
+ifeval::["{media}" != "prepress"]
 https://www.jhipster.tech/development/[JHipster's development guide] recommends the following workflow:
+endif::[]
+ifeval::["{media}" == "prepress"]
+JHipster's development guide recommends the following workflow:
+endif::[]
 
 1. Modify your JPA entity (add a field, a relationship, etc.).
 2. Run `mvn liquibase:diff`.

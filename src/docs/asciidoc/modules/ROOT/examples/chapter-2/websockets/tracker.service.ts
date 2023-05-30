@@ -57,12 +57,12 @@ export default class TrackerService {
   }
 
   private getAuthToken() {
-    const authToken = localStorage.getItem('jhi-authenticationToken') || sessionStorage.getItem('jhi-authenticationToken');
+    const authToken = localStorage.getItem('jhi-authenticationToken') ||
+      sessionStorage.getItem('jhi-authenticationToken');
     return JSON.parse(authToken);
   }
 
   private buildUrl(): string {
-    // building absolute path so that websocket doesn't fail when deploying with a context path
     const loc = window.location;
     const baseHref = document.querySelector('base').getAttribute('href');
     const url = '//' + loc.host + baseHref + 'websocket/tracker';

@@ -620,6 +620,7 @@ JHipster ships with Keycloak when you choose OAuth 2.0 / OIDC as the authenticat
 
 First, you'll need to register a regular web application. Log in to your Auth0 account (or https://auth0.com/signup[sign up] if you don't have an account). You should have a unique domain like `dev-xxx.us.auth0.com`.
 
+[.text-left]
 Select *Create Application* in the https://manage.auth0.com/#/applications[Applications section]. Use a name like `Micro Frontends`, select *Regular Web Applications*, and click *Create*.
 
 Switch to the *Settings* tab and configure your application settings:
@@ -655,6 +656,9 @@ Select **Deploy** and drag the `Add Roles` action to your Login flow.
 
 Edit `docker-compose/central-server-config/application.yml` and append the following YAML block to add your Auth0 settings.
 
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 [source%autofit,yaml]
 ----
 jhipster:
@@ -668,7 +672,7 @@ spring:
       client:
         provider:
           oidc:
-            issuer-uri: https://<your-auth0-domain>/ # make sure to include the trailing slash!
+            issuer-uri: https://<your-auth0-domain>/
         registration:
           oidc:
             client-id: <your-client-id>

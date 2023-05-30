@@ -18,7 +18,6 @@ InfoQ mini-books are designed to be concise and serve technical architects looki
 
 This book is aimed specifically at web developers who want a rapid introduction to Angular, Bootstrap, and Spring Boot by learning JHipster. JHipster 5 adds support for React as well, but I won’t be covering it in this book since Angular is the default.
 
-
 == What you need for this book
 
 To try code samples, you will need a computer running an up-to-date operating system (Windows, Linux, or macOS). You will need Node.js and Java installed. The book's code was tested using Node.js 16 and Java 11.
@@ -48,7 +47,6 @@ A block of code is set out as follows. It may be colored, depending on the forma
 class BlogController {
     private final BlogRepository repository;
 
-    // Yay! No annotations are needed for constructor injection in Spring 4.3+.
     public BlogController(BlogRepository repository) {
         this.repository = repository;
     }
@@ -84,6 +82,9 @@ TIP: Tips are shown using callouts like this.
 
 WARNING: Warnings are shown using callouts like this.
 
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 .Sidebar
 ****
 Additional information about a certain topic may be displayed in a sidebar like this one.
