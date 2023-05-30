@@ -832,6 +832,9 @@ Next, I changed the input fields to checkboxes in `points-update.component.html`
 
 In `points-update.component.ts`, I had to modify the `save()` method to convert booleans from each checkbox into integers.
 
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 [source,typescript]
 .src/main/webapp/app/entities/points/update/points-update.component.ts
 ----
@@ -1124,7 +1127,6 @@ List<Points> findAllByDateBetweenAndUserLogin(LocalDate firstDate,
 
 From there, it was just a matter of calculating the beginning and end of the current week and processing the data in `PointsResource.java`.
 
-// todo: check line length
 [source,java]
 .src/main/java/org/jhipster/health/web/rest/PointsResource.java
 ----
@@ -1280,6 +1282,9 @@ image::chapter-1/homepage-points-this-week.png[Progress bar for points this week
 
 You might notice the goal is hardcoded to 10 in the progress bar's HTML. To fix this, I needed to add the ability to fetch the user's preferences. To make accessing a user's preferences easier, I modified `PreferencesRepository.java` and added a method to retrieve a user's preferences.
 
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 [source,java]
 .src/main/java/org/jhipster/health/repository/PreferencesRepository.java
 ----
@@ -1947,6 +1952,9 @@ heroku jar:deploy target/*.jar --app health-by-points
 
 To prove everything was working on Heroku, I tried registering a new user. I received an error that appeared to come from Elasticsearch.
 
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 [source]
 ----
 2022-11-08T05:17:22.489474+00:00 app[web.1]: 2022-11-08T05:17:22.488Z ERROR 4

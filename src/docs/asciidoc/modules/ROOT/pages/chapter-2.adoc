@@ -325,7 +325,7 @@ If so, you could display it in the `search.component.html` template with Angular
 </table>
 ----
 
-To read a more in-depth example (including source code and tests) of building a search/edit application with Angular, see my https://github.com/mraible/ng-demo[Angular and Angular CLI Tutorial].
+To read a more in-depth example (including source code and tests) of building a search/edit application with Angular, see my https://github.com/mraible/ng-demo[Bare Bones Angular and Angular CLI Tutorial].
 
 Now that you've learned a bit about one of the hottest web frameworks on the planet, let's take a look at the most popular CSS framework: Bootstrap.
 
@@ -613,7 +613,7 @@ You can see how the icons change color based on the font color defined for the e
 
 [[img-bootstrap-buttons-icons]]
 .Buttons with icons
-image::chapter-2/bootstrap/buttons-with-icons.png[Buttons with icons, 265, scaledwidth=25%]
+image::chapter-2/bootstrap/buttons-with-icons.png[Buttons with icons, 265, scaledwidth=50%]
 
 === Customizing CSS
 
@@ -846,7 +846,14 @@ The `Tracker` service allows you to send tracking information—for example, to 
 include::{sourcedir}/chapter-2/websockets/tracker.service.ts[]
 ----
 
-WebSockets on the server side of a JHipster project are implemented with http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support]. To learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with Spring]. The following section shows how a developer productivity tool that uses WebSockets implements something very cool.
+WebSockets on the server side of a JHipster project are implemented with
+ifeval::["{media}" != "prepress"]
+http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html[Spring's WebSocket support].
+endif::[]
+ifeval::["{media}" == "prepress"]
+Spring's WebSocket support.
+endif::[]
+To learn more about WebSockets with Spring, see Baeldung's http://www.baeldung.com/websockets-spring[Intro to WebSockets with Spring]. The following section shows how a developer productivity tool that uses WebSockets implements something very cool.
 
 == Browsersync
 

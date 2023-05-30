@@ -82,6 +82,9 @@ TIP: Tips are shown using callouts like this.
 
 WARNING: Warnings are shown using callouts like this.
 
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 .Sidebar
 ****
 Additional information about a certain topic may be displayed in a sidebar like this one.
