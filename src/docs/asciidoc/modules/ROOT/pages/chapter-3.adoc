@@ -585,6 +585,9 @@ endif::[]
 
 If you're familiar with RDBMS databases, I recommend you use PostgreSQL or MySQL for both development and production. PostgreSQL has great support on Heroku, and MySQL has excellent support on AWS. JHipster's https://www.jhipster.tech/aws/[AWS sub-generator] only works with SQL databases (but not Oracle or Microsoft SQL Server).
 
+ifeval::["{media}" == "prepress"]
+<<<
+endif::[]
 If your idea is the next Facebook, you might want to consider a NoSQL database that's more concerned with performance than third normal form.
 
 [, MongoDB, 'https://mongodb.com/nosql-explained[NOSQL Database Explained]']
