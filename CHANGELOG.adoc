@@ -16,6 +16,10 @@ For a detailed view of what has changed, refer to the https://github.com/mraible
 
 // tag::compact[]
 
+== 7.0.2 (2023-05-30) - @mraible
+Changes::
+  * Manually reviewed print version and improved formatting.
+
 == 7.0.1 (2023-04-29) - @mraible
 Changes::
   * Removed emojis from PDFs to make them more printer-friendly.
