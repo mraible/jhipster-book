@@ -592,7 +592,6 @@ ____
 NoSQL encompasses a wide variety of different database technologies that were developed in response to a rise in the volume of data stored about users, objects, and products, the frequency in which this data is accessed, and performance and processing needs. Relational databases, on the other hand, were not designed to cope with the scale and agility challenges that face modern applications, nor were they built to take advantage of the cheap storage and processing power available today.
 ____
 
-
 MongoDB was founded in 2007 by the folks behind DoubleClick, ShopWiki, and Gilt Groupe. It uses the Apache and GNU-APGL licenses on https://github.com/mongodb/mongo[GitHub]. Its many large customers include Adobe, eBay, and eHarmony.
 
 http://cassandra.apache.org/[Cassandra] is "`a distributed storage system for managing structured data that is designed to scale to a very large size across many commodity servers, with no single point of failure`" (from https://www.facebook.com/notes/facebook-engineering/cassandra-a-structured-storage-system-on-a-p2p-network/24413138919["`Cassandra—A structured storage system on a P2P Network`"] on the Facebook Engineering blog). It was initially developed at Facebook to power its Inbox Search feature. Its creators, Avinash Lakshman (one of the creators of Amazon DynamoDB) and Prashant Malik released it as an open-source project in July 2008. In March 2009, it became an Apache Incubator project and graduated to a top-level project in February 2010.

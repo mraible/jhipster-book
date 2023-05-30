@@ -1323,8 +1323,8 @@ To facilitate calling this endpoint, I added a new `user` method to `preferences
 .src/main/webapp/app/entities/preferences/service/preferences.service.ts
 ----
 user(): Observable<EntityResponseType> {
-    return this.http.get<IPreferences>('api/my-preferences',
-                                       { observe: 'response' });
+  return this.http.get<IPreferences>('api/my-preferences',
+                                     { observe: 'response' });
 }
 ----
 
