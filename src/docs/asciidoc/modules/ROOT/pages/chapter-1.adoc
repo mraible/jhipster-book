@@ -1578,8 +1578,6 @@ export interface IBloodPressureByPeriod {
 
 While gathering this data seemed easy enough, the hard part was figuring out what charting library to use to display it.
 
-// todo: Add steps to add Google Fonts for Material theme
-
 ==== Charts of the last 30 days
 
 In the first three versions of this book, I looked for an Angular library that integrated with https://d3js.org/[D3.js] and found https://github.com/krispo/ng2-nvd3[ng2-nvd3]. However, this library is no longer maintained. I chose https://www.chartjs.org/[Chart.js] and http://valor-software.github.io/ng2-charts/[ng2-charts] for Angular integration.
@@ -2157,7 +2155,21 @@ After generating entities for this project, I wanted to configure a continuous-i
 java -jar jenkins.war --httpPort=9000
 ----
 
-JHipster has good documentation on https://www.jhipster.tech/setting-up-ci-jenkins2/[setting up CI on Jenkins 2] and https://www.jhipster.tech/heroku/[deploying to Heroku]. It also has a handy sub-generator to generate the config files needed for Jenkins. I ran `jhipster ci-cd` and watched the magic happen.
+JHipster has good documentation on
+ifeval::["{media}" != "prepress"]
+https://www.jhipster.tech/setting-up-ci-jenkins2/[setting up CI on Jenkins 2]
+endif::[]
+ifeval::["{media}" == "prepress"]
+setting up CI on Jenkins 2
+endif::[]
+and
+ifeval::["{media}" != "prepress"]
+https://www.jhipster.tech/heroku/[deploying to Heroku].
+endif::[]
+ifeval::["{media}" == "prepress"]
+deploying to Heroku.
+endif::[]
+It also has a handy sub-generator to generate the config files needed for Jenkins. I ran `jhipster ci-cd` and watched the magic happen.
 
 // adding shell only colors a few words
 [source%autofit]
