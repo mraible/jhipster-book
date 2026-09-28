@@ -1,8 +1,8 @@
 plugins {
     id 'java'
     id 'org.asciidoctor.jvm.convert' version '4.0.5' apply false
-    id 'org.asciidoctor.jvm.pdf' version '4.0.5'
-    id 'org.asciidoctor.jvm.epub' version '4.0.5'
+    id 'org.asciidoctor.jvm.pdf' version '5.0.0'
+    id 'org.asciidoctor.jvm.epub' version '5.0.0'
     id 'se.patrikerdes.use-latest-versions' version '0.2.19'
     id 'io.github.ben-manes.versions' version '0.64.0'
 }
