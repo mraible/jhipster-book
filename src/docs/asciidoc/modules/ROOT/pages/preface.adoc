@@ -60,7 +60,7 @@ class BlogController {
 
 When we want to draw your attention to certain lines of code, those lines are annotated using numbers accompanied by brief descriptions.
 
-[source,ts]
+[source,typescript]
 ----
 export class SearchComponent {
   constructor(private searchService: SearchService) {} <1>
