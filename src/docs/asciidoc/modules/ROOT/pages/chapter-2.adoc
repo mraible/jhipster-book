@@ -417,9 +417,7 @@ image::chapter-2/bootstrap/advanced-grid-desktop.png[Advanced grid, 734, scaledw
 
 You can use size indicators to specify breakpoints in the columns. Breakpoints indicate where a column wraps onto the next row. In the HTML above, "`xs`" and "`md`" are the size indicators (of course,  "`sm`", "`lg`", and "`xl`" are the other options). Bootstrap uses the following media query ranges.
 
-// todo: look at CSS formatting. It looks rather funny in HTML.
-
-[source,css]
+[source,scss]
 ----
 // Extra small devices (portrait phones, less than 576 px)
 // No media query since this is the default in Bootstrap
@@ -442,7 +440,7 @@ You can use size indicators to specify breakpoints in the columns. Breakpoints i
 
 If you're using Sass, all Bootstrap's media queries are available via Sass mixins:
 
-[source,sass]
+[source,scss]
 ----
 // No media query necessary for xs breakpoint as it's effectively `@media (min-width: 0) { ... }`
 @include media-breakpoint-up(sm) { ... }
@@ -621,7 +619,7 @@ If you'd like to override Bootstrap classes in your project, just put the overri
 
 // todo: look at Sass formatting. It looks rather funny in HTML.
 
-[source,sass]
+[source,scss]
 .src/main/webapp/scss/vendor.scss
 ----
 /* after changing this file run 'npm run webapp:build' */
@@ -691,7 +689,7 @@ body
 
 Sass 3 introduces a new syntax known as SCSS that is fully compatible with the syntax of CSS3, while still supporting the full power of Sass. It looks more like CSS.
 
-[source,sass]
+[source,scss]
 ----
 $font-stack: Helvetica, sans-serif;
 $primary-color: #333;
@@ -714,7 +712,7 @@ body {
 
 Another powerful feature of Sass is the ability to write nested CSS selectors. When writing HTML, you can often visualize the hierarchy of elements. Sass allows you to bring that hierarchy into your CSS.
 
-[source,sass]
+[source,scss]
 ----
 nav {
   ul {
@@ -739,7 +737,7 @@ WARNING: Overly nested rules will result in overqualified CSS that can be hard t
 
 As mentioned, Sass also supports partials, imports, mixins, and inheritance. Mixins can be particularly useful for handling vendor prefixes.
 
-[source,sass]
+[source,scss]
 ----
 @mixin border-radius($radius) { <1>
     -webkit-border-radius: $radius;
