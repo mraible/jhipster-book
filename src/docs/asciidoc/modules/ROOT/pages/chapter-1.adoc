@@ -322,7 +322,7 @@ endif::[]
 
 In v4 of this book (and 21-Points Health), I opted to use Bootstrap and its default theme, changing some variables so it looked like Angular Material. Since I got used to it, I decided to keep this same setup for this version. To make the default Bootstrap theme look like Material Design, modify `_bootstrap-variables.scss` and replace it with the contents below.
 
-[source,sass]
+[source,scss]
 .src/main/webapp/content/scss/_bootstrap-variables.scss
 ----
 /*
@@ -386,7 +386,7 @@ $input-focus-box-shadow: none;
 
 Then add the following Sass to the bottom of `global.scss`.
 
-[source,sass]
+[source,scss]
 ----
 /* ==========================================================================
 custom styles for 21-Points Health
@@ -475,7 +475,7 @@ npm i mdb-angular-ui-kit@3 @angular/cdk@14
 . Remove all variables from `src/main/webapp/content/scss/_bootstrap-variables.scss`.
 . Comment out the import for Bootstrap in `src/main/webapp/content/scss/vendor.scss`:
 +
-[source,sass]
+[source,scss]
 ----
 // Import Bootstrap source files from node_modules
 // @import '~bootstrap/scss/bootstrap';
@@ -483,7 +483,7 @@ npm i mdb-angular-ui-kit@3 @angular/cdk@14
 +
 . Add the following to import the MDB stylesheet in `src/main/webapp/content/scss/vendor.scss`:
 +
-[source%autofit,sass]
+[source%autofit,scss]
 ----
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 @import '~mdb-angular-ui-kit/assets/scss/mdb.scss';
@@ -500,7 +500,7 @@ jhipster:
 ----
 . Remove the following styles from `global.scss`:
 +
-[source,sass]
+[source,scss]
 ----
 /* Error highlight on input fields */
 .ng-valid[required],
@@ -515,7 +515,7 @@ jhipster:
 +
 . Modify the `.dropdown-menu` rule to set the display to `none`.
 +
-[source,sass]
+[source,scss]
 ----
 .dropdown-menu {
   padding-left: 0px;
@@ -2229,7 +2229,7 @@ TIP: It's possible the `deployment` stage will fail for you the first time (like
 
 I modified `Jenkinsfile` to add an `e2e tests` stage to run all the Cypress tests. Before I checked it in, I started the app in one terminal and ran `npm run e2e` in another. I discovered the footer covered the bottom of the points edit form. I had to adjust `points.cy.ts` to force button clicks on lines 121 and 131.
 
-[source,ts]
+[source,typescript]
 .src/test/javascript/cypress/e2e/entity/points.cy.ts
 ----
 cy.get(entityCreateCancelButtonSelector).click({force: true});
