@@ -34,6 +34,7 @@ import org.asciidoctor.gradle.jvm.AsciidoctorTask
 def attrs = [
     'sourcedir'         : '../examples/',
     'source-highlighter': 'rouge',
+    'rouge-style'       : 'book', // see src/main/ruby/asciidoctor-pdf-extensions.rb
     'epub3-stylesdir'   : './styles/epub',
     // NOTE don't include leading ./ because it messes up paths in the epub files
     'imagesdir'         : 'images',
@@ -79,8 +80,8 @@ task pdf(type: AsciidoctorTask, description: 'Generates PDF for download') {
 }
 
 task epub(type: AsciidoctorTask, description: 'Generates EPUB3') {
-    // Rouge highlights TypeScript and shell, which CodeRay doesn't; the EPUB converter defaults to its black-and-white style
-    attributes attrs + ['rouge-style': 'github']
+    // Rouge highlights TypeScript and shell, which CodeRay doesn't
+    attributes attrs
     outputDir "$buildDir/asciidoc/epub3"
     outputOptions {
         backends 'epub3'
