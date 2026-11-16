@@ -1,6 +1,6 @@
 [build]
   publish = "public"
-  command = "npm run build:site -- --url=https://jhipster-mini-book.netlify.app"
+  command = "npm run build:site -- --url=https://jhipster-book.org"
 
 [build.environment]
   NODE_VERSION = "24"
